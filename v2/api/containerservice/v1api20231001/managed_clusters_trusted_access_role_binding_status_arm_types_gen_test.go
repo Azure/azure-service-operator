@@ -154,11 +154,11 @@ func TrustedAccessRoleBindingProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForTrustedAccessRoleBindingProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTrustedAccessRoleBindingProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Canceled,
-		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Deleting,
-		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Failed,
-		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Succeeded,
-		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Updating))
+		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Canceled,
+		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Deleting,
+		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Failed,
+		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Updating))
 	gens["Roles"] = gen.SliceOf(gen.AlphaString())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 }

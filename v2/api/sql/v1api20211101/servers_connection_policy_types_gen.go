@@ -345,7 +345,9 @@ func (policy *Servers_ConnectionPolicy_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties = &ServerConnectionPolicyProperties_ARM{}
 	}
 	if policy.ConnectionType != nil {
-		connectionType := *policy.ConnectionType
+		var temp string
+		temp = string(*policy.ConnectionType)
+		connectionType := ServerConnectionPolicyProperties_ConnectionType_ARM(temp)
 		result.Properties.ConnectionType = &connectionType
 	}
 	return result, nil
@@ -367,7 +369,9 @@ func (policy *Servers_ConnectionPolicy_Spec) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectionType != nil {
-			connectionType := *typedInput.Properties.ConnectionType
+			var temp string
+			temp = string(*typedInput.Properties.ConnectionType)
+			connectionType := ServerConnectionPolicyProperties_ConnectionType(temp)
 			policy.ConnectionType = &connectionType
 		}
 	}
@@ -604,7 +608,9 @@ func (policy *Servers_ConnectionPolicy_STATUS) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectionType != nil {
-			connectionType := *typedInput.Properties.ConnectionType
+			var temp string
+			temp = string(*typedInput.Properties.ConnectionType)
+			connectionType := ServerConnectionPolicyProperties_ConnectionType_STATUS(temp)
 			policy.ConnectionType = &connectionType
 		}
 	}

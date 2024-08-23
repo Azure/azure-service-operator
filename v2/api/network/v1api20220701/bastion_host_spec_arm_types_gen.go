@@ -67,7 +67,7 @@ type BastionHostPropertiesFormat_ARM struct {
 // The sku of this Bastion Host.
 type Sku_ARM struct {
 	// Name: The name of this Bastion Host.
-	Name *Sku_Name `json:"name,omitempty"`
+	Name *Sku_Name_ARM `json:"name,omitempty"`
 }
 
 // IP configuration of an Bastion Host.
@@ -80,23 +80,23 @@ type BastionHostIPConfiguration_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}
-type Sku_Name string
+type Sku_Name_ARM string
 
 const (
-	Sku_Name_Basic    = Sku_Name("Basic")
-	Sku_Name_Standard = Sku_Name("Standard")
+	Sku_Name_ARM_Basic    = Sku_Name_ARM("Basic")
+	Sku_Name_ARM_Standard = Sku_Name_ARM("Standard")
 )
 
-// Mapping from string to Sku_Name
-var sku_Name_Values = map[string]Sku_Name{
-	"basic":    Sku_Name_Basic,
-	"standard": Sku_Name_Standard,
+// Mapping from string to Sku_Name_ARM
+var sku_Name_ARM_Values = map[string]Sku_Name_ARM{
+	"basic":    Sku_Name_ARM_Basic,
+	"standard": Sku_Name_ARM_Standard,
 }
 
 // Properties of IP configuration of an Bastion Host.
 type BastionHostIPConfigurationPropertiesFormat_ARM struct {
 	// PrivateIPAllocationMethod: Private IP allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: Reference of the PublicIP resource.
 	PublicIPAddress *BastionHostSubResource_ARM `json:"publicIPAddress,omitempty"`

@@ -386,7 +386,9 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) ConvertToARM(resolved 
 		result.Properties.RetentionDays = &retentionDays
 	}
 	if policy.State != nil {
-		state := *policy.State
+		var temp string
+		temp = string(*policy.State)
+		state := DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM(temp)
 		result.Properties.State = &state
 	}
 	if policy.StorageAccountAccessKey != nil {
@@ -460,7 +462,9 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) PopulateFromARM(owner 
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State(temp)
 			policy.State = &state
 		}
 	}
@@ -851,7 +855,9 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS(temp)
 			policy.State = &state
 		}
 	}

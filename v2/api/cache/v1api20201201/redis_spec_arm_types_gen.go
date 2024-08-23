@@ -44,12 +44,12 @@ type RedisCreateProperties_ARM struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_ARM `json:"minimumTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'
-	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -80,6 +80,36 @@ type RedisCreateProperties_ARM struct {
 
 	// TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type RedisCreateProperties_MinimumTlsVersion_ARM string
+
+const (
+	RedisCreateProperties_MinimumTlsVersion_ARM_10 = RedisCreateProperties_MinimumTlsVersion_ARM("1.0")
+	RedisCreateProperties_MinimumTlsVersion_ARM_11 = RedisCreateProperties_MinimumTlsVersion_ARM("1.1")
+	RedisCreateProperties_MinimumTlsVersion_ARM_12 = RedisCreateProperties_MinimumTlsVersion_ARM("1.2")
+)
+
+// Mapping from string to RedisCreateProperties_MinimumTlsVersion_ARM
+var redisCreateProperties_MinimumTlsVersion_ARM_Values = map[string]RedisCreateProperties_MinimumTlsVersion_ARM{
+	"1.0": RedisCreateProperties_MinimumTlsVersion_ARM_10,
+	"1.1": RedisCreateProperties_MinimumTlsVersion_ARM_11,
+	"1.2": RedisCreateProperties_MinimumTlsVersion_ARM_12,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type RedisCreateProperties_PublicNetworkAccess_ARM string
+
+const (
+	RedisCreateProperties_PublicNetworkAccess_ARM_Disabled = RedisCreateProperties_PublicNetworkAccess_ARM("Disabled")
+	RedisCreateProperties_PublicNetworkAccess_ARM_Enabled  = RedisCreateProperties_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to RedisCreateProperties_PublicNetworkAccess_ARM
+var redisCreateProperties_PublicNetworkAccess_ARM_Values = map[string]RedisCreateProperties_PublicNetworkAccess_ARM{
+	"disabled": RedisCreateProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  RedisCreateProperties_PublicNetworkAccess_ARM_Enabled,
 }
 
 type RedisCreateProperties_RedisConfiguration_ARM struct {
@@ -130,8 +160,38 @@ type Sku_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *Sku_Family `json:"family,omitempty"`
+	Family *Sku_Family_ARM `json:"family,omitempty"`
 
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *Sku_Name `json:"name,omitempty"`
+	Name *Sku_Name_ARM `json:"name,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"C","P"}
+type Sku_Family_ARM string
+
+const (
+	Sku_Family_ARM_C = Sku_Family_ARM("C")
+	Sku_Family_ARM_P = Sku_Family_ARM("P")
+)
+
+// Mapping from string to Sku_Family_ARM
+var sku_Family_ARM_Values = map[string]Sku_Family_ARM{
+	"c": Sku_Family_ARM_C,
+	"p": Sku_Family_ARM_P,
+}
+
+// +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
+type Sku_Name_ARM string
+
+const (
+	Sku_Name_ARM_Basic    = Sku_Name_ARM("Basic")
+	Sku_Name_ARM_Premium  = Sku_Name_ARM("Premium")
+	Sku_Name_ARM_Standard = Sku_Name_ARM("Standard")
+)
+
+// Mapping from string to Sku_Name_ARM
+var sku_Name_ARM_Values = map[string]Sku_Name_ARM{
+	"basic":    Sku_Name_ARM_Basic,
+	"premium":  Sku_Name_ARM_Premium,
+	"standard": Sku_Name_ARM_Standard,
 }

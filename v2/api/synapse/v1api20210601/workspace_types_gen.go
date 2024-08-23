@@ -500,7 +500,9 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.ManagedVirtualNetworkSettings = &managedVirtualNetworkSettings
 	}
 	if workspace.PublicNetworkAccess != nil {
-		publicNetworkAccess := *workspace.PublicNetworkAccess
+		var temp string
+		temp = string(*workspace.PublicNetworkAccess)
+		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if workspace.PurviewConfiguration != nil {
@@ -679,7 +681,9 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess(temp)
 			workspace.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1616,7 +1620,9 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess_STATUS(temp)
 			workspace.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -2868,7 +2874,9 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ManagedIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -2899,7 +2907,9 @@ func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3055,7 +3065,9 @@ func (identity *ManagedIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -4604,6 +4616,37 @@ func (details *CustomerManagedKeyDetails_STATUS) AssignProperties_To_CustomerMan
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned"}
+type ManagedIdentity_Type string
+
+const (
+	ManagedIdentity_Type_None                       = ManagedIdentity_Type("None")
+	ManagedIdentity_Type_SystemAssigned             = ManagedIdentity_Type("SystemAssigned")
+	ManagedIdentity_Type_SystemAssignedUserAssigned = ManagedIdentity_Type("SystemAssigned,UserAssigned")
+)
+
+// Mapping from string to ManagedIdentity_Type
+var managedIdentity_Type_Values = map[string]ManagedIdentity_Type{
+	"none":                        ManagedIdentity_Type_None,
+	"systemassigned":              ManagedIdentity_Type_SystemAssigned,
+	"systemassigned,userassigned": ManagedIdentity_Type_SystemAssignedUserAssigned,
+}
+
+type ManagedIdentity_Type_STATUS string
+
+const (
+	ManagedIdentity_Type_STATUS_None                       = ManagedIdentity_Type_STATUS("None")
+	ManagedIdentity_Type_STATUS_SystemAssigned             = ManagedIdentity_Type_STATUS("SystemAssigned")
+	ManagedIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedIdentity_Type_STATUS("SystemAssigned,UserAssigned")
+)
+
+// Mapping from string to ManagedIdentity_Type_STATUS
+var managedIdentity_Type_STATUS_Values = map[string]ManagedIdentity_Type_STATUS{
+	"none":                        ManagedIdentity_Type_STATUS_None,
+	"systemassigned":              ManagedIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned,userassigned": ManagedIdentity_Type_STATUS_SystemAssignedUserAssigned,
 }
 
 // Information about the user assigned identity for the resource

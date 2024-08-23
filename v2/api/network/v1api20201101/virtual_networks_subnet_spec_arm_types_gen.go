@@ -54,10 +54,10 @@ type SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struc
 	NetworkSecurityGroup *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"networkSecurityGroup,omitempty"`
 
 	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
-	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM `json:"privateEndpointNetworkPolicies,omitempty"`
 
 	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	// RouteTable: The reference to the RouteTable resource.
 	RouteTable *RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"routeTable,omitempty"`
@@ -105,6 +105,34 @@ type ServiceEndpointPropertiesFormat_ARM struct {
 
 	// Service: The type of the endpoint service.
 	Service *string `json:"service,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM string
+
+const (
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM_Disabled = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM("Disabled")
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM_Enabled  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM("Enabled")
+)
+
+// Mapping from string to SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM
+var subnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM_Values = map[string]SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM{
+	"disabled": SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM_Disabled,
+	"enabled":  SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM string
+
+const (
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM_Disabled = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM("Disabled")
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM_Enabled  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM("Enabled")
+)
+
+// Mapping from string to SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM
+var subnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM_Values = map[string]SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM{
+	"disabled": SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM_Disabled,
+	"enabled":  SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM_Enabled,
 }
 
 // Properties of a service delegation.

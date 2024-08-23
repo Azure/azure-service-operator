@@ -42,17 +42,69 @@ type ConfigurationProperties_STATUS_ARM struct {
 	DocumentationLink *string `json:"documentationLink,omitempty"`
 
 	// IsConfigPendingRestart: If is the configuration pending restart or not.
-	IsConfigPendingRestart *ConfigurationProperties_IsConfigPendingRestart_STATUS `json:"isConfigPendingRestart,omitempty"`
+	IsConfigPendingRestart *ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM `json:"isConfigPendingRestart,omitempty"`
 
 	// IsDynamicConfig: If is the configuration dynamic.
-	IsDynamicConfig *ConfigurationProperties_IsDynamicConfig_STATUS `json:"isDynamicConfig,omitempty"`
+	IsDynamicConfig *ConfigurationProperties_IsDynamicConfig_STATUS_ARM `json:"isDynamicConfig,omitempty"`
 
 	// IsReadOnly: If is the configuration read only.
-	IsReadOnly *ConfigurationProperties_IsReadOnly_STATUS `json:"isReadOnly,omitempty"`
+	IsReadOnly *ConfigurationProperties_IsReadOnly_STATUS_ARM `json:"isReadOnly,omitempty"`
 
 	// Source: Source of the configuration.
-	Source *ConfigurationProperties_Source_STATUS `json:"source,omitempty"`
+	Source *ConfigurationProperties_Source_STATUS_ARM `json:"source,omitempty"`
 
 	// Value: Value of the configuration.
 	Value *string `json:"value,omitempty"`
+}
+
+type ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM string
+
+const (
+	ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM_False = ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM("False")
+	ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM_True  = ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM("True")
+)
+
+// Mapping from string to ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM
+var configurationProperties_IsConfigPendingRestart_STATUS_ARM_Values = map[string]ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM{
+	"false": ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM_False,
+	"true":  ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM_True,
+}
+
+type ConfigurationProperties_IsDynamicConfig_STATUS_ARM string
+
+const (
+	ConfigurationProperties_IsDynamicConfig_STATUS_ARM_False = ConfigurationProperties_IsDynamicConfig_STATUS_ARM("False")
+	ConfigurationProperties_IsDynamicConfig_STATUS_ARM_True  = ConfigurationProperties_IsDynamicConfig_STATUS_ARM("True")
+)
+
+// Mapping from string to ConfigurationProperties_IsDynamicConfig_STATUS_ARM
+var configurationProperties_IsDynamicConfig_STATUS_ARM_Values = map[string]ConfigurationProperties_IsDynamicConfig_STATUS_ARM{
+	"false": ConfigurationProperties_IsDynamicConfig_STATUS_ARM_False,
+	"true":  ConfigurationProperties_IsDynamicConfig_STATUS_ARM_True,
+}
+
+type ConfigurationProperties_IsReadOnly_STATUS_ARM string
+
+const (
+	ConfigurationProperties_IsReadOnly_STATUS_ARM_False = ConfigurationProperties_IsReadOnly_STATUS_ARM("False")
+	ConfigurationProperties_IsReadOnly_STATUS_ARM_True  = ConfigurationProperties_IsReadOnly_STATUS_ARM("True")
+)
+
+// Mapping from string to ConfigurationProperties_IsReadOnly_STATUS_ARM
+var configurationProperties_IsReadOnly_STATUS_ARM_Values = map[string]ConfigurationProperties_IsReadOnly_STATUS_ARM{
+	"false": ConfigurationProperties_IsReadOnly_STATUS_ARM_False,
+	"true":  ConfigurationProperties_IsReadOnly_STATUS_ARM_True,
+}
+
+type ConfigurationProperties_Source_STATUS_ARM string
+
+const (
+	ConfigurationProperties_Source_STATUS_ARM_SystemDefault = ConfigurationProperties_Source_STATUS_ARM("system-default")
+	ConfigurationProperties_Source_STATUS_ARM_UserOverride  = ConfigurationProperties_Source_STATUS_ARM("user-override")
+)
+
+// Mapping from string to ConfigurationProperties_Source_STATUS_ARM
+var configurationProperties_Source_STATUS_ARM_Values = map[string]ConfigurationProperties_Source_STATUS_ARM{
+	"system-default": ConfigurationProperties_Source_STATUS_ARM_SystemDefault,
+	"user-override":  ConfigurationProperties_Source_STATUS_ARM_UserOverride,
 }

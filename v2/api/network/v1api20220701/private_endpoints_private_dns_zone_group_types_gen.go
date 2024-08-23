@@ -693,7 +693,9 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_STATUS) PopulateFromARM(owner 
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := PrivateEndpointProvisioningState_STATUS(temp)
 			group.ProvisioningState = &provisioningState
 		}
 	}
@@ -1123,7 +1125,9 @@ func (recordSet *RecordSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var temp string
+		temp = string(*typedInput.ProvisioningState)
+		provisioningState := PrivateEndpointProvisioningState_STATUS(temp)
 		recordSet.ProvisioningState = &provisioningState
 	}
 

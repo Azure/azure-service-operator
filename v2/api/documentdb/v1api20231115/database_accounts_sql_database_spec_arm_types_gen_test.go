@@ -225,7 +225,7 @@ func SqlDatabaseResource_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSqlDatabaseResource_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSqlDatabaseResource_ARM(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(CreateMode_Default, CreateMode_Restore))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(CreateMode_ARM_Default, CreateMode_ARM_Restore))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 

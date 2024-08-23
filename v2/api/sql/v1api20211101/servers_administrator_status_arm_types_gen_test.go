@@ -75,7 +75,7 @@ func AdministratorProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAdministratorProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdministratorProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(AdministratorProperties_AdministratorType_STATUS_ActiveDirectory))
+	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(AdministratorProperties_AdministratorType_STATUS_ARM_ActiveDirectory))
 	gens["AzureADOnlyAuthentication"] = gen.PtrOf(gen.Bool())
 	gens["Login"] = gen.PtrOf(gen.AlphaString())
 	gens["Sid"] = gen.PtrOf(gen.AlphaString())

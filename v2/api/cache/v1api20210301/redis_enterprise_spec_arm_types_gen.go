@@ -43,7 +43,7 @@ func (enterprise *RedisEnterprise_Spec_ARM) GetType() string {
 // Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
 type ClusterProperties_ARM struct {
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_ARM `json:"minimumTlsVersion,omitempty"`
 }
 
 // SKU parameters supplied to the create RedisEnterprise operation.
@@ -53,29 +53,45 @@ type Sku_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name *Sku_Name `json:"name,omitempty"`
+	Name *Sku_Name_ARM `json:"name,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type ClusterProperties_MinimumTlsVersion_ARM string
+
+const (
+	ClusterProperties_MinimumTlsVersion_ARM_10 = ClusterProperties_MinimumTlsVersion_ARM("1.0")
+	ClusterProperties_MinimumTlsVersion_ARM_11 = ClusterProperties_MinimumTlsVersion_ARM("1.1")
+	ClusterProperties_MinimumTlsVersion_ARM_12 = ClusterProperties_MinimumTlsVersion_ARM("1.2")
+)
+
+// Mapping from string to ClusterProperties_MinimumTlsVersion_ARM
+var clusterProperties_MinimumTlsVersion_ARM_Values = map[string]ClusterProperties_MinimumTlsVersion_ARM{
+	"1.0": ClusterProperties_MinimumTlsVersion_ARM_10,
+	"1.1": ClusterProperties_MinimumTlsVersion_ARM_11,
+	"1.2": ClusterProperties_MinimumTlsVersion_ARM_12,
 }
 
 // +kubebuilder:validation:Enum={"EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700","Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50"}
-type Sku_Name string
+type Sku_Name_ARM string
 
 const (
-	Sku_Name_EnterpriseFlash_F1500 = Sku_Name("EnterpriseFlash_F1500")
-	Sku_Name_EnterpriseFlash_F300  = Sku_Name("EnterpriseFlash_F300")
-	Sku_Name_EnterpriseFlash_F700  = Sku_Name("EnterpriseFlash_F700")
-	Sku_Name_Enterprise_E10        = Sku_Name("Enterprise_E10")
-	Sku_Name_Enterprise_E100       = Sku_Name("Enterprise_E100")
-	Sku_Name_Enterprise_E20        = Sku_Name("Enterprise_E20")
-	Sku_Name_Enterprise_E50        = Sku_Name("Enterprise_E50")
+	Sku_Name_ARM_EnterpriseFlash_F1500 = Sku_Name_ARM("EnterpriseFlash_F1500")
+	Sku_Name_ARM_EnterpriseFlash_F300  = Sku_Name_ARM("EnterpriseFlash_F300")
+	Sku_Name_ARM_EnterpriseFlash_F700  = Sku_Name_ARM("EnterpriseFlash_F700")
+	Sku_Name_ARM_Enterprise_E10        = Sku_Name_ARM("Enterprise_E10")
+	Sku_Name_ARM_Enterprise_E100       = Sku_Name_ARM("Enterprise_E100")
+	Sku_Name_ARM_Enterprise_E20        = Sku_Name_ARM("Enterprise_E20")
+	Sku_Name_ARM_Enterprise_E50        = Sku_Name_ARM("Enterprise_E50")
 )
 
-// Mapping from string to Sku_Name
-var sku_Name_Values = map[string]Sku_Name{
-	"enterpriseflash_f1500": Sku_Name_EnterpriseFlash_F1500,
-	"enterpriseflash_f300":  Sku_Name_EnterpriseFlash_F300,
-	"enterpriseflash_f700":  Sku_Name_EnterpriseFlash_F700,
-	"enterprise_e10":        Sku_Name_Enterprise_E10,
-	"enterprise_e100":       Sku_Name_Enterprise_E100,
-	"enterprise_e20":        Sku_Name_Enterprise_E20,
-	"enterprise_e50":        Sku_Name_Enterprise_E50,
+// Mapping from string to Sku_Name_ARM
+var sku_Name_ARM_Values = map[string]Sku_Name_ARM{
+	"enterpriseflash_f1500": Sku_Name_ARM_EnterpriseFlash_F1500,
+	"enterpriseflash_f300":  Sku_Name_ARM_EnterpriseFlash_F300,
+	"enterpriseflash_f700":  Sku_Name_ARM_EnterpriseFlash_F700,
+	"enterprise_e10":        Sku_Name_ARM_Enterprise_E10,
+	"enterprise_e100":       Sku_Name_ARM_Enterprise_E100,
+	"enterprise_e20":        Sku_Name_ARM_Enterprise_E20,
+	"enterprise_e50":        Sku_Name_ARM_Enterprise_E50,
 }

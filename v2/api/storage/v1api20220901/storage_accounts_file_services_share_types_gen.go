@@ -386,11 +386,15 @@ func (share *StorageAccounts_FileServices_Share_Spec) ConvertToARM(resolved genr
 		result.Properties = &FileShareProperties_ARM{}
 	}
 	if share.AccessTier != nil {
-		accessTier := *share.AccessTier
+		var temp string
+		temp = string(*share.AccessTier)
+		accessTier := FileShareProperties_AccessTier_ARM(temp)
 		result.Properties.AccessTier = &accessTier
 	}
 	if share.EnabledProtocols != nil {
-		enabledProtocols := *share.EnabledProtocols
+		var temp string
+		temp = string(*share.EnabledProtocols)
+		enabledProtocols := FileShareProperties_EnabledProtocols_ARM(temp)
 		result.Properties.EnabledProtocols = &enabledProtocols
 	}
 	if share.Metadata != nil {
@@ -400,7 +404,9 @@ func (share *StorageAccounts_FileServices_Share_Spec) ConvertToARM(resolved genr
 		}
 	}
 	if share.RootSquash != nil {
-		rootSquash := *share.RootSquash
+		var temp string
+		temp = string(*share.RootSquash)
+		rootSquash := FileShareProperties_RootSquash_ARM(temp)
 		result.Properties.RootSquash = &rootSquash
 	}
 	if share.ShareQuota != nil {
@@ -433,7 +439,9 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTier != nil {
-			accessTier := *typedInput.Properties.AccessTier
+			var temp string
+			temp = string(*typedInput.Properties.AccessTier)
+			accessTier := FileShareProperties_AccessTier(temp)
 			share.AccessTier = &accessTier
 		}
 	}
@@ -445,7 +453,9 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnabledProtocols != nil {
-			enabledProtocols := *typedInput.Properties.EnabledProtocols
+			var temp string
+			temp = string(*typedInput.Properties.EnabledProtocols)
+			enabledProtocols := FileShareProperties_EnabledProtocols(temp)
 			share.EnabledProtocols = &enabledProtocols
 		}
 	}
@@ -471,7 +481,9 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RootSquash != nil {
-			rootSquash := *typedInput.Properties.RootSquash
+			var temp string
+			temp = string(*typedInput.Properties.RootSquash)
+			rootSquash := FileShareProperties_RootSquash(temp)
 			share.RootSquash = &rootSquash
 		}
 	}
@@ -863,7 +875,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTier != nil {
-			accessTier := *typedInput.Properties.AccessTier
+			var temp string
+			temp = string(*typedInput.Properties.AccessTier)
+			accessTier := FileShareProperties_AccessTier_STATUS(temp)
 			share.AccessTier = &accessTier
 		}
 	}
@@ -910,7 +924,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnabledProtocols != nil {
-			enabledProtocols := *typedInput.Properties.EnabledProtocols
+			var temp string
+			temp = string(*typedInput.Properties.EnabledProtocols)
+			enabledProtocols := FileShareProperties_EnabledProtocols_STATUS(temp)
 			share.EnabledProtocols = &enabledProtocols
 		}
 	}
@@ -940,7 +956,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseDuration != nil {
-			leaseDuration := *typedInput.Properties.LeaseDuration
+			var temp string
+			temp = string(*typedInput.Properties.LeaseDuration)
+			leaseDuration := FileShareProperties_LeaseDuration_STATUS(temp)
 			share.LeaseDuration = &leaseDuration
 		}
 	}
@@ -949,7 +967,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseState != nil {
-			leaseState := *typedInput.Properties.LeaseState
+			var temp string
+			temp = string(*typedInput.Properties.LeaseState)
+			leaseState := FileShareProperties_LeaseState_STATUS(temp)
 			share.LeaseState = &leaseState
 		}
 	}
@@ -958,7 +978,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseStatus != nil {
-			leaseStatus := *typedInput.Properties.LeaseStatus
+			var temp string
+			temp = string(*typedInput.Properties.LeaseStatus)
+			leaseStatus := FileShareProperties_LeaseStatus_STATUS(temp)
 			share.LeaseStatus = &leaseStatus
 		}
 	}
@@ -993,7 +1015,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RootSquash != nil {
-			rootSquash := *typedInput.Properties.RootSquash
+			var temp string
+			temp = string(*typedInput.Properties.RootSquash)
+			rootSquash := FileShareProperties_RootSquash_STATUS(temp)
 			share.RootSquash = &rootSquash
 		}
 	}

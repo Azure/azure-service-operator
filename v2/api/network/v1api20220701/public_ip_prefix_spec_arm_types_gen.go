@@ -58,16 +58,16 @@ type PublicIPPrefixPropertiesFormat_ARM struct {
 	PrefixLength *int `json:"prefixLength,omitempty"`
 
 	// PublicIPAddressVersion: The public IP address version.
-	PublicIPAddressVersion *IPVersion `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *IPVersion_ARM `json:"publicIPAddressVersion,omitempty"`
 }
 
 // SKU of a public IP prefix.
 type PublicIPPrefixSku_ARM struct {
 	// Name: Name of a public IP prefix SKU.
-	Name *PublicIPPrefixSku_Name `json:"name,omitempty"`
+	Name *PublicIPPrefixSku_Name_ARM `json:"name,omitempty"`
 
 	// Tier: Tier of a public IP prefix SKU.
-	Tier *PublicIPPrefixSku_Tier `json:"tier,omitempty"`
+	Tier *PublicIPPrefixSku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // Contains the IpTag associated with the object.
@@ -79,33 +79,48 @@ type IpTag_ARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
+// IP address version.
+// +kubebuilder:validation:Enum={"IPv4","IPv6"}
+type IPVersion_ARM string
+
+const (
+	IPVersion_ARM_IPv4 = IPVersion_ARM("IPv4")
+	IPVersion_ARM_IPv6 = IPVersion_ARM("IPv6")
+)
+
+// Mapping from string to IPVersion_ARM
+var iPVersion_ARM_Values = map[string]IPVersion_ARM{
+	"ipv4": IPVersion_ARM_IPv4,
+	"ipv6": IPVersion_ARM_IPv6,
+}
+
 // Nat Gateway resource.
 type NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Standard"}
-type PublicIPPrefixSku_Name string
+type PublicIPPrefixSku_Name_ARM string
 
-const PublicIPPrefixSku_Name_Standard = PublicIPPrefixSku_Name("Standard")
+const PublicIPPrefixSku_Name_ARM_Standard = PublicIPPrefixSku_Name_ARM("Standard")
 
-// Mapping from string to PublicIPPrefixSku_Name
-var publicIPPrefixSku_Name_Values = map[string]PublicIPPrefixSku_Name{
-	"standard": PublicIPPrefixSku_Name_Standard,
+// Mapping from string to PublicIPPrefixSku_Name_ARM
+var publicIPPrefixSku_Name_ARM_Values = map[string]PublicIPPrefixSku_Name_ARM{
+	"standard": PublicIPPrefixSku_Name_ARM_Standard,
 }
 
 // +kubebuilder:validation:Enum={"Global","Regional"}
-type PublicIPPrefixSku_Tier string
+type PublicIPPrefixSku_Tier_ARM string
 
 const (
-	PublicIPPrefixSku_Tier_Global   = PublicIPPrefixSku_Tier("Global")
-	PublicIPPrefixSku_Tier_Regional = PublicIPPrefixSku_Tier("Regional")
+	PublicIPPrefixSku_Tier_ARM_Global   = PublicIPPrefixSku_Tier_ARM("Global")
+	PublicIPPrefixSku_Tier_ARM_Regional = PublicIPPrefixSku_Tier_ARM("Regional")
 )
 
-// Mapping from string to PublicIPPrefixSku_Tier
-var publicIPPrefixSku_Tier_Values = map[string]PublicIPPrefixSku_Tier{
-	"global":   PublicIPPrefixSku_Tier_Global,
-	"regional": PublicIPPrefixSku_Tier_Regional,
+// Mapping from string to PublicIPPrefixSku_Tier_ARM
+var publicIPPrefixSku_Tier_ARM_Values = map[string]PublicIPPrefixSku_Tier_ARM{
+	"global":   PublicIPPrefixSku_Tier_ARM_Global,
+	"regional": PublicIPPrefixSku_Tier_ARM_Regional,
 }
 
 // Reference to another subresource.

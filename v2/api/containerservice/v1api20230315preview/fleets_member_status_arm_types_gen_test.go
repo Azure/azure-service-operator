@@ -78,12 +78,12 @@ func AddIndependentPropertyGeneratorsForFleetMemberProperties_STATUS_ARM(gens ma
 	gens["ClusterResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Group"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		FleetMemberProvisioningState_STATUS_Canceled,
-		FleetMemberProvisioningState_STATUS_Failed,
-		FleetMemberProvisioningState_STATUS_Joining,
-		FleetMemberProvisioningState_STATUS_Leaving,
-		FleetMemberProvisioningState_STATUS_Succeeded,
-		FleetMemberProvisioningState_STATUS_Updating))
+		FleetMemberProvisioningState_STATUS_ARM_Canceled,
+		FleetMemberProvisioningState_STATUS_ARM_Failed,
+		FleetMemberProvisioningState_STATUS_ARM_Joining,
+		FleetMemberProvisioningState_STATUS_ARM_Leaving,
+		FleetMemberProvisioningState_STATUS_ARM_Succeeded,
+		FleetMemberProvisioningState_STATUS_ARM_Updating))
 }
 
 func Test_Fleets_Member_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

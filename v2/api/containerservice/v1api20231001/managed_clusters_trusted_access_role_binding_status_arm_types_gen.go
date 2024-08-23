@@ -24,7 +24,7 @@ type ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM struct {
 // Properties for trusted access role binding
 type TrustedAccessRoleBindingProperties_STATUS_ARM struct {
 	// ProvisioningState: The current provisioning state of trusted access role binding.
-	ProvisioningState *TrustedAccessRoleBindingProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
 	// 'Microsoft.MachineLearningServices/workspaces/reader'.
@@ -34,21 +34,21 @@ type TrustedAccessRoleBindingProperties_STATUS_ARM struct {
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`
 }
 
-type TrustedAccessRoleBindingProperties_ProvisioningState_STATUS string
+type TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM string
 
 const (
-	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Canceled  = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS("Canceled")
-	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Deleting  = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS("Deleting")
-	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Failed    = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS("Failed")
-	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Succeeded = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS("Succeeded")
-	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Updating  = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS("Updating")
+	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Canceled  = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM("Canceled")
+	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Deleting  = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM("Deleting")
+	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Failed    = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM("Failed")
+	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Succeeded = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Updating  = TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to TrustedAccessRoleBindingProperties_ProvisioningState_STATUS
-var trustedAccessRoleBindingProperties_ProvisioningState_STATUS_Values = map[string]TrustedAccessRoleBindingProperties_ProvisioningState_STATUS{
-	"canceled":  TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Canceled,
-	"deleting":  TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM
+var trustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Values = map[string]TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM{
+	"canceled":  TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Canceled,
+	"deleting":  TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_ARM_Updating,
 }

@@ -75,7 +75,7 @@ func DataPlaneAadOrApiKeyAuthOption_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataPlaneAadOrApiKeyAuthOption_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataPlaneAadOrApiKeyAuthOption_ARM(gens map[string]gopter.Gen) {
-	gens["AadAuthFailureMode"] = gen.PtrOf(gen.OneConstOf(DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Http401WithBearerChallenge, DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Http403))
+	gens["AadAuthFailureMode"] = gen.PtrOf(gen.OneConstOf(DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM_Http401WithBearerChallenge, DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM_Http403))
 }
 
 func Test_DataPlaneAuthOptions_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -197,7 +197,7 @@ func EncryptionWithCmk_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionWithCmk_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionWithCmk_ARM(gens map[string]gopter.Gen) {
-	gens["Enforcement"] = gen.PtrOf(gen.OneConstOf(EncryptionWithCmk_Enforcement_Disabled, EncryptionWithCmk_Enforcement_Enabled, EncryptionWithCmk_Enforcement_Unspecified))
+	gens["Enforcement"] = gen.PtrOf(gen.OneConstOf(EncryptionWithCmk_Enforcement_ARM_Disabled, EncryptionWithCmk_Enforcement_ARM_Enabled, EncryptionWithCmk_Enforcement_ARM_Unspecified))
 }
 
 func Test_Identity_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -257,7 +257,7 @@ func Identity_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_None, Identity_Type_SystemAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_ARM_None, Identity_Type_ARM_SystemAssigned))
 }
 
 func Test_IpRule_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -448,9 +448,9 @@ func SearchServiceProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSearchServiceProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSearchServiceProperties_ARM(gens map[string]gopter.Gen) {
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
-	gens["HostingMode"] = gen.PtrOf(gen.OneConstOf(SearchServiceProperties_HostingMode_Default, SearchServiceProperties_HostingMode_HighDensity))
+	gens["HostingMode"] = gen.PtrOf(gen.OneConstOf(SearchServiceProperties_HostingMode_ARM_Default, SearchServiceProperties_HostingMode_ARM_HighDensity))
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(SearchServiceProperties_PublicNetworkAccess_Disabled, SearchServiceProperties_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(SearchServiceProperties_PublicNetworkAccess_ARM_Disabled, SearchServiceProperties_PublicNetworkAccess_ARM_Enabled))
 	gens["ReplicaCount"] = gen.PtrOf(gen.Int())
 }
 
@@ -600,11 +600,11 @@ func Sku_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_Basic,
-		Sku_Name_Free,
-		Sku_Name_Standard,
-		Sku_Name_Standard2,
-		Sku_Name_Standard3,
-		Sku_Name_Storage_Optimized_L1,
-		Sku_Name_Storage_Optimized_L2))
+		Sku_Name_ARM_Basic,
+		Sku_Name_ARM_Free,
+		Sku_Name_ARM_Standard,
+		Sku_Name_ARM_Standard2,
+		Sku_Name_ARM_Standard3,
+		Sku_Name_ARM_Storage_Optimized_L1,
+		Sku_Name_ARM_Storage_Optimized_L2))
 }

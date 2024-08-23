@@ -482,7 +482,9 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.IsHttpsAllowed = &isHttpsAllowed
 	}
 	if endpoint.OptimizationType != nil {
-		optimizationType := *endpoint.OptimizationType
+		var temp string
+		temp = string(*endpoint.OptimizationType)
+		optimizationType := OptimizationType_ARM(temp)
 		result.Properties.OptimizationType = &optimizationType
 	}
 	for _, item := range endpoint.OriginGroups {
@@ -512,7 +514,9 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.ProbePath = &probePath
 	}
 	if endpoint.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *endpoint.QueryStringCachingBehavior
+		var temp string
+		temp = string(*endpoint.QueryStringCachingBehavior)
+		queryStringCachingBehavior := QueryStringCachingBehavior_ARM(temp)
 		result.Properties.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
 	for _, item := range endpoint.UrlSigningKeys {
@@ -642,7 +646,9 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OptimizationType != nil {
-			optimizationType := *typedInput.Properties.OptimizationType
+			var temp string
+			temp = string(*typedInput.Properties.OptimizationType)
+			optimizationType := OptimizationType(temp)
 			endpoint.OptimizationType = &optimizationType
 		}
 	}
@@ -710,7 +716,9 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueryStringCachingBehavior != nil {
-			queryStringCachingBehavior := *typedInput.Properties.QueryStringCachingBehavior
+			var temp string
+			temp = string(*typedInput.Properties.QueryStringCachingBehavior)
+			queryStringCachingBehavior := QueryStringCachingBehavior(temp)
 			endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
 		}
 	}
@@ -1652,7 +1660,9 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OptimizationType != nil {
-			optimizationType := *typedInput.Properties.OptimizationType
+			var temp string
+			temp = string(*typedInput.Properties.OptimizationType)
+			optimizationType := OptimizationType_STATUS(temp)
 			endpoint.OptimizationType = &optimizationType
 		}
 	}
@@ -1714,7 +1724,9 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := EndpointProperties_ProvisioningState_STATUS(temp)
 			endpoint.ProvisioningState = &provisioningState
 		}
 	}
@@ -1723,7 +1735,9 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueryStringCachingBehavior != nil {
-			queryStringCachingBehavior := *typedInput.Properties.QueryStringCachingBehavior
+			var temp string
+			temp = string(*typedInput.Properties.QueryStringCachingBehavior)
+			queryStringCachingBehavior := QueryStringCachingBehavior_STATUS(temp)
 			endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
 		}
 	}
@@ -1732,7 +1746,9 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
+			var temp string
+			temp = string(*typedInput.Properties.ResourceState)
+			resourceState := EndpointProperties_ResourceState_STATUS(temp)
 			endpoint.ResourceState = &resourceState
 		}
 	}
@@ -2978,7 +2994,9 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateEndpointStatus != nil {
-			privateEndpointStatus := *typedInput.Properties.PrivateEndpointStatus
+			var temp string
+			temp = string(*typedInput.Properties.PrivateEndpointStatus)
+			privateEndpointStatus := PrivateEndpointStatus_STATUS(temp)
 			origin.PrivateEndpointStatus = &privateEndpointStatus
 		}
 	}
@@ -4197,7 +4215,9 @@ func (filter *GeoFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "Action":
 	if filter.Action != nil {
-		action := *filter.Action
+		var temp string
+		temp = string(*filter.Action)
+		action := GeoFilter_Action_ARM(temp)
 		result.Action = &action
 	}
 
@@ -4228,7 +4248,9 @@ func (filter *GeoFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := GeoFilter_Action(temp)
 		filter.Action = &action
 	}
 
@@ -4348,7 +4370,9 @@ func (filter *GeoFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := GeoFilter_Action_STATUS(temp)
 		filter.Action = &action
 	}
 
@@ -5401,13 +5425,17 @@ func (parameters *HealthProbeParameters) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "ProbeProtocol":
 	if parameters.ProbeProtocol != nil {
-		probeProtocol := *parameters.ProbeProtocol
+		var temp string
+		temp = string(*parameters.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_ProbeProtocol_ARM(temp)
 		result.ProbeProtocol = &probeProtocol
 	}
 
 	// Set property "ProbeRequestType":
 	if parameters.ProbeRequestType != nil {
-		probeRequestType := *parameters.ProbeRequestType
+		var temp string
+		temp = string(*parameters.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_ProbeRequestType_ARM(temp)
 		result.ProbeRequestType = &probeRequestType
 	}
 	return result, nil
@@ -5439,13 +5467,17 @@ func (parameters *HealthProbeParameters) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "ProbeProtocol":
 	if typedInput.ProbeProtocol != nil {
-		probeProtocol := *typedInput.ProbeProtocol
+		var temp string
+		temp = string(*typedInput.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_ProbeProtocol(temp)
 		parameters.ProbeProtocol = &probeProtocol
 	}
 
 	// Set property "ProbeRequestType":
 	if typedInput.ProbeRequestType != nil {
-		probeRequestType := *typedInput.ProbeRequestType
+		var temp string
+		temp = string(*typedInput.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_ProbeRequestType(temp)
 		parameters.ProbeRequestType = &probeRequestType
 	}
 
@@ -5609,13 +5641,17 @@ func (parameters *HealthProbeParameters_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "ProbeProtocol":
 	if typedInput.ProbeProtocol != nil {
-		probeProtocol := *typedInput.ProbeProtocol
+		var temp string
+		temp = string(*typedInput.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_ProbeProtocol_STATUS(temp)
 		parameters.ProbeProtocol = &probeProtocol
 	}
 
 	// Set property "ProbeRequestType":
 	if typedInput.ProbeRequestType != nil {
-		probeRequestType := *typedInput.ProbeRequestType
+		var temp string
+		temp = string(*typedInput.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_ProbeRequestType_STATUS(temp)
 		parameters.ProbeRequestType = &probeRequestType
 	}
 
@@ -5753,7 +5789,9 @@ func (parameters *KeyVaultSigningKeyParameters) ConvertToARM(resolved genruntime
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := KeyVaultSigningKeyParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 
@@ -5803,7 +5841,9 @@ func (parameters *KeyVaultSigningKeyParameters) PopulateFromARM(owner genruntime
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := KeyVaultSigningKeyParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -5976,7 +6016,9 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) PopulateFromARM(owner gen
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := KeyVaultSigningKeyParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -6115,7 +6157,9 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) ConvertToARM(reso
 
 	// Set property "ResponseBasedDetectedErrorTypes":
 	if parameters.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorTypes := *parameters.ResponseBasedDetectedErrorTypes
+		var temp string
+		temp = string(*parameters.ResponseBasedDetectedErrorTypes)
+		responseBasedDetectedErrorTypes := ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM(temp)
 		result.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorTypes
 	}
 
@@ -6151,7 +6195,9 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) PopulateFromARM(o
 
 	// Set property "ResponseBasedDetectedErrorTypes":
 	if typedInput.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorTypes := *typedInput.ResponseBasedDetectedErrorTypes
+		var temp string
+		temp = string(*typedInput.ResponseBasedDetectedErrorTypes)
+		responseBasedDetectedErrorTypes := ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes(temp)
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorTypes
 	}
 
@@ -6337,7 +6383,9 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) PopulateFr
 
 	// Set property "ResponseBasedDetectedErrorTypes":
 	if typedInput.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorTypes := *typedInput.ResponseBasedDetectedErrorTypes
+		var temp string
+		temp = string(*typedInput.ResponseBasedDetectedErrorTypes)
+		responseBasedDetectedErrorTypes := ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS(temp)
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorTypes
 	}
 
@@ -9734,7 +9782,11 @@ func (action *DeliveryRuleCacheExpirationAction) ConvertToARM(resolved genruntim
 
 	// Set property "Name":
 	if action.Name != nil {
-		result.Name = *action.Name
+		var temp DeliveryRuleCacheExpirationAction_Name_ARM
+		var temp1 string
+		temp1 = string(*action.Name)
+		temp = DeliveryRuleCacheExpirationAction_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -9762,7 +9814,11 @@ func (action *DeliveryRuleCacheExpirationAction) PopulateFromARM(owner genruntim
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleCacheExpirationAction_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleCacheExpirationAction_Name(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -9893,7 +9949,11 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) PopulateFromARM(owner ge
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleCacheExpirationAction_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleCacheExpirationAction_Name_STATUS(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -9995,7 +10055,11 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) ConvertToARM(resolved genru
 
 	// Set property "Name":
 	if action.Name != nil {
-		result.Name = *action.Name
+		var temp DeliveryRuleCacheKeyQueryStringAction_Name_ARM
+		var temp1 string
+		temp1 = string(*action.Name)
+		temp = DeliveryRuleCacheKeyQueryStringAction_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -10023,7 +10087,11 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) PopulateFromARM(owner genru
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleCacheKeyQueryStringAction_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleCacheKeyQueryStringAction_Name(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -10154,7 +10222,11 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleCacheKeyQueryStringAction_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleCacheKeyQueryStringAction_Name_STATUS(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -10256,7 +10328,11 @@ func (condition *DeliveryRuleClientPortCondition) ConvertToARM(resolved genrunti
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleClientPortCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleClientPortCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -10284,7 +10360,11 @@ func (condition *DeliveryRuleClientPortCondition) PopulateFromARM(owner genrunti
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleClientPortCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleClientPortCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -10415,7 +10495,11 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) PopulateFromARM(owner g
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleClientPortCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleClientPortCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -10517,7 +10601,11 @@ func (condition *DeliveryRuleCookiesCondition) ConvertToARM(resolved genruntime.
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleCookiesCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleCookiesCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -10545,7 +10633,11 @@ func (condition *DeliveryRuleCookiesCondition) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleCookiesCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleCookiesCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -10676,7 +10768,11 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) PopulateFromARM(owner genr
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleCookiesCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleCookiesCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -10778,7 +10874,11 @@ func (condition *DeliveryRuleHostNameCondition) ConvertToARM(resolved genruntime
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleHostNameCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleHostNameCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -10806,7 +10906,11 @@ func (condition *DeliveryRuleHostNameCondition) PopulateFromARM(owner genruntime
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleHostNameCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleHostNameCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -10937,7 +11041,11 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) PopulateFromARM(owner gen
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleHostNameCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleHostNameCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -11039,7 +11147,11 @@ func (condition *DeliveryRuleHttpVersionCondition) ConvertToARM(resolved genrunt
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleHttpVersionCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleHttpVersionCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -11067,7 +11179,11 @@ func (condition *DeliveryRuleHttpVersionCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleHttpVersionCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleHttpVersionCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -11198,7 +11314,11 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleHttpVersionCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleHttpVersionCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -11300,7 +11420,11 @@ func (condition *DeliveryRuleIsDeviceCondition) ConvertToARM(resolved genruntime
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleIsDeviceCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleIsDeviceCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -11328,7 +11452,11 @@ func (condition *DeliveryRuleIsDeviceCondition) PopulateFromARM(owner genruntime
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleIsDeviceCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleIsDeviceCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -11459,7 +11587,11 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) PopulateFromARM(owner gen
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleIsDeviceCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleIsDeviceCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -11561,7 +11693,11 @@ func (condition *DeliveryRulePostArgsCondition) ConvertToARM(resolved genruntime
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRulePostArgsCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRulePostArgsCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -11589,7 +11725,11 @@ func (condition *DeliveryRulePostArgsCondition) PopulateFromARM(owner genruntime
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRulePostArgsCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRulePostArgsCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -11720,7 +11860,11 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) PopulateFromARM(owner gen
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRulePostArgsCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRulePostArgsCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -11822,7 +11966,11 @@ func (condition *DeliveryRuleQueryStringCondition) ConvertToARM(resolved genrunt
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleQueryStringCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleQueryStringCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -11850,7 +11998,11 @@ func (condition *DeliveryRuleQueryStringCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleQueryStringCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleQueryStringCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -11981,7 +12133,11 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleQueryStringCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleQueryStringCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -12083,7 +12239,11 @@ func (condition *DeliveryRuleRemoteAddressCondition) ConvertToARM(resolved genru
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleRemoteAddressCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleRemoteAddressCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -12111,7 +12271,11 @@ func (condition *DeliveryRuleRemoteAddressCondition) PopulateFromARM(owner genru
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRemoteAddressCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRemoteAddressCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -12242,7 +12406,11 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRemoteAddressCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRemoteAddressCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -12344,7 +12512,11 @@ func (condition *DeliveryRuleRequestBodyCondition) ConvertToARM(resolved genrunt
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleRequestBodyCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleRequestBodyCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -12372,7 +12544,11 @@ func (condition *DeliveryRuleRequestBodyCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestBodyCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestBodyCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -12503,7 +12679,11 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestBodyCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestBodyCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -12605,7 +12785,11 @@ func (action *DeliveryRuleRequestHeaderAction) ConvertToARM(resolved genruntime.
 
 	// Set property "Name":
 	if action.Name != nil {
-		result.Name = *action.Name
+		var temp DeliveryRuleRequestHeaderAction_Name_ARM
+		var temp1 string
+		temp1 = string(*action.Name)
+		temp = DeliveryRuleRequestHeaderAction_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -12633,7 +12817,11 @@ func (action *DeliveryRuleRequestHeaderAction) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleRequestHeaderAction_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestHeaderAction_Name(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -12764,7 +12952,11 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) PopulateFromARM(owner genr
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleRequestHeaderAction_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestHeaderAction_Name_STATUS(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -12866,7 +13058,11 @@ func (condition *DeliveryRuleRequestHeaderCondition) ConvertToARM(resolved genru
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleRequestHeaderCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleRequestHeaderCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -12894,7 +13090,11 @@ func (condition *DeliveryRuleRequestHeaderCondition) PopulateFromARM(owner genru
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestHeaderCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestHeaderCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -13025,7 +13225,11 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestHeaderCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestHeaderCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -13127,7 +13331,11 @@ func (condition *DeliveryRuleRequestMethodCondition) ConvertToARM(resolved genru
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleRequestMethodCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleRequestMethodCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -13155,7 +13363,11 @@ func (condition *DeliveryRuleRequestMethodCondition) PopulateFromARM(owner genru
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestMethodCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestMethodCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -13286,7 +13498,11 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestMethodCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestMethodCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -13388,7 +13604,11 @@ func (condition *DeliveryRuleRequestSchemeCondition) ConvertToARM(resolved genru
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleRequestSchemeCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleRequestSchemeCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -13416,7 +13636,11 @@ func (condition *DeliveryRuleRequestSchemeCondition) PopulateFromARM(owner genru
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestSchemeCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestSchemeCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -13547,7 +13771,11 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestSchemeCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestSchemeCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -13649,7 +13877,11 @@ func (condition *DeliveryRuleRequestUriCondition) ConvertToARM(resolved genrunti
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleRequestUriCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleRequestUriCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -13677,7 +13909,11 @@ func (condition *DeliveryRuleRequestUriCondition) PopulateFromARM(owner genrunti
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestUriCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestUriCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -13808,7 +14044,11 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) PopulateFromARM(owner g
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleRequestUriCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRequestUriCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -13910,7 +14150,11 @@ func (action *DeliveryRuleResponseHeaderAction) ConvertToARM(resolved genruntime
 
 	// Set property "Name":
 	if action.Name != nil {
-		result.Name = *action.Name
+		var temp DeliveryRuleResponseHeaderAction_Name_ARM
+		var temp1 string
+		temp1 = string(*action.Name)
+		temp = DeliveryRuleResponseHeaderAction_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -13938,7 +14182,11 @@ func (action *DeliveryRuleResponseHeaderAction) PopulateFromARM(owner genruntime
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleResponseHeaderAction_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleResponseHeaderAction_Name(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -14069,7 +14317,11 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) PopulateFromARM(owner gen
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleResponseHeaderAction_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleResponseHeaderAction_Name_STATUS(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -14171,7 +14423,11 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) ConvertToARM(resolve
 
 	// Set property "Name":
 	if action.Name != nil {
-		result.Name = *action.Name
+		var temp DeliveryRuleRouteConfigurationOverrideAction_Name_ARM
+		var temp1 string
+		temp1 = string(*action.Name)
+		temp = DeliveryRuleRouteConfigurationOverrideAction_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -14199,7 +14455,11 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) PopulateFromARM(owne
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleRouteConfigurationOverrideAction_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRouteConfigurationOverrideAction_Name(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -14330,7 +14590,11 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) PopulateFromA
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -14432,7 +14696,11 @@ func (condition *DeliveryRuleServerPortCondition) ConvertToARM(resolved genrunti
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleServerPortCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleServerPortCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -14460,7 +14728,11 @@ func (condition *DeliveryRuleServerPortCondition) PopulateFromARM(owner genrunti
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleServerPortCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleServerPortCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -14591,7 +14863,11 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) PopulateFromARM(owner g
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleServerPortCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleServerPortCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -14693,7 +14969,11 @@ func (condition *DeliveryRuleSocketAddrCondition) ConvertToARM(resolved genrunti
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleSocketAddrCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleSocketAddrCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -14721,7 +15001,11 @@ func (condition *DeliveryRuleSocketAddrCondition) PopulateFromARM(owner genrunti
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleSocketAddrCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleSocketAddrCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -14852,7 +15136,11 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) PopulateFromARM(owner g
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleSocketAddrCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleSocketAddrCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -14954,7 +15242,11 @@ func (condition *DeliveryRuleSslProtocolCondition) ConvertToARM(resolved genrunt
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleSslProtocolCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleSslProtocolCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -14982,7 +15274,11 @@ func (condition *DeliveryRuleSslProtocolCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleSslProtocolCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleSslProtocolCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -15113,7 +15409,11 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleSslProtocolCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleSslProtocolCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -15215,7 +15515,11 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) ConvertToARM(resolved ge
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleUrlFileExtensionCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleUrlFileExtensionCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -15243,7 +15547,11 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) PopulateFromARM(owner ge
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleUrlFileExtensionCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleUrlFileExtensionCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -15374,7 +15682,11 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) PopulateFromARM(o
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleUrlFileExtensionCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleUrlFileExtensionCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -15476,7 +15788,11 @@ func (condition *DeliveryRuleUrlFileNameCondition) ConvertToARM(resolved genrunt
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleUrlFileNameCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleUrlFileNameCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -15504,7 +15820,11 @@ func (condition *DeliveryRuleUrlFileNameCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleUrlFileNameCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleUrlFileNameCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -15635,7 +15955,11 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleUrlFileNameCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleUrlFileNameCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -15737,7 +16061,11 @@ func (condition *DeliveryRuleUrlPathCondition) ConvertToARM(resolved genruntime.
 
 	// Set property "Name":
 	if condition.Name != nil {
-		result.Name = *condition.Name
+		var temp DeliveryRuleUrlPathCondition_Name_ARM
+		var temp1 string
+		temp1 = string(*condition.Name)
+		temp = DeliveryRuleUrlPathCondition_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -15765,7 +16093,11 @@ func (condition *DeliveryRuleUrlPathCondition) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleUrlPathCondition_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleUrlPathCondition_Name(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -15896,7 +16228,11 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) PopulateFromARM(owner genr
 	}
 
 	// Set property "Name":
-	condition.Name = &typedInput.Name
+	var temp DeliveryRuleUrlPathCondition_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = DeliveryRuleUrlPathCondition_Name_STATUS(temp1)
+	condition.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -15998,7 +16334,11 @@ func (action *OriginGroupOverrideAction) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "Name":
 	if action.Name != nil {
-		result.Name = *action.Name
+		var temp OriginGroupOverrideAction_Name_ARM
+		var temp1 string
+		temp1 = string(*action.Name)
+		temp = OriginGroupOverrideAction_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -16026,7 +16366,11 @@ func (action *OriginGroupOverrideAction) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp OriginGroupOverrideAction_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = OriginGroupOverrideAction_Name(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -16157,7 +16501,11 @@ func (action *OriginGroupOverrideAction_STATUS) PopulateFromARM(owner genruntime
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp OriginGroupOverrideAction_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = OriginGroupOverrideAction_Name_STATUS(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -16259,7 +16607,11 @@ func (action *UrlRedirectAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Name":
 	if action.Name != nil {
-		result.Name = *action.Name
+		var temp UrlRedirectAction_Name_ARM
+		var temp1 string
+		temp1 = string(*action.Name)
+		temp = UrlRedirectAction_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -16287,7 +16639,11 @@ func (action *UrlRedirectAction) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp UrlRedirectAction_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = UrlRedirectAction_Name(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -16418,7 +16774,11 @@ func (action *UrlRedirectAction_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp UrlRedirectAction_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = UrlRedirectAction_Name_STATUS(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -16520,7 +16880,11 @@ func (action *UrlRewriteAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Name":
 	if action.Name != nil {
-		result.Name = *action.Name
+		var temp UrlRewriteAction_Name_ARM
+		var temp1 string
+		temp1 = string(*action.Name)
+		temp = UrlRewriteAction_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -16548,7 +16912,11 @@ func (action *UrlRewriteAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp UrlRewriteAction_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = UrlRewriteAction_Name(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -16679,7 +17047,11 @@ func (action *UrlRewriteAction_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp UrlRewriteAction_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = UrlRewriteAction_Name_STATUS(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -16781,7 +17153,11 @@ func (action *UrlSigningAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Name":
 	if action.Name != nil {
-		result.Name = *action.Name
+		var temp UrlSigningAction_Name_ARM
+		var temp1 string
+		temp1 = string(*action.Name)
+		temp = UrlSigningAction_Name_ARM(temp1)
+		result.Name = temp
 	}
 
 	// Set property "Parameters":
@@ -16809,7 +17185,11 @@ func (action *UrlSigningAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp UrlSigningAction_Name
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = UrlSigningAction_Name(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -16940,7 +17320,11 @@ func (action *UrlSigningAction_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property "Name":
-	action.Name = &typedInput.Name
+	var temp UrlSigningAction_Name_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Name)
+	temp = UrlSigningAction_Name_STATUS(temp1)
+	action.Name = &temp
 
 	// Set property "Parameters":
 	if typedInput.Parameters != nil {
@@ -17049,7 +17433,9 @@ func (parameters *CacheExpirationActionParameters) ConvertToARM(resolved genrunt
 
 	// Set property "CacheBehavior":
 	if parameters.CacheBehavior != nil {
-		cacheBehavior := *parameters.CacheBehavior
+		var temp string
+		temp = string(*parameters.CacheBehavior)
+		cacheBehavior := CacheExpirationActionParameters_CacheBehavior_ARM(temp)
 		result.CacheBehavior = &cacheBehavior
 	}
 
@@ -17061,13 +17447,17 @@ func (parameters *CacheExpirationActionParameters) ConvertToARM(resolved genrunt
 
 	// Set property "CacheType":
 	if parameters.CacheType != nil {
-		cacheType := *parameters.CacheType
+		var temp string
+		temp = string(*parameters.CacheType)
+		cacheType := CacheExpirationActionParameters_CacheType_ARM(temp)
 		result.CacheType = &cacheType
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := CacheExpirationActionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -17087,7 +17477,9 @@ func (parameters *CacheExpirationActionParameters) PopulateFromARM(owner genrunt
 
 	// Set property "CacheBehavior":
 	if typedInput.CacheBehavior != nil {
-		cacheBehavior := *typedInput.CacheBehavior
+		var temp string
+		temp = string(*typedInput.CacheBehavior)
+		cacheBehavior := CacheExpirationActionParameters_CacheBehavior(temp)
 		parameters.CacheBehavior = &cacheBehavior
 	}
 
@@ -17099,13 +17491,17 @@ func (parameters *CacheExpirationActionParameters) PopulateFromARM(owner genrunt
 
 	// Set property "CacheType":
 	if typedInput.CacheType != nil {
-		cacheType := *typedInput.CacheType
+		var temp string
+		temp = string(*typedInput.CacheType)
+		cacheType := CacheExpirationActionParameters_CacheType(temp)
 		parameters.CacheType = &cacheType
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := CacheExpirationActionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -17256,7 +17652,9 @@ func (parameters *CacheExpirationActionParameters_STATUS) PopulateFromARM(owner 
 
 	// Set property "CacheBehavior":
 	if typedInput.CacheBehavior != nil {
-		cacheBehavior := *typedInput.CacheBehavior
+		var temp string
+		temp = string(*typedInput.CacheBehavior)
+		cacheBehavior := CacheExpirationActionParameters_CacheBehavior_STATUS(temp)
 		parameters.CacheBehavior = &cacheBehavior
 	}
 
@@ -17268,13 +17666,17 @@ func (parameters *CacheExpirationActionParameters_STATUS) PopulateFromARM(owner 
 
 	// Set property "CacheType":
 	if typedInput.CacheType != nil {
-		cacheType := *typedInput.CacheType
+		var temp string
+		temp = string(*typedInput.CacheType)
+		cacheType := CacheExpirationActionParameters_CacheType_STATUS(temp)
 		parameters.CacheType = &cacheType
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := CacheExpirationActionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -17392,13 +17794,17 @@ func (parameters *CacheKeyQueryStringActionParameters) ConvertToARM(resolved gen
 
 	// Set property "QueryStringBehavior":
 	if parameters.QueryStringBehavior != nil {
-		queryStringBehavior := *parameters.QueryStringBehavior
+		var temp string
+		temp = string(*parameters.QueryStringBehavior)
+		queryStringBehavior := CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM(temp)
 		result.QueryStringBehavior = &queryStringBehavior
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := CacheKeyQueryStringActionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -17424,13 +17830,17 @@ func (parameters *CacheKeyQueryStringActionParameters) PopulateFromARM(owner gen
 
 	// Set property "QueryStringBehavior":
 	if typedInput.QueryStringBehavior != nil {
-		queryStringBehavior := *typedInput.QueryStringBehavior
+		var temp string
+		temp = string(*typedInput.QueryStringBehavior)
+		queryStringBehavior := CacheKeyQueryStringActionParameters_QueryStringBehavior(temp)
 		parameters.QueryStringBehavior = &queryStringBehavior
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := CacheKeyQueryStringActionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -17559,13 +17969,17 @@ func (parameters *CacheKeyQueryStringActionParameters_STATUS) PopulateFromARM(ow
 
 	// Set property "QueryStringBehavior":
 	if typedInput.QueryStringBehavior != nil {
-		queryStringBehavior := *typedInput.QueryStringBehavior
+		var temp string
+		temp = string(*typedInput.QueryStringBehavior)
+		queryStringBehavior := CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS(temp)
 		parameters.QueryStringBehavior = &queryStringBehavior
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := CacheKeyQueryStringActionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -17677,18 +18091,24 @@ func (parameters *ClientPortMatchConditionParameters) ConvertToARM(resolved genr
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := ClientPortMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := ClientPortMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -17719,18 +18139,24 @@ func (parameters *ClientPortMatchConditionParameters) PopulateFromARM(owner genr
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := ClientPortMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := ClientPortMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -17934,18 +18360,24 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) PopulateFromARM(own
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := ClientPortMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := ClientPortMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -18102,7 +18534,9 @@ func (parameters *CookiesMatchConditionParameters) ConvertToARM(resolved genrunt
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := CookiesMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
@@ -18114,12 +18548,16 @@ func (parameters *CookiesMatchConditionParameters) ConvertToARM(resolved genrunt
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := CookiesMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -18150,7 +18588,9 @@ func (parameters *CookiesMatchConditionParameters) PopulateFromARM(owner genrunt
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := CookiesMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
@@ -18162,12 +18602,16 @@ func (parameters *CookiesMatchConditionParameters) PopulateFromARM(owner genrunt
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := CookiesMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -18383,7 +18827,9 @@ func (parameters *CookiesMatchConditionParameters_STATUS) PopulateFromARM(owner 
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := CookiesMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
@@ -18395,12 +18841,16 @@ func (parameters *CookiesMatchConditionParameters_STATUS) PopulateFromARM(owner 
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := CookiesMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -19003,7 +19453,9 @@ func (parameters *HeaderActionParameters) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "HeaderAction":
 	if parameters.HeaderAction != nil {
-		headerAction := *parameters.HeaderAction
+		var temp string
+		temp = string(*parameters.HeaderAction)
+		headerAction := HeaderActionParameters_HeaderAction_ARM(temp)
 		result.HeaderAction = &headerAction
 	}
 
@@ -19015,7 +19467,9 @@ func (parameters *HeaderActionParameters) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := HeaderActionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 
@@ -19041,7 +19495,9 @@ func (parameters *HeaderActionParameters) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "HeaderAction":
 	if typedInput.HeaderAction != nil {
-		headerAction := *typedInput.HeaderAction
+		var temp string
+		temp = string(*typedInput.HeaderAction)
+		headerAction := HeaderActionParameters_HeaderAction(temp)
 		parameters.HeaderAction = &headerAction
 	}
 
@@ -19053,7 +19509,9 @@ func (parameters *HeaderActionParameters) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := HeaderActionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -19194,7 +19652,9 @@ func (parameters *HeaderActionParameters_STATUS) PopulateFromARM(owner genruntim
 
 	// Set property "HeaderAction":
 	if typedInput.HeaderAction != nil {
-		headerAction := *typedInput.HeaderAction
+		var temp string
+		temp = string(*typedInput.HeaderAction)
+		headerAction := HeaderActionParameters_HeaderAction_STATUS(temp)
 		parameters.HeaderAction = &headerAction
 	}
 
@@ -19206,7 +19666,9 @@ func (parameters *HeaderActionParameters_STATUS) PopulateFromARM(owner genruntim
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := HeaderActionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -19330,18 +19792,24 @@ func (parameters *HostNameMatchConditionParameters) ConvertToARM(resolved genrun
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := HostNameMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := HostNameMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -19372,18 +19840,24 @@ func (parameters *HostNameMatchConditionParameters) PopulateFromARM(owner genrun
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := HostNameMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := HostNameMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -19587,18 +20061,24 @@ func (parameters *HostNameMatchConditionParameters_STATUS) PopulateFromARM(owner
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := HostNameMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := HostNameMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -19752,18 +20232,24 @@ func (parameters *HttpVersionMatchConditionParameters) ConvertToARM(resolved gen
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := HttpVersionMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := HttpVersionMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -19794,18 +20280,24 @@ func (parameters *HttpVersionMatchConditionParameters) PopulateFromARM(owner gen
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := HttpVersionMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := HttpVersionMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -20009,18 +20501,24 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) PopulateFromARM(ow
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := HttpVersionMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := HttpVersionMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -20163,7 +20661,9 @@ func (parameters *IsDeviceMatchConditionParameters) ConvertToARM(resolved genrun
 
 	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
+		var temp string
+		temp = string(item)
+		result.MatchValues = append(result.MatchValues, IsDeviceMatchConditionParameters_MatchValues_ARM(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -20174,18 +20674,24 @@ func (parameters *IsDeviceMatchConditionParameters) ConvertToARM(resolved genrun
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := IsDeviceMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := IsDeviceMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -20205,7 +20711,9 @@ func (parameters *IsDeviceMatchConditionParameters) PopulateFromARM(owner genrun
 
 	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
+		var temp string
+		temp = string(item)
+		parameters.MatchValues = append(parameters.MatchValues, IsDeviceMatchConditionParameters_MatchValues(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -20216,18 +20724,24 @@ func (parameters *IsDeviceMatchConditionParameters) PopulateFromARM(owner genrun
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := IsDeviceMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := IsDeviceMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -20451,7 +20965,9 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) PopulateFromARM(owner
 
 	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
+		var temp string
+		temp = string(item)
+		parameters.MatchValues = append(parameters.MatchValues, IsDeviceMatchConditionParameters_MatchValues_STATUS(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -20462,18 +20978,24 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) PopulateFromARM(owner
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := IsDeviceMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := IsDeviceMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -20656,7 +21178,9 @@ func (parameters *OriginGroupOverrideActionParameters) ConvertToARM(resolved gen
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := OriginGroupOverrideActionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -20687,7 +21211,9 @@ func (parameters *OriginGroupOverrideActionParameters) PopulateFromARM(owner gen
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := OriginGroupOverrideActionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -20820,7 +21346,9 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) PopulateFromARM(ow
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := OriginGroupOverrideActionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -20936,7 +21464,9 @@ func (parameters *PostArgsMatchConditionParameters) ConvertToARM(resolved genrun
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := PostArgsMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
@@ -20948,12 +21478,16 @@ func (parameters *PostArgsMatchConditionParameters) ConvertToARM(resolved genrun
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := PostArgsMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -20984,7 +21518,9 @@ func (parameters *PostArgsMatchConditionParameters) PopulateFromARM(owner genrun
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := PostArgsMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
@@ -20996,12 +21532,16 @@ func (parameters *PostArgsMatchConditionParameters) PopulateFromARM(owner genrun
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := PostArgsMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -21217,7 +21757,9 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) PopulateFromARM(owner
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := PostArgsMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
@@ -21229,12 +21771,16 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) PopulateFromARM(owner
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := PostArgsMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -21394,18 +21940,24 @@ func (parameters *QueryStringMatchConditionParameters) ConvertToARM(resolved gen
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := QueryStringMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := QueryStringMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -21436,18 +21988,24 @@ func (parameters *QueryStringMatchConditionParameters) PopulateFromARM(owner gen
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := QueryStringMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := QueryStringMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -21651,18 +22209,24 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) PopulateFromARM(ow
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := QueryStringMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := QueryStringMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -21817,18 +22381,24 @@ func (parameters *RemoteAddressMatchConditionParameters) ConvertToARM(resolved g
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := RemoteAddressMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := RemoteAddressMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -21859,18 +22429,24 @@ func (parameters *RemoteAddressMatchConditionParameters) PopulateFromARM(owner g
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RemoteAddressMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RemoteAddressMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -22075,18 +22651,24 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) PopulateFromARM(
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RemoteAddressMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RemoteAddressMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -22240,18 +22822,24 @@ func (parameters *RequestBodyMatchConditionParameters) ConvertToARM(resolved gen
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := RequestBodyMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := RequestBodyMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -22282,18 +22870,24 @@ func (parameters *RequestBodyMatchConditionParameters) PopulateFromARM(owner gen
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestBodyMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestBodyMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -22497,18 +23091,24 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) PopulateFromARM(ow
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestBodyMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestBodyMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -22665,7 +23265,9 @@ func (parameters *RequestHeaderMatchConditionParameters) ConvertToARM(resolved g
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := RequestHeaderMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
@@ -22677,12 +23279,16 @@ func (parameters *RequestHeaderMatchConditionParameters) ConvertToARM(resolved g
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := RequestHeaderMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -22713,7 +23319,9 @@ func (parameters *RequestHeaderMatchConditionParameters) PopulateFromARM(owner g
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestHeaderMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
@@ -22725,12 +23333,16 @@ func (parameters *RequestHeaderMatchConditionParameters) PopulateFromARM(owner g
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestHeaderMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -22946,7 +23558,9 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) PopulateFromARM(
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestHeaderMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
@@ -22958,12 +23572,16 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) PopulateFromARM(
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestHeaderMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -23112,7 +23730,9 @@ func (parameters *RequestMethodMatchConditionParameters) ConvertToARM(resolved g
 
 	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
+		var temp string
+		temp = string(item)
+		result.MatchValues = append(result.MatchValues, RequestMethodMatchConditionParameters_MatchValues_ARM(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -23123,18 +23743,24 @@ func (parameters *RequestMethodMatchConditionParameters) ConvertToARM(resolved g
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := RequestMethodMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := RequestMethodMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -23154,7 +23780,9 @@ func (parameters *RequestMethodMatchConditionParameters) PopulateFromARM(owner g
 
 	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
+		var temp string
+		temp = string(item)
+		parameters.MatchValues = append(parameters.MatchValues, RequestMethodMatchConditionParameters_MatchValues(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -23165,18 +23793,24 @@ func (parameters *RequestMethodMatchConditionParameters) PopulateFromARM(owner g
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestMethodMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestMethodMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -23400,7 +24034,9 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) PopulateFromARM(
 
 	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
+		var temp string
+		temp = string(item)
+		parameters.MatchValues = append(parameters.MatchValues, RequestMethodMatchConditionParameters_MatchValues_STATUS(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -23411,18 +24047,24 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) PopulateFromARM(
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestMethodMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestMethodMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -23585,7 +24227,9 @@ func (parameters *RequestSchemeMatchConditionParameters) ConvertToARM(resolved g
 
 	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
+		var temp string
+		temp = string(item)
+		result.MatchValues = append(result.MatchValues, RequestSchemeMatchConditionParameters_MatchValues_ARM(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -23596,18 +24240,24 @@ func (parameters *RequestSchemeMatchConditionParameters) ConvertToARM(resolved g
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := RequestSchemeMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := RequestSchemeMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -23627,7 +24277,9 @@ func (parameters *RequestSchemeMatchConditionParameters) PopulateFromARM(owner g
 
 	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
+		var temp string
+		temp = string(item)
+		parameters.MatchValues = append(parameters.MatchValues, RequestSchemeMatchConditionParameters_MatchValues(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -23638,18 +24290,24 @@ func (parameters *RequestSchemeMatchConditionParameters) PopulateFromARM(owner g
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestSchemeMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestSchemeMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -23873,7 +24531,9 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) PopulateFromARM(
 
 	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
+		var temp string
+		temp = string(item)
+		parameters.MatchValues = append(parameters.MatchValues, RequestSchemeMatchConditionParameters_MatchValues_STATUS(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -23884,18 +24544,24 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) PopulateFromARM(
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestSchemeMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestSchemeMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -24069,18 +24735,24 @@ func (parameters *RequestUriMatchConditionParameters) ConvertToARM(resolved genr
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := RequestUriMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := RequestUriMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -24111,18 +24783,24 @@ func (parameters *RequestUriMatchConditionParameters) PopulateFromARM(owner genr
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestUriMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestUriMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -24326,18 +25004,24 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) PopulateFromARM(own
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := RequestUriMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RequestUriMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -24495,7 +25179,9 @@ func (parameters *RouteConfigurationOverrideActionParameters) ConvertToARM(resol
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := RouteConfigurationOverrideActionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -24537,7 +25223,9 @@ func (parameters *RouteConfigurationOverrideActionParameters) PopulateFromARM(ow
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RouteConfigurationOverrideActionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -24722,7 +25410,9 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) PopulateFro
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := RouteConfigurationOverrideActionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -24859,18 +25549,24 @@ func (parameters *ServerPortMatchConditionParameters) ConvertToARM(resolved genr
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := ServerPortMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := ServerPortMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -24901,18 +25597,24 @@ func (parameters *ServerPortMatchConditionParameters) PopulateFromARM(owner genr
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := ServerPortMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := ServerPortMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -25116,18 +25818,24 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) PopulateFromARM(own
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := ServerPortMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := ServerPortMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -25281,18 +25989,24 @@ func (parameters *SocketAddrMatchConditionParameters) ConvertToARM(resolved genr
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := SocketAddrMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := SocketAddrMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -25323,18 +26037,24 @@ func (parameters *SocketAddrMatchConditionParameters) PopulateFromARM(owner genr
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := SocketAddrMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := SocketAddrMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -25538,18 +26258,24 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) PopulateFromARM(own
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := SocketAddrMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := SocketAddrMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -25692,7 +26418,9 @@ func (parameters *SslProtocolMatchConditionParameters) ConvertToARM(resolved gen
 
 	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
+		var temp string
+		temp = string(item)
+		result.MatchValues = append(result.MatchValues, SslProtocol_ARM(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -25703,18 +26431,24 @@ func (parameters *SslProtocolMatchConditionParameters) ConvertToARM(resolved gen
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := SslProtocolMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := SslProtocolMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -25734,7 +26468,9 @@ func (parameters *SslProtocolMatchConditionParameters) PopulateFromARM(owner gen
 
 	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
+		var temp string
+		temp = string(item)
+		parameters.MatchValues = append(parameters.MatchValues, SslProtocol(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -25745,18 +26481,24 @@ func (parameters *SslProtocolMatchConditionParameters) PopulateFromARM(owner gen
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := SslProtocolMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := SslProtocolMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -25980,7 +26722,9 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) PopulateFromARM(ow
 
 	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
+		var temp string
+		temp = string(item)
+		parameters.MatchValues = append(parameters.MatchValues, SslProtocol_STATUS(temp))
 	}
 
 	// Set property "NegateCondition":
@@ -25991,18 +26735,24 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) PopulateFromARM(ow
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := SslProtocolMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := SslProtocolMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -26176,18 +26926,24 @@ func (parameters *UrlFileExtensionMatchConditionParameters) ConvertToARM(resolve
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := UrlFileExtensionMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := UrlFileExtensionMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -26218,18 +26974,24 @@ func (parameters *UrlFileExtensionMatchConditionParameters) PopulateFromARM(owne
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := UrlFileExtensionMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlFileExtensionMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -26433,18 +27195,24 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) PopulateFromA
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := UrlFileExtensionMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlFileExtensionMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -26598,18 +27366,24 @@ func (parameters *UrlFileNameMatchConditionParameters) ConvertToARM(resolved gen
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := UrlFileNameMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := UrlFileNameMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -26640,18 +27414,24 @@ func (parameters *UrlFileNameMatchConditionParameters) PopulateFromARM(owner gen
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := UrlFileNameMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlFileNameMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -26855,18 +27635,24 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) PopulateFromARM(ow
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := UrlFileNameMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlFileNameMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -27020,18 +27806,24 @@ func (parameters *UrlPathMatchConditionParameters) ConvertToARM(resolved genrunt
 
 	// Set property "Operator":
 	if parameters.Operator != nil {
-		operator := *parameters.Operator
+		var temp string
+		temp = string(*parameters.Operator)
+		operator := UrlPathMatchConditionParameters_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
+		var temp string
+		temp = string(item)
+		result.Transforms = append(result.Transforms, Transform_ARM(temp))
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := UrlPathMatchConditionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -27062,18 +27854,24 @@ func (parameters *UrlPathMatchConditionParameters) PopulateFromARM(owner genrunt
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := UrlPathMatchConditionParameters_Operator(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlPathMatchConditionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -27277,18 +28075,24 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) PopulateFromARM(owner 
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var temp string
+		temp = string(*typedInput.Operator)
+		operator := UrlPathMatchConditionParameters_Operator_STATUS(temp)
 		parameters.Operator = &operator
 	}
 
 	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
+		var temp string
+		temp = string(item)
+		parameters.Transforms = append(parameters.Transforms, Transform_STATUS(temp))
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlPathMatchConditionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -27484,19 +28288,25 @@ func (parameters *UrlRedirectActionParameters) ConvertToARM(resolved genruntime.
 
 	// Set property "DestinationProtocol":
 	if parameters.DestinationProtocol != nil {
-		destinationProtocol := *parameters.DestinationProtocol
+		var temp string
+		temp = string(*parameters.DestinationProtocol)
+		destinationProtocol := UrlRedirectActionParameters_DestinationProtocol_ARM(temp)
 		result.DestinationProtocol = &destinationProtocol
 	}
 
 	// Set property "RedirectType":
 	if parameters.RedirectType != nil {
-		redirectType := *parameters.RedirectType
+		var temp string
+		temp = string(*parameters.RedirectType)
+		redirectType := UrlRedirectActionParameters_RedirectType_ARM(temp)
 		result.RedirectType = &redirectType
 	}
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := UrlRedirectActionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -27540,19 +28350,25 @@ func (parameters *UrlRedirectActionParameters) PopulateFromARM(owner genruntime.
 
 	// Set property "DestinationProtocol":
 	if typedInput.DestinationProtocol != nil {
-		destinationProtocol := *typedInput.DestinationProtocol
+		var temp string
+		temp = string(*typedInput.DestinationProtocol)
+		destinationProtocol := UrlRedirectActionParameters_DestinationProtocol(temp)
 		parameters.DestinationProtocol = &destinationProtocol
 	}
 
 	// Set property "RedirectType":
 	if typedInput.RedirectType != nil {
-		redirectType := *typedInput.RedirectType
+		var temp string
+		temp = string(*typedInput.RedirectType)
+		redirectType := UrlRedirectActionParameters_RedirectType(temp)
 		parameters.RedirectType = &redirectType
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlRedirectActionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -27767,19 +28583,25 @@ func (parameters *UrlRedirectActionParameters_STATUS) PopulateFromARM(owner genr
 
 	// Set property "DestinationProtocol":
 	if typedInput.DestinationProtocol != nil {
-		destinationProtocol := *typedInput.DestinationProtocol
+		var temp string
+		temp = string(*typedInput.DestinationProtocol)
+		destinationProtocol := UrlRedirectActionParameters_DestinationProtocol_STATUS(temp)
 		parameters.DestinationProtocol = &destinationProtocol
 	}
 
 	// Set property "RedirectType":
 	if typedInput.RedirectType != nil {
-		redirectType := *typedInput.RedirectType
+		var temp string
+		temp = string(*typedInput.RedirectType)
+		redirectType := UrlRedirectActionParameters_RedirectType_STATUS(temp)
 		parameters.RedirectType = &redirectType
 	}
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlRedirectActionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -27951,7 +28773,9 @@ func (parameters *UrlRewriteActionParameters) ConvertToARM(resolved genruntime.C
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := UrlRewriteActionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -27989,7 +28813,9 @@ func (parameters *UrlRewriteActionParameters) PopulateFromARM(owner genruntime.A
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlRewriteActionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -28142,7 +28968,9 @@ func (parameters *UrlRewriteActionParameters_STATUS) PopulateFromARM(owner genru
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlRewriteActionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -28260,7 +29088,9 @@ func (parameters *UrlSigningActionParameters) ConvertToARM(resolved genruntime.C
 
 	// Set property "Algorithm":
 	if parameters.Algorithm != nil {
-		algorithm := *parameters.Algorithm
+		var temp string
+		temp = string(*parameters.Algorithm)
+		algorithm := UrlSigningActionParameters_Algorithm_ARM(temp)
 		result.Algorithm = &algorithm
 	}
 
@@ -28275,7 +29105,9 @@ func (parameters *UrlSigningActionParameters) ConvertToARM(resolved genruntime.C
 
 	// Set property "TypeName":
 	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
+		var temp string
+		temp = string(*parameters.TypeName)
+		typeName := UrlSigningActionParameters_TypeName_ARM(temp)
 		result.TypeName = &typeName
 	}
 	return result, nil
@@ -28295,7 +29127,9 @@ func (parameters *UrlSigningActionParameters) PopulateFromARM(owner genruntime.A
 
 	// Set property "Algorithm":
 	if typedInput.Algorithm != nil {
-		algorithm := *typedInput.Algorithm
+		var temp string
+		temp = string(*typedInput.Algorithm)
+		algorithm := UrlSigningActionParameters_Algorithm(temp)
 		parameters.Algorithm = &algorithm
 	}
 
@@ -28311,7 +29145,9 @@ func (parameters *UrlSigningActionParameters) PopulateFromARM(owner genruntime.A
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlSigningActionParameters_TypeName(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -28479,7 +29315,9 @@ func (parameters *UrlSigningActionParameters_STATUS) PopulateFromARM(owner genru
 
 	// Set property "Algorithm":
 	if typedInput.Algorithm != nil {
-		algorithm := *typedInput.Algorithm
+		var temp string
+		temp = string(*typedInput.Algorithm)
+		algorithm := UrlSigningActionParameters_Algorithm_STATUS(temp)
 		parameters.Algorithm = &algorithm
 	}
 
@@ -28495,7 +29333,9 @@ func (parameters *UrlSigningActionParameters_STATUS) PopulateFromARM(owner genru
 
 	// Set property "TypeName":
 	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
+		var temp string
+		temp = string(*typedInput.TypeName)
+		typeName := UrlSigningActionParameters_TypeName_STATUS(temp)
 		parameters.TypeName = &typeName
 	}
 
@@ -28629,7 +29469,9 @@ func (configuration *CacheConfiguration) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "CacheBehavior":
 	if configuration.CacheBehavior != nil {
-		cacheBehavior := *configuration.CacheBehavior
+		var temp string
+		temp = string(*configuration.CacheBehavior)
+		cacheBehavior := CacheConfiguration_CacheBehavior_ARM(temp)
 		result.CacheBehavior = &cacheBehavior
 	}
 
@@ -28641,7 +29483,9 @@ func (configuration *CacheConfiguration) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "IsCompressionEnabled":
 	if configuration.IsCompressionEnabled != nil {
-		isCompressionEnabled := *configuration.IsCompressionEnabled
+		var temp string
+		temp = string(*configuration.IsCompressionEnabled)
+		isCompressionEnabled := CacheConfiguration_IsCompressionEnabled_ARM(temp)
 		result.IsCompressionEnabled = &isCompressionEnabled
 	}
 
@@ -28653,7 +29497,9 @@ func (configuration *CacheConfiguration) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "QueryStringCachingBehavior":
 	if configuration.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *configuration.QueryStringCachingBehavior
+		var temp string
+		temp = string(*configuration.QueryStringCachingBehavior)
+		queryStringCachingBehavior := CacheConfiguration_QueryStringCachingBehavior_ARM(temp)
 		result.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
 	return result, nil
@@ -28673,7 +29519,9 @@ func (configuration *CacheConfiguration) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "CacheBehavior":
 	if typedInput.CacheBehavior != nil {
-		cacheBehavior := *typedInput.CacheBehavior
+		var temp string
+		temp = string(*typedInput.CacheBehavior)
+		cacheBehavior := CacheConfiguration_CacheBehavior(temp)
 		configuration.CacheBehavior = &cacheBehavior
 	}
 
@@ -28685,7 +29533,9 @@ func (configuration *CacheConfiguration) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "IsCompressionEnabled":
 	if typedInput.IsCompressionEnabled != nil {
-		isCompressionEnabled := *typedInput.IsCompressionEnabled
+		var temp string
+		temp = string(*typedInput.IsCompressionEnabled)
+		isCompressionEnabled := CacheConfiguration_IsCompressionEnabled(temp)
 		configuration.IsCompressionEnabled = &isCompressionEnabled
 	}
 
@@ -28697,7 +29547,9 @@ func (configuration *CacheConfiguration) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "QueryStringCachingBehavior":
 	if typedInput.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *typedInput.QueryStringCachingBehavior
+		var temp string
+		temp = string(*typedInput.QueryStringCachingBehavior)
+		queryStringCachingBehavior := CacheConfiguration_QueryStringCachingBehavior(temp)
 		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
 
@@ -28866,7 +29718,9 @@ func (configuration *CacheConfiguration_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "CacheBehavior":
 	if typedInput.CacheBehavior != nil {
-		cacheBehavior := *typedInput.CacheBehavior
+		var temp string
+		temp = string(*typedInput.CacheBehavior)
+		cacheBehavior := CacheConfiguration_CacheBehavior_STATUS(temp)
 		configuration.CacheBehavior = &cacheBehavior
 	}
 
@@ -28878,7 +29732,9 @@ func (configuration *CacheConfiguration_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "IsCompressionEnabled":
 	if typedInput.IsCompressionEnabled != nil {
-		isCompressionEnabled := *typedInput.IsCompressionEnabled
+		var temp string
+		temp = string(*typedInput.IsCompressionEnabled)
+		isCompressionEnabled := CacheConfiguration_IsCompressionEnabled_STATUS(temp)
 		configuration.IsCompressionEnabled = &isCompressionEnabled
 	}
 
@@ -28890,7 +29746,9 @@ func (configuration *CacheConfiguration_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "QueryStringCachingBehavior":
 	if typedInput.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *typedInput.QueryStringCachingBehavior
+		var temp string
+		temp = string(*typedInput.QueryStringCachingBehavior)
+		queryStringCachingBehavior := CacheConfiguration_QueryStringCachingBehavior_STATUS(temp)
 		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
 
@@ -29514,7 +30372,9 @@ func (override *OriginGroupOverride) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "ForwardingProtocol":
 	if override.ForwardingProtocol != nil {
-		forwardingProtocol := *override.ForwardingProtocol
+		var temp string
+		temp = string(*override.ForwardingProtocol)
+		forwardingProtocol := OriginGroupOverride_ForwardingProtocol_ARM(temp)
 		result.ForwardingProtocol = &forwardingProtocol
 	}
 
@@ -29544,7 +30404,9 @@ func (override *OriginGroupOverride) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "ForwardingProtocol":
 	if typedInput.ForwardingProtocol != nil {
-		forwardingProtocol := *typedInput.ForwardingProtocol
+		var temp string
+		temp = string(*typedInput.ForwardingProtocol)
+		forwardingProtocol := OriginGroupOverride_ForwardingProtocol(temp)
 		override.ForwardingProtocol = &forwardingProtocol
 	}
 
@@ -29679,7 +30541,9 @@ func (override *OriginGroupOverride_STATUS) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "ForwardingProtocol":
 	if typedInput.ForwardingProtocol != nil {
-		forwardingProtocol := *typedInput.ForwardingProtocol
+		var temp string
+		temp = string(*typedInput.ForwardingProtocol)
+		forwardingProtocol := OriginGroupOverride_ForwardingProtocol_STATUS(temp)
 		override.ForwardingProtocol = &forwardingProtocol
 	}
 
@@ -31032,7 +31896,9 @@ func (identifier *UrlSigningParamIdentifier) ConvertToARM(resolved genruntime.Co
 
 	// Set property "ParamIndicator":
 	if identifier.ParamIndicator != nil {
-		paramIndicator := *identifier.ParamIndicator
+		var temp string
+		temp = string(*identifier.ParamIndicator)
+		paramIndicator := UrlSigningParamIdentifier_ParamIndicator_ARM(temp)
 		result.ParamIndicator = &paramIndicator
 	}
 
@@ -31058,7 +31924,9 @@ func (identifier *UrlSigningParamIdentifier) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "ParamIndicator":
 	if typedInput.ParamIndicator != nil {
-		paramIndicator := *typedInput.ParamIndicator
+		var temp string
+		temp = string(*typedInput.ParamIndicator)
+		paramIndicator := UrlSigningParamIdentifier_ParamIndicator(temp)
 		identifier.ParamIndicator = &paramIndicator
 	}
 
@@ -31161,7 +32029,9 @@ func (identifier *UrlSigningParamIdentifier_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "ParamIndicator":
 	if typedInput.ParamIndicator != nil {
-		paramIndicator := *typedInput.ParamIndicator
+		var temp string
+		temp = string(*typedInput.ParamIndicator)
+		paramIndicator := UrlSigningParamIdentifier_ParamIndicator_STATUS(temp)
 		identifier.ParamIndicator = &paramIndicator
 	}
 

@@ -65,7 +65,7 @@ type ApiContractProperties_STATUS_ARM struct {
 	Path *string `json:"path,omitempty"`
 
 	// Protocols: Describes on which protocols the operations in this API can be invoked.
-	Protocols []ApiContractProperties_Protocols_STATUS `json:"protocols,omitempty"`
+	Protocols []ApiContractProperties_Protocols_STATUS_ARM `json:"protocols,omitempty"`
 
 	// ServiceUrl: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
 	ServiceUrl *string `json:"serviceUrl,omitempty"`
@@ -83,7 +83,7 @@ type ApiContractProperties_STATUS_ARM struct {
 	TermsOfServiceUrl *string `json:"termsOfServiceUrl,omitempty"`
 
 	// Type: Type of API.
-	Type *ApiContractProperties_Type_STATUS `json:"type,omitempty"`
+	Type *ApiContractProperties_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // API contact information
@@ -96,6 +96,40 @@ type ApiContactInformation_STATUS_ARM struct {
 
 	// Url: The URL pointing to the contact information. MUST be in the format of a URL
 	Url *string `json:"url,omitempty"`
+}
+
+type ApiContractProperties_Protocols_STATUS_ARM string
+
+const (
+	ApiContractProperties_Protocols_STATUS_ARM_Http  = ApiContractProperties_Protocols_STATUS_ARM("http")
+	ApiContractProperties_Protocols_STATUS_ARM_Https = ApiContractProperties_Protocols_STATUS_ARM("https")
+	ApiContractProperties_Protocols_STATUS_ARM_Ws    = ApiContractProperties_Protocols_STATUS_ARM("ws")
+	ApiContractProperties_Protocols_STATUS_ARM_Wss   = ApiContractProperties_Protocols_STATUS_ARM("wss")
+)
+
+// Mapping from string to ApiContractProperties_Protocols_STATUS_ARM
+var apiContractProperties_Protocols_STATUS_ARM_Values = map[string]ApiContractProperties_Protocols_STATUS_ARM{
+	"http":  ApiContractProperties_Protocols_STATUS_ARM_Http,
+	"https": ApiContractProperties_Protocols_STATUS_ARM_Https,
+	"ws":    ApiContractProperties_Protocols_STATUS_ARM_Ws,
+	"wss":   ApiContractProperties_Protocols_STATUS_ARM_Wss,
+}
+
+type ApiContractProperties_Type_STATUS_ARM string
+
+const (
+	ApiContractProperties_Type_STATUS_ARM_Graphql   = ApiContractProperties_Type_STATUS_ARM("graphql")
+	ApiContractProperties_Type_STATUS_ARM_Http      = ApiContractProperties_Type_STATUS_ARM("http")
+	ApiContractProperties_Type_STATUS_ARM_Soap      = ApiContractProperties_Type_STATUS_ARM("soap")
+	ApiContractProperties_Type_STATUS_ARM_Websocket = ApiContractProperties_Type_STATUS_ARM("websocket")
+)
+
+// Mapping from string to ApiContractProperties_Type_STATUS_ARM
+var apiContractProperties_Type_STATUS_ARM_Values = map[string]ApiContractProperties_Type_STATUS_ARM{
+	"graphql":   ApiContractProperties_Type_STATUS_ARM_Graphql,
+	"http":      ApiContractProperties_Type_STATUS_ARM_Http,
+	"soap":      ApiContractProperties_Type_STATUS_ARM_Soap,
+	"websocket": ApiContractProperties_Type_STATUS_ARM_Websocket,
 }
 
 // API license information
@@ -125,7 +159,7 @@ type ApiVersionSetContractDetails_STATUS_ARM struct {
 	VersionQueryName *string `json:"versionQueryName,omitempty"`
 
 	// VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.
-	VersioningScheme *ApiVersionSetContractDetails_VersioningScheme_STATUS `json:"versioningScheme,omitempty"`
+	VersioningScheme *ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM `json:"versioningScheme,omitempty"`
 }
 
 // API Authentication Settings.
@@ -152,6 +186,21 @@ type SubscriptionKeyParameterNamesContract_STATUS_ARM struct {
 	Query *string `json:"query,omitempty"`
 }
 
+type ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM string
+
+const (
+	ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Header  = ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM("Header")
+	ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Query   = ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM("Query")
+	ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Segment = ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM("Segment")
+)
+
+// Mapping from string to ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM
+var apiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Values = map[string]ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM{
+	"header":  ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Header,
+	"query":   ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Query,
+	"segment": ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM_Segment,
+}
+
 // API OAuth2 Authentication settings details.
 type OAuth2AuthenticationSettingsContract_STATUS_ARM struct {
 	// AuthorizationServerId: OAuth authorization server identifier.
@@ -164,8 +213,22 @@ type OAuth2AuthenticationSettingsContract_STATUS_ARM struct {
 // API OAuth2 Authentication settings details.
 type OpenIdAuthenticationSettingsContract_STATUS_ARM struct {
 	// BearerTokenSendingMethods: How to send token to the server.
-	BearerTokenSendingMethods []BearerTokenSendingMethodsContract_STATUS `json:"bearerTokenSendingMethods,omitempty"`
+	BearerTokenSendingMethods []BearerTokenSendingMethodsContract_STATUS_ARM `json:"bearerTokenSendingMethods,omitempty"`
 
 	// OpenidProviderId: OAuth authorization server identifier.
 	OpenidProviderId *string `json:"openidProviderId,omitempty"`
+}
+
+// Form of an authorization grant, which the client uses to request the access token.
+type BearerTokenSendingMethodsContract_STATUS_ARM string
+
+const (
+	BearerTokenSendingMethodsContract_STATUS_ARM_AuthorizationHeader = BearerTokenSendingMethodsContract_STATUS_ARM("authorizationHeader")
+	BearerTokenSendingMethodsContract_STATUS_ARM_Query               = BearerTokenSendingMethodsContract_STATUS_ARM("query")
+)
+
+// Mapping from string to BearerTokenSendingMethodsContract_STATUS_ARM
+var bearerTokenSendingMethodsContract_STATUS_ARM_Values = map[string]BearerTokenSendingMethodsContract_STATUS_ARM{
+	"authorizationheader": BearerTokenSendingMethodsContract_STATUS_ARM_AuthorizationHeader,
+	"query":               BearerTokenSendingMethodsContract_STATUS_ARM_Query,
 }

@@ -58,10 +58,10 @@ type PublicIPPrefixPropertiesFormat_STATUS_ARM struct {
 	PrefixLength *int `json:"prefixLength,omitempty"`
 
 	// ProvisioningState: The provisioning state of the public IP prefix resource.
-	ProvisioningState *PublicIpPrefixProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *PublicIpPrefixProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicIPAddressVersion: The public IP address version.
-	PublicIPAddressVersion *IPVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *IPVersion_STATUS_ARM `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPAddresses: The list of all referenced PublicIPAddresses.
 	PublicIPAddresses []ReferencedPublicIpAddress_STATUS_ARM `json:"publicIPAddresses,omitempty"`
@@ -73,10 +73,10 @@ type PublicIPPrefixPropertiesFormat_STATUS_ARM struct {
 // SKU of a public IP prefix.
 type PublicIPPrefixSku_STATUS_ARM struct {
 	// Name: Name of a public IP prefix SKU.
-	Name *PublicIPPrefixSku_Name_STATUS `json:"name,omitempty"`
+	Name *PublicIPPrefixSku_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: Tier of a public IP prefix SKU.
-	Tier *PublicIPPrefixSku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *PublicIPPrefixSku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // Contains the IpTag associated with the object.
@@ -88,32 +88,64 @@ type IpTag_STATUS_ARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
+// IP address version.
+type IPVersion_STATUS_ARM string
+
+const (
+	IPVersion_STATUS_ARM_IPv4 = IPVersion_STATUS_ARM("IPv4")
+	IPVersion_STATUS_ARM_IPv6 = IPVersion_STATUS_ARM("IPv6")
+)
+
+// Mapping from string to IPVersion_STATUS_ARM
+var iPVersion_STATUS_ARM_Values = map[string]IPVersion_STATUS_ARM{
+	"ipv4": IPVersion_STATUS_ARM_IPv4,
+	"ipv6": IPVersion_STATUS_ARM_IPv6,
+}
+
 // Nat Gateway resource.
 type NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type PublicIPPrefixSku_Name_STATUS string
-
-const PublicIPPrefixSku_Name_STATUS_Standard = PublicIPPrefixSku_Name_STATUS("Standard")
-
-// Mapping from string to PublicIPPrefixSku_Name_STATUS
-var publicIPPrefixSku_Name_STATUS_Values = map[string]PublicIPPrefixSku_Name_STATUS{
-	"standard": PublicIPPrefixSku_Name_STATUS_Standard,
-}
-
-type PublicIPPrefixSku_Tier_STATUS string
+// The current provisioning state.
+type PublicIpPrefixProvisioningState_STATUS_ARM string
 
 const (
-	PublicIPPrefixSku_Tier_STATUS_Global   = PublicIPPrefixSku_Tier_STATUS("Global")
-	PublicIPPrefixSku_Tier_STATUS_Regional = PublicIPPrefixSku_Tier_STATUS("Regional")
+	PublicIpPrefixProvisioningState_STATUS_ARM_Deleting  = PublicIpPrefixProvisioningState_STATUS_ARM("Deleting")
+	PublicIpPrefixProvisioningState_STATUS_ARM_Failed    = PublicIpPrefixProvisioningState_STATUS_ARM("Failed")
+	PublicIpPrefixProvisioningState_STATUS_ARM_Succeeded = PublicIpPrefixProvisioningState_STATUS_ARM("Succeeded")
+	PublicIpPrefixProvisioningState_STATUS_ARM_Updating  = PublicIpPrefixProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to PublicIPPrefixSku_Tier_STATUS
-var publicIPPrefixSku_Tier_STATUS_Values = map[string]PublicIPPrefixSku_Tier_STATUS{
-	"global":   PublicIPPrefixSku_Tier_STATUS_Global,
-	"regional": PublicIPPrefixSku_Tier_STATUS_Regional,
+// Mapping from string to PublicIpPrefixProvisioningState_STATUS_ARM
+var publicIpPrefixProvisioningState_STATUS_ARM_Values = map[string]PublicIpPrefixProvisioningState_STATUS_ARM{
+	"deleting":  PublicIpPrefixProvisioningState_STATUS_ARM_Deleting,
+	"failed":    PublicIpPrefixProvisioningState_STATUS_ARM_Failed,
+	"succeeded": PublicIpPrefixProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  PublicIpPrefixProvisioningState_STATUS_ARM_Updating,
+}
+
+type PublicIPPrefixSku_Name_STATUS_ARM string
+
+const PublicIPPrefixSku_Name_STATUS_ARM_Standard = PublicIPPrefixSku_Name_STATUS_ARM("Standard")
+
+// Mapping from string to PublicIPPrefixSku_Name_STATUS_ARM
+var publicIPPrefixSku_Name_STATUS_ARM_Values = map[string]PublicIPPrefixSku_Name_STATUS_ARM{
+	"standard": PublicIPPrefixSku_Name_STATUS_ARM_Standard,
+}
+
+type PublicIPPrefixSku_Tier_STATUS_ARM string
+
+const (
+	PublicIPPrefixSku_Tier_STATUS_ARM_Global   = PublicIPPrefixSku_Tier_STATUS_ARM("Global")
+	PublicIPPrefixSku_Tier_STATUS_ARM_Regional = PublicIPPrefixSku_Tier_STATUS_ARM("Regional")
+)
+
+// Mapping from string to PublicIPPrefixSku_Tier_STATUS_ARM
+var publicIPPrefixSku_Tier_STATUS_ARM_Values = map[string]PublicIPPrefixSku_Tier_STATUS_ARM{
+	"global":   PublicIPPrefixSku_Tier_STATUS_ARM_Global,
+	"regional": PublicIPPrefixSku_Tier_STATUS_ARM_Regional,
 }
 
 // Reference to another subresource.

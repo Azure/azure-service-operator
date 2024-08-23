@@ -43,7 +43,7 @@ func (server *FlexibleServer_Spec_ARM) GetType() string {
 // Properties to configure Identity for Bring your Own Keys
 type MySQLServerIdentity_ARM struct {
 	// Type: Type of managed service identity.
-	Type                   *MySQLServerIdentity_Type                  `json:"type,omitempty"`
+	Type                   *MySQLServerIdentity_Type_ARM              `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -53,7 +53,7 @@ type MySQLServerSku_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier *MySQLServerSku_Tier `json:"tier,omitempty"`
+	Tier *MySQLServerSku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // The properties of a server.
@@ -72,7 +72,7 @@ type ServerProperties_ARM struct {
 	Backup *Backup_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_ARM `json:"createMode,omitempty"`
 
 	// DataEncryption: The Data Encryption for CMK.
 	DataEncryption *DataEncryption_ARM `json:"dataEncryption,omitempty"`
@@ -90,7 +90,7 @@ type ServerProperties_ARM struct {
 	Network *Network_ARM `json:"network,omitempty"`
 
 	// ReplicationRole: The replication role.
-	ReplicationRole *ReplicationRole `json:"replicationRole,omitempty"`
+	ReplicationRole *ReplicationRole_ARM `json:"replicationRole,omitempty"`
 
 	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime     *string `json:"restorePointInTime,omitempty"`
@@ -100,7 +100,7 @@ type ServerProperties_ARM struct {
 	Storage *Storage_ARM `json:"storage,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *ServerVersion_ARM `json:"version,omitempty"`
 }
 
 // Storage Profile properties of a server
@@ -109,7 +109,7 @@ type Backup_ARM struct {
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: Whether or not geo redundant backup is enabled.
-	GeoRedundantBackup *EnableStatusEnum `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *EnableStatusEnum_ARM `json:"geoRedundantBackup,omitempty"`
 }
 
 // The date encryption for cmk.
@@ -123,13 +123,13 @@ type DataEncryption_ARM struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
-	Type *DataEncryption_Type `json:"type,omitempty"`
+	Type *DataEncryption_Type_ARM `json:"type,omitempty"`
 }
 
 // Network related properties of a server
 type HighAvailability_ARM struct {
 	// Mode: High availability mode for a server.
-	Mode *HighAvailability_Mode `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_ARM `json:"mode,omitempty"`
 
 	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
@@ -144,7 +144,7 @@ type ImportSourceProperties_ARM struct {
 	SasToken *string `json:"sasToken,omitempty"`
 
 	// StorageType: Storage type of import source.
-	StorageType *ImportSourceProperties_StorageType `json:"storageType,omitempty"`
+	StorageType *ImportSourceProperties_StorageType_ARM `json:"storageType,omitempty"`
 
 	// StorageUrl: Uri of the import source storage.
 	StorageUrl *string `json:"storageUrl,omitempty"`
@@ -166,29 +166,29 @@ type MaintenanceWindow_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"UserAssigned"}
-type MySQLServerIdentity_Type string
+type MySQLServerIdentity_Type_ARM string
 
-const MySQLServerIdentity_Type_UserAssigned = MySQLServerIdentity_Type("UserAssigned")
+const MySQLServerIdentity_Type_ARM_UserAssigned = MySQLServerIdentity_Type_ARM("UserAssigned")
 
-// Mapping from string to MySQLServerIdentity_Type
-var mySQLServerIdentity_Type_Values = map[string]MySQLServerIdentity_Type{
-	"userassigned": MySQLServerIdentity_Type_UserAssigned,
+// Mapping from string to MySQLServerIdentity_Type_ARM
+var mySQLServerIdentity_Type_ARM_Values = map[string]MySQLServerIdentity_Type_ARM{
+	"userassigned": MySQLServerIdentity_Type_ARM_UserAssigned,
 }
 
 // +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
-type MySQLServerSku_Tier string
+type MySQLServerSku_Tier_ARM string
 
 const (
-	MySQLServerSku_Tier_Burstable       = MySQLServerSku_Tier("Burstable")
-	MySQLServerSku_Tier_GeneralPurpose  = MySQLServerSku_Tier("GeneralPurpose")
-	MySQLServerSku_Tier_MemoryOptimized = MySQLServerSku_Tier("MemoryOptimized")
+	MySQLServerSku_Tier_ARM_Burstable       = MySQLServerSku_Tier_ARM("Burstable")
+	MySQLServerSku_Tier_ARM_GeneralPurpose  = MySQLServerSku_Tier_ARM("GeneralPurpose")
+	MySQLServerSku_Tier_ARM_MemoryOptimized = MySQLServerSku_Tier_ARM("MemoryOptimized")
 )
 
-// Mapping from string to MySQLServerSku_Tier
-var mySQLServerSku_Tier_Values = map[string]MySQLServerSku_Tier{
-	"burstable":       MySQLServerSku_Tier_Burstable,
-	"generalpurpose":  MySQLServerSku_Tier_GeneralPurpose,
-	"memoryoptimized": MySQLServerSku_Tier_MemoryOptimized,
+// Mapping from string to MySQLServerSku_Tier_ARM
+var mySQLServerSku_Tier_ARM_Values = map[string]MySQLServerSku_Tier_ARM{
+	"burstable":       MySQLServerSku_Tier_ARM_Burstable,
+	"generalpurpose":  MySQLServerSku_Tier_ARM_GeneralPurpose,
+	"memoryoptimized": MySQLServerSku_Tier_ARM_MemoryOptimized,
 }
 
 // Network related properties of a server
@@ -198,22 +198,72 @@ type Network_ARM struct {
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is 'Disabled' when server
 	// has VNet integration.
-	PublicNetworkAccess *EnableStatusEnum `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *EnableStatusEnum_ARM `json:"publicNetworkAccess,omitempty"`
+}
+
+// The replication role.
+// +kubebuilder:validation:Enum={"None","Replica","Source"}
+type ReplicationRole_ARM string
+
+const (
+	ReplicationRole_ARM_None    = ReplicationRole_ARM("None")
+	ReplicationRole_ARM_Replica = ReplicationRole_ARM("Replica")
+	ReplicationRole_ARM_Source  = ReplicationRole_ARM("Source")
+)
+
+// Mapping from string to ReplicationRole_ARM
+var replicationRole_ARM_Values = map[string]ReplicationRole_ARM{
+	"none":    ReplicationRole_ARM_None,
+	"replica": ReplicationRole_ARM_Replica,
+	"source":  ReplicationRole_ARM_Source,
+}
+
+// +kubebuilder:validation:Enum={"Default","GeoRestore","PointInTimeRestore","Replica"}
+type ServerProperties_CreateMode_ARM string
+
+const (
+	ServerProperties_CreateMode_ARM_Default            = ServerProperties_CreateMode_ARM("Default")
+	ServerProperties_CreateMode_ARM_GeoRestore         = ServerProperties_CreateMode_ARM("GeoRestore")
+	ServerProperties_CreateMode_ARM_PointInTimeRestore = ServerProperties_CreateMode_ARM("PointInTimeRestore")
+	ServerProperties_CreateMode_ARM_Replica            = ServerProperties_CreateMode_ARM("Replica")
+)
+
+// Mapping from string to ServerProperties_CreateMode_ARM
+var serverProperties_CreateMode_ARM_Values = map[string]ServerProperties_CreateMode_ARM{
+	"default":            ServerProperties_CreateMode_ARM_Default,
+	"georestore":         ServerProperties_CreateMode_ARM_GeoRestore,
+	"pointintimerestore": ServerProperties_CreateMode_ARM_PointInTimeRestore,
+	"replica":            ServerProperties_CreateMode_ARM_Replica,
+}
+
+// The version of a server.
+// +kubebuilder:validation:Enum={"5.7","8.0.21"}
+type ServerVersion_ARM string
+
+const (
+	ServerVersion_ARM_57   = ServerVersion_ARM("5.7")
+	ServerVersion_ARM_8021 = ServerVersion_ARM("8.0.21")
+)
+
+// Mapping from string to ServerVersion_ARM
+var serverVersion_ARM_Values = map[string]ServerVersion_ARM{
+	"5.7":    ServerVersion_ARM_57,
+	"8.0.21": ServerVersion_ARM_8021,
 }
 
 // Storage Profile properties of a server
 type Storage_ARM struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
-	AutoGrow *EnableStatusEnum `json:"autoGrow,omitempty"`
+	AutoGrow *EnableStatusEnum_ARM `json:"autoGrow,omitempty"`
 
 	// AutoIoScaling: Enable IO Auto Scaling or not.
-	AutoIoScaling *EnableStatusEnum `json:"autoIoScaling,omitempty"`
+	AutoIoScaling *EnableStatusEnum_ARM `json:"autoIoScaling,omitempty"`
 
 	// Iops: Storage IOPS for a server.
 	Iops *int `json:"iops,omitempty"`
 
 	// LogOnDisk: Enable Log On Disk or not.
-	LogOnDisk *EnableStatusEnum `json:"logOnDisk,omitempty"`
+	LogOnDisk *EnableStatusEnum_ARM `json:"logOnDisk,omitempty"`
 
 	// StorageSizeGB: Max storage size allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
@@ -221,4 +271,59 @@ type Storage_ARM struct {
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
+}
+
+// +kubebuilder:validation:Enum={"AzureKeyVault","SystemManaged"}
+type DataEncryption_Type_ARM string
+
+const (
+	DataEncryption_Type_ARM_AzureKeyVault = DataEncryption_Type_ARM("AzureKeyVault")
+	DataEncryption_Type_ARM_SystemManaged = DataEncryption_Type_ARM("SystemManaged")
+)
+
+// Mapping from string to DataEncryption_Type_ARM
+var dataEncryption_Type_ARM_Values = map[string]DataEncryption_Type_ARM{
+	"azurekeyvault": DataEncryption_Type_ARM_AzureKeyVault,
+	"systemmanaged": DataEncryption_Type_ARM_SystemManaged,
+}
+
+// Enum to indicate whether value is 'Enabled' or 'Disabled'
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type EnableStatusEnum_ARM string
+
+const (
+	EnableStatusEnum_ARM_Disabled = EnableStatusEnum_ARM("Disabled")
+	EnableStatusEnum_ARM_Enabled  = EnableStatusEnum_ARM("Enabled")
+)
+
+// Mapping from string to EnableStatusEnum_ARM
+var enableStatusEnum_ARM_Values = map[string]EnableStatusEnum_ARM{
+	"disabled": EnableStatusEnum_ARM_Disabled,
+	"enabled":  EnableStatusEnum_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","SameZone","ZoneRedundant"}
+type HighAvailability_Mode_ARM string
+
+const (
+	HighAvailability_Mode_ARM_Disabled      = HighAvailability_Mode_ARM("Disabled")
+	HighAvailability_Mode_ARM_SameZone      = HighAvailability_Mode_ARM("SameZone")
+	HighAvailability_Mode_ARM_ZoneRedundant = HighAvailability_Mode_ARM("ZoneRedundant")
+)
+
+// Mapping from string to HighAvailability_Mode_ARM
+var highAvailability_Mode_ARM_Values = map[string]HighAvailability_Mode_ARM{
+	"disabled":      HighAvailability_Mode_ARM_Disabled,
+	"samezone":      HighAvailability_Mode_ARM_SameZone,
+	"zoneredundant": HighAvailability_Mode_ARM_ZoneRedundant,
+}
+
+// +kubebuilder:validation:Enum={"AzureBlob"}
+type ImportSourceProperties_StorageType_ARM string
+
+const ImportSourceProperties_StorageType_ARM_AzureBlob = ImportSourceProperties_StorageType_ARM("AzureBlob")
+
+// Mapping from string to ImportSourceProperties_StorageType_ARM
+var importSourceProperties_StorageType_ARM_Values = map[string]ImportSourceProperties_StorageType_ARM{
+	"azureblob": ImportSourceProperties_StorageType_ARM_AzureBlob,
 }

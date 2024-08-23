@@ -1331,7 +1331,9 @@ func (extension *Extension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningStateDefinition_STATUS(temp)
 			extension.ProvisioningState = &provisioningState
 		}
 	}
@@ -1929,7 +1931,9 @@ func (identity *Extension_Properties_AksAssignedIdentity_Spec) ConvertToARM(reso
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := Extension_Properties_AksAssignedIdentity_Type_Spec_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -1949,7 +1953,9 @@ func (identity *Extension_Properties_AksAssignedIdentity_Spec) PopulateFromARM(o
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Extension_Properties_AksAssignedIdentity_Type_Spec(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2051,7 +2057,9 @@ func (identity *Extension_Properties_AksAssignedIdentity_STATUS) PopulateFromARM
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Extension_Properties_AksAssignedIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2210,7 +2218,9 @@ func (status *ExtensionStatus_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Level":
 	if typedInput.Level != nil {
-		level := *typedInput.Level
+		var temp string
+		temp = string(*typedInput.Level)
+		level := ExtensionStatus_Level_STATUS(temp)
 		status.Level = &level
 	}
 
@@ -2311,7 +2321,9 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := Identity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -2331,7 +2343,9 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2434,7 +2448,9 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3164,7 +3180,9 @@ func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "CreatedByType":
 	if data.CreatedByType != nil {
-		createdByType := *data.CreatedByType
+		var temp string
+		temp = string(*data.CreatedByType)
+		createdByType := SystemData_CreatedByType_ARM(temp)
 		result.CreatedByType = &createdByType
 	}
 
@@ -3182,7 +3200,9 @@ func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "LastModifiedByType":
 	if data.LastModifiedByType != nil {
-		lastModifiedByType := *data.LastModifiedByType
+		var temp string
+		temp = string(*data.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_ARM(temp)
 		result.LastModifiedByType = &lastModifiedByType
 	}
 	return result, nil
@@ -3214,7 +3234,9 @@ func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -3232,7 +3254,9 @@ func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -3405,7 +3429,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -3423,7 +3449,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -3831,6 +3859,25 @@ var extensionStatus_Level_STATUS_Values = map[string]ExtensionStatus_Level_STATU
 	"warning":     ExtensionStatus_Level_STATUS_Warning,
 }
 
+// +kubebuilder:validation:Enum={"SystemAssigned"}
+type Identity_Type string
+
+const Identity_Type_SystemAssigned = Identity_Type("SystemAssigned")
+
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"systemassigned": Identity_Type_SystemAssigned,
+}
+
+type Identity_Type_STATUS string
+
+const Identity_Type_STATUS_SystemAssigned = Identity_Type_STATUS("SystemAssigned")
+
+// Mapping from string to Identity_Type_STATUS
+var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
+	"systemassigned": Identity_Type_STATUS_SystemAssigned,
+}
+
 // Specifies that the scope of the extension is Cluster
 type ScopeCluster struct {
 	// ReleaseNamespace: Namespace where the extension Release must be placed, for a Cluster scoped extension.  If this
@@ -4119,6 +4166,76 @@ func (namespace *ScopeNamespace_STATUS) AssignProperties_To_ScopeNamespace_STATU
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
+type SystemData_CreatedByType string
+
+const (
+	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
+	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
+	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
+	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
+)
+
+// Mapping from string to SystemData_CreatedByType
+var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
+	"application":     SystemData_CreatedByType_Application,
+	"key":             SystemData_CreatedByType_Key,
+	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
+	"user":            SystemData_CreatedByType_User,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
+type SystemData_LastModifiedByType string
+
+const (
+	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
+	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
+	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
+	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType
+var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
+	"application":     SystemData_LastModifiedByType_Application,
+	"key":             SystemData_LastModifiedByType_Key,
+	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 func init() {

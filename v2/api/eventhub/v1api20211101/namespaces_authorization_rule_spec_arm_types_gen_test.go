@@ -75,7 +75,7 @@ func Namespaces_AuthorizationRule_Properties_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_Properties_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_Properties_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(Namespaces_AuthorizationRule_Properties_Rights_Spec_Listen, Namespaces_AuthorizationRule_Properties_Rights_Spec_Manage, Namespaces_AuthorizationRule_Properties_Rights_Spec_Send))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM_Listen, Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM_Manage, Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM_Send))
 }
 
 func Test_Namespaces_AuthorizationRule_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

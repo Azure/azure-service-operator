@@ -481,17 +481,17 @@ func ApplicationGatewayBackendHttpSettingsPropertiesFormat_ARMGenerator() gopter
 // AddIndependentPropertyGeneratorsForApplicationGatewayBackendHttpSettingsPropertiesFormat_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayBackendHttpSettingsPropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["AffinityCookieName"] = gen.PtrOf(gen.AlphaString())
-	gens["CookieBasedAffinity"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_Disabled, ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_Enabled))
+	gens["CookieBasedAffinity"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM_Disabled, ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM_Enabled))
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["PickHostNameFromBackendAddress"] = gen.PtrOf(gen.Bool())
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["ProbeEnabled"] = gen.PtrOf(gen.Bool())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProtocol_Http,
-		ApplicationGatewayProtocol_Https,
-		ApplicationGatewayProtocol_Tcp,
-		ApplicationGatewayProtocol_Tls))
+		ApplicationGatewayProtocol_ARM_Http,
+		ApplicationGatewayProtocol_ARM_Https,
+		ApplicationGatewayProtocol_ARM_Tcp,
+		ApplicationGatewayProtocol_ARM_Tls))
 	gens["RequestTimeout"] = gen.PtrOf(gen.Int())
 }
 
@@ -649,10 +649,10 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayBackendSettingsPropert
 	gens["PickHostNameFromBackendAddress"] = gen.PtrOf(gen.Bool())
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProtocol_Http,
-		ApplicationGatewayProtocol_Https,
-		ApplicationGatewayProtocol_Tcp,
-		ApplicationGatewayProtocol_Tls))
+		ApplicationGatewayProtocol_ARM_Http,
+		ApplicationGatewayProtocol_ARM_Https,
+		ApplicationGatewayProtocol_ARM_Tcp,
+		ApplicationGatewayProtocol_ARM_Tls))
 	gens["Timeout"] = gen.PtrOf(gen.Int())
 }
 
@@ -796,7 +796,7 @@ func ApplicationGatewayClientAuthConfiguration_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApplicationGatewayClientAuthConfiguration_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayClientAuthConfiguration_ARM(gens map[string]gopter.Gen) {
 	gens["VerifyClientCertIssuerDN"] = gen.PtrOf(gen.Bool())
-	gens["VerifyClientRevocation"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_None, ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_OCSP))
+	gens["VerifyClientRevocation"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM_None, ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM_OCSP))
 }
 
 func Test_ApplicationGatewayConnectionDraining_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -920,7 +920,7 @@ func ApplicationGatewayCustomError_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApplicationGatewayCustomError_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayCustomError_ARM(gens map[string]gopter.Gen) {
 	gens["CustomErrorPageUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["StatusCode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayCustomError_StatusCode_HttpStatus403, ApplicationGatewayCustomError_StatusCode_HttpStatus502))
+	gens["StatusCode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayCustomError_StatusCode_ARM_HttpStatus403, ApplicationGatewayCustomError_StatusCode_ARM_HttpStatus502))
 }
 
 func Test_ApplicationGatewayFirewallDisabledRuleGroup_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1116,7 +1116,7 @@ func ApplicationGatewayFrontendIPConfigurationPropertiesFormat_ARMGenerator() go
 // AddIndependentPropertyGeneratorsForApplicationGatewayFrontendIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayFrontendIPConfigurationPropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_ARM_Dynamic, IPAllocationMethod_ARM_Static))
 }
 
 // AddRelatedPropertyGeneratorsForApplicationGatewayFrontendIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
@@ -1531,10 +1531,10 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayHttpListenerProperties
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["HostNames"] = gen.SliceOf(gen.AlphaString())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProtocol_Http,
-		ApplicationGatewayProtocol_Https,
-		ApplicationGatewayProtocol_Tcp,
-		ApplicationGatewayProtocol_Tls))
+		ApplicationGatewayProtocol_ARM_Http,
+		ApplicationGatewayProtocol_ARM_Https,
+		ApplicationGatewayProtocol_ARM_Tcp,
+		ApplicationGatewayProtocol_ARM_Tls))
 	gens["RequireServerNameIndication"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1827,10 +1827,10 @@ func ApplicationGatewayListenerPropertiesFormat_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApplicationGatewayListenerPropertiesFormat_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayListenerPropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProtocol_Http,
-		ApplicationGatewayProtocol_Https,
-		ApplicationGatewayProtocol_Tcp,
-		ApplicationGatewayProtocol_Tls))
+		ApplicationGatewayProtocol_ARM_Http,
+		ApplicationGatewayProtocol_ARM_Https,
+		ApplicationGatewayProtocol_ARM_Tcp,
+		ApplicationGatewayProtocol_ARM_Tls))
 }
 
 // AddRelatedPropertyGeneratorsForApplicationGatewayListenerPropertiesFormat_ARM is a factory method for creating gopter generators
@@ -1983,7 +1983,7 @@ func ApplicationGatewayLoadDistributionPolicyPropertiesFormat_ARMGenerator() gop
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayLoadDistributionPolicyPropertiesFormat_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayLoadDistributionPolicyPropertiesFormat_ARM(gens map[string]gopter.Gen) {
-	gens["LoadDistributionAlgorithm"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayLoadDistributionAlgorithmEnum_IpHash, ApplicationGatewayLoadDistributionAlgorithmEnum_LeastConnections, ApplicationGatewayLoadDistributionAlgorithmEnum_RoundRobin))
+	gens["LoadDistributionAlgorithm"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayLoadDistributionAlgorithmEnum_ARM_IpHash, ApplicationGatewayLoadDistributionAlgorithmEnum_ARM_LeastConnections, ApplicationGatewayLoadDistributionAlgorithmEnum_ARM_RoundRobin))
 }
 
 // AddRelatedPropertyGeneratorsForApplicationGatewayLoadDistributionPolicyPropertiesFormat_ARM is a factory method for creating gopter generators
@@ -2522,10 +2522,10 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayProbePropertiesFormat_
 	gens["PickHostNameFromBackendSettings"] = gen.PtrOf(gen.Bool())
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProtocol_Http,
-		ApplicationGatewayProtocol_Https,
-		ApplicationGatewayProtocol_Tcp,
-		ApplicationGatewayProtocol_Tls))
+		ApplicationGatewayProtocol_ARM_Http,
+		ApplicationGatewayProtocol_ARM_Https,
+		ApplicationGatewayProtocol_ARM_Tcp,
+		ApplicationGatewayProtocol_ARM_Tls))
 	gens["Timeout"] = gen.PtrOf(gen.Int())
 	gens["UnhealthyThreshold"] = gen.PtrOf(gen.Int())
 }
@@ -2784,10 +2784,10 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayRedirectConfigurationP
 	gens["IncludePath"] = gen.PtrOf(gen.Bool())
 	gens["IncludeQueryString"] = gen.PtrOf(gen.Bool())
 	gens["RedirectType"] = gen.PtrOf(gen.OneConstOf(
-		RedirectTypeEnum_Found,
-		RedirectTypeEnum_Permanent,
-		RedirectTypeEnum_SeeOther,
-		RedirectTypeEnum_Temporary))
+		RedirectTypeEnum_ARM_Found,
+		RedirectTypeEnum_ARM_Permanent,
+		RedirectTypeEnum_ARM_SeeOther,
+		RedirectTypeEnum_ARM_Temporary))
 	gens["TargetUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2942,7 +2942,7 @@ func ApplicationGatewayRequestRoutingRulePropertiesFormat_ARMGenerator() gopter.
 // AddIndependentPropertyGeneratorsForApplicationGatewayRequestRoutingRulePropertiesFormat_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayRequestRoutingRulePropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_Basic, ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_PathBasedRouting))
+	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM_Basic, ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM_PathBasedRouting))
 }
 
 // AddRelatedPropertyGeneratorsForApplicationGatewayRequestRoutingRulePropertiesFormat_ARM is a factory method for creating gopter generators
@@ -3439,7 +3439,7 @@ func ApplicationGatewayRoutingRulePropertiesFormat_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApplicationGatewayRoutingRulePropertiesFormat_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayRoutingRulePropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayRoutingRulePropertiesFormat_RuleType_Basic, ApplicationGatewayRoutingRulePropertiesFormat_RuleType_PathBasedRouting))
+	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM_Basic, ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM_PathBasedRouting))
 }
 
 // AddRelatedPropertyGeneratorsForApplicationGatewayRoutingRulePropertiesFormat_ARM is a factory method for creating gopter generators
@@ -3584,18 +3584,18 @@ func ApplicationGatewaySku_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationGatewaySku_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewaySku_Name_Standard_Large,
-		ApplicationGatewaySku_Name_Standard_Medium,
-		ApplicationGatewaySku_Name_Standard_Small,
-		ApplicationGatewaySku_Name_Standard_V2,
-		ApplicationGatewaySku_Name_WAF_Large,
-		ApplicationGatewaySku_Name_WAF_Medium,
-		ApplicationGatewaySku_Name_WAF_V2))
+		ApplicationGatewaySku_Name_ARM_Standard_Large,
+		ApplicationGatewaySku_Name_ARM_Standard_Medium,
+		ApplicationGatewaySku_Name_ARM_Standard_Small,
+		ApplicationGatewaySku_Name_ARM_Standard_V2,
+		ApplicationGatewaySku_Name_ARM_WAF_Large,
+		ApplicationGatewaySku_Name_ARM_WAF_Medium,
+		ApplicationGatewaySku_Name_ARM_WAF_V2))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewaySku_Tier_Standard,
-		ApplicationGatewaySku_Tier_Standard_V2,
-		ApplicationGatewaySku_Tier_WAF,
-		ApplicationGatewaySku_Tier_WAF_V2))
+		ApplicationGatewaySku_Tier_ARM_Standard,
+		ApplicationGatewaySku_Tier_ARM_Standard_V2,
+		ApplicationGatewaySku_Tier_ARM_WAF,
+		ApplicationGatewaySku_Tier_ARM_WAF_V2))
 }
 
 func Test_ApplicationGatewaySslCertificatePropertiesFormat_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3795,51 +3795,51 @@ func ApplicationGatewaySslPolicy_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApplicationGatewaySslPolicy_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewaySslPolicy_ARM(gens map[string]gopter.Gen) {
 	gens["CipherSuites"] = gen.SliceOf(gen.OneConstOf(
-		CipherSuitesEnum_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA,
-		CipherSuitesEnum_TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
-		CipherSuitesEnum_TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
-		CipherSuitesEnum_TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
-		CipherSuitesEnum_TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
-		CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
-		CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-		CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
-		CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-		CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
-		CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-		CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-		CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-		CipherSuitesEnum_TLS_RSA_WITH_3DES_EDE_CBC_SHA,
-		CipherSuitesEnum_TLS_RSA_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_TLS_RSA_WITH_AES_128_CBC_SHA256,
-		CipherSuitesEnum_TLS_RSA_WITH_AES_128_GCM_SHA256,
-		CipherSuitesEnum_TLS_RSA_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_TLS_RSA_WITH_AES_256_CBC_SHA256,
-		CipherSuitesEnum_TLS_RSA_WITH_AES_256_GCM_SHA384))
+		CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
+		CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
+		CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+		CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+		CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
+		CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+		CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
+		CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+		CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
+		CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+		CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+		CipherSuitesEnum_ARM_TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_128_CBC_SHA256,
+		CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_128_GCM_SHA256,
+		CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_256_CBC_SHA256,
+		CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_256_GCM_SHA384))
 	gens["DisabledSslProtocols"] = gen.SliceOf(gen.OneConstOf(
-		ProtocolsEnum_TLSv1_0,
-		ProtocolsEnum_TLSv1_1,
-		ProtocolsEnum_TLSv1_2,
-		ProtocolsEnum_TLSv1_3))
+		ProtocolsEnum_ARM_TLSv1_0,
+		ProtocolsEnum_ARM_TLSv1_1,
+		ProtocolsEnum_ARM_TLSv1_2,
+		ProtocolsEnum_ARM_TLSv1_3))
 	gens["MinProtocolVersion"] = gen.PtrOf(gen.OneConstOf(
-		ProtocolsEnum_TLSv1_0,
-		ProtocolsEnum_TLSv1_1,
-		ProtocolsEnum_TLSv1_2,
-		ProtocolsEnum_TLSv1_3))
+		ProtocolsEnum_ARM_TLSv1_0,
+		ProtocolsEnum_ARM_TLSv1_1,
+		ProtocolsEnum_ARM_TLSv1_2,
+		ProtocolsEnum_ARM_TLSv1_3))
 	gens["PolicyName"] = gen.PtrOf(gen.OneConstOf(
-		PolicyNameEnum_AppGwSslPolicy20150501,
-		PolicyNameEnum_AppGwSslPolicy20170401,
-		PolicyNameEnum_AppGwSslPolicy20170401S,
-		PolicyNameEnum_AppGwSslPolicy20220101,
-		PolicyNameEnum_AppGwSslPolicy20220101S))
-	gens["PolicyType"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewaySslPolicy_PolicyType_Custom, ApplicationGatewaySslPolicy_PolicyType_CustomV2, ApplicationGatewaySslPolicy_PolicyType_Predefined))
+		PolicyNameEnum_ARM_AppGwSslPolicy20150501,
+		PolicyNameEnum_ARM_AppGwSslPolicy20170401,
+		PolicyNameEnum_ARM_AppGwSslPolicy20170401S,
+		PolicyNameEnum_ARM_AppGwSslPolicy20220101,
+		PolicyNameEnum_ARM_AppGwSslPolicy20220101S))
+	gens["PolicyType"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewaySslPolicy_PolicyType_ARM_Custom, ApplicationGatewaySslPolicy_PolicyType_ARM_CustomV2, ApplicationGatewaySslPolicy_PolicyType_ARM_Predefined))
 }
 
 func Test_ApplicationGatewaySslProfilePropertiesFormat_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4587,7 +4587,7 @@ func ApplicationGatewayWebApplicationFirewallConfiguration_ARMGenerator() gopter
 func AddIndependentPropertyGeneratorsForApplicationGatewayWebApplicationFirewallConfiguration_ARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["FileUploadLimitInMb"] = gen.PtrOf(gen.Int())
-	gens["FirewallMode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_Detection, ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_Prevention))
+	gens["FirewallMode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM_Detection, ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM_Prevention))
 	gens["MaxRequestBodySize"] = gen.PtrOf(gen.Int())
 	gens["MaxRequestBodySizeInKb"] = gen.PtrOf(gen.Int())
 	gens["RequestBodyCheck"] = gen.PtrOf(gen.Bool())
@@ -4750,10 +4750,10 @@ func ManagedServiceIdentity_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedServiceIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedServiceIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentity_Type_None,
-		ManagedServiceIdentity_Type_SystemAssigned,
-		ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
-		ManagedServiceIdentity_Type_UserAssigned))
+		ManagedServiceIdentity_Type_ARM_None,
+		ManagedServiceIdentity_Type_ARM_SystemAssigned,
+		ManagedServiceIdentity_Type_ARM_SystemAssignedUserAssigned,
+		ManagedServiceIdentity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_ARM is a factory method for creating gopter generators

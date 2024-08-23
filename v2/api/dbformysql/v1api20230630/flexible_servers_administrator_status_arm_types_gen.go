@@ -24,7 +24,7 @@ type FlexibleServers_Administrator_STATUS_ARM struct {
 // The properties of an administrator.
 type AdministratorProperties_STATUS_ARM struct {
 	// AdministratorType: Type of the sever administrator.
-	AdministratorType *AdministratorProperties_AdministratorType_STATUS `json:"administratorType,omitempty"`
+	AdministratorType *AdministratorProperties_AdministratorType_STATUS_ARM `json:"administratorType,omitempty"`
 
 	// IdentityResourceId: The resource id of the identity used for AAD Authentication.
 	IdentityResourceId *string `json:"identityResourceId,omitempty"`
@@ -37,4 +37,13 @@ type AdministratorProperties_STATUS_ARM struct {
 
 	// TenantId: Tenant ID of the administrator.
 	TenantId *string `json:"tenantId,omitempty"`
+}
+
+type AdministratorProperties_AdministratorType_STATUS_ARM string
+
+const AdministratorProperties_AdministratorType_STATUS_ARM_ActiveDirectory = AdministratorProperties_AdministratorType_STATUS_ARM("ActiveDirectory")
+
+// Mapping from string to AdministratorProperties_AdministratorType_STATUS_ARM
+var administratorProperties_AdministratorType_STATUS_ARM_Values = map[string]AdministratorProperties_AdministratorType_STATUS_ARM{
+	"activedirectory": AdministratorProperties_AdministratorType_STATUS_ARM_ActiveDirectory,
 }

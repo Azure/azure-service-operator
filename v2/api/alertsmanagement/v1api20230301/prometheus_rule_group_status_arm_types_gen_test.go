@@ -452,15 +452,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }

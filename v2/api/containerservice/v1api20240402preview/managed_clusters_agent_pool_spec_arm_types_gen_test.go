@@ -336,7 +336,7 @@ func AgentPoolSecurityProfile_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAgentPoolSecurityProfile_ARM(gens map[string]gopter.Gen) {
 	gens["EnableSecureBoot"] = gen.PtrOf(gen.Bool())
 	gens["EnableVTPM"] = gen.PtrOf(gen.Bool())
-	gens["SshAccess"] = gen.PtrOf(gen.OneConstOf(AgentPoolSSHAccess_Disabled, AgentPoolSSHAccess_LocalUser))
+	gens["SshAccess"] = gen.PtrOf(gen.OneConstOf(AgentPoolSSHAccess_ARM_Disabled, AgentPoolSSHAccess_ARM_LocalUser))
 }
 
 func Test_AgentPoolUpgradeSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -400,7 +400,7 @@ func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings_ARM(gens map[st
 	gens["DrainTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["MaxSurge"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeSoakDurationInMinutes"] = gen.PtrOf(gen.Int())
-	gens["UndrainableNodeBehavior"] = gen.PtrOf(gen.OneConstOf(AgentPoolUpgradeSettings_UndrainableNodeBehavior_Cordon, AgentPoolUpgradeSettings_UndrainableNodeBehavior_Schedule))
+	gens["UndrainableNodeBehavior"] = gen.PtrOf(gen.OneConstOf(AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM_Cordon, AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM_Schedule))
 }
 
 func Test_AgentPoolWindowsProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1003,7 +1003,7 @@ func PortRange_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPortRange_ARM(gens map[string]gopter.Gen) {
 	gens["PortEnd"] = gen.PtrOf(gen.Int())
 	gens["PortStart"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortRange_Protocol_TCP, PortRange_Protocol_UDP))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(PortRange_Protocol_ARM_TCP, PortRange_Protocol_ARM_UDP))
 }
 
 func Test_PowerState_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1063,7 +1063,7 @@ func PowerState_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPowerState_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPowerState_ARM(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerState_Code_Running, PowerState_Code_Stopped))
+	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerState_Code_ARM_Running, PowerState_Code_ARM_Stopped))
 }
 
 func Test_ScaleProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

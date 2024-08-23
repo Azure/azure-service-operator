@@ -804,7 +804,9 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Workload":
 	if properties.Workload != nil {
-		workload := *properties.Workload
+		var temp string
+		temp = string(*properties.Workload)
+		workload := Workload_ARM(temp)
 		result.Workload = &workload
 	}
 	return result, nil
@@ -859,7 +861,9 @@ func (properties *PutAliasRequestProperties) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "Workload":
 	if typedInput.Workload != nil {
-		workload := *typedInput.Workload
+		var temp string
+		temp = string(*typedInput.Workload)
+		workload := Workload(temp)
 		properties.Workload = &workload
 	}
 
@@ -1035,7 +1039,9 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) PopulateFromARM(ow
 
 	// Set property "AcceptOwnershipState":
 	if typedInput.AcceptOwnershipState != nil {
-		acceptOwnershipState := *typedInput.AcceptOwnershipState
+		var temp string
+		temp = string(*typedInput.AcceptOwnershipState)
+		acceptOwnershipState := AcceptOwnershipState_STATUS(temp)
 		properties.AcceptOwnershipState = &acceptOwnershipState
 	}
 
@@ -1071,7 +1077,9 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) PopulateFromARM(ow
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var temp string
+		temp = string(*typedInput.ProvisioningState)
+		provisioningState := SubscriptionAliasResponseProperties_ProvisioningState_STATUS(temp)
 		properties.ProvisioningState = &provisioningState
 	}
 
@@ -1103,7 +1111,9 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) PopulateFromARM(ow
 
 	// Set property "Workload":
 	if typedInput.Workload != nil {
-		workload := *typedInput.Workload
+		var temp string
+		temp = string(*typedInput.Workload)
+		workload := Workload_STATUS(temp)
 		properties.Workload = &workload
 	}
 
@@ -1288,7 +1298,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -1306,7 +1318,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -1393,6 +1407,22 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 	// No error
 	return nil
+}
+
+// The accept ownership state of the resource.
+type AcceptOwnershipState_STATUS string
+
+const (
+	AcceptOwnershipState_STATUS_Completed = AcceptOwnershipState_STATUS("Completed")
+	AcceptOwnershipState_STATUS_Expired   = AcceptOwnershipState_STATUS("Expired")
+	AcceptOwnershipState_STATUS_Pending   = AcceptOwnershipState_STATUS("Pending")
+)
+
+// Mapping from string to AcceptOwnershipState_STATUS
+var acceptOwnershipState_STATUS_Values = map[string]AcceptOwnershipState_STATUS{
+	"completed": AcceptOwnershipState_STATUS_Completed,
+	"expired":   AcceptOwnershipState_STATUS_Expired,
+	"pending":   AcceptOwnershipState_STATUS_Pending,
 }
 
 // Put subscription additional properties.
@@ -1534,6 +1564,84 @@ func (properties *PutAliasRequestAdditionalProperties) AssignProperties_To_PutAl
 
 	// No error
 	return nil
+}
+
+type SubscriptionAliasResponseProperties_ProvisioningState_STATUS string
+
+const (
+	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Accepted  = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Accepted")
+	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Failed    = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Failed")
+	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Succeeded = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Succeeded")
+)
+
+// Mapping from string to SubscriptionAliasResponseProperties_ProvisioningState_STATUS
+var subscriptionAliasResponseProperties_ProvisioningState_STATUS_Values = map[string]SubscriptionAliasResponseProperties_ProvisioningState_STATUS{
+	"accepted":  SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Accepted,
+	"failed":    SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Succeeded,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
+
+// The workload type of the subscription. It can be either Production or DevTest.
+// +kubebuilder:validation:Enum={"DevTest","Production"}
+type Workload string
+
+const (
+	Workload_DevTest    = Workload("DevTest")
+	Workload_Production = Workload("Production")
+)
+
+// Mapping from string to Workload
+var workload_Values = map[string]Workload{
+	"devtest":    Workload_DevTest,
+	"production": Workload_Production,
+}
+
+// The workload type of the subscription. It can be either Production or DevTest.
+type Workload_STATUS string
+
+const (
+	Workload_STATUS_DevTest    = Workload_STATUS("DevTest")
+	Workload_STATUS_Production = Workload_STATUS("Production")
+)
+
+// Mapping from string to Workload_STATUS
+var workload_STATUS_Values = map[string]Workload_STATUS{
+	"devtest":    Workload_STATUS_DevTest,
+	"production": Workload_STATUS_Production,
 }
 
 func init() {

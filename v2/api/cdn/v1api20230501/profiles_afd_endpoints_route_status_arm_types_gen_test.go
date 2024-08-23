@@ -148,10 +148,10 @@ func AfdRouteCacheConfiguration_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAfdRouteCacheConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["QueryParameters"] = gen.PtrOf(gen.AlphaString())
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString,
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings,
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings,
-		AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString))
+		AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IgnoreQueryString,
+		AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IgnoreSpecifiedQueryStrings,
+		AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IncludeSpecifiedQueryStrings,
+		AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_UseQueryString))
 }
 
 // AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration_STATUS_ARM is a factory method for creating gopter generators
@@ -428,24 +428,24 @@ func RouteProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRouteProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRouteProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		RouteProperties_DeploymentStatus_STATUS_Failed,
-		RouteProperties_DeploymentStatus_STATUS_InProgress,
-		RouteProperties_DeploymentStatus_STATUS_NotStarted,
-		RouteProperties_DeploymentStatus_STATUS_Succeeded))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(RouteProperties_EnabledState_STATUS_Disabled, RouteProperties_EnabledState_STATUS_Enabled))
+		RouteProperties_DeploymentStatus_STATUS_ARM_Failed,
+		RouteProperties_DeploymentStatus_STATUS_ARM_InProgress,
+		RouteProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+		RouteProperties_DeploymentStatus_STATUS_ARM_Succeeded))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(RouteProperties_EnabledState_STATUS_ARM_Disabled, RouteProperties_EnabledState_STATUS_ARM_Enabled))
 	gens["EndpointName"] = gen.PtrOf(gen.AlphaString())
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(RouteProperties_ForwardingProtocol_STATUS_HttpOnly, RouteProperties_ForwardingProtocol_STATUS_HttpsOnly, RouteProperties_ForwardingProtocol_STATUS_MatchRequest))
-	gens["HttpsRedirect"] = gen.PtrOf(gen.OneConstOf(RouteProperties_HttpsRedirect_STATUS_Disabled, RouteProperties_HttpsRedirect_STATUS_Enabled))
-	gens["LinkToDefaultDomain"] = gen.PtrOf(gen.OneConstOf(RouteProperties_LinkToDefaultDomain_STATUS_Disabled, RouteProperties_LinkToDefaultDomain_STATUS_Enabled))
+	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(RouteProperties_ForwardingProtocol_STATUS_ARM_HttpOnly, RouteProperties_ForwardingProtocol_STATUS_ARM_HttpsOnly, RouteProperties_ForwardingProtocol_STATUS_ARM_MatchRequest))
+	gens["HttpsRedirect"] = gen.PtrOf(gen.OneConstOf(RouteProperties_HttpsRedirect_STATUS_ARM_Disabled, RouteProperties_HttpsRedirect_STATUS_ARM_Enabled))
+	gens["LinkToDefaultDomain"] = gen.PtrOf(gen.OneConstOf(RouteProperties_LinkToDefaultDomain_STATUS_ARM_Disabled, RouteProperties_LinkToDefaultDomain_STATUS_ARM_Enabled))
 	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
 	gens["PatternsToMatch"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RouteProperties_ProvisioningState_STATUS_Creating,
-		RouteProperties_ProvisioningState_STATUS_Deleting,
-		RouteProperties_ProvisioningState_STATUS_Failed,
-		RouteProperties_ProvisioningState_STATUS_Succeeded,
-		RouteProperties_ProvisioningState_STATUS_Updating))
-	gens["SupportedProtocols"] = gen.SliceOf(gen.OneConstOf(AFDEndpointProtocols_STATUS_Http, AFDEndpointProtocols_STATUS_Https))
+		RouteProperties_ProvisioningState_STATUS_ARM_Creating,
+		RouteProperties_ProvisioningState_STATUS_ARM_Deleting,
+		RouteProperties_ProvisioningState_STATUS_ARM_Failed,
+		RouteProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		RouteProperties_ProvisioningState_STATUS_ARM_Updating))
+	gens["SupportedProtocols"] = gen.SliceOf(gen.OneConstOf(AFDEndpointProtocols_STATUS_ARM_Http, AFDEndpointProtocols_STATUS_ARM_Https))
 }
 
 // AddRelatedPropertyGeneratorsForRouteProperties_STATUS_ARM is a factory method for creating gopter generators

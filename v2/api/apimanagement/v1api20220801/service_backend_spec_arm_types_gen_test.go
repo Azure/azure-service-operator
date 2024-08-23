@@ -147,7 +147,7 @@ func BackendContractProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBackendContractProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackendContractProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(BackendContractProperties_Protocol_Http, BackendContractProperties_Protocol_Soap))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(BackendContractProperties_Protocol_ARM_Http, BackendContractProperties_Protocol_ARM_Soap))
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Title"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())

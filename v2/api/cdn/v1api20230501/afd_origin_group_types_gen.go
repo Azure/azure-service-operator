@@ -388,7 +388,9 @@ func (group *Profiles_OriginGroup_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.LoadBalancingSettings = &loadBalancingSettings
 	}
 	if group.SessionAffinityState != nil {
-		sessionAffinityState := *group.SessionAffinityState
+		var temp string
+		temp = string(*group.SessionAffinityState)
+		sessionAffinityState := AFDOriginGroupProperties_SessionAffinityState_ARM(temp)
 		result.Properties.SessionAffinityState = &sessionAffinityState
 	}
 	if group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
@@ -451,7 +453,9 @@ func (group *Profiles_OriginGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SessionAffinityState != nil {
-			sessionAffinityState := *typedInput.Properties.SessionAffinityState
+			var temp string
+			temp = string(*typedInput.Properties.SessionAffinityState)
+			sessionAffinityState := AFDOriginGroupProperties_SessionAffinityState(temp)
 			group.SessionAffinityState = &sessionAffinityState
 		}
 	}
@@ -811,7 +815,9 @@ func (group *Profiles_OriginGroup_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeploymentStatus != nil {
-			deploymentStatus := *typedInput.Properties.DeploymentStatus
+			var temp string
+			temp = string(*typedInput.Properties.DeploymentStatus)
+			deploymentStatus := AFDOriginGroupProperties_DeploymentStatus_STATUS(temp)
 			group.DeploymentStatus = &deploymentStatus
 		}
 	}
@@ -869,7 +875,9 @@ func (group *Profiles_OriginGroup_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := AFDOriginGroupProperties_ProvisioningState_STATUS(temp)
 			group.ProvisioningState = &provisioningState
 		}
 	}
@@ -878,7 +886,9 @@ func (group *Profiles_OriginGroup_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SessionAffinityState != nil {
-			sessionAffinityState := *typedInput.Properties.SessionAffinityState
+			var temp string
+			temp = string(*typedInput.Properties.SessionAffinityState)
+			sessionAffinityState := AFDOriginGroupProperties_SessionAffinityState_STATUS(temp)
 			group.SessionAffinityState = &sessionAffinityState
 		}
 	}
@@ -1198,13 +1208,17 @@ func (parameters *HealthProbeParameters) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "ProbeProtocol":
 	if parameters.ProbeProtocol != nil {
-		probeProtocol := *parameters.ProbeProtocol
+		var temp string
+		temp = string(*parameters.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_ProbeProtocol_ARM(temp)
 		result.ProbeProtocol = &probeProtocol
 	}
 
 	// Set property "ProbeRequestType":
 	if parameters.ProbeRequestType != nil {
-		probeRequestType := *parameters.ProbeRequestType
+		var temp string
+		temp = string(*parameters.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_ProbeRequestType_ARM(temp)
 		result.ProbeRequestType = &probeRequestType
 	}
 	return result, nil
@@ -1236,13 +1250,17 @@ func (parameters *HealthProbeParameters) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "ProbeProtocol":
 	if typedInput.ProbeProtocol != nil {
-		probeProtocol := *typedInput.ProbeProtocol
+		var temp string
+		temp = string(*typedInput.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_ProbeProtocol(temp)
 		parameters.ProbeProtocol = &probeProtocol
 	}
 
 	// Set property "ProbeRequestType":
 	if typedInput.ProbeRequestType != nil {
-		probeRequestType := *typedInput.ProbeRequestType
+		var temp string
+		temp = string(*typedInput.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_ProbeRequestType(temp)
 		parameters.ProbeRequestType = &probeRequestType
 	}
 
@@ -1406,13 +1424,17 @@ func (parameters *HealthProbeParameters_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "ProbeProtocol":
 	if typedInput.ProbeProtocol != nil {
-		probeProtocol := *typedInput.ProbeProtocol
+		var temp string
+		temp = string(*typedInput.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_ProbeProtocol_STATUS(temp)
 		parameters.ProbeProtocol = &probeProtocol
 	}
 
 	// Set property "ProbeRequestType":
 	if typedInput.ProbeRequestType != nil {
-		probeRequestType := *typedInput.ProbeRequestType
+		var temp string
+		temp = string(*typedInput.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_ProbeRequestType_STATUS(temp)
 		parameters.ProbeRequestType = &probeRequestType
 	}
 

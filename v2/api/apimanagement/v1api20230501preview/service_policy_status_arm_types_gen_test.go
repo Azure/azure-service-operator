@@ -76,10 +76,10 @@ func PolicyContractProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPolicyContractProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPolicyContractProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Format"] = gen.PtrOf(gen.OneConstOf(
-		PolicyContractProperties_Format_STATUS_Rawxml,
-		PolicyContractProperties_Format_STATUS_RawxmlLink,
-		PolicyContractProperties_Format_STATUS_Xml,
-		PolicyContractProperties_Format_STATUS_XmlLink))
+		PolicyContractProperties_Format_STATUS_ARM_Rawxml,
+		PolicyContractProperties_Format_STATUS_ARM_RawxmlLink,
+		PolicyContractProperties_Format_STATUS_ARM_Xml,
+		PolicyContractProperties_Format_STATUS_ARM_XmlLink))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 

@@ -444,11 +444,15 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
 	}
 	if subnet.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicies := *subnet.PrivateEndpointNetworkPolicies
+		var temp string
+		temp = string(*subnet.PrivateEndpointNetworkPolicies)
+		privateEndpointNetworkPolicies := SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM(temp)
 		result.Properties.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicies
 	}
 	if subnet.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicies := *subnet.PrivateLinkServiceNetworkPolicies
+		var temp string
+		temp = string(*subnet.PrivateLinkServiceNetworkPolicies)
+		privateLinkServiceNetworkPolicies := SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM(temp)
 		result.Properties.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
 	}
 	if subnet.RouteTable != nil {
@@ -585,7 +589,9 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateEndpointNetworkPolicies != nil {
-			privateEndpointNetworkPolicies := *typedInput.Properties.PrivateEndpointNetworkPolicies
+			var temp string
+			temp = string(*typedInput.Properties.PrivateEndpointNetworkPolicies)
+			privateEndpointNetworkPolicies := SubnetPropertiesFormat_PrivateEndpointNetworkPolicies(temp)
 			subnet.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicies
 		}
 	}
@@ -594,7 +600,9 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkServiceNetworkPolicies != nil {
-			privateLinkServiceNetworkPolicies := *typedInput.Properties.PrivateLinkServiceNetworkPolicies
+			var temp string
+			temp = string(*typedInput.Properties.PrivateLinkServiceNetworkPolicies)
+			privateLinkServiceNetworkPolicies := SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies(temp)
 			subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
 		}
 	}
@@ -1477,7 +1485,9 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateEndpointNetworkPolicies != nil {
-			privateEndpointNetworkPolicies := *typedInput.Properties.PrivateEndpointNetworkPolicies
+			var temp string
+			temp = string(*typedInput.Properties.PrivateEndpointNetworkPolicies)
+			privateEndpointNetworkPolicies := SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS(temp)
 			subnet.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicies
 		}
 	}
@@ -1499,7 +1509,9 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkServiceNetworkPolicies != nil {
-			privateLinkServiceNetworkPolicies := *typedInput.Properties.PrivateLinkServiceNetworkPolicies
+			var temp string
+			temp = string(*typedInput.Properties.PrivateLinkServiceNetworkPolicies)
+			privateLinkServiceNetworkPolicies := SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS(temp)
 			subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
 		}
 	}
@@ -1508,7 +1520,9 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			subnet.ProvisioningState = &provisioningState
 		}
 	}
@@ -2492,7 +2506,9 @@ func (delegation *Delegation_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			delegation.ProvisioningState = &provisioningState
 		}
 	}
@@ -3500,7 +3516,9 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) PopulateFromARM(owner genr
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var temp string
+		temp = string(*typedInput.ProvisioningState)
+		provisioningState := ProvisioningState_STATUS(temp)
 		format.ProvisioningState = &provisioningState
 	}
 

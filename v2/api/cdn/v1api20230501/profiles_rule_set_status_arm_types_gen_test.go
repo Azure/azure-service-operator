@@ -154,15 +154,15 @@ func RuleSetProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRuleSetProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRuleSetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		RuleSetProperties_DeploymentStatus_STATUS_Failed,
-		RuleSetProperties_DeploymentStatus_STATUS_InProgress,
-		RuleSetProperties_DeploymentStatus_STATUS_NotStarted,
-		RuleSetProperties_DeploymentStatus_STATUS_Succeeded))
+		RuleSetProperties_DeploymentStatus_STATUS_ARM_Failed,
+		RuleSetProperties_DeploymentStatus_STATUS_ARM_InProgress,
+		RuleSetProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+		RuleSetProperties_DeploymentStatus_STATUS_ARM_Succeeded))
 	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RuleSetProperties_ProvisioningState_STATUS_Creating,
-		RuleSetProperties_ProvisioningState_STATUS_Deleting,
-		RuleSetProperties_ProvisioningState_STATUS_Failed,
-		RuleSetProperties_ProvisioningState_STATUS_Succeeded,
-		RuleSetProperties_ProvisioningState_STATUS_Updating))
+		RuleSetProperties_ProvisioningState_STATUS_ARM_Creating,
+		RuleSetProperties_ProvisioningState_STATUS_ARM_Deleting,
+		RuleSetProperties_ProvisioningState_STATUS_ARM_Failed,
+		RuleSetProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		RuleSetProperties_ProvisioningState_STATUS_ARM_Updating))
 }

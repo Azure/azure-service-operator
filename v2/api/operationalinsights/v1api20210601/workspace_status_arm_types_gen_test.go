@@ -139,12 +139,12 @@ func WorkspaceCapping_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceCapping_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DailyQuotaGb"] = gen.PtrOf(gen.Float64())
 	gens["DataIngestionStatus"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceCapping_DataIngestionStatus_STATUS_ApproachingQuota,
-		WorkspaceCapping_DataIngestionStatus_STATUS_ForceOff,
-		WorkspaceCapping_DataIngestionStatus_STATUS_ForceOn,
-		WorkspaceCapping_DataIngestionStatus_STATUS_OverQuota,
-		WorkspaceCapping_DataIngestionStatus_STATUS_RespectQuota,
-		WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended))
+		WorkspaceCapping_DataIngestionStatus_STATUS_ARM_ApproachingQuota,
+		WorkspaceCapping_DataIngestionStatus_STATUS_ARM_ForceOff,
+		WorkspaceCapping_DataIngestionStatus_STATUS_ARM_ForceOn,
+		WorkspaceCapping_DataIngestionStatus_STATUS_ARM_OverQuota,
+		WorkspaceCapping_DataIngestionStatus_STATUS_ARM_RespectQuota,
+		WorkspaceCapping_DataIngestionStatus_STATUS_ARM_SubscriptionSuspended))
 	gens["QuotaNextResetTime"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -285,15 +285,15 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_STATUS_ARM(gens map[
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedDate"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceProperties_ProvisioningState_STATUS_Canceled,
-		WorkspaceProperties_ProvisioningState_STATUS_Creating,
-		WorkspaceProperties_ProvisioningState_STATUS_Deleting,
-		WorkspaceProperties_ProvisioningState_STATUS_Failed,
-		WorkspaceProperties_ProvisioningState_STATUS_ProvisioningAccount,
-		WorkspaceProperties_ProvisioningState_STATUS_Succeeded,
-		WorkspaceProperties_ProvisioningState_STATUS_Updating))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Canceled,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Creating,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Deleting,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Failed,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_ProvisioningAccount,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		WorkspaceProperties_ProvisioningState_STATUS_ARM_Updating))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_ARM_Disabled, PublicNetworkAccessType_STATUS_ARM_Enabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_ARM_Disabled, PublicNetworkAccessType_STATUS_ARM_Enabled))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -364,24 +364,24 @@ func WorkspaceSku_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceSku_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceSku_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceSku_CapacityReservationLevel_STATUS_100,
-		WorkspaceSku_CapacityReservationLevel_STATUS_200,
-		WorkspaceSku_CapacityReservationLevel_STATUS_300,
-		WorkspaceSku_CapacityReservationLevel_STATUS_400,
-		WorkspaceSku_CapacityReservationLevel_STATUS_500,
-		WorkspaceSku_CapacityReservationLevel_STATUS_1000,
-		WorkspaceSku_CapacityReservationLevel_STATUS_2000,
-		WorkspaceSku_CapacityReservationLevel_STATUS_5000))
+		WorkspaceSku_CapacityReservationLevel_STATUS_ARM_100,
+		WorkspaceSku_CapacityReservationLevel_STATUS_ARM_200,
+		WorkspaceSku_CapacityReservationLevel_STATUS_ARM_300,
+		WorkspaceSku_CapacityReservationLevel_STATUS_ARM_400,
+		WorkspaceSku_CapacityReservationLevel_STATUS_ARM_500,
+		WorkspaceSku_CapacityReservationLevel_STATUS_ARM_1000,
+		WorkspaceSku_CapacityReservationLevel_STATUS_ARM_2000,
+		WorkspaceSku_CapacityReservationLevel_STATUS_ARM_5000))
 	gens["LastSkuUpdate"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceSku_Name_STATUS_CapacityReservation,
-		WorkspaceSku_Name_STATUS_Free,
-		WorkspaceSku_Name_STATUS_LACluster,
-		WorkspaceSku_Name_STATUS_PerGB2018,
-		WorkspaceSku_Name_STATUS_PerNode,
-		WorkspaceSku_Name_STATUS_Premium,
-		WorkspaceSku_Name_STATUS_Standalone,
-		WorkspaceSku_Name_STATUS_Standard))
+		WorkspaceSku_Name_STATUS_ARM_CapacityReservation,
+		WorkspaceSku_Name_STATUS_ARM_Free,
+		WorkspaceSku_Name_STATUS_ARM_LACluster,
+		WorkspaceSku_Name_STATUS_ARM_PerGB2018,
+		WorkspaceSku_Name_STATUS_ARM_PerNode,
+		WorkspaceSku_Name_STATUS_ARM_Premium,
+		WorkspaceSku_Name_STATUS_ARM_Standalone,
+		WorkspaceSku_Name_STATUS_ARM_Standard))
 }
 
 func Test_Workspace_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

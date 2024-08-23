@@ -76,7 +76,7 @@ func AdvancedThreatProtectionProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CreationTime"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionProperties_State_STATUS_Disabled, AdvancedThreatProtectionProperties_State_STATUS_Enabled, AdvancedThreatProtectionProperties_State_STATUS_New))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionProperties_State_STATUS_ARM_Disabled, AdvancedThreatProtectionProperties_State_STATUS_ARM_Enabled, AdvancedThreatProtectionProperties_State_STATUS_ARM_New))
 }
 
 func Test_Servers_AdvancedThreatProtectionSetting_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -218,15 +218,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }

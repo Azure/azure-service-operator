@@ -3710,7 +3710,9 @@ func (receiver *EmailReceiver_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := ReceiverStatus_STATUS(temp)
 		receiver.Status = &status
 	}
 
@@ -4954,7 +4956,9 @@ func (receiver *SmsReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := ReceiverStatus_STATUS(temp)
 		receiver.Status = &status
 	}
 

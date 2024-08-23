@@ -168,12 +168,12 @@ func OutboundEndpointProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForOutboundEndpointProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOutboundEndpointProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DnsresolverProvisioningState_STATUS_Canceled,
-		DnsresolverProvisioningState_STATUS_Creating,
-		DnsresolverProvisioningState_STATUS_Deleting,
-		DnsresolverProvisioningState_STATUS_Failed,
-		DnsresolverProvisioningState_STATUS_Succeeded,
-		DnsresolverProvisioningState_STATUS_Updating))
+		DnsresolverProvisioningState_STATUS_ARM_Canceled,
+		DnsresolverProvisioningState_STATUS_ARM_Creating,
+		DnsresolverProvisioningState_STATUS_ARM_Deleting,
+		DnsresolverProvisioningState_STATUS_ARM_Failed,
+		DnsresolverProvisioningState_STATUS_ARM_Succeeded,
+		DnsresolverProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 

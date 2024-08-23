@@ -89,7 +89,7 @@ func AddIndependentPropertyGeneratorsForAzureFirstPartyManagedCertificateParamet
 	gens["Subject"] = gen.PtrOf(gen.AlphaString())
 	gens["SubjectAlternativeNames"] = gen.SliceOf(gen.AlphaString())
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(AzureFirstPartyManagedCertificateParameters_Type_STATUS_AzureFirstPartyManagedCertificate)
+	gens["Type"] = gen.OneConstOf(AzureFirstPartyManagedCertificateParameters_Type_STATUS_ARM_AzureFirstPartyManagedCertificate)
 }
 
 // AddRelatedPropertyGeneratorsForAzureFirstPartyManagedCertificateParameters_STATUS_ARM is a factory method for creating gopter generators
@@ -170,7 +170,7 @@ func AddIndependentPropertyGeneratorsForCustomerCertificateParameters_STATUS_ARM
 	gens["Subject"] = gen.PtrOf(gen.AlphaString())
 	gens["SubjectAlternativeNames"] = gen.SliceOf(gen.AlphaString())
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(CustomerCertificateParameters_Type_STATUS_CustomerCertificate)
+	gens["Type"] = gen.OneConstOf(CustomerCertificateParameters_Type_STATUS_ARM_CustomerCertificate)
 	gens["UseLatestVersion"] = gen.PtrOf(gen.Bool())
 }
 
@@ -239,7 +239,7 @@ func ManagedCertificateParameters_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedCertificateParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ExpirationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["Subject"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(ManagedCertificateParameters_Type_STATUS_ManagedCertificate)
+	gens["Type"] = gen.OneConstOf(ManagedCertificateParameters_Type_STATUS_ARM_ManagedCertificate)
 }
 
 func Test_Profiles_Secret_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -466,17 +466,17 @@ func SecretProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSecretProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecretProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		SecretProperties_DeploymentStatus_STATUS_Failed,
-		SecretProperties_DeploymentStatus_STATUS_InProgress,
-		SecretProperties_DeploymentStatus_STATUS_NotStarted,
-		SecretProperties_DeploymentStatus_STATUS_Succeeded))
+		SecretProperties_DeploymentStatus_STATUS_ARM_Failed,
+		SecretProperties_DeploymentStatus_STATUS_ARM_InProgress,
+		SecretProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+		SecretProperties_DeploymentStatus_STATUS_ARM_Succeeded))
 	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		SecretProperties_ProvisioningState_STATUS_Creating,
-		SecretProperties_ProvisioningState_STATUS_Deleting,
-		SecretProperties_ProvisioningState_STATUS_Failed,
-		SecretProperties_ProvisioningState_STATUS_Succeeded,
-		SecretProperties_ProvisioningState_STATUS_Updating))
+		SecretProperties_ProvisioningState_STATUS_ARM_Creating,
+		SecretProperties_ProvisioningState_STATUS_ARM_Deleting,
+		SecretProperties_ProvisioningState_STATUS_ARM_Failed,
+		SecretProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		SecretProperties_ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForSecretProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -553,7 +553,7 @@ func UrlSigningKeyParameters_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForUrlSigningKeyParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["KeyId"] = gen.PtrOf(gen.AlphaString())
 	gens["SecretVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(UrlSigningKeyParameters_Type_STATUS_UrlSigningKey)
+	gens["Type"] = gen.OneConstOf(UrlSigningKeyParameters_Type_STATUS_ARM_UrlSigningKey)
 }
 
 // AddRelatedPropertyGeneratorsForUrlSigningKeyParameters_STATUS_ARM is a factory method for creating gopter generators

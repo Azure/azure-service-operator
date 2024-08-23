@@ -1255,7 +1255,9 @@ func (cluster *OpenShiftCluster_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			cluster.ProvisioningState = &provisioningState
 		}
 	}
@@ -1698,7 +1700,9 @@ func (profile *APIServerProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Visibility":
 	if profile.Visibility != nil {
-		visibility := *profile.Visibility
+		var temp string
+		temp = string(*profile.Visibility)
+		visibility := Visibility_ARM(temp)
 		result.Visibility = &visibility
 	}
 	return result, nil
@@ -1718,7 +1722,9 @@ func (profile *APIServerProfile) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Visibility":
 	if typedInput.Visibility != nil {
-		visibility := *typedInput.Visibility
+		var temp string
+		temp = string(*typedInput.Visibility)
+		visibility := Visibility(temp)
 		profile.Visibility = &visibility
 	}
 
@@ -1821,7 +1827,9 @@ func (profile *APIServerProfile_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Visibility":
 	if typedInput.Visibility != nil {
-		visibility := *typedInput.Visibility
+		var temp string
+		temp = string(*typedInput.Visibility)
+		visibility := Visibility_STATUS(temp)
 		profile.Visibility = &visibility
 	}
 
@@ -1916,7 +1924,9 @@ func (profile *ClusterProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "FipsValidatedModules":
 	if profile.FipsValidatedModules != nil {
-		fipsValidatedModules := *profile.FipsValidatedModules
+		var temp string
+		temp = string(*profile.FipsValidatedModules)
+		fipsValidatedModules := FipsValidatedModules_ARM(temp)
 		result.FipsValidatedModules = &fipsValidatedModules
 	}
 
@@ -1964,7 +1974,9 @@ func (profile *ClusterProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "FipsValidatedModules":
 	if typedInput.FipsValidatedModules != nil {
-		fipsValidatedModules := *typedInput.FipsValidatedModules
+		var temp string
+		temp = string(*typedInput.FipsValidatedModules)
+		fipsValidatedModules := FipsValidatedModules(temp)
 		profile.FipsValidatedModules = &fipsValidatedModules
 	}
 
@@ -2121,7 +2133,9 @@ func (profile *ClusterProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "FipsValidatedModules":
 	if typedInput.FipsValidatedModules != nil {
-		fipsValidatedModules := *typedInput.FipsValidatedModules
+		var temp string
+		temp = string(*typedInput.FipsValidatedModules)
+		fipsValidatedModules := FipsValidatedModules_STATUS(temp)
 		profile.FipsValidatedModules = &fipsValidatedModules
 	}
 
@@ -2284,7 +2298,9 @@ func (profile *IngressProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Visibility":
 	if profile.Visibility != nil {
-		visibility := *profile.Visibility
+		var temp string
+		temp = string(*profile.Visibility)
+		visibility := Visibility_ARM(temp)
 		result.Visibility = &visibility
 	}
 	return result, nil
@@ -2310,7 +2326,9 @@ func (profile *IngressProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Visibility":
 	if typedInput.Visibility != nil {
-		visibility := *typedInput.Visibility
+		var temp string
+		temp = string(*typedInput.Visibility)
+		visibility := Visibility(temp)
 		profile.Visibility = &visibility
 	}
 
@@ -2422,7 +2440,9 @@ func (profile *IngressProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Visibility":
 	if typedInput.Visibility != nil {
-		visibility := *typedInput.Visibility
+		var temp string
+		temp = string(*typedInput.Visibility)
+		visibility := Visibility_STATUS(temp)
 		profile.Visibility = &visibility
 	}
 
@@ -2518,7 +2538,9 @@ func (profile *MasterProfile) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "EncryptionAtHost":
 	if profile.EncryptionAtHost != nil {
-		encryptionAtHost := *profile.EncryptionAtHost
+		var temp string
+		temp = string(*profile.EncryptionAtHost)
+		encryptionAtHost := EncryptionAtHost_ARM(temp)
 		result.EncryptionAtHost = &encryptionAtHost
 	}
 
@@ -2556,7 +2578,9 @@ func (profile *MasterProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "EncryptionAtHost":
 	if typedInput.EncryptionAtHost != nil {
-		encryptionAtHost := *typedInput.EncryptionAtHost
+		var temp string
+		temp = string(*typedInput.EncryptionAtHost)
+		encryptionAtHost := EncryptionAtHost(temp)
 		profile.EncryptionAtHost = &encryptionAtHost
 	}
 
@@ -2721,7 +2745,9 @@ func (profile *MasterProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "EncryptionAtHost":
 	if typedInput.EncryptionAtHost != nil {
-		encryptionAtHost := *typedInput.EncryptionAtHost
+		var temp string
+		temp = string(*typedInput.EncryptionAtHost)
+		encryptionAtHost := EncryptionAtHost_STATUS(temp)
 		profile.EncryptionAtHost = &encryptionAtHost
 	}
 
@@ -2838,7 +2864,9 @@ func (profile *NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "OutboundType":
 	if profile.OutboundType != nil {
-		outboundType := *profile.OutboundType
+		var temp string
+		temp = string(*profile.OutboundType)
+		outboundType := OutboundType_ARM(temp)
 		result.OutboundType = &outboundType
 	}
 
@@ -2850,7 +2878,9 @@ func (profile *NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "PreconfiguredNSG":
 	if profile.PreconfiguredNSG != nil {
-		preconfiguredNSG := *profile.PreconfiguredNSG
+		var temp string
+		temp = string(*profile.PreconfiguredNSG)
+		preconfiguredNSG := PreconfiguredNSG_ARM(temp)
 		result.PreconfiguredNSG = &preconfiguredNSG
 	}
 
@@ -2887,7 +2917,9 @@ func (profile *NetworkProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "OutboundType":
 	if typedInput.OutboundType != nil {
-		outboundType := *typedInput.OutboundType
+		var temp string
+		temp = string(*typedInput.OutboundType)
+		outboundType := OutboundType(temp)
 		profile.OutboundType = &outboundType
 	}
 
@@ -2899,7 +2931,9 @@ func (profile *NetworkProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "PreconfiguredNSG":
 	if typedInput.PreconfiguredNSG != nil {
-		preconfiguredNSG := *typedInput.PreconfiguredNSG
+		var temp string
+		temp = string(*typedInput.PreconfiguredNSG)
+		preconfiguredNSG := PreconfiguredNSG(temp)
 		profile.PreconfiguredNSG = &preconfiguredNSG
 	}
 
@@ -3092,7 +3126,9 @@ func (profile *NetworkProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "OutboundType":
 	if typedInput.OutboundType != nil {
-		outboundType := *typedInput.OutboundType
+		var temp string
+		temp = string(*typedInput.OutboundType)
+		outboundType := OutboundType_STATUS(temp)
 		profile.OutboundType = &outboundType
 	}
 
@@ -3104,7 +3140,9 @@ func (profile *NetworkProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "PreconfiguredNSG":
 	if typedInput.PreconfiguredNSG != nil {
-		preconfiguredNSG := *typedInput.PreconfiguredNSG
+		var temp string
+		temp = string(*typedInput.PreconfiguredNSG)
+		preconfiguredNSG := PreconfiguredNSG_STATUS(temp)
 		profile.PreconfiguredNSG = &preconfiguredNSG
 	}
 
@@ -3487,7 +3525,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -3505,7 +3545,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -3651,7 +3693,9 @@ func (profile *WorkerProfile) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "EncryptionAtHost":
 	if profile.EncryptionAtHost != nil {
-		encryptionAtHost := *profile.EncryptionAtHost
+		var temp string
+		temp = string(*profile.EncryptionAtHost)
+		encryptionAtHost := EncryptionAtHost_ARM(temp)
 		result.EncryptionAtHost = &encryptionAtHost
 	}
 
@@ -3707,7 +3751,9 @@ func (profile *WorkerProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "EncryptionAtHost":
 	if typedInput.EncryptionAtHost != nil {
-		encryptionAtHost := *typedInput.EncryptionAtHost
+		var temp string
+		temp = string(*typedInput.EncryptionAtHost)
+		encryptionAtHost := EncryptionAtHost(temp)
 		profile.EncryptionAtHost = &encryptionAtHost
 	}
 
@@ -3926,7 +3972,9 @@ func (profile *WorkerProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "EncryptionAtHost":
 	if typedInput.EncryptionAtHost != nil {
-		encryptionAtHost := *typedInput.EncryptionAtHost
+		var temp string
+		temp = string(*typedInput.EncryptionAtHost)
+		encryptionAtHost := EncryptionAtHost_STATUS(temp)
 		profile.EncryptionAtHost = &encryptionAtHost
 	}
 
@@ -4393,6 +4441,40 @@ const (
 var preconfiguredNSG_STATUS_Values = map[string]PreconfiguredNSG_STATUS{
 	"disabled": PreconfiguredNSG_STATUS_Disabled,
 	"enabled":  PreconfiguredNSG_STATUS_Enabled,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // Visibility represents visibility.

@@ -85,12 +85,12 @@ func DnsForwardingRulesetProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDnsForwardingRulesetProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDnsForwardingRulesetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DnsresolverProvisioningState_STATUS_Canceled,
-		DnsresolverProvisioningState_STATUS_Creating,
-		DnsresolverProvisioningState_STATUS_Deleting,
-		DnsresolverProvisioningState_STATUS_Failed,
-		DnsresolverProvisioningState_STATUS_Succeeded,
-		DnsresolverProvisioningState_STATUS_Updating))
+		DnsresolverProvisioningState_STATUS_ARM_Canceled,
+		DnsresolverProvisioningState_STATUS_ARM_Creating,
+		DnsresolverProvisioningState_STATUS_ARM_Deleting,
+		DnsresolverProvisioningState_STATUS_ARM_Failed,
+		DnsresolverProvisioningState_STATUS_ARM_Succeeded,
+		DnsresolverProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -304,15 +304,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }

@@ -345,7 +345,9 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertToARM
 		result.Properties = &TransparentDataEncryptionProperties_ARM{}
 	}
 	if encryption.State != nil {
-		state := *encryption.State
+		var temp string
+		temp = string(*encryption.State)
+		state := TransparentDataEncryptionProperties_State_ARM(temp)
 		result.Properties.State = &state
 	}
 	return result, nil
@@ -373,7 +375,9 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) PopulateFrom
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := TransparentDataEncryptionProperties_State(temp)
 			encryption.State = &state
 		}
 	}
@@ -610,7 +614,9 @@ func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) PopulateFr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := TransparentDataEncryptionProperties_State_STATUS(temp)
 			encryption.State = &state
 		}
 	}

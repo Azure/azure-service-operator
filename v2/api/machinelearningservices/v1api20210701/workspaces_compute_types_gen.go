@@ -2236,7 +2236,11 @@ func (aks *AKS) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "ComputeType":
 	if aks.ComputeType != nil {
-		result.ComputeType = *aks.ComputeType
+		var temp AKS_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*aks.ComputeType)
+		temp = AKS_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -2292,7 +2296,11 @@ func (aks *AKS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	}
 
 	// Set property "ComputeType":
-	aks.ComputeType = &typedInput.ComputeType
+	var temp AKS_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = AKS_ComputeType(temp1)
+	aks.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -2539,7 +2547,11 @@ func (aks *AKS_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property "ComputeType":
-	aks.ComputeType = &typedInput.ComputeType
+	var temp AKS_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = AKS_ComputeType_STATUS(temp1)
+	aks.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -2594,7 +2606,9 @@ func (aks *AKS_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := AKS_ProvisioningState_STATUS(provisioningStateTemp)
 		aks.ProvisioningState = &provisioningState
 	}
 
@@ -2826,7 +2840,11 @@ func (compute *AmlCompute) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "ComputeType":
 	if compute.ComputeType != nil {
-		result.ComputeType = *compute.ComputeType
+		var temp AmlCompute_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*compute.ComputeType)
+		temp = AmlCompute_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -2882,7 +2900,11 @@ func (compute *AmlCompute) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property "ComputeType":
-	compute.ComputeType = &typedInput.ComputeType
+	var temp AmlCompute_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = AmlCompute_ComputeType(temp1)
+	compute.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -3129,7 +3151,11 @@ func (compute *AmlCompute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property "ComputeType":
-	compute.ComputeType = &typedInput.ComputeType
+	var temp AmlCompute_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = AmlCompute_ComputeType_STATUS(temp1)
+	compute.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -3184,7 +3210,9 @@ func (compute *AmlCompute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := AmlCompute_ProvisioningState_STATUS(provisioningStateTemp)
 		compute.ProvisioningState = &provisioningState
 	}
 
@@ -3416,7 +3444,11 @@ func (instance *ComputeInstance) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "ComputeType":
 	if instance.ComputeType != nil {
-		result.ComputeType = *instance.ComputeType
+		var temp ComputeInstance_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*instance.ComputeType)
+		temp = ComputeInstance_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -3472,7 +3504,11 @@ func (instance *ComputeInstance) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property "ComputeType":
-	instance.ComputeType = &typedInput.ComputeType
+	var temp ComputeInstance_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = ComputeInstance_ComputeType(temp1)
+	instance.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -3719,7 +3755,11 @@ func (instance *ComputeInstance_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property "ComputeType":
-	instance.ComputeType = &typedInput.ComputeType
+	var temp ComputeInstance_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = ComputeInstance_ComputeType_STATUS(temp1)
+	instance.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -3774,7 +3814,9 @@ func (instance *ComputeInstance_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := ComputeInstance_ProvisioningState_STATUS(provisioningStateTemp)
 		instance.ProvisioningState = &provisioningState
 	}
 
@@ -4006,7 +4048,11 @@ func (databricks *Databricks) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "ComputeType":
 	if databricks.ComputeType != nil {
-		result.ComputeType = *databricks.ComputeType
+		var temp Databricks_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*databricks.ComputeType)
+		temp = Databricks_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -4062,7 +4108,11 @@ func (databricks *Databricks) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	}
 
 	// Set property "ComputeType":
-	databricks.ComputeType = &typedInput.ComputeType
+	var temp Databricks_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = Databricks_ComputeType(temp1)
+	databricks.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -4309,7 +4359,11 @@ func (databricks *Databricks_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	}
 
 	// Set property "ComputeType":
-	databricks.ComputeType = &typedInput.ComputeType
+	var temp Databricks_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = Databricks_ComputeType_STATUS(temp1)
+	databricks.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -4364,7 +4418,9 @@ func (databricks *Databricks_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := Databricks_ProvisioningState_STATUS(provisioningStateTemp)
 		databricks.ProvisioningState = &provisioningState
 	}
 
@@ -4593,7 +4649,11 @@ func (factory *DataFactory) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "ComputeType":
 	if factory.ComputeType != nil {
-		result.ComputeType = *factory.ComputeType
+		var temp DataFactory_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*factory.ComputeType)
+		temp = DataFactory_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -4639,7 +4699,11 @@ func (factory *DataFactory) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	}
 
 	// Set property "ComputeType":
-	factory.ComputeType = &typedInput.ComputeType
+	var temp DataFactory_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = DataFactory_ComputeType(temp1)
+	factory.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -4836,7 +4900,11 @@ func (factory *DataFactory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property "ComputeType":
-	factory.ComputeType = &typedInput.ComputeType
+	var temp DataFactory_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = DataFactory_ComputeType_STATUS(temp1)
+	factory.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -4880,7 +4948,9 @@ func (factory *DataFactory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := DataFactory_ProvisioningState_STATUS(provisioningStateTemp)
 		factory.ProvisioningState = &provisioningState
 	}
 
@@ -5086,7 +5156,11 @@ func (analytics *DataLakeAnalytics) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "ComputeType":
 	if analytics.ComputeType != nil {
-		result.ComputeType = *analytics.ComputeType
+		var temp DataLakeAnalytics_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*analytics.ComputeType)
+		temp = DataLakeAnalytics_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -5142,7 +5216,11 @@ func (analytics *DataLakeAnalytics) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property "ComputeType":
-	analytics.ComputeType = &typedInput.ComputeType
+	var temp DataLakeAnalytics_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = DataLakeAnalytics_ComputeType(temp1)
+	analytics.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -5387,7 +5465,11 @@ func (analytics *DataLakeAnalytics_STATUS) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property "ComputeType":
-	analytics.ComputeType = &typedInput.ComputeType
+	var temp DataLakeAnalytics_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = DataLakeAnalytics_ComputeType_STATUS(temp1)
+	analytics.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -5442,7 +5524,9 @@ func (analytics *DataLakeAnalytics_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := DataLakeAnalytics_ProvisioningState_STATUS(provisioningStateTemp)
 		analytics.ProvisioningState = &provisioningState
 	}
 
@@ -5674,7 +5758,11 @@ func (insight *HDInsight) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "ComputeType":
 	if insight.ComputeType != nil {
-		result.ComputeType = *insight.ComputeType
+		var temp HDInsight_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*insight.ComputeType)
+		temp = HDInsight_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -5730,7 +5818,11 @@ func (insight *HDInsight) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	}
 
 	// Set property "ComputeType":
-	insight.ComputeType = &typedInput.ComputeType
+	var temp HDInsight_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = HDInsight_ComputeType(temp1)
+	insight.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -5977,7 +6069,11 @@ func (insight *HDInsight_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property "ComputeType":
-	insight.ComputeType = &typedInput.ComputeType
+	var temp HDInsight_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = HDInsight_ComputeType_STATUS(temp1)
+	insight.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -6032,7 +6128,9 @@ func (insight *HDInsight_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := HDInsight_ProvisioningState_STATUS(provisioningStateTemp)
 		insight.ProvisioningState = &provisioningState
 	}
 
@@ -6264,7 +6362,11 @@ func (kubernetes *Kubernetes) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "ComputeType":
 	if kubernetes.ComputeType != nil {
-		result.ComputeType = *kubernetes.ComputeType
+		var temp Kubernetes_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*kubernetes.ComputeType)
+		temp = Kubernetes_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -6320,7 +6422,11 @@ func (kubernetes *Kubernetes) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	}
 
 	// Set property "ComputeType":
-	kubernetes.ComputeType = &typedInput.ComputeType
+	var temp Kubernetes_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = Kubernetes_ComputeType(temp1)
+	kubernetes.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -6567,7 +6673,11 @@ func (kubernetes *Kubernetes_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	}
 
 	// Set property "ComputeType":
-	kubernetes.ComputeType = &typedInput.ComputeType
+	var temp Kubernetes_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = Kubernetes_ComputeType_STATUS(temp1)
+	kubernetes.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -6622,7 +6732,9 @@ func (kubernetes *Kubernetes_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := Kubernetes_ProvisioningState_STATUS(provisioningStateTemp)
 		kubernetes.ProvisioningState = &provisioningState
 	}
 
@@ -6852,7 +6964,11 @@ func (spark *SynapseSpark) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "ComputeType":
 	if spark.ComputeType != nil {
-		result.ComputeType = *spark.ComputeType
+		var temp SynapseSpark_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*spark.ComputeType)
+		temp = SynapseSpark_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -6908,7 +7024,11 @@ func (spark *SynapseSpark) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property "ComputeType":
-	spark.ComputeType = &typedInput.ComputeType
+	var temp SynapseSpark_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = SynapseSpark_ComputeType(temp1)
+	spark.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -7153,7 +7273,11 @@ func (spark *SynapseSpark_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property "ComputeType":
-	spark.ComputeType = &typedInput.ComputeType
+	var temp SynapseSpark_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = SynapseSpark_ComputeType_STATUS(temp1)
+	spark.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -7208,7 +7332,9 @@ func (spark *SynapseSpark_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := SynapseSpark_ProvisioningState_STATUS(provisioningStateTemp)
 		spark.ProvisioningState = &provisioningState
 	}
 
@@ -7438,7 +7564,11 @@ func (machine *VirtualMachine) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "ComputeType":
 	if machine.ComputeType != nil {
-		result.ComputeType = *machine.ComputeType
+		var temp VirtualMachine_ComputeType_ARM
+		var temp1 string
+		temp1 = string(*machine.ComputeType)
+		temp = VirtualMachine_ComputeType_ARM(temp1)
+		result.ComputeType = temp
 	}
 
 	// Set property "Description":
@@ -7494,7 +7624,11 @@ func (machine *VirtualMachine) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property "ComputeType":
-	machine.ComputeType = &typedInput.ComputeType
+	var temp VirtualMachine_ComputeType
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = VirtualMachine_ComputeType(temp1)
+	machine.ComputeType = &temp
 
 	// Set property "Description":
 	if typedInput.Description != nil {
@@ -7739,7 +7873,11 @@ func (machine *VirtualMachine_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property "ComputeType":
-	machine.ComputeType = &typedInput.ComputeType
+	var temp VirtualMachine_ComputeType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ComputeType)
+	temp = VirtualMachine_ComputeType_STATUS(temp1)
+	machine.ComputeType = &temp
 
 	// Set property "CreatedOn":
 	if typedInput.CreatedOn != nil {
@@ -7794,7 +7932,9 @@ func (machine *VirtualMachine_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
-		provisioningState := *typedInput.ProvisioningState
+		var provisioningStateTemp string
+		provisioningStateTemp = string(*typedInput.ProvisioningState)
+		provisioningState := VirtualMachine_ProvisioningState_STATUS(provisioningStateTemp)
 		machine.ProvisioningState = &provisioningState
 	}
 
@@ -7987,6 +8127,25 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"AKS"}
+type AKS_ComputeType string
+
+const AKS_ComputeType_AKS = AKS_ComputeType("AKS")
+
+// Mapping from string to AKS_ComputeType
+var aKS_ComputeType_Values = map[string]AKS_ComputeType{
+	"aks": AKS_ComputeType_AKS,
+}
+
+type AKS_ComputeType_STATUS string
+
+const AKS_ComputeType_STATUS_AKS = AKS_ComputeType_STATUS("AKS")
+
+// Mapping from string to AKS_ComputeType_STATUS
+var aKS_ComputeType_STATUS_Values = map[string]AKS_ComputeType_STATUS{
+	"aks": AKS_ComputeType_STATUS_AKS,
+}
+
 type AKS_Properties struct {
 	// +kubebuilder:validation:Minimum=0
 	// AgentCount: Number of agents
@@ -8053,7 +8212,9 @@ func (properties *AKS_Properties) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "ClusterPurpose":
 	if properties.ClusterPurpose != nil {
-		clusterPurpose := *properties.ClusterPurpose
+		var temp string
+		temp = string(*properties.ClusterPurpose)
+		clusterPurpose := AKS_Properties_ClusterPurpose_ARM(temp)
 		result.ClusterPurpose = &clusterPurpose
 	}
 
@@ -8065,7 +8226,9 @@ func (properties *AKS_Properties) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "LoadBalancerType":
 	if properties.LoadBalancerType != nil {
-		loadBalancerType := *properties.LoadBalancerType
+		var temp string
+		temp = string(*properties.LoadBalancerType)
+		loadBalancerType := AKS_Properties_LoadBalancerType_ARM(temp)
 		result.LoadBalancerType = &loadBalancerType
 	}
 
@@ -8124,7 +8287,9 @@ func (properties *AKS_Properties) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "ClusterPurpose":
 	if typedInput.ClusterPurpose != nil {
-		clusterPurpose := *typedInput.ClusterPurpose
+		var temp string
+		temp = string(*typedInput.ClusterPurpose)
+		clusterPurpose := AKS_Properties_ClusterPurpose(temp)
 		properties.ClusterPurpose = &clusterPurpose
 	}
 
@@ -8136,7 +8301,9 @@ func (properties *AKS_Properties) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "LoadBalancerType":
 	if typedInput.LoadBalancerType != nil {
-		loadBalancerType := *typedInput.LoadBalancerType
+		var temp string
+		temp = string(*typedInput.LoadBalancerType)
+		loadBalancerType := AKS_Properties_LoadBalancerType(temp)
 		properties.LoadBalancerType = &loadBalancerType
 	}
 
@@ -8432,7 +8599,9 @@ func (properties *AKS_Properties_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "ClusterPurpose":
 	if typedInput.ClusterPurpose != nil {
-		clusterPurpose := *typedInput.ClusterPurpose
+		var temp string
+		temp = string(*typedInput.ClusterPurpose)
+		clusterPurpose := AKS_Properties_ClusterPurpose_STATUS(temp)
 		properties.ClusterPurpose = &clusterPurpose
 	}
 
@@ -8444,7 +8613,9 @@ func (properties *AKS_Properties_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "LoadBalancerType":
 	if typedInput.LoadBalancerType != nil {
-		loadBalancerType := *typedInput.LoadBalancerType
+		var temp string
+		temp = string(*typedInput.LoadBalancerType)
+		loadBalancerType := AKS_Properties_LoadBalancerType_STATUS(temp)
 		properties.LoadBalancerType = &loadBalancerType
 	}
 
@@ -8638,6 +8809,71 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 	return nil
 }
 
+type AKS_ProvisioningState_STATUS string
+
+const (
+	AKS_ProvisioningState_STATUS_Canceled  = AKS_ProvisioningState_STATUS("Canceled")
+	AKS_ProvisioningState_STATUS_Creating  = AKS_ProvisioningState_STATUS("Creating")
+	AKS_ProvisioningState_STATUS_Deleting  = AKS_ProvisioningState_STATUS("Deleting")
+	AKS_ProvisioningState_STATUS_Failed    = AKS_ProvisioningState_STATUS("Failed")
+	AKS_ProvisioningState_STATUS_Succeeded = AKS_ProvisioningState_STATUS("Succeeded")
+	AKS_ProvisioningState_STATUS_Unknown   = AKS_ProvisioningState_STATUS("Unknown")
+	AKS_ProvisioningState_STATUS_Updating  = AKS_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to AKS_ProvisioningState_STATUS
+var aKS_ProvisioningState_STATUS_Values = map[string]AKS_ProvisioningState_STATUS{
+	"canceled":  AKS_ProvisioningState_STATUS_Canceled,
+	"creating":  AKS_ProvisioningState_STATUS_Creating,
+	"deleting":  AKS_ProvisioningState_STATUS_Deleting,
+	"failed":    AKS_ProvisioningState_STATUS_Failed,
+	"succeeded": AKS_ProvisioningState_STATUS_Succeeded,
+	"unknown":   AKS_ProvisioningState_STATUS_Unknown,
+	"updating":  AKS_ProvisioningState_STATUS_Updating,
+}
+
+// +kubebuilder:validation:Enum={"AmlCompute"}
+type AmlCompute_ComputeType string
+
+const AmlCompute_ComputeType_AmlCompute = AmlCompute_ComputeType("AmlCompute")
+
+// Mapping from string to AmlCompute_ComputeType
+var amlCompute_ComputeType_Values = map[string]AmlCompute_ComputeType{
+	"amlcompute": AmlCompute_ComputeType_AmlCompute,
+}
+
+type AmlCompute_ComputeType_STATUS string
+
+const AmlCompute_ComputeType_STATUS_AmlCompute = AmlCompute_ComputeType_STATUS("AmlCompute")
+
+// Mapping from string to AmlCompute_ComputeType_STATUS
+var amlCompute_ComputeType_STATUS_Values = map[string]AmlCompute_ComputeType_STATUS{
+	"amlcompute": AmlCompute_ComputeType_STATUS_AmlCompute,
+}
+
+type AmlCompute_ProvisioningState_STATUS string
+
+const (
+	AmlCompute_ProvisioningState_STATUS_Canceled  = AmlCompute_ProvisioningState_STATUS("Canceled")
+	AmlCompute_ProvisioningState_STATUS_Creating  = AmlCompute_ProvisioningState_STATUS("Creating")
+	AmlCompute_ProvisioningState_STATUS_Deleting  = AmlCompute_ProvisioningState_STATUS("Deleting")
+	AmlCompute_ProvisioningState_STATUS_Failed    = AmlCompute_ProvisioningState_STATUS("Failed")
+	AmlCompute_ProvisioningState_STATUS_Succeeded = AmlCompute_ProvisioningState_STATUS("Succeeded")
+	AmlCompute_ProvisioningState_STATUS_Unknown   = AmlCompute_ProvisioningState_STATUS("Unknown")
+	AmlCompute_ProvisioningState_STATUS_Updating  = AmlCompute_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to AmlCompute_ProvisioningState_STATUS
+var amlCompute_ProvisioningState_STATUS_Values = map[string]AmlCompute_ProvisioningState_STATUS{
+	"canceled":  AmlCompute_ProvisioningState_STATUS_Canceled,
+	"creating":  AmlCompute_ProvisioningState_STATUS_Creating,
+	"deleting":  AmlCompute_ProvisioningState_STATUS_Deleting,
+	"failed":    AmlCompute_ProvisioningState_STATUS_Failed,
+	"succeeded": AmlCompute_ProvisioningState_STATUS_Succeeded,
+	"unknown":   AmlCompute_ProvisioningState_STATUS_Unknown,
+	"updating":  AmlCompute_ProvisioningState_STATUS_Updating,
+}
+
 // AML Compute properties
 type AmlComputeProperties struct {
 	// EnableNodePublicIp: Enable or disable node public IP address provisioning. Possible values are: Possible values are:
@@ -8700,13 +8936,17 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "OsType":
 	if properties.OsType != nil {
-		osType := *properties.OsType
+		var temp string
+		temp = string(*properties.OsType)
+		osType := AmlComputeProperties_OsType_ARM(temp)
 		result.OsType = &osType
 	}
 
 	// Set property "RemoteLoginPortPublicAccess":
 	if properties.RemoteLoginPortPublicAccess != nil {
-		remoteLoginPortPublicAccess := *properties.RemoteLoginPortPublicAccess
+		var temp string
+		temp = string(*properties.RemoteLoginPortPublicAccess)
+		remoteLoginPortPublicAccess := AmlComputeProperties_RemoteLoginPortPublicAccess_ARM(temp)
 		result.RemoteLoginPortPublicAccess = &remoteLoginPortPublicAccess
 	}
 
@@ -8752,7 +8992,9 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "VmPriority":
 	if properties.VmPriority != nil {
-		vmPriority := *properties.VmPriority
+		var temp string
+		temp = string(*properties.VmPriority)
+		vmPriority := AmlComputeProperties_VmPriority_ARM(temp)
 		result.VmPriority = &vmPriority
 	}
 
@@ -8790,13 +9032,17 @@ func (properties *AmlComputeProperties) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := AmlComputeProperties_OsType(temp)
 		properties.OsType = &osType
 	}
 
 	// Set property "RemoteLoginPortPublicAccess":
 	if typedInput.RemoteLoginPortPublicAccess != nil {
-		remoteLoginPortPublicAccess := *typedInput.RemoteLoginPortPublicAccess
+		var temp string
+		temp = string(*typedInput.RemoteLoginPortPublicAccess)
+		remoteLoginPortPublicAccess := AmlComputeProperties_RemoteLoginPortPublicAccess(temp)
 		properties.RemoteLoginPortPublicAccess = &remoteLoginPortPublicAccess
 	}
 
@@ -8846,7 +9092,9 @@ func (properties *AmlComputeProperties) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "VmPriority":
 	if typedInput.VmPriority != nil {
-		vmPriority := *typedInput.VmPriority
+		var temp string
+		temp = string(*typedInput.VmPriority)
+		vmPriority := AmlComputeProperties_VmPriority(temp)
 		properties.VmPriority = &vmPriority
 	}
 
@@ -9244,7 +9492,9 @@ func (properties *AmlComputeProperties_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "AllocationState":
 	if typedInput.AllocationState != nil {
-		allocationState := *typedInput.AllocationState
+		var temp string
+		temp = string(*typedInput.AllocationState)
+		allocationState := AmlComputeProperties_AllocationState_STATUS(temp)
 		properties.AllocationState = &allocationState
 	}
 
@@ -9295,13 +9545,17 @@ func (properties *AmlComputeProperties_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "OsType":
 	if typedInput.OsType != nil {
-		osType := *typedInput.OsType
+		var temp string
+		temp = string(*typedInput.OsType)
+		osType := AmlComputeProperties_OsType_STATUS(temp)
 		properties.OsType = &osType
 	}
 
 	// Set property "RemoteLoginPortPublicAccess":
 	if typedInput.RemoteLoginPortPublicAccess != nil {
-		remoteLoginPortPublicAccess := *typedInput.RemoteLoginPortPublicAccess
+		var temp string
+		temp = string(*typedInput.RemoteLoginPortPublicAccess)
+		remoteLoginPortPublicAccess := AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS(temp)
 		properties.RemoteLoginPortPublicAccess = &remoteLoginPortPublicAccess
 	}
 
@@ -9357,7 +9611,9 @@ func (properties *AmlComputeProperties_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "VmPriority":
 	if typedInput.VmPriority != nil {
-		vmPriority := *typedInput.VmPriority
+		var temp string
+		temp = string(*typedInput.VmPriority)
+		vmPriority := AmlComputeProperties_VmPriority_STATUS(temp)
 		properties.VmPriority = &vmPriority
 	}
 
@@ -9674,6 +9930,48 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"ComputeInstance"}
+type ComputeInstance_ComputeType string
+
+const ComputeInstance_ComputeType_ComputeInstance = ComputeInstance_ComputeType("ComputeInstance")
+
+// Mapping from string to ComputeInstance_ComputeType
+var computeInstance_ComputeType_Values = map[string]ComputeInstance_ComputeType{
+	"computeinstance": ComputeInstance_ComputeType_ComputeInstance,
+}
+
+type ComputeInstance_ComputeType_STATUS string
+
+const ComputeInstance_ComputeType_STATUS_ComputeInstance = ComputeInstance_ComputeType_STATUS("ComputeInstance")
+
+// Mapping from string to ComputeInstance_ComputeType_STATUS
+var computeInstance_ComputeType_STATUS_Values = map[string]ComputeInstance_ComputeType_STATUS{
+	"computeinstance": ComputeInstance_ComputeType_STATUS_ComputeInstance,
+}
+
+type ComputeInstance_ProvisioningState_STATUS string
+
+const (
+	ComputeInstance_ProvisioningState_STATUS_Canceled  = ComputeInstance_ProvisioningState_STATUS("Canceled")
+	ComputeInstance_ProvisioningState_STATUS_Creating  = ComputeInstance_ProvisioningState_STATUS("Creating")
+	ComputeInstance_ProvisioningState_STATUS_Deleting  = ComputeInstance_ProvisioningState_STATUS("Deleting")
+	ComputeInstance_ProvisioningState_STATUS_Failed    = ComputeInstance_ProvisioningState_STATUS("Failed")
+	ComputeInstance_ProvisioningState_STATUS_Succeeded = ComputeInstance_ProvisioningState_STATUS("Succeeded")
+	ComputeInstance_ProvisioningState_STATUS_Unknown   = ComputeInstance_ProvisioningState_STATUS("Unknown")
+	ComputeInstance_ProvisioningState_STATUS_Updating  = ComputeInstance_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to ComputeInstance_ProvisioningState_STATUS
+var computeInstance_ProvisioningState_STATUS_Values = map[string]ComputeInstance_ProvisioningState_STATUS{
+	"canceled":  ComputeInstance_ProvisioningState_STATUS_Canceled,
+	"creating":  ComputeInstance_ProvisioningState_STATUS_Creating,
+	"deleting":  ComputeInstance_ProvisioningState_STATUS_Deleting,
+	"failed":    ComputeInstance_ProvisioningState_STATUS_Failed,
+	"succeeded": ComputeInstance_ProvisioningState_STATUS_Succeeded,
+	"unknown":   ComputeInstance_ProvisioningState_STATUS_Unknown,
+	"updating":  ComputeInstance_ProvisioningState_STATUS_Updating,
+}
+
 // Compute Instance properties
 type ComputeInstanceProperties struct {
 	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
@@ -9711,13 +10009,17 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "ApplicationSharingPolicy":
 	if properties.ApplicationSharingPolicy != nil {
-		applicationSharingPolicy := *properties.ApplicationSharingPolicy
+		var temp string
+		temp = string(*properties.ApplicationSharingPolicy)
+		applicationSharingPolicy := ComputeInstanceProperties_ApplicationSharingPolicy_ARM(temp)
 		result.ApplicationSharingPolicy = &applicationSharingPolicy
 	}
 
 	// Set property "ComputeInstanceAuthorizationType":
 	if properties.ComputeInstanceAuthorizationType != nil {
-		computeInstanceAuthorizationType := *properties.ComputeInstanceAuthorizationType
+		var temp string
+		temp = string(*properties.ComputeInstanceAuthorizationType)
+		computeInstanceAuthorizationType := ComputeInstanceProperties_ComputeInstanceAuthorizationType_ARM(temp)
 		result.ComputeInstanceAuthorizationType = &computeInstanceAuthorizationType
 	}
 
@@ -9783,13 +10085,17 @@ func (properties *ComputeInstanceProperties) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "ApplicationSharingPolicy":
 	if typedInput.ApplicationSharingPolicy != nil {
-		applicationSharingPolicy := *typedInput.ApplicationSharingPolicy
+		var temp string
+		temp = string(*typedInput.ApplicationSharingPolicy)
+		applicationSharingPolicy := ComputeInstanceProperties_ApplicationSharingPolicy(temp)
 		properties.ApplicationSharingPolicy = &applicationSharingPolicy
 	}
 
 	// Set property "ComputeInstanceAuthorizationType":
 	if typedInput.ComputeInstanceAuthorizationType != nil {
-		computeInstanceAuthorizationType := *typedInput.ComputeInstanceAuthorizationType
+		var temp string
+		temp = string(*typedInput.ComputeInstanceAuthorizationType)
+		computeInstanceAuthorizationType := ComputeInstanceProperties_ComputeInstanceAuthorizationType(temp)
 		properties.ComputeInstanceAuthorizationType = &computeInstanceAuthorizationType
 	}
 
@@ -10140,7 +10446,9 @@ func (properties *ComputeInstanceProperties_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "ApplicationSharingPolicy":
 	if typedInput.ApplicationSharingPolicy != nil {
-		applicationSharingPolicy := *typedInput.ApplicationSharingPolicy
+		var temp string
+		temp = string(*typedInput.ApplicationSharingPolicy)
+		applicationSharingPolicy := ComputeInstanceProperties_ApplicationSharingPolicy_STATUS(temp)
 		properties.ApplicationSharingPolicy = &applicationSharingPolicy
 	}
 
@@ -10156,7 +10464,9 @@ func (properties *ComputeInstanceProperties_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "ComputeInstanceAuthorizationType":
 	if typedInput.ComputeInstanceAuthorizationType != nil {
-		computeInstanceAuthorizationType := *typedInput.ComputeInstanceAuthorizationType
+		var temp string
+		temp = string(*typedInput.ComputeInstanceAuthorizationType)
+		computeInstanceAuthorizationType := ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS(temp)
 		properties.ComputeInstanceAuthorizationType = &computeInstanceAuthorizationType
 	}
 
@@ -10238,7 +10548,9 @@ func (properties *ComputeInstanceProperties_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := ComputeInstanceState_STATUS(temp)
 		properties.State = &state
 	}
 
@@ -10583,6 +10895,48 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Databricks"}
+type Databricks_ComputeType string
+
+const Databricks_ComputeType_Databricks = Databricks_ComputeType("Databricks")
+
+// Mapping from string to Databricks_ComputeType
+var databricks_ComputeType_Values = map[string]Databricks_ComputeType{
+	"databricks": Databricks_ComputeType_Databricks,
+}
+
+type Databricks_ComputeType_STATUS string
+
+const Databricks_ComputeType_STATUS_Databricks = Databricks_ComputeType_STATUS("Databricks")
+
+// Mapping from string to Databricks_ComputeType_STATUS
+var databricks_ComputeType_STATUS_Values = map[string]Databricks_ComputeType_STATUS{
+	"databricks": Databricks_ComputeType_STATUS_Databricks,
+}
+
+type Databricks_ProvisioningState_STATUS string
+
+const (
+	Databricks_ProvisioningState_STATUS_Canceled  = Databricks_ProvisioningState_STATUS("Canceled")
+	Databricks_ProvisioningState_STATUS_Creating  = Databricks_ProvisioningState_STATUS("Creating")
+	Databricks_ProvisioningState_STATUS_Deleting  = Databricks_ProvisioningState_STATUS("Deleting")
+	Databricks_ProvisioningState_STATUS_Failed    = Databricks_ProvisioningState_STATUS("Failed")
+	Databricks_ProvisioningState_STATUS_Succeeded = Databricks_ProvisioningState_STATUS("Succeeded")
+	Databricks_ProvisioningState_STATUS_Unknown   = Databricks_ProvisioningState_STATUS("Unknown")
+	Databricks_ProvisioningState_STATUS_Updating  = Databricks_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to Databricks_ProvisioningState_STATUS
+var databricks_ProvisioningState_STATUS_Values = map[string]Databricks_ProvisioningState_STATUS{
+	"canceled":  Databricks_ProvisioningState_STATUS_Canceled,
+	"creating":  Databricks_ProvisioningState_STATUS_Creating,
+	"deleting":  Databricks_ProvisioningState_STATUS_Deleting,
+	"failed":    Databricks_ProvisioningState_STATUS_Failed,
+	"succeeded": Databricks_ProvisioningState_STATUS_Succeeded,
+	"unknown":   Databricks_ProvisioningState_STATUS_Unknown,
+	"updating":  Databricks_ProvisioningState_STATUS_Updating,
+}
+
 // Properties of Databricks
 type DatabricksProperties struct {
 	// DatabricksAccessToken: Databricks access token
@@ -10765,6 +11119,67 @@ func (properties *DatabricksProperties_STATUS) AssignProperties_To_DatabricksPro
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"DataFactory"}
+type DataFactory_ComputeType string
+
+const DataFactory_ComputeType_DataFactory = DataFactory_ComputeType("DataFactory")
+
+// Mapping from string to DataFactory_ComputeType
+var dataFactory_ComputeType_Values = map[string]DataFactory_ComputeType{
+	"datafactory": DataFactory_ComputeType_DataFactory,
+}
+
+type DataFactory_ComputeType_STATUS string
+
+const DataFactory_ComputeType_STATUS_DataFactory = DataFactory_ComputeType_STATUS("DataFactory")
+
+// Mapping from string to DataFactory_ComputeType_STATUS
+var dataFactory_ComputeType_STATUS_Values = map[string]DataFactory_ComputeType_STATUS{
+	"datafactory": DataFactory_ComputeType_STATUS_DataFactory,
+}
+
+type DataFactory_ProvisioningState_STATUS string
+
+const (
+	DataFactory_ProvisioningState_STATUS_Canceled  = DataFactory_ProvisioningState_STATUS("Canceled")
+	DataFactory_ProvisioningState_STATUS_Creating  = DataFactory_ProvisioningState_STATUS("Creating")
+	DataFactory_ProvisioningState_STATUS_Deleting  = DataFactory_ProvisioningState_STATUS("Deleting")
+	DataFactory_ProvisioningState_STATUS_Failed    = DataFactory_ProvisioningState_STATUS("Failed")
+	DataFactory_ProvisioningState_STATUS_Succeeded = DataFactory_ProvisioningState_STATUS("Succeeded")
+	DataFactory_ProvisioningState_STATUS_Unknown   = DataFactory_ProvisioningState_STATUS("Unknown")
+	DataFactory_ProvisioningState_STATUS_Updating  = DataFactory_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to DataFactory_ProvisioningState_STATUS
+var dataFactory_ProvisioningState_STATUS_Values = map[string]DataFactory_ProvisioningState_STATUS{
+	"canceled":  DataFactory_ProvisioningState_STATUS_Canceled,
+	"creating":  DataFactory_ProvisioningState_STATUS_Creating,
+	"deleting":  DataFactory_ProvisioningState_STATUS_Deleting,
+	"failed":    DataFactory_ProvisioningState_STATUS_Failed,
+	"succeeded": DataFactory_ProvisioningState_STATUS_Succeeded,
+	"unknown":   DataFactory_ProvisioningState_STATUS_Unknown,
+	"updating":  DataFactory_ProvisioningState_STATUS_Updating,
+}
+
+// +kubebuilder:validation:Enum={"DataLakeAnalytics"}
+type DataLakeAnalytics_ComputeType string
+
+const DataLakeAnalytics_ComputeType_DataLakeAnalytics = DataLakeAnalytics_ComputeType("DataLakeAnalytics")
+
+// Mapping from string to DataLakeAnalytics_ComputeType
+var dataLakeAnalytics_ComputeType_Values = map[string]DataLakeAnalytics_ComputeType{
+	"datalakeanalytics": DataLakeAnalytics_ComputeType_DataLakeAnalytics,
+}
+
+type DataLakeAnalytics_ComputeType_STATUS string
+
+const DataLakeAnalytics_ComputeType_STATUS_DataLakeAnalytics = DataLakeAnalytics_ComputeType_STATUS("DataLakeAnalytics")
+
+// Mapping from string to DataLakeAnalytics_ComputeType_STATUS
+var dataLakeAnalytics_ComputeType_STATUS_Values = map[string]DataLakeAnalytics_ComputeType_STATUS{
+	"datalakeanalytics": DataLakeAnalytics_ComputeType_STATUS_DataLakeAnalytics,
+}
+
 type DataLakeAnalytics_Properties struct {
 	// DataLakeStoreAccountName: DataLake Store Account Name
 	DataLakeStoreAccountName *string `json:"dataLakeStoreAccountName,omitempty"`
@@ -10906,6 +11321,29 @@ func (properties *DataLakeAnalytics_Properties_STATUS) AssignProperties_To_DataL
 	return nil
 }
 
+type DataLakeAnalytics_ProvisioningState_STATUS string
+
+const (
+	DataLakeAnalytics_ProvisioningState_STATUS_Canceled  = DataLakeAnalytics_ProvisioningState_STATUS("Canceled")
+	DataLakeAnalytics_ProvisioningState_STATUS_Creating  = DataLakeAnalytics_ProvisioningState_STATUS("Creating")
+	DataLakeAnalytics_ProvisioningState_STATUS_Deleting  = DataLakeAnalytics_ProvisioningState_STATUS("Deleting")
+	DataLakeAnalytics_ProvisioningState_STATUS_Failed    = DataLakeAnalytics_ProvisioningState_STATUS("Failed")
+	DataLakeAnalytics_ProvisioningState_STATUS_Succeeded = DataLakeAnalytics_ProvisioningState_STATUS("Succeeded")
+	DataLakeAnalytics_ProvisioningState_STATUS_Unknown   = DataLakeAnalytics_ProvisioningState_STATUS("Unknown")
+	DataLakeAnalytics_ProvisioningState_STATUS_Updating  = DataLakeAnalytics_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to DataLakeAnalytics_ProvisioningState_STATUS
+var dataLakeAnalytics_ProvisioningState_STATUS_Values = map[string]DataLakeAnalytics_ProvisioningState_STATUS{
+	"canceled":  DataLakeAnalytics_ProvisioningState_STATUS_Canceled,
+	"creating":  DataLakeAnalytics_ProvisioningState_STATUS_Creating,
+	"deleting":  DataLakeAnalytics_ProvisioningState_STATUS_Deleting,
+	"failed":    DataLakeAnalytics_ProvisioningState_STATUS_Failed,
+	"succeeded": DataLakeAnalytics_ProvisioningState_STATUS_Succeeded,
+	"unknown":   DataLakeAnalytics_ProvisioningState_STATUS_Unknown,
+	"updating":  DataLakeAnalytics_ProvisioningState_STATUS_Updating,
+}
+
 // Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also
 // follows the OData error response format.).
 type ErrorResponse_STATUS struct {
@@ -10987,6 +11425,48 @@ func (response *ErrorResponse_STATUS) AssignProperties_To_ErrorResponse_STATUS(d
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"HDInsight"}
+type HDInsight_ComputeType string
+
+const HDInsight_ComputeType_HDInsight = HDInsight_ComputeType("HDInsight")
+
+// Mapping from string to HDInsight_ComputeType
+var hDInsight_ComputeType_Values = map[string]HDInsight_ComputeType{
+	"hdinsight": HDInsight_ComputeType_HDInsight,
+}
+
+type HDInsight_ComputeType_STATUS string
+
+const HDInsight_ComputeType_STATUS_HDInsight = HDInsight_ComputeType_STATUS("HDInsight")
+
+// Mapping from string to HDInsight_ComputeType_STATUS
+var hDInsight_ComputeType_STATUS_Values = map[string]HDInsight_ComputeType_STATUS{
+	"hdinsight": HDInsight_ComputeType_STATUS_HDInsight,
+}
+
+type HDInsight_ProvisioningState_STATUS string
+
+const (
+	HDInsight_ProvisioningState_STATUS_Canceled  = HDInsight_ProvisioningState_STATUS("Canceled")
+	HDInsight_ProvisioningState_STATUS_Creating  = HDInsight_ProvisioningState_STATUS("Creating")
+	HDInsight_ProvisioningState_STATUS_Deleting  = HDInsight_ProvisioningState_STATUS("Deleting")
+	HDInsight_ProvisioningState_STATUS_Failed    = HDInsight_ProvisioningState_STATUS("Failed")
+	HDInsight_ProvisioningState_STATUS_Succeeded = HDInsight_ProvisioningState_STATUS("Succeeded")
+	HDInsight_ProvisioningState_STATUS_Unknown   = HDInsight_ProvisioningState_STATUS("Unknown")
+	HDInsight_ProvisioningState_STATUS_Updating  = HDInsight_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to HDInsight_ProvisioningState_STATUS
+var hDInsight_ProvisioningState_STATUS_Values = map[string]HDInsight_ProvisioningState_STATUS{
+	"canceled":  HDInsight_ProvisioningState_STATUS_Canceled,
+	"creating":  HDInsight_ProvisioningState_STATUS_Creating,
+	"deleting":  HDInsight_ProvisioningState_STATUS_Deleting,
+	"failed":    HDInsight_ProvisioningState_STATUS_Failed,
+	"succeeded": HDInsight_ProvisioningState_STATUS_Succeeded,
+	"unknown":   HDInsight_ProvisioningState_STATUS_Unknown,
+	"updating":  HDInsight_ProvisioningState_STATUS_Updating,
 }
 
 // HDInsight compute properties
@@ -11267,6 +11747,48 @@ func (properties *HDInsightProperties_STATUS) AssignProperties_To_HDInsightPrope
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Kubernetes"}
+type Kubernetes_ComputeType string
+
+const Kubernetes_ComputeType_Kubernetes = Kubernetes_ComputeType("Kubernetes")
+
+// Mapping from string to Kubernetes_ComputeType
+var kubernetes_ComputeType_Values = map[string]Kubernetes_ComputeType{
+	"kubernetes": Kubernetes_ComputeType_Kubernetes,
+}
+
+type Kubernetes_ComputeType_STATUS string
+
+const Kubernetes_ComputeType_STATUS_Kubernetes = Kubernetes_ComputeType_STATUS("Kubernetes")
+
+// Mapping from string to Kubernetes_ComputeType_STATUS
+var kubernetes_ComputeType_STATUS_Values = map[string]Kubernetes_ComputeType_STATUS{
+	"kubernetes": Kubernetes_ComputeType_STATUS_Kubernetes,
+}
+
+type Kubernetes_ProvisioningState_STATUS string
+
+const (
+	Kubernetes_ProvisioningState_STATUS_Canceled  = Kubernetes_ProvisioningState_STATUS("Canceled")
+	Kubernetes_ProvisioningState_STATUS_Creating  = Kubernetes_ProvisioningState_STATUS("Creating")
+	Kubernetes_ProvisioningState_STATUS_Deleting  = Kubernetes_ProvisioningState_STATUS("Deleting")
+	Kubernetes_ProvisioningState_STATUS_Failed    = Kubernetes_ProvisioningState_STATUS("Failed")
+	Kubernetes_ProvisioningState_STATUS_Succeeded = Kubernetes_ProvisioningState_STATUS("Succeeded")
+	Kubernetes_ProvisioningState_STATUS_Unknown   = Kubernetes_ProvisioningState_STATUS("Unknown")
+	Kubernetes_ProvisioningState_STATUS_Updating  = Kubernetes_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to Kubernetes_ProvisioningState_STATUS
+var kubernetes_ProvisioningState_STATUS_Values = map[string]Kubernetes_ProvisioningState_STATUS{
+	"canceled":  Kubernetes_ProvisioningState_STATUS_Canceled,
+	"creating":  Kubernetes_ProvisioningState_STATUS_Creating,
+	"deleting":  Kubernetes_ProvisioningState_STATUS_Deleting,
+	"failed":    Kubernetes_ProvisioningState_STATUS_Failed,
+	"succeeded": Kubernetes_ProvisioningState_STATUS_Succeeded,
+	"unknown":   Kubernetes_ProvisioningState_STATUS_Unknown,
+	"updating":  Kubernetes_ProvisioningState_STATUS_Updating,
 }
 
 // Kubernetes properties
@@ -11762,6 +12284,25 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_To_KubernetesPro
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"SynapseSpark"}
+type SynapseSpark_ComputeType string
+
+const SynapseSpark_ComputeType_SynapseSpark = SynapseSpark_ComputeType("SynapseSpark")
+
+// Mapping from string to SynapseSpark_ComputeType
+var synapseSpark_ComputeType_Values = map[string]SynapseSpark_ComputeType{
+	"synapsespark": SynapseSpark_ComputeType_SynapseSpark,
+}
+
+type SynapseSpark_ComputeType_STATUS string
+
+const SynapseSpark_ComputeType_STATUS_SynapseSpark = SynapseSpark_ComputeType_STATUS("SynapseSpark")
+
+// Mapping from string to SynapseSpark_ComputeType_STATUS
+var synapseSpark_ComputeType_STATUS_Values = map[string]SynapseSpark_ComputeType_STATUS{
+	"synapsespark": SynapseSpark_ComputeType_STATUS_SynapseSpark,
 }
 
 type SynapseSpark_Properties struct {
@@ -12374,6 +12915,48 @@ func (properties *SynapseSpark_Properties_STATUS) AssignProperties_To_SynapseSpa
 	return nil
 }
 
+type SynapseSpark_ProvisioningState_STATUS string
+
+const (
+	SynapseSpark_ProvisioningState_STATUS_Canceled  = SynapseSpark_ProvisioningState_STATUS("Canceled")
+	SynapseSpark_ProvisioningState_STATUS_Creating  = SynapseSpark_ProvisioningState_STATUS("Creating")
+	SynapseSpark_ProvisioningState_STATUS_Deleting  = SynapseSpark_ProvisioningState_STATUS("Deleting")
+	SynapseSpark_ProvisioningState_STATUS_Failed    = SynapseSpark_ProvisioningState_STATUS("Failed")
+	SynapseSpark_ProvisioningState_STATUS_Succeeded = SynapseSpark_ProvisioningState_STATUS("Succeeded")
+	SynapseSpark_ProvisioningState_STATUS_Unknown   = SynapseSpark_ProvisioningState_STATUS("Unknown")
+	SynapseSpark_ProvisioningState_STATUS_Updating  = SynapseSpark_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to SynapseSpark_ProvisioningState_STATUS
+var synapseSpark_ProvisioningState_STATUS_Values = map[string]SynapseSpark_ProvisioningState_STATUS{
+	"canceled":  SynapseSpark_ProvisioningState_STATUS_Canceled,
+	"creating":  SynapseSpark_ProvisioningState_STATUS_Creating,
+	"deleting":  SynapseSpark_ProvisioningState_STATUS_Deleting,
+	"failed":    SynapseSpark_ProvisioningState_STATUS_Failed,
+	"succeeded": SynapseSpark_ProvisioningState_STATUS_Succeeded,
+	"unknown":   SynapseSpark_ProvisioningState_STATUS_Unknown,
+	"updating":  SynapseSpark_ProvisioningState_STATUS_Updating,
+}
+
+// +kubebuilder:validation:Enum={"VirtualMachine"}
+type VirtualMachine_ComputeType string
+
+const VirtualMachine_ComputeType_VirtualMachine = VirtualMachine_ComputeType("VirtualMachine")
+
+// Mapping from string to VirtualMachine_ComputeType
+var virtualMachine_ComputeType_Values = map[string]VirtualMachine_ComputeType{
+	"virtualmachine": VirtualMachine_ComputeType_VirtualMachine,
+}
+
+type VirtualMachine_ComputeType_STATUS string
+
+const VirtualMachine_ComputeType_STATUS_VirtualMachine = VirtualMachine_ComputeType_STATUS("VirtualMachine")
+
+// Mapping from string to VirtualMachine_ComputeType_STATUS
+var virtualMachine_ComputeType_STATUS_Values = map[string]VirtualMachine_ComputeType_STATUS{
+	"virtualmachine": VirtualMachine_ComputeType_STATUS_VirtualMachine,
+}
+
 type VirtualMachine_Properties struct {
 	// Address: Public IP address of the virtual machine.
 	Address *string `json:"address,omitempty"`
@@ -12755,6 +13338,87 @@ func (properties *VirtualMachine_Properties_STATUS) AssignProperties_To_VirtualM
 	return nil
 }
 
+type VirtualMachine_ProvisioningState_STATUS string
+
+const (
+	VirtualMachine_ProvisioningState_STATUS_Canceled  = VirtualMachine_ProvisioningState_STATUS("Canceled")
+	VirtualMachine_ProvisioningState_STATUS_Creating  = VirtualMachine_ProvisioningState_STATUS("Creating")
+	VirtualMachine_ProvisioningState_STATUS_Deleting  = VirtualMachine_ProvisioningState_STATUS("Deleting")
+	VirtualMachine_ProvisioningState_STATUS_Failed    = VirtualMachine_ProvisioningState_STATUS("Failed")
+	VirtualMachine_ProvisioningState_STATUS_Succeeded = VirtualMachine_ProvisioningState_STATUS("Succeeded")
+	VirtualMachine_ProvisioningState_STATUS_Unknown   = VirtualMachine_ProvisioningState_STATUS("Unknown")
+	VirtualMachine_ProvisioningState_STATUS_Updating  = VirtualMachine_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to VirtualMachine_ProvisioningState_STATUS
+var virtualMachine_ProvisioningState_STATUS_Values = map[string]VirtualMachine_ProvisioningState_STATUS{
+	"canceled":  VirtualMachine_ProvisioningState_STATUS_Canceled,
+	"creating":  VirtualMachine_ProvisioningState_STATUS_Creating,
+	"deleting":  VirtualMachine_ProvisioningState_STATUS_Deleting,
+	"failed":    VirtualMachine_ProvisioningState_STATUS_Failed,
+	"succeeded": VirtualMachine_ProvisioningState_STATUS_Succeeded,
+	"unknown":   VirtualMachine_ProvisioningState_STATUS_Unknown,
+	"updating":  VirtualMachine_ProvisioningState_STATUS_Updating,
+}
+
+// +kubebuilder:validation:Enum={"DenseProd","DevTest","FastProd"}
+type AKS_Properties_ClusterPurpose string
+
+const (
+	AKS_Properties_ClusterPurpose_DenseProd = AKS_Properties_ClusterPurpose("DenseProd")
+	AKS_Properties_ClusterPurpose_DevTest   = AKS_Properties_ClusterPurpose("DevTest")
+	AKS_Properties_ClusterPurpose_FastProd  = AKS_Properties_ClusterPurpose("FastProd")
+)
+
+// Mapping from string to AKS_Properties_ClusterPurpose
+var aKS_Properties_ClusterPurpose_Values = map[string]AKS_Properties_ClusterPurpose{
+	"denseprod": AKS_Properties_ClusterPurpose_DenseProd,
+	"devtest":   AKS_Properties_ClusterPurpose_DevTest,
+	"fastprod":  AKS_Properties_ClusterPurpose_FastProd,
+}
+
+type AKS_Properties_ClusterPurpose_STATUS string
+
+const (
+	AKS_Properties_ClusterPurpose_STATUS_DenseProd = AKS_Properties_ClusterPurpose_STATUS("DenseProd")
+	AKS_Properties_ClusterPurpose_STATUS_DevTest   = AKS_Properties_ClusterPurpose_STATUS("DevTest")
+	AKS_Properties_ClusterPurpose_STATUS_FastProd  = AKS_Properties_ClusterPurpose_STATUS("FastProd")
+)
+
+// Mapping from string to AKS_Properties_ClusterPurpose_STATUS
+var aKS_Properties_ClusterPurpose_STATUS_Values = map[string]AKS_Properties_ClusterPurpose_STATUS{
+	"denseprod": AKS_Properties_ClusterPurpose_STATUS_DenseProd,
+	"devtest":   AKS_Properties_ClusterPurpose_STATUS_DevTest,
+	"fastprod":  AKS_Properties_ClusterPurpose_STATUS_FastProd,
+}
+
+// +kubebuilder:validation:Enum={"InternalLoadBalancer","PublicIp"}
+type AKS_Properties_LoadBalancerType string
+
+const (
+	AKS_Properties_LoadBalancerType_InternalLoadBalancer = AKS_Properties_LoadBalancerType("InternalLoadBalancer")
+	AKS_Properties_LoadBalancerType_PublicIp             = AKS_Properties_LoadBalancerType("PublicIp")
+)
+
+// Mapping from string to AKS_Properties_LoadBalancerType
+var aKS_Properties_LoadBalancerType_Values = map[string]AKS_Properties_LoadBalancerType{
+	"internalloadbalancer": AKS_Properties_LoadBalancerType_InternalLoadBalancer,
+	"publicip":             AKS_Properties_LoadBalancerType_PublicIp,
+}
+
+type AKS_Properties_LoadBalancerType_STATUS string
+
+const (
+	AKS_Properties_LoadBalancerType_STATUS_InternalLoadBalancer = AKS_Properties_LoadBalancerType_STATUS("InternalLoadBalancer")
+	AKS_Properties_LoadBalancerType_STATUS_PublicIp             = AKS_Properties_LoadBalancerType_STATUS("PublicIp")
+)
+
+// Mapping from string to AKS_Properties_LoadBalancerType_STATUS
+var aKS_Properties_LoadBalancerType_STATUS_Values = map[string]AKS_Properties_LoadBalancerType_STATUS{
+	"internalloadbalancer": AKS_Properties_LoadBalancerType_STATUS_InternalLoadBalancer,
+	"publicip":             AKS_Properties_LoadBalancerType_STATUS_PublicIp,
+}
+
 // Advance configuration for AKS networking
 type AksNetworkingConfiguration struct {
 	// +kubebuilder:validation:Pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
@@ -13082,6 +13746,104 @@ func (configuration *AksNetworkingConfiguration_STATUS) AssignProperties_To_AksN
 
 	// No error
 	return nil
+}
+
+type AmlComputeProperties_AllocationState_STATUS string
+
+const (
+	AmlComputeProperties_AllocationState_STATUS_Resizing = AmlComputeProperties_AllocationState_STATUS("Resizing")
+	AmlComputeProperties_AllocationState_STATUS_Steady   = AmlComputeProperties_AllocationState_STATUS("Steady")
+)
+
+// Mapping from string to AmlComputeProperties_AllocationState_STATUS
+var amlComputeProperties_AllocationState_STATUS_Values = map[string]AmlComputeProperties_AllocationState_STATUS{
+	"resizing": AmlComputeProperties_AllocationState_STATUS_Resizing,
+	"steady":   AmlComputeProperties_AllocationState_STATUS_Steady,
+}
+
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type AmlComputeProperties_OsType string
+
+const (
+	AmlComputeProperties_OsType_Linux   = AmlComputeProperties_OsType("Linux")
+	AmlComputeProperties_OsType_Windows = AmlComputeProperties_OsType("Windows")
+)
+
+// Mapping from string to AmlComputeProperties_OsType
+var amlComputeProperties_OsType_Values = map[string]AmlComputeProperties_OsType{
+	"linux":   AmlComputeProperties_OsType_Linux,
+	"windows": AmlComputeProperties_OsType_Windows,
+}
+
+type AmlComputeProperties_OsType_STATUS string
+
+const (
+	AmlComputeProperties_OsType_STATUS_Linux   = AmlComputeProperties_OsType_STATUS("Linux")
+	AmlComputeProperties_OsType_STATUS_Windows = AmlComputeProperties_OsType_STATUS("Windows")
+)
+
+// Mapping from string to AmlComputeProperties_OsType_STATUS
+var amlComputeProperties_OsType_STATUS_Values = map[string]AmlComputeProperties_OsType_STATUS{
+	"linux":   AmlComputeProperties_OsType_STATUS_Linux,
+	"windows": AmlComputeProperties_OsType_STATUS_Windows,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled","NotSpecified"}
+type AmlComputeProperties_RemoteLoginPortPublicAccess string
+
+const (
+	AmlComputeProperties_RemoteLoginPortPublicAccess_Disabled     = AmlComputeProperties_RemoteLoginPortPublicAccess("Disabled")
+	AmlComputeProperties_RemoteLoginPortPublicAccess_Enabled      = AmlComputeProperties_RemoteLoginPortPublicAccess("Enabled")
+	AmlComputeProperties_RemoteLoginPortPublicAccess_NotSpecified = AmlComputeProperties_RemoteLoginPortPublicAccess("NotSpecified")
+)
+
+// Mapping from string to AmlComputeProperties_RemoteLoginPortPublicAccess
+var amlComputeProperties_RemoteLoginPortPublicAccess_Values = map[string]AmlComputeProperties_RemoteLoginPortPublicAccess{
+	"disabled":     AmlComputeProperties_RemoteLoginPortPublicAccess_Disabled,
+	"enabled":      AmlComputeProperties_RemoteLoginPortPublicAccess_Enabled,
+	"notspecified": AmlComputeProperties_RemoteLoginPortPublicAccess_NotSpecified,
+}
+
+type AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS string
+
+const (
+	AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Disabled     = AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS("Disabled")
+	AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Enabled      = AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS("Enabled")
+	AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_NotSpecified = AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS("NotSpecified")
+)
+
+// Mapping from string to AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS
+var amlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Values = map[string]AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS{
+	"disabled":     AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Disabled,
+	"enabled":      AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Enabled,
+	"notspecified": AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_NotSpecified,
+}
+
+// +kubebuilder:validation:Enum={"Dedicated","LowPriority"}
+type AmlComputeProperties_VmPriority string
+
+const (
+	AmlComputeProperties_VmPriority_Dedicated   = AmlComputeProperties_VmPriority("Dedicated")
+	AmlComputeProperties_VmPriority_LowPriority = AmlComputeProperties_VmPriority("LowPriority")
+)
+
+// Mapping from string to AmlComputeProperties_VmPriority
+var amlComputeProperties_VmPriority_Values = map[string]AmlComputeProperties_VmPriority{
+	"dedicated":   AmlComputeProperties_VmPriority_Dedicated,
+	"lowpriority": AmlComputeProperties_VmPriority_LowPriority,
+}
+
+type AmlComputeProperties_VmPriority_STATUS string
+
+const (
+	AmlComputeProperties_VmPriority_STATUS_Dedicated   = AmlComputeProperties_VmPriority_STATUS("Dedicated")
+	AmlComputeProperties_VmPriority_STATUS_LowPriority = AmlComputeProperties_VmPriority_STATUS("LowPriority")
+)
+
+// Mapping from string to AmlComputeProperties_VmPriority_STATUS
+var amlComputeProperties_VmPriority_STATUS_Values = map[string]AmlComputeProperties_VmPriority_STATUS{
+	"dedicated":   AmlComputeProperties_VmPriority_STATUS_Dedicated,
+	"lowpriority": AmlComputeProperties_VmPriority_STATUS_LowPriority,
 }
 
 // Auto pause properties
@@ -13787,13 +14549,17 @@ func (operation *ComputeInstanceLastOperation_STATUS) PopulateFromARM(owner genr
 
 	// Set property "OperationName":
 	if typedInput.OperationName != nil {
-		operationName := *typedInput.OperationName
+		var temp string
+		temp = string(*typedInput.OperationName)
+		operationName := ComputeInstanceLastOperation_OperationName_STATUS(temp)
 		operation.OperationName = &operationName
 	}
 
 	// Set property "OperationStatus":
 	if typedInput.OperationStatus != nil {
-		operationStatus := *typedInput.OperationStatus
+		var temp string
+		temp = string(*typedInput.OperationStatus)
+		operationStatus := ComputeInstanceLastOperation_OperationStatus_STATUS(temp)
 		operation.OperationStatus = &operationStatus
 	}
 
@@ -13870,6 +14636,52 @@ func (operation *ComputeInstanceLastOperation_STATUS) AssignProperties_To_Comput
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Personal","Shared"}
+type ComputeInstanceProperties_ApplicationSharingPolicy string
+
+const (
+	ComputeInstanceProperties_ApplicationSharingPolicy_Personal = ComputeInstanceProperties_ApplicationSharingPolicy("Personal")
+	ComputeInstanceProperties_ApplicationSharingPolicy_Shared   = ComputeInstanceProperties_ApplicationSharingPolicy("Shared")
+)
+
+// Mapping from string to ComputeInstanceProperties_ApplicationSharingPolicy
+var computeInstanceProperties_ApplicationSharingPolicy_Values = map[string]ComputeInstanceProperties_ApplicationSharingPolicy{
+	"personal": ComputeInstanceProperties_ApplicationSharingPolicy_Personal,
+	"shared":   ComputeInstanceProperties_ApplicationSharingPolicy_Shared,
+}
+
+type ComputeInstanceProperties_ApplicationSharingPolicy_STATUS string
+
+const (
+	ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Personal = ComputeInstanceProperties_ApplicationSharingPolicy_STATUS("Personal")
+	ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Shared   = ComputeInstanceProperties_ApplicationSharingPolicy_STATUS("Shared")
+)
+
+// Mapping from string to ComputeInstanceProperties_ApplicationSharingPolicy_STATUS
+var computeInstanceProperties_ApplicationSharingPolicy_STATUS_Values = map[string]ComputeInstanceProperties_ApplicationSharingPolicy_STATUS{
+	"personal": ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Personal,
+	"shared":   ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Shared,
+}
+
+// +kubebuilder:validation:Enum={"personal"}
+type ComputeInstanceProperties_ComputeInstanceAuthorizationType string
+
+const ComputeInstanceProperties_ComputeInstanceAuthorizationType_Personal = ComputeInstanceProperties_ComputeInstanceAuthorizationType("personal")
+
+// Mapping from string to ComputeInstanceProperties_ComputeInstanceAuthorizationType
+var computeInstanceProperties_ComputeInstanceAuthorizationType_Values = map[string]ComputeInstanceProperties_ComputeInstanceAuthorizationType{
+	"personal": ComputeInstanceProperties_ComputeInstanceAuthorizationType_Personal,
+}
+
+type ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS string
+
+const ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_Personal = ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS("personal")
+
+// Mapping from string to ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS
+var computeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_Values = map[string]ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS{
+	"personal": ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_Personal,
+}
+
 // Specifies policy and settings for SSH access.
 type ComputeInstanceSshSettings struct {
 	// AdminPublicKey: Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH
@@ -13899,7 +14711,9 @@ func (settings *ComputeInstanceSshSettings) ConvertToARM(resolved genruntime.Con
 
 	// Set property "SshPublicAccess":
 	if settings.SshPublicAccess != nil {
-		sshPublicAccess := *settings.SshPublicAccess
+		var temp string
+		temp = string(*settings.SshPublicAccess)
+		sshPublicAccess := ComputeInstanceSshSettings_SshPublicAccess_ARM(temp)
 		result.SshPublicAccess = &sshPublicAccess
 	}
 	return result, nil
@@ -13925,7 +14739,9 @@ func (settings *ComputeInstanceSshSettings) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "SshPublicAccess":
 	if typedInput.SshPublicAccess != nil {
-		sshPublicAccess := *typedInput.SshPublicAccess
+		var temp string
+		temp = string(*typedInput.SshPublicAccess)
+		sshPublicAccess := ComputeInstanceSshSettings_SshPublicAccess(temp)
 		settings.SshPublicAccess = &sshPublicAccess
 	}
 
@@ -14049,7 +14865,9 @@ func (settings *ComputeInstanceSshSettings_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "SshPublicAccess":
 	if typedInput.SshPublicAccess != nil {
-		sshPublicAccess := *typedInput.SshPublicAccess
+		var temp string
+		temp = string(*typedInput.SshPublicAccess)
+		sshPublicAccess := ComputeInstanceSshSettings_SshPublicAccess_STATUS(temp)
 		settings.SshPublicAccess = &sshPublicAccess
 	}
 
@@ -14113,6 +14931,46 @@ func (settings *ComputeInstanceSshSettings_STATUS) AssignProperties_To_ComputeIn
 
 	// No error
 	return nil
+}
+
+// Current state of an ComputeInstance.
+type ComputeInstanceState_STATUS string
+
+const (
+	ComputeInstanceState_STATUS_CreateFailed    = ComputeInstanceState_STATUS("CreateFailed")
+	ComputeInstanceState_STATUS_Creating        = ComputeInstanceState_STATUS("Creating")
+	ComputeInstanceState_STATUS_Deleting        = ComputeInstanceState_STATUS("Deleting")
+	ComputeInstanceState_STATUS_JobRunning      = ComputeInstanceState_STATUS("JobRunning")
+	ComputeInstanceState_STATUS_Restarting      = ComputeInstanceState_STATUS("Restarting")
+	ComputeInstanceState_STATUS_Running         = ComputeInstanceState_STATUS("Running")
+	ComputeInstanceState_STATUS_SettingUp       = ComputeInstanceState_STATUS("SettingUp")
+	ComputeInstanceState_STATUS_SetupFailed     = ComputeInstanceState_STATUS("SetupFailed")
+	ComputeInstanceState_STATUS_Starting        = ComputeInstanceState_STATUS("Starting")
+	ComputeInstanceState_STATUS_Stopped         = ComputeInstanceState_STATUS("Stopped")
+	ComputeInstanceState_STATUS_Stopping        = ComputeInstanceState_STATUS("Stopping")
+	ComputeInstanceState_STATUS_Unknown         = ComputeInstanceState_STATUS("Unknown")
+	ComputeInstanceState_STATUS_Unusable        = ComputeInstanceState_STATUS("Unusable")
+	ComputeInstanceState_STATUS_UserSettingUp   = ComputeInstanceState_STATUS("UserSettingUp")
+	ComputeInstanceState_STATUS_UserSetupFailed = ComputeInstanceState_STATUS("UserSetupFailed")
+)
+
+// Mapping from string to ComputeInstanceState_STATUS
+var computeInstanceState_STATUS_Values = map[string]ComputeInstanceState_STATUS{
+	"createfailed":    ComputeInstanceState_STATUS_CreateFailed,
+	"creating":        ComputeInstanceState_STATUS_Creating,
+	"deleting":        ComputeInstanceState_STATUS_Deleting,
+	"jobrunning":      ComputeInstanceState_STATUS_JobRunning,
+	"restarting":      ComputeInstanceState_STATUS_Restarting,
+	"running":         ComputeInstanceState_STATUS_Running,
+	"settingup":       ComputeInstanceState_STATUS_SettingUp,
+	"setupfailed":     ComputeInstanceState_STATUS_SetupFailed,
+	"starting":        ComputeInstanceState_STATUS_Starting,
+	"stopped":         ComputeInstanceState_STATUS_Stopped,
+	"stopping":        ComputeInstanceState_STATUS_Stopping,
+	"unknown":         ComputeInstanceState_STATUS_Unknown,
+	"unusable":        ComputeInstanceState_STATUS_Unusable,
+	"usersettingup":   ComputeInstanceState_STATUS_UserSettingUp,
+	"usersetupfailed": ComputeInstanceState_STATUS_UserSetupFailed,
 }
 
 // The error detail.
@@ -15530,7 +16388,9 @@ func (configuration *SslConfiguration) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Status":
 	if configuration.Status != nil {
-		status := *configuration.Status
+		var temp string
+		temp = string(*configuration.Status)
+		status := SslConfiguration_Status_ARM(temp)
 		result.Status = &status
 	}
 	return result, nil
@@ -15580,7 +16440,9 @@ func (configuration *SslConfiguration) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := SslConfiguration_Status(temp)
 		configuration.Status = &status
 	}
 
@@ -15770,7 +16632,9 @@ func (configuration *SslConfiguration_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := SslConfiguration_Status_STATUS(temp)
 		configuration.Status = &status
 	}
 
@@ -16748,6 +17612,79 @@ func (user *AssignedUser_STATUS) AssignProperties_To_AssignedUser_STATUS(destina
 	return nil
 }
 
+type ComputeInstanceLastOperation_OperationName_STATUS string
+
+const (
+	ComputeInstanceLastOperation_OperationName_STATUS_Create  = ComputeInstanceLastOperation_OperationName_STATUS("Create")
+	ComputeInstanceLastOperation_OperationName_STATUS_Delete  = ComputeInstanceLastOperation_OperationName_STATUS("Delete")
+	ComputeInstanceLastOperation_OperationName_STATUS_Reimage = ComputeInstanceLastOperation_OperationName_STATUS("Reimage")
+	ComputeInstanceLastOperation_OperationName_STATUS_Restart = ComputeInstanceLastOperation_OperationName_STATUS("Restart")
+	ComputeInstanceLastOperation_OperationName_STATUS_Start   = ComputeInstanceLastOperation_OperationName_STATUS("Start")
+	ComputeInstanceLastOperation_OperationName_STATUS_Stop    = ComputeInstanceLastOperation_OperationName_STATUS("Stop")
+)
+
+// Mapping from string to ComputeInstanceLastOperation_OperationName_STATUS
+var computeInstanceLastOperation_OperationName_STATUS_Values = map[string]ComputeInstanceLastOperation_OperationName_STATUS{
+	"create":  ComputeInstanceLastOperation_OperationName_STATUS_Create,
+	"delete":  ComputeInstanceLastOperation_OperationName_STATUS_Delete,
+	"reimage": ComputeInstanceLastOperation_OperationName_STATUS_Reimage,
+	"restart": ComputeInstanceLastOperation_OperationName_STATUS_Restart,
+	"start":   ComputeInstanceLastOperation_OperationName_STATUS_Start,
+	"stop":    ComputeInstanceLastOperation_OperationName_STATUS_Stop,
+}
+
+type ComputeInstanceLastOperation_OperationStatus_STATUS string
+
+const (
+	ComputeInstanceLastOperation_OperationStatus_STATUS_CreateFailed  = ComputeInstanceLastOperation_OperationStatus_STATUS("CreateFailed")
+	ComputeInstanceLastOperation_OperationStatus_STATUS_DeleteFailed  = ComputeInstanceLastOperation_OperationStatus_STATUS("DeleteFailed")
+	ComputeInstanceLastOperation_OperationStatus_STATUS_InProgress    = ComputeInstanceLastOperation_OperationStatus_STATUS("InProgress")
+	ComputeInstanceLastOperation_OperationStatus_STATUS_ReimageFailed = ComputeInstanceLastOperation_OperationStatus_STATUS("ReimageFailed")
+	ComputeInstanceLastOperation_OperationStatus_STATUS_RestartFailed = ComputeInstanceLastOperation_OperationStatus_STATUS("RestartFailed")
+	ComputeInstanceLastOperation_OperationStatus_STATUS_StartFailed   = ComputeInstanceLastOperation_OperationStatus_STATUS("StartFailed")
+	ComputeInstanceLastOperation_OperationStatus_STATUS_StopFailed    = ComputeInstanceLastOperation_OperationStatus_STATUS("StopFailed")
+	ComputeInstanceLastOperation_OperationStatus_STATUS_Succeeded     = ComputeInstanceLastOperation_OperationStatus_STATUS("Succeeded")
+)
+
+// Mapping from string to ComputeInstanceLastOperation_OperationStatus_STATUS
+var computeInstanceLastOperation_OperationStatus_STATUS_Values = map[string]ComputeInstanceLastOperation_OperationStatus_STATUS{
+	"createfailed":  ComputeInstanceLastOperation_OperationStatus_STATUS_CreateFailed,
+	"deletefailed":  ComputeInstanceLastOperation_OperationStatus_STATUS_DeleteFailed,
+	"inprogress":    ComputeInstanceLastOperation_OperationStatus_STATUS_InProgress,
+	"reimagefailed": ComputeInstanceLastOperation_OperationStatus_STATUS_ReimageFailed,
+	"restartfailed": ComputeInstanceLastOperation_OperationStatus_STATUS_RestartFailed,
+	"startfailed":   ComputeInstanceLastOperation_OperationStatus_STATUS_StartFailed,
+	"stopfailed":    ComputeInstanceLastOperation_OperationStatus_STATUS_StopFailed,
+	"succeeded":     ComputeInstanceLastOperation_OperationStatus_STATUS_Succeeded,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ComputeInstanceSshSettings_SshPublicAccess string
+
+const (
+	ComputeInstanceSshSettings_SshPublicAccess_Disabled = ComputeInstanceSshSettings_SshPublicAccess("Disabled")
+	ComputeInstanceSshSettings_SshPublicAccess_Enabled  = ComputeInstanceSshSettings_SshPublicAccess("Enabled")
+)
+
+// Mapping from string to ComputeInstanceSshSettings_SshPublicAccess
+var computeInstanceSshSettings_SshPublicAccess_Values = map[string]ComputeInstanceSshSettings_SshPublicAccess{
+	"disabled": ComputeInstanceSshSettings_SshPublicAccess_Disabled,
+	"enabled":  ComputeInstanceSshSettings_SshPublicAccess_Enabled,
+}
+
+type ComputeInstanceSshSettings_SshPublicAccess_STATUS string
+
+const (
+	ComputeInstanceSshSettings_SshPublicAccess_STATUS_Disabled = ComputeInstanceSshSettings_SshPublicAccess_STATUS("Disabled")
+	ComputeInstanceSshSettings_SshPublicAccess_STATUS_Enabled  = ComputeInstanceSshSettings_SshPublicAccess_STATUS("Enabled")
+)
+
+// Mapping from string to ComputeInstanceSshSettings_SshPublicAccess_STATUS
+var computeInstanceSshSettings_SshPublicAccess_STATUS_Values = map[string]ComputeInstanceSshSettings_SshPublicAccess_STATUS{
+	"disabled": ComputeInstanceSshSettings_SshPublicAccess_STATUS_Disabled,
+	"enabled":  ComputeInstanceSshSettings_SshPublicAccess_STATUS_Enabled,
+}
+
 // The resource management error additional info.
 type ErrorAdditionalInfo_STATUS struct {
 	// Info: The additional info.
@@ -17471,6 +18408,37 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_To_ScriptsToExecute_STA
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Auto","Disabled","Enabled"}
+type SslConfiguration_Status string
+
+const (
+	SslConfiguration_Status_Auto     = SslConfiguration_Status("Auto")
+	SslConfiguration_Status_Disabled = SslConfiguration_Status("Disabled")
+	SslConfiguration_Status_Enabled  = SslConfiguration_Status("Enabled")
+)
+
+// Mapping from string to SslConfiguration_Status
+var sslConfiguration_Status_Values = map[string]SslConfiguration_Status{
+	"auto":     SslConfiguration_Status_Auto,
+	"disabled": SslConfiguration_Status_Disabled,
+	"enabled":  SslConfiguration_Status_Enabled,
+}
+
+type SslConfiguration_Status_STATUS string
+
+const (
+	SslConfiguration_Status_STATUS_Auto     = SslConfiguration_Status_STATUS("Auto")
+	SslConfiguration_Status_STATUS_Disabled = SslConfiguration_Status_STATUS("Disabled")
+	SslConfiguration_Status_STATUS_Enabled  = SslConfiguration_Status_STATUS("Enabled")
+)
+
+// Mapping from string to SslConfiguration_Status_STATUS
+var sslConfiguration_Status_STATUS_Values = map[string]SslConfiguration_Status_STATUS{
+	"auto":     SslConfiguration_Status_STATUS_Auto,
+	"disabled": SslConfiguration_Status_STATUS_Disabled,
+	"enabled":  SslConfiguration_Status_STATUS_Enabled,
 }
 
 // Script reference

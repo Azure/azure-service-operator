@@ -85,11 +85,11 @@ func AFDOriginProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAFDOriginProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAFDOriginProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		AFDOriginProperties_DeploymentStatus_STATUS_Failed,
-		AFDOriginProperties_DeploymentStatus_STATUS_InProgress,
-		AFDOriginProperties_DeploymentStatus_STATUS_NotStarted,
-		AFDOriginProperties_DeploymentStatus_STATUS_Succeeded))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(AFDOriginProperties_EnabledState_STATUS_Disabled, AFDOriginProperties_EnabledState_STATUS_Enabled))
+		AFDOriginProperties_DeploymentStatus_STATUS_ARM_Failed,
+		AFDOriginProperties_DeploymentStatus_STATUS_ARM_InProgress,
+		AFDOriginProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+		AFDOriginProperties_DeploymentStatus_STATUS_ARM_Succeeded))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(AFDOriginProperties_EnabledState_STATUS_ARM_Disabled, AFDOriginProperties_EnabledState_STATUS_ARM_Enabled))
 	gens["EnforceCertificateNameCheck"] = gen.PtrOf(gen.Bool())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["HttpPort"] = gen.PtrOf(gen.Int())
@@ -98,11 +98,11 @@ func AddIndependentPropertyGeneratorsForAFDOriginProperties_STATUS_ARM(gens map[
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AFDOriginProperties_ProvisioningState_STATUS_Creating,
-		AFDOriginProperties_ProvisioningState_STATUS_Deleting,
-		AFDOriginProperties_ProvisioningState_STATUS_Failed,
-		AFDOriginProperties_ProvisioningState_STATUS_Succeeded,
-		AFDOriginProperties_ProvisioningState_STATUS_Updating))
+		AFDOriginProperties_ProvisioningState_STATUS_ARM_Creating,
+		AFDOriginProperties_ProvisioningState_STATUS_ARM_Deleting,
+		AFDOriginProperties_ProvisioningState_STATUS_ARM_Failed,
+		AFDOriginProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		AFDOriginProperties_ProvisioningState_STATUS_ARM_Updating))
 	gens["Weight"] = gen.PtrOf(gen.Int())
 }
 
@@ -261,11 +261,11 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceProperties_STAT
 	gens["PrivateLinkLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		SharedPrivateLinkResourceProperties_Status_STATUS_Approved,
-		SharedPrivateLinkResourceProperties_Status_STATUS_Disconnected,
-		SharedPrivateLinkResourceProperties_Status_STATUS_Pending,
-		SharedPrivateLinkResourceProperties_Status_STATUS_Rejected,
-		SharedPrivateLinkResourceProperties_Status_STATUS_Timeout))
+		SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Approved,
+		SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Disconnected,
+		SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Pending,
+		SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Rejected,
+		SharedPrivateLinkResourceProperties_Status_STATUS_ARM_Timeout))
 }
 
 // AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceProperties_STATUS_ARM is a factory method for creating gopter generators

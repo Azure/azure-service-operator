@@ -46,8 +46,22 @@ type IpConfiguration_ARM struct {
 	PrivateIpAddress *string `json:"privateIpAddress,omitempty"`
 
 	// PrivateIpAllocationMethod: Private IP address allocation method.
-	PrivateIpAllocationMethod *IpConfiguration_PrivateIpAllocationMethod `json:"privateIpAllocationMethod,omitempty"`
+	PrivateIpAllocationMethod *IpConfiguration_PrivateIpAllocationMethod_ARM `json:"privateIpAllocationMethod,omitempty"`
 
 	// Subnet: The reference to the subnet bound to the IP configuration.
 	Subnet *DnsresolverSubResource_ARM `json:"subnet,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Dynamic","Static"}
+type IpConfiguration_PrivateIpAllocationMethod_ARM string
+
+const (
+	IpConfiguration_PrivateIpAllocationMethod_ARM_Dynamic = IpConfiguration_PrivateIpAllocationMethod_ARM("Dynamic")
+	IpConfiguration_PrivateIpAllocationMethod_ARM_Static  = IpConfiguration_PrivateIpAllocationMethod_ARM("Static")
+)
+
+// Mapping from string to IpConfiguration_PrivateIpAllocationMethod_ARM
+var ipConfiguration_PrivateIpAllocationMethod_ARM_Values = map[string]IpConfiguration_PrivateIpAllocationMethod_ARM{
+	"dynamic": IpConfiguration_PrivateIpAllocationMethod_ARM_Dynamic,
+	"static":  IpConfiguration_PrivateIpAllocationMethod_ARM_Static,
 }

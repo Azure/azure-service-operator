@@ -79,7 +79,7 @@ func AddIndependentPropertyGeneratorsForApiVersionSetContractProperties_STATUS_A
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractProperties_VersioningScheme_STATUS_Header, ApiVersionSetContractProperties_VersioningScheme_STATUS_Query, ApiVersionSetContractProperties_VersioningScheme_STATUS_Segment))
+	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Header, ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Query, ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Segment))
 }
 
 func Test_Service_ApiVersionSet_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

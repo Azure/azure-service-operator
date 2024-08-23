@@ -84,7 +84,7 @@ func DatabaseIdentity_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(DatabaseIdentity_Type_None, DatabaseIdentity_Type_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DatabaseIdentity_Type_ARM_None, DatabaseIdentity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseIdentity_ARM is a factory method for creating gopter generators
@@ -153,40 +153,40 @@ func DatabaseProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabaseProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseProperties_ARM(gens map[string]gopter.Gen) {
 	gens["AutoPauseDelay"] = gen.PtrOf(gen.Int())
-	gens["CatalogCollation"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_CatalogCollation_DATABASE_DEFAULT, DatabaseProperties_CatalogCollation_SQL_Latin1_General_CP1_CI_AS))
+	gens["CatalogCollation"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_CatalogCollation_ARM_DATABASE_DEFAULT, DatabaseProperties_CatalogCollation_ARM_SQL_Latin1_General_CP1_CI_AS))
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_CreateMode_Copy,
-		DatabaseProperties_CreateMode_Default,
-		DatabaseProperties_CreateMode_OnlineSecondary,
-		DatabaseProperties_CreateMode_PointInTimeRestore,
-		DatabaseProperties_CreateMode_Recovery,
-		DatabaseProperties_CreateMode_Restore,
-		DatabaseProperties_CreateMode_RestoreExternalBackup,
-		DatabaseProperties_CreateMode_RestoreExternalBackupSecondary,
-		DatabaseProperties_CreateMode_RestoreLongTermRetentionBackup,
-		DatabaseProperties_CreateMode_Secondary))
+		DatabaseProperties_CreateMode_ARM_Copy,
+		DatabaseProperties_CreateMode_ARM_Default,
+		DatabaseProperties_CreateMode_ARM_OnlineSecondary,
+		DatabaseProperties_CreateMode_ARM_PointInTimeRestore,
+		DatabaseProperties_CreateMode_ARM_Recovery,
+		DatabaseProperties_CreateMode_ARM_Restore,
+		DatabaseProperties_CreateMode_ARM_RestoreExternalBackup,
+		DatabaseProperties_CreateMode_ARM_RestoreExternalBackupSecondary,
+		DatabaseProperties_CreateMode_ARM_RestoreLongTermRetentionBackup,
+		DatabaseProperties_CreateMode_ARM_Secondary))
 	gens["ElasticPoolId"] = gen.PtrOf(gen.AlphaString())
 	gens["FederatedClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["HighAvailabilityReplicaCount"] = gen.PtrOf(gen.Int())
 	gens["IsLedgerOn"] = gen.PtrOf(gen.Bool())
-	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_LicenseType_BasePrice, DatabaseProperties_LicenseType_LicenseIncluded))
+	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_LicenseType_ARM_BasePrice, DatabaseProperties_LicenseType_ARM_LicenseIncluded))
 	gens["LongTermRetentionBackupResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["MaintenanceConfigurationId"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["MinCapacity"] = gen.PtrOf(gen.Float64())
-	gens["ReadScale"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ReadScale_Disabled, DatabaseProperties_ReadScale_Enabled))
+	gens["ReadScale"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ReadScale_ARM_Disabled, DatabaseProperties_ReadScale_ARM_Enabled))
 	gens["RecoverableDatabaseId"] = gen.PtrOf(gen.AlphaString())
 	gens["RecoveryServicesRecoveryPointId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestedBackupStorageRedundancy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_RequestedBackupStorageRedundancy_Geo,
-		DatabaseProperties_RequestedBackupStorageRedundancy_GeoZone,
-		DatabaseProperties_RequestedBackupStorageRedundancy_Local,
-		DatabaseProperties_RequestedBackupStorageRedundancy_Zone))
+		DatabaseProperties_RequestedBackupStorageRedundancy_ARM_Geo,
+		DatabaseProperties_RequestedBackupStorageRedundancy_ARM_GeoZone,
+		DatabaseProperties_RequestedBackupStorageRedundancy_ARM_Local,
+		DatabaseProperties_RequestedBackupStorageRedundancy_ARM_Zone))
 	gens["RestorableDroppedDatabaseId"] = gen.PtrOf(gen.AlphaString())
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
-	gens["SampleName"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_SampleName_AdventureWorksLT, DatabaseProperties_SampleName_WideWorldImportersFull, DatabaseProperties_SampleName_WideWorldImportersStd))
-	gens["SecondaryType"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_SecondaryType_Geo, DatabaseProperties_SecondaryType_Named))
+	gens["SampleName"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_SampleName_ARM_AdventureWorksLT, DatabaseProperties_SampleName_ARM_WideWorldImportersFull, DatabaseProperties_SampleName_ARM_WideWorldImportersStd))
+	gens["SecondaryType"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_SecondaryType_ARM_Geo, DatabaseProperties_SecondaryType_ARM_Named))
 	gens["SourceDatabaseDeletionDate"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceDatabaseId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())

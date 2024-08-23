@@ -687,7 +687,9 @@ func (rule *Servers_VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := VirtualNetworkRuleProperties_State_STATUS(temp)
 			rule.State = &state
 		}
 	}

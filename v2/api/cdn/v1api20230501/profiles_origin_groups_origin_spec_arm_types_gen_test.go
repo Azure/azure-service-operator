@@ -84,7 +84,7 @@ func AFDOriginProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAFDOriginProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAFDOriginProperties_ARM(gens map[string]gopter.Gen) {
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(AFDOriginProperties_EnabledState_Disabled, AFDOriginProperties_EnabledState_Enabled))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(AFDOriginProperties_EnabledState_ARM_Disabled, AFDOriginProperties_EnabledState_ARM_Enabled))
 	gens["EnforceCertificateNameCheck"] = gen.PtrOf(gen.Bool())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["HttpPort"] = gen.PtrOf(gen.Int())
@@ -246,11 +246,11 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceProperties_ARM(
 	gens["PrivateLinkLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		SharedPrivateLinkResourceProperties_Status_Approved,
-		SharedPrivateLinkResourceProperties_Status_Disconnected,
-		SharedPrivateLinkResourceProperties_Status_Pending,
-		SharedPrivateLinkResourceProperties_Status_Rejected,
-		SharedPrivateLinkResourceProperties_Status_Timeout))
+		SharedPrivateLinkResourceProperties_Status_ARM_Approved,
+		SharedPrivateLinkResourceProperties_Status_ARM_Disconnected,
+		SharedPrivateLinkResourceProperties_Status_ARM_Pending,
+		SharedPrivateLinkResourceProperties_Status_ARM_Rejected,
+		SharedPrivateLinkResourceProperties_Status_ARM_Timeout))
 }
 
 // AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceProperties_ARM is a factory method for creating gopter generators

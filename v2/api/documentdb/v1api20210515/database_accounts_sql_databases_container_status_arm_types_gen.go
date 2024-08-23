@@ -71,14 +71,14 @@ type ConflictResolutionPolicy_STATUS_ARM struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	// Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
+	Mode *ConflictResolutionPolicy_Mode_STATUS_ARM `json:"mode,omitempty"`
 }
 
 // The configuration of the partition key to be used for partitioning data into multiple partitions
 type ContainerPartitionKey_STATUS_ARM struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
-	Kind *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
+	Kind *ContainerPartitionKey_Kind_STATUS_ARM `json:"kind,omitempty"`
 
 	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -105,7 +105,7 @@ type IndexingPolicy_STATUS_ARM struct {
 	IncludedPaths []IncludedPath_STATUS_ARM `json:"includedPaths,omitempty"`
 
 	// IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
+	IndexingMode *IndexingPolicy_IndexingMode_STATUS_ARM `json:"indexingMode,omitempty"`
 
 	// SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_STATUS_ARM `json:"spatialIndexes,omitempty"`
@@ -121,39 +121,39 @@ type UniqueKeyPolicy_STATUS_ARM struct {
 
 type CompositePath_STATUS_ARM struct {
 	// Order: Sort order for composite paths.
-	Order *CompositePath_Order_STATUS `json:"order,omitempty"`
+	Order *CompositePath_Order_STATUS_ARM `json:"order,omitempty"`
 
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-type ConflictResolutionPolicy_Mode_STATUS string
+type ConflictResolutionPolicy_Mode_STATUS_ARM string
 
 const (
-	ConflictResolutionPolicy_Mode_STATUS_Custom         = ConflictResolutionPolicy_Mode_STATUS("Custom")
-	ConflictResolutionPolicy_Mode_STATUS_LastWriterWins = ConflictResolutionPolicy_Mode_STATUS("LastWriterWins")
+	ConflictResolutionPolicy_Mode_STATUS_ARM_Custom         = ConflictResolutionPolicy_Mode_STATUS_ARM("Custom")
+	ConflictResolutionPolicy_Mode_STATUS_ARM_LastWriterWins = ConflictResolutionPolicy_Mode_STATUS_ARM("LastWriterWins")
 )
 
-// Mapping from string to ConflictResolutionPolicy_Mode_STATUS
-var conflictResolutionPolicy_Mode_STATUS_Values = map[string]ConflictResolutionPolicy_Mode_STATUS{
-	"custom":         ConflictResolutionPolicy_Mode_STATUS_Custom,
-	"lastwriterwins": ConflictResolutionPolicy_Mode_STATUS_LastWriterWins,
+// Mapping from string to ConflictResolutionPolicy_Mode_STATUS_ARM
+var conflictResolutionPolicy_Mode_STATUS_ARM_Values = map[string]ConflictResolutionPolicy_Mode_STATUS_ARM{
+	"custom":         ConflictResolutionPolicy_Mode_STATUS_ARM_Custom,
+	"lastwriterwins": ConflictResolutionPolicy_Mode_STATUS_ARM_LastWriterWins,
 }
 
-type ContainerPartitionKey_Kind_STATUS string
+type ContainerPartitionKey_Kind_STATUS_ARM string
 
 const (
-	ContainerPartitionKey_Kind_STATUS_Hash      = ContainerPartitionKey_Kind_STATUS("Hash")
-	ContainerPartitionKey_Kind_STATUS_MultiHash = ContainerPartitionKey_Kind_STATUS("MultiHash")
-	ContainerPartitionKey_Kind_STATUS_Range     = ContainerPartitionKey_Kind_STATUS("Range")
+	ContainerPartitionKey_Kind_STATUS_ARM_Hash      = ContainerPartitionKey_Kind_STATUS_ARM("Hash")
+	ContainerPartitionKey_Kind_STATUS_ARM_MultiHash = ContainerPartitionKey_Kind_STATUS_ARM("MultiHash")
+	ContainerPartitionKey_Kind_STATUS_ARM_Range     = ContainerPartitionKey_Kind_STATUS_ARM("Range")
 )
 
-// Mapping from string to ContainerPartitionKey_Kind_STATUS
-var containerPartitionKey_Kind_STATUS_Values = map[string]ContainerPartitionKey_Kind_STATUS{
-	"hash":      ContainerPartitionKey_Kind_STATUS_Hash,
-	"multihash": ContainerPartitionKey_Kind_STATUS_MultiHash,
-	"range":     ContainerPartitionKey_Kind_STATUS_Range,
+// Mapping from string to ContainerPartitionKey_Kind_STATUS_ARM
+var containerPartitionKey_Kind_STATUS_ARM_Values = map[string]ContainerPartitionKey_Kind_STATUS_ARM{
+	"hash":      ContainerPartitionKey_Kind_STATUS_ARM_Hash,
+	"multihash": ContainerPartitionKey_Kind_STATUS_ARM_MultiHash,
+	"range":     ContainerPartitionKey_Kind_STATUS_ARM_Range,
 }
 
 type ExcludedPath_STATUS_ARM struct {
@@ -172,19 +172,19 @@ type IncludedPath_STATUS_ARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
-type IndexingPolicy_IndexingMode_STATUS string
+type IndexingPolicy_IndexingMode_STATUS_ARM string
 
 const (
-	IndexingPolicy_IndexingMode_STATUS_Consistent = IndexingPolicy_IndexingMode_STATUS("consistent")
-	IndexingPolicy_IndexingMode_STATUS_Lazy       = IndexingPolicy_IndexingMode_STATUS("lazy")
-	IndexingPolicy_IndexingMode_STATUS_None       = IndexingPolicy_IndexingMode_STATUS("none")
+	IndexingPolicy_IndexingMode_STATUS_ARM_Consistent = IndexingPolicy_IndexingMode_STATUS_ARM("consistent")
+	IndexingPolicy_IndexingMode_STATUS_ARM_Lazy       = IndexingPolicy_IndexingMode_STATUS_ARM("lazy")
+	IndexingPolicy_IndexingMode_STATUS_ARM_None       = IndexingPolicy_IndexingMode_STATUS_ARM("none")
 )
 
-// Mapping from string to IndexingPolicy_IndexingMode_STATUS
-var indexingPolicy_IndexingMode_STATUS_Values = map[string]IndexingPolicy_IndexingMode_STATUS{
-	"consistent": IndexingPolicy_IndexingMode_STATUS_Consistent,
-	"lazy":       IndexingPolicy_IndexingMode_STATUS_Lazy,
-	"none":       IndexingPolicy_IndexingMode_STATUS_None,
+// Mapping from string to IndexingPolicy_IndexingMode_STATUS_ARM
+var indexingPolicy_IndexingMode_STATUS_ARM_Values = map[string]IndexingPolicy_IndexingMode_STATUS_ARM{
+	"consistent": IndexingPolicy_IndexingMode_STATUS_ARM_Consistent,
+	"lazy":       IndexingPolicy_IndexingMode_STATUS_ARM_Lazy,
+	"none":       IndexingPolicy_IndexingMode_STATUS_ARM_None,
 }
 
 type SpatialSpec_STATUS_ARM struct {
@@ -193,7 +193,7 @@ type SpatialSpec_STATUS_ARM struct {
 	Path *string `json:"path,omitempty"`
 
 	// Types: List of path's spatial type
-	Types []SpatialType_STATUS `json:"types,omitempty"`
+	Types []SpatialType_STATUS_ARM `json:"types,omitempty"`
 }
 
 // The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
@@ -202,81 +202,81 @@ type UniqueKey_STATUS_ARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
-type CompositePath_Order_STATUS string
+type CompositePath_Order_STATUS_ARM string
 
 const (
-	CompositePath_Order_STATUS_Ascending  = CompositePath_Order_STATUS("ascending")
-	CompositePath_Order_STATUS_Descending = CompositePath_Order_STATUS("descending")
+	CompositePath_Order_STATUS_ARM_Ascending  = CompositePath_Order_STATUS_ARM("ascending")
+	CompositePath_Order_STATUS_ARM_Descending = CompositePath_Order_STATUS_ARM("descending")
 )
 
-// Mapping from string to CompositePath_Order_STATUS
-var compositePath_Order_STATUS_Values = map[string]CompositePath_Order_STATUS{
-	"ascending":  CompositePath_Order_STATUS_Ascending,
-	"descending": CompositePath_Order_STATUS_Descending,
+// Mapping from string to CompositePath_Order_STATUS_ARM
+var compositePath_Order_STATUS_ARM_Values = map[string]CompositePath_Order_STATUS_ARM{
+	"ascending":  CompositePath_Order_STATUS_ARM_Ascending,
+	"descending": CompositePath_Order_STATUS_ARM_Descending,
 }
 
 // The indexes for the path.
 type Indexes_STATUS_ARM struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
-	DataType *Indexes_DataType_STATUS `json:"dataType,omitempty"`
+	DataType *Indexes_DataType_STATUS_ARM `json:"dataType,omitempty"`
 
 	// Kind: Indicates the type of index.
-	Kind *Indexes_Kind_STATUS `json:"kind,omitempty"`
+	Kind *Indexes_Kind_STATUS_ARM `json:"kind,omitempty"`
 
 	// Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
 }
 
 // Indicates the spatial type of index.
-type SpatialType_STATUS string
+type SpatialType_STATUS_ARM string
 
 const (
-	SpatialType_STATUS_LineString   = SpatialType_STATUS("LineString")
-	SpatialType_STATUS_MultiPolygon = SpatialType_STATUS("MultiPolygon")
-	SpatialType_STATUS_Point        = SpatialType_STATUS("Point")
-	SpatialType_STATUS_Polygon      = SpatialType_STATUS("Polygon")
+	SpatialType_STATUS_ARM_LineString   = SpatialType_STATUS_ARM("LineString")
+	SpatialType_STATUS_ARM_MultiPolygon = SpatialType_STATUS_ARM("MultiPolygon")
+	SpatialType_STATUS_ARM_Point        = SpatialType_STATUS_ARM("Point")
+	SpatialType_STATUS_ARM_Polygon      = SpatialType_STATUS_ARM("Polygon")
 )
 
-// Mapping from string to SpatialType_STATUS
-var spatialType_STATUS_Values = map[string]SpatialType_STATUS{
-	"linestring":   SpatialType_STATUS_LineString,
-	"multipolygon": SpatialType_STATUS_MultiPolygon,
-	"point":        SpatialType_STATUS_Point,
-	"polygon":      SpatialType_STATUS_Polygon,
+// Mapping from string to SpatialType_STATUS_ARM
+var spatialType_STATUS_ARM_Values = map[string]SpatialType_STATUS_ARM{
+	"linestring":   SpatialType_STATUS_ARM_LineString,
+	"multipolygon": SpatialType_STATUS_ARM_MultiPolygon,
+	"point":        SpatialType_STATUS_ARM_Point,
+	"polygon":      SpatialType_STATUS_ARM_Polygon,
 }
 
-type Indexes_DataType_STATUS string
+type Indexes_DataType_STATUS_ARM string
 
 const (
-	Indexes_DataType_STATUS_LineString   = Indexes_DataType_STATUS("LineString")
-	Indexes_DataType_STATUS_MultiPolygon = Indexes_DataType_STATUS("MultiPolygon")
-	Indexes_DataType_STATUS_Number       = Indexes_DataType_STATUS("Number")
-	Indexes_DataType_STATUS_Point        = Indexes_DataType_STATUS("Point")
-	Indexes_DataType_STATUS_Polygon      = Indexes_DataType_STATUS("Polygon")
-	Indexes_DataType_STATUS_String       = Indexes_DataType_STATUS("String")
+	Indexes_DataType_STATUS_ARM_LineString   = Indexes_DataType_STATUS_ARM("LineString")
+	Indexes_DataType_STATUS_ARM_MultiPolygon = Indexes_DataType_STATUS_ARM("MultiPolygon")
+	Indexes_DataType_STATUS_ARM_Number       = Indexes_DataType_STATUS_ARM("Number")
+	Indexes_DataType_STATUS_ARM_Point        = Indexes_DataType_STATUS_ARM("Point")
+	Indexes_DataType_STATUS_ARM_Polygon      = Indexes_DataType_STATUS_ARM("Polygon")
+	Indexes_DataType_STATUS_ARM_String       = Indexes_DataType_STATUS_ARM("String")
 )
 
-// Mapping from string to Indexes_DataType_STATUS
-var indexes_DataType_STATUS_Values = map[string]Indexes_DataType_STATUS{
-	"linestring":   Indexes_DataType_STATUS_LineString,
-	"multipolygon": Indexes_DataType_STATUS_MultiPolygon,
-	"number":       Indexes_DataType_STATUS_Number,
-	"point":        Indexes_DataType_STATUS_Point,
-	"polygon":      Indexes_DataType_STATUS_Polygon,
-	"string":       Indexes_DataType_STATUS_String,
+// Mapping from string to Indexes_DataType_STATUS_ARM
+var indexes_DataType_STATUS_ARM_Values = map[string]Indexes_DataType_STATUS_ARM{
+	"linestring":   Indexes_DataType_STATUS_ARM_LineString,
+	"multipolygon": Indexes_DataType_STATUS_ARM_MultiPolygon,
+	"number":       Indexes_DataType_STATUS_ARM_Number,
+	"point":        Indexes_DataType_STATUS_ARM_Point,
+	"polygon":      Indexes_DataType_STATUS_ARM_Polygon,
+	"string":       Indexes_DataType_STATUS_ARM_String,
 }
 
-type Indexes_Kind_STATUS string
+type Indexes_Kind_STATUS_ARM string
 
 const (
-	Indexes_Kind_STATUS_Hash    = Indexes_Kind_STATUS("Hash")
-	Indexes_Kind_STATUS_Range   = Indexes_Kind_STATUS("Range")
-	Indexes_Kind_STATUS_Spatial = Indexes_Kind_STATUS("Spatial")
+	Indexes_Kind_STATUS_ARM_Hash    = Indexes_Kind_STATUS_ARM("Hash")
+	Indexes_Kind_STATUS_ARM_Range   = Indexes_Kind_STATUS_ARM("Range")
+	Indexes_Kind_STATUS_ARM_Spatial = Indexes_Kind_STATUS_ARM("Spatial")
 )
 
-// Mapping from string to Indexes_Kind_STATUS
-var indexes_Kind_STATUS_Values = map[string]Indexes_Kind_STATUS{
-	"hash":    Indexes_Kind_STATUS_Hash,
-	"range":   Indexes_Kind_STATUS_Range,
-	"spatial": Indexes_Kind_STATUS_Spatial,
+// Mapping from string to Indexes_Kind_STATUS_ARM
+var indexes_Kind_STATUS_ARM_Values = map[string]Indexes_Kind_STATUS_ARM{
+	"hash":    Indexes_Kind_STATUS_ARM_Hash,
+	"range":   Indexes_Kind_STATUS_ARM_Range,
+	"spatial": Indexes_Kind_STATUS_ARM_Spatial,
 }

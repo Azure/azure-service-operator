@@ -164,17 +164,17 @@ func ForwardingRuleProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForForwardingRuleProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForForwardingRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
-	gens["ForwardingRuleState"] = gen.PtrOf(gen.OneConstOf(ForwardingRuleProperties_ForwardingRuleState_STATUS_Disabled, ForwardingRuleProperties_ForwardingRuleState_STATUS_Enabled))
+	gens["ForwardingRuleState"] = gen.PtrOf(gen.OneConstOf(ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM_Disabled, ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM_Enabled))
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DnsresolverProvisioningState_STATUS_Canceled,
-		DnsresolverProvisioningState_STATUS_Creating,
-		DnsresolverProvisioningState_STATUS_Deleting,
-		DnsresolverProvisioningState_STATUS_Failed,
-		DnsresolverProvisioningState_STATUS_Succeeded,
-		DnsresolverProvisioningState_STATUS_Updating))
+		DnsresolverProvisioningState_STATUS_ARM_Canceled,
+		DnsresolverProvisioningState_STATUS_ARM_Creating,
+		DnsresolverProvisioningState_STATUS_ARM_Deleting,
+		DnsresolverProvisioningState_STATUS_ARM_Failed,
+		DnsresolverProvisioningState_STATUS_ARM_Succeeded,
+		DnsresolverProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForForwardingRuleProperties_STATUS_ARM is a factory method for creating gopter generators

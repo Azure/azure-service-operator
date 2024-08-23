@@ -770,7 +770,9 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := PrivateZoneProperties_ProvisioningState_STATUS(temp)
 			zone.ProvisioningState = &provisioningState
 		}
 	}

@@ -85,7 +85,7 @@ func DatabaseIdentity_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabaseIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(DatabaseIdentity_Type_STATUS_None, DatabaseIdentity_Type_STATUS_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DatabaseIdentity_Type_STATUS_ARM_None, DatabaseIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -163,25 +163,25 @@ func DatabaseProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabaseProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AutoPauseDelay"] = gen.PtrOf(gen.Int())
-	gens["CatalogCollation"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_CatalogCollation_STATUS_DATABASE_DEFAULT, DatabaseProperties_CatalogCollation_STATUS_SQL_Latin1_General_CP1_CI_AS))
+	gens["CatalogCollation"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_CatalogCollation_STATUS_ARM_DATABASE_DEFAULT, DatabaseProperties_CatalogCollation_STATUS_ARM_SQL_Latin1_General_CP1_CI_AS))
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_CreateMode_STATUS_Copy,
-		DatabaseProperties_CreateMode_STATUS_Default,
-		DatabaseProperties_CreateMode_STATUS_OnlineSecondary,
-		DatabaseProperties_CreateMode_STATUS_PointInTimeRestore,
-		DatabaseProperties_CreateMode_STATUS_Recovery,
-		DatabaseProperties_CreateMode_STATUS_Restore,
-		DatabaseProperties_CreateMode_STATUS_RestoreExternalBackup,
-		DatabaseProperties_CreateMode_STATUS_RestoreExternalBackupSecondary,
-		DatabaseProperties_CreateMode_STATUS_RestoreLongTermRetentionBackup,
-		DatabaseProperties_CreateMode_STATUS_Secondary))
+		DatabaseProperties_CreateMode_STATUS_ARM_Copy,
+		DatabaseProperties_CreateMode_STATUS_ARM_Default,
+		DatabaseProperties_CreateMode_STATUS_ARM_OnlineSecondary,
+		DatabaseProperties_CreateMode_STATUS_ARM_PointInTimeRestore,
+		DatabaseProperties_CreateMode_STATUS_ARM_Recovery,
+		DatabaseProperties_CreateMode_STATUS_ARM_Restore,
+		DatabaseProperties_CreateMode_STATUS_ARM_RestoreExternalBackup,
+		DatabaseProperties_CreateMode_STATUS_ARM_RestoreExternalBackupSecondary,
+		DatabaseProperties_CreateMode_STATUS_ARM_RestoreLongTermRetentionBackup,
+		DatabaseProperties_CreateMode_STATUS_ARM_Secondary))
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["CurrentBackupStorageRedundancy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Geo,
-		DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_GeoZone,
-		DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Local,
-		DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Zone))
+		DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Geo,
+		DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_GeoZone,
+		DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Local,
+		DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM_Zone))
 	gens["CurrentServiceObjectiveName"] = gen.PtrOf(gen.AlphaString())
 	gens["DatabaseId"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultSecondaryLocation"] = gen.PtrOf(gen.AlphaString())
@@ -192,55 +192,55 @@ func AddIndependentPropertyGeneratorsForDatabaseProperties_STATUS_ARM(gens map[s
 	gens["HighAvailabilityReplicaCount"] = gen.PtrOf(gen.Int())
 	gens["IsInfraEncryptionEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsLedgerOn"] = gen.PtrOf(gen.Bool())
-	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_LicenseType_STATUS_BasePrice, DatabaseProperties_LicenseType_STATUS_LicenseIncluded))
+	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_LicenseType_STATUS_ARM_BasePrice, DatabaseProperties_LicenseType_STATUS_ARM_LicenseIncluded))
 	gens["LongTermRetentionBackupResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["MaintenanceConfigurationId"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxLogSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["MaxSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["MinCapacity"] = gen.PtrOf(gen.Float64())
 	gens["PausedDate"] = gen.PtrOf(gen.AlphaString())
-	gens["ReadScale"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ReadScale_STATUS_Disabled, DatabaseProperties_ReadScale_STATUS_Enabled))
+	gens["ReadScale"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ReadScale_STATUS_ARM_Disabled, DatabaseProperties_ReadScale_STATUS_ARM_Enabled))
 	gens["RecoverableDatabaseId"] = gen.PtrOf(gen.AlphaString())
 	gens["RecoveryServicesRecoveryPointId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestedBackupStorageRedundancy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Geo,
-		DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_GeoZone,
-		DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Local,
-		DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Zone))
+		DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Geo,
+		DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_GeoZone,
+		DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Local,
+		DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM_Zone))
 	gens["RequestedServiceObjectiveName"] = gen.PtrOf(gen.AlphaString())
 	gens["RestorableDroppedDatabaseId"] = gen.PtrOf(gen.AlphaString())
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
 	gens["ResumedDate"] = gen.PtrOf(gen.AlphaString())
-	gens["SampleName"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_SampleName_STATUS_AdventureWorksLT, DatabaseProperties_SampleName_STATUS_WideWorldImportersFull, DatabaseProperties_SampleName_STATUS_WideWorldImportersStd))
-	gens["SecondaryType"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_SecondaryType_STATUS_Geo, DatabaseProperties_SecondaryType_STATUS_Named))
+	gens["SampleName"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_SampleName_STATUS_ARM_AdventureWorksLT, DatabaseProperties_SampleName_STATUS_ARM_WideWorldImportersFull, DatabaseProperties_SampleName_STATUS_ARM_WideWorldImportersStd))
+	gens["SecondaryType"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_SecondaryType_STATUS_ARM_Geo, DatabaseProperties_SecondaryType_STATUS_ARM_Named))
 	gens["SourceDatabaseDeletionDate"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceDatabaseId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_Status_STATUS_AutoClosed,
-		DatabaseProperties_Status_STATUS_Copying,
-		DatabaseProperties_Status_STATUS_Creating,
-		DatabaseProperties_Status_STATUS_Disabled,
-		DatabaseProperties_Status_STATUS_EmergencyMode,
-		DatabaseProperties_Status_STATUS_Inaccessible,
-		DatabaseProperties_Status_STATUS_Offline,
-		DatabaseProperties_Status_STATUS_OfflineChangingDwPerformanceTiers,
-		DatabaseProperties_Status_STATUS_OfflineSecondary,
-		DatabaseProperties_Status_STATUS_Online,
-		DatabaseProperties_Status_STATUS_OnlineChangingDwPerformanceTiers,
-		DatabaseProperties_Status_STATUS_Paused,
-		DatabaseProperties_Status_STATUS_Pausing,
-		DatabaseProperties_Status_STATUS_Recovering,
-		DatabaseProperties_Status_STATUS_RecoveryPending,
-		DatabaseProperties_Status_STATUS_Restoring,
-		DatabaseProperties_Status_STATUS_Resuming,
-		DatabaseProperties_Status_STATUS_Scaling,
-		DatabaseProperties_Status_STATUS_Shutdown,
-		DatabaseProperties_Status_STATUS_Standby,
-		DatabaseProperties_Status_STATUS_Starting,
-		DatabaseProperties_Status_STATUS_Stopped,
-		DatabaseProperties_Status_STATUS_Stopping,
-		DatabaseProperties_Status_STATUS_Suspect))
+		DatabaseProperties_Status_STATUS_ARM_AutoClosed,
+		DatabaseProperties_Status_STATUS_ARM_Copying,
+		DatabaseProperties_Status_STATUS_ARM_Creating,
+		DatabaseProperties_Status_STATUS_ARM_Disabled,
+		DatabaseProperties_Status_STATUS_ARM_EmergencyMode,
+		DatabaseProperties_Status_STATUS_ARM_Inaccessible,
+		DatabaseProperties_Status_STATUS_ARM_Offline,
+		DatabaseProperties_Status_STATUS_ARM_OfflineChangingDwPerformanceTiers,
+		DatabaseProperties_Status_STATUS_ARM_OfflineSecondary,
+		DatabaseProperties_Status_STATUS_ARM_Online,
+		DatabaseProperties_Status_STATUS_ARM_OnlineChangingDwPerformanceTiers,
+		DatabaseProperties_Status_STATUS_ARM_Paused,
+		DatabaseProperties_Status_STATUS_ARM_Pausing,
+		DatabaseProperties_Status_STATUS_ARM_Recovering,
+		DatabaseProperties_Status_STATUS_ARM_RecoveryPending,
+		DatabaseProperties_Status_STATUS_ARM_Restoring,
+		DatabaseProperties_Status_STATUS_ARM_Resuming,
+		DatabaseProperties_Status_STATUS_ARM_Scaling,
+		DatabaseProperties_Status_STATUS_ARM_Shutdown,
+		DatabaseProperties_Status_STATUS_ARM_Standby,
+		DatabaseProperties_Status_STATUS_ARM_Starting,
+		DatabaseProperties_Status_STATUS_ARM_Stopped,
+		DatabaseProperties_Status_STATUS_ARM_Stopping,
+		DatabaseProperties_Status_STATUS_ARM_Suspect))
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 

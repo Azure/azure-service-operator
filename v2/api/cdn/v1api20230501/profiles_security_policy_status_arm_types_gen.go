@@ -24,7 +24,7 @@ type Profiles_SecurityPolicy_STATUS_ARM struct {
 
 // The json object that contains properties required to create a security policy
 type SecurityPolicyProperties_STATUS_ARM struct {
-	DeploymentStatus *SecurityPolicyProperties_DeploymentStatus_STATUS `json:"deploymentStatus,omitempty"`
+	DeploymentStatus *SecurityPolicyProperties_DeploymentStatus_STATUS_ARM `json:"deploymentStatus,omitempty"`
 
 	// Parameters: object which contains security policy parameters
 	Parameters *SecurityPolicyPropertiesParameters_STATUS_ARM `json:"parameters,omitempty"`
@@ -33,43 +33,43 @@ type SecurityPolicyProperties_STATUS_ARM struct {
 	ProfileName *string `json:"profileName,omitempty"`
 
 	// ProvisioningState: Provisioning status
-	ProvisioningState *SecurityPolicyProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *SecurityPolicyProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
-type SecurityPolicyProperties_DeploymentStatus_STATUS string
+type SecurityPolicyProperties_DeploymentStatus_STATUS_ARM string
 
 const (
-	SecurityPolicyProperties_DeploymentStatus_STATUS_Failed     = SecurityPolicyProperties_DeploymentStatus_STATUS("Failed")
-	SecurityPolicyProperties_DeploymentStatus_STATUS_InProgress = SecurityPolicyProperties_DeploymentStatus_STATUS("InProgress")
-	SecurityPolicyProperties_DeploymentStatus_STATUS_NotStarted = SecurityPolicyProperties_DeploymentStatus_STATUS("NotStarted")
-	SecurityPolicyProperties_DeploymentStatus_STATUS_Succeeded  = SecurityPolicyProperties_DeploymentStatus_STATUS("Succeeded")
+	SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_Failed     = SecurityPolicyProperties_DeploymentStatus_STATUS_ARM("Failed")
+	SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_InProgress = SecurityPolicyProperties_DeploymentStatus_STATUS_ARM("InProgress")
+	SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_NotStarted = SecurityPolicyProperties_DeploymentStatus_STATUS_ARM("NotStarted")
+	SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_Succeeded  = SecurityPolicyProperties_DeploymentStatus_STATUS_ARM("Succeeded")
 )
 
-// Mapping from string to SecurityPolicyProperties_DeploymentStatus_STATUS
-var securityPolicyProperties_DeploymentStatus_STATUS_Values = map[string]SecurityPolicyProperties_DeploymentStatus_STATUS{
-	"failed":     SecurityPolicyProperties_DeploymentStatus_STATUS_Failed,
-	"inprogress": SecurityPolicyProperties_DeploymentStatus_STATUS_InProgress,
-	"notstarted": SecurityPolicyProperties_DeploymentStatus_STATUS_NotStarted,
-	"succeeded":  SecurityPolicyProperties_DeploymentStatus_STATUS_Succeeded,
+// Mapping from string to SecurityPolicyProperties_DeploymentStatus_STATUS_ARM
+var securityPolicyProperties_DeploymentStatus_STATUS_ARM_Values = map[string]SecurityPolicyProperties_DeploymentStatus_STATUS_ARM{
+	"failed":     SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_Failed,
+	"inprogress": SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_InProgress,
+	"notstarted": SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+	"succeeded":  SecurityPolicyProperties_DeploymentStatus_STATUS_ARM_Succeeded,
 }
 
-type SecurityPolicyProperties_ProvisioningState_STATUS string
+type SecurityPolicyProperties_ProvisioningState_STATUS_ARM string
 
 const (
-	SecurityPolicyProperties_ProvisioningState_STATUS_Creating  = SecurityPolicyProperties_ProvisioningState_STATUS("Creating")
-	SecurityPolicyProperties_ProvisioningState_STATUS_Deleting  = SecurityPolicyProperties_ProvisioningState_STATUS("Deleting")
-	SecurityPolicyProperties_ProvisioningState_STATUS_Failed    = SecurityPolicyProperties_ProvisioningState_STATUS("Failed")
-	SecurityPolicyProperties_ProvisioningState_STATUS_Succeeded = SecurityPolicyProperties_ProvisioningState_STATUS("Succeeded")
-	SecurityPolicyProperties_ProvisioningState_STATUS_Updating  = SecurityPolicyProperties_ProvisioningState_STATUS("Updating")
+	SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Creating  = SecurityPolicyProperties_ProvisioningState_STATUS_ARM("Creating")
+	SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Deleting  = SecurityPolicyProperties_ProvisioningState_STATUS_ARM("Deleting")
+	SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Failed    = SecurityPolicyProperties_ProvisioningState_STATUS_ARM("Failed")
+	SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Succeeded = SecurityPolicyProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Updating  = SecurityPolicyProperties_ProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to SecurityPolicyProperties_ProvisioningState_STATUS
-var securityPolicyProperties_ProvisioningState_STATUS_Values = map[string]SecurityPolicyProperties_ProvisioningState_STATUS{
-	"creating":  SecurityPolicyProperties_ProvisioningState_STATUS_Creating,
-	"deleting":  SecurityPolicyProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    SecurityPolicyProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": SecurityPolicyProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  SecurityPolicyProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to SecurityPolicyProperties_ProvisioningState_STATUS_ARM
+var securityPolicyProperties_ProvisioningState_STATUS_ARM_Values = map[string]SecurityPolicyProperties_ProvisioningState_STATUS_ARM{
+	"creating":  SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  SecurityPolicyProperties_ProvisioningState_STATUS_ARM_Updating,
 }
 
 type SecurityPolicyPropertiesParameters_STATUS_ARM struct {
@@ -107,7 +107,7 @@ type SecurityPolicyWebApplicationFirewallParameters_STATUS_ARM struct {
 	Associations []SecurityPolicyWebApplicationFirewallAssociation_STATUS_ARM `json:"associations,omitempty"`
 
 	// Type: The type of the Security policy to create.
-	Type SecurityPolicyWebApplicationFirewallParameters_Type_STATUS `json:"type,omitempty"`
+	Type SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// WafPolicy: Resource ID.
 	WafPolicy *ResourceReference_STATUS_ARM `json:"wafPolicy,omitempty"`
@@ -122,13 +122,13 @@ type SecurityPolicyWebApplicationFirewallAssociation_STATUS_ARM struct {
 	PatternsToMatch []string `json:"patternsToMatch,omitempty"`
 }
 
-type SecurityPolicyWebApplicationFirewallParameters_Type_STATUS string
+type SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_ARM string
 
-const SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_WebApplicationFirewall = SecurityPolicyWebApplicationFirewallParameters_Type_STATUS("WebApplicationFirewall")
+const SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_ARM_WebApplicationFirewall = SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_ARM("WebApplicationFirewall")
 
-// Mapping from string to SecurityPolicyWebApplicationFirewallParameters_Type_STATUS
-var securityPolicyWebApplicationFirewallParameters_Type_STATUS_Values = map[string]SecurityPolicyWebApplicationFirewallParameters_Type_STATUS{
-	"webapplicationfirewall": SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_WebApplicationFirewall,
+// Mapping from string to SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_ARM
+var securityPolicyWebApplicationFirewallParameters_Type_STATUS_ARM_Values = map[string]SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_ARM{
+	"webapplicationfirewall": SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_ARM_WebApplicationFirewall,
 }
 
 // Reference to another resource along with its state.

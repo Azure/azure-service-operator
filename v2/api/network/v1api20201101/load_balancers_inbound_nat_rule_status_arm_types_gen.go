@@ -51,10 +51,10 @@ type InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResou
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol_STATUS `json:"protocol,omitempty"`
+	Protocol *TransportProtocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the inbound NAT rule resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
 // IPConfiguration in a network interface.
@@ -67,4 +67,20 @@ type NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubReso
 type SubResource_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
+}
+
+// The transport protocol for the endpoint.
+type TransportProtocol_STATUS_ARM string
+
+const (
+	TransportProtocol_STATUS_ARM_All = TransportProtocol_STATUS_ARM("All")
+	TransportProtocol_STATUS_ARM_Tcp = TransportProtocol_STATUS_ARM("Tcp")
+	TransportProtocol_STATUS_ARM_Udp = TransportProtocol_STATUS_ARM("Udp")
+)
+
+// Mapping from string to TransportProtocol_STATUS_ARM
+var transportProtocol_STATUS_ARM_Values = map[string]TransportProtocol_STATUS_ARM{
+	"all": TransportProtocol_STATUS_ARM_All,
+	"tcp": TransportProtocol_STATUS_ARM_Tcp,
+	"udp": TransportProtocol_STATUS_ARM_Udp,
 }

@@ -806,7 +806,9 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := VirtualNetworkLinkProperties_ProvisioningState_STATUS(temp)
 			link.ProvisioningState = &provisioningState
 		}
 	}
@@ -852,7 +854,9 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetworkLinkState != nil {
-			virtualNetworkLinkState := *typedInput.Properties.VirtualNetworkLinkState
+			var temp string
+			temp = string(*typedInput.Properties.VirtualNetworkLinkState)
+			virtualNetworkLinkState := VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS(temp)
 			link.VirtualNetworkLinkState = &virtualNetworkLinkState
 		}
 	}

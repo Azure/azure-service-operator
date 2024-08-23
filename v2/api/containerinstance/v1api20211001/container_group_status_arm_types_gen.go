@@ -58,7 +58,7 @@ type ContainerGroup_Properties_STATUS_ARM struct {
 	IpAddress *IpAddress_STATUS_ARM `json:"ipAddress,omitempty"`
 
 	// OsType: The operating system type required by the containers in the container group.
-	OsType *ContainerGroup_Properties_OsType_STATUS `json:"osType,omitempty"`
+	OsType *ContainerGroup_Properties_OsType_STATUS_ARM `json:"osType,omitempty"`
 
 	// ProvisioningState: The provisioning state of the container group. This only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -67,10 +67,10 @@ type ContainerGroup_Properties_STATUS_ARM struct {
 	// - `Always` Always restart
 	// - `OnFailure` Restart on failure
 	// - `Never` Never restart
-	RestartPolicy *ContainerGroup_Properties_RestartPolicy_STATUS `json:"restartPolicy,omitempty"`
+	RestartPolicy *ContainerGroup_Properties_RestartPolicy_STATUS_ARM `json:"restartPolicy,omitempty"`
 
 	// Sku: The SKU for a container group.
-	Sku *ContainerGroupSku_STATUS `json:"sku,omitempty"`
+	Sku *ContainerGroupSku_STATUS_ARM `json:"sku,omitempty"`
 
 	// SubnetIds: The subnet resource IDs for a container group.
 	SubnetIds []ContainerGroupSubnetId_STATUS_ARM `json:"subnetIds,omitempty"`
@@ -92,7 +92,7 @@ type ContainerGroupIdentity_STATUS_ARM struct {
 	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// container group.
-	Type *ContainerGroupIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ContainerGroupIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the container group.
 	UserAssignedIdentities map[string]UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
@@ -115,27 +115,69 @@ type ContainerGroup_Properties_InstanceView_STATUS_ARM struct {
 	State *string `json:"state,omitempty"`
 }
 
+type ContainerGroup_Properties_OsType_STATUS_ARM string
+
+const (
+	ContainerGroup_Properties_OsType_STATUS_ARM_Linux   = ContainerGroup_Properties_OsType_STATUS_ARM("Linux")
+	ContainerGroup_Properties_OsType_STATUS_ARM_Windows = ContainerGroup_Properties_OsType_STATUS_ARM("Windows")
+)
+
+// Mapping from string to ContainerGroup_Properties_OsType_STATUS_ARM
+var containerGroup_Properties_OsType_STATUS_ARM_Values = map[string]ContainerGroup_Properties_OsType_STATUS_ARM{
+	"linux":   ContainerGroup_Properties_OsType_STATUS_ARM_Linux,
+	"windows": ContainerGroup_Properties_OsType_STATUS_ARM_Windows,
+}
+
+type ContainerGroup_Properties_RestartPolicy_STATUS_ARM string
+
+const (
+	ContainerGroup_Properties_RestartPolicy_STATUS_ARM_Always    = ContainerGroup_Properties_RestartPolicy_STATUS_ARM("Always")
+	ContainerGroup_Properties_RestartPolicy_STATUS_ARM_Never     = ContainerGroup_Properties_RestartPolicy_STATUS_ARM("Never")
+	ContainerGroup_Properties_RestartPolicy_STATUS_ARM_OnFailure = ContainerGroup_Properties_RestartPolicy_STATUS_ARM("OnFailure")
+)
+
+// Mapping from string to ContainerGroup_Properties_RestartPolicy_STATUS_ARM
+var containerGroup_Properties_RestartPolicy_STATUS_ARM_Values = map[string]ContainerGroup_Properties_RestartPolicy_STATUS_ARM{
+	"always":    ContainerGroup_Properties_RestartPolicy_STATUS_ARM_Always,
+	"never":     ContainerGroup_Properties_RestartPolicy_STATUS_ARM_Never,
+	"onfailure": ContainerGroup_Properties_RestartPolicy_STATUS_ARM_OnFailure,
+}
+
 // Container group diagnostic information.
 type ContainerGroupDiagnostics_STATUS_ARM struct {
 	// LogAnalytics: Container group log analytics information.
 	LogAnalytics *LogAnalytics_STATUS_ARM `json:"logAnalytics,omitempty"`
 }
 
-type ContainerGroupIdentity_Type_STATUS string
+type ContainerGroupIdentity_Type_STATUS_ARM string
 
 const (
-	ContainerGroupIdentity_Type_STATUS_None                       = ContainerGroupIdentity_Type_STATUS("None")
-	ContainerGroupIdentity_Type_STATUS_SystemAssigned             = ContainerGroupIdentity_Type_STATUS("SystemAssigned")
-	ContainerGroupIdentity_Type_STATUS_SystemAssignedUserAssigned = ContainerGroupIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	ContainerGroupIdentity_Type_STATUS_UserAssigned               = ContainerGroupIdentity_Type_STATUS("UserAssigned")
+	ContainerGroupIdentity_Type_STATUS_ARM_None                       = ContainerGroupIdentity_Type_STATUS_ARM("None")
+	ContainerGroupIdentity_Type_STATUS_ARM_SystemAssigned             = ContainerGroupIdentity_Type_STATUS_ARM("SystemAssigned")
+	ContainerGroupIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = ContainerGroupIdentity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	ContainerGroupIdentity_Type_STATUS_ARM_UserAssigned               = ContainerGroupIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ContainerGroupIdentity_Type_STATUS
-var containerGroupIdentity_Type_STATUS_Values = map[string]ContainerGroupIdentity_Type_STATUS{
-	"none":                         ContainerGroupIdentity_Type_STATUS_None,
-	"systemassigned":               ContainerGroupIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": ContainerGroupIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 ContainerGroupIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to ContainerGroupIdentity_Type_STATUS_ARM
+var containerGroupIdentity_Type_STATUS_ARM_Values = map[string]ContainerGroupIdentity_Type_STATUS_ARM{
+	"none":                         ContainerGroupIdentity_Type_STATUS_ARM_None,
+	"systemassigned":               ContainerGroupIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": ContainerGroupIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ContainerGroupIdentity_Type_STATUS_ARM_UserAssigned,
+}
+
+// The container group SKU.
+type ContainerGroupSku_STATUS_ARM string
+
+const (
+	ContainerGroupSku_STATUS_ARM_Dedicated = ContainerGroupSku_STATUS_ARM("Dedicated")
+	ContainerGroupSku_STATUS_ARM_Standard  = ContainerGroupSku_STATUS_ARM("Standard")
+)
+
+// Mapping from string to ContainerGroupSku_STATUS_ARM
+var containerGroupSku_STATUS_ARM_Values = map[string]ContainerGroupSku_STATUS_ARM{
+	"dedicated": ContainerGroupSku_STATUS_ARM_Dedicated,
+	"standard":  ContainerGroupSku_STATUS_ARM_Standard,
 }
 
 // Container group subnet information.
@@ -204,7 +246,7 @@ type IpAddress_STATUS_ARM struct {
 	// 'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The
 	// 'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or
 	// tenant.
-	AutoGeneratedDomainNameLabelScope *IpAddress_AutoGeneratedDomainNameLabelScope_STATUS `json:"autoGeneratedDomainNameLabelScope,omitempty"`
+	AutoGeneratedDomainNameLabelScope *IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM `json:"autoGeneratedDomainNameLabelScope,omitempty"`
 
 	// DnsNameLabel: The Dns name label for the IP.
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
@@ -219,7 +261,7 @@ type IpAddress_STATUS_ARM struct {
 	Ports []Port_STATUS_ARM `json:"ports,omitempty"`
 
 	// Type: Specifies if the IP is exposed to the public internet or private VNET.
-	Type *IpAddress_Type_STATUS `json:"type,omitempty"`
+	Type *IpAddress_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // The list of user identities associated with the container group. The user identity dictionary key references will be ARM
@@ -349,10 +391,42 @@ type InitContainerPropertiesDefinition_STATUS_ARM struct {
 	VolumeMounts []VolumeMount_STATUS_ARM `json:"volumeMounts,omitempty"`
 }
 
+type IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM string
+
+const (
+	IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_Noreuse            = IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM("Noreuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_ResourceGroupReuse = IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM("ResourceGroupReuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_SubscriptionReuse  = IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM("SubscriptionReuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_TenantReuse        = IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM("TenantReuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_Unsecure           = IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM("Unsecure")
+)
+
+// Mapping from string to IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM
+var ipAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_Values = map[string]IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM{
+	"noreuse":            IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_Noreuse,
+	"resourcegroupreuse": IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_ResourceGroupReuse,
+	"subscriptionreuse":  IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_SubscriptionReuse,
+	"tenantreuse":        IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_TenantReuse,
+	"unsecure":           IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM_Unsecure,
+}
+
+type IpAddress_Type_STATUS_ARM string
+
+const (
+	IpAddress_Type_STATUS_ARM_Private = IpAddress_Type_STATUS_ARM("Private")
+	IpAddress_Type_STATUS_ARM_Public  = IpAddress_Type_STATUS_ARM("Public")
+)
+
+// Mapping from string to IpAddress_Type_STATUS_ARM
+var ipAddress_Type_STATUS_ARM_Values = map[string]IpAddress_Type_STATUS_ARM{
+	"private": IpAddress_Type_STATUS_ARM_Private,
+	"public":  IpAddress_Type_STATUS_ARM_Public,
+}
+
 // Container group log analytics information.
 type LogAnalytics_STATUS_ARM struct {
 	// LogType: The log type to be used.
-	LogType *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
+	LogType *LogAnalytics_LogType_STATUS_ARM `json:"logType,omitempty"`
 
 	// Metadata: Metadata for log analytics.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -367,7 +441,7 @@ type Port_STATUS_ARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-	Protocol *Port_Protocol_STATUS `json:"protocol,omitempty"`
+	Protocol *Port_Protocol_STATUS_ARM `json:"protocol,omitempty"`
 }
 
 // The port exposed on the container instance.
@@ -376,7 +450,7 @@ type ContainerPort_STATUS_ARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-	Protocol *ContainerPort_Protocol_STATUS `json:"protocol,omitempty"`
+	Protocol *ContainerPort_Protocol_STATUS_ARM `json:"protocol,omitempty"`
 }
 
 // The container probe, for liveness or readiness
@@ -440,6 +514,32 @@ type InitContainerPropertiesDefinition_InstanceView_STATUS_ARM struct {
 	RestartCount *int `json:"restartCount,omitempty"`
 }
 
+type LogAnalytics_LogType_STATUS_ARM string
+
+const (
+	LogAnalytics_LogType_STATUS_ARM_ContainerInsights     = LogAnalytics_LogType_STATUS_ARM("ContainerInsights")
+	LogAnalytics_LogType_STATUS_ARM_ContainerInstanceLogs = LogAnalytics_LogType_STATUS_ARM("ContainerInstanceLogs")
+)
+
+// Mapping from string to LogAnalytics_LogType_STATUS_ARM
+var logAnalytics_LogType_STATUS_ARM_Values = map[string]LogAnalytics_LogType_STATUS_ARM{
+	"containerinsights":     LogAnalytics_LogType_STATUS_ARM_ContainerInsights,
+	"containerinstancelogs": LogAnalytics_LogType_STATUS_ARM_ContainerInstanceLogs,
+}
+
+type Port_Protocol_STATUS_ARM string
+
+const (
+	Port_Protocol_STATUS_ARM_TCP = Port_Protocol_STATUS_ARM("TCP")
+	Port_Protocol_STATUS_ARM_UDP = Port_Protocol_STATUS_ARM("UDP")
+)
+
+// Mapping from string to Port_Protocol_STATUS_ARM
+var port_Protocol_STATUS_ARM_Values = map[string]Port_Protocol_STATUS_ARM{
+	"tcp": Port_Protocol_STATUS_ARM_TCP,
+	"udp": Port_Protocol_STATUS_ARM_UDP,
+}
+
 // The resource requirements.
 type ResourceRequirements_STATUS_ARM struct {
 	// Limits: The resource limits of this container instance.
@@ -479,7 +579,20 @@ type ContainerHttpGet_STATUS_ARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Scheme: The scheme.
-	Scheme *ContainerHttpGet_Scheme_STATUS `json:"scheme,omitempty"`
+	Scheme *ContainerHttpGet_Scheme_STATUS_ARM `json:"scheme,omitempty"`
+}
+
+type ContainerPort_Protocol_STATUS_ARM string
+
+const (
+	ContainerPort_Protocol_STATUS_ARM_TCP = ContainerPort_Protocol_STATUS_ARM("TCP")
+	ContainerPort_Protocol_STATUS_ARM_UDP = ContainerPort_Protocol_STATUS_ARM("UDP")
+)
+
+// Mapping from string to ContainerPort_Protocol_STATUS_ARM
+var containerPort_Protocol_STATUS_ARM_Values = map[string]ContainerPort_Protocol_STATUS_ARM{
+	"tcp": ContainerPort_Protocol_STATUS_ARM_TCP,
+	"udp": ContainerPort_Protocol_STATUS_ARM_UDP,
 }
 
 // The container instance state.
@@ -524,13 +637,26 @@ type ResourceRequests_STATUS_ARM struct {
 	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
 }
 
+type ContainerHttpGet_Scheme_STATUS_ARM string
+
+const (
+	ContainerHttpGet_Scheme_STATUS_ARM_Http  = ContainerHttpGet_Scheme_STATUS_ARM("http")
+	ContainerHttpGet_Scheme_STATUS_ARM_Https = ContainerHttpGet_Scheme_STATUS_ARM("https")
+)
+
+// Mapping from string to ContainerHttpGet_Scheme_STATUS_ARM
+var containerHttpGet_Scheme_STATUS_ARM_Values = map[string]ContainerHttpGet_Scheme_STATUS_ARM{
+	"http":  ContainerHttpGet_Scheme_STATUS_ARM_Http,
+	"https": ContainerHttpGet_Scheme_STATUS_ARM_Https,
+}
+
 // The GPU resource.
 type GpuResource_STATUS_ARM struct {
 	// Count: The count of the GPU resource.
 	Count *int `json:"count,omitempty"`
 
 	// Sku: The SKU of the GPU resource.
-	Sku *GpuResource_Sku_STATUS `json:"sku,omitempty"`
+	Sku *GpuResource_Sku_STATUS_ARM `json:"sku,omitempty"`
 }
 
 // The HTTP header.
@@ -540,4 +666,19 @@ type HttpHeader_STATUS_ARM struct {
 
 	// Value: The header value.
 	Value *string `json:"value,omitempty"`
+}
+
+type GpuResource_Sku_STATUS_ARM string
+
+const (
+	GpuResource_Sku_STATUS_ARM_K80  = GpuResource_Sku_STATUS_ARM("K80")
+	GpuResource_Sku_STATUS_ARM_P100 = GpuResource_Sku_STATUS_ARM("P100")
+	GpuResource_Sku_STATUS_ARM_V100 = GpuResource_Sku_STATUS_ARM("V100")
+)
+
+// Mapping from string to GpuResource_Sku_STATUS_ARM
+var gpuResource_Sku_STATUS_ARM_Values = map[string]GpuResource_Sku_STATUS_ARM{
+	"k80":  GpuResource_Sku_STATUS_ARM_K80,
+	"p100": GpuResource_Sku_STATUS_ARM_P100,
+	"v100": GpuResource_Sku_STATUS_ARM_V100,
 }

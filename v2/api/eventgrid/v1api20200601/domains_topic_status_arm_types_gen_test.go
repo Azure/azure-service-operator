@@ -76,12 +76,12 @@ func DomainTopicProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainTopicProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainTopicProperties_ProvisioningState_STATUS_Canceled,
-		DomainTopicProperties_ProvisioningState_STATUS_Creating,
-		DomainTopicProperties_ProvisioningState_STATUS_Deleting,
-		DomainTopicProperties_ProvisioningState_STATUS_Failed,
-		DomainTopicProperties_ProvisioningState_STATUS_Succeeded,
-		DomainTopicProperties_ProvisioningState_STATUS_Updating))
+		DomainTopicProperties_ProvisioningState_STATUS_ARM_Canceled,
+		DomainTopicProperties_ProvisioningState_STATUS_ARM_Creating,
+		DomainTopicProperties_ProvisioningState_STATUS_ARM_Deleting,
+		DomainTopicProperties_ProvisioningState_STATUS_ARM_Failed,
+		DomainTopicProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		DomainTopicProperties_ProvisioningState_STATUS_ARM_Updating))
 }
 
 func Test_Domains_Topic_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

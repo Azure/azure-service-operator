@@ -76,7 +76,7 @@ func AbsoluteDeleteOption_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAbsoluteDeleteOption_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAbsoluteDeleteOption_ARM(gens map[string]gopter.Gen) {
 	gens["Duration"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption)
+	gens["ObjectType"] = gen.OneConstOf(AbsoluteDeleteOption_ObjectType_ARM_AbsoluteDeleteOption)
 }
 
 func Test_AdhocBasedTaggingCriteria_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -207,7 +207,7 @@ func AdhocBasedTriggerContext_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAdhocBasedTriggerContext_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdhocBasedTriggerContext_ARM(gens map[string]gopter.Gen) {
-	gens["ObjectType"] = gen.OneConstOf(AdhocBasedTriggerContext_ObjectType_AdhocBasedTriggerContext)
+	gens["ObjectType"] = gen.OneConstOf(AdhocBasedTriggerContext_ObjectType_ARM_AdhocBasedTriggerContext)
 }
 
 // AddRelatedPropertyGeneratorsForAdhocBasedTriggerContext_ARM is a factory method for creating gopter generators
@@ -274,7 +274,7 @@ func AzureBackupParams_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAzureBackupParams_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureBackupParams_ARM(gens map[string]gopter.Gen) {
 	gens["BackupType"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(AzureBackupParams_ObjectType_AzureBackupParams)
+	gens["ObjectType"] = gen.OneConstOf(AzureBackupParams_ObjectType_ARM_AzureBackupParams)
 }
 
 func Test_AzureBackupRule_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -345,7 +345,7 @@ func AzureBackupRule_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAzureBackupRule_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureBackupRule_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(AzureBackupRule_ObjectType_AzureBackupRule)
+	gens["ObjectType"] = gen.OneConstOf(AzureBackupRule_ObjectType_ARM_AzureBackupRule)
 }
 
 // AddRelatedPropertyGeneratorsForAzureBackupRule_ARM is a factory method for creating gopter generators
@@ -424,7 +424,7 @@ func AzureRetentionRule_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAzureRetentionRule_ARM(gens map[string]gopter.Gen) {
 	gens["IsDefault"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(AzureRetentionRule_ObjectType_AzureRetentionRule)
+	gens["ObjectType"] = gen.OneConstOf(AzureRetentionRule_ObjectType_ARM_AzureRetentionRule)
 }
 
 // AddRelatedPropertyGeneratorsForAzureRetentionRule_ARM is a factory method for creating gopter generators
@@ -636,7 +636,7 @@ func BackupPolicy_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBackupPolicy_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupPolicy_ARM(gens map[string]gopter.Gen) {
 	gens["DatasourceTypes"] = gen.SliceOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(BackupPolicy_ObjectType_BackupPolicy)
+	gens["ObjectType"] = gen.OneConstOf(BackupPolicy_ObjectType_ARM_BackupPolicy)
 }
 
 // AddRelatedPropertyGeneratorsForBackupPolicy_ARM is a factory method for creating gopter generators
@@ -978,7 +978,7 @@ func CopyOnExpiryOption_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCopyOnExpiryOption_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCopyOnExpiryOption_ARM(gens map[string]gopter.Gen) {
-	gens["ObjectType"] = gen.OneConstOf(CopyOnExpiryOption_ObjectType_CopyOnExpiryOption)
+	gens["ObjectType"] = gen.OneConstOf(CopyOnExpiryOption_ObjectType_ARM_CopyOnExpiryOption)
 }
 
 func Test_CopyOption_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1114,7 +1114,7 @@ func CustomCopyOption_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCustomCopyOption_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomCopyOption_ARM(gens map[string]gopter.Gen) {
 	gens["Duration"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(CustomCopyOption_ObjectType_CustomCopyOption)
+	gens["ObjectType"] = gen.OneConstOf(CustomCopyOption_ObjectType_ARM_CustomCopyOption)
 }
 
 func Test_DataStoreInfoBase_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1175,7 +1175,7 @@ func DataStoreInfoBase_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataStoreInfoBase_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataStoreInfoBase_ARM(gens map[string]gopter.Gen) {
-	gens["DataStoreType"] = gen.PtrOf(gen.OneConstOf(DataStoreInfoBase_DataStoreType_ArchiveStore, DataStoreInfoBase_DataStoreType_OperationalStore, DataStoreInfoBase_DataStoreType_VaultStore))
+	gens["DataStoreType"] = gen.PtrOf(gen.OneConstOf(DataStoreInfoBase_DataStoreType_ARM_ArchiveStore, DataStoreInfoBase_DataStoreType_ARM_OperationalStore, DataStoreInfoBase_DataStoreType_ARM_VaultStore))
 	gens["ObjectType"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1366,7 +1366,7 @@ func ImmediateCopyOption_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImmediateCopyOption_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImmediateCopyOption_ARM(gens map[string]gopter.Gen) {
-	gens["ObjectType"] = gen.OneConstOf(ImmediateCopyOption_ObjectType_ImmediateCopyOption)
+	gens["ObjectType"] = gen.OneConstOf(ImmediateCopyOption_ObjectType_ARM_ImmediateCopyOption)
 }
 
 func Test_RetentionTag_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1497,40 +1497,40 @@ func ScheduleBasedBackupCriteria_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForScheduleBasedBackupCriteria_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduleBasedBackupCriteria_ARM(gens map[string]gopter.Gen) {
 	gens["AbsoluteCriteria"] = gen.SliceOf(gen.OneConstOf(
-		ScheduleBasedBackupCriteria_AbsoluteCriteria_AllBackup,
-		ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfDay,
-		ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfMonth,
-		ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfWeek,
-		ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfYear))
+		ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_AllBackup,
+		ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfDay,
+		ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfMonth,
+		ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfWeek,
+		ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfYear))
 	gens["DaysOfTheWeek"] = gen.SliceOf(gen.OneConstOf(
-		ScheduleBasedBackupCriteria_DaysOfTheWeek_Friday,
-		ScheduleBasedBackupCriteria_DaysOfTheWeek_Monday,
-		ScheduleBasedBackupCriteria_DaysOfTheWeek_Saturday,
-		ScheduleBasedBackupCriteria_DaysOfTheWeek_Sunday,
-		ScheduleBasedBackupCriteria_DaysOfTheWeek_Thursday,
-		ScheduleBasedBackupCriteria_DaysOfTheWeek_Tuesday,
-		ScheduleBasedBackupCriteria_DaysOfTheWeek_Wednesday))
+		ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Friday,
+		ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Monday,
+		ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Saturday,
+		ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Sunday,
+		ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Thursday,
+		ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Tuesday,
+		ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Wednesday))
 	gens["MonthsOfYear"] = gen.SliceOf(gen.OneConstOf(
-		ScheduleBasedBackupCriteria_MonthsOfYear_April,
-		ScheduleBasedBackupCriteria_MonthsOfYear_August,
-		ScheduleBasedBackupCriteria_MonthsOfYear_December,
-		ScheduleBasedBackupCriteria_MonthsOfYear_February,
-		ScheduleBasedBackupCriteria_MonthsOfYear_January,
-		ScheduleBasedBackupCriteria_MonthsOfYear_July,
-		ScheduleBasedBackupCriteria_MonthsOfYear_June,
-		ScheduleBasedBackupCriteria_MonthsOfYear_March,
-		ScheduleBasedBackupCriteria_MonthsOfYear_May,
-		ScheduleBasedBackupCriteria_MonthsOfYear_November,
-		ScheduleBasedBackupCriteria_MonthsOfYear_October,
-		ScheduleBasedBackupCriteria_MonthsOfYear_September))
-	gens["ObjectType"] = gen.OneConstOf(ScheduleBasedBackupCriteria_ObjectType_ScheduleBasedBackupCriteria)
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_April,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_August,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_December,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_February,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_January,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_July,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_June,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_March,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_May,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_November,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_October,
+		ScheduleBasedBackupCriteria_MonthsOfYear_ARM_September))
+	gens["ObjectType"] = gen.OneConstOf(ScheduleBasedBackupCriteria_ObjectType_ARM_ScheduleBasedBackupCriteria)
 	gens["ScheduleTimes"] = gen.SliceOf(gen.AlphaString())
 	gens["WeeksOfTheMonth"] = gen.SliceOf(gen.OneConstOf(
-		ScheduleBasedBackupCriteria_WeeksOfTheMonth_First,
-		ScheduleBasedBackupCriteria_WeeksOfTheMonth_Fourth,
-		ScheduleBasedBackupCriteria_WeeksOfTheMonth_Last,
-		ScheduleBasedBackupCriteria_WeeksOfTheMonth_Second,
-		ScheduleBasedBackupCriteria_WeeksOfTheMonth_Third))
+		ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_First,
+		ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Fourth,
+		ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Last,
+		ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Second,
+		ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Third))
 }
 
 // AddRelatedPropertyGeneratorsForScheduleBasedBackupCriteria_ARM is a factory method for creating gopter generators
@@ -1605,7 +1605,7 @@ func ScheduleBasedTriggerContext_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForScheduleBasedTriggerContext_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduleBasedTriggerContext_ARM(gens map[string]gopter.Gen) {
-	gens["ObjectType"] = gen.OneConstOf(ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext)
+	gens["ObjectType"] = gen.OneConstOf(ScheduleBasedTriggerContext_ObjectType_ARM_ScheduleBasedTriggerContext)
 }
 
 // AddRelatedPropertyGeneratorsForScheduleBasedTriggerContext_ARM is a factory method for creating gopter generators

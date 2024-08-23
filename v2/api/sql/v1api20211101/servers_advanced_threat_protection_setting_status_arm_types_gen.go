@@ -27,7 +27,7 @@ type AdvancedThreatProtectionProperties_STATUS_ARM struct {
 
 	// State: Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been
 	// applied yet on the specific database or server.
-	State *AdvancedThreatProtectionProperties_State_STATUS `json:"state,omitempty"`
+	State *AdvancedThreatProtectionProperties_State_STATUS_ARM `json:"state,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -39,7 +39,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -48,39 +48,54 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type AdvancedThreatProtectionProperties_State_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	AdvancedThreatProtectionProperties_State_STATUS_ARM_Disabled = AdvancedThreatProtectionProperties_State_STATUS_ARM("Disabled")
+	AdvancedThreatProtectionProperties_State_STATUS_ARM_Enabled  = AdvancedThreatProtectionProperties_State_STATUS_ARM("Enabled")
+	AdvancedThreatProtectionProperties_State_STATUS_ARM_New      = AdvancedThreatProtectionProperties_State_STATUS_ARM("New")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to AdvancedThreatProtectionProperties_State_STATUS_ARM
+var advancedThreatProtectionProperties_State_STATUS_ARM_Values = map[string]AdvancedThreatProtectionProperties_State_STATUS_ARM{
+	"disabled": AdvancedThreatProtectionProperties_State_STATUS_ARM_Disabled,
+	"enabled":  AdvancedThreatProtectionProperties_State_STATUS_ARM_Enabled,
+	"new":      AdvancedThreatProtectionProperties_State_STATUS_ARM_New,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
+}
+
+type SystemData_LastModifiedByType_STATUS_ARM string
+
+const (
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }

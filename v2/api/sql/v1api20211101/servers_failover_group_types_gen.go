@@ -938,7 +938,9 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicationRole != nil {
-			replicationRole := *typedInput.Properties.ReplicationRole
+			var temp string
+			temp = string(*typedInput.Properties.ReplicationRole)
+			replicationRole := FailoverGroupProperties_ReplicationRole_STATUS(temp)
 			group.ReplicationRole = &replicationRole
 		}
 	}
@@ -1172,7 +1174,9 @@ func (endpoint *FailoverGroupReadOnlyEndpoint) ConvertToARM(resolved genruntime.
 
 	// Set property "FailoverPolicy":
 	if endpoint.FailoverPolicy != nil {
-		failoverPolicy := *endpoint.FailoverPolicy
+		var temp string
+		temp = string(*endpoint.FailoverPolicy)
+		failoverPolicy := FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM(temp)
 		result.FailoverPolicy = &failoverPolicy
 	}
 	return result, nil
@@ -1192,7 +1196,9 @@ func (endpoint *FailoverGroupReadOnlyEndpoint) PopulateFromARM(owner genruntime.
 
 	// Set property "FailoverPolicy":
 	if typedInput.FailoverPolicy != nil {
-		failoverPolicy := *typedInput.FailoverPolicy
+		var temp string
+		temp = string(*typedInput.FailoverPolicy)
+		failoverPolicy := FailoverGroupReadOnlyEndpoint_FailoverPolicy(temp)
 		endpoint.FailoverPolicy = &failoverPolicy
 	}
 
@@ -1277,7 +1283,9 @@ func (endpoint *FailoverGroupReadOnlyEndpoint_STATUS) PopulateFromARM(owner genr
 
 	// Set property "FailoverPolicy":
 	if typedInput.FailoverPolicy != nil {
-		failoverPolicy := *typedInput.FailoverPolicy
+		var temp string
+		temp = string(*typedInput.FailoverPolicy)
+		failoverPolicy := FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS(temp)
 		endpoint.FailoverPolicy = &failoverPolicy
 	}
 
@@ -1348,7 +1356,9 @@ func (endpoint *FailoverGroupReadWriteEndpoint) ConvertToARM(resolved genruntime
 
 	// Set property "FailoverPolicy":
 	if endpoint.FailoverPolicy != nil {
-		failoverPolicy := *endpoint.FailoverPolicy
+		var temp string
+		temp = string(*endpoint.FailoverPolicy)
+		failoverPolicy := FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM(temp)
 		result.FailoverPolicy = &failoverPolicy
 	}
 
@@ -1374,7 +1384,9 @@ func (endpoint *FailoverGroupReadWriteEndpoint) PopulateFromARM(owner genruntime
 
 	// Set property "FailoverPolicy":
 	if typedInput.FailoverPolicy != nil {
-		failoverPolicy := *typedInput.FailoverPolicy
+		var temp string
+		temp = string(*typedInput.FailoverPolicy)
+		failoverPolicy := FailoverGroupReadWriteEndpoint_FailoverPolicy(temp)
 		endpoint.FailoverPolicy = &failoverPolicy
 	}
 
@@ -1479,7 +1491,9 @@ func (endpoint *FailoverGroupReadWriteEndpoint_STATUS) PopulateFromARM(owner gen
 
 	// Set property "FailoverPolicy":
 	if typedInput.FailoverPolicy != nil {
-		failoverPolicy := *typedInput.FailoverPolicy
+		var temp string
+		temp = string(*typedInput.FailoverPolicy)
+		failoverPolicy := FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS(temp)
 		endpoint.FailoverPolicy = &failoverPolicy
 	}
 
@@ -1679,7 +1693,9 @@ func (info *PartnerInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "ReplicationRole":
 	if typedInput.ReplicationRole != nil {
-		replicationRole := *typedInput.ReplicationRole
+		var temp string
+		temp = string(*typedInput.ReplicationRole)
+		replicationRole := PartnerInfo_ReplicationRole_STATUS(temp)
 		info.ReplicationRole = &replicationRole
 	}
 

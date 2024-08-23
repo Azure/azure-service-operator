@@ -63,10 +63,10 @@ type BigDataPoolResourceProperties_STATUS_ARM struct {
 	NodeCount *int `json:"nodeCount,omitempty"`
 
 	// NodeSize: The level of compute power that each node in the Big Data pool has.
-	NodeSize *BigDataPoolResourceProperties_NodeSize_STATUS `json:"nodeSize,omitempty"`
+	NodeSize *BigDataPoolResourceProperties_NodeSize_STATUS_ARM `json:"nodeSize,omitempty"`
 
 	// NodeSizeFamily: The kind of nodes that the Big Data pool provides.
-	NodeSizeFamily *BigDataPoolResourceProperties_NodeSizeFamily_STATUS `json:"nodeSizeFamily,omitempty"`
+	NodeSizeFamily *BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM `json:"nodeSizeFamily,omitempty"`
 
 	// ProvisioningState: The state of the Big Data pool.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -103,6 +103,46 @@ type AutoScaleProperties_STATUS_ARM struct {
 
 	// MinNodeCount: The minimum number of nodes the Big Data pool can support.
 	MinNodeCount *int `json:"minNodeCount,omitempty"`
+}
+
+type BigDataPoolResourceProperties_NodeSize_STATUS_ARM string
+
+const (
+	BigDataPoolResourceProperties_NodeSize_STATUS_ARM_Large    = BigDataPoolResourceProperties_NodeSize_STATUS_ARM("Large")
+	BigDataPoolResourceProperties_NodeSize_STATUS_ARM_Medium   = BigDataPoolResourceProperties_NodeSize_STATUS_ARM("Medium")
+	BigDataPoolResourceProperties_NodeSize_STATUS_ARM_None     = BigDataPoolResourceProperties_NodeSize_STATUS_ARM("None")
+	BigDataPoolResourceProperties_NodeSize_STATUS_ARM_Small    = BigDataPoolResourceProperties_NodeSize_STATUS_ARM("Small")
+	BigDataPoolResourceProperties_NodeSize_STATUS_ARM_XLarge   = BigDataPoolResourceProperties_NodeSize_STATUS_ARM("XLarge")
+	BigDataPoolResourceProperties_NodeSize_STATUS_ARM_XXLarge  = BigDataPoolResourceProperties_NodeSize_STATUS_ARM("XXLarge")
+	BigDataPoolResourceProperties_NodeSize_STATUS_ARM_XXXLarge = BigDataPoolResourceProperties_NodeSize_STATUS_ARM("XXXLarge")
+)
+
+// Mapping from string to BigDataPoolResourceProperties_NodeSize_STATUS_ARM
+var bigDataPoolResourceProperties_NodeSize_STATUS_ARM_Values = map[string]BigDataPoolResourceProperties_NodeSize_STATUS_ARM{
+	"large":    BigDataPoolResourceProperties_NodeSize_STATUS_ARM_Large,
+	"medium":   BigDataPoolResourceProperties_NodeSize_STATUS_ARM_Medium,
+	"none":     BigDataPoolResourceProperties_NodeSize_STATUS_ARM_None,
+	"small":    BigDataPoolResourceProperties_NodeSize_STATUS_ARM_Small,
+	"xlarge":   BigDataPoolResourceProperties_NodeSize_STATUS_ARM_XLarge,
+	"xxlarge":  BigDataPoolResourceProperties_NodeSize_STATUS_ARM_XXLarge,
+	"xxxlarge": BigDataPoolResourceProperties_NodeSize_STATUS_ARM_XXXLarge,
+}
+
+type BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM string
+
+const (
+	BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_HardwareAcceleratedFPGA = BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM("HardwareAcceleratedFPGA")
+	BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_HardwareAcceleratedGPU  = BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM("HardwareAcceleratedGPU")
+	BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_MemoryOptimized         = BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM("MemoryOptimized")
+	BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_None                    = BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM("None")
+)
+
+// Mapping from string to BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM
+var bigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_Values = map[string]BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM{
+	"hardwareacceleratedfpga": BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_HardwareAcceleratedFPGA,
+	"hardwareacceleratedgpu":  BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_HardwareAcceleratedGPU,
+	"memoryoptimized":         BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_MemoryOptimized,
+	"none":                    BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM_None,
 }
 
 // Dynamic Executor Allocation Properties
@@ -156,7 +196,7 @@ type LibraryRequirements_STATUS_ARM struct {
 // SparkConfig Properties for a Big Data pool powered by Apache Spark
 type SparkConfigProperties_STATUS_ARM struct {
 	// ConfigurationType: The type of the spark config properties file.
-	ConfigurationType *SparkConfigProperties_ConfigurationType_STATUS `json:"configurationType,omitempty"`
+	ConfigurationType *SparkConfigProperties_ConfigurationType_STATUS_ARM `json:"configurationType,omitempty"`
 
 	// Content: The spark config properties.
 	Content *string `json:"content,omitempty"`
@@ -166,4 +206,17 @@ type SparkConfigProperties_STATUS_ARM struct {
 
 	// Time: The last update time of the spark config properties file.
 	Time *string `json:"time,omitempty"`
+}
+
+type SparkConfigProperties_ConfigurationType_STATUS_ARM string
+
+const (
+	SparkConfigProperties_ConfigurationType_STATUS_ARM_Artifact = SparkConfigProperties_ConfigurationType_STATUS_ARM("Artifact")
+	SparkConfigProperties_ConfigurationType_STATUS_ARM_File     = SparkConfigProperties_ConfigurationType_STATUS_ARM("File")
+)
+
+// Mapping from string to SparkConfigProperties_ConfigurationType_STATUS_ARM
+var sparkConfigProperties_ConfigurationType_STATUS_ARM_Values = map[string]SparkConfigProperties_ConfigurationType_STATUS_ARM{
+	"artifact": SparkConfigProperties_ConfigurationType_STATUS_ARM_Artifact,
+	"file":     SparkConfigProperties_ConfigurationType_STATUS_ARM_File,
 }

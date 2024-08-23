@@ -55,7 +55,7 @@ type NetworkInterfacePropertiesFormat_ARM struct {
 	NetworkSecurityGroup *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"networkSecurityGroup,omitempty"`
 
 	// NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormat_NicType `json:"nicType,omitempty"`
+	NicType *NetworkInterfacePropertiesFormat_NicType_ARM `json:"nicType,omitempty"`
 
 	// PrivateLinkService: Privatelinkservice of the network interface resource.
 	PrivateLinkService *PrivateLinkServiceSpec_ARM `json:"privateLinkService,omitempty"`
@@ -79,6 +79,20 @@ type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_ARM st
 
 	// Properties: Network interface IP configuration properties.
 	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Elastic","Standard"}
+type NetworkInterfacePropertiesFormat_NicType_ARM string
+
+const (
+	NetworkInterfacePropertiesFormat_NicType_ARM_Elastic  = NetworkInterfacePropertiesFormat_NicType_ARM("Elastic")
+	NetworkInterfacePropertiesFormat_NicType_ARM_Standard = NetworkInterfacePropertiesFormat_NicType_ARM("Standard")
+)
+
+// Mapping from string to NetworkInterfacePropertiesFormat_NicType_ARM
+var networkInterfacePropertiesFormat_NicType_ARM_Values = map[string]NetworkInterfacePropertiesFormat_NicType_ARM{
+	"elastic":  NetworkInterfacePropertiesFormat_NicType_ARM_Elastic,
+	"standard": NetworkInterfacePropertiesFormat_NicType_ARM_Standard,
 }
 
 // NetworkSecurityGroup resource.
@@ -112,10 +126,10 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_ARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *IPVersion_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: Public IP address bound to the IP configuration.
 	PublicIPAddress *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`

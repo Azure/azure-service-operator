@@ -85,7 +85,7 @@ func DdosSettings_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDdosSettings_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDdosSettings_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProtectedIP"] = gen.PtrOf(gen.Bool())
-	gens["ProtectionCoverage"] = gen.PtrOf(gen.OneConstOf(DdosSettings_ProtectionCoverage_STATUS_Basic, DdosSettings_ProtectionCoverage_STATUS_Standard))
+	gens["ProtectionCoverage"] = gen.PtrOf(gen.OneConstOf(DdosSettings_ProtectionCoverage_STATUS_ARM_Basic, DdosSettings_ProtectionCoverage_STATUS_ARM_Standard))
 }
 
 // AddRelatedPropertyGeneratorsForDdosSettings_STATUS_ARM is a factory method for creating gopter generators
@@ -409,18 +409,18 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormat_STATUS_A
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(
-		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Abort,
-		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Commit,
-		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Committed,
-		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_None,
-		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Prepare))
+		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Abort,
+		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Commit,
+		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Committed,
+		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_None,
+		PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM_Prepare))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_IPv4, IPVersion_STATUS_IPv6))
-	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUS_Dynamic, IPAllocationMethod_STATUS_Static))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_ARM_IPv4, IPVersion_STATUS_ARM_IPv6))
+	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUS_ARM_Dynamic, IPAllocationMethod_STATUS_ARM_Static))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -492,8 +492,8 @@ func PublicIPAddressSku_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressSku_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressSku_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSku_Name_STATUS_Basic, PublicIPAddressSku_Name_STATUS_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSku_Tier_STATUS_Global, PublicIPAddressSku_Tier_STATUS_Regional))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSku_Name_STATUS_ARM_Basic, PublicIPAddressSku_Name_STATUS_ARM_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSku_Tier_STATUS_ARM_Global, PublicIPAddressSku_Tier_STATUS_ARM_Regional))
 }
 
 func Test_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

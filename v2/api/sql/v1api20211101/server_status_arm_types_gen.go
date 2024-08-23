@@ -40,7 +40,7 @@ type ResourceIdentity_STATUS_ARM struct {
 
 	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
 	// Directory principal for the resource.
-	Type *ResourceIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ResourceIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The resource ids of the user assigned identities to use
 	UserAssignedIdentities map[string]UserIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
@@ -74,11 +74,11 @@ type ServerProperties_STATUS_ARM struct {
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *ServerProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ServerProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// RestrictOutboundNetworkAccess: Whether or not to restrict outbound network access for this server.  Value is optional
 	// but if passed in, must be 'Enabled' or 'Disabled'
-	RestrictOutboundNetworkAccess *ServerProperties_RestrictOutboundNetworkAccess_STATUS `json:"restrictOutboundNetworkAccess,omitempty"`
+	RestrictOutboundNetworkAccess *ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM `json:"restrictOutboundNetworkAccess,omitempty"`
 
 	// State: The state of the server.
 	State *string `json:"state,omitempty"`
@@ -87,30 +87,30 @@ type ServerProperties_STATUS_ARM struct {
 	Version *string `json:"version,omitempty"`
 
 	// WorkspaceFeature: Whether or not existing server has a workspace created and if it allows connection from workspace
-	WorkspaceFeature *ServerProperties_WorkspaceFeature_STATUS `json:"workspaceFeature,omitempty"`
+	WorkspaceFeature *ServerProperties_WorkspaceFeature_STATUS_ARM `json:"workspaceFeature,omitempty"`
 }
 
-type ResourceIdentity_Type_STATUS string
+type ResourceIdentity_Type_STATUS_ARM string
 
 const (
-	ResourceIdentity_Type_STATUS_None                       = ResourceIdentity_Type_STATUS("None")
-	ResourceIdentity_Type_STATUS_SystemAssigned             = ResourceIdentity_Type_STATUS("SystemAssigned")
-	ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned = ResourceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
-	ResourceIdentity_Type_STATUS_UserAssigned               = ResourceIdentity_Type_STATUS("UserAssigned")
+	ResourceIdentity_Type_STATUS_ARM_None                       = ResourceIdentity_Type_STATUS_ARM("None")
+	ResourceIdentity_Type_STATUS_ARM_SystemAssigned             = ResourceIdentity_Type_STATUS_ARM("SystemAssigned")
+	ResourceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = ResourceIdentity_Type_STATUS_ARM("SystemAssigned,UserAssigned")
+	ResourceIdentity_Type_STATUS_ARM_UserAssigned               = ResourceIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ResourceIdentity_Type_STATUS
-var resourceIdentity_Type_STATUS_Values = map[string]ResourceIdentity_Type_STATUS{
-	"none":                        ResourceIdentity_Type_STATUS_None,
-	"systemassigned":              ResourceIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned,userassigned": ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                ResourceIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to ResourceIdentity_Type_STATUS_ARM
+var resourceIdentity_Type_STATUS_ARM_Values = map[string]ResourceIdentity_Type_STATUS_ARM{
+	"none":                        ResourceIdentity_Type_STATUS_ARM_None,
+	"systemassigned":              ResourceIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned,userassigned": ResourceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                ResourceIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 // Properties of a active directory administrator.
 type ServerExternalAdministrator_STATUS_ARM struct {
 	// AdministratorType: Type of the sever administrator.
-	AdministratorType *ServerExternalAdministrator_AdministratorType_STATUS `json:"administratorType,omitempty"`
+	AdministratorType *ServerExternalAdministrator_AdministratorType_STATUS_ARM `json:"administratorType,omitempty"`
 
 	// AzureADOnlyAuthentication: Azure Active Directory only Authentication enabled.
 	AzureADOnlyAuthentication *bool `json:"azureADOnlyAuthentication,omitempty"`
@@ -119,7 +119,7 @@ type ServerExternalAdministrator_STATUS_ARM struct {
 	Login *string `json:"login,omitempty"`
 
 	// PrincipalType: Principal Type of the sever administrator.
-	PrincipalType *ServerExternalAdministrator_PrincipalType_STATUS `json:"principalType,omitempty"`
+	PrincipalType *ServerExternalAdministrator_PrincipalType_STATUS_ARM `json:"principalType,omitempty"`
 
 	// Sid: SID (object ID) of the server administrator.
 	Sid *string `json:"sid,omitempty"`
@@ -135,6 +135,45 @@ type ServerPrivateEndpointConnection_STATUS_ARM struct {
 
 	// Properties: Private endpoint connection properties
 	Properties *PrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
+}
+
+type ServerProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	ServerProperties_PublicNetworkAccess_STATUS_ARM_Disabled = ServerProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	ServerProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = ServerProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ServerProperties_PublicNetworkAccess_STATUS_ARM
+var serverProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]ServerProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": ServerProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  ServerProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
+}
+
+type ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM string
+
+const (
+	ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM_Disabled = ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM("Disabled")
+	ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM_Enabled  = ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM
+var serverProperties_RestrictOutboundNetworkAccess_STATUS_ARM_Values = map[string]ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM{
+	"disabled": ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM_Enabled,
+}
+
+type ServerProperties_WorkspaceFeature_STATUS_ARM string
+
+const (
+	ServerProperties_WorkspaceFeature_STATUS_ARM_Connected    = ServerProperties_WorkspaceFeature_STATUS_ARM("Connected")
+	ServerProperties_WorkspaceFeature_STATUS_ARM_Disconnected = ServerProperties_WorkspaceFeature_STATUS_ARM("Disconnected")
+)
+
+// Mapping from string to ServerProperties_WorkspaceFeature_STATUS_ARM
+var serverProperties_WorkspaceFeature_STATUS_ARM_Values = map[string]ServerProperties_WorkspaceFeature_STATUS_ARM{
+	"connected":    ServerProperties_WorkspaceFeature_STATUS_ARM_Connected,
+	"disconnected": ServerProperties_WorkspaceFeature_STATUS_ARM_Disconnected,
 }
 
 // Azure Active Directory identity configuration for a resource.
@@ -158,7 +197,50 @@ type PrivateEndpointConnectionProperties_STATUS_ARM struct {
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionStateProperty_STATUS_ARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: State of the private endpoint connection.
-	ProvisioningState *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
+}
+
+type ServerExternalAdministrator_AdministratorType_STATUS_ARM string
+
+const ServerExternalAdministrator_AdministratorType_STATUS_ARM_ActiveDirectory = ServerExternalAdministrator_AdministratorType_STATUS_ARM("ActiveDirectory")
+
+// Mapping from string to ServerExternalAdministrator_AdministratorType_STATUS_ARM
+var serverExternalAdministrator_AdministratorType_STATUS_ARM_Values = map[string]ServerExternalAdministrator_AdministratorType_STATUS_ARM{
+	"activedirectory": ServerExternalAdministrator_AdministratorType_STATUS_ARM_ActiveDirectory,
+}
+
+type ServerExternalAdministrator_PrincipalType_STATUS_ARM string
+
+const (
+	ServerExternalAdministrator_PrincipalType_STATUS_ARM_Application = ServerExternalAdministrator_PrincipalType_STATUS_ARM("Application")
+	ServerExternalAdministrator_PrincipalType_STATUS_ARM_Group       = ServerExternalAdministrator_PrincipalType_STATUS_ARM("Group")
+	ServerExternalAdministrator_PrincipalType_STATUS_ARM_User        = ServerExternalAdministrator_PrincipalType_STATUS_ARM("User")
+)
+
+// Mapping from string to ServerExternalAdministrator_PrincipalType_STATUS_ARM
+var serverExternalAdministrator_PrincipalType_STATUS_ARM_Values = map[string]ServerExternalAdministrator_PrincipalType_STATUS_ARM{
+	"application": ServerExternalAdministrator_PrincipalType_STATUS_ARM_Application,
+	"group":       ServerExternalAdministrator_PrincipalType_STATUS_ARM_Group,
+	"user":        ServerExternalAdministrator_PrincipalType_STATUS_ARM_User,
+}
+
+type PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Approving = PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Approving")
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Dropping  = PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Dropping")
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Failed    = PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Failed")
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Ready     = PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Ready")
+	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Rejecting = PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Rejecting")
+)
+
+// Mapping from string to PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM
+var privateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Values = map[string]PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM{
+	"approving": PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Approving,
+	"dropping":  PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Dropping,
+	"failed":    PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Failed,
+	"ready":     PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Ready,
+	"rejecting": PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Rejecting,
 }
 
 type PrivateEndpointProperty_STATUS_ARM struct {
@@ -168,11 +250,37 @@ type PrivateEndpointProperty_STATUS_ARM struct {
 
 type PrivateLinkServiceConnectionStateProperty_STATUS_ARM struct {
 	// ActionsRequired: The actions required for private link service connection.
-	ActionsRequired *PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
+	ActionsRequired *PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM `json:"actionsRequired,omitempty"`
 
 	// Description: The private link service connection description.
 	Description *string `json:"description,omitempty"`
 
 	// Status: The private link service connection status.
-	Status *PrivateLinkServiceConnectionStateProperty_Status_STATUS `json:"status,omitempty"`
+	Status *PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM `json:"status,omitempty"`
+}
+
+type PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM string
+
+const PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM_None = PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM("None")
+
+// Mapping from string to PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM
+var privateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM_Values = map[string]PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM{
+	"none": PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM_None,
+}
+
+type PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM string
+
+const (
+	PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Approved     = PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM("Approved")
+	PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Disconnected = PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM("Disconnected")
+	PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Pending      = PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM("Pending")
+	PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Rejected     = PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM("Rejected")
+)
+
+// Mapping from string to PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM
+var privateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Values = map[string]PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM{
+	"approved":     PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Approved,
+	"disconnected": PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Disconnected,
+	"pending":      PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Pending,
+	"rejected":     PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Rejected,
 }

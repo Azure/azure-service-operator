@@ -44,5 +44,21 @@ type ApiVersionSetContractProperties_ARM struct {
 	VersionQueryName *string `json:"versionQueryName,omitempty"`
 
 	// VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.
-	VersioningScheme *ApiVersionSetContractProperties_VersioningScheme `json:"versioningScheme,omitempty"`
+	VersioningScheme *ApiVersionSetContractProperties_VersioningScheme_ARM `json:"versioningScheme,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Header","Query","Segment"}
+type ApiVersionSetContractProperties_VersioningScheme_ARM string
+
+const (
+	ApiVersionSetContractProperties_VersioningScheme_ARM_Header  = ApiVersionSetContractProperties_VersioningScheme_ARM("Header")
+	ApiVersionSetContractProperties_VersioningScheme_ARM_Query   = ApiVersionSetContractProperties_VersioningScheme_ARM("Query")
+	ApiVersionSetContractProperties_VersioningScheme_ARM_Segment = ApiVersionSetContractProperties_VersioningScheme_ARM("Segment")
+)
+
+// Mapping from string to ApiVersionSetContractProperties_VersioningScheme_ARM
+var apiVersionSetContractProperties_VersioningScheme_ARM_Values = map[string]ApiVersionSetContractProperties_VersioningScheme_ARM{
+	"header":  ApiVersionSetContractProperties_VersioningScheme_ARM_Header,
+	"query":   ApiVersionSetContractProperties_VersioningScheme_ARM_Query,
+	"segment": ApiVersionSetContractProperties_VersioningScheme_ARM_Segment,
 }

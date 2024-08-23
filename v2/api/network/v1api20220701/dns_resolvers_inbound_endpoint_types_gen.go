@@ -770,7 +770,9 @@ func (endpoint *DnsResolvers_InboundEndpoint_STATUS) PopulateFromARM(owner genru
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := DnsresolverProvisioningState_STATUS(temp)
 			endpoint.ProvisioningState = &provisioningState
 		}
 	}
@@ -991,7 +993,9 @@ func (configuration *IpConfiguration) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "PrivateIpAllocationMethod":
 	if configuration.PrivateIpAllocationMethod != nil {
-		privateIpAllocationMethod := *configuration.PrivateIpAllocationMethod
+		var temp string
+		temp = string(*configuration.PrivateIpAllocationMethod)
+		privateIpAllocationMethod := IpConfiguration_PrivateIpAllocationMethod_ARM(temp)
 		result.PrivateIpAllocationMethod = &privateIpAllocationMethod
 	}
 
@@ -1027,7 +1031,9 @@ func (configuration *IpConfiguration) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "PrivateIpAllocationMethod":
 	if typedInput.PrivateIpAllocationMethod != nil {
-		privateIpAllocationMethod := *typedInput.PrivateIpAllocationMethod
+		var temp string
+		temp = string(*typedInput.PrivateIpAllocationMethod)
+		privateIpAllocationMethod := IpConfiguration_PrivateIpAllocationMethod(temp)
 		configuration.PrivateIpAllocationMethod = &privateIpAllocationMethod
 	}
 
@@ -1180,7 +1186,9 @@ func (configuration *IpConfiguration_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "PrivateIpAllocationMethod":
 	if typedInput.PrivateIpAllocationMethod != nil {
-		privateIpAllocationMethod := *typedInput.PrivateIpAllocationMethod
+		var temp string
+		temp = string(*typedInput.PrivateIpAllocationMethod)
+		privateIpAllocationMethod := IpConfiguration_PrivateIpAllocationMethod_STATUS(temp)
 		configuration.PrivateIpAllocationMethod = &privateIpAllocationMethod
 	}
 

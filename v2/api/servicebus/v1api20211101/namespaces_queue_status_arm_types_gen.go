@@ -97,10 +97,38 @@ type SBQueueProperties_STATUS_ARM struct {
 	SizeInBytes *int `json:"sizeInBytes,omitempty"`
 
 	// Status: Enumerates the possible values for the status of a messaging entity.
-	Status *EntityStatus_STATUS `json:"status,omitempty"`
+	Status *EntityStatus_STATUS_ARM `json:"status,omitempty"`
 
 	// UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
+}
+
+// Entity status.
+type EntityStatus_STATUS_ARM string
+
+const (
+	EntityStatus_STATUS_ARM_Active          = EntityStatus_STATUS_ARM("Active")
+	EntityStatus_STATUS_ARM_Creating        = EntityStatus_STATUS_ARM("Creating")
+	EntityStatus_STATUS_ARM_Deleting        = EntityStatus_STATUS_ARM("Deleting")
+	EntityStatus_STATUS_ARM_Disabled        = EntityStatus_STATUS_ARM("Disabled")
+	EntityStatus_STATUS_ARM_ReceiveDisabled = EntityStatus_STATUS_ARM("ReceiveDisabled")
+	EntityStatus_STATUS_ARM_Renaming        = EntityStatus_STATUS_ARM("Renaming")
+	EntityStatus_STATUS_ARM_Restoring       = EntityStatus_STATUS_ARM("Restoring")
+	EntityStatus_STATUS_ARM_SendDisabled    = EntityStatus_STATUS_ARM("SendDisabled")
+	EntityStatus_STATUS_ARM_Unknown         = EntityStatus_STATUS_ARM("Unknown")
+)
+
+// Mapping from string to EntityStatus_STATUS_ARM
+var entityStatus_STATUS_ARM_Values = map[string]EntityStatus_STATUS_ARM{
+	"active":          EntityStatus_STATUS_ARM_Active,
+	"creating":        EntityStatus_STATUS_ARM_Creating,
+	"deleting":        EntityStatus_STATUS_ARM_Deleting,
+	"disabled":        EntityStatus_STATUS_ARM_Disabled,
+	"receivedisabled": EntityStatus_STATUS_ARM_ReceiveDisabled,
+	"renaming":        EntityStatus_STATUS_ARM_Renaming,
+	"restoring":       EntityStatus_STATUS_ARM_Restoring,
+	"senddisabled":    EntityStatus_STATUS_ARM_SendDisabled,
+	"unknown":         EntityStatus_STATUS_ARM_Unknown,
 }
 
 // Message Count Details.

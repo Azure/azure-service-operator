@@ -37,5 +37,19 @@ func (account *Account_Spec_ARM) GetType() string {
 // Properties of an Azure Monitor Workspace
 type AzureMonitorWorkspace_ARM struct {
 	// PublicNetworkAccess: Gets or sets allow or disallow public network access to Azure Monitor Workspace
-	PublicNetworkAccess *AzureMonitorWorkspace_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *AzureMonitorWorkspace_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type AzureMonitorWorkspace_PublicNetworkAccess_ARM string
+
+const (
+	AzureMonitorWorkspace_PublicNetworkAccess_ARM_Disabled = AzureMonitorWorkspace_PublicNetworkAccess_ARM("Disabled")
+	AzureMonitorWorkspace_PublicNetworkAccess_ARM_Enabled  = AzureMonitorWorkspace_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to AzureMonitorWorkspace_PublicNetworkAccess_ARM
+var azureMonitorWorkspace_PublicNetworkAccess_ARM_Values = map[string]AzureMonitorWorkspace_PublicNetworkAccess_ARM{
+	"disabled": AzureMonitorWorkspace_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  AzureMonitorWorkspace_PublicNetworkAccess_ARM_Enabled,
 }

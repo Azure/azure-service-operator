@@ -393,7 +393,7 @@ func ManagedIdentity_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentity_Type_None, ManagedIdentity_Type_SystemAssigned, ManagedIdentity_Type_SystemAssignedUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentity_Type_ARM_None, ManagedIdentity_Type_ARM_SystemAssigned, ManagedIdentity_Type_ARM_SystemAssignedUserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedIdentity_ARM is a factory method for creating gopter generators
@@ -775,7 +775,7 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_ARM(gens map[string]
 	gens["AzureADOnlyAuthentication"] = gen.PtrOf(gen.Bool())
 	gens["ManagedResourceGroupName"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagedVirtualNetwork"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_Disabled, WorkspaceProperties_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_ARM_Disabled, WorkspaceProperties_PublicNetworkAccess_ARM_Enabled))
 	gens["SqlAdministratorLogin"] = gen.PtrOf(gen.AlphaString())
 	gens["SqlAdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["TrustedServiceBypassEnabled"] = gen.PtrOf(gen.Bool())

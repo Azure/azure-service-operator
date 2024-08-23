@@ -66,16 +66,16 @@ type ContainerGroup_Properties_Spec_ARM struct {
 	IpAddress *IpAddress_ARM `json:"ipAddress,omitempty"`
 
 	// OsType: The operating system type required by the containers in the container group.
-	OsType *ContainerGroup_Properties_OsType_Spec `json:"osType,omitempty"`
+	OsType *ContainerGroup_Properties_OsType_Spec_ARM `json:"osType,omitempty"`
 
 	// RestartPolicy: Restart policy for all containers within the container group.
 	// - `Always` Always restart
 	// - `OnFailure` Restart on failure
 	// - `Never` Never restart
-	RestartPolicy *ContainerGroup_Properties_RestartPolicy_Spec `json:"restartPolicy,omitempty"`
+	RestartPolicy *ContainerGroup_Properties_RestartPolicy_Spec_ARM `json:"restartPolicy,omitempty"`
 
 	// Sku: The SKU for a container group.
-	Sku *ContainerGroupSku `json:"sku,omitempty"`
+	Sku *ContainerGroupSku_ARM `json:"sku,omitempty"`
 
 	// SubnetIds: The subnet resource IDs for a container group.
 	SubnetIds []ContainerGroupSubnetId_ARM `json:"subnetIds,omitempty"`
@@ -89,7 +89,7 @@ type ContainerGroupIdentity_ARM struct {
 	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// container group.
-	Type                   *ContainerGroupIdentity_Type               `json:"type,omitempty"`
+	Type                   *ContainerGroupIdentity_Type_ARM           `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -102,6 +102,36 @@ type Container_ARM struct {
 	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type ContainerGroup_Properties_OsType_Spec_ARM string
+
+const (
+	ContainerGroup_Properties_OsType_Spec_ARM_Linux   = ContainerGroup_Properties_OsType_Spec_ARM("Linux")
+	ContainerGroup_Properties_OsType_Spec_ARM_Windows = ContainerGroup_Properties_OsType_Spec_ARM("Windows")
+)
+
+// Mapping from string to ContainerGroup_Properties_OsType_Spec_ARM
+var containerGroup_Properties_OsType_Spec_ARM_Values = map[string]ContainerGroup_Properties_OsType_Spec_ARM{
+	"linux":   ContainerGroup_Properties_OsType_Spec_ARM_Linux,
+	"windows": ContainerGroup_Properties_OsType_Spec_ARM_Windows,
+}
+
+// +kubebuilder:validation:Enum={"Always","Never","OnFailure"}
+type ContainerGroup_Properties_RestartPolicy_Spec_ARM string
+
+const (
+	ContainerGroup_Properties_RestartPolicy_Spec_ARM_Always    = ContainerGroup_Properties_RestartPolicy_Spec_ARM("Always")
+	ContainerGroup_Properties_RestartPolicy_Spec_ARM_Never     = ContainerGroup_Properties_RestartPolicy_Spec_ARM("Never")
+	ContainerGroup_Properties_RestartPolicy_Spec_ARM_OnFailure = ContainerGroup_Properties_RestartPolicy_Spec_ARM("OnFailure")
+)
+
+// Mapping from string to ContainerGroup_Properties_RestartPolicy_Spec_ARM
+var containerGroup_Properties_RestartPolicy_Spec_ARM_Values = map[string]ContainerGroup_Properties_RestartPolicy_Spec_ARM{
+	"always":    ContainerGroup_Properties_RestartPolicy_Spec_ARM_Always,
+	"never":     ContainerGroup_Properties_RestartPolicy_Spec_ARM_Never,
+	"onfailure": ContainerGroup_Properties_RestartPolicy_Spec_ARM_OnFailure,
+}
+
 // Container group diagnostic information.
 type ContainerGroupDiagnostics_ARM struct {
 	// LogAnalytics: Container group log analytics information.
@@ -109,21 +139,36 @@ type ContainerGroupDiagnostics_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ContainerGroupIdentity_Type string
+type ContainerGroupIdentity_Type_ARM string
 
 const (
-	ContainerGroupIdentity_Type_None                       = ContainerGroupIdentity_Type("None")
-	ContainerGroupIdentity_Type_SystemAssigned             = ContainerGroupIdentity_Type("SystemAssigned")
-	ContainerGroupIdentity_Type_SystemAssignedUserAssigned = ContainerGroupIdentity_Type("SystemAssigned, UserAssigned")
-	ContainerGroupIdentity_Type_UserAssigned               = ContainerGroupIdentity_Type("UserAssigned")
+	ContainerGroupIdentity_Type_ARM_None                       = ContainerGroupIdentity_Type_ARM("None")
+	ContainerGroupIdentity_Type_ARM_SystemAssigned             = ContainerGroupIdentity_Type_ARM("SystemAssigned")
+	ContainerGroupIdentity_Type_ARM_SystemAssignedUserAssigned = ContainerGroupIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	ContainerGroupIdentity_Type_ARM_UserAssigned               = ContainerGroupIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to ContainerGroupIdentity_Type
-var containerGroupIdentity_Type_Values = map[string]ContainerGroupIdentity_Type{
-	"none":                         ContainerGroupIdentity_Type_None,
-	"systemassigned":               ContainerGroupIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": ContainerGroupIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 ContainerGroupIdentity_Type_UserAssigned,
+// Mapping from string to ContainerGroupIdentity_Type_ARM
+var containerGroupIdentity_Type_ARM_Values = map[string]ContainerGroupIdentity_Type_ARM{
+	"none":                         ContainerGroupIdentity_Type_ARM_None,
+	"systemassigned":               ContainerGroupIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": ContainerGroupIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ContainerGroupIdentity_Type_ARM_UserAssigned,
+}
+
+// The container group SKU.
+// +kubebuilder:validation:Enum={"Dedicated","Standard"}
+type ContainerGroupSku_ARM string
+
+const (
+	ContainerGroupSku_ARM_Dedicated = ContainerGroupSku_ARM("Dedicated")
+	ContainerGroupSku_ARM_Standard  = ContainerGroupSku_ARM("Standard")
+)
+
+// Mapping from string to ContainerGroupSku_ARM
+var containerGroupSku_ARM_Values = map[string]ContainerGroupSku_ARM{
+	"dedicated": ContainerGroupSku_ARM_Dedicated,
+	"standard":  ContainerGroupSku_ARM_Standard,
 }
 
 // Container group subnet information.
@@ -194,7 +239,7 @@ type IpAddress_ARM struct {
 	// 'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The
 	// 'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or
 	// tenant.
-	AutoGeneratedDomainNameLabelScope *IpAddress_AutoGeneratedDomainNameLabelScope `json:"autoGeneratedDomainNameLabelScope,omitempty"`
+	AutoGeneratedDomainNameLabelScope *IpAddress_AutoGeneratedDomainNameLabelScope_ARM `json:"autoGeneratedDomainNameLabelScope,omitempty"`
 
 	// DnsNameLabel: The Dns name label for the IP.
 	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
@@ -206,7 +251,7 @@ type IpAddress_ARM struct {
 	Ports []Port_ARM `json:"ports,omitempty"`
 
 	// Type: Specifies if the IP is exposed to the public internet or private VNET.
-	Type *IpAddress_Type `json:"type,omitempty"`
+	Type *IpAddress_Type_ARM `json:"type,omitempty"`
 }
 
 // Information about the user assigned identity for the resource
@@ -302,10 +347,44 @@ type InitContainerPropertiesDefinition_ARM struct {
 	VolumeMounts []VolumeMount_ARM `json:"volumeMounts,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Noreuse","ResourceGroupReuse","SubscriptionReuse","TenantReuse","Unsecure"}
+type IpAddress_AutoGeneratedDomainNameLabelScope_ARM string
+
+const (
+	IpAddress_AutoGeneratedDomainNameLabelScope_ARM_Noreuse            = IpAddress_AutoGeneratedDomainNameLabelScope_ARM("Noreuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_ARM_ResourceGroupReuse = IpAddress_AutoGeneratedDomainNameLabelScope_ARM("ResourceGroupReuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_ARM_SubscriptionReuse  = IpAddress_AutoGeneratedDomainNameLabelScope_ARM("SubscriptionReuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_ARM_TenantReuse        = IpAddress_AutoGeneratedDomainNameLabelScope_ARM("TenantReuse")
+	IpAddress_AutoGeneratedDomainNameLabelScope_ARM_Unsecure           = IpAddress_AutoGeneratedDomainNameLabelScope_ARM("Unsecure")
+)
+
+// Mapping from string to IpAddress_AutoGeneratedDomainNameLabelScope_ARM
+var ipAddress_AutoGeneratedDomainNameLabelScope_ARM_Values = map[string]IpAddress_AutoGeneratedDomainNameLabelScope_ARM{
+	"noreuse":            IpAddress_AutoGeneratedDomainNameLabelScope_ARM_Noreuse,
+	"resourcegroupreuse": IpAddress_AutoGeneratedDomainNameLabelScope_ARM_ResourceGroupReuse,
+	"subscriptionreuse":  IpAddress_AutoGeneratedDomainNameLabelScope_ARM_SubscriptionReuse,
+	"tenantreuse":        IpAddress_AutoGeneratedDomainNameLabelScope_ARM_TenantReuse,
+	"unsecure":           IpAddress_AutoGeneratedDomainNameLabelScope_ARM_Unsecure,
+}
+
+// +kubebuilder:validation:Enum={"Private","Public"}
+type IpAddress_Type_ARM string
+
+const (
+	IpAddress_Type_ARM_Private = IpAddress_Type_ARM("Private")
+	IpAddress_Type_ARM_Public  = IpAddress_Type_ARM("Public")
+)
+
+// Mapping from string to IpAddress_Type_ARM
+var ipAddress_Type_ARM_Values = map[string]IpAddress_Type_ARM{
+	"private": IpAddress_Type_ARM_Private,
+	"public":  IpAddress_Type_ARM_Public,
+}
+
 // Container group log analytics information.
 type LogAnalytics_ARM struct {
 	// LogType: The log type to be used.
-	LogType *LogAnalytics_LogType `json:"logType,omitempty"`
+	LogType *LogAnalytics_LogType_ARM `json:"logType,omitempty"`
 
 	// Metadata: Metadata for log analytics.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -324,7 +403,7 @@ type Port_ARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-	Protocol *Port_Protocol `json:"protocol,omitempty"`
+	Protocol *Port_Protocol_ARM `json:"protocol,omitempty"`
 }
 
 // The port exposed on the container instance.
@@ -333,7 +412,7 @@ type ContainerPort_ARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol associated with the port.
-	Protocol *ContainerPort_Protocol `json:"protocol,omitempty"`
+	Protocol *ContainerPort_Protocol_ARM `json:"protocol,omitempty"`
 }
 
 // The container probe, for liveness or readiness
@@ -370,6 +449,34 @@ type EnvironmentVariable_ARM struct {
 
 	// Value: The value of the environment variable.
 	Value *string `json:"value,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"ContainerInsights","ContainerInstanceLogs"}
+type LogAnalytics_LogType_ARM string
+
+const (
+	LogAnalytics_LogType_ARM_ContainerInsights     = LogAnalytics_LogType_ARM("ContainerInsights")
+	LogAnalytics_LogType_ARM_ContainerInstanceLogs = LogAnalytics_LogType_ARM("ContainerInstanceLogs")
+)
+
+// Mapping from string to LogAnalytics_LogType_ARM
+var logAnalytics_LogType_ARM_Values = map[string]LogAnalytics_LogType_ARM{
+	"containerinsights":     LogAnalytics_LogType_ARM_ContainerInsights,
+	"containerinstancelogs": LogAnalytics_LogType_ARM_ContainerInstanceLogs,
+}
+
+// +kubebuilder:validation:Enum={"TCP","UDP"}
+type Port_Protocol_ARM string
+
+const (
+	Port_Protocol_ARM_TCP = Port_Protocol_ARM("TCP")
+	Port_Protocol_ARM_UDP = Port_Protocol_ARM("UDP")
+)
+
+// Mapping from string to Port_Protocol_ARM
+var port_Protocol_ARM_Values = map[string]Port_Protocol_ARM{
+	"tcp": Port_Protocol_ARM_TCP,
+	"udp": Port_Protocol_ARM_UDP,
 }
 
 // The resource requirements.
@@ -411,7 +518,21 @@ type ContainerHttpGet_ARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Scheme: The scheme.
-	Scheme *ContainerHttpGet_Scheme `json:"scheme,omitempty"`
+	Scheme *ContainerHttpGet_Scheme_ARM `json:"scheme,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"TCP","UDP"}
+type ContainerPort_Protocol_ARM string
+
+const (
+	ContainerPort_Protocol_ARM_TCP = ContainerPort_Protocol_ARM("TCP")
+	ContainerPort_Protocol_ARM_UDP = ContainerPort_Protocol_ARM("UDP")
+)
+
+// Mapping from string to ContainerPort_Protocol_ARM
+var containerPort_Protocol_ARM_Values = map[string]ContainerPort_Protocol_ARM{
+	"tcp": ContainerPort_Protocol_ARM_TCP,
+	"udp": ContainerPort_Protocol_ARM_UDP,
 }
 
 // The resource limits.
@@ -438,13 +559,27 @@ type ResourceRequests_ARM struct {
 	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"http","https"}
+type ContainerHttpGet_Scheme_ARM string
+
+const (
+	ContainerHttpGet_Scheme_ARM_Http  = ContainerHttpGet_Scheme_ARM("http")
+	ContainerHttpGet_Scheme_ARM_Https = ContainerHttpGet_Scheme_ARM("https")
+)
+
+// Mapping from string to ContainerHttpGet_Scheme_ARM
+var containerHttpGet_Scheme_ARM_Values = map[string]ContainerHttpGet_Scheme_ARM{
+	"http":  ContainerHttpGet_Scheme_ARM_Http,
+	"https": ContainerHttpGet_Scheme_ARM_Https,
+}
+
 // The GPU resource.
 type GpuResource_ARM struct {
 	// Count: The count of the GPU resource.
 	Count *int `json:"count,omitempty"`
 
 	// Sku: The SKU of the GPU resource.
-	Sku *GpuResource_Sku `json:"sku,omitempty"`
+	Sku *GpuResource_Sku_ARM `json:"sku,omitempty"`
 }
 
 // The HTTP header.
@@ -454,4 +589,20 @@ type HttpHeader_ARM struct {
 
 	// Value: The header value.
 	Value *string `json:"value,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"K80","P100","V100"}
+type GpuResource_Sku_ARM string
+
+const (
+	GpuResource_Sku_ARM_K80  = GpuResource_Sku_ARM("K80")
+	GpuResource_Sku_ARM_P100 = GpuResource_Sku_ARM("P100")
+	GpuResource_Sku_ARM_V100 = GpuResource_Sku_ARM("V100")
+)
+
+// Mapping from string to GpuResource_Sku_ARM
+var gpuResource_Sku_ARM_Values = map[string]GpuResource_Sku_ARM{
+	"k80":  GpuResource_Sku_ARM_K80,
+	"p100": GpuResource_Sku_ARM_P100,
+	"v100": GpuResource_Sku_ARM_V100,
 }

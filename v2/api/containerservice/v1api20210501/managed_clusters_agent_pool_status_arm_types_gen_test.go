@@ -301,16 +301,16 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
-		GPUInstanceProfile_STATUS_MIG1G,
-		GPUInstanceProfile_STATUS_MIG2G,
-		GPUInstanceProfile_STATUS_MIG3G,
-		GPUInstanceProfile_STATUS_MIG4G,
-		GPUInstanceProfile_STATUS_MIG7G))
-	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_STATUS_OS, KubeletDiskType_STATUS_Temporary))
+		GPUInstanceProfile_STATUS_ARM_MIG1G,
+		GPUInstanceProfile_STATUS_ARM_MIG2G,
+		GPUInstanceProfile_STATUS_ARM_MIG3G,
+		GPUInstanceProfile_STATUS_ARM_MIG4G,
+		GPUInstanceProfile_STATUS_ARM_MIG7G))
+	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_STATUS_ARM_OS, KubeletDiskType_STATUS_ARM_Temporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_STATUS_System, AgentPoolMode_STATUS_User))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_STATUS_ARM_System, AgentPoolMode_STATUS_ARM_User))
 	gens["NodeImageVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeLabels"] = gen.MapOf(
 		gen.AlphaString(),
@@ -319,19 +319,19 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_STATUS_Ephemeral, OSDiskType_STATUS_Managed))
-	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(OSSKU_STATUS_CBLMariner, OSSKU_STATUS_Ubuntu))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_STATUS_Linux, OSType_STATUS_Windows))
+	gens["OsDiskType"] = gen.PtrOf(gen.OneConstOf(OSDiskType_STATUS_ARM_Ephemeral, OSDiskType_STATUS_ARM_Managed))
+	gens["OsSKU"] = gen.PtrOf(gen.OneConstOf(OSSKU_STATUS_ARM_CBLMariner, OSSKU_STATUS_ARM_Ubuntu))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSType_STATUS_ARM_Linux, OSType_STATUS_ARM_Windows))
 	gens["PodSubnetID"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
-	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_STATUS_Deallocate, ScaleSetEvictionPolicy_STATUS_Delete))
-	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_STATUS_Regular, ScaleSetPriority_STATUS_Spot))
+	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_STATUS_ARM_Deallocate, ScaleSetEvictionPolicy_STATUS_ARM_Delete))
+	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_STATUS_ARM_Regular, ScaleSetPriority_STATUS_ARM_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_STATUS_AvailabilitySet, AgentPoolType_STATUS_VirtualMachineScaleSets))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_STATUS_ARM_AvailabilitySet, AgentPoolType_STATUS_ARM_VirtualMachineScaleSets))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
 }

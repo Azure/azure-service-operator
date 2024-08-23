@@ -501,7 +501,7 @@ func EmailReceiver_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForEmailReceiver_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["EmailAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(ReceiverStatus_STATUS_Disabled, ReceiverStatus_STATUS_Enabled, ReceiverStatus_STATUS_NotSpecified))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(ReceiverStatus_STATUS_ARM_Disabled, ReceiverStatus_STATUS_ARM_Enabled, ReceiverStatus_STATUS_ARM_NotSpecified))
 	gens["UseCommonAlertSchema"] = gen.PtrOf(gen.Bool())
 }
 
@@ -761,7 +761,7 @@ func AddIndependentPropertyGeneratorsForSmsReceiver_STATUS_ARM(gens map[string]g
 	gens["CountryCode"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PhoneNumber"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(ReceiverStatus_STATUS_Disabled, ReceiverStatus_STATUS_Enabled, ReceiverStatus_STATUS_NotSpecified))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(ReceiverStatus_STATUS_ARM_Disabled, ReceiverStatus_STATUS_ARM_Enabled, ReceiverStatus_STATUS_ARM_NotSpecified))
 }
 
 func Test_VoiceReceiver_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

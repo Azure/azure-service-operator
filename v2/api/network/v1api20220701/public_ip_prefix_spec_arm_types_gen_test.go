@@ -207,7 +207,7 @@ func PublicIPPrefixPropertiesFormat_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPublicIPPrefixPropertiesFormat_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPPrefixPropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["PrefixLength"] = gen.PtrOf(gen.Int())
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_IPv4, IPVersion_IPv6))
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_ARM_IPv4, IPVersion_ARM_IPv6))
 }
 
 // AddRelatedPropertyGeneratorsForPublicIPPrefixPropertiesFormat_ARM is a factory method for creating gopter generators
@@ -275,8 +275,8 @@ func PublicIPPrefixSku_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPPrefixSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPPrefixSku_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPPrefixSku_Name_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPPrefixSku_Tier_Global, PublicIPPrefixSku_Tier_Regional))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPPrefixSku_Name_ARM_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPPrefixSku_Tier_ARM_Global, PublicIPPrefixSku_Tier_ARM_Regional))
 }
 
 func Test_PublicIPPrefix_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

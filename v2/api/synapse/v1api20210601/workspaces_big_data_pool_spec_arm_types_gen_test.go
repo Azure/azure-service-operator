@@ -215,18 +215,18 @@ func AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM(gens m
 	gens["IsComputeIsolationEnabled"] = gen.PtrOf(gen.Bool())
 	gens["NodeCount"] = gen.PtrOf(gen.Int())
 	gens["NodeSize"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSize_Large,
-		BigDataPoolResourceProperties_NodeSize_Medium,
-		BigDataPoolResourceProperties_NodeSize_None,
-		BigDataPoolResourceProperties_NodeSize_Small,
-		BigDataPoolResourceProperties_NodeSize_XLarge,
-		BigDataPoolResourceProperties_NodeSize_XXLarge,
-		BigDataPoolResourceProperties_NodeSize_XXXLarge))
+		BigDataPoolResourceProperties_NodeSize_ARM_Large,
+		BigDataPoolResourceProperties_NodeSize_ARM_Medium,
+		BigDataPoolResourceProperties_NodeSize_ARM_None,
+		BigDataPoolResourceProperties_NodeSize_ARM_Small,
+		BigDataPoolResourceProperties_NodeSize_ARM_XLarge,
+		BigDataPoolResourceProperties_NodeSize_ARM_XXLarge,
+		BigDataPoolResourceProperties_NodeSize_ARM_XXXLarge))
 	gens["NodeSizeFamily"] = gen.PtrOf(gen.OneConstOf(
-		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedFPGA,
-		BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedGPU,
-		BigDataPoolResourceProperties_NodeSizeFamily_MemoryOptimized,
-		BigDataPoolResourceProperties_NodeSizeFamily_None))
+		BigDataPoolResourceProperties_NodeSizeFamily_ARM_HardwareAcceleratedFPGA,
+		BigDataPoolResourceProperties_NodeSizeFamily_ARM_HardwareAcceleratedGPU,
+		BigDataPoolResourceProperties_NodeSizeFamily_ARM_MemoryOptimized,
+		BigDataPoolResourceProperties_NodeSizeFamily_ARM_None))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["SessionLevelPackagesEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SparkEventsFolder"] = gen.PtrOf(gen.AlphaString())
@@ -489,7 +489,7 @@ func SparkConfigProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSparkConfigProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSparkConfigProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ConfigurationType"] = gen.PtrOf(gen.OneConstOf(SparkConfigProperties_ConfigurationType_Artifact, SparkConfigProperties_ConfigurationType_File))
+	gens["ConfigurationType"] = gen.PtrOf(gen.OneConstOf(SparkConfigProperties_ConfigurationType_ARM_Artifact, SparkConfigProperties_ConfigurationType_ARM_File))
 	gens["Content"] = gen.PtrOf(gen.AlphaString())
 	gens["Filename"] = gen.PtrOf(gen.AlphaString())
 }

@@ -90,12 +90,12 @@ func AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_Lo
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_All, TransportProtocol_STATUS_Tcp, TransportProtocol_STATUS_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_ARM_All, TransportProtocol_STATUS_ARM_Tcp, TransportProtocol_STATUS_ARM_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM is a factory method for creating gopter generators

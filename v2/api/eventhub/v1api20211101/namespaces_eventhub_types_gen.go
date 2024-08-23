@@ -821,7 +821,9 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
+			var temp string
+			temp = string(*typedInput.Properties.Status)
+			status := Namespaces_Eventhub_Properties_Status_STATUS(temp)
 			eventhub.Status = &status
 		}
 	}
@@ -1055,7 +1057,9 @@ func (description *CaptureDescription) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Encoding":
 	if description.Encoding != nil {
-		encoding := *description.Encoding
+		var temp string
+		temp = string(*description.Encoding)
+		encoding := CaptureDescription_Encoding_ARM(temp)
 		result.Encoding = &encoding
 	}
 
@@ -1110,7 +1114,9 @@ func (description *CaptureDescription) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Encoding":
 	if typedInput.Encoding != nil {
-		encoding := *typedInput.Encoding
+		var temp string
+		temp = string(*typedInput.Encoding)
+		encoding := CaptureDescription_Encoding(temp)
 		description.Encoding = &encoding
 	}
 
@@ -1350,7 +1356,9 @@ func (description *CaptureDescription_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "Encoding":
 	if typedInput.Encoding != nil {
-		encoding := *typedInput.Encoding
+		var temp string
+		temp = string(*typedInput.Encoding)
+		encoding := CaptureDescription_Encoding_STATUS(temp)
 		description.Encoding = &encoding
 	}
 

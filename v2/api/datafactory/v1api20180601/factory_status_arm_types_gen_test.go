@@ -230,7 +230,7 @@ func AddIndependentPropertyGeneratorsForFactoryGitHubConfiguration_STATUS_ARM(ge
 	gens["LastCommitId"] = gen.PtrOf(gen.AlphaString())
 	gens["RepositoryName"] = gen.PtrOf(gen.AlphaString())
 	gens["RootFolder"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(FactoryGitHubConfiguration_Type_STATUS_FactoryGitHubConfiguration)
+	gens["Type"] = gen.OneConstOf(FactoryGitHubConfiguration_Type_STATUS_ARM_FactoryGitHubConfiguration)
 }
 
 // AddRelatedPropertyGeneratorsForFactoryGitHubConfiguration_STATUS_ARM is a factory method for creating gopter generators
@@ -298,7 +298,7 @@ func FactoryIdentity_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForFactoryIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(FactoryIdentity_Type_STATUS_SystemAssigned, FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned, FactoryIdentity_Type_STATUS_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(FactoryIdentity_Type_STATUS_ARM_SystemAssigned, FactoryIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned, FactoryIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 func Test_FactoryProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -370,7 +370,7 @@ func FactoryProperties_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForFactoryProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CreateTime"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(FactoryProperties_PublicNetworkAccess_STATUS_Disabled, FactoryProperties_PublicNetworkAccess_STATUS_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(FactoryProperties_PublicNetworkAccess_STATUS_ARM_Disabled, FactoryProperties_PublicNetworkAccess_STATUS_ARM_Enabled))
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -522,7 +522,7 @@ func AddIndependentPropertyGeneratorsForFactoryVSTSConfiguration_STATUS_ARM(gens
 	gens["RepositoryName"] = gen.PtrOf(gen.AlphaString())
 	gens["RootFolder"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(FactoryVSTSConfiguration_Type_STATUS_FactoryVSTSConfiguration)
+	gens["Type"] = gen.OneConstOf(FactoryVSTSConfiguration_Type_STATUS_ARM_FactoryVSTSConfiguration)
 }
 
 func Test_Factory_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -728,12 +728,12 @@ func GlobalParameterSpecification_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForGlobalParameterSpecification_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGlobalParameterSpecification_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		GlobalParameterSpecification_Type_STATUS_Array,
-		GlobalParameterSpecification_Type_STATUS_Bool,
-		GlobalParameterSpecification_Type_STATUS_Float,
-		GlobalParameterSpecification_Type_STATUS_Int,
-		GlobalParameterSpecification_Type_STATUS_Object,
-		GlobalParameterSpecification_Type_STATUS_String))
+		GlobalParameterSpecification_Type_STATUS_ARM_Array,
+		GlobalParameterSpecification_Type_STATUS_ARM_Bool,
+		GlobalParameterSpecification_Type_STATUS_ARM_Float,
+		GlobalParameterSpecification_Type_STATUS_ARM_Int,
+		GlobalParameterSpecification_Type_STATUS_ARM_Object,
+		GlobalParameterSpecification_Type_STATUS_ARM_String))
 }
 
 func Test_PurviewConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

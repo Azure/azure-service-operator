@@ -269,13 +269,13 @@ func PrivateLinkServiceIpConfigurationProperties_STATUS_ARMGenerator() gopter.Ge
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceIpConfigurationProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_IPv4, IPVersion_STATUS_IPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUS_Dynamic, IPAllocationMethod_STATUS_Static))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_ARM_IPv4, IPVersion_STATUS_ARM_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUS_ARM_Dynamic, IPAllocationMethod_STATUS_ARM_Static))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProvisioningState_STATUS_Deleting,
-		ApplicationGatewayProvisioningState_STATUS_Failed,
-		ApplicationGatewayProvisioningState_STATUS_Succeeded,
-		ApplicationGatewayProvisioningState_STATUS_Updating))
+		ApplicationGatewayProvisioningState_STATUS_ARM_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Failed,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForPrivateLinkServiceIpConfigurationProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -432,10 +432,10 @@ func AddIndependentPropertyGeneratorsForPrivateLinkServiceProperties_STATUS_ARM(
 	gens["EnableProxyProtocol"] = gen.PtrOf(gen.Bool())
 	gens["Fqdns"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProvisioningState_STATUS_Deleting,
-		ApplicationGatewayProvisioningState_STATUS_Failed,
-		ApplicationGatewayProvisioningState_STATUS_Succeeded,
-		ApplicationGatewayProvisioningState_STATUS_Updating))
+		ApplicationGatewayProvisioningState_STATUS_ARM_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Failed,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForPrivateLinkServiceProperties_STATUS_ARM is a factory method for creating gopter generators

@@ -46,7 +46,7 @@ type FactoryIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *FactoryIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *FactoryIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: List of user assigned identities for the factory.
 	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
@@ -67,7 +67,7 @@ type FactoryProperties_STATUS_ARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for the data factory.
-	PublicNetworkAccess *FactoryProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *FactoryProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// PurviewConfiguration: Purview information of the factory.
 	PurviewConfiguration *PurviewConfiguration_STATUS_ARM `json:"purviewConfiguration,omitempty"`
@@ -95,19 +95,32 @@ type EncryptionConfiguration_STATUS_ARM struct {
 	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
 }
 
-type FactoryIdentity_Type_STATUS string
+type FactoryIdentity_Type_STATUS_ARM string
 
 const (
-	FactoryIdentity_Type_STATUS_SystemAssigned             = FactoryIdentity_Type_STATUS("SystemAssigned")
-	FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned = FactoryIdentity_Type_STATUS("SystemAssigned,UserAssigned")
-	FactoryIdentity_Type_STATUS_UserAssigned               = FactoryIdentity_Type_STATUS("UserAssigned")
+	FactoryIdentity_Type_STATUS_ARM_SystemAssigned             = FactoryIdentity_Type_STATUS_ARM("SystemAssigned")
+	FactoryIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = FactoryIdentity_Type_STATUS_ARM("SystemAssigned,UserAssigned")
+	FactoryIdentity_Type_STATUS_ARM_UserAssigned               = FactoryIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to FactoryIdentity_Type_STATUS
-var factoryIdentity_Type_STATUS_Values = map[string]FactoryIdentity_Type_STATUS{
-	"systemassigned":              FactoryIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned,userassigned": FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                FactoryIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to FactoryIdentity_Type_STATUS_ARM
+var factoryIdentity_Type_STATUS_ARM_Values = map[string]FactoryIdentity_Type_STATUS_ARM{
+	"systemassigned":              FactoryIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned,userassigned": FactoryIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                FactoryIdentity_Type_STATUS_ARM_UserAssigned,
+}
+
+type FactoryProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	FactoryProperties_PublicNetworkAccess_STATUS_ARM_Disabled = FactoryProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	FactoryProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = FactoryProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to FactoryProperties_PublicNetworkAccess_STATUS_ARM
+var factoryProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]FactoryProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": FactoryProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  FactoryProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
 }
 
 type FactoryRepoConfiguration_STATUS_ARM struct {
@@ -153,7 +166,7 @@ func (configuration *FactoryRepoConfiguration_STATUS_ARM) UnmarshalJSON(data []b
 // Definition of a single parameter for an entity.
 type GlobalParameterSpecification_STATUS_ARM struct {
 	// Type: Global Parameter type.
-	Type *GlobalParameterSpecification_Type_STATUS `json:"type,omitempty"`
+	Type *GlobalParameterSpecification_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// Value: Value of parameter.
 	Value map[string]v1.JSON `json:"value,omitempty"`
@@ -200,7 +213,7 @@ type FactoryGitHubConfiguration_STATUS_ARM struct {
 	RootFolder *string `json:"rootFolder,omitempty"`
 
 	// Type: Type of repo configuration.
-	Type FactoryGitHubConfiguration_Type_STATUS `json:"type,omitempty"`
+	Type FactoryGitHubConfiguration_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 type FactoryVSTSConfiguration_STATUS_ARM struct {
@@ -229,7 +242,46 @@ type FactoryVSTSConfiguration_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of repo configuration.
-	Type FactoryVSTSConfiguration_Type_STATUS `json:"type,omitempty"`
+	Type FactoryVSTSConfiguration_Type_STATUS_ARM `json:"type,omitempty"`
+}
+
+type GlobalParameterSpecification_Type_STATUS_ARM string
+
+const (
+	GlobalParameterSpecification_Type_STATUS_ARM_Array  = GlobalParameterSpecification_Type_STATUS_ARM("Array")
+	GlobalParameterSpecification_Type_STATUS_ARM_Bool   = GlobalParameterSpecification_Type_STATUS_ARM("Bool")
+	GlobalParameterSpecification_Type_STATUS_ARM_Float  = GlobalParameterSpecification_Type_STATUS_ARM("Float")
+	GlobalParameterSpecification_Type_STATUS_ARM_Int    = GlobalParameterSpecification_Type_STATUS_ARM("Int")
+	GlobalParameterSpecification_Type_STATUS_ARM_Object = GlobalParameterSpecification_Type_STATUS_ARM("Object")
+	GlobalParameterSpecification_Type_STATUS_ARM_String = GlobalParameterSpecification_Type_STATUS_ARM("String")
+)
+
+// Mapping from string to GlobalParameterSpecification_Type_STATUS_ARM
+var globalParameterSpecification_Type_STATUS_ARM_Values = map[string]GlobalParameterSpecification_Type_STATUS_ARM{
+	"array":  GlobalParameterSpecification_Type_STATUS_ARM_Array,
+	"bool":   GlobalParameterSpecification_Type_STATUS_ARM_Bool,
+	"float":  GlobalParameterSpecification_Type_STATUS_ARM_Float,
+	"int":    GlobalParameterSpecification_Type_STATUS_ARM_Int,
+	"object": GlobalParameterSpecification_Type_STATUS_ARM_Object,
+	"string": GlobalParameterSpecification_Type_STATUS_ARM_String,
+}
+
+type FactoryGitHubConfiguration_Type_STATUS_ARM string
+
+const FactoryGitHubConfiguration_Type_STATUS_ARM_FactoryGitHubConfiguration = FactoryGitHubConfiguration_Type_STATUS_ARM("FactoryGitHubConfiguration")
+
+// Mapping from string to FactoryGitHubConfiguration_Type_STATUS_ARM
+var factoryGitHubConfiguration_Type_STATUS_ARM_Values = map[string]FactoryGitHubConfiguration_Type_STATUS_ARM{
+	"factorygithubconfiguration": FactoryGitHubConfiguration_Type_STATUS_ARM_FactoryGitHubConfiguration,
+}
+
+type FactoryVSTSConfiguration_Type_STATUS_ARM string
+
+const FactoryVSTSConfiguration_Type_STATUS_ARM_FactoryVSTSConfiguration = FactoryVSTSConfiguration_Type_STATUS_ARM("FactoryVSTSConfiguration")
+
+// Mapping from string to FactoryVSTSConfiguration_Type_STATUS_ARM
+var factoryVSTSConfiguration_Type_STATUS_ARM_Values = map[string]FactoryVSTSConfiguration_Type_STATUS_ARM{
+	"factoryvstsconfiguration": FactoryVSTSConfiguration_Type_STATUS_ARM_FactoryVSTSConfiguration,
 }
 
 // Client secret information for factory's bring your own app repository configuration.

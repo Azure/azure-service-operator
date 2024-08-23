@@ -446,7 +446,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertToARM(resolved g
 		result.Properties = &ProfileProperties_ARM{}
 	}
 	for _, item := range trafficmanagerprofile.AllowedEndpointRecordTypes {
-		result.Properties.AllowedEndpointRecordTypes = append(result.Properties.AllowedEndpointRecordTypes, item)
+		var temp string
+		temp = string(item)
+		result.Properties.AllowedEndpointRecordTypes = append(result.Properties.AllowedEndpointRecordTypes, AllowedEndpointRecordType_ARM(temp))
 	}
 	if trafficmanagerprofile.DnsConfig != nil {
 		dnsConfig_ARM, err := (*trafficmanagerprofile.DnsConfig).ConvertToARM(resolved)
@@ -469,15 +471,21 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertToARM(resolved g
 		result.Properties.MonitorConfig = &monitorConfig
 	}
 	if trafficmanagerprofile.ProfileStatus != nil {
-		profileStatus := *trafficmanagerprofile.ProfileStatus
+		var temp string
+		temp = string(*trafficmanagerprofile.ProfileStatus)
+		profileStatus := ProfileProperties_ProfileStatus_ARM(temp)
 		result.Properties.ProfileStatus = &profileStatus
 	}
 	if trafficmanagerprofile.TrafficRoutingMethod != nil {
-		trafficRoutingMethod := *trafficmanagerprofile.TrafficRoutingMethod
+		var temp string
+		temp = string(*trafficmanagerprofile.TrafficRoutingMethod)
+		trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod_ARM(temp)
 		result.Properties.TrafficRoutingMethod = &trafficRoutingMethod
 	}
 	if trafficmanagerprofile.TrafficViewEnrollmentStatus != nil {
-		trafficViewEnrollmentStatus := *trafficmanagerprofile.TrafficViewEnrollmentStatus
+		var temp string
+		temp = string(*trafficmanagerprofile.TrafficViewEnrollmentStatus)
+		trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus_ARM(temp)
 		result.Properties.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 	}
 
@@ -513,7 +521,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AllowedEndpointRecordTypes {
-			trafficmanagerprofile.AllowedEndpointRecordTypes = append(trafficmanagerprofile.AllowedEndpointRecordTypes, item)
+			var temp string
+			temp = string(item)
+			trafficmanagerprofile.AllowedEndpointRecordTypes = append(trafficmanagerprofile.AllowedEndpointRecordTypes, AllowedEndpointRecordType(temp))
 		}
 	}
 
@@ -575,7 +585,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProfileStatus != nil {
-			profileStatus := *typedInput.Properties.ProfileStatus
+			var temp string
+			temp = string(*typedInput.Properties.ProfileStatus)
+			profileStatus := ProfileProperties_ProfileStatus(temp)
 			trafficmanagerprofile.ProfileStatus = &profileStatus
 		}
 	}
@@ -592,7 +604,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TrafficRoutingMethod != nil {
-			trafficRoutingMethod := *typedInput.Properties.TrafficRoutingMethod
+			var temp string
+			temp = string(*typedInput.Properties.TrafficRoutingMethod)
+			trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod(temp)
 			trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethod
 		}
 	}
@@ -601,7 +615,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TrafficViewEnrollmentStatus != nil {
-			trafficViewEnrollmentStatus := *typedInput.Properties.TrafficViewEnrollmentStatus
+			var temp string
+			temp = string(*typedInput.Properties.TrafficViewEnrollmentStatus)
+			trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus(temp)
 			trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 		}
 	}
@@ -1092,7 +1108,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AllowedEndpointRecordTypes {
-			trafficmanagerprofile.AllowedEndpointRecordTypes = append(trafficmanagerprofile.AllowedEndpointRecordTypes, item)
+			var temp string
+			temp = string(item)
+			trafficmanagerprofile.AllowedEndpointRecordTypes = append(trafficmanagerprofile.AllowedEndpointRecordTypes, AllowedEndpointRecordType_STATUS(temp))
 		}
 	}
 
@@ -1170,7 +1188,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProfileStatus != nil {
-			profileStatus := *typedInput.Properties.ProfileStatus
+			var temp string
+			temp = string(*typedInput.Properties.ProfileStatus)
+			profileStatus := ProfileProperties_ProfileStatus_STATUS(temp)
 			trafficmanagerprofile.ProfileStatus = &profileStatus
 		}
 	}
@@ -1187,7 +1207,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TrafficRoutingMethod != nil {
-			trafficRoutingMethod := *typedInput.Properties.TrafficRoutingMethod
+			var temp string
+			temp = string(*typedInput.Properties.TrafficRoutingMethod)
+			trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod_STATUS(temp)
 			trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethod
 		}
 	}
@@ -1196,7 +1218,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TrafficViewEnrollmentStatus != nil {
-			trafficViewEnrollmentStatus := *typedInput.Properties.TrafficViewEnrollmentStatus
+			var temp string
+			temp = string(*typedInput.Properties.TrafficViewEnrollmentStatus)
+			trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus_STATUS(temp)
 			trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 		}
 	}
@@ -1816,13 +1840,17 @@ func (config *MonitorConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "ProfileMonitorStatus":
 	if config.ProfileMonitorStatus != nil {
-		profileMonitorStatus := *config.ProfileMonitorStatus
+		var temp string
+		temp = string(*config.ProfileMonitorStatus)
+		profileMonitorStatus := MonitorConfig_ProfileMonitorStatus_ARM(temp)
 		result.ProfileMonitorStatus = &profileMonitorStatus
 	}
 
 	// Set property "Protocol":
 	if config.Protocol != nil {
-		protocol := *config.Protocol
+		var temp string
+		temp = string(*config.Protocol)
+		protocol := MonitorConfig_Protocol_ARM(temp)
 		result.Protocol = &protocol
 	}
 
@@ -1892,13 +1920,17 @@ func (config *MonitorConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "ProfileMonitorStatus":
 	if typedInput.ProfileMonitorStatus != nil {
-		profileMonitorStatus := *typedInput.ProfileMonitorStatus
+		var temp string
+		temp = string(*typedInput.ProfileMonitorStatus)
+		profileMonitorStatus := MonitorConfig_ProfileMonitorStatus(temp)
 		config.ProfileMonitorStatus = &profileMonitorStatus
 	}
 
 	// Set property "Protocol":
 	if typedInput.Protocol != nil {
-		protocol := *typedInput.Protocol
+		var temp string
+		temp = string(*typedInput.Protocol)
+		protocol := MonitorConfig_Protocol(temp)
 		config.Protocol = &protocol
 	}
 
@@ -2238,13 +2270,17 @@ func (config *MonitorConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "ProfileMonitorStatus":
 	if typedInput.ProfileMonitorStatus != nil {
-		profileMonitorStatus := *typedInput.ProfileMonitorStatus
+		var temp string
+		temp = string(*typedInput.ProfileMonitorStatus)
+		profileMonitorStatus := MonitorConfig_ProfileMonitorStatus_STATUS(temp)
 		config.ProfileMonitorStatus = &profileMonitorStatus
 	}
 
 	// Set property "Protocol":
 	if typedInput.Protocol != nil {
-		protocol := *typedInput.Protocol
+		var temp string
+		temp = string(*typedInput.Protocol)
+		protocol := MonitorConfig_Protocol_STATUS(temp)
 		config.Protocol = &protocol
 	}
 

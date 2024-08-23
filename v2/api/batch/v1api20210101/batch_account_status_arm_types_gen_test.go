@@ -148,7 +148,7 @@ func BatchAccountIdentity_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_STATUS_None, BatchAccountIdentity_Type_STATUS_SystemAssigned, BatchAccountIdentity_Type_STATUS_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_STATUS_ARM_None, BatchAccountIdentity_Type_STATUS_ARM_SystemAssigned, BatchAccountIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -292,16 +292,16 @@ func AddIndependentPropertyGeneratorsForBatchAccountProperties_STATUS_ARM(gens m
 	gens["DedicatedCoreQuota"] = gen.PtrOf(gen.Int())
 	gens["DedicatedCoreQuotaPerVMFamilyEnforced"] = gen.PtrOf(gen.Bool())
 	gens["LowPriorityCoreQuota"] = gen.PtrOf(gen.Int())
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_STATUS_BatchService, PoolAllocationMode_STATUS_UserSubscription))
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_STATUS_ARM_BatchService, PoolAllocationMode_STATUS_ARM_UserSubscription))
 	gens["PoolQuota"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		BatchAccountProperties_ProvisioningState_STATUS_Cancelled,
-		BatchAccountProperties_ProvisioningState_STATUS_Creating,
-		BatchAccountProperties_ProvisioningState_STATUS_Deleting,
-		BatchAccountProperties_ProvisioningState_STATUS_Failed,
-		BatchAccountProperties_ProvisioningState_STATUS_Invalid,
-		BatchAccountProperties_ProvisioningState_STATUS_Succeeded))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
+		BatchAccountProperties_ProvisioningState_STATUS_ARM_Cancelled,
+		BatchAccountProperties_ProvisioningState_STATUS_ARM_Creating,
+		BatchAccountProperties_ProvisioningState_STATUS_ARM_Deleting,
+		BatchAccountProperties_ProvisioningState_STATUS_ARM_Failed,
+		BatchAccountProperties_ProvisioningState_STATUS_ARM_Invalid,
+		BatchAccountProperties_ProvisioningState_STATUS_ARM_Succeeded))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_ARM_Disabled, PublicNetworkAccessType_STATUS_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -462,7 +462,7 @@ func EncryptionProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySource_STATUS_MicrosoftBatch, EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySource_STATUS_ARM_MicrosoftBatch, EncryptionProperties_KeySource_STATUS_ARM_MicrosoftKeyVault))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperties_STATUS_ARM is a factory method for creating gopter generators

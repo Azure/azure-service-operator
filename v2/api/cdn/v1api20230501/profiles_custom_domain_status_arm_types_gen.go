@@ -23,12 +23,12 @@ type Profiles_CustomDomain_STATUS_ARM struct {
 // The JSON object that contains the properties of the domain to create.
 type AFDDomainProperties_STATUS_ARM struct {
 	// AzureDnsZone: Resource reference to the Azure DNS zone
-	AzureDnsZone     *ResourceReference_STATUS_ARM                `json:"azureDnsZone,omitempty"`
-	DeploymentStatus *AFDDomainProperties_DeploymentStatus_STATUS `json:"deploymentStatus,omitempty"`
+	AzureDnsZone     *ResourceReference_STATUS_ARM                    `json:"azureDnsZone,omitempty"`
+	DeploymentStatus *AFDDomainProperties_DeploymentStatus_STATUS_ARM `json:"deploymentStatus,omitempty"`
 
 	// DomainValidationState: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
 	// DCV stands for DomainControlValidation.
-	DomainValidationState *AFDDomainProperties_DomainValidationState_STATUS `json:"domainValidationState,omitempty"`
+	DomainValidationState *AFDDomainProperties_DomainValidationState_STATUS_ARM `json:"domainValidationState,omitempty"`
 
 	// ExtendedProperties: Key-Value pair representing migration properties for domains.
 	ExtendedProperties map[string]string `json:"extendedProperties,omitempty"`
@@ -44,7 +44,7 @@ type AFDDomainProperties_STATUS_ARM struct {
 	ProfileName *string `json:"profileName,omitempty"`
 
 	// ProvisioningState: Provisioning status
-	ProvisioningState *AFDDomainProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *AFDDomainProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// TlsSettings: The configuration specifying how to enable HTTPS for the domain - using AzureFrontDoor managed certificate
 	// or user's own certificate. If not specified, enabling ssl uses AzureFrontDoor managed certificate by default.
@@ -57,13 +57,76 @@ type AFDDomainProperties_STATUS_ARM struct {
 // The JSON object that contains the properties to secure a domain.
 type AFDDomainHttpsParameters_STATUS_ARM struct {
 	// CertificateType: Defines the source of the SSL certificate.
-	CertificateType *AFDDomainHttpsParameters_CertificateType_STATUS `json:"certificateType,omitempty"`
+	CertificateType *AFDDomainHttpsParameters_CertificateType_STATUS_ARM `json:"certificateType,omitempty"`
 
 	// MinimumTlsVersion: TLS protocol version that will be used for Https
-	MinimumTlsVersion *AFDDomainHttpsParameters_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM `json:"minimumTlsVersion,omitempty"`
 
 	// Secret: Resource reference to the secret. ie. subs/rg/profile/secret
 	Secret *ResourceReference_STATUS_ARM `json:"secret,omitempty"`
+}
+
+type AFDDomainProperties_DeploymentStatus_STATUS_ARM string
+
+const (
+	AFDDomainProperties_DeploymentStatus_STATUS_ARM_Failed     = AFDDomainProperties_DeploymentStatus_STATUS_ARM("Failed")
+	AFDDomainProperties_DeploymentStatus_STATUS_ARM_InProgress = AFDDomainProperties_DeploymentStatus_STATUS_ARM("InProgress")
+	AFDDomainProperties_DeploymentStatus_STATUS_ARM_NotStarted = AFDDomainProperties_DeploymentStatus_STATUS_ARM("NotStarted")
+	AFDDomainProperties_DeploymentStatus_STATUS_ARM_Succeeded  = AFDDomainProperties_DeploymentStatus_STATUS_ARM("Succeeded")
+)
+
+// Mapping from string to AFDDomainProperties_DeploymentStatus_STATUS_ARM
+var aFDDomainProperties_DeploymentStatus_STATUS_ARM_Values = map[string]AFDDomainProperties_DeploymentStatus_STATUS_ARM{
+	"failed":     AFDDomainProperties_DeploymentStatus_STATUS_ARM_Failed,
+	"inprogress": AFDDomainProperties_DeploymentStatus_STATUS_ARM_InProgress,
+	"notstarted": AFDDomainProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+	"succeeded":  AFDDomainProperties_DeploymentStatus_STATUS_ARM_Succeeded,
+}
+
+type AFDDomainProperties_DomainValidationState_STATUS_ARM string
+
+const (
+	AFDDomainProperties_DomainValidationState_STATUS_ARM_Approved                  = AFDDomainProperties_DomainValidationState_STATUS_ARM("Approved")
+	AFDDomainProperties_DomainValidationState_STATUS_ARM_InternalError             = AFDDomainProperties_DomainValidationState_STATUS_ARM("InternalError")
+	AFDDomainProperties_DomainValidationState_STATUS_ARM_Pending                   = AFDDomainProperties_DomainValidationState_STATUS_ARM("Pending")
+	AFDDomainProperties_DomainValidationState_STATUS_ARM_PendingRevalidation       = AFDDomainProperties_DomainValidationState_STATUS_ARM("PendingRevalidation")
+	AFDDomainProperties_DomainValidationState_STATUS_ARM_RefreshingValidationToken = AFDDomainProperties_DomainValidationState_STATUS_ARM("RefreshingValidationToken")
+	AFDDomainProperties_DomainValidationState_STATUS_ARM_Rejected                  = AFDDomainProperties_DomainValidationState_STATUS_ARM("Rejected")
+	AFDDomainProperties_DomainValidationState_STATUS_ARM_Submitting                = AFDDomainProperties_DomainValidationState_STATUS_ARM("Submitting")
+	AFDDomainProperties_DomainValidationState_STATUS_ARM_TimedOut                  = AFDDomainProperties_DomainValidationState_STATUS_ARM("TimedOut")
+	AFDDomainProperties_DomainValidationState_STATUS_ARM_Unknown                   = AFDDomainProperties_DomainValidationState_STATUS_ARM("Unknown")
+)
+
+// Mapping from string to AFDDomainProperties_DomainValidationState_STATUS_ARM
+var aFDDomainProperties_DomainValidationState_STATUS_ARM_Values = map[string]AFDDomainProperties_DomainValidationState_STATUS_ARM{
+	"approved":                  AFDDomainProperties_DomainValidationState_STATUS_ARM_Approved,
+	"internalerror":             AFDDomainProperties_DomainValidationState_STATUS_ARM_InternalError,
+	"pending":                   AFDDomainProperties_DomainValidationState_STATUS_ARM_Pending,
+	"pendingrevalidation":       AFDDomainProperties_DomainValidationState_STATUS_ARM_PendingRevalidation,
+	"refreshingvalidationtoken": AFDDomainProperties_DomainValidationState_STATUS_ARM_RefreshingValidationToken,
+	"rejected":                  AFDDomainProperties_DomainValidationState_STATUS_ARM_Rejected,
+	"submitting":                AFDDomainProperties_DomainValidationState_STATUS_ARM_Submitting,
+	"timedout":                  AFDDomainProperties_DomainValidationState_STATUS_ARM_TimedOut,
+	"unknown":                   AFDDomainProperties_DomainValidationState_STATUS_ARM_Unknown,
+}
+
+type AFDDomainProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	AFDDomainProperties_ProvisioningState_STATUS_ARM_Creating  = AFDDomainProperties_ProvisioningState_STATUS_ARM("Creating")
+	AFDDomainProperties_ProvisioningState_STATUS_ARM_Deleting  = AFDDomainProperties_ProvisioningState_STATUS_ARM("Deleting")
+	AFDDomainProperties_ProvisioningState_STATUS_ARM_Failed    = AFDDomainProperties_ProvisioningState_STATUS_ARM("Failed")
+	AFDDomainProperties_ProvisioningState_STATUS_ARM_Succeeded = AFDDomainProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	AFDDomainProperties_ProvisioningState_STATUS_ARM_Updating  = AFDDomainProperties_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to AFDDomainProperties_ProvisioningState_STATUS_ARM
+var aFDDomainProperties_ProvisioningState_STATUS_ARM_Values = map[string]AFDDomainProperties_ProvisioningState_STATUS_ARM{
+	"creating":  AFDDomainProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  AFDDomainProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    AFDDomainProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": AFDDomainProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  AFDDomainProperties_ProvisioningState_STATUS_ARM_Updating,
 }
 
 // The JSON object that contains the properties to validate a domain.
@@ -73,4 +136,32 @@ type DomainValidationProperties_STATUS_ARM struct {
 
 	// ValidationToken: Challenge used for DNS TXT record or file based validation
 	ValidationToken *string `json:"validationToken,omitempty"`
+}
+
+type AFDDomainHttpsParameters_CertificateType_STATUS_ARM string
+
+const (
+	AFDDomainHttpsParameters_CertificateType_STATUS_ARM_AzureFirstPartyManagedCertificate = AFDDomainHttpsParameters_CertificateType_STATUS_ARM("AzureFirstPartyManagedCertificate")
+	AFDDomainHttpsParameters_CertificateType_STATUS_ARM_CustomerCertificate               = AFDDomainHttpsParameters_CertificateType_STATUS_ARM("CustomerCertificate")
+	AFDDomainHttpsParameters_CertificateType_STATUS_ARM_ManagedCertificate                = AFDDomainHttpsParameters_CertificateType_STATUS_ARM("ManagedCertificate")
+)
+
+// Mapping from string to AFDDomainHttpsParameters_CertificateType_STATUS_ARM
+var aFDDomainHttpsParameters_CertificateType_STATUS_ARM_Values = map[string]AFDDomainHttpsParameters_CertificateType_STATUS_ARM{
+	"azurefirstpartymanagedcertificate": AFDDomainHttpsParameters_CertificateType_STATUS_ARM_AzureFirstPartyManagedCertificate,
+	"customercertificate":               AFDDomainHttpsParameters_CertificateType_STATUS_ARM_CustomerCertificate,
+	"managedcertificate":                AFDDomainHttpsParameters_CertificateType_STATUS_ARM_ManagedCertificate,
+}
+
+type AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM string
+
+const (
+	AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM_TLS10 = AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM("TLS10")
+	AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM_TLS12 = AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM("TLS12")
+)
+
+// Mapping from string to AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM
+var aFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM_Values = map[string]AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM{
+	"tls10": AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM_TLS10,
+	"tls12": AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_ARM_TLS12,
 }

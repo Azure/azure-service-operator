@@ -47,7 +47,7 @@ func (service *Service_Spec_ARM) GetType() string {
 type ApiManagementServiceIdentity_ARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
-	Type                   *ApiManagementServiceIdentity_Type         `json:"type,omitempty"`
+	Type                   *ApiManagementServiceIdentity_Type_ARM     `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -90,7 +90,7 @@ type ApiManagementServiceProperties_ARM struct {
 	CustomProperties map[string]string `json:"customProperties,omitempty"`
 
 	// DeveloperPortalStatus: Status of developer portal in this API Management service.
-	DeveloperPortalStatus *ApiManagementServiceProperties_DeveloperPortalStatus `json:"developerPortalStatus,omitempty"`
+	DeveloperPortalStatus *ApiManagementServiceProperties_DeveloperPortalStatus_ARM `json:"developerPortalStatus,omitempty"`
 
 	// DisableGateway: Property only valid for an Api Management service deployed in multiple locations. This can be used to
 	// disable the gateway in master region.
@@ -105,10 +105,10 @@ type ApiManagementServiceProperties_ARM struct {
 	HostnameConfigurations []HostnameConfiguration_ARM `json:"hostnameConfigurations,omitempty"`
 
 	// LegacyPortalStatus: Status of legacy portal in the API Management service.
-	LegacyPortalStatus *ApiManagementServiceProperties_LegacyPortalStatus `json:"legacyPortalStatus,omitempty"`
+	LegacyPortalStatus *ApiManagementServiceProperties_LegacyPortalStatus_ARM `json:"legacyPortalStatus,omitempty"`
 
 	// NatGatewayState: Property can be used to enable NAT Gateway for this API Management service.
-	NatGatewayState *ApiManagementServiceProperties_NatGatewayState `json:"natGatewayState,omitempty"`
+	NatGatewayState *ApiManagementServiceProperties_NatGatewayState_ARM `json:"natGatewayState,omitempty"`
 
 	// NotificationSenderEmail: Email address from which the notification will be sent.
 	NotificationSenderEmail *string `json:"notificationSenderEmail,omitempty"`
@@ -117,7 +117,7 @@ type ApiManagementServiceProperties_ARM struct {
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this API Management service.  Value is
 	// optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access
 	// method. Default value is 'Enabled'
-	PublicNetworkAccess *ApiManagementServiceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ApiManagementServiceProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// PublisherEmail: Publisher email.
 	PublisherEmail *string `json:"publisherEmail,omitempty"`
@@ -136,7 +136,7 @@ type ApiManagementServiceProperties_ARM struct {
 	// means the API Management service is not part of any Virtual Network, External means the API Management deployment is set
 	// up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is
 	// setup inside a Virtual Network having an Intranet Facing Endpoint only.
-	VirtualNetworkType *ApiManagementServiceProperties_VirtualNetworkType `json:"virtualNetworkType,omitempty"`
+	VirtualNetworkType *ApiManagementServiceProperties_VirtualNetworkType_ARM `json:"virtualNetworkType,omitempty"`
 }
 
 // API Management service resource SKU properties.
@@ -145,7 +145,7 @@ type ApiManagementServiceSkuProperties_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of the Sku.
-	Name *ApiManagementServiceSkuProperties_Name `json:"name,omitempty"`
+	Name *ApiManagementServiceSkuProperties_Name_ARM `json:"name,omitempty"`
 }
 
 // Description of an additional API Management resource location.
@@ -158,8 +158,8 @@ type AdditionalLocation_ARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// NatGatewayState: Property can be used to enable NAT Gateway for this API Management service.
-	NatGatewayState   *AdditionalLocation_NatGatewayState `json:"natGatewayState,omitempty"`
-	PublicIpAddressId *string                             `json:"publicIpAddressId,omitempty"`
+	NatGatewayState   *AdditionalLocation_NatGatewayState_ARM `json:"natGatewayState,omitempty"`
+	PublicIpAddressId *string                                 `json:"publicIpAddressId,omitempty"`
 
 	// Sku: SKU properties of the API Management service.
 	Sku *ApiManagementServiceSkuProperties_ARM `json:"sku,omitempty"`
@@ -172,47 +172,119 @@ type AdditionalLocation_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ApiManagementServiceIdentity_Type string
+type ApiManagementServiceIdentity_Type_ARM string
 
 const (
-	ApiManagementServiceIdentity_Type_None                       = ApiManagementServiceIdentity_Type("None")
-	ApiManagementServiceIdentity_Type_SystemAssigned             = ApiManagementServiceIdentity_Type("SystemAssigned")
-	ApiManagementServiceIdentity_Type_SystemAssignedUserAssigned = ApiManagementServiceIdentity_Type("SystemAssigned, UserAssigned")
-	ApiManagementServiceIdentity_Type_UserAssigned               = ApiManagementServiceIdentity_Type("UserAssigned")
+	ApiManagementServiceIdentity_Type_ARM_None                       = ApiManagementServiceIdentity_Type_ARM("None")
+	ApiManagementServiceIdentity_Type_ARM_SystemAssigned             = ApiManagementServiceIdentity_Type_ARM("SystemAssigned")
+	ApiManagementServiceIdentity_Type_ARM_SystemAssignedUserAssigned = ApiManagementServiceIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	ApiManagementServiceIdentity_Type_ARM_UserAssigned               = ApiManagementServiceIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to ApiManagementServiceIdentity_Type
-var apiManagementServiceIdentity_Type_Values = map[string]ApiManagementServiceIdentity_Type{
-	"none":                         ApiManagementServiceIdentity_Type_None,
-	"systemassigned":               ApiManagementServiceIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": ApiManagementServiceIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 ApiManagementServiceIdentity_Type_UserAssigned,
+// Mapping from string to ApiManagementServiceIdentity_Type_ARM
+var apiManagementServiceIdentity_Type_ARM_Values = map[string]ApiManagementServiceIdentity_Type_ARM{
+	"none":                         ApiManagementServiceIdentity_Type_ARM_None,
+	"systemassigned":               ApiManagementServiceIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": ApiManagementServiceIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ApiManagementServiceIdentity_Type_ARM_UserAssigned,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ApiManagementServiceProperties_DeveloperPortalStatus_ARM string
+
+const (
+	ApiManagementServiceProperties_DeveloperPortalStatus_ARM_Disabled = ApiManagementServiceProperties_DeveloperPortalStatus_ARM("Disabled")
+	ApiManagementServiceProperties_DeveloperPortalStatus_ARM_Enabled  = ApiManagementServiceProperties_DeveloperPortalStatus_ARM("Enabled")
+)
+
+// Mapping from string to ApiManagementServiceProperties_DeveloperPortalStatus_ARM
+var apiManagementServiceProperties_DeveloperPortalStatus_ARM_Values = map[string]ApiManagementServiceProperties_DeveloperPortalStatus_ARM{
+	"disabled": ApiManagementServiceProperties_DeveloperPortalStatus_ARM_Disabled,
+	"enabled":  ApiManagementServiceProperties_DeveloperPortalStatus_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ApiManagementServiceProperties_LegacyPortalStatus_ARM string
+
+const (
+	ApiManagementServiceProperties_LegacyPortalStatus_ARM_Disabled = ApiManagementServiceProperties_LegacyPortalStatus_ARM("Disabled")
+	ApiManagementServiceProperties_LegacyPortalStatus_ARM_Enabled  = ApiManagementServiceProperties_LegacyPortalStatus_ARM("Enabled")
+)
+
+// Mapping from string to ApiManagementServiceProperties_LegacyPortalStatus_ARM
+var apiManagementServiceProperties_LegacyPortalStatus_ARM_Values = map[string]ApiManagementServiceProperties_LegacyPortalStatus_ARM{
+	"disabled": ApiManagementServiceProperties_LegacyPortalStatus_ARM_Disabled,
+	"enabled":  ApiManagementServiceProperties_LegacyPortalStatus_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ApiManagementServiceProperties_NatGatewayState_ARM string
+
+const (
+	ApiManagementServiceProperties_NatGatewayState_ARM_Disabled = ApiManagementServiceProperties_NatGatewayState_ARM("Disabled")
+	ApiManagementServiceProperties_NatGatewayState_ARM_Enabled  = ApiManagementServiceProperties_NatGatewayState_ARM("Enabled")
+)
+
+// Mapping from string to ApiManagementServiceProperties_NatGatewayState_ARM
+var apiManagementServiceProperties_NatGatewayState_ARM_Values = map[string]ApiManagementServiceProperties_NatGatewayState_ARM{
+	"disabled": ApiManagementServiceProperties_NatGatewayState_ARM_Disabled,
+	"enabled":  ApiManagementServiceProperties_NatGatewayState_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ApiManagementServiceProperties_PublicNetworkAccess_ARM string
+
+const (
+	ApiManagementServiceProperties_PublicNetworkAccess_ARM_Disabled = ApiManagementServiceProperties_PublicNetworkAccess_ARM("Disabled")
+	ApiManagementServiceProperties_PublicNetworkAccess_ARM_Enabled  = ApiManagementServiceProperties_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to ApiManagementServiceProperties_PublicNetworkAccess_ARM
+var apiManagementServiceProperties_PublicNetworkAccess_ARM_Values = map[string]ApiManagementServiceProperties_PublicNetworkAccess_ARM{
+	"disabled": ApiManagementServiceProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  ApiManagementServiceProperties_PublicNetworkAccess_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"External","Internal","None"}
+type ApiManagementServiceProperties_VirtualNetworkType_ARM string
+
+const (
+	ApiManagementServiceProperties_VirtualNetworkType_ARM_External = ApiManagementServiceProperties_VirtualNetworkType_ARM("External")
+	ApiManagementServiceProperties_VirtualNetworkType_ARM_Internal = ApiManagementServiceProperties_VirtualNetworkType_ARM("Internal")
+	ApiManagementServiceProperties_VirtualNetworkType_ARM_None     = ApiManagementServiceProperties_VirtualNetworkType_ARM("None")
+)
+
+// Mapping from string to ApiManagementServiceProperties_VirtualNetworkType_ARM
+var apiManagementServiceProperties_VirtualNetworkType_ARM_Values = map[string]ApiManagementServiceProperties_VirtualNetworkType_ARM{
+	"external": ApiManagementServiceProperties_VirtualNetworkType_ARM_External,
+	"internal": ApiManagementServiceProperties_VirtualNetworkType_ARM_Internal,
+	"none":     ApiManagementServiceProperties_VirtualNetworkType_ARM_None,
 }
 
 // +kubebuilder:validation:Enum={"Basic","BasicV2","Consumption","Developer","Isolated","Premium","Standard","StandardV2"}
-type ApiManagementServiceSkuProperties_Name string
+type ApiManagementServiceSkuProperties_Name_ARM string
 
 const (
-	ApiManagementServiceSkuProperties_Name_Basic       = ApiManagementServiceSkuProperties_Name("Basic")
-	ApiManagementServiceSkuProperties_Name_BasicV2     = ApiManagementServiceSkuProperties_Name("BasicV2")
-	ApiManagementServiceSkuProperties_Name_Consumption = ApiManagementServiceSkuProperties_Name("Consumption")
-	ApiManagementServiceSkuProperties_Name_Developer   = ApiManagementServiceSkuProperties_Name("Developer")
-	ApiManagementServiceSkuProperties_Name_Isolated    = ApiManagementServiceSkuProperties_Name("Isolated")
-	ApiManagementServiceSkuProperties_Name_Premium     = ApiManagementServiceSkuProperties_Name("Premium")
-	ApiManagementServiceSkuProperties_Name_Standard    = ApiManagementServiceSkuProperties_Name("Standard")
-	ApiManagementServiceSkuProperties_Name_StandardV2  = ApiManagementServiceSkuProperties_Name("StandardV2")
+	ApiManagementServiceSkuProperties_Name_ARM_Basic       = ApiManagementServiceSkuProperties_Name_ARM("Basic")
+	ApiManagementServiceSkuProperties_Name_ARM_BasicV2     = ApiManagementServiceSkuProperties_Name_ARM("BasicV2")
+	ApiManagementServiceSkuProperties_Name_ARM_Consumption = ApiManagementServiceSkuProperties_Name_ARM("Consumption")
+	ApiManagementServiceSkuProperties_Name_ARM_Developer   = ApiManagementServiceSkuProperties_Name_ARM("Developer")
+	ApiManagementServiceSkuProperties_Name_ARM_Isolated    = ApiManagementServiceSkuProperties_Name_ARM("Isolated")
+	ApiManagementServiceSkuProperties_Name_ARM_Premium     = ApiManagementServiceSkuProperties_Name_ARM("Premium")
+	ApiManagementServiceSkuProperties_Name_ARM_Standard    = ApiManagementServiceSkuProperties_Name_ARM("Standard")
+	ApiManagementServiceSkuProperties_Name_ARM_StandardV2  = ApiManagementServiceSkuProperties_Name_ARM("StandardV2")
 )
 
-// Mapping from string to ApiManagementServiceSkuProperties_Name
-var apiManagementServiceSkuProperties_Name_Values = map[string]ApiManagementServiceSkuProperties_Name{
-	"basic":       ApiManagementServiceSkuProperties_Name_Basic,
-	"basicv2":     ApiManagementServiceSkuProperties_Name_BasicV2,
-	"consumption": ApiManagementServiceSkuProperties_Name_Consumption,
-	"developer":   ApiManagementServiceSkuProperties_Name_Developer,
-	"isolated":    ApiManagementServiceSkuProperties_Name_Isolated,
-	"premium":     ApiManagementServiceSkuProperties_Name_Premium,
-	"standard":    ApiManagementServiceSkuProperties_Name_Standard,
-	"standardv2":  ApiManagementServiceSkuProperties_Name_StandardV2,
+// Mapping from string to ApiManagementServiceSkuProperties_Name_ARM
+var apiManagementServiceSkuProperties_Name_ARM_Values = map[string]ApiManagementServiceSkuProperties_Name_ARM{
+	"basic":       ApiManagementServiceSkuProperties_Name_ARM_Basic,
+	"basicv2":     ApiManagementServiceSkuProperties_Name_ARM_BasicV2,
+	"consumption": ApiManagementServiceSkuProperties_Name_ARM_Consumption,
+	"developer":   ApiManagementServiceSkuProperties_Name_ARM_Developer,
+	"isolated":    ApiManagementServiceSkuProperties_Name_ARM_Isolated,
+	"premium":     ApiManagementServiceSkuProperties_Name_ARM_Premium,
+	"standard":    ApiManagementServiceSkuProperties_Name_ARM_Standard,
+	"standardv2":  ApiManagementServiceSkuProperties_Name_ARM_StandardV2,
 }
 
 // Control Plane Apis version constraint for the API Management service.
@@ -234,7 +306,7 @@ type CertificateConfiguration_ARM struct {
 
 	// StoreName: The System.Security.Cryptography.x509certificates.StoreName certificate store location. Only Root and
 	// CertificateAuthority are valid locations.
-	StoreName *CertificateConfiguration_StoreName `json:"storeName,omitempty"`
+	StoreName *CertificateConfiguration_StoreName_ARM `json:"storeName,omitempty"`
 }
 
 // Information regarding the Configuration API of the API Management service.
@@ -242,7 +314,7 @@ type ConfigurationApi_ARM struct {
 	// LegacyApi: Indication whether or not the legacy Configuration API (v1) should be exposed on the API Management service.
 	// Value is optional but must be 'Enabled' or 'Disabled'. If 'Disabled', legacy Configuration API (v1) will not be
 	// available for self-hosted gateways. Default value is 'Enabled'
-	LegacyApi *ConfigurationApi_LegacyApi `json:"legacyApi,omitempty"`
+	LegacyApi *ConfigurationApi_LegacyApi_ARM `json:"legacyApi,omitempty"`
 }
 
 // Custom hostname configuration.
@@ -254,10 +326,10 @@ type HostnameConfiguration_ARM struct {
 	CertificatePassword *string `json:"certificatePassword,omitempty"`
 
 	// CertificateSource: Certificate Source.
-	CertificateSource *HostnameConfiguration_CertificateSource `json:"certificateSource,omitempty"`
+	CertificateSource *HostnameConfiguration_CertificateSource_ARM `json:"certificateSource,omitempty"`
 
 	// CertificateStatus: Certificate Status.
-	CertificateStatus *HostnameConfiguration_CertificateStatus `json:"certificateStatus,omitempty"`
+	CertificateStatus *HostnameConfiguration_CertificateStatus_ARM `json:"certificateStatus,omitempty"`
 
 	// DefaultSslBinding: Specify true to setup the certificate associated with this Hostname as the Default SSL Certificate.
 	// If a client does not send the SNI header, then this will be the certificate that will be challenged. The property is
@@ -284,7 +356,7 @@ type HostnameConfiguration_ARM struct {
 	NegotiateClientCertificate *bool `json:"negotiateClientCertificate,omitempty"`
 
 	// Type: Hostname type.
-	Type *HostnameConfiguration_Type `json:"type,omitempty"`
+	Type *HostnameConfiguration_Type_ARM `json:"type,omitempty"`
 }
 
 // Information about the user assigned identity for the resource
@@ -294,6 +366,34 @@ type UserAssignedIdentityDetails_ARM struct {
 // Configuration of a virtual network to which API Management service is deployed.
 type VirtualNetworkConfiguration_ARM struct {
 	SubnetResourceId *string `json:"subnetResourceId,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type AdditionalLocation_NatGatewayState_ARM string
+
+const (
+	AdditionalLocation_NatGatewayState_ARM_Disabled = AdditionalLocation_NatGatewayState_ARM("Disabled")
+	AdditionalLocation_NatGatewayState_ARM_Enabled  = AdditionalLocation_NatGatewayState_ARM("Enabled")
+)
+
+// Mapping from string to AdditionalLocation_NatGatewayState_ARM
+var additionalLocation_NatGatewayState_ARM_Values = map[string]AdditionalLocation_NatGatewayState_ARM{
+	"disabled": AdditionalLocation_NatGatewayState_ARM_Disabled,
+	"enabled":  AdditionalLocation_NatGatewayState_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"CertificateAuthority","Root"}
+type CertificateConfiguration_StoreName_ARM string
+
+const (
+	CertificateConfiguration_StoreName_ARM_CertificateAuthority = CertificateConfiguration_StoreName_ARM("CertificateAuthority")
+	CertificateConfiguration_StoreName_ARM_Root                 = CertificateConfiguration_StoreName_ARM("Root")
+)
+
+// Mapping from string to CertificateConfiguration_StoreName_ARM
+var certificateConfiguration_StoreName_ARM_Values = map[string]CertificateConfiguration_StoreName_ARM{
+	"certificateauthority": CertificateConfiguration_StoreName_ARM_CertificateAuthority,
+	"root":                 CertificateConfiguration_StoreName_ARM_Root,
 }
 
 // SSL certificate information.
@@ -307,4 +407,74 @@ type CertificateInformation_ARM struct {
 
 	// Thumbprint: Thumbprint of the certificate.
 	Thumbprint *string `json:"thumbprint,omitempty" optionalConfigMapPair:"Thumbprint"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ConfigurationApi_LegacyApi_ARM string
+
+const (
+	ConfigurationApi_LegacyApi_ARM_Disabled = ConfigurationApi_LegacyApi_ARM("Disabled")
+	ConfigurationApi_LegacyApi_ARM_Enabled  = ConfigurationApi_LegacyApi_ARM("Enabled")
+)
+
+// Mapping from string to ConfigurationApi_LegacyApi_ARM
+var configurationApi_LegacyApi_ARM_Values = map[string]ConfigurationApi_LegacyApi_ARM{
+	"disabled": ConfigurationApi_LegacyApi_ARM_Disabled,
+	"enabled":  ConfigurationApi_LegacyApi_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"BuiltIn","Custom","KeyVault","Managed"}
+type HostnameConfiguration_CertificateSource_ARM string
+
+const (
+	HostnameConfiguration_CertificateSource_ARM_BuiltIn  = HostnameConfiguration_CertificateSource_ARM("BuiltIn")
+	HostnameConfiguration_CertificateSource_ARM_Custom   = HostnameConfiguration_CertificateSource_ARM("Custom")
+	HostnameConfiguration_CertificateSource_ARM_KeyVault = HostnameConfiguration_CertificateSource_ARM("KeyVault")
+	HostnameConfiguration_CertificateSource_ARM_Managed  = HostnameConfiguration_CertificateSource_ARM("Managed")
+)
+
+// Mapping from string to HostnameConfiguration_CertificateSource_ARM
+var hostnameConfiguration_CertificateSource_ARM_Values = map[string]HostnameConfiguration_CertificateSource_ARM{
+	"builtin":  HostnameConfiguration_CertificateSource_ARM_BuiltIn,
+	"custom":   HostnameConfiguration_CertificateSource_ARM_Custom,
+	"keyvault": HostnameConfiguration_CertificateSource_ARM_KeyVault,
+	"managed":  HostnameConfiguration_CertificateSource_ARM_Managed,
+}
+
+// +kubebuilder:validation:Enum={"Completed","Failed","InProgress"}
+type HostnameConfiguration_CertificateStatus_ARM string
+
+const (
+	HostnameConfiguration_CertificateStatus_ARM_Completed  = HostnameConfiguration_CertificateStatus_ARM("Completed")
+	HostnameConfiguration_CertificateStatus_ARM_Failed     = HostnameConfiguration_CertificateStatus_ARM("Failed")
+	HostnameConfiguration_CertificateStatus_ARM_InProgress = HostnameConfiguration_CertificateStatus_ARM("InProgress")
+)
+
+// Mapping from string to HostnameConfiguration_CertificateStatus_ARM
+var hostnameConfiguration_CertificateStatus_ARM_Values = map[string]HostnameConfiguration_CertificateStatus_ARM{
+	"completed":  HostnameConfiguration_CertificateStatus_ARM_Completed,
+	"failed":     HostnameConfiguration_CertificateStatus_ARM_Failed,
+	"inprogress": HostnameConfiguration_CertificateStatus_ARM_InProgress,
+}
+
+// +kubebuilder:validation:Enum={"ConfigurationApi","DeveloperPortal","Management","Portal","Proxy","Scm"}
+type HostnameConfiguration_Type_ARM string
+
+const (
+	HostnameConfiguration_Type_ARM_ConfigurationApi = HostnameConfiguration_Type_ARM("ConfigurationApi")
+	HostnameConfiguration_Type_ARM_DeveloperPortal  = HostnameConfiguration_Type_ARM("DeveloperPortal")
+	HostnameConfiguration_Type_ARM_Management       = HostnameConfiguration_Type_ARM("Management")
+	HostnameConfiguration_Type_ARM_Portal           = HostnameConfiguration_Type_ARM("Portal")
+	HostnameConfiguration_Type_ARM_Proxy            = HostnameConfiguration_Type_ARM("Proxy")
+	HostnameConfiguration_Type_ARM_Scm              = HostnameConfiguration_Type_ARM("Scm")
+)
+
+// Mapping from string to HostnameConfiguration_Type_ARM
+var hostnameConfiguration_Type_ARM_Values = map[string]HostnameConfiguration_Type_ARM{
+	"configurationapi": HostnameConfiguration_Type_ARM_ConfigurationApi,
+	"developerportal":  HostnameConfiguration_Type_ARM_DeveloperPortal,
+	"management":       HostnameConfiguration_Type_ARM_Management,
+	"portal":           HostnameConfiguration_Type_ARM_Portal,
+	"proxy":            HostnameConfiguration_Type_ARM_Proxy,
+	"scm":              HostnameConfiguration_Type_ARM_Scm,
 }

@@ -474,11 +474,15 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.NatGateway = &natGateway
 	}
 	if address.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := *address.PublicIPAddressVersion
+		var temp string
+		temp = string(*address.PublicIPAddressVersion)
+		publicIPAddressVersion := IPVersion_ARM(temp)
 		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
 	}
 	if address.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := *address.PublicIPAllocationMethod
+		var temp string
+		temp = string(*address.PublicIPAllocationMethod)
+		publicIPAllocationMethod := IPAllocationMethod_ARM(temp)
 		result.Properties.PublicIPAllocationMethod = &publicIPAllocationMethod
 	}
 	if address.PublicIPPrefix != nil {
@@ -652,7 +656,9 @@ func (address *PublicIPAddress_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddressVersion != nil {
-			publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PublicIPAddressVersion)
+			publicIPAddressVersion := IPVersion(temp)
 			address.PublicIPAddressVersion = &publicIPAddressVersion
 		}
 	}
@@ -661,7 +667,9 @@ func (address *PublicIPAddress_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAllocationMethod != nil {
-			publicIPAllocationMethod := *typedInput.Properties.PublicIPAllocationMethod
+			var temp string
+			temp = string(*typedInput.Properties.PublicIPAllocationMethod)
+			publicIPAllocationMethod := IPAllocationMethod(temp)
 			address.PublicIPAllocationMethod = &publicIPAllocationMethod
 		}
 	}
@@ -1492,7 +1500,9 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MigrationPhase != nil {
-			migrationPhase := *typedInput.Properties.MigrationPhase
+			var temp string
+			temp = string(*typedInput.Properties.MigrationPhase)
+			migrationPhase := PublicIPAddressPropertiesFormat_MigrationPhase_STATUS(temp)
 			embedded.MigrationPhase = &migrationPhase
 		}
 	}
@@ -1521,7 +1531,9 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			embedded.ProvisioningState = &provisioningState
 		}
 	}
@@ -1530,7 +1542,9 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddressVersion != nil {
-			publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PublicIPAddressVersion)
+			publicIPAddressVersion := IPVersion_STATUS(temp)
 			embedded.PublicIPAddressVersion = &publicIPAddressVersion
 		}
 	}
@@ -1539,7 +1553,9 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAllocationMethod != nil {
-			publicIPAllocationMethod := *typedInput.Properties.PublicIPAllocationMethod
+			var temp string
+			temp = string(*typedInput.Properties.PublicIPAllocationMethod)
+			publicIPAllocationMethod := IPAllocationMethod_STATUS(temp)
 			embedded.PublicIPAllocationMethod = &publicIPAllocationMethod
 		}
 	}
@@ -2002,7 +2018,9 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "ProtectionCoverage":
 	if settings.ProtectionCoverage != nil {
-		protectionCoverage := *settings.ProtectionCoverage
+		var temp string
+		temp = string(*settings.ProtectionCoverage)
+		protectionCoverage := DdosSettings_ProtectionCoverage_ARM(temp)
 		result.ProtectionCoverage = &protectionCoverage
 	}
 	return result, nil
@@ -2039,7 +2057,9 @@ func (settings *DdosSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "ProtectionCoverage":
 	if typedInput.ProtectionCoverage != nil {
-		protectionCoverage := *typedInput.ProtectionCoverage
+		var temp string
+		temp = string(*typedInput.ProtectionCoverage)
+		protectionCoverage := DdosSettings_ProtectionCoverage(temp)
 		settings.ProtectionCoverage = &protectionCoverage
 	}
 
@@ -2208,7 +2228,9 @@ func (settings *DdosSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "ProtectionCoverage":
 	if typedInput.ProtectionCoverage != nil {
-		protectionCoverage := *typedInput.ProtectionCoverage
+		var temp string
+		temp = string(*typedInput.ProtectionCoverage)
+		protectionCoverage := DdosSettings_ProtectionCoverage_STATUS(temp)
 		settings.ProtectionCoverage = &protectionCoverage
 	}
 
@@ -3023,13 +3045,17 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Name":
 	if addressSku.Name != nil {
-		name := *addressSku.Name
+		var temp string
+		temp = string(*addressSku.Name)
+		name := PublicIPAddressSku_Name_ARM(temp)
 		result.Name = &name
 	}
 
 	// Set property "Tier":
 	if addressSku.Tier != nil {
-		tier := *addressSku.Tier
+		var temp string
+		temp = string(*addressSku.Tier)
+		tier := PublicIPAddressSku_Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -3049,13 +3075,17 @@ func (addressSku *PublicIPAddressSku) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := PublicIPAddressSku_Name(temp)
 		addressSku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := PublicIPAddressSku_Tier(temp)
 		addressSku.Tier = &tier
 	}
 
@@ -3168,13 +3198,17 @@ func (addressSku *PublicIPAddressSku_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := PublicIPAddressSku_Name_STATUS(temp)
 		addressSku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := PublicIPAddressSku_Tier_STATUS(temp)
 		addressSku.Tier = &tier
 	}
 
@@ -3348,6 +3382,60 @@ const (
 var ddosSettings_ProtectionCoverage_STATUS_Values = map[string]DdosSettings_ProtectionCoverage_STATUS{
 	"basic":    DdosSettings_ProtectionCoverage_STATUS_Basic,
 	"standard": DdosSettings_ProtectionCoverage_STATUS_Standard,
+}
+
+// +kubebuilder:validation:Enum={"Basic","Standard"}
+type PublicIPAddressSku_Name string
+
+const (
+	PublicIPAddressSku_Name_Basic    = PublicIPAddressSku_Name("Basic")
+	PublicIPAddressSku_Name_Standard = PublicIPAddressSku_Name("Standard")
+)
+
+// Mapping from string to PublicIPAddressSku_Name
+var publicIPAddressSku_Name_Values = map[string]PublicIPAddressSku_Name{
+	"basic":    PublicIPAddressSku_Name_Basic,
+	"standard": PublicIPAddressSku_Name_Standard,
+}
+
+type PublicIPAddressSku_Name_STATUS string
+
+const (
+	PublicIPAddressSku_Name_STATUS_Basic    = PublicIPAddressSku_Name_STATUS("Basic")
+	PublicIPAddressSku_Name_STATUS_Standard = PublicIPAddressSku_Name_STATUS("Standard")
+)
+
+// Mapping from string to PublicIPAddressSku_Name_STATUS
+var publicIPAddressSku_Name_STATUS_Values = map[string]PublicIPAddressSku_Name_STATUS{
+	"basic":    PublicIPAddressSku_Name_STATUS_Basic,
+	"standard": PublicIPAddressSku_Name_STATUS_Standard,
+}
+
+// +kubebuilder:validation:Enum={"Global","Regional"}
+type PublicIPAddressSku_Tier string
+
+const (
+	PublicIPAddressSku_Tier_Global   = PublicIPAddressSku_Tier("Global")
+	PublicIPAddressSku_Tier_Regional = PublicIPAddressSku_Tier("Regional")
+)
+
+// Mapping from string to PublicIPAddressSku_Tier
+var publicIPAddressSku_Tier_Values = map[string]PublicIPAddressSku_Tier{
+	"global":   PublicIPAddressSku_Tier_Global,
+	"regional": PublicIPAddressSku_Tier_Regional,
+}
+
+type PublicIPAddressSku_Tier_STATUS string
+
+const (
+	PublicIPAddressSku_Tier_STATUS_Global   = PublicIPAddressSku_Tier_STATUS("Global")
+	PublicIPAddressSku_Tier_STATUS_Regional = PublicIPAddressSku_Tier_STATUS("Regional")
+)
+
+// Mapping from string to PublicIPAddressSku_Tier_STATUS
+var publicIPAddressSku_Tier_STATUS_Values = map[string]PublicIPAddressSku_Tier_STATUS{
+	"global":   PublicIPAddressSku_Tier_STATUS_Global,
+	"regional": PublicIPAddressSku_Tier_STATUS_Regional,
 }
 
 func init() {

@@ -85,18 +85,18 @@ func AFDOriginGroupProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAFDOriginGroupProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAFDOriginGroupProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		AFDOriginGroupProperties_DeploymentStatus_STATUS_Failed,
-		AFDOriginGroupProperties_DeploymentStatus_STATUS_InProgress,
-		AFDOriginGroupProperties_DeploymentStatus_STATUS_NotStarted,
-		AFDOriginGroupProperties_DeploymentStatus_STATUS_Succeeded))
+		AFDOriginGroupProperties_DeploymentStatus_STATUS_ARM_Failed,
+		AFDOriginGroupProperties_DeploymentStatus_STATUS_ARM_InProgress,
+		AFDOriginGroupProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+		AFDOriginGroupProperties_DeploymentStatus_STATUS_ARM_Succeeded))
 	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Creating,
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Deleting,
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Failed,
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Succeeded,
-		AFDOriginGroupProperties_ProvisioningState_STATUS_Updating))
-	gens["SessionAffinityState"] = gen.PtrOf(gen.OneConstOf(AFDOriginGroupProperties_SessionAffinityState_STATUS_Disabled, AFDOriginGroupProperties_SessionAffinityState_STATUS_Enabled))
+		AFDOriginGroupProperties_ProvisioningState_STATUS_ARM_Creating,
+		AFDOriginGroupProperties_ProvisioningState_STATUS_ARM_Deleting,
+		AFDOriginGroupProperties_ProvisioningState_STATUS_ARM_Failed,
+		AFDOriginGroupProperties_ProvisioningState_STATUS_ARM_Succeeded,
+		AFDOriginGroupProperties_ProvisioningState_STATUS_ARM_Updating))
+	gens["SessionAffinityState"] = gen.PtrOf(gen.OneConstOf(AFDOriginGroupProperties_SessionAffinityState_STATUS_ARM_Disabled, AFDOriginGroupProperties_SessionAffinityState_STATUS_ARM_Enabled))
 	gens["TrafficRestorationTimeToHealedOrNewEndpointsInMinutes"] = gen.PtrOf(gen.Int())
 }
 
@@ -166,8 +166,8 @@ func HealthProbeParameters_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHealthProbeParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeProtocol_STATUS_Http, HealthProbeParameters_ProbeProtocol_STATUS_Https, HealthProbeParameters_ProbeProtocol_STATUS_NotSet))
-	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeRequestType_STATUS_GET, HealthProbeParameters_ProbeRequestType_STATUS_HEAD, HealthProbeParameters_ProbeRequestType_STATUS_NotSet))
+	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeProtocol_STATUS_ARM_Http, HealthProbeParameters_ProbeProtocol_STATUS_ARM_Https, HealthProbeParameters_ProbeProtocol_STATUS_ARM_NotSet))
+	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeRequestType_STATUS_ARM_GET, HealthProbeParameters_ProbeRequestType_STATUS_ARM_HEAD, HealthProbeParameters_ProbeRequestType_STATUS_ARM_NotSet))
 }
 
 func Test_LoadBalancingSettingsParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -71,7 +71,7 @@ type Extension_Properties_Spec_ARM struct {
 // Identity for the resource.
 type Identity_ARM struct {
 	// Type: The identity type.
-	Type *Identity_Type `json:"type,omitempty"`
+	Type *Identity_Type_ARM `json:"type,omitempty"`
 }
 
 // Plan for the resource.
@@ -102,7 +102,7 @@ type SystemData_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -111,22 +111,22 @@ type SystemData_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 type Extension_Properties_AksAssignedIdentity_Spec_ARM struct {
 	// Type: The identity type.
-	Type *Extension_Properties_AksAssignedIdentity_Type_Spec `json:"type,omitempty"`
+	Type *Extension_Properties_AksAssignedIdentity_Type_Spec_ARM `json:"type,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"SystemAssigned"}
-type Identity_Type string
+type Identity_Type_ARM string
 
-const Identity_Type_SystemAssigned = Identity_Type("SystemAssigned")
+const Identity_Type_ARM_SystemAssigned = Identity_Type_ARM("SystemAssigned")
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"systemassigned": Identity_Type_SystemAssigned,
+// Mapping from string to Identity_Type_ARM
+var identity_Type_ARM_Values = map[string]Identity_Type_ARM{
+	"systemassigned": Identity_Type_ARM_SystemAssigned,
 }
 
 // Scope of the extension. It can be either Cluster or Namespace; but not both.
@@ -139,39 +139,53 @@ type Scope_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
+type SystemData_CreatedByType_ARM string
 
 const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
+	SystemData_CreatedByType_ARM_Application     = SystemData_CreatedByType_ARM("Application")
+	SystemData_CreatedByType_ARM_Key             = SystemData_CreatedByType_ARM("Key")
+	SystemData_CreatedByType_ARM_ManagedIdentity = SystemData_CreatedByType_ARM("ManagedIdentity")
+	SystemData_CreatedByType_ARM_User            = SystemData_CreatedByType_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType
-var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
-	"application":     SystemData_CreatedByType_Application,
-	"key":             SystemData_CreatedByType_Key,
-	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
-	"user":            SystemData_CreatedByType_User,
+// Mapping from string to SystemData_CreatedByType_ARM
+var systemData_CreatedByType_ARM_Values = map[string]SystemData_CreatedByType_ARM{
+	"application":     SystemData_CreatedByType_ARM_Application,
+	"key":             SystemData_CreatedByType_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_ARM_User,
 }
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
+type SystemData_LastModifiedByType_ARM string
 
 const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
+	SystemData_LastModifiedByType_ARM_Application     = SystemData_LastModifiedByType_ARM("Application")
+	SystemData_LastModifiedByType_ARM_Key             = SystemData_LastModifiedByType_ARM("Key")
+	SystemData_LastModifiedByType_ARM_ManagedIdentity = SystemData_LastModifiedByType_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_ARM_User            = SystemData_LastModifiedByType_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType
-var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
-	"application":     SystemData_LastModifiedByType_Application,
-	"key":             SystemData_LastModifiedByType_Key,
-	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_User,
+// Mapping from string to SystemData_LastModifiedByType_ARM
+var systemData_LastModifiedByType_ARM_Values = map[string]SystemData_LastModifiedByType_ARM{
+	"application":     SystemData_LastModifiedByType_ARM_Application,
+	"key":             SystemData_LastModifiedByType_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_ARM_User,
+}
+
+// +kubebuilder:validation:Enum={"SystemAssigned","UserAssigned"}
+type Extension_Properties_AksAssignedIdentity_Type_Spec_ARM string
+
+const (
+	Extension_Properties_AksAssignedIdentity_Type_Spec_ARM_SystemAssigned = Extension_Properties_AksAssignedIdentity_Type_Spec_ARM("SystemAssigned")
+	Extension_Properties_AksAssignedIdentity_Type_Spec_ARM_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_Spec_ARM("UserAssigned")
+)
+
+// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_Spec_ARM
+var extension_Properties_AksAssignedIdentity_Type_Spec_ARM_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_Spec_ARM{
+	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_Spec_ARM_SystemAssigned,
+	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_Spec_ARM_UserAssigned,
 }
 
 // Specifies that the scope of the extension is Cluster

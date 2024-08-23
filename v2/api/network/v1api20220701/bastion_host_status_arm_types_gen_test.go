@@ -152,10 +152,10 @@ func AddIndependentPropertyGeneratorsForBastionHostPropertiesFormat_STATUS_ARM(g
 	gens["EnableShareableLink"] = gen.PtrOf(gen.Bool())
 	gens["EnableTunneling"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		BastionHostProvisioningState_STATUS_Deleting,
-		BastionHostProvisioningState_STATUS_Failed,
-		BastionHostProvisioningState_STATUS_Succeeded,
-		BastionHostProvisioningState_STATUS_Updating))
+		BastionHostProvisioningState_STATUS_ARM_Deleting,
+		BastionHostProvisioningState_STATUS_ARM_Failed,
+		BastionHostProvisioningState_STATUS_ARM_Succeeded,
+		BastionHostProvisioningState_STATUS_ARM_Updating))
 	gens["ScaleUnits"] = gen.PtrOf(gen.Int())
 }
 
@@ -304,5 +304,5 @@ func Sku_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUS_Basic, Sku_Name_STATUS_Standard))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUS_ARM_Basic, Sku_Name_STATUS_ARM_Standard))
 }

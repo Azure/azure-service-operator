@@ -84,10 +84,10 @@ func ConfigurationStoreProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConfigurationStoreProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationStoreProperties_ARM(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_CreateMode_Default, ConfigurationStoreProperties_CreateMode_Recover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_CreateMode_ARM_Default, ConfigurationStoreProperties_CreateMode_ARM_Recover))
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_PublicNetworkAccess_Disabled, ConfigurationStoreProperties_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_PublicNetworkAccess_ARM_Disabled, ConfigurationStoreProperties_PublicNetworkAccess_ARM_Enabled))
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -369,10 +369,10 @@ func ResourceIdentity_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForResourceIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResourceIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ResourceIdentity_Type_None,
-		ResourceIdentity_Type_SystemAssigned,
-		ResourceIdentity_Type_SystemAssignedUserAssigned,
-		ResourceIdentity_Type_UserAssigned))
+		ResourceIdentity_Type_ARM_None,
+		ResourceIdentity_Type_ARM_SystemAssigned,
+		ResourceIdentity_Type_ARM_SystemAssignedUserAssigned,
+		ResourceIdentity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForResourceIdentity_ARM is a factory method for creating gopter generators
@@ -502,17 +502,17 @@ func AddIndependentPropertyGeneratorsForSystemData_ARM(gens map[string]gopter.Ge
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application,
-		SystemData_CreatedByType_Key,
-		SystemData_CreatedByType_ManagedIdentity,
-		SystemData_CreatedByType_User))
+		SystemData_CreatedByType_ARM_Application,
+		SystemData_CreatedByType_ARM_Key,
+		SystemData_CreatedByType_ARM_ManagedIdentity,
+		SystemData_CreatedByType_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application,
-		SystemData_LastModifiedByType_Key,
-		SystemData_LastModifiedByType_ManagedIdentity,
-		SystemData_LastModifiedByType_User))
+		SystemData_LastModifiedByType_ARM_Application,
+		SystemData_LastModifiedByType_ARM_Key,
+		SystemData_LastModifiedByType_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_ARM_User))
 }
 
 func Test_UserAssignedIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

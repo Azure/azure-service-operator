@@ -43,7 +43,7 @@ type ExtendedLocation_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
+	Type *ExtendedLocationType_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Identity for the managed cluster.
@@ -56,7 +56,7 @@ type ManagedClusterIdentity_STATUS_ARM struct {
 
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
-	Type *ManagedClusterIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ManagedClusterIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The keys must be ARM resource IDs in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
@@ -169,7 +169,7 @@ type ManagedClusterProperties_STATUS_ARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Allow or deny public network access for AKS
-	PublicNetworkAccess *ManagedClusterProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// SecurityProfile: Security profile for the managed cluster.
 	SecurityProfile *ManagedClusterSecurityProfile_STATUS_ARM `json:"securityProfile,omitempty"`
@@ -191,11 +191,11 @@ type ManagedClusterProperties_STATUS_ARM struct {
 // The SKU of a Managed Cluster.
 type ManagedClusterSKU_STATUS_ARM struct {
 	// Name: The name of a managed cluster SKU.
-	Name *ManagedClusterSKU_Name_STATUS `json:"name,omitempty"`
+	Name *ManagedClusterSKU_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: If not specified, the default is 'Free'. See [AKS Pricing
 	// Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details.
-	Tier *ManagedClusterSKU_Tier_STATUS `json:"tier,omitempty"`
+	Tier *ManagedClusterSKU_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -207,7 +207,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -216,7 +216,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // Profile for Linux VMs in the container service cluster.
@@ -240,7 +240,7 @@ type ContainerServiceNetworkProfile_STATUS_ARM struct {
 
 	// IpFamilies: IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value
 	// is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
-	IpFamilies []ContainerServiceNetworkProfile_IpFamilies_STATUS `json:"ipFamilies"`
+	IpFamilies []ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM `json:"ipFamilies"`
 
 	// LoadBalancerProfile: Profile of the cluster load balancer.
 	LoadBalancerProfile *ManagedClusterLoadBalancerProfile_STATUS_ARM `json:"loadBalancerProfile,omitempty"`
@@ -248,29 +248,29 @@ type ContainerServiceNetworkProfile_STATUS_ARM struct {
 	// LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
 	// SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load
 	// balancer SKUs.
-	LoadBalancerSku *ContainerServiceNetworkProfile_LoadBalancerSku_STATUS `json:"loadBalancerSku,omitempty"`
+	LoadBalancerSku *ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM `json:"loadBalancerSku,omitempty"`
 
 	// NatGatewayProfile: Profile of the cluster NAT gateway.
 	NatGatewayProfile *ManagedClusterNATGatewayProfile_STATUS_ARM `json:"natGatewayProfile,omitempty"`
 
 	// NetworkDataplane: Network dataplane used in the Kubernetes cluster.
-	NetworkDataplane *ContainerServiceNetworkProfile_NetworkDataplane_STATUS `json:"networkDataplane,omitempty"`
+	NetworkDataplane *ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM `json:"networkDataplane,omitempty"`
 
 	// NetworkMode: This cannot be specified if networkPlugin is anything other than 'azure'.
-	NetworkMode *ContainerServiceNetworkProfile_NetworkMode_STATUS `json:"networkMode,omitempty"`
+	NetworkMode *ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM `json:"networkMode,omitempty"`
 
 	// NetworkPlugin: Network plugin used for building the Kubernetes network.
-	NetworkPlugin *ContainerServiceNetworkProfile_NetworkPlugin_STATUS `json:"networkPlugin,omitempty"`
+	NetworkPlugin *ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM `json:"networkPlugin,omitempty"`
 
 	// NetworkPluginMode: The mode the network plugin should use.
-	NetworkPluginMode *ContainerServiceNetworkProfile_NetworkPluginMode_STATUS `json:"networkPluginMode,omitempty"`
+	NetworkPluginMode *ContainerServiceNetworkProfile_NetworkPluginMode_STATUS_ARM `json:"networkPluginMode,omitempty"`
 
 	// NetworkPolicy: Network policy used for building the Kubernetes network.
-	NetworkPolicy *ContainerServiceNetworkProfile_NetworkPolicy_STATUS `json:"networkPolicy,omitempty"`
+	NetworkPolicy *ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM `json:"networkPolicy,omitempty"`
 
 	// OutboundType: This can only be set at cluster creation time and cannot be changed later. For more information see
 	// [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
-	OutboundType *ContainerServiceNetworkProfile_OutboundType_STATUS `json:"outboundType,omitempty"`
+	OutboundType *ContainerServiceNetworkProfile_OutboundType_STATUS_ARM `json:"outboundType,omitempty"`
 
 	// PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
 	PodCidr *string `json:"podCidr,omitempty"`
@@ -289,13 +289,13 @@ type ContainerServiceNetworkProfile_STATUS_ARM struct {
 }
 
 // The type of extendedLocation.
-type ExtendedLocationType_STATUS string
+type ExtendedLocationType_STATUS_ARM string
 
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_STATUS_ARM_EdgeZone = ExtendedLocationType_STATUS_ARM("EdgeZone")
 
-// Mapping from string to ExtendedLocationType_STATUS
-var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
-	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+// Mapping from string to ExtendedLocationType_STATUS_ARM
+var extendedLocationType_STATUS_ARM_Values = map[string]ExtendedLocationType_STATUS_ARM{
+	"edgezone": ExtendedLocationType_STATUS_ARM_EdgeZone,
 }
 
 // For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
@@ -377,7 +377,7 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
 	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-	GpuInstanceProfile *GPUInstanceProfile_STATUS `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile *GPUInstanceProfile_STATUS_ARM `json:"gpuInstanceProfile,omitempty"`
 
 	// HostGroupID: This is of the form:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}.
@@ -389,7 +389,7 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 
 	// KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
 	// storage.
-	KubeletDiskType *KubeletDiskType_STATUS `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType *KubeletDiskType_STATUS_ARM `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_STATUS_ARM `json:"linuxOSConfig,omitempty"`
@@ -405,7 +405,7 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 
 	// Mode: A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool
 	// restrictions  and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
-	Mode *AgentPoolMode_STATUS `json:"mode,omitempty"`
+	Mode *AgentPoolMode_STATUS_ARM `json:"mode,omitempty"`
 
 	// Name: Windows agent pool names must be 6 characters or less.
 	Name *string `json:"name,omitempty"`
@@ -437,14 +437,14 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
 	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
 	// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
-	OsDiskType *OSDiskType_STATUS `json:"osDiskType,omitempty"`
+	OsDiskType *OSDiskType_STATUS_ARM `json:"osDiskType,omitempty"`
 
 	// OsSKU: Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019
 	// when  Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows.
-	OsSKU *OSSKU_STATUS `json:"osSKU,omitempty"`
+	OsSKU *OSSKU_STATUS_ARM `json:"osSKU,omitempty"`
 
 	// OsType: The operating system type. The default is Linux.
-	OsType *OSType_STATUS `json:"osType,omitempty"`
+	OsType *OSType_STATUS_ARM `json:"osType,omitempty"`
 
 	// PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 	// of the form:
@@ -463,14 +463,14 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
 	// ScaleDownMode: This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
-	ScaleDownMode *ScaleDownMode_STATUS `json:"scaleDownMode,omitempty"`
+	ScaleDownMode *ScaleDownMode_STATUS_ARM `json:"scaleDownMode,omitempty"`
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
-	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_STATUS `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_STATUS_ARM `json:"scaleSetEvictionPolicy,omitempty"`
 
 	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
-	ScaleSetPriority *ScaleSetPriority_STATUS `json:"scaleSetPriority,omitempty"`
+	ScaleSetPriority *ScaleSetPriority_STATUS_ARM `json:"scaleSetPriority,omitempty"`
 
 	// SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
 	// on-demand price. For more details on spot pricing, see [spot VMs
@@ -481,7 +481,7 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 	Tags map[string]string `json:"tags"`
 
 	// Type: The type of Agent Pool.
-	Type *AgentPoolType_STATUS `json:"type,omitempty"`
+	Type *AgentPoolType_STATUS_ARM `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_STATUS_ARM `json:"upgradeSettings,omitempty"`
@@ -497,7 +497,7 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 
 	// WorkloadRuntime: Determines the type of workload a node can run.
-	WorkloadRuntime *WorkloadRuntime_STATUS `json:"workloadRuntime,omitempty"`
+	WorkloadRuntime *WorkloadRuntime_STATUS_ARM `json:"workloadRuntime,omitempty"`
 }
 
 // Access profile for managed cluster API server.
@@ -527,7 +527,7 @@ type ManagedClusterAPIServerAccessProfile_STATUS_ARM struct {
 type ManagedClusterAutoUpgradeProfile_STATUS_ARM struct {
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
-	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS `json:"upgradeChannel,omitempty"`
+	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM `json:"upgradeChannel,omitempty"`
 }
 
 // Azure Monitor addon profiles for monitoring the managed cluster.
@@ -553,19 +553,19 @@ type ManagedClusterHTTPProxyConfig_STATUS_ARM struct {
 	TrustedCa *string `json:"trustedCa,omitempty"`
 }
 
-type ManagedClusterIdentity_Type_STATUS string
+type ManagedClusterIdentity_Type_STATUS_ARM string
 
 const (
-	ManagedClusterIdentity_Type_STATUS_None           = ManagedClusterIdentity_Type_STATUS("None")
-	ManagedClusterIdentity_Type_STATUS_SystemAssigned = ManagedClusterIdentity_Type_STATUS("SystemAssigned")
-	ManagedClusterIdentity_Type_STATUS_UserAssigned   = ManagedClusterIdentity_Type_STATUS("UserAssigned")
+	ManagedClusterIdentity_Type_STATUS_ARM_None           = ManagedClusterIdentity_Type_STATUS_ARM("None")
+	ManagedClusterIdentity_Type_STATUS_ARM_SystemAssigned = ManagedClusterIdentity_Type_STATUS_ARM("SystemAssigned")
+	ManagedClusterIdentity_Type_STATUS_ARM_UserAssigned   = ManagedClusterIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedClusterIdentity_Type_STATUS
-var managedClusterIdentity_Type_STATUS_Values = map[string]ManagedClusterIdentity_Type_STATUS{
-	"none":           ManagedClusterIdentity_Type_STATUS_None,
-	"systemassigned": ManagedClusterIdentity_Type_STATUS_SystemAssigned,
-	"userassigned":   ManagedClusterIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to ManagedClusterIdentity_Type_STATUS_ARM
+var managedClusterIdentity_Type_STATUS_ARM_Values = map[string]ManagedClusterIdentity_Type_STATUS_ARM{
+	"none":           ManagedClusterIdentity_Type_STATUS_ARM_None,
+	"systemassigned": ManagedClusterIdentity_Type_STATUS_ARM_SystemAssigned,
+	"userassigned":   ManagedClusterIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 type ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM struct {
@@ -611,7 +611,7 @@ type ManagedClusterProperties_AutoScalerProfile_STATUS_ARM struct {
 	// Expander: If not specified, the default is 'random'. See
 	// [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more
 	// information.
-	Expander *ManagedClusterProperties_AutoScalerProfile_Expander_STATUS `json:"expander,omitempty"`
+	Expander *ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM `json:"expander,omitempty"`
 
 	// MaxEmptyBulkDelete: The default is 10.
 	MaxEmptyBulkDelete *string `json:"max-empty-bulk-delete,omitempty"`
@@ -667,6 +667,19 @@ type ManagedClusterProperties_AutoScalerProfile_STATUS_ARM struct {
 	SkipNodesWithSystemPods *string `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
+type ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM_Disabled = ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM
+var managedClusterProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  ManagedClusterProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
+}
+
 // Security profile for the container service cluster.
 type ManagedClusterSecurityProfile_STATUS_ARM struct {
 	// AzureKeyVaultKms: Azure Key Vault [key management
@@ -690,26 +703,26 @@ type ManagedClusterServicePrincipalProfile_STATUS_ARM struct {
 	ClientId *string `json:"clientId,omitempty"`
 }
 
-type ManagedClusterSKU_Name_STATUS string
+type ManagedClusterSKU_Name_STATUS_ARM string
 
-const ManagedClusterSKU_Name_STATUS_Base = ManagedClusterSKU_Name_STATUS("Base")
+const ManagedClusterSKU_Name_STATUS_ARM_Base = ManagedClusterSKU_Name_STATUS_ARM("Base")
 
-// Mapping from string to ManagedClusterSKU_Name_STATUS
-var managedClusterSKU_Name_STATUS_Values = map[string]ManagedClusterSKU_Name_STATUS{
-	"base": ManagedClusterSKU_Name_STATUS_Base,
+// Mapping from string to ManagedClusterSKU_Name_STATUS_ARM
+var managedClusterSKU_Name_STATUS_ARM_Values = map[string]ManagedClusterSKU_Name_STATUS_ARM{
+	"base": ManagedClusterSKU_Name_STATUS_ARM_Base,
 }
 
-type ManagedClusterSKU_Tier_STATUS string
+type ManagedClusterSKU_Tier_STATUS_ARM string
 
 const (
-	ManagedClusterSKU_Tier_STATUS_Free     = ManagedClusterSKU_Tier_STATUS("Free")
-	ManagedClusterSKU_Tier_STATUS_Standard = ManagedClusterSKU_Tier_STATUS("Standard")
+	ManagedClusterSKU_Tier_STATUS_ARM_Free     = ManagedClusterSKU_Tier_STATUS_ARM("Free")
+	ManagedClusterSKU_Tier_STATUS_ARM_Standard = ManagedClusterSKU_Tier_STATUS_ARM("Standard")
 )
 
-// Mapping from string to ManagedClusterSKU_Tier_STATUS
-var managedClusterSKU_Tier_STATUS_Values = map[string]ManagedClusterSKU_Tier_STATUS{
-	"free":     ManagedClusterSKU_Tier_STATUS_Free,
-	"standard": ManagedClusterSKU_Tier_STATUS_Standard,
+// Mapping from string to ManagedClusterSKU_Tier_STATUS_ARM
+var managedClusterSKU_Tier_STATUS_ARM_Values = map[string]ManagedClusterSKU_Tier_STATUS_ARM{
+	"free":     ManagedClusterSKU_Tier_STATUS_ARM_Free,
+	"standard": ManagedClusterSKU_Tier_STATUS_ARM_Standard,
 }
 
 // Storage profile for the container service cluster.
@@ -747,7 +760,7 @@ type ManagedClusterWindowsProfile_STATUS_ARM struct {
 
 	// LicenseType: The license type to use for Windows VMs. See [Azure Hybrid User
 	// Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.
-	LicenseType *ManagedClusterWindowsProfile_LicenseType_STATUS `json:"licenseType,omitempty"`
+	LicenseType *ManagedClusterWindowsProfile_LicenseType_STATUS_ARM `json:"licenseType,omitempty"`
 }
 
 // Workload Auto-scaler profile for the managed cluster.
@@ -759,7 +772,7 @@ type ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM struct {
 // Describes the Power State of the cluster
 type PowerState_STATUS_ARM struct {
 	// Code: Tells whether the cluster is Running or Stopped
-	Code *PowerState_Code_STATUS `json:"code,omitempty"`
+	Code *PowerState_Code_STATUS_ARM `json:"code,omitempty"`
 }
 
 // A private link resource
@@ -783,38 +796,38 @@ type PrivateLinkResource_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // Details about a user assigned identity.
@@ -843,17 +856,144 @@ type AzureKeyVaultKms_STATUS_ARM struct {
 	// KeyVaultNetworkAccess: Network access of key vault. The possible values are `Public` and `Private`. `Public` means the
 	// key vault allows public access from all networks. `Private` means the key vault disables public access and enables
 	// private link. The default value is `Public`.
-	KeyVaultNetworkAccess *AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS `json:"keyVaultNetworkAccess,omitempty"`
+	KeyVaultNetworkAccess *AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM `json:"keyVaultNetworkAccess,omitempty"`
 
 	// KeyVaultResourceId: Resource ID of key vault. When keyVaultNetworkAccess is `Private`, this field is required and must
 	// be a valid resource ID. When keyVaultNetworkAccess is `Public`, leave the field empty.
 	KeyVaultResourceId *string `json:"keyVaultResourceId,omitempty"`
 }
 
+type ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM string
+
+const (
+	ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM_IPv4 = ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM("IPv4")
+	ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM_IPv6 = ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM("IPv6")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM
+var containerServiceNetworkProfile_IpFamilies_STATUS_ARM_Values = map[string]ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM{
+	"ipv4": ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM_IPv4,
+	"ipv6": ContainerServiceNetworkProfile_IpFamilies_STATUS_ARM_IPv6,
+}
+
+type ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM string
+
+const (
+	ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM_Basic    = ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM("basic")
+	ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM_Standard = ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM("standard")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM
+var containerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM_Values = map[string]ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM{
+	"basic":    ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM_Basic,
+	"standard": ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_ARM_Standard,
+}
+
+type ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM string
+
+const (
+	ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM_Azure  = ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM("azure")
+	ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM_Cilium = ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM("cilium")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM
+var containerServiceNetworkProfile_NetworkDataplane_STATUS_ARM_Values = map[string]ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM{
+	"azure":  ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM_Azure,
+	"cilium": ContainerServiceNetworkProfile_NetworkDataplane_STATUS_ARM_Cilium,
+}
+
+type ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM string
+
+const (
+	ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM_Bridge      = ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM("bridge")
+	ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM_Transparent = ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM("transparent")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM
+var containerServiceNetworkProfile_NetworkMode_STATUS_ARM_Values = map[string]ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM{
+	"bridge":      ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM_Bridge,
+	"transparent": ContainerServiceNetworkProfile_NetworkMode_STATUS_ARM_Transparent,
+}
+
+type ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM string
+
+const (
+	ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM_Azure   = ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM("azure")
+	ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM_Kubenet = ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM("kubenet")
+	ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM_None    = ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM("none")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM
+var containerServiceNetworkProfile_NetworkPlugin_STATUS_ARM_Values = map[string]ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM{
+	"azure":   ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM_Azure,
+	"kubenet": ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM_Kubenet,
+	"none":    ContainerServiceNetworkProfile_NetworkPlugin_STATUS_ARM_None,
+}
+
+type ContainerServiceNetworkProfile_NetworkPluginMode_STATUS_ARM string
+
+const ContainerServiceNetworkProfile_NetworkPluginMode_STATUS_ARM_Overlay = ContainerServiceNetworkProfile_NetworkPluginMode_STATUS_ARM("overlay")
+
+// Mapping from string to ContainerServiceNetworkProfile_NetworkPluginMode_STATUS_ARM
+var containerServiceNetworkProfile_NetworkPluginMode_STATUS_ARM_Values = map[string]ContainerServiceNetworkProfile_NetworkPluginMode_STATUS_ARM{
+	"overlay": ContainerServiceNetworkProfile_NetworkPluginMode_STATUS_ARM_Overlay,
+}
+
+type ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM string
+
+const (
+	ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM_Azure  = ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM("azure")
+	ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM_Calico = ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM("calico")
+	ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM_Cilium = ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM("cilium")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM
+var containerServiceNetworkProfile_NetworkPolicy_STATUS_ARM_Values = map[string]ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM{
+	"azure":  ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM_Azure,
+	"calico": ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM_Calico,
+	"cilium": ContainerServiceNetworkProfile_NetworkPolicy_STATUS_ARM_Cilium,
+}
+
+type ContainerServiceNetworkProfile_OutboundType_STATUS_ARM string
+
+const (
+	ContainerServiceNetworkProfile_OutboundType_STATUS_ARM_LoadBalancer           = ContainerServiceNetworkProfile_OutboundType_STATUS_ARM("loadBalancer")
+	ContainerServiceNetworkProfile_OutboundType_STATUS_ARM_ManagedNATGateway      = ContainerServiceNetworkProfile_OutboundType_STATUS_ARM("managedNATGateway")
+	ContainerServiceNetworkProfile_OutboundType_STATUS_ARM_UserAssignedNATGateway = ContainerServiceNetworkProfile_OutboundType_STATUS_ARM("userAssignedNATGateway")
+	ContainerServiceNetworkProfile_OutboundType_STATUS_ARM_UserDefinedRouting     = ContainerServiceNetworkProfile_OutboundType_STATUS_ARM("userDefinedRouting")
+)
+
+// Mapping from string to ContainerServiceNetworkProfile_OutboundType_STATUS_ARM
+var containerServiceNetworkProfile_OutboundType_STATUS_ARM_Values = map[string]ContainerServiceNetworkProfile_OutboundType_STATUS_ARM{
+	"loadbalancer":           ContainerServiceNetworkProfile_OutboundType_STATUS_ARM_LoadBalancer,
+	"managednatgateway":      ContainerServiceNetworkProfile_OutboundType_STATUS_ARM_ManagedNATGateway,
+	"userassignednatgateway": ContainerServiceNetworkProfile_OutboundType_STATUS_ARM_UserAssignedNATGateway,
+	"userdefinedrouting":     ContainerServiceNetworkProfile_OutboundType_STATUS_ARM_UserDefinedRouting,
+}
+
 // SSH configuration for Linux-based VMs running on Azure.
 type ContainerServiceSshConfiguration_STATUS_ARM struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
 	PublicKeys []ContainerServiceSshPublicKey_STATUS_ARM `json:"publicKeys"`
+}
+
+type ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM string
+
+const (
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_NodeImage = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM("node-image")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_None      = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM("none")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_Patch     = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM("patch")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_Rapid     = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM("rapid")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_Stable    = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM("stable")
+)
+
+// Mapping from string to ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM
+var managedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_Values = map[string]ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM{
+	"node-image": ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_NodeImage,
+	"none":       ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_None,
+	"patch":      ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_Patch,
+	"rapid":      ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_Rapid,
+	"stable":     ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_ARM_Stable,
 }
 
 // Metrics profile for the Azure Monitor managed service for Prometheus addon. Collect out-of-the-box Kubernetes
@@ -925,7 +1065,7 @@ type ManagedClusterPodIdentity_STATUS_ARM struct {
 	ProvisioningInfo *ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM `json:"provisioningInfo,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the pod identity.
-	ProvisioningState *ManagedClusterPodIdentity_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
 // See [disable AAD Pod Identity for a specific
@@ -939,6 +1079,23 @@ type ManagedClusterPodIdentityException_STATUS_ARM struct {
 
 	// PodLabels: The pod labels to match.
 	PodLabels map[string]string `json:"podLabels"`
+}
+
+type ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM string
+
+const (
+	ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM_LeastWaste = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM("least-waste")
+	ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM_MostPods   = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM("most-pods")
+	ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM_Priority   = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM("priority")
+	ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM_Random     = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM("random")
+)
+
+// Mapping from string to ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM
+var managedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM_Values = map[string]ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM{
+	"least-waste": ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM_LeastWaste,
+	"most-pods":   ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM_MostPods,
+	"priority":    ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM_Priority,
+	"random":      ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_ARM_Random,
 }
 
 // Microsoft Defender settings for the security profile.
@@ -992,10 +1149,36 @@ type ManagedClusterStorageProfileSnapshotController_STATUS_ARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+type ManagedClusterWindowsProfile_LicenseType_STATUS_ARM string
+
+const (
+	ManagedClusterWindowsProfile_LicenseType_STATUS_ARM_None           = ManagedClusterWindowsProfile_LicenseType_STATUS_ARM("None")
+	ManagedClusterWindowsProfile_LicenseType_STATUS_ARM_Windows_Server = ManagedClusterWindowsProfile_LicenseType_STATUS_ARM("Windows_Server")
+)
+
+// Mapping from string to ManagedClusterWindowsProfile_LicenseType_STATUS_ARM
+var managedClusterWindowsProfile_LicenseType_STATUS_ARM_Values = map[string]ManagedClusterWindowsProfile_LicenseType_STATUS_ARM{
+	"none":           ManagedClusterWindowsProfile_LicenseType_STATUS_ARM_None,
+	"windows_server": ManagedClusterWindowsProfile_LicenseType_STATUS_ARM_Windows_Server,
+}
+
 // KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile.
 type ManagedClusterWorkloadAutoScalerProfileKeda_STATUS_ARM struct {
 	// Enabled: Whether to enable KEDA.
 	Enabled *bool `json:"enabled,omitempty"`
+}
+
+type PowerState_Code_STATUS_ARM string
+
+const (
+	PowerState_Code_STATUS_ARM_Running = PowerState_Code_STATUS_ARM("Running")
+	PowerState_Code_STATUS_ARM_Stopped = PowerState_Code_STATUS_ARM("Stopped")
+)
+
+// Mapping from string to PowerState_Code_STATUS_ARM
+var powerState_Code_STATUS_ARM_Values = map[string]PowerState_Code_STATUS_ARM{
+	"running": PowerState_Code_STATUS_ARM_Running,
+	"stopped": PowerState_Code_STATUS_ARM_Stopped,
 }
 
 // Windows gMSA Profile in the managed cluster.
@@ -1010,6 +1193,19 @@ type WindowsGmsaProfile_STATUS_ARM struct {
 	// RootDomainName: Specifies the root domain name for Windows gMSA.
 	// Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.
 	RootDomainName *string `json:"rootDomainName,omitempty"`
+}
+
+type AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM string
+
+const (
+	AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM_Private = AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM("Private")
+	AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM_Public  = AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM("Public")
+)
+
+// Mapping from string to AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM
+var azureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM_Values = map[string]AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM{
+	"private": AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM_Private,
+	"public":  AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS_ARM_Public,
 }
 
 // Contains information about SSH certificate public key data.
@@ -1064,6 +1260,27 @@ type ManagedClusterManagedOutboundIPProfile_STATUS_ARM struct {
 type ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM struct {
 	// Error: Pod identity assignment error (if any).
 	Error *ManagedClusterPodIdentityProvisioningError_STATUS_ARM `json:"error,omitempty"`
+}
+
+type ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM string
+
+const (
+	ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Assigned  = ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM("Assigned")
+	ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Canceled  = ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM("Canceled")
+	ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Deleting  = ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM("Deleting")
+	ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Failed    = ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM("Failed")
+	ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Succeeded = ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM("Succeeded")
+	ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Updating  = ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM
+var managedClusterPodIdentity_ProvisioningState_STATUS_ARM_Values = map[string]ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM{
+	"assigned":  ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Assigned,
+	"canceled":  ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Canceled,
+	"deleting":  ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  ManagedClusterPodIdentity_ProvisioningState_STATUS_ARM_Updating,
 }
 
 // Microsoft Defender settings for the security profile threat detection.

@@ -790,7 +790,9 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "DayOfWeek":
 	if entry.DayOfWeek != nil {
-		dayOfWeek := *entry.DayOfWeek
+		var temp string
+		temp = string(*entry.DayOfWeek)
+		dayOfWeek := ScheduleEntry_DayOfWeek_ARM(temp)
 		result.DayOfWeek = &dayOfWeek
 	}
 
@@ -822,7 +824,9 @@ func (entry *ScheduleEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 
 	// Set property "DayOfWeek":
 	if typedInput.DayOfWeek != nil {
-		dayOfWeek := *typedInput.DayOfWeek
+		var temp string
+		temp = string(*typedInput.DayOfWeek)
+		dayOfWeek := ScheduleEntry_DayOfWeek(temp)
 		entry.DayOfWeek = &dayOfWeek
 	}
 
@@ -943,7 +947,9 @@ func (entry *ScheduleEntry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "DayOfWeek":
 	if typedInput.DayOfWeek != nil {
-		dayOfWeek := *typedInput.DayOfWeek
+		var temp string
+		temp = string(*typedInput.DayOfWeek)
+		dayOfWeek := ScheduleEntry_DayOfWeek_STATUS(temp)
 		entry.DayOfWeek = &dayOfWeek
 	}
 

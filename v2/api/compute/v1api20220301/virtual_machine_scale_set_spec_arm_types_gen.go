@@ -92,7 +92,7 @@ type VirtualMachineScaleSetIdentity_ARM struct {
 	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
 	// the virtual machine scale set.
-	Type                   *VirtualMachineScaleSetIdentity_Type       `json:"type,omitempty"`
+	Type                   *VirtualMachineScaleSetIdentity_Type_ARM   `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -116,7 +116,7 @@ type VirtualMachineScaleSetProperties_ARM struct {
 	HostGroup *SubResource_ARM `json:"hostGroup,omitempty"`
 
 	// OrchestrationMode: Specifies the orchestration mode for the virtual machine scale set.
-	OrchestrationMode *OrchestrationMode `json:"orchestrationMode,omitempty"`
+	OrchestrationMode *OrchestrationMode_ARM `json:"orchestrationMode,omitempty"`
 
 	// Overprovision: Specifies whether the Virtual Machine Scale Set should be overprovisioned.
 	Overprovision *bool `json:"overprovision,omitempty"`
@@ -177,7 +177,22 @@ type AutomaticRepairsPolicy_ARM struct {
 
 	// RepairAction: Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual
 	// machines in the scale set. Default value is replace.
-	RepairAction *AutomaticRepairsPolicy_RepairAction `json:"repairAction,omitempty"`
+	RepairAction *AutomaticRepairsPolicy_RepairAction_ARM `json:"repairAction,omitempty"`
+}
+
+// Specifies the orchestration mode for the virtual machine scale set.
+// +kubebuilder:validation:Enum={"Flexible","Uniform"}
+type OrchestrationMode_ARM string
+
+const (
+	OrchestrationMode_ARM_Flexible = OrchestrationMode_ARM("Flexible")
+	OrchestrationMode_ARM_Uniform  = OrchestrationMode_ARM("Uniform")
+)
+
+// Mapping from string to OrchestrationMode_ARM
+var orchestrationMode_ARM_Values = map[string]OrchestrationMode_ARM{
+	"flexible": OrchestrationMode_ARM_Flexible,
+	"uniform":  OrchestrationMode_ARM_Uniform,
 }
 
 // Describes a scale-in policy for a virtual machine scale set.
@@ -197,7 +212,7 @@ type ScaleInPolicy_ARM struct {
 	// NewestVM When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from
 	// scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across
 	// zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal.
-	Rules []ScaleInPolicy_Rules `json:"rules,omitempty"`
+	Rules []ScaleInPolicy_Rules_ARM `json:"rules,omitempty"`
 }
 
 // Specifies the Spot-Try-Restore properties for the virtual machine scale set.
@@ -224,7 +239,7 @@ type UpgradePolicy_ARM struct {
 	// Manual - You  control the application of updates to virtual machines in the scale set. You do this by using the
 	// manualUpgrade action.
 	// Automatic - All virtual machines in the scale set are  automatically updated at the same time.
-	Mode *UpgradePolicy_Mode `json:"mode,omitempty"`
+	Mode *UpgradePolicy_Mode_ARM `json:"mode,omitempty"`
 
 	// RollingUpgradePolicy: The configuration parameters used while performing a rolling upgrade.
 	RollingUpgradePolicy *RollingUpgradePolicy_ARM `json:"rollingUpgradePolicy,omitempty"`
@@ -235,21 +250,21 @@ type UserAssignedIdentityDetails_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type VirtualMachineScaleSetIdentity_Type string
+type VirtualMachineScaleSetIdentity_Type_ARM string
 
 const (
-	VirtualMachineScaleSetIdentity_Type_None                       = VirtualMachineScaleSetIdentity_Type("None")
-	VirtualMachineScaleSetIdentity_Type_SystemAssigned             = VirtualMachineScaleSetIdentity_Type("SystemAssigned")
-	VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentity_Type_UserAssigned               = VirtualMachineScaleSetIdentity_Type("UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_ARM_None                       = VirtualMachineScaleSetIdentity_Type_ARM("None")
+	VirtualMachineScaleSetIdentity_Type_ARM_SystemAssigned             = VirtualMachineScaleSetIdentity_Type_ARM("SystemAssigned")
+	VirtualMachineScaleSetIdentity_Type_ARM_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_ARM_UserAssigned               = VirtualMachineScaleSetIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to VirtualMachineScaleSetIdentity_Type
-var virtualMachineScaleSetIdentity_Type_Values = map[string]VirtualMachineScaleSetIdentity_Type{
-	"none":                         VirtualMachineScaleSetIdentity_Type_None,
-	"systemassigned":               VirtualMachineScaleSetIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 VirtualMachineScaleSetIdentity_Type_UserAssigned,
+// Mapping from string to VirtualMachineScaleSetIdentity_Type_ARM
+var virtualMachineScaleSetIdentity_Type_ARM_Values = map[string]VirtualMachineScaleSetIdentity_Type_ARM{
+	"none":                         VirtualMachineScaleSetIdentity_Type_ARM_None,
+	"systemassigned":               VirtualMachineScaleSetIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineScaleSetIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineScaleSetIdentity_Type_ARM_UserAssigned,
 }
 
 // Describes a virtual machine scale set virtual machine profile.
@@ -273,7 +288,7 @@ type VirtualMachineScaleSetVMProfile_ARM struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *EvictionPolicy_ARM `json:"evictionPolicy,omitempty"`
 
 	// ExtensionProfile: Specifies a collection of settings for extensions installed on virtual machines in the scale set.
 	ExtensionProfile *VirtualMachineScaleSetExtensionProfile_ARM `json:"extensionProfile,omitempty"`
@@ -304,7 +319,7 @@ type VirtualMachineScaleSetVMProfile_ARM struct {
 
 	// Priority: Specifies the priority for the virtual machines in the scale set.
 	// Minimum api-version: 2017-10-30-preview
-	Priority *Priority `json:"priority,omitempty"`
+	Priority *Priority_ARM `json:"priority,omitempty"`
 
 	// ScheduledEventsProfile: Specifies Scheduled Event related configurations.
 	ScheduledEventsProfile *ScheduledEventsProfile_ARM `json:"scheduledEventsProfile,omitempty"`
@@ -338,6 +353,22 @@ type AutomaticOSUpgradePolicy_ARM struct {
 	UseRollingUpgradePolicy *bool `json:"useRollingUpgradePolicy,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Reimage","Replace","Restart"}
+type AutomaticRepairsPolicy_RepairAction_ARM string
+
+const (
+	AutomaticRepairsPolicy_RepairAction_ARM_Reimage = AutomaticRepairsPolicy_RepairAction_ARM("Reimage")
+	AutomaticRepairsPolicy_RepairAction_ARM_Replace = AutomaticRepairsPolicy_RepairAction_ARM("Replace")
+	AutomaticRepairsPolicy_RepairAction_ARM_Restart = AutomaticRepairsPolicy_RepairAction_ARM("Restart")
+)
+
+// Mapping from string to AutomaticRepairsPolicy_RepairAction_ARM
+var automaticRepairsPolicy_RepairAction_ARM_Values = map[string]AutomaticRepairsPolicy_RepairAction_ARM{
+	"reimage": AutomaticRepairsPolicy_RepairAction_ARM_Reimage,
+	"replace": AutomaticRepairsPolicy_RepairAction_ARM_Replace,
+	"restart": AutomaticRepairsPolicy_RepairAction_ARM_Restart,
+}
+
 // The configuration parameters used while performing a rolling upgrade.
 type RollingUpgradePolicy_ARM struct {
 	// EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration
@@ -366,6 +397,38 @@ type RollingUpgradePolicy_ARM struct {
 
 	// PrioritizeUnhealthyInstances: Upgrade all unhealthy instances in a scale set before any healthy instances.
 	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Default","NewestVM","OldestVM"}
+type ScaleInPolicy_Rules_ARM string
+
+const (
+	ScaleInPolicy_Rules_ARM_Default  = ScaleInPolicy_Rules_ARM("Default")
+	ScaleInPolicy_Rules_ARM_NewestVM = ScaleInPolicy_Rules_ARM("NewestVM")
+	ScaleInPolicy_Rules_ARM_OldestVM = ScaleInPolicy_Rules_ARM("OldestVM")
+)
+
+// Mapping from string to ScaleInPolicy_Rules_ARM
+var scaleInPolicy_Rules_ARM_Values = map[string]ScaleInPolicy_Rules_ARM{
+	"default":  ScaleInPolicy_Rules_ARM_Default,
+	"newestvm": ScaleInPolicy_Rules_ARM_NewestVM,
+	"oldestvm": ScaleInPolicy_Rules_ARM_OldestVM,
+}
+
+// +kubebuilder:validation:Enum={"Automatic","Manual","Rolling"}
+type UpgradePolicy_Mode_ARM string
+
+const (
+	UpgradePolicy_Mode_ARM_Automatic = UpgradePolicy_Mode_ARM("Automatic")
+	UpgradePolicy_Mode_ARM_Manual    = UpgradePolicy_Mode_ARM("Manual")
+	UpgradePolicy_Mode_ARM_Rolling   = UpgradePolicy_Mode_ARM("Rolling")
+)
+
+// Mapping from string to UpgradePolicy_Mode_ARM
+var upgradePolicy_Mode_ARM_Values = map[string]UpgradePolicy_Mode_ARM{
+	"automatic": UpgradePolicy_Mode_ARM_Automatic,
+	"manual":    UpgradePolicy_Mode_ARM_Manual,
+	"rolling":   UpgradePolicy_Mode_ARM_Rolling,
 }
 
 // Describes a virtual machine scale set extension profile.
@@ -397,7 +460,7 @@ type VirtualMachineScaleSetNetworkProfile_ARM struct {
 
 	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
 	// Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
-	NetworkApiVersion *VirtualMachineScaleSetNetworkProfile_NetworkApiVersion `json:"networkApiVersion,omitempty"`
+	NetworkApiVersion *VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_ARM `json:"networkApiVersion,omitempty"`
 
 	// NetworkInterfaceConfigurations: The list of network configurations.
 	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_ARM `json:"networkInterfaceConfigurations,omitempty"`
@@ -493,10 +556,10 @@ type VirtualMachineScaleSetDataDisk_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching `json:"caching,omitempty"`
+	Caching *Caching_ARM `json:"caching,omitempty"`
 
 	// CreateOption: The create option.
-	CreateOption *CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreateOption_ARM `json:"createOption,omitempty"`
 
 	// DeleteOption: Specifies whether data disk should be deleted or detached upon VMSS Flex deletion (This feature is
 	// available for VMSS with Flexible OrchestrationMode only).
@@ -504,7 +567,7 @@ type VirtualMachineScaleSetDataDisk_ARM struct {
 	// Delete If this value is used, the data disk is deleted when the VMSS Flex VM is deleted.
 	// Detach If this value is used, the data disk is retained after VMSS Flex VM is deleted.
 	// The default value is set to Delete.
-	DeleteOption *DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *DeleteOption_ARM `json:"deleteOption,omitempty"`
 
 	// DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is
 	// UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
@@ -553,6 +616,16 @@ type VirtualMachineScaleSetNetworkConfiguration_ARM struct {
 	Properties *VirtualMachineScaleSetNetworkConfigurationProperties_ARM `json:"properties,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_ARM string
+
+const VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_ARM_20201101 = VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_ARM("2020-11-01")
+
+// Mapping from string to VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_ARM
+var virtualMachineScaleSetNetworkProfile_NetworkApiVersion_ARM_Values = map[string]VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_ARM{
+	"2020-11-01": VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_ARM_20201101,
+}
+
 // Describes a virtual machine scale set operating system disk.
 type VirtualMachineScaleSetOSDisk_ARM struct {
 	// Caching: Specifies the caching requirements.
@@ -561,13 +634,13 @@ type VirtualMachineScaleSetOSDisk_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching `json:"caching,omitempty"`
+	Caching *Caching_ARM `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machines in the scale set should be created.
 	// The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
 	// machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
 	// marketplace image, you  also use the plan element previously described.
-	CreateOption *CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreateOption_ARM `json:"createOption,omitempty"`
 
 	// DeleteOption: Specifies whether OS Disk should be deleted or detached upon VMSS Flex deletion (This feature is available
 	// for VMSS with Flexible OrchestrationMode only).
@@ -576,7 +649,7 @@ type VirtualMachineScaleSetOSDisk_ARM struct {
 	// Detach If this value is used, the OS disk is retained after VMSS Flex VM is deleted.
 	// The default value is set to Delete. For an Ephemeral OS Disk, the default value is set to Delete. User cannot change the
 	// delete option for Ephemeral OS Disk.
-	DeleteOption *DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *DeleteOption_ARM `json:"deleteOption,omitempty"`
 
 	// DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale
 	// set.
@@ -601,7 +674,7 @@ type VirtualMachineScaleSetOSDisk_ARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *VirtualMachineScaleSetOSDisk_OsType `json:"osType,omitempty"`
+	OsType *VirtualMachineScaleSetOSDisk_OsType_ARM `json:"osType,omitempty"`
 
 	// VhdContainers: Specifies the container urls that are used to store operating system disks for the scale set.
 	VhdContainers []string `json:"vhdContainers,omitempty"`
@@ -620,13 +693,13 @@ type VirtualMachineScaleSetManagedDiskParameters_ARM struct {
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
+	StorageAccountType *StorageAccountType_ARM `json:"storageAccountType,omitempty"`
 }
 
 // Describes a virtual machine scale set network profile's IP configuration.
 type VirtualMachineScaleSetNetworkConfigurationProperties_ARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-	DeleteOption *VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM `json:"deleteOption,omitempty"`
 
 	// DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_ARM `json:"dnsSettings,omitempty"`
@@ -650,6 +723,20 @@ type VirtualMachineScaleSetNetworkConfigurationProperties_ARM struct {
 	Primary *bool `json:"primary,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type VirtualMachineScaleSetOSDisk_OsType_ARM string
+
+const (
+	VirtualMachineScaleSetOSDisk_OsType_ARM_Linux   = VirtualMachineScaleSetOSDisk_OsType_ARM("Linux")
+	VirtualMachineScaleSetOSDisk_OsType_ARM_Windows = VirtualMachineScaleSetOSDisk_OsType_ARM("Windows")
+)
+
+// Mapping from string to VirtualMachineScaleSetOSDisk_OsType_ARM
+var virtualMachineScaleSetOSDisk_OsType_ARM_Values = map[string]VirtualMachineScaleSetOSDisk_OsType_ARM{
+	"linux":   VirtualMachineScaleSetOSDisk_OsType_ARM_Linux,
+	"windows": VirtualMachineScaleSetOSDisk_OsType_ARM_Windows,
+}
+
 // Describes a virtual machine scale set network profile's IP configuration.
 type VirtualMachineScaleSetIPConfiguration_ARM struct {
 	Id *string `json:"id,omitempty"`
@@ -665,6 +752,20 @@ type VirtualMachineScaleSetIPConfiguration_ARM struct {
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_ARM struct {
 	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Delete","Detach"}
+type VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM string
+
+const (
+	VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM_Delete = VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM("Delete")
+	VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM_Detach = VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM("Detach")
+)
+
+// Mapping from string to VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM
+var virtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM_Values = map[string]VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM{
+	"delete": VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM_Delete,
+	"detach": VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_ARM_Detach,
 }
 
 // Describes a virtual machine scale set network profile's IP configuration properties.
@@ -692,13 +793,27 @@ type VirtualMachineScaleSetIPConfigurationProperties_ARM struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_ARM `json:"publicIPAddressConfiguration,omitempty"`
 
 	// Subnet: Specifies the identifier of the subnet.
 	Subnet *ApiEntityReference_ARM `json:"subnet,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"IPv4","IPv6"}
+type VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM string
+
+const (
+	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM_IPv4 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM("IPv4")
+	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM_IPv6 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM("IPv6")
+)
+
+// Mapping from string to VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM
+var virtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM_Values = map[string]VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM{
+	"ipv4": VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM_IPv4,
+	"ipv6": VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_ARM_IPv6,
 }
 
 // Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
@@ -716,7 +831,7 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_ARM struct {
 // Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
 type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_ARM struct {
 	// DeleteOption: Specify what happens to the public IP when the VM is deleted
-	DeleteOption *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM `json:"deleteOption,omitempty"`
 
 	// DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_ARM `json:"dnsSettings,omitempty"`
@@ -729,7 +844,7 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_ARM struct {
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
@@ -749,4 +864,32 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_ARM struct {
 	// DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
 	// labels of the PublicIPAddress resources that will be created
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Delete","Detach"}
+type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM string
+
+const (
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM_Delete = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM("Delete")
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM_Detach = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM("Detach")
+)
+
+// Mapping from string to VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM
+var virtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM_Values = map[string]VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM{
+	"delete": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM_Delete,
+	"detach": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_ARM_Detach,
+}
+
+// +kubebuilder:validation:Enum={"IPv4","IPv6"}
+type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM string
+
+const (
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_IPv4 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM("IPv4")
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_IPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM("IPv6")
+)
+
+// Mapping from string to VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM
+var virtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_Values = map[string]VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM{
+	"ipv4": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_IPv4,
+	"ipv6": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_IPv6,
 }

@@ -478,7 +478,9 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.GatewayDefaultSite = &gatewayDefaultSite
 	}
 	if gateway.GatewayType != nil {
-		gatewayType := *gateway.GatewayType
+		var temp string
+		temp = string(*gateway.GatewayType)
+		gatewayType := VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM(temp)
 		result.Properties.GatewayType = &gatewayType
 	}
 	for _, item := range gateway.IpConfigurations {
@@ -513,11 +515,15 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.VpnClientConfiguration = &vpnClientConfiguration
 	}
 	if gateway.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := *gateway.VpnGatewayGeneration
+		var temp string
+		temp = string(*gateway.VpnGatewayGeneration)
+		vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM(temp)
 		result.Properties.VpnGatewayGeneration = &vpnGatewayGeneration
 	}
 	if gateway.VpnType != nil {
-		vpnType := *gateway.VpnType
+		var temp string
+		temp = string(*gateway.VpnType)
+		vpnType := VirtualNetworkGatewayPropertiesFormat_VpnType_ARM(temp)
 		result.Properties.VpnType = &vpnType
 	}
 
@@ -639,7 +645,9 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GatewayType != nil {
-			gatewayType := *typedInput.Properties.GatewayType
+			var temp string
+			temp = string(*typedInput.Properties.GatewayType)
+			gatewayType := VirtualNetworkGatewayPropertiesFormat_GatewayType(temp)
 			gateway.GatewayType = &gatewayType
 		}
 	}
@@ -711,7 +719,9 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnGatewayGeneration != nil {
-			vpnGatewayGeneration := *typedInput.Properties.VpnGatewayGeneration
+			var temp string
+			temp = string(*typedInput.Properties.VpnGatewayGeneration)
+			vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration(temp)
 			gateway.VpnGatewayGeneration = &vpnGatewayGeneration
 		}
 	}
@@ -720,7 +730,9 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnType != nil {
-			vpnType := *typedInput.Properties.VpnType
+			var temp string
+			temp = string(*typedInput.Properties.VpnType)
+			vpnType := VirtualNetworkGatewayPropertiesFormat_VpnType(temp)
 			gateway.VpnType = &vpnType
 		}
 	}
@@ -1575,7 +1587,9 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GatewayType != nil {
-			gatewayType := *typedInput.Properties.GatewayType
+			var temp string
+			temp = string(*typedInput.Properties.GatewayType)
+			gatewayType := VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS(temp)
 			gateway.GatewayType = &gatewayType
 		}
 	}
@@ -1624,7 +1638,9 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			gateway.ProvisioningState = &provisioningState
 		}
 	}
@@ -1693,7 +1709,9 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnGatewayGeneration != nil {
-			vpnGatewayGeneration := *typedInput.Properties.VpnGatewayGeneration
+			var temp string
+			temp = string(*typedInput.Properties.VpnGatewayGeneration)
+			vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS(temp)
 			gateway.VpnGatewayGeneration = &vpnGatewayGeneration
 		}
 	}
@@ -1702,7 +1720,9 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnType != nil {
-			vpnType := *typedInput.Properties.VpnType
+			var temp string
+			temp = string(*typedInput.Properties.VpnType)
+			vpnType := VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS(temp)
 			gateway.VpnType = &vpnType
 		}
 	}
@@ -2514,7 +2534,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) ConvertToARM(resolved
 		result.Properties = &VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM{}
 	}
 	if configuration.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := *configuration.PrivateIPAllocationMethod
+		var temp string
+		temp = string(*configuration.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := IPAllocationMethod_ARM(temp)
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.PublicIPAddress != nil {
@@ -2558,7 +2580,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
-			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAllocationMethod)
+			privateIPAllocationMethod := IPAllocationMethod(temp)
 			configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
 		}
 	}
@@ -2803,7 +2827,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) PopulateFromAR
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
-			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAllocationMethod)
+			privateIPAllocationMethod := IPAllocationMethod_STATUS(temp)
 			configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
 		}
 	}
@@ -2812,7 +2838,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) PopulateFromAR
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			configuration.ProvisioningState = &provisioningState
 		}
 	}
@@ -3087,13 +3115,17 @@ func (gatewaySku *VirtualNetworkGatewaySku) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Name":
 	if gatewaySku.Name != nil {
-		name := *gatewaySku.Name
+		var temp string
+		temp = string(*gatewaySku.Name)
+		name := VirtualNetworkGatewaySku_Name_ARM(temp)
 		result.Name = &name
 	}
 
 	// Set property "Tier":
 	if gatewaySku.Tier != nil {
-		tier := *gatewaySku.Tier
+		var temp string
+		temp = string(*gatewaySku.Tier)
+		tier := VirtualNetworkGatewaySku_Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -3113,13 +3145,17 @@ func (gatewaySku *VirtualNetworkGatewaySku) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := VirtualNetworkGatewaySku_Name(temp)
 		gatewaySku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := VirtualNetworkGatewaySku_Tier(temp)
 		gatewaySku.Tier = &tier
 	}
 
@@ -3241,13 +3277,17 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := VirtualNetworkGatewaySku_Name_STATUS(temp)
 		gatewaySku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := VirtualNetworkGatewaySku_Tier_STATUS(temp)
 		gatewaySku.Tier = &tier
 	}
 
@@ -3410,7 +3450,9 @@ func (configuration *VpnClientConfiguration) ConvertToARM(resolved genruntime.Co
 
 	// Set property "VpnAuthenticationTypes":
 	for _, item := range configuration.VpnAuthenticationTypes {
-		result.VpnAuthenticationTypes = append(result.VpnAuthenticationTypes, item)
+		var temp string
+		temp = string(item)
+		result.VpnAuthenticationTypes = append(result.VpnAuthenticationTypes, VpnClientConfiguration_VpnAuthenticationTypes_ARM(temp))
 	}
 
 	// Set property "VpnClientAddressPool":
@@ -3434,7 +3476,9 @@ func (configuration *VpnClientConfiguration) ConvertToARM(resolved genruntime.Co
 
 	// Set property "VpnClientProtocols":
 	for _, item := range configuration.VpnClientProtocols {
-		result.VpnClientProtocols = append(result.VpnClientProtocols, item)
+		var temp string
+		temp = string(item)
+		result.VpnClientProtocols = append(result.VpnClientProtocols, VpnClientConfiguration_VpnClientProtocols_ARM(temp))
 	}
 
 	// Set property "VpnClientRevokedCertificates":
@@ -3511,7 +3555,9 @@ func (configuration *VpnClientConfiguration) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "VpnAuthenticationTypes":
 	for _, item := range typedInput.VpnAuthenticationTypes {
-		configuration.VpnAuthenticationTypes = append(configuration.VpnAuthenticationTypes, item)
+		var temp string
+		temp = string(item)
+		configuration.VpnAuthenticationTypes = append(configuration.VpnAuthenticationTypes, VpnClientConfiguration_VpnAuthenticationTypes(temp))
 	}
 
 	// Set property "VpnClientAddressPool":
@@ -3537,7 +3583,9 @@ func (configuration *VpnClientConfiguration) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "VpnClientProtocols":
 	for _, item := range typedInput.VpnClientProtocols {
-		configuration.VpnClientProtocols = append(configuration.VpnClientProtocols, item)
+		var temp string
+		temp = string(item)
+		configuration.VpnClientProtocols = append(configuration.VpnClientProtocols, VpnClientConfiguration_VpnClientProtocols(temp))
 	}
 
 	// Set property "VpnClientRevokedCertificates":
@@ -4069,7 +4117,9 @@ func (configuration *VpnClientConfiguration_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "VpnAuthenticationTypes":
 	for _, item := range typedInput.VpnAuthenticationTypes {
-		configuration.VpnAuthenticationTypes = append(configuration.VpnAuthenticationTypes, item)
+		var temp string
+		temp = string(item)
+		configuration.VpnAuthenticationTypes = append(configuration.VpnAuthenticationTypes, VpnClientConfiguration_VpnAuthenticationTypes_STATUS(temp))
 	}
 
 	// Set property "VpnClientAddressPool":
@@ -4095,7 +4145,9 @@ func (configuration *VpnClientConfiguration_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "VpnClientProtocols":
 	for _, item := range typedInput.VpnClientProtocols {
-		configuration.VpnClientProtocols = append(configuration.VpnClientProtocols, item)
+		var temp string
+		temp = string(item)
+		configuration.VpnClientProtocols = append(configuration.VpnClientProtocols, VpnClientConfiguration_VpnClientProtocols_STATUS(temp))
 	}
 
 	// Set property "VpnClientRevokedCertificates":
@@ -4650,37 +4702,49 @@ func (policy *IpsecPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "DhGroup":
 	if policy.DhGroup != nil {
-		dhGroup := *policy.DhGroup
+		var temp string
+		temp = string(*policy.DhGroup)
+		dhGroup := DhGroup_ARM(temp)
 		result.DhGroup = &dhGroup
 	}
 
 	// Set property "IkeEncryption":
 	if policy.IkeEncryption != nil {
-		ikeEncryption := *policy.IkeEncryption
+		var temp string
+		temp = string(*policy.IkeEncryption)
+		ikeEncryption := IkeEncryption_ARM(temp)
 		result.IkeEncryption = &ikeEncryption
 	}
 
 	// Set property "IkeIntegrity":
 	if policy.IkeIntegrity != nil {
-		ikeIntegrity := *policy.IkeIntegrity
+		var temp string
+		temp = string(*policy.IkeIntegrity)
+		ikeIntegrity := IkeIntegrity_ARM(temp)
 		result.IkeIntegrity = &ikeIntegrity
 	}
 
 	// Set property "IpsecEncryption":
 	if policy.IpsecEncryption != nil {
-		ipsecEncryption := *policy.IpsecEncryption
+		var temp string
+		temp = string(*policy.IpsecEncryption)
+		ipsecEncryption := IpsecEncryption_ARM(temp)
 		result.IpsecEncryption = &ipsecEncryption
 	}
 
 	// Set property "IpsecIntegrity":
 	if policy.IpsecIntegrity != nil {
-		ipsecIntegrity := *policy.IpsecIntegrity
+		var temp string
+		temp = string(*policy.IpsecIntegrity)
+		ipsecIntegrity := IpsecIntegrity_ARM(temp)
 		result.IpsecIntegrity = &ipsecIntegrity
 	}
 
 	// Set property "PfsGroup":
 	if policy.PfsGroup != nil {
-		pfsGroup := *policy.PfsGroup
+		var temp string
+		temp = string(*policy.PfsGroup)
+		pfsGroup := PfsGroup_ARM(temp)
 		result.PfsGroup = &pfsGroup
 	}
 
@@ -4712,37 +4776,49 @@ func (policy *IpsecPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "DhGroup":
 	if typedInput.DhGroup != nil {
-		dhGroup := *typedInput.DhGroup
+		var temp string
+		temp = string(*typedInput.DhGroup)
+		dhGroup := DhGroup(temp)
 		policy.DhGroup = &dhGroup
 	}
 
 	// Set property "IkeEncryption":
 	if typedInput.IkeEncryption != nil {
-		ikeEncryption := *typedInput.IkeEncryption
+		var temp string
+		temp = string(*typedInput.IkeEncryption)
+		ikeEncryption := IkeEncryption(temp)
 		policy.IkeEncryption = &ikeEncryption
 	}
 
 	// Set property "IkeIntegrity":
 	if typedInput.IkeIntegrity != nil {
-		ikeIntegrity := *typedInput.IkeIntegrity
+		var temp string
+		temp = string(*typedInput.IkeIntegrity)
+		ikeIntegrity := IkeIntegrity(temp)
 		policy.IkeIntegrity = &ikeIntegrity
 	}
 
 	// Set property "IpsecEncryption":
 	if typedInput.IpsecEncryption != nil {
-		ipsecEncryption := *typedInput.IpsecEncryption
+		var temp string
+		temp = string(*typedInput.IpsecEncryption)
+		ipsecEncryption := IpsecEncryption(temp)
 		policy.IpsecEncryption = &ipsecEncryption
 	}
 
 	// Set property "IpsecIntegrity":
 	if typedInput.IpsecIntegrity != nil {
-		ipsecIntegrity := *typedInput.IpsecIntegrity
+		var temp string
+		temp = string(*typedInput.IpsecIntegrity)
+		ipsecIntegrity := IpsecIntegrity(temp)
 		policy.IpsecIntegrity = &ipsecIntegrity
 	}
 
 	// Set property "PfsGroup":
 	if typedInput.PfsGroup != nil {
-		pfsGroup := *typedInput.PfsGroup
+		var temp string
+		temp = string(*typedInput.PfsGroup)
+		pfsGroup := PfsGroup(temp)
 		policy.PfsGroup = &pfsGroup
 	}
 
@@ -5005,37 +5081,49 @@ func (policy *IpsecPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "DhGroup":
 	if typedInput.DhGroup != nil {
-		dhGroup := *typedInput.DhGroup
+		var temp string
+		temp = string(*typedInput.DhGroup)
+		dhGroup := DhGroup_STATUS(temp)
 		policy.DhGroup = &dhGroup
 	}
 
 	// Set property "IkeEncryption":
 	if typedInput.IkeEncryption != nil {
-		ikeEncryption := *typedInput.IkeEncryption
+		var temp string
+		temp = string(*typedInput.IkeEncryption)
+		ikeEncryption := IkeEncryption_STATUS(temp)
 		policy.IkeEncryption = &ikeEncryption
 	}
 
 	// Set property "IkeIntegrity":
 	if typedInput.IkeIntegrity != nil {
-		ikeIntegrity := *typedInput.IkeIntegrity
+		var temp string
+		temp = string(*typedInput.IkeIntegrity)
+		ikeIntegrity := IkeIntegrity_STATUS(temp)
 		policy.IkeIntegrity = &ikeIntegrity
 	}
 
 	// Set property "IpsecEncryption":
 	if typedInput.IpsecEncryption != nil {
-		ipsecEncryption := *typedInput.IpsecEncryption
+		var temp string
+		temp = string(*typedInput.IpsecEncryption)
+		ipsecEncryption := IpsecEncryption_STATUS(temp)
 		policy.IpsecEncryption = &ipsecEncryption
 	}
 
 	// Set property "IpsecIntegrity":
 	if typedInput.IpsecIntegrity != nil {
-		ipsecIntegrity := *typedInput.IpsecIntegrity
+		var temp string
+		temp = string(*typedInput.IpsecIntegrity)
+		ipsecIntegrity := IpsecIntegrity_STATUS(temp)
 		policy.IpsecIntegrity = &ipsecIntegrity
 	}
 
 	// Set property "PfsGroup":
 	if typedInput.PfsGroup != nil {
-		pfsGroup := *typedInput.PfsGroup
+		var temp string
+		temp = string(*typedInput.PfsGroup)
+		pfsGroup := PfsGroup_STATUS(temp)
 		policy.PfsGroup = &pfsGroup
 	}
 
@@ -5818,7 +5906,9 @@ func (certificate *VpnClientRevokedCertificate_STATUS) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			certificate.ProvisioningState = &provisioningState
 		}
 	}
@@ -6069,7 +6159,9 @@ func (certificate *VpnClientRootCertificate_STATUS) PopulateFromARM(owner genrun
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			certificate.ProvisioningState = &provisioningState
 		}
 	}

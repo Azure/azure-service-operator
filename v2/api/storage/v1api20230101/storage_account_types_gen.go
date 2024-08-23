@@ -596,7 +596,9 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Kind":
 	if account.Kind != nil {
-		kind := *account.Kind
+		var temp string
+		temp = string(*account.Kind)
+		kind := StorageAccount_Kind_Spec_ARM(temp)
 		result.Kind = &kind
 	}
 
@@ -636,7 +638,9 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties = &StorageAccountPropertiesCreateParameters_ARM{}
 	}
 	if account.AccessTier != nil {
-		accessTier := *account.AccessTier
+		var temp string
+		temp = string(*account.AccessTier)
+		accessTier := StorageAccountPropertiesCreateParameters_AccessTier_ARM(temp)
 		result.Properties.AccessTier = &accessTier
 	}
 	if account.AllowBlobPublicAccess != nil {
@@ -652,7 +656,9 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AllowSharedKeyAccess = &allowSharedKeyAccess
 	}
 	if account.AllowedCopyScope != nil {
-		allowedCopyScope := *account.AllowedCopyScope
+		var temp string
+		temp = string(*account.AllowedCopyScope)
+		allowedCopyScope := StorageAccountPropertiesCreateParameters_AllowedCopyScope_ARM(temp)
 		result.Properties.AllowedCopyScope = &allowedCopyScope
 	}
 	if account.AzureFilesIdentityBasedAuthentication != nil {
@@ -676,7 +682,9 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.DefaultToOAuthAuthentication = &defaultToOAuthAuthentication
 	}
 	if account.DnsEndpointType != nil {
-		dnsEndpointType := *account.DnsEndpointType
+		var temp string
+		temp = string(*account.DnsEndpointType)
+		dnsEndpointType := StorageAccountPropertiesCreateParameters_DnsEndpointType_ARM(temp)
 		result.Properties.DnsEndpointType = &dnsEndpointType
 	}
 	if account.Encryption != nil {
@@ -720,11 +728,15 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.KeyPolicy = &keyPolicy
 	}
 	if account.LargeFileSharesState != nil {
-		largeFileSharesState := *account.LargeFileSharesState
+		var temp string
+		temp = string(*account.LargeFileSharesState)
+		largeFileSharesState := StorageAccountPropertiesCreateParameters_LargeFileSharesState_ARM(temp)
 		result.Properties.LargeFileSharesState = &largeFileSharesState
 	}
 	if account.MinimumTlsVersion != nil {
-		minimumTlsVersion := *account.MinimumTlsVersion
+		var temp string
+		temp = string(*account.MinimumTlsVersion)
+		minimumTlsVersion := StorageAccountPropertiesCreateParameters_MinimumTlsVersion_ARM(temp)
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 	if account.NetworkAcls != nil {
@@ -736,7 +748,9 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.NetworkAcls = &networkAcls
 	}
 	if account.PublicNetworkAccess != nil {
-		publicNetworkAccess := *account.PublicNetworkAccess
+		var temp string
+		temp = string(*account.PublicNetworkAccess)
+		publicNetworkAccess := StorageAccountPropertiesCreateParameters_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if account.RoutingPreference != nil {
@@ -796,7 +810,9 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTier != nil {
-			accessTier := *typedInput.Properties.AccessTier
+			var temp string
+			temp = string(*typedInput.Properties.AccessTier)
+			accessTier := StorageAccountPropertiesCreateParameters_AccessTier(temp)
 			account.AccessTier = &accessTier
 		}
 	}
@@ -832,7 +848,9 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowedCopyScope != nil {
-			allowedCopyScope := *typedInput.Properties.AllowedCopyScope
+			var temp string
+			temp = string(*typedInput.Properties.AllowedCopyScope)
+			allowedCopyScope := StorageAccountPropertiesCreateParameters_AllowedCopyScope(temp)
 			account.AllowedCopyScope = &allowedCopyScope
 		}
 	}
@@ -881,7 +899,9 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsEndpointType != nil {
-			dnsEndpointType := *typedInput.Properties.DnsEndpointType
+			var temp string
+			temp = string(*typedInput.Properties.DnsEndpointType)
+			dnsEndpointType := StorageAccountPropertiesCreateParameters_DnsEndpointType(temp)
 			account.DnsEndpointType = &dnsEndpointType
 		}
 	}
@@ -988,7 +1008,9 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := StorageAccount_Kind_Spec(temp)
 		account.Kind = &kind
 	}
 
@@ -996,7 +1018,9 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LargeFileSharesState != nil {
-			largeFileSharesState := *typedInput.Properties.LargeFileSharesState
+			var temp string
+			temp = string(*typedInput.Properties.LargeFileSharesState)
+			largeFileSharesState := StorageAccountPropertiesCreateParameters_LargeFileSharesState(temp)
 			account.LargeFileSharesState = &largeFileSharesState
 		}
 	}
@@ -1011,7 +1035,9 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
-			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
+			var temp string
+			temp = string(*typedInput.Properties.MinimumTlsVersion)
+			minimumTlsVersion := StorageAccountPropertiesCreateParameters_MinimumTlsVersion(temp)
 			account.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
@@ -1042,7 +1068,9 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := StorageAccountPropertiesCreateParameters_PublicNetworkAccess(temp)
 			account.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -2294,7 +2322,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTier != nil {
-			accessTier := *typedInput.Properties.AccessTier
+			var temp string
+			temp = string(*typedInput.Properties.AccessTier)
+			accessTier := StorageAccountProperties_AccessTier_STATUS(temp)
 			account.AccessTier = &accessTier
 		}
 	}
@@ -2339,7 +2369,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowedCopyScope != nil {
-			allowedCopyScope := *typedInput.Properties.AllowedCopyScope
+			var temp string
+			temp = string(*typedInput.Properties.AllowedCopyScope)
+			allowedCopyScope := StorageAccountProperties_AllowedCopyScope_STATUS(temp)
 			account.AllowedCopyScope = &allowedCopyScope
 		}
 	}
@@ -2410,7 +2442,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsEndpointType != nil {
-			dnsEndpointType := *typedInput.Properties.DnsEndpointType
+			var temp string
+			temp = string(*typedInput.Properties.DnsEndpointType)
+			dnsEndpointType := StorageAccountProperties_DnsEndpointType_STATUS(temp)
 			account.DnsEndpointType = &dnsEndpointType
 		}
 	}
@@ -2569,7 +2603,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := StorageAccount_Kind_STATUS(temp)
 		account.Kind = &kind
 	}
 
@@ -2577,7 +2613,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LargeFileSharesState != nil {
-			largeFileSharesState := *typedInput.Properties.LargeFileSharesState
+			var temp string
+			temp = string(*typedInput.Properties.LargeFileSharesState)
+			largeFileSharesState := StorageAccountProperties_LargeFileSharesState_STATUS(temp)
 			account.LargeFileSharesState = &largeFileSharesState
 		}
 	}
@@ -2601,7 +2639,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
-			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
+			var temp string
+			temp = string(*typedInput.Properties.MinimumTlsVersion)
+			minimumTlsVersion := StorageAccountProperties_MinimumTlsVersion_STATUS(temp)
 			account.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
@@ -2666,7 +2706,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := StorageAccountProperties_ProvisioningState_STATUS(temp)
 			account.ProvisioningState = &provisioningState
 		}
 	}
@@ -2675,7 +2717,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := StorageAccountProperties_PublicNetworkAccess_STATUS(temp)
 			account.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -2746,7 +2790,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StatusOfPrimary != nil {
-			statusOfPrimary := *typedInput.Properties.StatusOfPrimary
+			var temp string
+			temp = string(*typedInput.Properties.StatusOfPrimary)
+			statusOfPrimary := StorageAccountProperties_StatusOfPrimary_STATUS(temp)
 			account.StatusOfPrimary = &statusOfPrimary
 		}
 	}
@@ -2755,7 +2801,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StatusOfSecondary != nil {
-			statusOfSecondary := *typedInput.Properties.StatusOfSecondary
+			var temp string
+			temp = string(*typedInput.Properties.StatusOfSecondary)
+			statusOfSecondary := StorageAccountProperties_StatusOfSecondary_STATUS(temp)
 			account.StatusOfSecondary = &statusOfSecondary
 		}
 	}
@@ -3724,13 +3772,17 @@ func (authentication *AzureFilesIdentityBasedAuthentication) ConvertToARM(resolv
 
 	// Set property "DefaultSharePermission":
 	if authentication.DefaultSharePermission != nil {
-		defaultSharePermission := *authentication.DefaultSharePermission
+		var temp string
+		temp = string(*authentication.DefaultSharePermission)
+		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission_ARM(temp)
 		result.DefaultSharePermission = &defaultSharePermission
 	}
 
 	// Set property "DirectoryServiceOptions":
 	if authentication.DirectoryServiceOptions != nil {
-		directoryServiceOptions := *authentication.DirectoryServiceOptions
+		var temp string
+		temp = string(*authentication.DirectoryServiceOptions)
+		directoryServiceOptions := AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_ARM(temp)
 		result.DirectoryServiceOptions = &directoryServiceOptions
 	}
 	return result, nil
@@ -3761,13 +3813,17 @@ func (authentication *AzureFilesIdentityBasedAuthentication) PopulateFromARM(own
 
 	// Set property "DefaultSharePermission":
 	if typedInput.DefaultSharePermission != nil {
-		defaultSharePermission := *typedInput.DefaultSharePermission
+		var temp string
+		temp = string(*typedInput.DefaultSharePermission)
+		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission(temp)
 		authentication.DefaultSharePermission = &defaultSharePermission
 	}
 
 	// Set property "DirectoryServiceOptions":
 	if typedInput.DirectoryServiceOptions != nil {
-		directoryServiceOptions := *typedInput.DirectoryServiceOptions
+		var temp string
+		temp = string(*typedInput.DirectoryServiceOptions)
+		directoryServiceOptions := AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions(temp)
 		authentication.DirectoryServiceOptions = &directoryServiceOptions
 	}
 
@@ -3930,13 +3986,17 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) PopulateFrom
 
 	// Set property "DefaultSharePermission":
 	if typedInput.DefaultSharePermission != nil {
-		defaultSharePermission := *typedInput.DefaultSharePermission
+		var temp string
+		temp = string(*typedInput.DefaultSharePermission)
+		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS(temp)
 		authentication.DefaultSharePermission = &defaultSharePermission
 	}
 
 	// Set property "DirectoryServiceOptions":
 	if typedInput.DirectoryServiceOptions != nil {
-		directoryServiceOptions := *typedInput.DirectoryServiceOptions
+		var temp string
+		temp = string(*typedInput.DirectoryServiceOptions)
+		directoryServiceOptions := AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS(temp)
 		authentication.DirectoryServiceOptions = &directoryServiceOptions
 	}
 
@@ -4080,7 +4140,9 @@ func (status *BlobRestoreStatus_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status1 := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status1 := BlobRestoreStatus_Status_STATUS(temp)
 		status.Status = &status1
 	}
 
@@ -4415,7 +4477,9 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "KeySource":
 	if encryption.KeySource != nil {
-		keySource := *encryption.KeySource
+		var temp string
+		temp = string(*encryption.KeySource)
+		keySource := Encryption_KeySource_ARM(temp)
 		result.KeySource = &keySource
 	}
 
@@ -4472,7 +4536,9 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "KeySource":
 	if typedInput.KeySource != nil {
-		keySource := *typedInput.KeySource
+		var temp string
+		temp = string(*typedInput.KeySource)
+		keySource := Encryption_KeySource(temp)
 		encryption.KeySource = &keySource
 	}
 
@@ -4742,7 +4808,9 @@ func (encryption *Encryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "KeySource":
 	if typedInput.KeySource != nil {
-		keySource := *typedInput.KeySource
+		var temp string
+		temp = string(*typedInput.KeySource)
+		keySource := Encryption_KeySource_STATUS(temp)
 		encryption.KeySource = &keySource
 	}
 
@@ -5142,7 +5210,9 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if location.Type != nil {
-		typeVar := *location.Type
+		var temp string
+		temp = string(*location.Type)
+		typeVar := ExtendedLocationType_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -5168,7 +5238,9 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType(temp)
 		location.Type = &typeVar
 	}
 
@@ -5271,7 +5343,9 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType_STATUS(temp)
 		location.Type = &typeVar
 	}
 
@@ -5386,19 +5460,25 @@ func (stats *GeoReplicationStats_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "PostFailoverRedundancy":
 	if typedInput.PostFailoverRedundancy != nil {
-		postFailoverRedundancy := *typedInput.PostFailoverRedundancy
+		var temp string
+		temp = string(*typedInput.PostFailoverRedundancy)
+		postFailoverRedundancy := GeoReplicationStats_PostFailoverRedundancy_STATUS(temp)
 		stats.PostFailoverRedundancy = &postFailoverRedundancy
 	}
 
 	// Set property "PostPlannedFailoverRedundancy":
 	if typedInput.PostPlannedFailoverRedundancy != nil {
-		postPlannedFailoverRedundancy := *typedInput.PostPlannedFailoverRedundancy
+		var temp string
+		temp = string(*typedInput.PostPlannedFailoverRedundancy)
+		postPlannedFailoverRedundancy := GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS(temp)
 		stats.PostPlannedFailoverRedundancy = &postPlannedFailoverRedundancy
 	}
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := GeoReplicationStats_Status_STATUS(temp)
 		stats.Status = &status
 	}
 
@@ -5541,7 +5621,9 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := Identity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -5572,7 +5654,9 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -5730,7 +5814,9 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := Identity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -6359,13 +6445,17 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Bypass":
 	if ruleSet.Bypass != nil {
-		bypass := *ruleSet.Bypass
+		var temp string
+		temp = string(*ruleSet.Bypass)
+		bypass := NetworkRuleSet_Bypass_ARM(temp)
 		result.Bypass = &bypass
 	}
 
 	// Set property "DefaultAction":
 	if ruleSet.DefaultAction != nil {
-		defaultAction := *ruleSet.DefaultAction
+		var temp string
+		temp = string(*ruleSet.DefaultAction)
+		defaultAction := NetworkRuleSet_DefaultAction_ARM(temp)
 		result.DefaultAction = &defaultAction
 	}
 
@@ -6412,13 +6502,17 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Bypass":
 	if typedInput.Bypass != nil {
-		bypass := *typedInput.Bypass
+		var temp string
+		temp = string(*typedInput.Bypass)
+		bypass := NetworkRuleSet_Bypass(temp)
 		ruleSet.Bypass = &bypass
 	}
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := NetworkRuleSet_DefaultAction(temp)
 		ruleSet.DefaultAction = &defaultAction
 	}
 
@@ -6733,13 +6827,17 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Bypass":
 	if typedInput.Bypass != nil {
-		bypass := *typedInput.Bypass
+		var temp string
+		temp = string(*typedInput.Bypass)
+		bypass := NetworkRuleSet_Bypass_STATUS(temp)
 		ruleSet.Bypass = &bypass
 	}
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := NetworkRuleSet_DefaultAction_STATUS(temp)
 		ruleSet.DefaultAction = &defaultAction
 	}
 
@@ -7038,7 +7136,9 @@ func (preference *RoutingPreference) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "RoutingChoice":
 	if preference.RoutingChoice != nil {
-		routingChoice := *preference.RoutingChoice
+		var temp string
+		temp = string(*preference.RoutingChoice)
+		routingChoice := RoutingPreference_RoutingChoice_ARM(temp)
 		result.RoutingChoice = &routingChoice
 	}
 	return result, nil
@@ -7070,7 +7170,9 @@ func (preference *RoutingPreference) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "RoutingChoice":
 	if typedInput.RoutingChoice != nil {
-		routingChoice := *typedInput.RoutingChoice
+		var temp string
+		temp = string(*typedInput.RoutingChoice)
+		routingChoice := RoutingPreference_RoutingChoice(temp)
 		preference.RoutingChoice = &routingChoice
 	}
 
@@ -7222,7 +7324,9 @@ func (preference *RoutingPreference_STATUS) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "RoutingChoice":
 	if typedInput.RoutingChoice != nil {
-		routingChoice := *typedInput.RoutingChoice
+		var temp string
+		temp = string(*typedInput.RoutingChoice)
+		routingChoice := RoutingPreference_RoutingChoice_STATUS(temp)
 		preference.RoutingChoice = &routingChoice
 	}
 
@@ -7324,7 +7428,9 @@ func (policy *SasPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "ExpirationAction":
 	if policy.ExpirationAction != nil {
-		expirationAction := *policy.ExpirationAction
+		var temp string
+		temp = string(*policy.ExpirationAction)
+		expirationAction := SasPolicy_ExpirationAction_ARM(temp)
 		result.ExpirationAction = &expirationAction
 	}
 
@@ -7350,7 +7456,9 @@ func (policy *SasPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property "ExpirationAction":
 	if typedInput.ExpirationAction != nil {
-		expirationAction := *typedInput.ExpirationAction
+		var temp string
+		temp = string(*typedInput.ExpirationAction)
+		expirationAction := SasPolicy_ExpirationAction(temp)
 		policy.ExpirationAction = &expirationAction
 	}
 
@@ -7453,7 +7561,9 @@ func (policy *SasPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "ExpirationAction":
 	if typedInput.ExpirationAction != nil {
-		expirationAction := *typedInput.ExpirationAction
+		var temp string
+		temp = string(*typedInput.ExpirationAction)
+		expirationAction := SasPolicy_ExpirationAction_STATUS(temp)
 		policy.ExpirationAction = &expirationAction
 	}
 
@@ -7535,13 +7645,17 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Name":
 	if sku.Name != nil {
-		name := *sku.Name
+		var temp string
+		temp = string(*sku.Name)
+		name := SkuName_ARM(temp)
 		result.Name = &name
 	}
 
 	// Set property "Tier":
 	if sku.Tier != nil {
-		tier := *sku.Tier
+		var temp string
+		temp = string(*sku.Tier)
+		tier := Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -7561,13 +7675,17 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := SkuName(temp)
 		sku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := Tier(temp)
 		sku.Tier = &tier
 	}
 
@@ -7681,13 +7799,17 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := SkuName_STATUS(temp)
 		sku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := Tier_STATUS(temp)
 		sku.Tier = &tier
 	}
 
@@ -7750,6 +7872,45 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
+type StorageAccount_Kind_Spec string
+
+const (
+	StorageAccount_Kind_Spec_BlobStorage      = StorageAccount_Kind_Spec("BlobStorage")
+	StorageAccount_Kind_Spec_BlockBlobStorage = StorageAccount_Kind_Spec("BlockBlobStorage")
+	StorageAccount_Kind_Spec_FileStorage      = StorageAccount_Kind_Spec("FileStorage")
+	StorageAccount_Kind_Spec_Storage          = StorageAccount_Kind_Spec("Storage")
+	StorageAccount_Kind_Spec_StorageV2        = StorageAccount_Kind_Spec("StorageV2")
+)
+
+// Mapping from string to StorageAccount_Kind_Spec
+var storageAccount_Kind_Spec_Values = map[string]StorageAccount_Kind_Spec{
+	"blobstorage":      StorageAccount_Kind_Spec_BlobStorage,
+	"blockblobstorage": StorageAccount_Kind_Spec_BlockBlobStorage,
+	"filestorage":      StorageAccount_Kind_Spec_FileStorage,
+	"storage":          StorageAccount_Kind_Spec_Storage,
+	"storagev2":        StorageAccount_Kind_Spec_StorageV2,
+}
+
+type StorageAccount_Kind_STATUS string
+
+const (
+	StorageAccount_Kind_STATUS_BlobStorage      = StorageAccount_Kind_STATUS("BlobStorage")
+	StorageAccount_Kind_STATUS_BlockBlobStorage = StorageAccount_Kind_STATUS("BlockBlobStorage")
+	StorageAccount_Kind_STATUS_FileStorage      = StorageAccount_Kind_STATUS("FileStorage")
+	StorageAccount_Kind_STATUS_Storage          = StorageAccount_Kind_STATUS("Storage")
+	StorageAccount_Kind_STATUS_StorageV2        = StorageAccount_Kind_STATUS("StorageV2")
+)
+
+// Mapping from string to StorageAccount_Kind_STATUS
+var storageAccount_Kind_STATUS_Values = map[string]StorageAccount_Kind_STATUS{
+	"blobstorage":      StorageAccount_Kind_STATUS_BlobStorage,
+	"blockblobstorage": StorageAccount_Kind_STATUS_BlockBlobStorage,
+	"filestorage":      StorageAccount_Kind_STATUS_FileStorage,
+	"storage":          StorageAccount_Kind_STATUS_Storage,
+	"storagev2":        StorageAccount_Kind_STATUS_StorageV2,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
@@ -8080,7 +8241,9 @@ func (status *StorageAccountSkuConversionStatus_STATUS) PopulateFromARM(owner ge
 
 	// Set property "SkuConversionStatus":
 	if typedInput.SkuConversionStatus != nil {
-		skuConversionStatus := *typedInput.SkuConversionStatus
+		var temp string
+		temp = string(*typedInput.SkuConversionStatus)
+		skuConversionStatus := StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS(temp)
 		status.SkuConversionStatus = &skuConversionStatus
 	}
 
@@ -8092,7 +8255,9 @@ func (status *StorageAccountSkuConversionStatus_STATUS) PopulateFromARM(owner ge
 
 	// Set property "TargetSkuName":
 	if typedInput.TargetSkuName != nil {
-		targetSkuName := *typedInput.TargetSkuName
+		var temp string
+		temp = string(*typedInput.TargetSkuName)
+		targetSkuName := SkuName_STATUS(temp)
 		status.TargetSkuName = &targetSkuName
 	}
 
@@ -8213,7 +8378,9 @@ func (properties *AccountImmutabilityPolicyProperties) ConvertToARM(resolved gen
 
 	// Set property "State":
 	if properties.State != nil {
-		state := *properties.State
+		var temp string
+		temp = string(*properties.State)
+		state := AccountImmutabilityPolicyProperties_State_ARM(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -8245,7 +8412,9 @@ func (properties *AccountImmutabilityPolicyProperties) PopulateFromARM(owner gen
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := AccountImmutabilityPolicyProperties_State(temp)
 		properties.State = &state
 	}
 
@@ -8403,7 +8572,9 @@ func (properties *AccountImmutabilityPolicyProperties_STATUS) PopulateFromARM(ow
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := AccountImmutabilityPolicyProperties_State_STATUS(temp)
 		properties.State = &state
 	}
 
@@ -8513,7 +8684,9 @@ func (properties *ActiveDirectoryProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "AccountType":
 	if properties.AccountType != nil {
-		accountType := *properties.AccountType
+		var temp string
+		temp = string(*properties.AccountType)
+		accountType := ActiveDirectoryProperties_AccountType_ARM(temp)
 		result.AccountType = &accountType
 	}
 
@@ -8575,7 +8748,9 @@ func (properties *ActiveDirectoryProperties) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "AccountType":
 	if typedInput.AccountType != nil {
-		accountType := *typedInput.AccountType
+		var temp string
+		temp = string(*typedInput.AccountType)
+		accountType := ActiveDirectoryProperties_AccountType(temp)
 		properties.AccountType = &accountType
 	}
 
@@ -8786,7 +8961,9 @@ func (properties *ActiveDirectoryProperties_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "AccountType":
 	if typedInput.AccountType != nil {
-		accountType := *typedInput.AccountType
+		var temp string
+		temp = string(*typedInput.AccountType)
+		accountType := ActiveDirectoryProperties_AccountType_STATUS(temp)
 		properties.AccountType = &accountType
 	}
 
@@ -9827,6 +10004,27 @@ func (services *EncryptionServices_STATUS) AssignProperties_To_EncryptionService
 	return nil
 }
 
+// The type of extendedLocation.
+// +kubebuilder:validation:Enum={"EdgeZone"}
+type ExtendedLocationType string
+
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
+// The type of extendedLocation.
+type ExtendedLocationType_STATUS string
+
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+
+// Mapping from string to ExtendedLocationType_STATUS
+var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
+	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+}
+
 type GeoReplicationStats_PostFailoverRedundancy_STATUS string
 
 const (
@@ -9872,6 +10070,41 @@ var geoReplicationStats_Status_STATUS_Values = map[string]GeoReplicationStats_St
 	"unavailable": GeoReplicationStats_Status_STATUS_Unavailable,
 }
 
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
+type Identity_Type string
+
+const (
+	Identity_Type_None                       = Identity_Type("None")
+	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
+	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned,UserAssigned")
+	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
+)
+
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"none":                        Identity_Type_None,
+	"systemassigned":              Identity_Type_SystemAssigned,
+	"systemassigned,userassigned": Identity_Type_SystemAssignedUserAssigned,
+	"userassigned":                Identity_Type_UserAssigned,
+}
+
+type Identity_Type_STATUS string
+
+const (
+	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
+	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned,UserAssigned")
+	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to Identity_Type_STATUS
+var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
+	"none":                        Identity_Type_STATUS_None,
+	"systemassigned":              Identity_Type_STATUS_SystemAssigned,
+	"systemassigned,userassigned": Identity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                Identity_Type_STATUS_UserAssigned,
+}
+
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
 	// Action: The action of IP ACL rule.
@@ -9893,7 +10126,9 @@ func (rule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Action":
 	if rule.Action != nil {
-		action := *rule.Action
+		var temp string
+		temp = string(*rule.Action)
+		action := IPRule_Action_ARM(temp)
 		result.Action = &action
 	}
 
@@ -9919,7 +10154,9 @@ func (rule *IPRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := IPRule_Action(temp)
 		rule.Action = &action
 	}
 
@@ -10022,7 +10259,9 @@ func (rule *IPRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := IPRule_Action_STATUS(temp)
 		rule.Action = &action
 	}
 
@@ -10654,6 +10893,61 @@ var sasPolicy_ExpirationAction_STATUS_Values = map[string]SasPolicy_ExpirationAc
 	"log": SasPolicy_ExpirationAction_STATUS_Log,
 }
 
+// The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
+// accountType.
+// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_GRS","Standard_GZRS","Standard_LRS","Standard_RAGRS","Standard_RAGZRS","Standard_ZRS"}
+type SkuName string
+
+const (
+	SkuName_Premium_LRS     = SkuName("Premium_LRS")
+	SkuName_Premium_ZRS     = SkuName("Premium_ZRS")
+	SkuName_Standard_GRS    = SkuName("Standard_GRS")
+	SkuName_Standard_GZRS   = SkuName("Standard_GZRS")
+	SkuName_Standard_LRS    = SkuName("Standard_LRS")
+	SkuName_Standard_RAGRS  = SkuName("Standard_RAGRS")
+	SkuName_Standard_RAGZRS = SkuName("Standard_RAGZRS")
+	SkuName_Standard_ZRS    = SkuName("Standard_ZRS")
+)
+
+// Mapping from string to SkuName
+var skuName_Values = map[string]SkuName{
+	"premium_lrs":     SkuName_Premium_LRS,
+	"premium_zrs":     SkuName_Premium_ZRS,
+	"standard_grs":    SkuName_Standard_GRS,
+	"standard_gzrs":   SkuName_Standard_GZRS,
+	"standard_lrs":    SkuName_Standard_LRS,
+	"standard_ragrs":  SkuName_Standard_RAGRS,
+	"standard_ragzrs": SkuName_Standard_RAGZRS,
+	"standard_zrs":    SkuName_Standard_ZRS,
+}
+
+// The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
+// accountType.
+type SkuName_STATUS string
+
+const (
+	SkuName_STATUS_Premium_LRS     = SkuName_STATUS("Premium_LRS")
+	SkuName_STATUS_Premium_ZRS     = SkuName_STATUS("Premium_ZRS")
+	SkuName_STATUS_Standard_GRS    = SkuName_STATUS("Standard_GRS")
+	SkuName_STATUS_Standard_GZRS   = SkuName_STATUS("Standard_GZRS")
+	SkuName_STATUS_Standard_LRS    = SkuName_STATUS("Standard_LRS")
+	SkuName_STATUS_Standard_RAGRS  = SkuName_STATUS("Standard_RAGRS")
+	SkuName_STATUS_Standard_RAGZRS = SkuName_STATUS("Standard_RAGZRS")
+	SkuName_STATUS_Standard_ZRS    = SkuName_STATUS("Standard_ZRS")
+)
+
+// Mapping from string to SkuName_STATUS
+var skuName_STATUS_Values = map[string]SkuName_STATUS{
+	"premium_lrs":     SkuName_STATUS_Premium_LRS,
+	"premium_zrs":     SkuName_STATUS_Premium_ZRS,
+	"standard_grs":    SkuName_STATUS_Standard_GRS,
+	"standard_gzrs":   SkuName_STATUS_Standard_GZRS,
+	"standard_lrs":    SkuName_STATUS_Standard_LRS,
+	"standard_ragrs":  SkuName_STATUS_Standard_RAGRS,
+	"standard_ragzrs": SkuName_STATUS_Standard_RAGZRS,
+	"standard_zrs":    SkuName_STATUS_Standard_ZRS,
+}
+
 // The URIs that are used to perform a retrieval of a public blob, file, web or dfs object via a internet routing endpoint.
 type StorageAccountInternetEndpoints_STATUS struct {
 	// Blob: Gets the blob endpoint.
@@ -11230,6 +11524,35 @@ var storageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Values = map[st
 	"succeeded":  StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Succeeded,
 }
 
+// The SKU tier. This is based on the SKU name.
+// +kubebuilder:validation:Enum={"Premium","Standard"}
+type Tier string
+
+const (
+	Tier_Premium  = Tier("Premium")
+	Tier_Standard = Tier("Standard")
+)
+
+// Mapping from string to Tier
+var tier_Values = map[string]Tier{
+	"premium":  Tier_Premium,
+	"standard": Tier_Standard,
+}
+
+// The SKU tier. This is based on the SKU name.
+type Tier_STATUS string
+
+const (
+	Tier_STATUS_Premium  = Tier_STATUS("Premium")
+	Tier_STATUS_Standard = Tier_STATUS("Standard")
+)
+
+// Mapping from string to Tier_STATUS
+var tier_STATUS_Values = map[string]Tier_STATUS{
+	"premium":  Tier_STATUS_Premium,
+	"standard": Tier_STATUS_Standard,
+}
+
 // UserAssignedIdentity for the resource.
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: The client ID of the identity.
@@ -11363,7 +11686,9 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Action":
 	if rule.Action != nil {
-		action := *rule.Action
+		var temp string
+		temp = string(*rule.Action)
+		action := VirtualNetworkRule_Action_ARM(temp)
 		result.Action = &action
 	}
 
@@ -11379,7 +11704,9 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "State":
 	if rule.State != nil {
-		state := *rule.State
+		var temp string
+		temp = string(*rule.State)
+		state := VirtualNetworkRule_State_ARM(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -11399,7 +11726,9 @@ func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := VirtualNetworkRule_Action(temp)
 		rule.Action = &action
 	}
 
@@ -11407,7 +11736,9 @@ func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := VirtualNetworkRule_State(temp)
 		rule.State = &state
 	}
 
@@ -11548,7 +11879,9 @@ func (rule *VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := VirtualNetworkRule_Action_STATUS(temp)
 		rule.Action = &action
 	}
 
@@ -11560,7 +11893,9 @@ func (rule *VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := VirtualNetworkRule_State_STATUS(temp)
 		rule.State = &state
 	}
 
@@ -11791,7 +12126,9 @@ func (service *EncryptionService) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "KeyType":
 	if service.KeyType != nil {
-		keyType := *service.KeyType
+		var temp string
+		temp = string(*service.KeyType)
+		keyType := EncryptionService_KeyType_ARM(temp)
 		result.KeyType = &keyType
 	}
 	return result, nil
@@ -11817,7 +12154,9 @@ func (service *EncryptionService) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "KeyType":
 	if typedInput.KeyType != nil {
-		keyType := *typedInput.KeyType
+		var temp string
+		temp = string(*typedInput.KeyType)
+		keyType := EncryptionService_KeyType(temp)
 		service.KeyType = &keyType
 	}
 
@@ -11941,7 +12280,9 @@ func (service *EncryptionService_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "KeyType":
 	if typedInput.KeyType != nil {
-		keyType := *typedInput.KeyType
+		var temp string
+		temp = string(*typedInput.KeyType)
+		keyType := EncryptionService_KeyType_STATUS(temp)
 		service.KeyType = &keyType
 	}
 

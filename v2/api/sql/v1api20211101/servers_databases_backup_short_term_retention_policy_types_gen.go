@@ -348,7 +348,9 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertToAR
 		result.Properties = &BackupShortTermRetentionPolicyProperties_ARM{}
 	}
 	if policy.DiffBackupIntervalInHours != nil {
-		diffBackupIntervalInHours := *policy.DiffBackupIntervalInHours
+		var temp int
+		temp = int(*policy.DiffBackupIntervalInHours)
+		diffBackupIntervalInHours := BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM(temp)
 		result.Properties.DiffBackupIntervalInHours = &diffBackupIntervalInHours
 	}
 	if policy.RetentionDays != nil {
@@ -374,7 +376,9 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) PopulateFro
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiffBackupIntervalInHours != nil {
-			diffBackupIntervalInHours := *typedInput.Properties.DiffBackupIntervalInHours
+			var temp int
+			temp = int(*typedInput.Properties.DiffBackupIntervalInHours)
+			diffBackupIntervalInHours := BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours(temp)
 			policy.DiffBackupIntervalInHours = &diffBackupIntervalInHours
 		}
 	}
@@ -626,7 +630,9 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) PopulateF
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiffBackupIntervalInHours != nil {
-			diffBackupIntervalInHours := *typedInput.Properties.DiffBackupIntervalInHours
+			var temp int
+			temp = int(*typedInput.Properties.DiffBackupIntervalInHours)
+			diffBackupIntervalInHours := BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS(temp)
 			policy.DiffBackupIntervalInHours = &diffBackupIntervalInHours
 		}
 	}

@@ -115,7 +115,7 @@ type Sku_ARM struct {
 	Size *string `json:"size,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Basic.
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Tier *Sku_Tier_ARM `json:"tier,omitempty"`
 }
 
 type ServerPropertiesForDefaultCreate_ARM struct {
@@ -127,83 +127,83 @@ type ServerPropertiesForDefaultCreate_ARM struct {
 	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
 
 	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
+	CreateMode ServerPropertiesForDefaultCreate_CreateMode_ARM `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion_ARM `json:"minimalTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement_ARM `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *ServerVersion_ARM `json:"version,omitempty"`
 }
 
 type ServerPropertiesForGeoRestore_ARM struct {
 	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
+	CreateMode ServerPropertiesForGeoRestore_CreateMode_ARM `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion_ARM `json:"minimalTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// SourceServerId: The source server id to restore from.
 	SourceServerId *string `json:"sourceServerId,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement_ARM `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *ServerVersion_ARM `json:"version,omitempty"`
 }
 
 type ServerPropertiesForReplica_ARM struct {
 	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
+	CreateMode ServerPropertiesForReplica_CreateMode_ARM `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion_ARM `json:"minimalTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// SourceServerId: The master server id to create replica from.
 	SourceServerId *string `json:"sourceServerId,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement_ARM `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *ServerVersion_ARM `json:"version,omitempty"`
 }
 
 type ServerPropertiesForRestore_ARM struct {
 	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
+	CreateMode ServerPropertiesForRestore_CreateMode_ARM `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion_ARM `json:"minimalTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
@@ -212,134 +212,134 @@ type ServerPropertiesForRestore_ARM struct {
 	SourceServerId *string `json:"sourceServerId,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement_ARM `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *ServerVersion_ARM `json:"version,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Basic","GeneralPurpose","MemoryOptimized"}
-type Sku_Tier string
+type Sku_Tier_ARM string
 
 const (
-	Sku_Tier_Basic           = Sku_Tier("Basic")
-	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
-	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
+	Sku_Tier_ARM_Basic           = Sku_Tier_ARM("Basic")
+	Sku_Tier_ARM_GeneralPurpose  = Sku_Tier_ARM("GeneralPurpose")
+	Sku_Tier_ARM_MemoryOptimized = Sku_Tier_ARM("MemoryOptimized")
 )
 
-// Mapping from string to Sku_Tier
-var sku_Tier_Values = map[string]Sku_Tier{
-	"basic":           Sku_Tier_Basic,
-	"generalpurpose":  Sku_Tier_GeneralPurpose,
-	"memoryoptimized": Sku_Tier_MemoryOptimized,
+// Mapping from string to Sku_Tier_ARM
+var sku_Tier_ARM_Values = map[string]Sku_Tier_ARM{
+	"basic":           Sku_Tier_ARM_Basic,
+	"generalpurpose":  Sku_Tier_ARM_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_ARM_MemoryOptimized,
 }
 
 // Enforce a minimal Tls version for the server.
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLSEnforcementDisabled"}
-type MinimalTlsVersion string
+type MinimalTlsVersion_ARM string
 
 const (
-	MinimalTlsVersion_TLS1_0                 = MinimalTlsVersion("TLS1_0")
-	MinimalTlsVersion_TLS1_1                 = MinimalTlsVersion("TLS1_1")
-	MinimalTlsVersion_TLS1_2                 = MinimalTlsVersion("TLS1_2")
-	MinimalTlsVersion_TLSEnforcementDisabled = MinimalTlsVersion("TLSEnforcementDisabled")
+	MinimalTlsVersion_ARM_TLS1_0                 = MinimalTlsVersion_ARM("TLS1_0")
+	MinimalTlsVersion_ARM_TLS1_1                 = MinimalTlsVersion_ARM("TLS1_1")
+	MinimalTlsVersion_ARM_TLS1_2                 = MinimalTlsVersion_ARM("TLS1_2")
+	MinimalTlsVersion_ARM_TLSEnforcementDisabled = MinimalTlsVersion_ARM("TLSEnforcementDisabled")
 )
 
-// Mapping from string to MinimalTlsVersion
-var minimalTlsVersion_Values = map[string]MinimalTlsVersion{
-	"tls1_0":                 MinimalTlsVersion_TLS1_0,
-	"tls1_1":                 MinimalTlsVersion_TLS1_1,
-	"tls1_2":                 MinimalTlsVersion_TLS1_2,
-	"tlsenforcementdisabled": MinimalTlsVersion_TLSEnforcementDisabled,
+// Mapping from string to MinimalTlsVersion_ARM
+var minimalTlsVersion_ARM_Values = map[string]MinimalTlsVersion_ARM{
+	"tls1_0":                 MinimalTlsVersion_ARM_TLS1_0,
+	"tls1_1":                 MinimalTlsVersion_ARM_TLS1_1,
+	"tls1_2":                 MinimalTlsVersion_ARM_TLS1_2,
+	"tlsenforcementdisabled": MinimalTlsVersion_ARM_TLSEnforcementDisabled,
 }
 
 // Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
 // or 'Disabled'
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type PublicNetworkAccess string
+type PublicNetworkAccess_ARM string
 
 const (
-	PublicNetworkAccess_Disabled = PublicNetworkAccess("Disabled")
-	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
+	PublicNetworkAccess_ARM_Disabled = PublicNetworkAccess_ARM("Disabled")
+	PublicNetworkAccess_ARM_Enabled  = PublicNetworkAccess_ARM("Enabled")
 )
 
-// Mapping from string to PublicNetworkAccess
-var publicNetworkAccess_Values = map[string]PublicNetworkAccess{
-	"disabled": PublicNetworkAccess_Disabled,
-	"enabled":  PublicNetworkAccess_Enabled,
+// Mapping from string to PublicNetworkAccess_ARM
+var publicNetworkAccess_ARM_Values = map[string]PublicNetworkAccess_ARM{
+	"disabled": PublicNetworkAccess_ARM_Disabled,
+	"enabled":  PublicNetworkAccess_ARM_Enabled,
 }
 
 // +kubebuilder:validation:Enum={"Default"}
-type ServerPropertiesForDefaultCreate_CreateMode string
+type ServerPropertiesForDefaultCreate_CreateMode_ARM string
 
-const ServerPropertiesForDefaultCreate_CreateMode_Default = ServerPropertiesForDefaultCreate_CreateMode("Default")
+const ServerPropertiesForDefaultCreate_CreateMode_ARM_Default = ServerPropertiesForDefaultCreate_CreateMode_ARM("Default")
 
-// Mapping from string to ServerPropertiesForDefaultCreate_CreateMode
-var serverPropertiesForDefaultCreate_CreateMode_Values = map[string]ServerPropertiesForDefaultCreate_CreateMode{
-	"default": ServerPropertiesForDefaultCreate_CreateMode_Default,
+// Mapping from string to ServerPropertiesForDefaultCreate_CreateMode_ARM
+var serverPropertiesForDefaultCreate_CreateMode_ARM_Values = map[string]ServerPropertiesForDefaultCreate_CreateMode_ARM{
+	"default": ServerPropertiesForDefaultCreate_CreateMode_ARM_Default,
 }
 
 // +kubebuilder:validation:Enum={"GeoRestore"}
-type ServerPropertiesForGeoRestore_CreateMode string
+type ServerPropertiesForGeoRestore_CreateMode_ARM string
 
-const ServerPropertiesForGeoRestore_CreateMode_GeoRestore = ServerPropertiesForGeoRestore_CreateMode("GeoRestore")
+const ServerPropertiesForGeoRestore_CreateMode_ARM_GeoRestore = ServerPropertiesForGeoRestore_CreateMode_ARM("GeoRestore")
 
-// Mapping from string to ServerPropertiesForGeoRestore_CreateMode
-var serverPropertiesForGeoRestore_CreateMode_Values = map[string]ServerPropertiesForGeoRestore_CreateMode{
-	"georestore": ServerPropertiesForGeoRestore_CreateMode_GeoRestore,
+// Mapping from string to ServerPropertiesForGeoRestore_CreateMode_ARM
+var serverPropertiesForGeoRestore_CreateMode_ARM_Values = map[string]ServerPropertiesForGeoRestore_CreateMode_ARM{
+	"georestore": ServerPropertiesForGeoRestore_CreateMode_ARM_GeoRestore,
 }
 
 // +kubebuilder:validation:Enum={"Replica"}
-type ServerPropertiesForReplica_CreateMode string
+type ServerPropertiesForReplica_CreateMode_ARM string
 
-const ServerPropertiesForReplica_CreateMode_Replica = ServerPropertiesForReplica_CreateMode("Replica")
+const ServerPropertiesForReplica_CreateMode_ARM_Replica = ServerPropertiesForReplica_CreateMode_ARM("Replica")
 
-// Mapping from string to ServerPropertiesForReplica_CreateMode
-var serverPropertiesForReplica_CreateMode_Values = map[string]ServerPropertiesForReplica_CreateMode{
-	"replica": ServerPropertiesForReplica_CreateMode_Replica,
+// Mapping from string to ServerPropertiesForReplica_CreateMode_ARM
+var serverPropertiesForReplica_CreateMode_ARM_Values = map[string]ServerPropertiesForReplica_CreateMode_ARM{
+	"replica": ServerPropertiesForReplica_CreateMode_ARM_Replica,
 }
 
 // +kubebuilder:validation:Enum={"PointInTimeRestore"}
-type ServerPropertiesForRestore_CreateMode string
+type ServerPropertiesForRestore_CreateMode_ARM string
 
-const ServerPropertiesForRestore_CreateMode_PointInTimeRestore = ServerPropertiesForRestore_CreateMode("PointInTimeRestore")
+const ServerPropertiesForRestore_CreateMode_ARM_PointInTimeRestore = ServerPropertiesForRestore_CreateMode_ARM("PointInTimeRestore")
 
-// Mapping from string to ServerPropertiesForRestore_CreateMode
-var serverPropertiesForRestore_CreateMode_Values = map[string]ServerPropertiesForRestore_CreateMode{
-	"pointintimerestore": ServerPropertiesForRestore_CreateMode_PointInTimeRestore,
+// Mapping from string to ServerPropertiesForRestore_CreateMode_ARM
+var serverPropertiesForRestore_CreateMode_ARM_Values = map[string]ServerPropertiesForRestore_CreateMode_ARM{
+	"pointintimerestore": ServerPropertiesForRestore_CreateMode_ARM_PointInTimeRestore,
 }
 
 // The version of a server.
 // +kubebuilder:validation:Enum={"10.2","10.3"}
-type ServerVersion string
+type ServerVersion_ARM string
 
 const (
-	ServerVersion_102 = ServerVersion("10.2")
-	ServerVersion_103 = ServerVersion("10.3")
+	ServerVersion_ARM_102 = ServerVersion_ARM("10.2")
+	ServerVersion_ARM_103 = ServerVersion_ARM("10.3")
 )
 
-// Mapping from string to ServerVersion
-var serverVersion_Values = map[string]ServerVersion{
-	"10.2": ServerVersion_102,
-	"10.3": ServerVersion_103,
+// Mapping from string to ServerVersion_ARM
+var serverVersion_ARM_Values = map[string]ServerVersion_ARM{
+	"10.2": ServerVersion_ARM_102,
+	"10.3": ServerVersion_ARM_103,
 }
 
 // Enable ssl enforcement or not when connect to server.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type SslEnforcement string
+type SslEnforcement_ARM string
 
 const (
-	SslEnforcement_Disabled = SslEnforcement("Disabled")
-	SslEnforcement_Enabled  = SslEnforcement("Enabled")
+	SslEnforcement_ARM_Disabled = SslEnforcement_ARM("Disabled")
+	SslEnforcement_ARM_Enabled  = SslEnforcement_ARM("Enabled")
 )
 
-// Mapping from string to SslEnforcement
-var sslEnforcement_Values = map[string]SslEnforcement{
-	"disabled": SslEnforcement_Disabled,
-	"enabled":  SslEnforcement_Enabled,
+// Mapping from string to SslEnforcement_ARM
+var sslEnforcement_ARM_Values = map[string]SslEnforcement_ARM{
+	"disabled": SslEnforcement_ARM_Disabled,
+	"enabled":  SslEnforcement_ARM_Enabled,
 }
 
 // Storage Profile properties of a server
@@ -348,39 +348,39 @@ type StorageProfile_ARM struct {
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfile_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *StorageProfile_GeoRedundantBackup_ARM `json:"geoRedundantBackup,omitempty"`
 
 	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfile_StorageAutogrow `json:"storageAutogrow,omitempty"`
+	StorageAutogrow *StorageProfile_StorageAutogrow_ARM `json:"storageAutogrow,omitempty"`
 
 	// StorageMB: Max storage allowed for a server.
 	StorageMB *int `json:"storageMB,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type StorageProfile_GeoRedundantBackup string
+type StorageProfile_GeoRedundantBackup_ARM string
 
 const (
-	StorageProfile_GeoRedundantBackup_Disabled = StorageProfile_GeoRedundantBackup("Disabled")
-	StorageProfile_GeoRedundantBackup_Enabled  = StorageProfile_GeoRedundantBackup("Enabled")
+	StorageProfile_GeoRedundantBackup_ARM_Disabled = StorageProfile_GeoRedundantBackup_ARM("Disabled")
+	StorageProfile_GeoRedundantBackup_ARM_Enabled  = StorageProfile_GeoRedundantBackup_ARM("Enabled")
 )
 
-// Mapping from string to StorageProfile_GeoRedundantBackup
-var storageProfile_GeoRedundantBackup_Values = map[string]StorageProfile_GeoRedundantBackup{
-	"disabled": StorageProfile_GeoRedundantBackup_Disabled,
-	"enabled":  StorageProfile_GeoRedundantBackup_Enabled,
+// Mapping from string to StorageProfile_GeoRedundantBackup_ARM
+var storageProfile_GeoRedundantBackup_ARM_Values = map[string]StorageProfile_GeoRedundantBackup_ARM{
+	"disabled": StorageProfile_GeoRedundantBackup_ARM_Disabled,
+	"enabled":  StorageProfile_GeoRedundantBackup_ARM_Enabled,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type StorageProfile_StorageAutogrow string
+type StorageProfile_StorageAutogrow_ARM string
 
 const (
-	StorageProfile_StorageAutogrow_Disabled = StorageProfile_StorageAutogrow("Disabled")
-	StorageProfile_StorageAutogrow_Enabled  = StorageProfile_StorageAutogrow("Enabled")
+	StorageProfile_StorageAutogrow_ARM_Disabled = StorageProfile_StorageAutogrow_ARM("Disabled")
+	StorageProfile_StorageAutogrow_ARM_Enabled  = StorageProfile_StorageAutogrow_ARM("Enabled")
 )
 
-// Mapping from string to StorageProfile_StorageAutogrow
-var storageProfile_StorageAutogrow_Values = map[string]StorageProfile_StorageAutogrow{
-	"disabled": StorageProfile_StorageAutogrow_Disabled,
-	"enabled":  StorageProfile_StorageAutogrow_Enabled,
+// Mapping from string to StorageProfile_StorageAutogrow_ARM
+var storageProfile_StorageAutogrow_ARM_Values = map[string]StorageProfile_StorageAutogrow_ARM{
+	"disabled": StorageProfile_StorageAutogrow_ARM_Disabled,
+	"enabled":  StorageProfile_StorageAutogrow_ARM_Enabled,
 }

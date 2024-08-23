@@ -33,7 +33,7 @@ type RouteTablePropertiesFormat_STATUS_ARM struct {
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 
 	// ProvisioningState: The provisioning state of the route table resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the route table.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`

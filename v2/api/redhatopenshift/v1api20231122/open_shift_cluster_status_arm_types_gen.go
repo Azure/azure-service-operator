@@ -49,7 +49,7 @@ type OpenShiftClusterProperties_STATUS_ARM struct {
 	NetworkProfile *NetworkProfile_STATUS_ARM `json:"networkProfile,omitempty"`
 
 	// ProvisioningState: The cluster provisioning state.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ServicePrincipalProfile: The cluster service principal profile.
 	ServicePrincipalProfile *ServicePrincipalProfile_STATUS_ARM `json:"servicePrincipalProfile,omitempty"`
@@ -70,7 +70,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -79,7 +79,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // APIServerProfile represents an API server profile.
@@ -91,7 +91,7 @@ type APIServerProfile_STATUS_ARM struct {
 	Url *string `json:"url,omitempty"`
 
 	// Visibility: API server visibility.
-	Visibility *Visibility_STATUS `json:"visibility,omitempty"`
+	Visibility *Visibility_STATUS_ARM `json:"visibility,omitempty"`
 }
 
 // ClusterProfile represents a cluster profile.
@@ -100,7 +100,7 @@ type ClusterProfile_STATUS_ARM struct {
 	Domain *string `json:"domain,omitempty"`
 
 	// FipsValidatedModules: If FIPS validated crypto modules are used
-	FipsValidatedModules *FipsValidatedModules_STATUS `json:"fipsValidatedModules,omitempty"`
+	FipsValidatedModules *FipsValidatedModules_STATUS_ARM `json:"fipsValidatedModules,omitempty"`
 
 	// ResourceGroupId: The ID of the cluster resource group.
 	ResourceGroupId *string `json:"resourceGroupId,omitempty"`
@@ -124,7 +124,7 @@ type IngressProfile_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Visibility: Ingress visibility.
-	Visibility *Visibility_STATUS `json:"visibility,omitempty"`
+	Visibility *Visibility_STATUS_ARM `json:"visibility,omitempty"`
 }
 
 // MasterProfile represents a master profile.
@@ -133,7 +133,7 @@ type MasterProfile_STATUS_ARM struct {
 	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
 
 	// EncryptionAtHost: Whether master virtual machines are encrypted at host.
-	EncryptionAtHost *EncryptionAtHost_STATUS `json:"encryptionAtHost,omitempty"`
+	EncryptionAtHost *EncryptionAtHost_STATUS_ARM `json:"encryptionAtHost,omitempty"`
 
 	// SubnetId: The Azure resource ID of the master subnet.
 	SubnetId *string `json:"subnetId,omitempty"`
@@ -148,16 +148,40 @@ type NetworkProfile_STATUS_ARM struct {
 	LoadBalancerProfile *LoadBalancerProfile_STATUS_ARM `json:"loadBalancerProfile,omitempty"`
 
 	// OutboundType: The OutboundType used for egress traffic.
-	OutboundType *OutboundType_STATUS `json:"outboundType,omitempty"`
+	OutboundType *OutboundType_STATUS_ARM `json:"outboundType,omitempty"`
 
 	// PodCidr: The CIDR used for OpenShift/Kubernetes Pods.
 	PodCidr *string `json:"podCidr,omitempty"`
 
 	// PreconfiguredNSG: Specifies whether subnets are pre-attached with an NSG
-	PreconfiguredNSG *PreconfiguredNSG_STATUS `json:"preconfiguredNSG,omitempty"`
+	PreconfiguredNSG *PreconfiguredNSG_STATUS_ARM `json:"preconfiguredNSG,omitempty"`
 
 	// ServiceCidr: The CIDR used for OpenShift/Kubernetes Services.
 	ServiceCidr *string `json:"serviceCidr,omitempty"`
+}
+
+// ProvisioningState represents a provisioning state.
+type ProvisioningState_STATUS_ARM string
+
+const (
+	ProvisioningState_STATUS_ARM_AdminUpdating = ProvisioningState_STATUS_ARM("AdminUpdating")
+	ProvisioningState_STATUS_ARM_Canceled      = ProvisioningState_STATUS_ARM("Canceled")
+	ProvisioningState_STATUS_ARM_Creating      = ProvisioningState_STATUS_ARM("Creating")
+	ProvisioningState_STATUS_ARM_Deleting      = ProvisioningState_STATUS_ARM("Deleting")
+	ProvisioningState_STATUS_ARM_Failed        = ProvisioningState_STATUS_ARM("Failed")
+	ProvisioningState_STATUS_ARM_Succeeded     = ProvisioningState_STATUS_ARM("Succeeded")
+	ProvisioningState_STATUS_ARM_Updating      = ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ProvisioningState_STATUS_ARM
+var provisioningState_STATUS_ARM_Values = map[string]ProvisioningState_STATUS_ARM{
+	"adminupdating": ProvisioningState_STATUS_ARM_AdminUpdating,
+	"canceled":      ProvisioningState_STATUS_ARM_Canceled,
+	"creating":      ProvisioningState_STATUS_ARM_Creating,
+	"deleting":      ProvisioningState_STATUS_ARM_Deleting,
+	"failed":        ProvisioningState_STATUS_ARM_Failed,
+	"succeeded":     ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":      ProvisioningState_STATUS_ARM_Updating,
 }
 
 // ServicePrincipalProfile represents a service principal profile.
@@ -166,38 +190,38 @@ type ServicePrincipalProfile_STATUS_ARM struct {
 	ClientId *string `json:"clientId,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // WorkerProfile represents a worker profile.
@@ -212,7 +236,7 @@ type WorkerProfile_STATUS_ARM struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// EncryptionAtHost: Whether master virtual machines are encrypted at host.
-	EncryptionAtHost *EncryptionAtHost_STATUS `json:"encryptionAtHost,omitempty"`
+	EncryptionAtHost *EncryptionAtHost_STATUS_ARM `json:"encryptionAtHost,omitempty"`
 
 	// Name: The worker profile name.
 	Name *string `json:"name,omitempty"`
@@ -224,6 +248,34 @@ type WorkerProfile_STATUS_ARM struct {
 	VmSize *string `json:"vmSize,omitempty"`
 }
 
+// EncryptionAtHost represents encryption at host state
+type EncryptionAtHost_STATUS_ARM string
+
+const (
+	EncryptionAtHost_STATUS_ARM_Disabled = EncryptionAtHost_STATUS_ARM("Disabled")
+	EncryptionAtHost_STATUS_ARM_Enabled  = EncryptionAtHost_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to EncryptionAtHost_STATUS_ARM
+var encryptionAtHost_STATUS_ARM_Values = map[string]EncryptionAtHost_STATUS_ARM{
+	"disabled": EncryptionAtHost_STATUS_ARM_Disabled,
+	"enabled":  EncryptionAtHost_STATUS_ARM_Enabled,
+}
+
+// FipsValidatedModules determines if FIPS is used.
+type FipsValidatedModules_STATUS_ARM string
+
+const (
+	FipsValidatedModules_STATUS_ARM_Disabled = FipsValidatedModules_STATUS_ARM("Disabled")
+	FipsValidatedModules_STATUS_ARM_Enabled  = FipsValidatedModules_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to FipsValidatedModules_STATUS_ARM
+var fipsValidatedModules_STATUS_ARM_Values = map[string]FipsValidatedModules_STATUS_ARM{
+	"disabled": FipsValidatedModules_STATUS_ARM_Disabled,
+	"enabled":  FipsValidatedModules_STATUS_ARM_Enabled,
+}
+
 // LoadBalancerProfile represents the profile of the cluster public load balancer.
 type LoadBalancerProfile_STATUS_ARM struct {
 	// EffectiveOutboundIps: The list of effective outbound IP addresses of the public load balancer.
@@ -231,6 +283,48 @@ type LoadBalancerProfile_STATUS_ARM struct {
 
 	// ManagedOutboundIps: The desired managed outbound IPs for the cluster public load balancer.
 	ManagedOutboundIps *ManagedOutboundIPs_STATUS_ARM `json:"managedOutboundIps,omitempty"`
+}
+
+// The outbound routing strategy used to provide your cluster egress to the internet.
+type OutboundType_STATUS_ARM string
+
+const (
+	OutboundType_STATUS_ARM_Loadbalancer       = OutboundType_STATUS_ARM("Loadbalancer")
+	OutboundType_STATUS_ARM_UserDefinedRouting = OutboundType_STATUS_ARM("UserDefinedRouting")
+)
+
+// Mapping from string to OutboundType_STATUS_ARM
+var outboundType_STATUS_ARM_Values = map[string]OutboundType_STATUS_ARM{
+	"loadbalancer":       OutboundType_STATUS_ARM_Loadbalancer,
+	"userdefinedrouting": OutboundType_STATUS_ARM_UserDefinedRouting,
+}
+
+// PreconfiguredNSG represents whether customers want to use their own NSG attached to the subnets
+type PreconfiguredNSG_STATUS_ARM string
+
+const (
+	PreconfiguredNSG_STATUS_ARM_Disabled = PreconfiguredNSG_STATUS_ARM("Disabled")
+	PreconfiguredNSG_STATUS_ARM_Enabled  = PreconfiguredNSG_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to PreconfiguredNSG_STATUS_ARM
+var preconfiguredNSG_STATUS_ARM_Values = map[string]PreconfiguredNSG_STATUS_ARM{
+	"disabled": PreconfiguredNSG_STATUS_ARM_Disabled,
+	"enabled":  PreconfiguredNSG_STATUS_ARM_Enabled,
+}
+
+// Visibility represents visibility.
+type Visibility_STATUS_ARM string
+
+const (
+	Visibility_STATUS_ARM_Private = Visibility_STATUS_ARM("Private")
+	Visibility_STATUS_ARM_Public  = Visibility_STATUS_ARM("Public")
+)
+
+// Mapping from string to Visibility_STATUS_ARM
+var visibility_STATUS_ARM_Values = map[string]Visibility_STATUS_ARM{
+	"private": Visibility_STATUS_ARM_Private,
+	"public":  Visibility_STATUS_ARM_Public,
 }
 
 // EffectiveOutboundIP represents an effective outbound IP resource of the cluster public load balancer.

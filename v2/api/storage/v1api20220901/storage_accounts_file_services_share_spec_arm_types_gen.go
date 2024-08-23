@@ -33,17 +33,17 @@ func (share *StorageAccounts_FileServices_Share_Spec_ARM) GetType() string {
 type FileShareProperties_ARM struct {
 	// AccessTier: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and
 	// Cool. FileStorage account can choose Premium.
-	AccessTier *FileShareProperties_AccessTier `json:"accessTier,omitempty"`
+	AccessTier *FileShareProperties_AccessTier_ARM `json:"accessTier,omitempty"`
 
 	// EnabledProtocols: The authentication protocol that is used for the file share. Can only be specified when creating a
 	// share.
-	EnabledProtocols *FileShareProperties_EnabledProtocols `json:"enabledProtocols,omitempty"`
+	EnabledProtocols *FileShareProperties_EnabledProtocols_ARM `json:"enabledProtocols,omitempty"`
 
 	// Metadata: A name-value pair to associate with the share as metadata.
 	Metadata map[string]string `json:"metadata"`
 
 	// RootSquash: The property is for NFS share only. The default is NoRootSquash.
-	RootSquash *FileShareProperties_RootSquash `json:"rootSquash,omitempty"`
+	RootSquash *FileShareProperties_RootSquash_ARM `json:"rootSquash,omitempty"`
 
 	// ShareQuota: The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120).
 	// For Large File Shares, the maximum size is 102400.
@@ -51,6 +51,54 @@ type FileShareProperties_ARM struct {
 
 	// SignedIdentifiers: List of stored access policies specified on the share.
 	SignedIdentifiers []SignedIdentifier_ARM `json:"signedIdentifiers"`
+}
+
+// +kubebuilder:validation:Enum={"Cool","Hot","Premium","TransactionOptimized"}
+type FileShareProperties_AccessTier_ARM string
+
+const (
+	FileShareProperties_AccessTier_ARM_Cool                 = FileShareProperties_AccessTier_ARM("Cool")
+	FileShareProperties_AccessTier_ARM_Hot                  = FileShareProperties_AccessTier_ARM("Hot")
+	FileShareProperties_AccessTier_ARM_Premium              = FileShareProperties_AccessTier_ARM("Premium")
+	FileShareProperties_AccessTier_ARM_TransactionOptimized = FileShareProperties_AccessTier_ARM("TransactionOptimized")
+)
+
+// Mapping from string to FileShareProperties_AccessTier_ARM
+var fileShareProperties_AccessTier_ARM_Values = map[string]FileShareProperties_AccessTier_ARM{
+	"cool":                 FileShareProperties_AccessTier_ARM_Cool,
+	"hot":                  FileShareProperties_AccessTier_ARM_Hot,
+	"premium":              FileShareProperties_AccessTier_ARM_Premium,
+	"transactionoptimized": FileShareProperties_AccessTier_ARM_TransactionOptimized,
+}
+
+// +kubebuilder:validation:Enum={"NFS","SMB"}
+type FileShareProperties_EnabledProtocols_ARM string
+
+const (
+	FileShareProperties_EnabledProtocols_ARM_NFS = FileShareProperties_EnabledProtocols_ARM("NFS")
+	FileShareProperties_EnabledProtocols_ARM_SMB = FileShareProperties_EnabledProtocols_ARM("SMB")
+)
+
+// Mapping from string to FileShareProperties_EnabledProtocols_ARM
+var fileShareProperties_EnabledProtocols_ARM_Values = map[string]FileShareProperties_EnabledProtocols_ARM{
+	"nfs": FileShareProperties_EnabledProtocols_ARM_NFS,
+	"smb": FileShareProperties_EnabledProtocols_ARM_SMB,
+}
+
+// +kubebuilder:validation:Enum={"AllSquash","NoRootSquash","RootSquash"}
+type FileShareProperties_RootSquash_ARM string
+
+const (
+	FileShareProperties_RootSquash_ARM_AllSquash    = FileShareProperties_RootSquash_ARM("AllSquash")
+	FileShareProperties_RootSquash_ARM_NoRootSquash = FileShareProperties_RootSquash_ARM("NoRootSquash")
+	FileShareProperties_RootSquash_ARM_RootSquash   = FileShareProperties_RootSquash_ARM("RootSquash")
+)
+
+// Mapping from string to FileShareProperties_RootSquash_ARM
+var fileShareProperties_RootSquash_ARM_Values = map[string]FileShareProperties_RootSquash_ARM{
+	"allsquash":    FileShareProperties_RootSquash_ARM_AllSquash,
+	"norootsquash": FileShareProperties_RootSquash_ARM_NoRootSquash,
+	"rootsquash":   FileShareProperties_RootSquash_ARM_RootSquash,
 }
 
 type SignedIdentifier_ARM struct {

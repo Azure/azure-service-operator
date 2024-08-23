@@ -54,7 +54,7 @@ type VirtualMachineIdentity_ARM struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
-	Type                   *VirtualMachineIdentity_Type               `json:"type,omitempty"`
+	Type                   *VirtualMachineIdentity_Type_ARM           `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -94,7 +94,7 @@ type VirtualMachineProperties_ARM struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *EvictionPolicy_ARM `json:"evictionPolicy,omitempty"`
 
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
@@ -146,7 +146,7 @@ type VirtualMachineProperties_ARM struct {
 
 	// Priority: Specifies the priority for the virtual machine.
 	// Minimum api-version: 2019-03-01
-	Priority *Priority `json:"priority,omitempty"`
+	Priority *Priority_ARM `json:"priority,omitempty"`
 
 	// ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine should be
 	// assigned to.
@@ -219,6 +219,21 @@ type DiagnosticsProfile_ARM struct {
 	BootDiagnostics *BootDiagnostics_ARM `json:"bootDiagnostics,omitempty"`
 }
 
+// Specifies the eviction policy for the Azure Spot VM/VMSS
+// +kubebuilder:validation:Enum={"Deallocate","Delete"}
+type EvictionPolicy_ARM string
+
+const (
+	EvictionPolicy_ARM_Deallocate = EvictionPolicy_ARM("Deallocate")
+	EvictionPolicy_ARM_Delete     = EvictionPolicy_ARM("Delete")
+)
+
+// Mapping from string to EvictionPolicy_ARM
+var evictionPolicy_ARM_Values = map[string]EvictionPolicy_ARM{
+	"deallocate": EvictionPolicy_ARM_Deallocate,
+	"delete":     EvictionPolicy_ARM_Delete,
+}
+
 // Specifies the hardware settings for the virtual machine.
 type HardwareProfile_ARM struct {
 	// VmSize: Specifies the size of the virtual machine.
@@ -244,7 +259,7 @@ type HardwareProfile_ARM struct {
 type NetworkProfile_ARM struct {
 	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
 	// Interface Configurations
-	NetworkApiVersion *NetworkProfile_NetworkApiVersion `json:"networkApiVersion,omitempty"`
+	NetworkApiVersion *NetworkProfile_NetworkApiVersion_ARM `json:"networkApiVersion,omitempty"`
 
 	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
 	// networking resources.
@@ -326,6 +341,25 @@ type OSProfile_ARM struct {
 	WindowsConfiguration *WindowsConfiguration_ARM `json:"windowsConfiguration,omitempty"`
 }
 
+// Specifies the priority for a standalone virtual machine or the virtual machines in the scale set.
+// 'Low' enum
+// will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS.
+// +kubebuilder:validation:Enum={"Low","Regular","Spot"}
+type Priority_ARM string
+
+const (
+	Priority_ARM_Low     = Priority_ARM("Low")
+	Priority_ARM_Regular = Priority_ARM("Regular")
+	Priority_ARM_Spot    = Priority_ARM("Spot")
+)
+
+// Mapping from string to Priority_ARM
+var priority_ARM_Values = map[string]Priority_ARM{
+	"low":     Priority_ARM_Low,
+	"regular": Priority_ARM_Regular,
+	"spot":    Priority_ARM_Spot,
+}
+
 type ScheduledEventsProfile_ARM struct {
 	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
 	TerminateNotificationProfile *TerminateNotificationProfile_ARM `json:"terminateNotificationProfile,omitempty"`
@@ -342,7 +376,7 @@ type SecurityProfile_ARM struct {
 	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
 	// UefiSettings.
 	// Default: UefiSettings will not be enabled unless this property is set.
-	SecurityType *SecurityProfile_SecurityType `json:"securityType,omitempty"`
+	SecurityType *SecurityProfile_SecurityType_ARM `json:"securityType,omitempty"`
 
 	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -368,21 +402,21 @@ type StorageProfile_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type VirtualMachineIdentity_Type string
+type VirtualMachineIdentity_Type_ARM string
 
 const (
-	VirtualMachineIdentity_Type_None                       = VirtualMachineIdentity_Type("None")
-	VirtualMachineIdentity_Type_SystemAssigned             = VirtualMachineIdentity_Type("SystemAssigned")
-	VirtualMachineIdentity_Type_SystemAssignedUserAssigned = VirtualMachineIdentity_Type("SystemAssigned, UserAssigned")
-	VirtualMachineIdentity_Type_UserAssigned               = VirtualMachineIdentity_Type("UserAssigned")
+	VirtualMachineIdentity_Type_ARM_None                       = VirtualMachineIdentity_Type_ARM("None")
+	VirtualMachineIdentity_Type_ARM_SystemAssigned             = VirtualMachineIdentity_Type_ARM("SystemAssigned")
+	VirtualMachineIdentity_Type_ARM_SystemAssignedUserAssigned = VirtualMachineIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	VirtualMachineIdentity_Type_ARM_UserAssigned               = VirtualMachineIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to VirtualMachineIdentity_Type
-var virtualMachineIdentity_Type_Values = map[string]VirtualMachineIdentity_Type{
-	"none":                         VirtualMachineIdentity_Type_None,
-	"systemassigned":               VirtualMachineIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": VirtualMachineIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 VirtualMachineIdentity_Type_UserAssigned,
+// Mapping from string to VirtualMachineIdentity_Type_ARM
+var virtualMachineIdentity_Type_ARM_Values = map[string]VirtualMachineIdentity_Type_ARM{
+	"none":                         VirtualMachineIdentity_Type_ARM_None,
+	"systemassigned":               VirtualMachineIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineIdentity_Type_ARM_UserAssigned,
 }
 
 // Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
@@ -406,7 +440,7 @@ type DataDisk_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching `json:"caching,omitempty"`
+	Caching *Caching_ARM `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -414,14 +448,14 @@ type DataDisk_ARM struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreateOption_ARM `json:"createOption,omitempty"`
 
 	// DeleteOption: Specifies whether data disk should be deleted or detached upon VM deletion.
 	// Possible values:
 	// Delete If this value is used, the data disk is deleted when VM is deleted.
 	// Detach If this value is used, the data disk is retained after VM is deleted.
 	// The default value is set to detach
-	DeleteOption *DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *DeleteOption_ARM `json:"deleteOption,omitempty"`
 
 	// DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
 	// detachment from the virtual machine. Supported values: ForceDetach.
@@ -431,7 +465,7 @@ type DataDisk_ARM struct {
 	// when using this detach behavior.
 	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk
 	// update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
-	DetachOption *DetachOption `json:"detachOption,omitempty"`
+	DetachOption *DetachOption_ARM `json:"detachOption,omitempty"`
 
 	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
 	// disk in a virtual machine image.
@@ -524,6 +558,16 @@ type NetworkInterfaceReference_ARM struct {
 	Properties *NetworkInterfaceReferenceProperties_ARM `json:"properties,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type NetworkProfile_NetworkApiVersion_ARM string
+
+const NetworkProfile_NetworkApiVersion_ARM_20201101 = NetworkProfile_NetworkApiVersion_ARM("2020-11-01")
+
+// Mapping from string to NetworkProfile_NetworkApiVersion_ARM
+var networkProfile_NetworkApiVersion_ARM_Values = map[string]NetworkProfile_NetworkApiVersion_ARM{
+	"2020-11-01": NetworkProfile_NetworkApiVersion_ARM_20201101,
+}
+
 // Specifies information about the operating system disk used by the virtual machine.
 // For more information about
 // disks, see [About disks and VHDs for Azure virtual
@@ -535,7 +579,7 @@ type OSDisk_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage.
-	Caching *Caching `json:"caching,omitempty"`
+	Caching *Caching_ARM `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -543,7 +587,7 @@ type OSDisk_ARM struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreateOption_ARM `json:"createOption,omitempty"`
 
 	// DeleteOption: Specifies whether OS Disk should be deleted or detached upon VM deletion.
 	// Possible values:
@@ -551,7 +595,7 @@ type OSDisk_ARM struct {
 	// Detach If this value is used, the os disk is retained after VM is deleted.
 	// The default value is set to detach. For an ephemeral OS Disk, the default value is set to Delete. User cannot change the
 	// delete option for ephemeral OS Disk.
-	DeleteOption *DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *DeleteOption_ARM `json:"deleteOption,omitempty"`
 
 	// DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
 	DiffDiskSettings *DiffDiskSettings_ARM `json:"diffDiskSettings,omitempty"`
@@ -580,13 +624,27 @@ type OSDisk_ARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *OSDisk_OsType `json:"osType,omitempty"`
+	OsType *OSDisk_OsType_ARM `json:"osType,omitempty"`
 
 	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_ARM `json:"vhd,omitempty"`
 
 	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"ConfidentialVM","TrustedLaunch"}
+type SecurityProfile_SecurityType_ARM string
+
+const (
+	SecurityProfile_SecurityType_ARM_ConfidentialVM = SecurityProfile_SecurityType_ARM("ConfidentialVM")
+	SecurityProfile_SecurityType_ARM_TrustedLaunch  = SecurityProfile_SecurityType_ARM("TrustedLaunch")
+)
+
+// Mapping from string to SecurityProfile_SecurityType_ARM
+var securityProfile_SecurityType_ARM_Values = map[string]SecurityProfile_SecurityType_ARM{
+	"confidentialvm": SecurityProfile_SecurityType_ARM_ConfidentialVM,
+	"trustedlaunch":  SecurityProfile_SecurityType_ARM_TrustedLaunch,
 }
 
 type TerminateNotificationProfile_ARM struct {
@@ -702,7 +760,7 @@ type WindowsConfiguration_ARM struct {
 // Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent_ARM struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-	ComponentName *AdditionalUnattendContent_ComponentName `json:"componentName,omitempty"`
+	ComponentName *AdditionalUnattendContent_ComponentName_ARM `json:"componentName,omitempty"`
 
 	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
 	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
@@ -710,11 +768,96 @@ type AdditionalUnattendContent_ARM struct {
 	Content *string `json:"content,omitempty"`
 
 	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *AdditionalUnattendContent_PassName `json:"passName,omitempty"`
+	PassName *AdditionalUnattendContent_PassName_ARM `json:"passName,omitempty"`
 
 	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
 	// AutoLogon.
-	SettingName *AdditionalUnattendContent_SettingName `json:"settingName,omitempty"`
+	SettingName *AdditionalUnattendContent_SettingName_ARM `json:"settingName,omitempty"`
+}
+
+// Specifies the caching requirements.
+// Possible values are:
+// None
+// ReadOnly
+// ReadWrite
+// Default: None for Standard storage. ReadOnly for Premium storage
+// +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
+type Caching_ARM string
+
+const (
+	Caching_ARM_None      = Caching_ARM("None")
+	Caching_ARM_ReadOnly  = Caching_ARM("ReadOnly")
+	Caching_ARM_ReadWrite = Caching_ARM("ReadWrite")
+)
+
+// Mapping from string to Caching_ARM
+var caching_ARM_Values = map[string]Caching_ARM{
+	"none":      Caching_ARM_None,
+	"readonly":  Caching_ARM_ReadOnly,
+	"readwrite": Caching_ARM_ReadWrite,
+}
+
+// Specifies how the virtual machine should be created.
+// Possible values are:
+// Attach \u2013 This value
+// is used when you are using a specialized disk to create the virtual machine.
+// FromImage \u2013 This value is
+// used when you are using an image to create the virtual machine. If you are using a platform image, you also use the
+// imageReference element described above. If you are using a marketplace image, you  also use the plan element previously
+// described.
+// +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
+type CreateOption_ARM string
+
+const (
+	CreateOption_ARM_Attach    = CreateOption_ARM("Attach")
+	CreateOption_ARM_Empty     = CreateOption_ARM("Empty")
+	CreateOption_ARM_FromImage = CreateOption_ARM("FromImage")
+)
+
+// Mapping from string to CreateOption_ARM
+var createOption_ARM_Values = map[string]CreateOption_ARM{
+	"attach":    CreateOption_ARM_Attach,
+	"empty":     CreateOption_ARM_Empty,
+	"fromimage": CreateOption_ARM_FromImage,
+}
+
+// Specifies the behavior of the managed disk when the VM gets deleted i.e whether the managed disk is deleted or detached.
+// Supported values:
+// Delete If this value is used, the managed disk is deleted when VM gets deleted.
+// Detach If this value is used, the managed disk is retained after VM gets deleted.
+// Minimum api-version:
+// 2021-03-01
+// +kubebuilder:validation:Enum={"Delete","Detach"}
+type DeleteOption_ARM string
+
+const (
+	DeleteOption_ARM_Delete = DeleteOption_ARM("Delete")
+	DeleteOption_ARM_Detach = DeleteOption_ARM("Detach")
+)
+
+// Mapping from string to DeleteOption_ARM
+var deleteOption_ARM_Values = map[string]DeleteOption_ARM{
+	"delete": DeleteOption_ARM_Delete,
+	"detach": DeleteOption_ARM_Detach,
+}
+
+// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from
+// the virtual machine. Supported values: ForceDetach.
+// detachOption: ForceDetach is applicable only for
+// managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from
+// the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk
+// forcibly from the VM. All writes might not have been flushed when using this detach behavior.
+// This feature is
+// still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached
+// to 'true' along with setting detachOption: 'ForceDetach'.
+// +kubebuilder:validation:Enum={"ForceDetach"}
+type DetachOption_ARM string
+
+const DetachOption_ARM_ForceDetach = DetachOption_ARM("ForceDetach")
+
+// Mapping from string to DetachOption_ARM
+var detachOption_ARM_Values = map[string]DetachOption_ARM{
+	"forcedetach": DetachOption_ARM_ForceDetach,
 }
 
 // Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
@@ -722,7 +865,7 @@ type AdditionalUnattendContent_ARM struct {
 // ephemeral disk settings can only be specified for managed disk.
 type DiffDiskSettings_ARM struct {
 	// Option: Specifies the ephemeral disk settings for operating system disk.
-	Option *DiffDiskOption `json:"option,omitempty"`
+	Option *DiffDiskOption_ARM `json:"option,omitempty"`
 
 	// Placement: Specifies the ephemeral disk placement for operating system disk.
 	// Possible values are:
@@ -731,7 +874,7 @@ type DiffDiskSettings_ARM struct {
 	// Default: CacheDisk if one is configured for the VM size otherwise ResourceDisk is used.
 	// Refer to VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and
 	// Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk.
-	Placement *DiffDiskPlacement `json:"placement,omitempty"`
+	Placement *DiffDiskPlacement_ARM `json:"placement,omitempty"`
 }
 
 // Describes a Encryption Settings for a Disk
@@ -752,7 +895,7 @@ type LinuxPatchSettings_ARM struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *LinuxPatchSettings_AssessmentMode `json:"assessmentMode,omitempty"`
+	AssessmentMode *LinuxPatchSettings_AssessmentMode_ARM `json:"assessmentMode,omitempty"`
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Linux.
@@ -764,7 +907,7 @@ type LinuxPatchSettings_ARM struct {
 	// ImageDefault - The virtual machine's default patching configuration is used.
 	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
 	// must be true
-	PatchMode *LinuxPatchSettings_PatchMode `json:"patchMode,omitempty"`
+	PatchMode *LinuxPatchSettings_PatchMode_ARM `json:"patchMode,omitempty"`
 }
 
 // The parameters of a managed disk.
@@ -778,16 +921,30 @@ type ManagedDiskParameters_ARM struct {
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
+	StorageAccountType *StorageAccountType_ARM `json:"storageAccountType,omitempty"`
 }
 
 // Describes a network interface reference properties.
 type NetworkInterfaceReferenceProperties_ARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption_ARM `json:"deleteOption,omitempty"`
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type OSDisk_OsType_ARM string
+
+const (
+	OSDisk_OsType_ARM_Linux   = OSDisk_OsType_ARM("Linux")
+	OSDisk_OsType_ARM_Windows = OSDisk_OsType_ARM("Windows")
+)
+
+// Mapping from string to OSDisk_OsType_ARM
+var oSDisk_OsType_ARM_Values = map[string]OSDisk_OsType_ARM{
+	"linux":   OSDisk_OsType_ARM_Linux,
+	"windows": OSDisk_OsType_ARM_Windows,
 }
 
 // Specifies settings related to VM Guest Patching on Windows.
@@ -796,7 +953,7 @@ type PatchSettings_ARM struct {
 	// Possible values are:
 	// ImageDefault - You control the timing of patch assessments on a virtual machine.
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *PatchSettings_AssessmentMode `json:"assessmentMode,omitempty"`
+	AssessmentMode *PatchSettings_AssessmentMode_ARM `json:"assessmentMode,omitempty"`
 
 	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
 	// Windows.
@@ -816,7 +973,7 @@ type PatchSettings_ARM struct {
 	// WindowsConfiguration.enableAutomaticUpdates must be true.
 	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
 	// and WindowsConfiguration.enableAutomaticUpdates must be true
-	PatchMode *PatchSettings_PatchMode `json:"patchMode,omitempty"`
+	PatchMode *PatchSettings_PatchMode_ARM `json:"patchMode,omitempty"`
 }
 
 // SSH configuration for Linux based VMs running on Azure
@@ -858,7 +1015,7 @@ type VirtualHardDisk_ARM struct {
 // Describes a virtual machine network profile's IP configuration.
 type VirtualMachineNetworkInterfaceConfigurationProperties_ARM struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM `json:"deleteOption,omitempty"`
 
 	// DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_ARM `json:"dnsSettings,omitempty"`
@@ -889,6 +1046,70 @@ type WinRMConfiguration_ARM struct {
 	Listeners []WinRMListener_ARM `json:"listeners,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Microsoft-Windows-Shell-Setup"}
+type AdditionalUnattendContent_ComponentName_ARM string
+
+const AdditionalUnattendContent_ComponentName_ARM_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName_ARM("Microsoft-Windows-Shell-Setup")
+
+// Mapping from string to AdditionalUnattendContent_ComponentName_ARM
+var additionalUnattendContent_ComponentName_ARM_Values = map[string]AdditionalUnattendContent_ComponentName_ARM{
+	"microsoft-windows-shell-setup": AdditionalUnattendContent_ComponentName_ARM_MicrosoftWindowsShellSetup,
+}
+
+// +kubebuilder:validation:Enum={"OobeSystem"}
+type AdditionalUnattendContent_PassName_ARM string
+
+const AdditionalUnattendContent_PassName_ARM_OobeSystem = AdditionalUnattendContent_PassName_ARM("OobeSystem")
+
+// Mapping from string to AdditionalUnattendContent_PassName_ARM
+var additionalUnattendContent_PassName_ARM_Values = map[string]AdditionalUnattendContent_PassName_ARM{
+	"oobesystem": AdditionalUnattendContent_PassName_ARM_OobeSystem,
+}
+
+// +kubebuilder:validation:Enum={"AutoLogon","FirstLogonCommands"}
+type AdditionalUnattendContent_SettingName_ARM string
+
+const (
+	AdditionalUnattendContent_SettingName_ARM_AutoLogon          = AdditionalUnattendContent_SettingName_ARM("AutoLogon")
+	AdditionalUnattendContent_SettingName_ARM_FirstLogonCommands = AdditionalUnattendContent_SettingName_ARM("FirstLogonCommands")
+)
+
+// Mapping from string to AdditionalUnattendContent_SettingName_ARM
+var additionalUnattendContent_SettingName_ARM_Values = map[string]AdditionalUnattendContent_SettingName_ARM{
+	"autologon":          AdditionalUnattendContent_SettingName_ARM_AutoLogon,
+	"firstlogoncommands": AdditionalUnattendContent_SettingName_ARM_FirstLogonCommands,
+}
+
+// Specifies the ephemeral disk option for operating system disk.
+// +kubebuilder:validation:Enum={"Local"}
+type DiffDiskOption_ARM string
+
+const DiffDiskOption_ARM_Local = DiffDiskOption_ARM("Local")
+
+// Mapping from string to DiffDiskOption_ARM
+var diffDiskOption_ARM_Values = map[string]DiffDiskOption_ARM{
+	"local": DiffDiskOption_ARM_Local,
+}
+
+// Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to
+// choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on
+// Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at
+// https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at
+// https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
+// +kubebuilder:validation:Enum={"CacheDisk","ResourceDisk"}
+type DiffDiskPlacement_ARM string
+
+const (
+	DiffDiskPlacement_ARM_CacheDisk    = DiffDiskPlacement_ARM("CacheDisk")
+	DiffDiskPlacement_ARM_ResourceDisk = DiffDiskPlacement_ARM("ResourceDisk")
+)
+
+// Mapping from string to DiffDiskPlacement_ARM
+var diffDiskPlacement_ARM_Values = map[string]DiffDiskPlacement_ARM{
+	"cachedisk":    DiffDiskPlacement_ARM_CacheDisk,
+	"resourcedisk": DiffDiskPlacement_ARM_ResourceDisk,
+}
+
 // Describes a reference to Key Vault Key
 type KeyVaultKeyReference_ARM struct {
 	// KeyUrl: The URL referencing a key encryption key in Key Vault.
@@ -898,10 +1119,82 @@ type KeyVaultKeyReference_ARM struct {
 	SourceVault *SubResource_ARM `json:"sourceVault,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
+type LinuxPatchSettings_AssessmentMode_ARM string
+
+const (
+	LinuxPatchSettings_AssessmentMode_ARM_AutomaticByPlatform = LinuxPatchSettings_AssessmentMode_ARM("AutomaticByPlatform")
+	LinuxPatchSettings_AssessmentMode_ARM_ImageDefault        = LinuxPatchSettings_AssessmentMode_ARM("ImageDefault")
+)
+
+// Mapping from string to LinuxPatchSettings_AssessmentMode_ARM
+var linuxPatchSettings_AssessmentMode_ARM_Values = map[string]LinuxPatchSettings_AssessmentMode_ARM{
+	"automaticbyplatform": LinuxPatchSettings_AssessmentMode_ARM_AutomaticByPlatform,
+	"imagedefault":        LinuxPatchSettings_AssessmentMode_ARM_ImageDefault,
+}
+
+// +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
+type LinuxPatchSettings_PatchMode_ARM string
+
+const (
+	LinuxPatchSettings_PatchMode_ARM_AutomaticByPlatform = LinuxPatchSettings_PatchMode_ARM("AutomaticByPlatform")
+	LinuxPatchSettings_PatchMode_ARM_ImageDefault        = LinuxPatchSettings_PatchMode_ARM("ImageDefault")
+)
+
+// Mapping from string to LinuxPatchSettings_PatchMode_ARM
+var linuxPatchSettings_PatchMode_ARM_Values = map[string]LinuxPatchSettings_PatchMode_ARM{
+	"automaticbyplatform": LinuxPatchSettings_PatchMode_ARM_AutomaticByPlatform,
+	"imagedefault":        LinuxPatchSettings_PatchMode_ARM_ImageDefault,
+}
+
 // Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
 type LinuxVMGuestPatchAutomaticByPlatformSettings_ARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting `json:"rebootSetting,omitempty"`
+	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM `json:"rebootSetting,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Delete","Detach"}
+type NetworkInterfaceReferenceProperties_DeleteOption_ARM string
+
+const (
+	NetworkInterfaceReferenceProperties_DeleteOption_ARM_Delete = NetworkInterfaceReferenceProperties_DeleteOption_ARM("Delete")
+	NetworkInterfaceReferenceProperties_DeleteOption_ARM_Detach = NetworkInterfaceReferenceProperties_DeleteOption_ARM("Detach")
+)
+
+// Mapping from string to NetworkInterfaceReferenceProperties_DeleteOption_ARM
+var networkInterfaceReferenceProperties_DeleteOption_ARM_Values = map[string]NetworkInterfaceReferenceProperties_DeleteOption_ARM{
+	"delete": NetworkInterfaceReferenceProperties_DeleteOption_ARM_Delete,
+	"detach": NetworkInterfaceReferenceProperties_DeleteOption_ARM_Detach,
+}
+
+// +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
+type PatchSettings_AssessmentMode_ARM string
+
+const (
+	PatchSettings_AssessmentMode_ARM_AutomaticByPlatform = PatchSettings_AssessmentMode_ARM("AutomaticByPlatform")
+	PatchSettings_AssessmentMode_ARM_ImageDefault        = PatchSettings_AssessmentMode_ARM("ImageDefault")
+)
+
+// Mapping from string to PatchSettings_AssessmentMode_ARM
+var patchSettings_AssessmentMode_ARM_Values = map[string]PatchSettings_AssessmentMode_ARM{
+	"automaticbyplatform": PatchSettings_AssessmentMode_ARM_AutomaticByPlatform,
+	"imagedefault":        PatchSettings_AssessmentMode_ARM_ImageDefault,
+}
+
+// +kubebuilder:validation:Enum={"AutomaticByOS","AutomaticByPlatform","Manual"}
+type PatchSettings_PatchMode_ARM string
+
+const (
+	PatchSettings_PatchMode_ARM_AutomaticByOS       = PatchSettings_PatchMode_ARM("AutomaticByOS")
+	PatchSettings_PatchMode_ARM_AutomaticByPlatform = PatchSettings_PatchMode_ARM("AutomaticByPlatform")
+	PatchSettings_PatchMode_ARM_Manual              = PatchSettings_PatchMode_ARM("Manual")
+)
+
+// Mapping from string to PatchSettings_PatchMode_ARM
+var patchSettings_PatchMode_ARM_Values = map[string]PatchSettings_PatchMode_ARM{
+	"automaticbyos":       PatchSettings_PatchMode_ARM_AutomaticByOS,
+	"automaticbyplatform": PatchSettings_PatchMode_ARM_AutomaticByPlatform,
+	"manual":              PatchSettings_PatchMode_ARM_Manual,
 }
 
 // Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
@@ -915,6 +1208,20 @@ type SshPublicKeySpec_ARM struct {
 	// Path: Specifies the full path on the created VM where ssh public key is stored. If the file already exists, the
 	// specified key is appended to the file. Example: /home/user/.ssh/authorized_keys
 	Path *string `json:"path,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Delete","Detach"}
+type VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM string
+
+const (
+	VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM_Delete = VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM("Delete")
+	VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM_Detach = VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM("Detach")
+)
+
+// Mapping from string to VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM
+var virtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM_Values = map[string]VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM{
+	"delete": VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM_Delete,
+	"detach": VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_ARM_Detach,
 }
 
 // Describes a virtual machines network configuration's DNS settings.
@@ -943,13 +1250,13 @@ type VMDiskSecurityProfile_ARM struct {
 	// It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly
 	// for encryption of just the VMGuestState blob.
 	// NOTE: It can be set for only Confidential VMs.
-	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType `json:"securityEncryptionType,omitempty"`
+	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType_ARM `json:"securityEncryptionType,omitempty"`
 }
 
 // Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
 type WindowsVMGuestPatchAutomaticByPlatformSettings_ARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
-	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting `json:"rebootSetting,omitempty"`
+	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM `json:"rebootSetting,omitempty"`
 }
 
 // Describes Protocol and thumbprint of Windows Remote Management listener
@@ -972,7 +1279,25 @@ type WinRMListener_ARM struct {
 	// Possible values are:
 	// http
 	// https
-	Protocol *WinRMListener_Protocol `json:"protocol,omitempty"`
+	Protocol *WinRMListener_Protocol_ARM `json:"protocol,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Always","IfRequired","Never","Unknown"}
+type LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM string
+
+const (
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Always     = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM("Always")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_IfRequired = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM("IfRequired")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Never      = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM("Never")
+	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Unknown    = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM("Unknown")
+)
+
+// Mapping from string to LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM
+var linuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Values = map[string]LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM{
+	"always":     LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Always,
+	"ifrequired": LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_IfRequired,
+	"never":      LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Never,
+	"unknown":    LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Unknown,
 }
 
 // Describes a virtual machine network interface IP configuration properties.
@@ -995,13 +1320,73 @@ type VirtualMachineNetworkInterfaceIPConfigurationProperties_ARM struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachinePublicIPAddressConfiguration_ARM `json:"publicIPAddressConfiguration,omitempty"`
 
 	// Subnet: Specifies the identifier of the subnet.
 	Subnet *SubResource_ARM `json:"subnet,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"DiskWithVMGuestState","VMGuestStateOnly"}
+type VMDiskSecurityProfile_SecurityEncryptionType_ARM string
+
+const (
+	VMDiskSecurityProfile_SecurityEncryptionType_ARM_DiskWithVMGuestState = VMDiskSecurityProfile_SecurityEncryptionType_ARM("DiskWithVMGuestState")
+	VMDiskSecurityProfile_SecurityEncryptionType_ARM_VMGuestStateOnly     = VMDiskSecurityProfile_SecurityEncryptionType_ARM("VMGuestStateOnly")
+)
+
+// Mapping from string to VMDiskSecurityProfile_SecurityEncryptionType_ARM
+var vMDiskSecurityProfile_SecurityEncryptionType_ARM_Values = map[string]VMDiskSecurityProfile_SecurityEncryptionType_ARM{
+	"diskwithvmgueststate": VMDiskSecurityProfile_SecurityEncryptionType_ARM_DiskWithVMGuestState,
+	"vmgueststateonly":     VMDiskSecurityProfile_SecurityEncryptionType_ARM_VMGuestStateOnly,
+}
+
+// +kubebuilder:validation:Enum={"Always","IfRequired","Never","Unknown"}
+type WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM string
+
+const (
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Always     = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM("Always")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_IfRequired = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM("IfRequired")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Never      = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM("Never")
+	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Unknown    = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM("Unknown")
+)
+
+// Mapping from string to WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM
+var windowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Values = map[string]WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM{
+	"always":     WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Always,
+	"ifrequired": WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_IfRequired,
+	"never":      WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Never,
+	"unknown":    WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_ARM_Unknown,
+}
+
+// +kubebuilder:validation:Enum={"Http","Https"}
+type WinRMListener_Protocol_ARM string
+
+const (
+	WinRMListener_Protocol_ARM_Http  = WinRMListener_Protocol_ARM("Http")
+	WinRMListener_Protocol_ARM_Https = WinRMListener_Protocol_ARM("Https")
+)
+
+// Mapping from string to WinRMListener_Protocol_ARM
+var winRMListener_Protocol_ARM_Values = map[string]WinRMListener_Protocol_ARM{
+	"http":  WinRMListener_Protocol_ARM_Http,
+	"https": WinRMListener_Protocol_ARM_Https,
+}
+
+// +kubebuilder:validation:Enum={"IPv4","IPv6"}
+type VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM string
+
+const (
+	VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM_IPv4 = VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM("IPv4")
+	VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM_IPv6 = VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM("IPv6")
+)
+
+// Mapping from string to VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM
+var virtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM_Values = map[string]VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM{
+	"ipv4": VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM_IPv4,
+	"ipv6": VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_ARM_IPv6,
 }
 
 // Describes a virtual machines IP Configuration's PublicIPAddress configuration
@@ -1019,16 +1404,16 @@ type VirtualMachinePublicIPAddressConfiguration_ARM struct {
 // Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
 type PublicIPAddressSku_ARM struct {
 	// Name: Specify public IP sku name
-	Name *PublicIPAddressSku_Name `json:"name,omitempty"`
+	Name *PublicIPAddressSku_Name_ARM `json:"name,omitempty"`
 
 	// Tier: Specify public IP sku tier
-	Tier *PublicIPAddressSku_Tier `json:"tier,omitempty"`
+	Tier *PublicIPAddressSku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // Describes a virtual machines IP Configuration's PublicIPAddress configuration
 type VirtualMachinePublicIPAddressConfigurationProperties_ARM struct {
 	// DeleteOption: Specify what happens to the public IP address when the VM is deleted
-	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM `json:"deleteOption,omitempty"`
 
 	// DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration_ARM `json:"dnsSettings,omitempty"`
@@ -1041,13 +1426,41 @@ type VirtualMachinePublicIPAddressConfigurationProperties_ARM struct {
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPAllocationMethod: Specify the public IP allocation type
-	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM `json:"publicIPAllocationMethod,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Basic","Standard"}
+type PublicIPAddressSku_Name_ARM string
+
+const (
+	PublicIPAddressSku_Name_ARM_Basic    = PublicIPAddressSku_Name_ARM("Basic")
+	PublicIPAddressSku_Name_ARM_Standard = PublicIPAddressSku_Name_ARM("Standard")
+)
+
+// Mapping from string to PublicIPAddressSku_Name_ARM
+var publicIPAddressSku_Name_ARM_Values = map[string]PublicIPAddressSku_Name_ARM{
+	"basic":    PublicIPAddressSku_Name_ARM_Basic,
+	"standard": PublicIPAddressSku_Name_ARM_Standard,
+}
+
+// +kubebuilder:validation:Enum={"Global","Regional"}
+type PublicIPAddressSku_Tier_ARM string
+
+const (
+	PublicIPAddressSku_Tier_ARM_Global   = PublicIPAddressSku_Tier_ARM("Global")
+	PublicIPAddressSku_Tier_ARM_Regional = PublicIPAddressSku_Tier_ARM("Regional")
+)
+
+// Mapping from string to PublicIPAddressSku_Tier_ARM
+var publicIPAddressSku_Tier_ARM_Values = map[string]PublicIPAddressSku_Tier_ARM{
+	"global":   PublicIPAddressSku_Tier_ARM_Global,
+	"regional": PublicIPAddressSku_Tier_ARM_Regional,
 }
 
 // Contains the IP tag associated with the public IP address.
@@ -1057,6 +1470,48 @@ type VirtualMachineIpTag_ARM struct {
 
 	// Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
 	Tag *string `json:"tag,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Delete","Detach"}
+type VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM string
+
+const (
+	VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM_Delete = VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM("Delete")
+	VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM_Detach = VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM("Detach")
+)
+
+// Mapping from string to VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM
+var virtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM_Values = map[string]VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM{
+	"delete": VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM_Delete,
+	"detach": VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_ARM_Detach,
+}
+
+// +kubebuilder:validation:Enum={"IPv4","IPv6"}
+type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM string
+
+const (
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_IPv4 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM("IPv4")
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_IPv6 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM("IPv6")
+)
+
+// Mapping from string to VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM
+var virtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_Values = map[string]VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM{
+	"ipv4": VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_IPv4,
+	"ipv6": VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_ARM_IPv6,
+}
+
+// +kubebuilder:validation:Enum={"Dynamic","Static"}
+type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM string
+
+const (
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM_Dynamic = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM("Dynamic")
+	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM_Static  = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM("Static")
+)
+
+// Mapping from string to VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM
+var virtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM_Values = map[string]VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM{
+	"dynamic": VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM_Dynamic,
+	"static":  VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_ARM_Static,
 }
 
 // Describes a virtual machines network configuration's DNS settings.

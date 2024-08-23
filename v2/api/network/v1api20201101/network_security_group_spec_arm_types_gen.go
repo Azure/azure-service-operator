@@ -57,7 +57,7 @@ type SecurityRule_ARM struct {
 // Security rule resource.
 type SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
 	// Access: The network traffic is allowed or denied.
-	Access *SecurityRuleAccess `json:"access,omitempty"`
+	Access *SecurityRuleAccess_ARM `json:"access,omitempty"`
 
 	// Description: A description for this rule. Restricted to 140 chars.
 	Description *string `json:"description,omitempty"`
@@ -80,14 +80,14 @@ type SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM s
 	DestinationPortRanges []string `json:"destinationPortRanges,omitempty"`
 
 	// Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
-	Direction *SecurityRuleDirection `json:"direction,omitempty"`
+	Direction *SecurityRuleDirection_ARM `json:"direction,omitempty"`
 
 	// Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
 	// rule in the collection. The lower the priority number, the higher the priority of the rule.
 	Priority *int `json:"priority,omitempty"`
 
 	// Protocol: Network protocol this rule applies to.
-	Protocol *SecurityRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
+	Protocol *SecurityRulePropertiesFormat_Protocol_ARM `json:"protocol,omitempty"`
 
 	// SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags
 	// such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies

@@ -75,7 +75,7 @@ func AzureMonitorAlertSettings_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_ARM(gens map[string]gopter.Gen) {
-	gens["AlertsForAllJobFailures"] = gen.PtrOf(gen.OneConstOf(AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled, AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled))
+	gens["AlertsForAllJobFailures"] = gen.PtrOf(gen.OneConstOf(AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM_Disabled, AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM_Enabled))
 }
 
 func Test_BackupVaultSpec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -294,7 +294,7 @@ func CrossRegionRestoreSettings_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCrossRegionRestoreSettings_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCrossRegionRestoreSettings_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossRegionRestoreSettings_State_Disabled, CrossRegionRestoreSettings_State_Enabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossRegionRestoreSettings_State_ARM_Disabled, CrossRegionRestoreSettings_State_ARM_Enabled))
 }
 
 func Test_CrossSubscriptionRestoreSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -355,7 +355,7 @@ func CrossSubscriptionRestoreSettings_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossSubscriptionRestoreSettings_State_Disabled, CrossSubscriptionRestoreSettings_State_Enabled, CrossSubscriptionRestoreSettings_State_PermanentlyDisabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossSubscriptionRestoreSettings_State_ARM_Disabled, CrossSubscriptionRestoreSettings_State_ARM_Enabled, CrossSubscriptionRestoreSettings_State_ARM_PermanentlyDisabled))
 }
 
 func Test_DppIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -555,7 +555,7 @@ func ImmutabilitySettings_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImmutabilitySettings_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImmutabilitySettings_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilitySettings_State_Disabled, ImmutabilitySettings_State_Locked, ImmutabilitySettings_State_Unlocked))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilitySettings_State_ARM_Disabled, ImmutabilitySettings_State_ARM_Locked, ImmutabilitySettings_State_ARM_Unlocked))
 }
 
 func Test_MonitoringSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -740,7 +740,7 @@ func SoftDeleteSettings_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSoftDeleteSettings_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSoftDeleteSettings_ARM(gens map[string]gopter.Gen) {
 	gens["RetentionDurationInDays"] = gen.PtrOf(gen.Float64())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(SoftDeleteSettings_State_AlwaysOn, SoftDeleteSettings_State_Off, SoftDeleteSettings_State_On))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(SoftDeleteSettings_State_ARM_AlwaysOn, SoftDeleteSettings_State_ARM_Off, SoftDeleteSettings_State_ARM_On))
 }
 
 func Test_StorageSetting_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -800,8 +800,8 @@ func StorageSetting_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageSetting_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageSetting_ARM(gens map[string]gopter.Gen) {
-	gens["DatastoreType"] = gen.PtrOf(gen.OneConstOf(StorageSetting_DatastoreType_ArchiveStore, StorageSetting_DatastoreType_OperationalStore, StorageSetting_DatastoreType_VaultStore))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(StorageSetting_Type_GeoRedundant, StorageSetting_Type_LocallyRedundant, StorageSetting_Type_ZoneRedundant))
+	gens["DatastoreType"] = gen.PtrOf(gen.OneConstOf(StorageSetting_DatastoreType_ARM_ArchiveStore, StorageSetting_DatastoreType_ARM_OperationalStore, StorageSetting_DatastoreType_ARM_VaultStore))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(StorageSetting_Type_ARM_GeoRedundant, StorageSetting_Type_ARM_LocallyRedundant, StorageSetting_Type_ARM_ZoneRedundant))
 }
 
 func Test_UserAssignedIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

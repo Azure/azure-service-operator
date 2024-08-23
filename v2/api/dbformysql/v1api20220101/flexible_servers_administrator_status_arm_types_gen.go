@@ -24,7 +24,7 @@ type FlexibleServers_Administrator_STATUS_ARM struct {
 // The properties of an administrator.
 type AdministratorProperties_STATUS_ARM struct {
 	// AdministratorType: Type of the sever administrator.
-	AdministratorType *AdministratorProperties_AdministratorType_STATUS `json:"administratorType,omitempty"`
+	AdministratorType *AdministratorProperties_AdministratorType_STATUS_ARM `json:"administratorType,omitempty"`
 
 	// IdentityResourceId: The resource id of the identity used for AAD Authentication.
 	IdentityResourceId *string `json:"identityResourceId,omitempty"`
@@ -48,7 +48,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -57,39 +57,48 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type AdministratorProperties_AdministratorType_STATUS_ARM string
 
-const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
-)
+const AdministratorProperties_AdministratorType_STATUS_ARM_ActiveDirectory = AdministratorProperties_AdministratorType_STATUS_ARM("ActiveDirectory")
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to AdministratorProperties_AdministratorType_STATUS_ARM
+var administratorProperties_AdministratorType_STATUS_ARM_Values = map[string]AdministratorProperties_AdministratorType_STATUS_ARM{
+	"activedirectory": AdministratorProperties_AdministratorType_STATUS_ARM_ActiveDirectory,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
+}
+
+type SystemData_LastModifiedByType_STATUS_ARM string
+
+const (
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }

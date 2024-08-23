@@ -44,7 +44,7 @@ type DomainProperties_ARM struct {
 	InboundIpRules []InboundIpRule_ARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-	InputSchema *DomainProperties_InputSchema `json:"inputSchema,omitempty"`
+	InputSchema *DomainProperties_InputSchema_ARM `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
 	InputSchemaMapping *InputSchemaMapping_ARM `json:"inputSchemaMapping,omitempty"`
@@ -52,12 +52,42 @@ type DomainProperties_ARM struct {
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
-	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
+type DomainProperties_InputSchema_ARM string
+
+const (
+	DomainProperties_InputSchema_ARM_CloudEventSchemaV1_0 = DomainProperties_InputSchema_ARM("CloudEventSchemaV1_0")
+	DomainProperties_InputSchema_ARM_CustomEventSchema    = DomainProperties_InputSchema_ARM("CustomEventSchema")
+	DomainProperties_InputSchema_ARM_EventGridSchema      = DomainProperties_InputSchema_ARM("EventGridSchema")
+)
+
+// Mapping from string to DomainProperties_InputSchema_ARM
+var domainProperties_InputSchema_ARM_Values = map[string]DomainProperties_InputSchema_ARM{
+	"cloudeventschemav1_0": DomainProperties_InputSchema_ARM_CloudEventSchemaV1_0,
+	"customeventschema":    DomainProperties_InputSchema_ARM_CustomEventSchema,
+	"eventgridschema":      DomainProperties_InputSchema_ARM_EventGridSchema,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type DomainProperties_PublicNetworkAccess_ARM string
+
+const (
+	DomainProperties_PublicNetworkAccess_ARM_Disabled = DomainProperties_PublicNetworkAccess_ARM("Disabled")
+	DomainProperties_PublicNetworkAccess_ARM_Enabled  = DomainProperties_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to DomainProperties_PublicNetworkAccess_ARM
+var domainProperties_PublicNetworkAccess_ARM_Values = map[string]DomainProperties_PublicNetworkAccess_ARM{
+	"disabled": DomainProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  DomainProperties_PublicNetworkAccess_ARM_Enabled,
 }
 
 type InboundIpRule_ARM struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
-	Action *InboundIpRule_Action `json:"action,omitempty"`
+	Action *InboundIpRule_Action_ARM `json:"action,omitempty"`
 
 	// IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
@@ -93,12 +123,32 @@ func (mapping *InputSchemaMapping_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Allow"}
+type InboundIpRule_Action_ARM string
+
+const InboundIpRule_Action_ARM_Allow = InboundIpRule_Action_ARM("Allow")
+
+// Mapping from string to InboundIpRule_Action_ARM
+var inboundIpRule_Action_ARM_Values = map[string]InboundIpRule_Action_ARM{
+	"allow": InboundIpRule_Action_ARM_Allow,
+}
+
 type JsonInputSchemaMapping_ARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType_ARM `json:"inputSchemaMappingType,omitempty"`
 
 	// Properties: JSON Properties of the input schema mapping
 	Properties *JsonInputSchemaMappingProperties_ARM `json:"properties,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Json"}
+type JsonInputSchemaMapping_InputSchemaMappingType_ARM string
+
+const JsonInputSchemaMapping_InputSchemaMappingType_ARM_Json = JsonInputSchemaMapping_InputSchemaMappingType_ARM("Json")
+
+// Mapping from string to JsonInputSchemaMapping_InputSchemaMappingType_ARM
+var jsonInputSchemaMapping_InputSchemaMappingType_ARM_Values = map[string]JsonInputSchemaMapping_InputSchemaMappingType_ARM{
+	"json": JsonInputSchemaMapping_InputSchemaMappingType_ARM_Json,
 }
 
 // This can be used to map properties of a source schema (or default values, for certain supported properties) to

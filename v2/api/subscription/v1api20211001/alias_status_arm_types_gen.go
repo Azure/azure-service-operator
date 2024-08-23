@@ -23,7 +23,7 @@ type Alias_STATUS_ARM struct {
 // Put subscription creation result properties.
 type SubscriptionAliasResponseProperties_STATUS_ARM struct {
 	// AcceptOwnershipState: The accept ownership state of the resource.
-	AcceptOwnershipState *AcceptOwnershipState_STATUS `json:"acceptOwnershipState,omitempty"`
+	AcceptOwnershipState *AcceptOwnershipState_STATUS_ARM `json:"acceptOwnershipState,omitempty"`
 
 	// AcceptOwnershipUrl: Url to accept ownership of the subscription.
 	AcceptOwnershipUrl *string `json:"acceptOwnershipUrl,omitempty"`
@@ -39,7 +39,7 @@ type SubscriptionAliasResponseProperties_STATUS_ARM struct {
 	ManagementGroupId *string `json:"managementGroupId,omitempty"`
 
 	// ProvisioningState: The provisioning state of the resource.
-	ProvisioningState *SubscriptionAliasResponseProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResellerId: Reseller Id
 	ResellerId *string `json:"resellerId,omitempty"`
@@ -54,7 +54,7 @@ type SubscriptionAliasResponseProperties_STATUS_ARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Workload: The workload type of the subscription. It can be either Production or DevTest.
-	Workload *Workload_STATUS `json:"workload,omitempty"`
+	Workload *Workload_STATUS_ARM `json:"workload,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -66,7 +66,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -75,84 +75,84 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // The accept ownership state of the resource.
-type AcceptOwnershipState_STATUS string
+type AcceptOwnershipState_STATUS_ARM string
 
 const (
-	AcceptOwnershipState_STATUS_Completed = AcceptOwnershipState_STATUS("Completed")
-	AcceptOwnershipState_STATUS_Expired   = AcceptOwnershipState_STATUS("Expired")
-	AcceptOwnershipState_STATUS_Pending   = AcceptOwnershipState_STATUS("Pending")
+	AcceptOwnershipState_STATUS_ARM_Completed = AcceptOwnershipState_STATUS_ARM("Completed")
+	AcceptOwnershipState_STATUS_ARM_Expired   = AcceptOwnershipState_STATUS_ARM("Expired")
+	AcceptOwnershipState_STATUS_ARM_Pending   = AcceptOwnershipState_STATUS_ARM("Pending")
 )
 
-// Mapping from string to AcceptOwnershipState_STATUS
-var acceptOwnershipState_STATUS_Values = map[string]AcceptOwnershipState_STATUS{
-	"completed": AcceptOwnershipState_STATUS_Completed,
-	"expired":   AcceptOwnershipState_STATUS_Expired,
-	"pending":   AcceptOwnershipState_STATUS_Pending,
+// Mapping from string to AcceptOwnershipState_STATUS_ARM
+var acceptOwnershipState_STATUS_ARM_Values = map[string]AcceptOwnershipState_STATUS_ARM{
+	"completed": AcceptOwnershipState_STATUS_ARM_Completed,
+	"expired":   AcceptOwnershipState_STATUS_ARM_Expired,
+	"pending":   AcceptOwnershipState_STATUS_ARM_Pending,
 }
 
-type SubscriptionAliasResponseProperties_ProvisioningState_STATUS string
+type SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM string
 
 const (
-	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Accepted  = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Accepted")
-	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Failed    = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Failed")
-	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Succeeded = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Succeeded")
+	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM_Accepted  = SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM("Accepted")
+	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM_Failed    = SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM("Failed")
+	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM_Succeeded = SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM("Succeeded")
 )
 
-// Mapping from string to SubscriptionAliasResponseProperties_ProvisioningState_STATUS
-var subscriptionAliasResponseProperties_ProvisioningState_STATUS_Values = map[string]SubscriptionAliasResponseProperties_ProvisioningState_STATUS{
-	"accepted":  SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Accepted,
-	"failed":    SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Succeeded,
+// Mapping from string to SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM
+var subscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM_Values = map[string]SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM{
+	"accepted":  SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM_Accepted,
+	"failed":    SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": SubscriptionAliasResponseProperties_ProvisioningState_STATUS_ARM_Succeeded,
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // The workload type of the subscription. It can be either Production or DevTest.
-type Workload_STATUS string
+type Workload_STATUS_ARM string
 
 const (
-	Workload_STATUS_DevTest    = Workload_STATUS("DevTest")
-	Workload_STATUS_Production = Workload_STATUS("Production")
+	Workload_STATUS_ARM_DevTest    = Workload_STATUS_ARM("DevTest")
+	Workload_STATUS_ARM_Production = Workload_STATUS_ARM("Production")
 )
 
-// Mapping from string to Workload_STATUS
-var workload_STATUS_Values = map[string]Workload_STATUS{
-	"devtest":    Workload_STATUS_DevTest,
-	"production": Workload_STATUS_Production,
+// Mapping from string to Workload_STATUS_ARM
+var workload_STATUS_ARM_Values = map[string]Workload_STATUS_ARM{
+	"devtest":    Workload_STATUS_ARM_DevTest,
+	"production": Workload_STATUS_ARM_Production,
 }

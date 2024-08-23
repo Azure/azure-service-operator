@@ -55,7 +55,7 @@ type VirtualNetworkPropertiesFormat_STATUS_ARM struct {
 	IpAllocations []SubResource_STATUS_ARM `json:"ipAllocations,omitempty"`
 
 	// ProvisioningState: The provisioning state of the virtual network resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resourceGuid property of the Virtual Network resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`

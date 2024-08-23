@@ -37,10 +37,10 @@ type VirtualNetworkPeeringPropertiesFormat_STATUS_ARM struct {
 	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
 
 	// PeeringState: The status of the virtual network peering.
-	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS `json:"peeringState,omitempty"`
+	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM `json:"peeringState,omitempty"`
 
 	// ProvisioningState: The provisioning state of the virtual network peering resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpace_STATUS_ARM `json:"remoteAddressSpace,omitempty"`
@@ -61,4 +61,19 @@ type VirtualNetworkPeeringPropertiesFormat_STATUS_ARM struct {
 	// transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
 	// gateway.
 	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
+}
+
+type VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM string
+
+const (
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM_Connected    = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM("Connected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM_Disconnected = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM("Disconnected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM_Initiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM("Initiated")
+)
+
+// Mapping from string to VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM
+var virtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM_Values = map[string]VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM{
+	"connected":    VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM_Connected,
+	"disconnected": VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM_Disconnected,
+	"initiated":    VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM_Initiated,
 }

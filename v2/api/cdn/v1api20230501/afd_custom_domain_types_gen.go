@@ -876,7 +876,9 @@ func (domain *Profiles_CustomDomain_STATUS) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeploymentStatus != nil {
-			deploymentStatus := *typedInput.Properties.DeploymentStatus
+			var temp string
+			temp = string(*typedInput.Properties.DeploymentStatus)
+			deploymentStatus := AFDDomainProperties_DeploymentStatus_STATUS(temp)
 			domain.DeploymentStatus = &deploymentStatus
 		}
 	}
@@ -885,7 +887,9 @@ func (domain *Profiles_CustomDomain_STATUS) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DomainValidationState != nil {
-			domainValidationState := *typedInput.Properties.DomainValidationState
+			var temp string
+			temp = string(*typedInput.Properties.DomainValidationState)
+			domainValidationState := AFDDomainProperties_DomainValidationState_STATUS(temp)
 			domain.DomainValidationState = &domainValidationState
 		}
 	}
@@ -949,7 +953,9 @@ func (domain *Profiles_CustomDomain_STATUS) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := AFDDomainProperties_ProvisioningState_STATUS(temp)
 			domain.ProvisioningState = &provisioningState
 		}
 	}
@@ -1263,13 +1269,17 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 
 	// Set property "CertificateType":
 	if parameters.CertificateType != nil {
-		certificateType := *parameters.CertificateType
+		var temp string
+		temp = string(*parameters.CertificateType)
+		certificateType := AFDDomainHttpsParameters_CertificateType_ARM(temp)
 		result.CertificateType = &certificateType
 	}
 
 	// Set property "MinimumTlsVersion":
 	if parameters.MinimumTlsVersion != nil {
-		minimumTlsVersion := *parameters.MinimumTlsVersion
+		var temp string
+		temp = string(*parameters.MinimumTlsVersion)
+		minimumTlsVersion := AFDDomainHttpsParameters_MinimumTlsVersion_ARM(temp)
 		result.MinimumTlsVersion = &minimumTlsVersion
 	}
 
@@ -1299,13 +1309,17 @@ func (parameters *AFDDomainHttpsParameters) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "CertificateType":
 	if typedInput.CertificateType != nil {
-		certificateType := *typedInput.CertificateType
+		var temp string
+		temp = string(*typedInput.CertificateType)
+		certificateType := AFDDomainHttpsParameters_CertificateType(temp)
 		parameters.CertificateType = &certificateType
 	}
 
 	// Set property "MinimumTlsVersion":
 	if typedInput.MinimumTlsVersion != nil {
-		minimumTlsVersion := *typedInput.MinimumTlsVersion
+		var temp string
+		temp = string(*typedInput.MinimumTlsVersion)
+		minimumTlsVersion := AFDDomainHttpsParameters_MinimumTlsVersion(temp)
 		parameters.MinimumTlsVersion = &minimumTlsVersion
 	}
 
@@ -1468,13 +1482,17 @@ func (parameters *AFDDomainHttpsParameters_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "CertificateType":
 	if typedInput.CertificateType != nil {
-		certificateType := *typedInput.CertificateType
+		var temp string
+		temp = string(*typedInput.CertificateType)
+		certificateType := AFDDomainHttpsParameters_CertificateType_STATUS(temp)
 		parameters.CertificateType = &certificateType
 	}
 
 	// Set property "MinimumTlsVersion":
 	if typedInput.MinimumTlsVersion != nil {
-		minimumTlsVersion := *typedInput.MinimumTlsVersion
+		var temp string
+		temp = string(*typedInput.MinimumTlsVersion)
+		minimumTlsVersion := AFDDomainHttpsParameters_MinimumTlsVersion_STATUS(temp)
 		parameters.MinimumTlsVersion = &minimumTlsVersion
 	}
 
@@ -1918,7 +1936,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := IdentityType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -1936,7 +1956,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := IdentityType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -2081,6 +2103,24 @@ const (
 var aFDDomainHttpsParameters_MinimumTlsVersion_STATUS_Values = map[string]AFDDomainHttpsParameters_MinimumTlsVersion_STATUS{
 	"tls10": AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS10,
 	"tls12": AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS12,
+}
+
+// The type of identity that creates/modifies resources
+type IdentityType_STATUS string
+
+const (
+	IdentityType_STATUS_Application     = IdentityType_STATUS("application")
+	IdentityType_STATUS_Key             = IdentityType_STATUS("key")
+	IdentityType_STATUS_ManagedIdentity = IdentityType_STATUS("managedIdentity")
+	IdentityType_STATUS_User            = IdentityType_STATUS("user")
+)
+
+// Mapping from string to IdentityType_STATUS
+var identityType_STATUS_Values = map[string]IdentityType_STATUS{
+	"application":     IdentityType_STATUS_Application,
+	"key":             IdentityType_STATUS_Key,
+	"managedidentity": IdentityType_STATUS_ManagedIdentity,
+	"user":            IdentityType_STATUS_User,
 }
 
 func init() {

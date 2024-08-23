@@ -451,7 +451,9 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Properties = &properties
 	}
 	if backend.Protocol != nil {
-		protocol := *backend.Protocol
+		var temp string
+		temp = string(*backend.Protocol)
+		protocol := BackendContractProperties_Protocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if backend.Proxy != nil {
@@ -483,7 +485,9 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Tls = &tls
 	}
 	if backend.Type != nil {
-		typeVar := *backend.Type
+		var temp string
+		temp = string(*backend.Type)
+		typeVar := BackendContractProperties_Type_ARM(temp)
 		result.Properties.Type = &typeVar
 	}
 	if backend.Url != nil {
@@ -583,7 +587,9 @@ func (backend *Service_Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := BackendContractProperties_Protocol(temp)
 			backend.Protocol = &protocol
 		}
 	}
@@ -631,7 +637,9 @@ func (backend *Service_Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Type != nil {
-			typeVar := *typedInput.Properties.Type
+			var temp string
+			temp = string(*typedInput.Properties.Type)
+			typeVar := BackendContractProperties_Type(temp)
 			backend.Type = &typeVar
 		}
 	}
@@ -1196,7 +1204,9 @@ func (backend *Service_Backend_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Type != nil {
-			propertiesType := *typedInput.Properties.Type
+			var temp string
+			temp = string(*typedInput.Properties.Type)
+			propertiesType := BackendContractProperties_Type_STATUS(temp)
 			backend.PropertiesType = &propertiesType
 		}
 	}
@@ -1205,7 +1215,9 @@ func (backend *Service_Backend_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := BackendContractProperties_Protocol_STATUS(temp)
 			backend.Protocol = &protocol
 		}
 	}

@@ -84,8 +84,8 @@ func TopicProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForTopicProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTopicProperties_ARM(gens map[string]gopter.Gen) {
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_CloudEventSchemaV1_0, TopicProperties_InputSchema_CustomEventSchema, TopicProperties_InputSchema_EventGridSchema))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_Disabled, TopicProperties_PublicNetworkAccess_Enabled))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_ARM_CloudEventSchemaV1_0, TopicProperties_InputSchema_ARM_CustomEventSchema, TopicProperties_InputSchema_ARM_EventGridSchema))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_ARM_Disabled, TopicProperties_PublicNetworkAccess_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForTopicProperties_ARM is a factory method for creating gopter generators

@@ -37,5 +37,19 @@ type RedisLinkedServerCreateProperties_ARM struct {
 	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
 
 	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerCreateProperties_ServerRole `json:"serverRole,omitempty"`
+	ServerRole *RedisLinkedServerCreateProperties_ServerRole_ARM `json:"serverRole,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Primary","Secondary"}
+type RedisLinkedServerCreateProperties_ServerRole_ARM string
+
+const (
+	RedisLinkedServerCreateProperties_ServerRole_ARM_Primary   = RedisLinkedServerCreateProperties_ServerRole_ARM("Primary")
+	RedisLinkedServerCreateProperties_ServerRole_ARM_Secondary = RedisLinkedServerCreateProperties_ServerRole_ARM("Secondary")
+)
+
+// Mapping from string to RedisLinkedServerCreateProperties_ServerRole_ARM
+var redisLinkedServerCreateProperties_ServerRole_ARM_Values = map[string]RedisLinkedServerCreateProperties_ServerRole_ARM{
+	"primary":   RedisLinkedServerCreateProperties_ServerRole_ARM_Primary,
+	"secondary": RedisLinkedServerCreateProperties_ServerRole_ARM_Secondary,
 }

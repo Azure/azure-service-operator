@@ -143,7 +143,7 @@ type MetricAlertMultipleResourceMultipleMetricCriteria_ARM struct {
 	AllOf []MultiMetricCriteria_ARM `json:"allOf,omitempty"`
 
 	// OdataType: specifies the type of the alert criteria.
-	OdataType MetricAlertMultipleResourceMultipleMetricCriteria_OdataType `json:"odata.type,omitempty"`
+	OdataType MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM `json:"odata.type,omitempty"`
 }
 
 type MetricAlertSingleResourceMultipleMetricCriteria_ARM struct {
@@ -153,7 +153,7 @@ type MetricAlertSingleResourceMultipleMetricCriteria_ARM struct {
 	AllOf []MetricCriteria_ARM `json:"allOf,omitempty"`
 
 	// OdataType: specifies the type of the alert criteria.
-	OdataType MetricAlertSingleResourceMultipleMetricCriteria_OdataType `json:"odata.type,omitempty"`
+	OdataType MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM `json:"odata.type,omitempty"`
 }
 
 type WebtestLocationAvailabilityCriteria_ARM struct {
@@ -164,17 +164,37 @@ type WebtestLocationAvailabilityCriteria_ARM struct {
 	FailedLocationCount *float64 `json:"failedLocationCount,omitempty"`
 
 	// OdataType: specifies the type of the alert criteria.
-	OdataType WebtestLocationAvailabilityCriteria_OdataType `json:"odata.type,omitempty"`
+	OdataType WebtestLocationAvailabilityCriteria_OdataType_ARM `json:"odata.type,omitempty"`
 
 	// WebTestId: The Application Insights web test Id.
 	WebTestId *string `json:"webTestId,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"}
+type MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM string
+
+const MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria = MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM("Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria")
+
+// Mapping from string to MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM
+var metricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM_Values = map[string]MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM{
+	"microsoft.azure.monitor.multipleresourcemultiplemetriccriteria": MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"}
+type MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM string
+
+const MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria = MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM("Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria")
+
+// Mapping from string to MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM
+var metricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM_Values = map[string]MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM{
+	"microsoft.azure.monitor.singleresourcemultiplemetriccriteria": MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria,
 }
 
 type MetricCriteria_ARM struct {
 	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
 	// CriterionType: Specifies the type of threshold criteria
-	CriterionType MetricCriteria_CriterionType `json:"criterionType,omitempty"`
+	CriterionType MetricCriteria_CriterionType_ARM `json:"criterionType,omitempty"`
 
 	// Dimensions: List of dimension conditions.
 	Dimensions []MetricDimension_ARM `json:"dimensions,omitempty"`
@@ -189,7 +209,7 @@ type MetricCriteria_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Operator: the criteria operator.
-	Operator *MetricCriteria_Operator `json:"operator,omitempty"`
+	Operator *MetricCriteria_Operator_ARM `json:"operator,omitempty"`
 
 	// SkipMetricValidation: Allows creating an alert rule on a custom metric that isn't yet emitted, by causing the metric
 	// validation to be skipped.
@@ -199,7 +219,7 @@ type MetricCriteria_ARM struct {
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: the criteria time aggregation types.
-	TimeAggregation *MetricCriteria_TimeAggregation `json:"timeAggregation,omitempty"`
+	TimeAggregation *MetricCriteria_TimeAggregation_ARM `json:"timeAggregation,omitempty"`
 }
 
 type MultiMetricCriteria_ARM struct {
@@ -242,15 +262,25 @@ func (criteria *MultiMetricCriteria_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"}
+type WebtestLocationAvailabilityCriteria_OdataType_ARM string
+
+const WebtestLocationAvailabilityCriteria_OdataType_ARM_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria = WebtestLocationAvailabilityCriteria_OdataType_ARM("Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria")
+
+// Mapping from string to WebtestLocationAvailabilityCriteria_OdataType_ARM
+var webtestLocationAvailabilityCriteria_OdataType_ARM_Values = map[string]WebtestLocationAvailabilityCriteria_OdataType_ARM{
+	"microsoft.azure.monitor.webtestlocationavailabilitycriteria": WebtestLocationAvailabilityCriteria_OdataType_ARM_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria,
+}
+
 type DynamicMetricCriteria_ARM struct {
 	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
 	// AlertSensitivity: The extent of deviation required to trigger an alert. This will affect how tight the threshold is to
 	// the metric series pattern.
-	AlertSensitivity *DynamicMetricCriteria_AlertSensitivity `json:"alertSensitivity,omitempty"`
+	AlertSensitivity *DynamicMetricCriteria_AlertSensitivity_ARM `json:"alertSensitivity,omitempty"`
 
 	// CriterionType: Specifies the type of threshold criteria
-	CriterionType DynamicMetricCriteria_CriterionType `json:"criterionType,omitempty"`
+	CriterionType DynamicMetricCriteria_CriterionType_ARM `json:"criterionType,omitempty"`
 
 	// Dimensions: List of dimension conditions.
 	Dimensions []MetricDimension_ARM `json:"dimensions,omitempty"`
@@ -273,14 +303,64 @@ type DynamicMetricCriteria_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Operator: The operator used to compare the metric value against the threshold.
-	Operator *DynamicMetricCriteria_Operator `json:"operator,omitempty"`
+	Operator *DynamicMetricCriteria_Operator_ARM `json:"operator,omitempty"`
 
 	// SkipMetricValidation: Allows creating an alert rule on a custom metric that isn't yet emitted, by causing the metric
 	// validation to be skipped.
 	SkipMetricValidation *bool `json:"skipMetricValidation,omitempty"`
 
 	// TimeAggregation: the criteria time aggregation types.
-	TimeAggregation *DynamicMetricCriteria_TimeAggregation `json:"timeAggregation,omitempty"`
+	TimeAggregation *DynamicMetricCriteria_TimeAggregation_ARM `json:"timeAggregation,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"StaticThresholdCriterion"}
+type MetricCriteria_CriterionType_ARM string
+
+const MetricCriteria_CriterionType_ARM_StaticThresholdCriterion = MetricCriteria_CriterionType_ARM("StaticThresholdCriterion")
+
+// Mapping from string to MetricCriteria_CriterionType_ARM
+var metricCriteria_CriterionType_ARM_Values = map[string]MetricCriteria_CriterionType_ARM{
+	"staticthresholdcriterion": MetricCriteria_CriterionType_ARM_StaticThresholdCriterion,
+}
+
+// +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual"}
+type MetricCriteria_Operator_ARM string
+
+const (
+	MetricCriteria_Operator_ARM_Equals             = MetricCriteria_Operator_ARM("Equals")
+	MetricCriteria_Operator_ARM_GreaterThan        = MetricCriteria_Operator_ARM("GreaterThan")
+	MetricCriteria_Operator_ARM_GreaterThanOrEqual = MetricCriteria_Operator_ARM("GreaterThanOrEqual")
+	MetricCriteria_Operator_ARM_LessThan           = MetricCriteria_Operator_ARM("LessThan")
+	MetricCriteria_Operator_ARM_LessThanOrEqual    = MetricCriteria_Operator_ARM("LessThanOrEqual")
+)
+
+// Mapping from string to MetricCriteria_Operator_ARM
+var metricCriteria_Operator_ARM_Values = map[string]MetricCriteria_Operator_ARM{
+	"equals":             MetricCriteria_Operator_ARM_Equals,
+	"greaterthan":        MetricCriteria_Operator_ARM_GreaterThan,
+	"greaterthanorequal": MetricCriteria_Operator_ARM_GreaterThanOrEqual,
+	"lessthan":           MetricCriteria_Operator_ARM_LessThan,
+	"lessthanorequal":    MetricCriteria_Operator_ARM_LessThanOrEqual,
+}
+
+// +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
+type MetricCriteria_TimeAggregation_ARM string
+
+const (
+	MetricCriteria_TimeAggregation_ARM_Average = MetricCriteria_TimeAggregation_ARM("Average")
+	MetricCriteria_TimeAggregation_ARM_Count   = MetricCriteria_TimeAggregation_ARM("Count")
+	MetricCriteria_TimeAggregation_ARM_Maximum = MetricCriteria_TimeAggregation_ARM("Maximum")
+	MetricCriteria_TimeAggregation_ARM_Minimum = MetricCriteria_TimeAggregation_ARM("Minimum")
+	MetricCriteria_TimeAggregation_ARM_Total   = MetricCriteria_TimeAggregation_ARM("Total")
+)
+
+// Mapping from string to MetricCriteria_TimeAggregation_ARM
+var metricCriteria_TimeAggregation_ARM_Values = map[string]MetricCriteria_TimeAggregation_ARM{
+	"average": MetricCriteria_TimeAggregation_ARM_Average,
+	"count":   MetricCriteria_TimeAggregation_ARM_Count,
+	"maximum": MetricCriteria_TimeAggregation_ARM_Maximum,
+	"minimum": MetricCriteria_TimeAggregation_ARM_Minimum,
+	"total":   MetricCriteria_TimeAggregation_ARM_Total,
 }
 
 // Specifies a metric dimension.
@@ -293,6 +373,68 @@ type MetricDimension_ARM struct {
 
 	// Values: list of dimension values.
 	Values []string `json:"values,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"High","Low","Medium"}
+type DynamicMetricCriteria_AlertSensitivity_ARM string
+
+const (
+	DynamicMetricCriteria_AlertSensitivity_ARM_High   = DynamicMetricCriteria_AlertSensitivity_ARM("High")
+	DynamicMetricCriteria_AlertSensitivity_ARM_Low    = DynamicMetricCriteria_AlertSensitivity_ARM("Low")
+	DynamicMetricCriteria_AlertSensitivity_ARM_Medium = DynamicMetricCriteria_AlertSensitivity_ARM("Medium")
+)
+
+// Mapping from string to DynamicMetricCriteria_AlertSensitivity_ARM
+var dynamicMetricCriteria_AlertSensitivity_ARM_Values = map[string]DynamicMetricCriteria_AlertSensitivity_ARM{
+	"high":   DynamicMetricCriteria_AlertSensitivity_ARM_High,
+	"low":    DynamicMetricCriteria_AlertSensitivity_ARM_Low,
+	"medium": DynamicMetricCriteria_AlertSensitivity_ARM_Medium,
+}
+
+// +kubebuilder:validation:Enum={"DynamicThresholdCriterion"}
+type DynamicMetricCriteria_CriterionType_ARM string
+
+const DynamicMetricCriteria_CriterionType_ARM_DynamicThresholdCriterion = DynamicMetricCriteria_CriterionType_ARM("DynamicThresholdCriterion")
+
+// Mapping from string to DynamicMetricCriteria_CriterionType_ARM
+var dynamicMetricCriteria_CriterionType_ARM_Values = map[string]DynamicMetricCriteria_CriterionType_ARM{
+	"dynamicthresholdcriterion": DynamicMetricCriteria_CriterionType_ARM_DynamicThresholdCriterion,
+}
+
+// +kubebuilder:validation:Enum={"GreaterOrLessThan","GreaterThan","LessThan"}
+type DynamicMetricCriteria_Operator_ARM string
+
+const (
+	DynamicMetricCriteria_Operator_ARM_GreaterOrLessThan = DynamicMetricCriteria_Operator_ARM("GreaterOrLessThan")
+	DynamicMetricCriteria_Operator_ARM_GreaterThan       = DynamicMetricCriteria_Operator_ARM("GreaterThan")
+	DynamicMetricCriteria_Operator_ARM_LessThan          = DynamicMetricCriteria_Operator_ARM("LessThan")
+)
+
+// Mapping from string to DynamicMetricCriteria_Operator_ARM
+var dynamicMetricCriteria_Operator_ARM_Values = map[string]DynamicMetricCriteria_Operator_ARM{
+	"greaterorlessthan": DynamicMetricCriteria_Operator_ARM_GreaterOrLessThan,
+	"greaterthan":       DynamicMetricCriteria_Operator_ARM_GreaterThan,
+	"lessthan":          DynamicMetricCriteria_Operator_ARM_LessThan,
+}
+
+// +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
+type DynamicMetricCriteria_TimeAggregation_ARM string
+
+const (
+	DynamicMetricCriteria_TimeAggregation_ARM_Average = DynamicMetricCriteria_TimeAggregation_ARM("Average")
+	DynamicMetricCriteria_TimeAggregation_ARM_Count   = DynamicMetricCriteria_TimeAggregation_ARM("Count")
+	DynamicMetricCriteria_TimeAggregation_ARM_Maximum = DynamicMetricCriteria_TimeAggregation_ARM("Maximum")
+	DynamicMetricCriteria_TimeAggregation_ARM_Minimum = DynamicMetricCriteria_TimeAggregation_ARM("Minimum")
+	DynamicMetricCriteria_TimeAggregation_ARM_Total   = DynamicMetricCriteria_TimeAggregation_ARM("Total")
+)
+
+// Mapping from string to DynamicMetricCriteria_TimeAggregation_ARM
+var dynamicMetricCriteria_TimeAggregation_ARM_Values = map[string]DynamicMetricCriteria_TimeAggregation_ARM{
+	"average": DynamicMetricCriteria_TimeAggregation_ARM_Average,
+	"count":   DynamicMetricCriteria_TimeAggregation_ARM_Count,
+	"maximum": DynamicMetricCriteria_TimeAggregation_ARM_Maximum,
+	"minimum": DynamicMetricCriteria_TimeAggregation_ARM_Minimum,
+	"total":   DynamicMetricCriteria_TimeAggregation_ARM_Total,
 }
 
 // The minimum number of violations required within the selected lookback time window required to raise an alert.

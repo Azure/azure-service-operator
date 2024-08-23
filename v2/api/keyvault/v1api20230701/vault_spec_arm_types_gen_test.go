@@ -220,8 +220,8 @@ func NetworkRuleSet_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet_ARM(gens map[string]gopter.Gen) {
-	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_Bypass_AzureServices, NetworkRuleSet_Bypass_None))
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_DefaultAction_Allow, NetworkRuleSet_DefaultAction_Deny))
+	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_Bypass_ARM_AzureServices, NetworkRuleSet_Bypass_ARM_None))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_DefaultAction_ARM_Allow, NetworkRuleSet_DefaultAction_ARM_Deny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSet_ARM is a factory method for creating gopter generators
@@ -288,71 +288,71 @@ func Permissions_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPermissions_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPermissions_ARM(gens map[string]gopter.Gen) {
 	gens["Certificates"] = gen.SliceOf(gen.OneConstOf(
-		Permissions_Certificates_All,
-		Permissions_Certificates_Backup,
-		Permissions_Certificates_Create,
-		Permissions_Certificates_Delete,
-		Permissions_Certificates_Deleteissuers,
-		Permissions_Certificates_Get,
-		Permissions_Certificates_Getissuers,
-		Permissions_Certificates_Import,
-		Permissions_Certificates_List,
-		Permissions_Certificates_Listissuers,
-		Permissions_Certificates_Managecontacts,
-		Permissions_Certificates_Manageissuers,
-		Permissions_Certificates_Purge,
-		Permissions_Certificates_Recover,
-		Permissions_Certificates_Restore,
-		Permissions_Certificates_Setissuers,
-		Permissions_Certificates_Update))
+		Permissions_Certificates_ARM_All,
+		Permissions_Certificates_ARM_Backup,
+		Permissions_Certificates_ARM_Create,
+		Permissions_Certificates_ARM_Delete,
+		Permissions_Certificates_ARM_Deleteissuers,
+		Permissions_Certificates_ARM_Get,
+		Permissions_Certificates_ARM_Getissuers,
+		Permissions_Certificates_ARM_Import,
+		Permissions_Certificates_ARM_List,
+		Permissions_Certificates_ARM_Listissuers,
+		Permissions_Certificates_ARM_Managecontacts,
+		Permissions_Certificates_ARM_Manageissuers,
+		Permissions_Certificates_ARM_Purge,
+		Permissions_Certificates_ARM_Recover,
+		Permissions_Certificates_ARM_Restore,
+		Permissions_Certificates_ARM_Setissuers,
+		Permissions_Certificates_ARM_Update))
 	gens["Keys"] = gen.SliceOf(gen.OneConstOf(
-		Permissions_Keys_All,
-		Permissions_Keys_Backup,
-		Permissions_Keys_Create,
-		Permissions_Keys_Decrypt,
-		Permissions_Keys_Delete,
-		Permissions_Keys_Encrypt,
-		Permissions_Keys_Get,
-		Permissions_Keys_Getrotationpolicy,
-		Permissions_Keys_Import,
-		Permissions_Keys_List,
-		Permissions_Keys_Purge,
-		Permissions_Keys_Recover,
-		Permissions_Keys_Release,
-		Permissions_Keys_Restore,
-		Permissions_Keys_Rotate,
-		Permissions_Keys_Setrotationpolicy,
-		Permissions_Keys_Sign,
-		Permissions_Keys_UnwrapKey,
-		Permissions_Keys_Update,
-		Permissions_Keys_Verify,
-		Permissions_Keys_WrapKey))
+		Permissions_Keys_ARM_All,
+		Permissions_Keys_ARM_Backup,
+		Permissions_Keys_ARM_Create,
+		Permissions_Keys_ARM_Decrypt,
+		Permissions_Keys_ARM_Delete,
+		Permissions_Keys_ARM_Encrypt,
+		Permissions_Keys_ARM_Get,
+		Permissions_Keys_ARM_Getrotationpolicy,
+		Permissions_Keys_ARM_Import,
+		Permissions_Keys_ARM_List,
+		Permissions_Keys_ARM_Purge,
+		Permissions_Keys_ARM_Recover,
+		Permissions_Keys_ARM_Release,
+		Permissions_Keys_ARM_Restore,
+		Permissions_Keys_ARM_Rotate,
+		Permissions_Keys_ARM_Setrotationpolicy,
+		Permissions_Keys_ARM_Sign,
+		Permissions_Keys_ARM_UnwrapKey,
+		Permissions_Keys_ARM_Update,
+		Permissions_Keys_ARM_Verify,
+		Permissions_Keys_ARM_WrapKey))
 	gens["Secrets"] = gen.SliceOf(gen.OneConstOf(
-		Permissions_Secrets_All,
-		Permissions_Secrets_Backup,
-		Permissions_Secrets_Delete,
-		Permissions_Secrets_Get,
-		Permissions_Secrets_List,
-		Permissions_Secrets_Purge,
-		Permissions_Secrets_Recover,
-		Permissions_Secrets_Restore,
-		Permissions_Secrets_Set))
+		Permissions_Secrets_ARM_All,
+		Permissions_Secrets_ARM_Backup,
+		Permissions_Secrets_ARM_Delete,
+		Permissions_Secrets_ARM_Get,
+		Permissions_Secrets_ARM_List,
+		Permissions_Secrets_ARM_Purge,
+		Permissions_Secrets_ARM_Recover,
+		Permissions_Secrets_ARM_Restore,
+		Permissions_Secrets_ARM_Set))
 	gens["Storage"] = gen.SliceOf(gen.OneConstOf(
-		Permissions_Storage_All,
-		Permissions_Storage_Backup,
-		Permissions_Storage_Delete,
-		Permissions_Storage_Deletesas,
-		Permissions_Storage_Get,
-		Permissions_Storage_Getsas,
-		Permissions_Storage_List,
-		Permissions_Storage_Listsas,
-		Permissions_Storage_Purge,
-		Permissions_Storage_Recover,
-		Permissions_Storage_Regeneratekey,
-		Permissions_Storage_Restore,
-		Permissions_Storage_Set,
-		Permissions_Storage_Setsas,
-		Permissions_Storage_Update))
+		Permissions_Storage_ARM_All,
+		Permissions_Storage_ARM_Backup,
+		Permissions_Storage_ARM_Delete,
+		Permissions_Storage_ARM_Deletesas,
+		Permissions_Storage_ARM_Get,
+		Permissions_Storage_ARM_Getsas,
+		Permissions_Storage_ARM_List,
+		Permissions_Storage_ARM_Listsas,
+		Permissions_Storage_ARM_Purge,
+		Permissions_Storage_ARM_Recover,
+		Permissions_Storage_ARM_Regeneratekey,
+		Permissions_Storage_ARM_Restore,
+		Permissions_Storage_ARM_Set,
+		Permissions_Storage_ARM_Setsas,
+		Permissions_Storage_ARM_Update))
 }
 
 func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -412,8 +412,8 @@ func Sku_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_A))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_Premium, Sku_Name_Standard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_ARM_A))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_ARM_Premium, Sku_Name_ARM_Standard))
 }
 
 func Test_VaultProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -484,17 +484,17 @@ func VaultProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVaultProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVaultProperties_ARM(gens map[string]gopter.Gen) {
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		VaultProperties_CreateMode_CreateOrRecover,
-		VaultProperties_CreateMode_Default,
-		VaultProperties_CreateMode_PurgeThenCreate,
-		VaultProperties_CreateMode_Recover))
+		VaultProperties_CreateMode_ARM_CreateOrRecover,
+		VaultProperties_CreateMode_ARM_Default,
+		VaultProperties_CreateMode_ARM_PurgeThenCreate,
+		VaultProperties_CreateMode_ARM_Recover))
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
 	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForDeployment"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForDiskEncryption"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForTemplateDeployment"] = gen.PtrOf(gen.Bool())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultProperties_ProvisioningState_RegisteringDns, VaultProperties_ProvisioningState_Succeeded))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultProperties_ProvisioningState_ARM_RegisteringDns, VaultProperties_ProvisioningState_ARM_Succeeded))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())

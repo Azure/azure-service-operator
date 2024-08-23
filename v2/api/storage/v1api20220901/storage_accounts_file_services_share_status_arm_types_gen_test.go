@@ -148,29 +148,29 @@ func FileShareProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFileShareProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFileShareProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(
-		FileShareProperties_AccessTier_STATUS_Cool,
-		FileShareProperties_AccessTier_STATUS_Hot,
-		FileShareProperties_AccessTier_STATUS_Premium,
-		FileShareProperties_AccessTier_STATUS_TransactionOptimized))
+		FileShareProperties_AccessTier_STATUS_ARM_Cool,
+		FileShareProperties_AccessTier_STATUS_ARM_Hot,
+		FileShareProperties_AccessTier_STATUS_ARM_Premium,
+		FileShareProperties_AccessTier_STATUS_ARM_TransactionOptimized))
 	gens["AccessTierChangeTime"] = gen.PtrOf(gen.AlphaString())
 	gens["AccessTierStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["Deleted"] = gen.PtrOf(gen.Bool())
 	gens["DeletedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_EnabledProtocols_STATUS_NFS, FileShareProperties_EnabledProtocols_STATUS_SMB))
+	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_EnabledProtocols_STATUS_ARM_NFS, FileShareProperties_EnabledProtocols_STATUS_ARM_SMB))
 	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_LeaseDuration_STATUS_Fixed, FileShareProperties_LeaseDuration_STATUS_Infinite))
+	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_LeaseDuration_STATUS_ARM_Fixed, FileShareProperties_LeaseDuration_STATUS_ARM_Infinite))
 	gens["LeaseState"] = gen.PtrOf(gen.OneConstOf(
-		FileShareProperties_LeaseState_STATUS_Available,
-		FileShareProperties_LeaseState_STATUS_Breaking,
-		FileShareProperties_LeaseState_STATUS_Broken,
-		FileShareProperties_LeaseState_STATUS_Expired,
-		FileShareProperties_LeaseState_STATUS_Leased))
-	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_LeaseStatus_STATUS_Locked, FileShareProperties_LeaseStatus_STATUS_Unlocked))
+		FileShareProperties_LeaseState_STATUS_ARM_Available,
+		FileShareProperties_LeaseState_STATUS_ARM_Breaking,
+		FileShareProperties_LeaseState_STATUS_ARM_Broken,
+		FileShareProperties_LeaseState_STATUS_ARM_Expired,
+		FileShareProperties_LeaseState_STATUS_ARM_Leased))
+	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_LeaseStatus_STATUS_ARM_Locked, FileShareProperties_LeaseStatus_STATUS_ARM_Unlocked))
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())
-	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_STATUS_AllSquash, FileShareProperties_RootSquash_STATUS_NoRootSquash, FileShareProperties_RootSquash_STATUS_RootSquash))
+	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_STATUS_ARM_AllSquash, FileShareProperties_RootSquash_STATUS_ARM_NoRootSquash, FileShareProperties_RootSquash_STATUS_ARM_RootSquash))
 	gens["ShareQuota"] = gen.PtrOf(gen.Int())
 	gens["ShareUsageBytes"] = gen.PtrOf(gen.Int())
 	gens["SnapshotTime"] = gen.PtrOf(gen.AlphaString())

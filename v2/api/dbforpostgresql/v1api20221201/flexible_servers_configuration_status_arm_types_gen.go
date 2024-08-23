@@ -27,7 +27,7 @@ type ConfigurationProperties_STATUS_ARM struct {
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	// DataType: Data type of the configuration.
-	DataType *ConfigurationProperties_DataType_STATUS `json:"dataType,omitempty"`
+	DataType *ConfigurationProperties_DataType_STATUS_ARM `json:"dataType,omitempty"`
 
 	// DefaultValue: Default value of the configuration.
 	DefaultValue *string `json:"defaultValue,omitempty"`
@@ -55,4 +55,21 @@ type ConfigurationProperties_STATUS_ARM struct {
 
 	// Value: Value of the configuration.
 	Value *string `json:"value,omitempty"`
+}
+
+type ConfigurationProperties_DataType_STATUS_ARM string
+
+const (
+	ConfigurationProperties_DataType_STATUS_ARM_Boolean     = ConfigurationProperties_DataType_STATUS_ARM("Boolean")
+	ConfigurationProperties_DataType_STATUS_ARM_Enumeration = ConfigurationProperties_DataType_STATUS_ARM("Enumeration")
+	ConfigurationProperties_DataType_STATUS_ARM_Integer     = ConfigurationProperties_DataType_STATUS_ARM("Integer")
+	ConfigurationProperties_DataType_STATUS_ARM_Numeric     = ConfigurationProperties_DataType_STATUS_ARM("Numeric")
+)
+
+// Mapping from string to ConfigurationProperties_DataType_STATUS_ARM
+var configurationProperties_DataType_STATUS_ARM_Values = map[string]ConfigurationProperties_DataType_STATUS_ARM{
+	"boolean":     ConfigurationProperties_DataType_STATUS_ARM_Boolean,
+	"enumeration": ConfigurationProperties_DataType_STATUS_ARM_Enumeration,
+	"integer":     ConfigurationProperties_DataType_STATUS_ARM_Integer,
+	"numeric":     ConfigurationProperties_DataType_STATUS_ARM_Numeric,
 }

@@ -85,13 +85,13 @@ func CreationData_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCreationData_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationData_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(
-		CreationData_CreateOption_STATUS_Attach,
-		CreationData_CreateOption_STATUS_Copy,
-		CreationData_CreateOption_STATUS_Empty,
-		CreationData_CreateOption_STATUS_FromImage,
-		CreationData_CreateOption_STATUS_Import,
-		CreationData_CreateOption_STATUS_Restore,
-		CreationData_CreateOption_STATUS_Upload))
+		CreationData_CreateOption_STATUS_ARM_Attach,
+		CreationData_CreateOption_STATUS_ARM_Copy,
+		CreationData_CreateOption_STATUS_ARM_Empty,
+		CreationData_CreateOption_STATUS_ARM_FromImage,
+		CreationData_CreateOption_STATUS_ARM_Import,
+		CreationData_CreateOption_STATUS_ARM_Restore,
+		CreationData_CreateOption_STATUS_ARM_Upload))
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUniqueId"] = gen.PtrOf(gen.AlphaString())
@@ -182,16 +182,16 @@ func AddIndependentPropertyGeneratorsForDiskProperties_STATUS_ARM(gens map[strin
 	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-		DiskState_STATUS_ActiveSAS,
-		DiskState_STATUS_ActiveUpload,
-		DiskState_STATUS_Attached,
-		DiskState_STATUS_ReadyToUpload,
-		DiskState_STATUS_Reserved,
-		DiskState_STATUS_Unattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_HyperVGeneration_STATUS_V1, DiskProperties_HyperVGeneration_STATUS_V2))
+		DiskState_STATUS_ARM_ActiveSAS,
+		DiskState_STATUS_ARM_ActiveUpload,
+		DiskState_STATUS_ARM_Attached,
+		DiskState_STATUS_ARM_ReadyToUpload,
+		DiskState_STATUS_ARM_Reserved,
+		DiskState_STATUS_ARM_Unattached))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_HyperVGeneration_STATUS_ARM_V1, DiskProperties_HyperVGeneration_STATUS_ARM_V2))
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_STATUS_AllowAll, NetworkAccessPolicy_STATUS_AllowPrivate, NetworkAccessPolicy_STATUS_DenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsType_STATUS_Linux, DiskProperties_OsType_STATUS_Windows))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_STATUS_ARM_AllowAll, NetworkAccessPolicy_STATUS_ARM_AllowPrivate, NetworkAccessPolicy_STATUS_ARM_DenyAll))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsType_STATUS_ARM_Linux, DiskProperties_OsType_STATUS_ARM_Windows))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
@@ -265,10 +265,10 @@ func DiskSku_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDiskSku_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSku_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DiskSku_Name_STATUS_Premium_LRS,
-		DiskSku_Name_STATUS_StandardSSD_LRS,
-		DiskSku_Name_STATUS_Standard_LRS,
-		DiskSku_Name_STATUS_UltraSSD_LRS))
+		DiskSku_Name_STATUS_ARM_Premium_LRS,
+		DiskSku_Name_STATUS_ARM_StandardSSD_LRS,
+		DiskSku_Name_STATUS_ARM_Standard_LRS,
+		DiskSku_Name_STATUS_ARM_UltraSSD_LRS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -554,7 +554,7 @@ func Encryption_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEncryption_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryption_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionType_STATUS_EncryptionAtRestWithCustomerKey, EncryptionType_STATUS_EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionType_STATUS_EncryptionAtRestWithPlatformKey))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionType_STATUS_ARM_EncryptionAtRestWithCustomerKey, EncryptionType_STATUS_ARM_EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionType_STATUS_ARM_EncryptionAtRestWithPlatformKey))
 }
 
 func Test_ExtendedLocation_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -616,7 +616,7 @@ func ExtendedLocation_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_EdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUS_ARM_EdgeZone))
 }
 
 func Test_ImageDiskReference_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

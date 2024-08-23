@@ -20,5 +20,18 @@ type Servers_Databases_TransparentDataEncryption_STATUS_ARM struct {
 // Properties of a transparent data encryption.
 type TransparentDataEncryptionProperties_STATUS_ARM struct {
 	// State: Specifies the state of the transparent data encryption.
-	State *TransparentDataEncryptionProperties_State_STATUS `json:"state,omitempty"`
+	State *TransparentDataEncryptionProperties_State_STATUS_ARM `json:"state,omitempty"`
+}
+
+type TransparentDataEncryptionProperties_State_STATUS_ARM string
+
+const (
+	TransparentDataEncryptionProperties_State_STATUS_ARM_Disabled = TransparentDataEncryptionProperties_State_STATUS_ARM("Disabled")
+	TransparentDataEncryptionProperties_State_STATUS_ARM_Enabled  = TransparentDataEncryptionProperties_State_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to TransparentDataEncryptionProperties_State_STATUS_ARM
+var transparentDataEncryptionProperties_State_STATUS_ARM_Values = map[string]TransparentDataEncryptionProperties_State_STATUS_ARM{
+	"disabled": TransparentDataEncryptionProperties_State_STATUS_ARM_Disabled,
+	"enabled":  TransparentDataEncryptionProperties_State_STATUS_ARM_Enabled,
 }

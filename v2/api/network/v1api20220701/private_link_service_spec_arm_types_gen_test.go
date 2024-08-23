@@ -147,8 +147,8 @@ func PrivateLinkServiceIpConfigurationProperties_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceIpConfigurationProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_IPv4, IPVersion_IPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_ARM_IPv4, IPVersion_ARM_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_ARM_Dynamic, IPAllocationMethod_ARM_Static))
 }
 
 // AddRelatedPropertyGeneratorsForPrivateLinkServiceIpConfigurationProperties_ARM is a factory method for creating gopter generators

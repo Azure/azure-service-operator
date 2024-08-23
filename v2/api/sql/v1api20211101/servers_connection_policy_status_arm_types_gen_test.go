@@ -75,7 +75,7 @@ func ServerConnectionPolicyProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerConnectionPolicyProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ConnectionType"] = gen.PtrOf(gen.OneConstOf(ServerConnectionPolicyProperties_ConnectionType_STATUS_Default, ServerConnectionPolicyProperties_ConnectionType_STATUS_Proxy, ServerConnectionPolicyProperties_ConnectionType_STATUS_Redirect))
+	gens["ConnectionType"] = gen.PtrOf(gen.OneConstOf(ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM_Default, ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM_Proxy, ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM_Redirect))
 }
 
 func Test_Servers_ConnectionPolicy_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

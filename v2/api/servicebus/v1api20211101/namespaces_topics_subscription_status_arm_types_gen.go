@@ -84,7 +84,7 @@ type SBSubscriptionProperties_STATUS_ARM struct {
 	RequiresSession *bool `json:"requiresSession,omitempty"`
 
 	// Status: Enumerates the possible values for the status of a messaging entity.
-	Status *EntityStatus_STATUS `json:"status,omitempty"`
+	Status *EntityStatus_STATUS_ARM `json:"status,omitempty"`
 
 	// UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`

@@ -55,15 +55,15 @@ type NatGatewayPropertiesFormat_ARM struct {
 // SKU of nat gateway.
 type NatGatewaySku_ARM struct {
 	// Name: Name of Nat Gateway SKU.
-	Name *NatGatewaySku_Name `json:"name,omitempty"`
+	Name *NatGatewaySku_Name_ARM `json:"name,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Standard"}
-type NatGatewaySku_Name string
+type NatGatewaySku_Name_ARM string
 
-const NatGatewaySku_Name_Standard = NatGatewaySku_Name("Standard")
+const NatGatewaySku_Name_ARM_Standard = NatGatewaySku_Name_ARM("Standard")
 
-// Mapping from string to NatGatewaySku_Name
-var natGatewaySku_Name_Values = map[string]NatGatewaySku_Name{
-	"standard": NatGatewaySku_Name_Standard,
+// Mapping from string to NatGatewaySku_Name_ARM
+var natGatewaySku_Name_ARM_Values = map[string]NatGatewaySku_Name_ARM{
+	"standard": NatGatewaySku_Name_ARM_Standard,
 }

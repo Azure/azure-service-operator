@@ -79,7 +79,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	GatewayProfile *AgentPoolGatewayProfile_ARM `json:"gatewayProfile,omitempty"`
 
 	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-	GpuInstanceProfile *GPUInstanceProfile `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile *GPUInstanceProfile_ARM `json:"gpuInstanceProfile,omitempty"`
 
 	// GpuProfile: The GPU settings of an agent pool.
 	GpuProfile  *AgentPoolGPUProfile_ARM `json:"gpuProfile,omitempty"`
@@ -90,7 +90,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 
 	// KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
 	// storage.
-	KubeletDiskType *KubeletDiskType `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType *KubeletDiskType_ARM `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_ARM `json:"linuxOSConfig,omitempty"`
@@ -111,7 +111,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 
 	// Mode: A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool
 	// restrictions  and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
-	Mode *AgentPoolMode `json:"mode,omitempty"`
+	Mode *AgentPoolMode_ARM `json:"mode,omitempty"`
 
 	// NetworkProfile: Network-related settings of an agent pool.
 	NetworkProfile *AgentPoolNetworkProfile_ARM `json:"networkProfile,omitempty"`
@@ -143,20 +143,20 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
 	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
 	// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
-	OsDiskType *OSDiskType `json:"osDiskType,omitempty"`
+	OsDiskType *OSDiskType_ARM `json:"osDiskType,omitempty"`
 
 	// OsSKU: Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or
 	// Windows2019 if  OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is
 	// deprecated.
-	OsSKU *OSSKU `json:"osSKU,omitempty"`
+	OsSKU *OSSKU_ARM `json:"osSKU,omitempty"`
 
 	// OsType: The operating system type. The default is Linux.
-	OsType *OSType `json:"osType,omitempty"`
+	OsType *OSType_ARM `json:"osType,omitempty"`
 
 	// PodIPAllocationMode: The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is
 	// 'DynamicIndividual'.
-	PodIPAllocationMode *PodIPAllocationMode `json:"podIPAllocationMode,omitempty"`
-	PodSubnetID         *string              `json:"podSubnetID,omitempty"`
+	PodIPAllocationMode *PodIPAllocationMode_ARM `json:"podIPAllocationMode,omitempty"`
+	PodSubnetID         *string                  `json:"podSubnetID,omitempty"`
 
 	// PowerState: When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this
 	// field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only
@@ -165,14 +165,14 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	ProximityPlacementGroupID *string         `json:"proximityPlacementGroupID,omitempty"`
 
 	// ScaleDownMode: This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete.
-	ScaleDownMode *ScaleDownMode `json:"scaleDownMode,omitempty"`
+	ScaleDownMode *ScaleDownMode_ARM `json:"scaleDownMode,omitempty"`
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
-	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_ARM `json:"scaleSetEvictionPolicy,omitempty"`
 
 	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
-	ScaleSetPriority *ScaleSetPriority `json:"scaleSetPriority,omitempty"`
+	ScaleSetPriority *ScaleSetPriority_ARM `json:"scaleSetPriority,omitempty"`
 
 	// SecurityProfile: The security settings of an agent pool.
 	SecurityProfile *AgentPoolSecurityProfile_ARM `json:"securityProfile,omitempty"`
@@ -186,7 +186,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	Tags map[string]string `json:"tags"`
 
 	// Type: The type of Agent Pool.
-	Type *AgentPoolType `json:"type,omitempty"`
+	Type *AgentPoolType_ARM `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings           *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
@@ -205,7 +205,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	WindowsProfile *AgentPoolWindowsProfile_ARM `json:"windowsProfile,omitempty"`
 
 	// WorkloadRuntime: Determines the type of workload a node can run.
-	WorkloadRuntime *WorkloadRuntime `json:"workloadRuntime,omitempty"`
+	WorkloadRuntime *WorkloadRuntime_ARM `json:"workloadRuntime,omitempty"`
 }
 
 type AgentPoolArtifactStreamingProfile_ARM struct {
@@ -232,6 +232,24 @@ type AgentPoolGPUProfile_ARM struct {
 	InstallGPUDriver *bool `json:"installGPUDriver,omitempty"`
 }
 
+// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions
+// and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+// +kubebuilder:validation:Enum={"Gateway","System","User"}
+type AgentPoolMode_ARM string
+
+const (
+	AgentPoolMode_ARM_Gateway = AgentPoolMode_ARM("Gateway")
+	AgentPoolMode_ARM_System  = AgentPoolMode_ARM("System")
+	AgentPoolMode_ARM_User    = AgentPoolMode_ARM("User")
+)
+
+// Mapping from string to AgentPoolMode_ARM
+var agentPoolMode_ARM_Values = map[string]AgentPoolMode_ARM{
+	"gateway": AgentPoolMode_ARM_Gateway,
+	"system":  AgentPoolMode_ARM_System,
+	"user":    AgentPoolMode_ARM_User,
+}
+
 // Network settings of an agent pool.
 type AgentPoolNetworkProfile_ARM struct {
 	// AllowedHostPorts: The port ranges that are allowed to access. The specified ranges are allowed to overlap.
@@ -253,7 +271,24 @@ type AgentPoolSecurityProfile_ARM struct {
 	EnableVTPM *bool `json:"enableVTPM,omitempty"`
 
 	// SshAccess: SSH access method of an agent pool.
-	SshAccess *AgentPoolSSHAccess `json:"sshAccess,omitempty"`
+	SshAccess *AgentPoolSSHAccess_ARM `json:"sshAccess,omitempty"`
+}
+
+// The type of Agent Pool.
+// +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets","VirtualMachines"}
+type AgentPoolType_ARM string
+
+const (
+	AgentPoolType_ARM_AvailabilitySet         = AgentPoolType_ARM("AvailabilitySet")
+	AgentPoolType_ARM_VirtualMachineScaleSets = AgentPoolType_ARM("VirtualMachineScaleSets")
+	AgentPoolType_ARM_VirtualMachines         = AgentPoolType_ARM("VirtualMachines")
+)
+
+// Mapping from string to AgentPoolType_ARM
+var agentPoolType_ARM_Values = map[string]AgentPoolType_ARM{
+	"availabilityset":         AgentPoolType_ARM_AvailabilitySet,
+	"virtualmachinescalesets": AgentPoolType_ARM_VirtualMachineScaleSets,
+	"virtualmachines":         AgentPoolType_ARM_VirtualMachines,
 }
 
 // Settings for upgrading an agentpool
@@ -276,7 +311,7 @@ type AgentPoolUpgradeSettings_ARM struct {
 	// UndrainableNodeBehavior: Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable
 	// nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the
 	// remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes.
-	UndrainableNodeBehavior *AgentPoolUpgradeSettings_UndrainableNodeBehavior `json:"undrainableNodeBehavior,omitempty"`
+	UndrainableNodeBehavior *AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM `json:"undrainableNodeBehavior,omitempty"`
 }
 
 // The Windows agent pool's specific profile.
@@ -284,6 +319,27 @@ type AgentPoolWindowsProfile_ARM struct {
 	// DisableOutboundNat: The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT
 	// Gateway and the Windows agent pool does not have node public IP enabled.
 	DisableOutboundNat *bool `json:"disableOutboundNat,omitempty"`
+}
+
+// GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
+// +kubebuilder:validation:Enum={"MIG1g","MIG2g","MIG3g","MIG4g","MIG7g"}
+type GPUInstanceProfile_ARM string
+
+const (
+	GPUInstanceProfile_ARM_MIG1G = GPUInstanceProfile_ARM("MIG1g")
+	GPUInstanceProfile_ARM_MIG2G = GPUInstanceProfile_ARM("MIG2g")
+	GPUInstanceProfile_ARM_MIG3G = GPUInstanceProfile_ARM("MIG3g")
+	GPUInstanceProfile_ARM_MIG4G = GPUInstanceProfile_ARM("MIG4g")
+	GPUInstanceProfile_ARM_MIG7G = GPUInstanceProfile_ARM("MIG7g")
+)
+
+// Mapping from string to GPUInstanceProfile_ARM
+var gPUInstanceProfile_ARM_Values = map[string]GPUInstanceProfile_ARM{
+	"mig1g": GPUInstanceProfile_ARM_MIG1G,
+	"mig2g": GPUInstanceProfile_ARM_MIG2G,
+	"mig3g": GPUInstanceProfile_ARM_MIG3G,
+	"mig4g": GPUInstanceProfile_ARM_MIG4G,
+	"mig7g": GPUInstanceProfile_ARM_MIG7G,
 }
 
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
@@ -328,6 +384,21 @@ type KubeletConfig_ARM struct {
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
+// Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
+// +kubebuilder:validation:Enum={"OS","Temporary"}
+type KubeletDiskType_ARM string
+
+const (
+	KubeletDiskType_ARM_OS        = KubeletDiskType_ARM("OS")
+	KubeletDiskType_ARM_Temporary = KubeletDiskType_ARM("Temporary")
+)
+
+// Mapping from string to KubeletDiskType_ARM
+var kubeletDiskType_ARM_Values = map[string]KubeletDiskType_ARM{
+	"os":        KubeletDiskType_ARM_OS,
+	"temporary": KubeletDiskType_ARM_Temporary,
+}
+
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig_ARM struct {
 	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
@@ -347,10 +418,130 @@ type LinuxOSConfig_ARM struct {
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
 
+// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
+// defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
+// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+// +kubebuilder:validation:Enum={"Ephemeral","Managed"}
+type OSDiskType_ARM string
+
+const (
+	OSDiskType_ARM_Ephemeral = OSDiskType_ARM("Ephemeral")
+	OSDiskType_ARM_Managed   = OSDiskType_ARM("Managed")
+)
+
+// Mapping from string to OSDiskType_ARM
+var oSDiskType_ARM_Values = map[string]OSDiskType_ARM{
+	"ephemeral": OSDiskType_ARM_Ephemeral,
+	"managed":   OSDiskType_ARM_Managed,
+}
+
+// Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if
+// OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.
+// +kubebuilder:validation:Enum={"AzureLinux","CBLMariner","Mariner","Ubuntu","Windows2019","Windows2022","WindowsAnnual"}
+type OSSKU_ARM string
+
+const (
+	OSSKU_ARM_AzureLinux    = OSSKU_ARM("AzureLinux")
+	OSSKU_ARM_CBLMariner    = OSSKU_ARM("CBLMariner")
+	OSSKU_ARM_Mariner       = OSSKU_ARM("Mariner")
+	OSSKU_ARM_Ubuntu        = OSSKU_ARM("Ubuntu")
+	OSSKU_ARM_Windows2019   = OSSKU_ARM("Windows2019")
+	OSSKU_ARM_Windows2022   = OSSKU_ARM("Windows2022")
+	OSSKU_ARM_WindowsAnnual = OSSKU_ARM("WindowsAnnual")
+)
+
+// Mapping from string to OSSKU_ARM
+var oSSKU_ARM_Values = map[string]OSSKU_ARM{
+	"azurelinux":    OSSKU_ARM_AzureLinux,
+	"cblmariner":    OSSKU_ARM_CBLMariner,
+	"mariner":       OSSKU_ARM_Mariner,
+	"ubuntu":        OSSKU_ARM_Ubuntu,
+	"windows2019":   OSSKU_ARM_Windows2019,
+	"windows2022":   OSSKU_ARM_Windows2022,
+	"windowsannual": OSSKU_ARM_WindowsAnnual,
+}
+
+// The operating system type. The default is Linux.
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type OSType_ARM string
+
+const (
+	OSType_ARM_Linux   = OSType_ARM("Linux")
+	OSType_ARM_Windows = OSType_ARM("Windows")
+)
+
+// Mapping from string to OSType_ARM
+var oSType_ARM_Values = map[string]OSType_ARM{
+	"linux":   OSType_ARM_Linux,
+	"windows": OSType_ARM_Windows,
+}
+
+// The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'.
+// +kubebuilder:validation:Enum={"DynamicIndividual","StaticBlock"}
+type PodIPAllocationMode_ARM string
+
+const (
+	PodIPAllocationMode_ARM_DynamicIndividual = PodIPAllocationMode_ARM("DynamicIndividual")
+	PodIPAllocationMode_ARM_StaticBlock       = PodIPAllocationMode_ARM("StaticBlock")
+)
+
+// Mapping from string to PodIPAllocationMode_ARM
+var podIPAllocationMode_ARM_Values = map[string]PodIPAllocationMode_ARM{
+	"dynamicindividual": PodIPAllocationMode_ARM_DynamicIndividual,
+	"staticblock":       PodIPAllocationMode_ARM_StaticBlock,
+}
+
 // Describes the Power State of the cluster
 type PowerState_ARM struct {
 	// Code: Tells whether the cluster is Running or Stopped
-	Code *PowerState_Code `json:"code,omitempty"`
+	Code *PowerState_Code_ARM `json:"code,omitempty"`
+}
+
+// Describes how VMs are added to or removed from Agent Pools. See [billing
+// states](https://docs.microsoft.com/azure/virtual-machines/states-billing).
+// +kubebuilder:validation:Enum={"Deallocate","Delete"}
+type ScaleDownMode_ARM string
+
+const (
+	ScaleDownMode_ARM_Deallocate = ScaleDownMode_ARM("Deallocate")
+	ScaleDownMode_ARM_Delete     = ScaleDownMode_ARM("Delete")
+)
+
+// Mapping from string to ScaleDownMode_ARM
+var scaleDownMode_ARM_Values = map[string]ScaleDownMode_ARM{
+	"deallocate": ScaleDownMode_ARM_Deallocate,
+	"delete":     ScaleDownMode_ARM_Delete,
+}
+
+// The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
+// about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
+// +kubebuilder:validation:Enum={"Deallocate","Delete"}
+type ScaleSetEvictionPolicy_ARM string
+
+const (
+	ScaleSetEvictionPolicy_ARM_Deallocate = ScaleSetEvictionPolicy_ARM("Deallocate")
+	ScaleSetEvictionPolicy_ARM_Delete     = ScaleSetEvictionPolicy_ARM("Delete")
+)
+
+// Mapping from string to ScaleSetEvictionPolicy_ARM
+var scaleSetEvictionPolicy_ARM_Values = map[string]ScaleSetEvictionPolicy_ARM{
+	"deallocate": ScaleSetEvictionPolicy_ARM_Deallocate,
+	"delete":     ScaleSetEvictionPolicy_ARM_Delete,
+}
+
+// The Virtual Machine Scale Set priority.
+// +kubebuilder:validation:Enum={"Regular","Spot"}
+type ScaleSetPriority_ARM string
+
+const (
+	ScaleSetPriority_ARM_Regular = ScaleSetPriority_ARM("Regular")
+	ScaleSetPriority_ARM_Spot    = ScaleSetPriority_ARM("Spot")
+)
+
+// Mapping from string to ScaleSetPriority_ARM
+var scaleSetPriority_ARM_Values = map[string]ScaleSetPriority_ARM{
+	"regular": ScaleSetPriority_ARM_Regular,
+	"spot":    ScaleSetPriority_ARM_Spot,
 }
 
 // Current status on a group of nodes of the same vm size.
@@ -366,6 +557,52 @@ type VirtualMachineNodes_ARM struct {
 type VirtualMachinesProfile_ARM struct {
 	// Scale: Specifications on how to scale a VirtualMachines agent pool.
 	Scale *ScaleProfile_ARM `json:"scale,omitempty"`
+}
+
+// Determines the type of workload a node can run.
+// +kubebuilder:validation:Enum={"KataMshvVmIsolation","OCIContainer","WasmWasi"}
+type WorkloadRuntime_ARM string
+
+const (
+	WorkloadRuntime_ARM_KataMshvVmIsolation = WorkloadRuntime_ARM("KataMshvVmIsolation")
+	WorkloadRuntime_ARM_OCIContainer        = WorkloadRuntime_ARM("OCIContainer")
+	WorkloadRuntime_ARM_WasmWasi            = WorkloadRuntime_ARM("WasmWasi")
+)
+
+// Mapping from string to WorkloadRuntime_ARM
+var workloadRuntime_ARM_Values = map[string]WorkloadRuntime_ARM{
+	"katamshvvmisolation": WorkloadRuntime_ARM_KataMshvVmIsolation,
+	"ocicontainer":        WorkloadRuntime_ARM_OCIContainer,
+	"wasmwasi":            WorkloadRuntime_ARM_WasmWasi,
+}
+
+// SSH access method of an agent pool.
+// +kubebuilder:validation:Enum={"Disabled","LocalUser"}
+type AgentPoolSSHAccess_ARM string
+
+const (
+	AgentPoolSSHAccess_ARM_Disabled  = AgentPoolSSHAccess_ARM("Disabled")
+	AgentPoolSSHAccess_ARM_LocalUser = AgentPoolSSHAccess_ARM("LocalUser")
+)
+
+// Mapping from string to AgentPoolSSHAccess_ARM
+var agentPoolSSHAccess_ARM_Values = map[string]AgentPoolSSHAccess_ARM{
+	"disabled":  AgentPoolSSHAccess_ARM_Disabled,
+	"localuser": AgentPoolSSHAccess_ARM_LocalUser,
+}
+
+// +kubebuilder:validation:Enum={"Cordon","Schedule"}
+type AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM string
+
+const (
+	AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM_Cordon   = AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM("Cordon")
+	AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM_Schedule = AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM("Schedule")
+)
+
+// Mapping from string to AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM
+var agentPoolUpgradeSettings_UndrainableNodeBehavior_ARM_Values = map[string]AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM{
+	"cordon":   AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM_Cordon,
+	"schedule": AgentPoolUpgradeSettings_UndrainableNodeBehavior_ARM_Schedule,
 }
 
 // Contains the IPTag associated with the object.
@@ -388,7 +625,21 @@ type PortRange_ARM struct {
 	PortStart *int `json:"portStart,omitempty"`
 
 	// Protocol: The network protocol of the port.
-	Protocol *PortRange_Protocol `json:"protocol,omitempty"`
+	Protocol *PortRange_Protocol_ARM `json:"protocol,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Running","Stopped"}
+type PowerState_Code_ARM string
+
+const (
+	PowerState_Code_ARM_Running = PowerState_Code_ARM("Running")
+	PowerState_Code_ARM_Stopped = PowerState_Code_ARM("Stopped")
+)
+
+// Mapping from string to PowerState_Code_ARM
+var powerState_Code_ARM_Values = map[string]PowerState_Code_ARM{
+	"running": PowerState_Code_ARM_Running,
+	"stopped": PowerState_Code_ARM_Stopped,
 }
 
 // Specifications on how to scale a VirtualMachines agent pool.
@@ -512,4 +763,18 @@ type ManualScaleProfile_ARM struct {
 	// first available one when scaling. If a VM size is unavailable (e.g. due to quota or regional capacity reasons), AKS will
 	// use the next size.
 	Sizes []string `json:"sizes"`
+}
+
+// +kubebuilder:validation:Enum={"TCP","UDP"}
+type PortRange_Protocol_ARM string
+
+const (
+	PortRange_Protocol_ARM_TCP = PortRange_Protocol_ARM("TCP")
+	PortRange_Protocol_ARM_UDP = PortRange_Protocol_ARM("UDP")
+)
+
+// Mapping from string to PortRange_Protocol_ARM
+var portRange_Protocol_ARM_Values = map[string]PortRange_Protocol_ARM{
+	"tcp": PortRange_Protocol_ARM_TCP,
+	"udp": PortRange_Protocol_ARM_UDP,
 }

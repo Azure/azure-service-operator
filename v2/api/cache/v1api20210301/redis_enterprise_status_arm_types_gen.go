@@ -36,19 +36,19 @@ type ClusterProperties_STATUS_ARM struct {
 	HostName *string `json:"hostName,omitempty"`
 
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion_STATUS_ARM `json:"minimumTlsVersion,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Current provisioning status of the cluster
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// RedisVersion: Version of redis the cluster supports, e.g. '6'
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	// ResourceState: Current resource status of the cluster
-	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
+	ResourceState *ResourceState_STATUS_ARM `json:"resourceState,omitempty"`
 }
 
 // SKU parameters supplied to the create RedisEnterprise operation.
@@ -58,7 +58,22 @@ type Sku_STATUS_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Name *Sku_Name_STATUS_ARM `json:"name,omitempty"`
+}
+
+type ClusterProperties_MinimumTlsVersion_STATUS_ARM string
+
+const (
+	ClusterProperties_MinimumTlsVersion_STATUS_ARM_10 = ClusterProperties_MinimumTlsVersion_STATUS_ARM("1.0")
+	ClusterProperties_MinimumTlsVersion_STATUS_ARM_11 = ClusterProperties_MinimumTlsVersion_STATUS_ARM("1.1")
+	ClusterProperties_MinimumTlsVersion_STATUS_ARM_12 = ClusterProperties_MinimumTlsVersion_STATUS_ARM("1.2")
+)
+
+// Mapping from string to ClusterProperties_MinimumTlsVersion_STATUS_ARM
+var clusterProperties_MinimumTlsVersion_STATUS_ARM_Values = map[string]ClusterProperties_MinimumTlsVersion_STATUS_ARM{
+	"1.0": ClusterProperties_MinimumTlsVersion_STATUS_ARM_10,
+	"1.1": ClusterProperties_MinimumTlsVersion_STATUS_ARM_11,
+	"1.2": ClusterProperties_MinimumTlsVersion_STATUS_ARM_12,
 }
 
 // The Private Endpoint Connection resource.
@@ -68,25 +83,25 @@ type PrivateEndpointConnection_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type Sku_Name_STATUS string
+type Sku_Name_STATUS_ARM string
 
 const (
-	Sku_Name_STATUS_EnterpriseFlash_F1500 = Sku_Name_STATUS("EnterpriseFlash_F1500")
-	Sku_Name_STATUS_EnterpriseFlash_F300  = Sku_Name_STATUS("EnterpriseFlash_F300")
-	Sku_Name_STATUS_EnterpriseFlash_F700  = Sku_Name_STATUS("EnterpriseFlash_F700")
-	Sku_Name_STATUS_Enterprise_E10        = Sku_Name_STATUS("Enterprise_E10")
-	Sku_Name_STATUS_Enterprise_E100       = Sku_Name_STATUS("Enterprise_E100")
-	Sku_Name_STATUS_Enterprise_E20        = Sku_Name_STATUS("Enterprise_E20")
-	Sku_Name_STATUS_Enterprise_E50        = Sku_Name_STATUS("Enterprise_E50")
+	Sku_Name_STATUS_ARM_EnterpriseFlash_F1500 = Sku_Name_STATUS_ARM("EnterpriseFlash_F1500")
+	Sku_Name_STATUS_ARM_EnterpriseFlash_F300  = Sku_Name_STATUS_ARM("EnterpriseFlash_F300")
+	Sku_Name_STATUS_ARM_EnterpriseFlash_F700  = Sku_Name_STATUS_ARM("EnterpriseFlash_F700")
+	Sku_Name_STATUS_ARM_Enterprise_E10        = Sku_Name_STATUS_ARM("Enterprise_E10")
+	Sku_Name_STATUS_ARM_Enterprise_E100       = Sku_Name_STATUS_ARM("Enterprise_E100")
+	Sku_Name_STATUS_ARM_Enterprise_E20        = Sku_Name_STATUS_ARM("Enterprise_E20")
+	Sku_Name_STATUS_ARM_Enterprise_E50        = Sku_Name_STATUS_ARM("Enterprise_E50")
 )
 
-// Mapping from string to Sku_Name_STATUS
-var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
-	"enterpriseflash_f1500": Sku_Name_STATUS_EnterpriseFlash_F1500,
-	"enterpriseflash_f300":  Sku_Name_STATUS_EnterpriseFlash_F300,
-	"enterpriseflash_f700":  Sku_Name_STATUS_EnterpriseFlash_F700,
-	"enterprise_e10":        Sku_Name_STATUS_Enterprise_E10,
-	"enterprise_e100":       Sku_Name_STATUS_Enterprise_E100,
-	"enterprise_e20":        Sku_Name_STATUS_Enterprise_E20,
-	"enterprise_e50":        Sku_Name_STATUS_Enterprise_E50,
+// Mapping from string to Sku_Name_STATUS_ARM
+var sku_Name_STATUS_ARM_Values = map[string]Sku_Name_STATUS_ARM{
+	"enterpriseflash_f1500": Sku_Name_STATUS_ARM_EnterpriseFlash_F1500,
+	"enterpriseflash_f300":  Sku_Name_STATUS_ARM_EnterpriseFlash_F300,
+	"enterpriseflash_f700":  Sku_Name_STATUS_ARM_EnterpriseFlash_F700,
+	"enterprise_e10":        Sku_Name_STATUS_ARM_Enterprise_E10,
+	"enterprise_e100":       Sku_Name_STATUS_ARM_Enterprise_E100,
+	"enterprise_e20":        Sku_Name_STATUS_ARM_Enterprise_E20,
+	"enterprise_e50":        Sku_Name_STATUS_ARM_Enterprise_E50,
 }

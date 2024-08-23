@@ -33,5 +33,20 @@ type ApiVersionSetContractProperties_STATUS_ARM struct {
 	VersionQueryName *string `json:"versionQueryName,omitempty"`
 
 	// VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.
-	VersioningScheme *ApiVersionSetContractProperties_VersioningScheme_STATUS `json:"versioningScheme,omitempty"`
+	VersioningScheme *ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM `json:"versioningScheme,omitempty"`
+}
+
+type ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM string
+
+const (
+	ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Header  = ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM("Header")
+	ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Query   = ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM("Query")
+	ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Segment = ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM("Segment")
+)
+
+// Mapping from string to ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM
+var apiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Values = map[string]ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM{
+	"header":  ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Header,
+	"query":   ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Query,
+	"segment": ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM_Segment,
 }

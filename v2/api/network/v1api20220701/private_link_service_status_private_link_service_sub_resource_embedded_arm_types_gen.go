@@ -57,7 +57,7 @@ type PrivateLinkServiceProperties_STATUS_ARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private link service resource.
-	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// Visibility: The visibility list of the private link service.
 	Visibility *ResourceSet_STATUS_ARM `json:"visibility,omitempty"`
@@ -114,16 +114,30 @@ type PrivateLinkServiceIpConfigurationProperties_STATUS_ARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *IPVersion_STATUS_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_STATUS_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// ProvisioningState: The provisioning state of the private link service IP configuration resource.
-	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
 	Subnet *Subnet_STATUS_PrivateLinkService_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
+}
+
+// IP address allocation method.
+type IPAllocationMethod_STATUS_ARM string
+
+const (
+	IPAllocationMethod_STATUS_ARM_Dynamic = IPAllocationMethod_STATUS_ARM("Dynamic")
+	IPAllocationMethod_STATUS_ARM_Static  = IPAllocationMethod_STATUS_ARM("Static")
+)
+
+// Mapping from string to IPAllocationMethod_STATUS_ARM
+var iPAllocationMethod_STATUS_ARM_Values = map[string]IPAllocationMethod_STATUS_ARM{
+	"dynamic": IPAllocationMethod_STATUS_ARM_Dynamic,
+	"static":  IPAllocationMethod_STATUS_ARM_Static,
 }
 
 // Subnet in a virtual network resource.

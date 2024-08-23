@@ -44,7 +44,7 @@ func (service *SearchService_Spec_ARM) GetType() string {
 // Identity for the resource.
 type Identity_ARM struct {
 	// Type: The identity type.
-	Type *Identity_Type `json:"type,omitempty"`
+	Type *Identity_Type_ARM `json:"type,omitempty"`
 }
 
 // Properties of the search service.
@@ -64,7 +64,7 @@ type SearchServiceProperties_ARM struct {
 	// HostingMode: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions
 	// that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the
 	// standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
-	HostingMode *SearchServiceProperties_HostingMode `json:"hostingMode,omitempty"`
+	HostingMode *SearchServiceProperties_HostingMode_ARM `json:"hostingMode,omitempty"`
 
 	// NetworkRuleSet: Network specific rules that determine how the Azure Cognitive Search service may be reached.
 	NetworkRuleSet *NetworkRuleSet_ARM `json:"networkRuleSet,omitempty"`
@@ -77,7 +77,7 @@ type SearchServiceProperties_ARM struct {
 	// PublicNetworkAccess: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and
 	// templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be
 	// the exclusive access method.
-	PublicNetworkAccess *SearchServiceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *SearchServiceProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// ReplicaCount: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive
 	// for standard SKUs or between 1 and 3 inclusive for basic SKU.
@@ -92,7 +92,7 @@ type Sku_ARM struct {
 	// replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity').
 	// 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per
 	// partition, up to 12 partitions.'
-	Name *Sku_Name `json:"name,omitempty"`
+	Name *Sku_Name_ARM `json:"name,omitempty"`
 }
 
 // Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if
@@ -107,21 +107,21 @@ type DataPlaneAuthOptions_ARM struct {
 // Keys.
 type EncryptionWithCmk_ARM struct {
 	// Enforcement: Describes how a search service should enforce having one or more non customer encrypted resources.
-	Enforcement *EncryptionWithCmk_Enforcement `json:"enforcement,omitempty"`
+	Enforcement *EncryptionWithCmk_Enforcement_ARM `json:"enforcement,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned"}
-type Identity_Type string
+type Identity_Type_ARM string
 
 const (
-	Identity_Type_None           = Identity_Type("None")
-	Identity_Type_SystemAssigned = Identity_Type("SystemAssigned")
+	Identity_Type_ARM_None           = Identity_Type_ARM("None")
+	Identity_Type_ARM_SystemAssigned = Identity_Type_ARM("SystemAssigned")
 )
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":           Identity_Type_None,
-	"systemassigned": Identity_Type_SystemAssigned,
+// Mapping from string to Identity_Type_ARM
+var identity_Type_ARM_Values = map[string]Identity_Type_ARM{
+	"none":           Identity_Type_ARM_None,
+	"systemassigned": Identity_Type_ARM_SystemAssigned,
 }
 
 // Network specific rules that determine how the Azure Cognitive Search service may be reached.
@@ -133,35 +133,79 @@ type NetworkRuleSet_ARM struct {
 	IpRules []IpRule_ARM `json:"ipRules,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"basic","free","standard","standard2","standard3","storage_optimized_l1","storage_optimized_l2"}
-type Sku_Name string
+// +kubebuilder:validation:Enum={"default","highDensity"}
+type SearchServiceProperties_HostingMode_ARM string
 
 const (
-	Sku_Name_Basic                = Sku_Name("basic")
-	Sku_Name_Free                 = Sku_Name("free")
-	Sku_Name_Standard             = Sku_Name("standard")
-	Sku_Name_Standard2            = Sku_Name("standard2")
-	Sku_Name_Standard3            = Sku_Name("standard3")
-	Sku_Name_Storage_Optimized_L1 = Sku_Name("storage_optimized_l1")
-	Sku_Name_Storage_Optimized_L2 = Sku_Name("storage_optimized_l2")
+	SearchServiceProperties_HostingMode_ARM_Default     = SearchServiceProperties_HostingMode_ARM("default")
+	SearchServiceProperties_HostingMode_ARM_HighDensity = SearchServiceProperties_HostingMode_ARM("highDensity")
 )
 
-// Mapping from string to Sku_Name
-var sku_Name_Values = map[string]Sku_Name{
-	"basic":                Sku_Name_Basic,
-	"free":                 Sku_Name_Free,
-	"standard":             Sku_Name_Standard,
-	"standard2":            Sku_Name_Standard2,
-	"standard3":            Sku_Name_Standard3,
-	"storage_optimized_l1": Sku_Name_Storage_Optimized_L1,
-	"storage_optimized_l2": Sku_Name_Storage_Optimized_L2,
+// Mapping from string to SearchServiceProperties_HostingMode_ARM
+var searchServiceProperties_HostingMode_ARM_Values = map[string]SearchServiceProperties_HostingMode_ARM{
+	"default":     SearchServiceProperties_HostingMode_ARM_Default,
+	"highdensity": SearchServiceProperties_HostingMode_ARM_HighDensity,
+}
+
+// +kubebuilder:validation:Enum={"disabled","enabled"}
+type SearchServiceProperties_PublicNetworkAccess_ARM string
+
+const (
+	SearchServiceProperties_PublicNetworkAccess_ARM_Disabled = SearchServiceProperties_PublicNetworkAccess_ARM("disabled")
+	SearchServiceProperties_PublicNetworkAccess_ARM_Enabled  = SearchServiceProperties_PublicNetworkAccess_ARM("enabled")
+)
+
+// Mapping from string to SearchServiceProperties_PublicNetworkAccess_ARM
+var searchServiceProperties_PublicNetworkAccess_ARM_Values = map[string]SearchServiceProperties_PublicNetworkAccess_ARM{
+	"disabled": SearchServiceProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  SearchServiceProperties_PublicNetworkAccess_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"basic","free","standard","standard2","standard3","storage_optimized_l1","storage_optimized_l2"}
+type Sku_Name_ARM string
+
+const (
+	Sku_Name_ARM_Basic                = Sku_Name_ARM("basic")
+	Sku_Name_ARM_Free                 = Sku_Name_ARM("free")
+	Sku_Name_ARM_Standard             = Sku_Name_ARM("standard")
+	Sku_Name_ARM_Standard2            = Sku_Name_ARM("standard2")
+	Sku_Name_ARM_Standard3            = Sku_Name_ARM("standard3")
+	Sku_Name_ARM_Storage_Optimized_L1 = Sku_Name_ARM("storage_optimized_l1")
+	Sku_Name_ARM_Storage_Optimized_L2 = Sku_Name_ARM("storage_optimized_l2")
+)
+
+// Mapping from string to Sku_Name_ARM
+var sku_Name_ARM_Values = map[string]Sku_Name_ARM{
+	"basic":                Sku_Name_ARM_Basic,
+	"free":                 Sku_Name_ARM_Free,
+	"standard":             Sku_Name_ARM_Standard,
+	"standard2":            Sku_Name_ARM_Standard2,
+	"standard3":            Sku_Name_ARM_Standard3,
+	"storage_optimized_l1": Sku_Name_ARM_Storage_Optimized_L1,
+	"storage_optimized_l2": Sku_Name_ARM_Storage_Optimized_L2,
 }
 
 // Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
 type DataPlaneAadOrApiKeyAuthOption_ARM struct {
 	// AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed
 	// authentication.
-	AadAuthFailureMode *DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode `json:"aadAuthFailureMode,omitempty"`
+	AadAuthFailureMode *DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM `json:"aadAuthFailureMode,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled","Unspecified"}
+type EncryptionWithCmk_Enforcement_ARM string
+
+const (
+	EncryptionWithCmk_Enforcement_ARM_Disabled    = EncryptionWithCmk_Enforcement_ARM("Disabled")
+	EncryptionWithCmk_Enforcement_ARM_Enabled     = EncryptionWithCmk_Enforcement_ARM("Enabled")
+	EncryptionWithCmk_Enforcement_ARM_Unspecified = EncryptionWithCmk_Enforcement_ARM("Unspecified")
+)
+
+// Mapping from string to EncryptionWithCmk_Enforcement_ARM
+var encryptionWithCmk_Enforcement_ARM_Values = map[string]EncryptionWithCmk_Enforcement_ARM{
+	"disabled":    EncryptionWithCmk_Enforcement_ARM_Disabled,
+	"enabled":     EncryptionWithCmk_Enforcement_ARM_Enabled,
+	"unspecified": EncryptionWithCmk_Enforcement_ARM_Unspecified,
 }
 
 // The IP restriction rule of the Azure Cognitive Search service.
@@ -169,4 +213,18 @@ type IpRule_ARM struct {
 	// Value: Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in CIDR format (eg., 123.1.2.3/24)
 	// to be allowed.
 	Value *string `json:"value,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"http401WithBearerChallenge","http403"}
+type DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM string
+
+const (
+	DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM_Http401WithBearerChallenge = DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM("http401WithBearerChallenge")
+	DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM_Http403                    = DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM("http403")
+)
+
+// Mapping from string to DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM
+var dataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM_Values = map[string]DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM{
+	"http401withbearerchallenge": DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM_Http401WithBearerChallenge,
+	"http403":                    DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM_Http403,
 }

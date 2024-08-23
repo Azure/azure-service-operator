@@ -2108,7 +2108,11 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) ConvertToARM(
 
 	// Set property "OdataType":
 	if criteria.OdataType != nil {
-		result.OdataType = *criteria.OdataType
+		var temp MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM
+		var temp1 string
+		temp1 = string(*criteria.OdataType)
+		temp = MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM(temp1)
+		result.OdataType = temp
 	}
 	return result, nil
 }
@@ -2144,7 +2148,11 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) PopulateFromA
 	}
 
 	// Set property "OdataType":
-	criteria.OdataType = &typedInput.OdataType
+	var temp MetricAlertMultipleResourceMultipleMetricCriteria_OdataType
+	var temp1 string
+	temp1 = string(typedInput.OdataType)
+	temp = MetricAlertMultipleResourceMultipleMetricCriteria_OdataType(temp1)
+	criteria.OdataType = &temp
 
 	// No error
 	return nil
@@ -2341,7 +2349,11 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) Popula
 	}
 
 	// Set property "OdataType":
-	criteria.OdataType = &typedInput.OdataType
+	var temp MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OdataType)
+	temp = MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS(temp1)
+	criteria.OdataType = &temp
 
 	// No error
 	return nil
@@ -2488,7 +2500,11 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) ConvertToARM(re
 
 	// Set property "OdataType":
 	if criteria.OdataType != nil {
-		result.OdataType = *criteria.OdataType
+		var temp MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM
+		var temp1 string
+		temp1 = string(*criteria.OdataType)
+		temp = MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM(temp1)
+		result.OdataType = temp
 	}
 	return result, nil
 }
@@ -2524,7 +2540,11 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) PopulateFromARM
 	}
 
 	// Set property "OdataType":
-	criteria.OdataType = &typedInput.OdataType
+	var temp MetricAlertSingleResourceMultipleMetricCriteria_OdataType
+	var temp1 string
+	temp1 = string(typedInput.OdataType)
+	temp = MetricAlertSingleResourceMultipleMetricCriteria_OdataType(temp1)
+	criteria.OdataType = &temp
 
 	// No error
 	return nil
@@ -2721,7 +2741,11 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) Populate
 	}
 
 	// Set property "OdataType":
-	criteria.OdataType = &typedInput.OdataType
+	var temp MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OdataType)
+	temp = MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS(temp1)
+	criteria.OdataType = &temp
 
 	// No error
 	return nil
@@ -2884,7 +2908,11 @@ func (criteria *WebtestLocationAvailabilityCriteria) ConvertToARM(resolved genru
 
 	// Set property "OdataType":
 	if criteria.OdataType != nil {
-		result.OdataType = *criteria.OdataType
+		var temp WebtestLocationAvailabilityCriteria_OdataType_ARM
+		var temp1 string
+		temp1 = string(*criteria.OdataType)
+		temp = WebtestLocationAvailabilityCriteria_OdataType_ARM(temp1)
+		result.OdataType = temp
 	}
 
 	// Set property "WebTestId":
@@ -2924,7 +2952,11 @@ func (criteria *WebtestLocationAvailabilityCriteria) PopulateFromARM(owner genru
 	}
 
 	// Set property "OdataType":
-	criteria.OdataType = &typedInput.OdataType
+	var temp WebtestLocationAvailabilityCriteria_OdataType
+	var temp1 string
+	temp1 = string(typedInput.OdataType)
+	temp = WebtestLocationAvailabilityCriteria_OdataType(temp1)
+	criteria.OdataType = &temp
 
 	// Set property "WebTestId":
 	if typedInput.WebTestId != nil {
@@ -3138,7 +3170,11 @@ func (criteria *WebtestLocationAvailabilityCriteria_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property "OdataType":
-	criteria.OdataType = &typedInput.OdataType
+	var temp WebtestLocationAvailabilityCriteria_OdataType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.OdataType)
+	temp = WebtestLocationAvailabilityCriteria_OdataType_STATUS(temp1)
+	criteria.OdataType = &temp
 
 	// Set property "WebTestId":
 	if typedInput.WebTestId != nil {
@@ -3339,7 +3375,11 @@ func (criteria *MetricCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "CriterionType":
 	if criteria.CriterionType != nil {
-		result.CriterionType = *criteria.CriterionType
+		var temp MetricCriteria_CriterionType_ARM
+		var temp1 string
+		temp1 = string(*criteria.CriterionType)
+		temp = MetricCriteria_CriterionType_ARM(temp1)
+		result.CriterionType = temp
 	}
 
 	// Set property "Dimensions":
@@ -3371,7 +3411,9 @@ func (criteria *MetricCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Operator":
 	if criteria.Operator != nil {
-		operator := *criteria.Operator
+		var temp string
+		temp = string(*criteria.Operator)
+		operator := MetricCriteria_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
@@ -3389,7 +3431,9 @@ func (criteria *MetricCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "TimeAggregation":
 	if criteria.TimeAggregation != nil {
-		timeAggregation := *criteria.TimeAggregation
+		var temp string
+		temp = string(*criteria.TimeAggregation)
+		timeAggregation := MetricCriteria_TimeAggregation_ARM(temp)
 		result.TimeAggregation = &timeAggregation
 	}
 	return result, nil
@@ -3416,7 +3460,11 @@ func (criteria *MetricCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property "CriterionType":
-	criteria.CriterionType = &typedInput.CriterionType
+	var temp MetricCriteria_CriterionType
+	var temp1 string
+	temp1 = string(typedInput.CriterionType)
+	temp = MetricCriteria_CriterionType(temp1)
+	criteria.CriterionType = &temp
 
 	// Set property "Dimensions":
 	for _, item := range typedInput.Dimensions {
@@ -3448,7 +3496,9 @@ func (criteria *MetricCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var operatorTemp string
+		operatorTemp = string(*typedInput.Operator)
+		operator := MetricCriteria_Operator(operatorTemp)
 		criteria.Operator = &operator
 	}
 
@@ -3466,7 +3516,9 @@ func (criteria *MetricCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "TimeAggregation":
 	if typedInput.TimeAggregation != nil {
-		timeAggregation := *typedInput.TimeAggregation
+		var timeAggregationTemp string
+		timeAggregationTemp = string(*typedInput.TimeAggregation)
+		timeAggregation := MetricCriteria_TimeAggregation(timeAggregationTemp)
 		criteria.TimeAggregation = &timeAggregation
 	}
 
@@ -3802,7 +3854,11 @@ func (criteria *MetricCriteria_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property "CriterionType":
-	criteria.CriterionType = &typedInput.CriterionType
+	var temp MetricCriteria_CriterionType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.CriterionType)
+	temp = MetricCriteria_CriterionType_STATUS(temp1)
+	criteria.CriterionType = &temp
 
 	// Set property "Dimensions":
 	for _, item := range typedInput.Dimensions {
@@ -3834,7 +3890,9 @@ func (criteria *MetricCriteria_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var operatorTemp string
+		operatorTemp = string(*typedInput.Operator)
+		operator := MetricCriteria_Operator_STATUS(operatorTemp)
 		criteria.Operator = &operator
 	}
 
@@ -3852,7 +3910,9 @@ func (criteria *MetricCriteria_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "TimeAggregation":
 	if typedInput.TimeAggregation != nil {
-		timeAggregation := *typedInput.TimeAggregation
+		var timeAggregationTemp string
+		timeAggregationTemp = string(*typedInput.TimeAggregation)
+		timeAggregation := MetricCriteria_TimeAggregation_STATUS(timeAggregationTemp)
 		criteria.TimeAggregation = &timeAggregation
 	}
 
@@ -4430,13 +4490,19 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "AlertSensitivity":
 	if criteria.AlertSensitivity != nil {
-		alertSensitivity := *criteria.AlertSensitivity
+		var temp string
+		temp = string(*criteria.AlertSensitivity)
+		alertSensitivity := DynamicMetricCriteria_AlertSensitivity_ARM(temp)
 		result.AlertSensitivity = &alertSensitivity
 	}
 
 	// Set property "CriterionType":
 	if criteria.CriterionType != nil {
-		result.CriterionType = *criteria.CriterionType
+		var temp DynamicMetricCriteria_CriterionType_ARM
+		var temp1 string
+		temp1 = string(*criteria.CriterionType)
+		temp = DynamicMetricCriteria_CriterionType_ARM(temp1)
+		result.CriterionType = temp
 	}
 
 	// Set property "Dimensions":
@@ -4484,7 +4550,9 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "Operator":
 	if criteria.Operator != nil {
-		operator := *criteria.Operator
+		var temp string
+		temp = string(*criteria.Operator)
+		operator := DynamicMetricCriteria_Operator_ARM(temp)
 		result.Operator = &operator
 	}
 
@@ -4496,7 +4564,9 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property "TimeAggregation":
 	if criteria.TimeAggregation != nil {
-		timeAggregation := *criteria.TimeAggregation
+		var temp string
+		temp = string(*criteria.TimeAggregation)
+		timeAggregation := DynamicMetricCriteria_TimeAggregation_ARM(temp)
 		result.TimeAggregation = &timeAggregation
 	}
 	return result, nil
@@ -4524,12 +4594,18 @@ func (criteria *DynamicMetricCriteria) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "AlertSensitivity":
 	if typedInput.AlertSensitivity != nil {
-		alertSensitivity := *typedInput.AlertSensitivity
+		var temp string
+		temp = string(*typedInput.AlertSensitivity)
+		alertSensitivity := DynamicMetricCriteria_AlertSensitivity(temp)
 		criteria.AlertSensitivity = &alertSensitivity
 	}
 
 	// Set property "CriterionType":
-	criteria.CriterionType = &typedInput.CriterionType
+	var temp DynamicMetricCriteria_CriterionType
+	var temp1 string
+	temp1 = string(typedInput.CriterionType)
+	temp = DynamicMetricCriteria_CriterionType(temp1)
+	criteria.CriterionType = &temp
 
 	// Set property "Dimensions":
 	for _, item := range typedInput.Dimensions {
@@ -4578,7 +4654,9 @@ func (criteria *DynamicMetricCriteria) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var operatorTemp string
+		operatorTemp = string(*typedInput.Operator)
+		operator := DynamicMetricCriteria_Operator(operatorTemp)
 		criteria.Operator = &operator
 	}
 
@@ -4590,7 +4668,9 @@ func (criteria *DynamicMetricCriteria) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "TimeAggregation":
 	if typedInput.TimeAggregation != nil {
-		timeAggregation := *typedInput.TimeAggregation
+		var timeAggregationTemp string
+		timeAggregationTemp = string(*typedInput.TimeAggregation)
+		timeAggregation := DynamicMetricCriteria_TimeAggregation(timeAggregationTemp)
 		criteria.TimeAggregation = &timeAggregation
 	}
 
@@ -4982,12 +5062,18 @@ func (criteria *DynamicMetricCriteria_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "AlertSensitivity":
 	if typedInput.AlertSensitivity != nil {
-		alertSensitivity := *typedInput.AlertSensitivity
+		var temp string
+		temp = string(*typedInput.AlertSensitivity)
+		alertSensitivity := DynamicMetricCriteria_AlertSensitivity_STATUS(temp)
 		criteria.AlertSensitivity = &alertSensitivity
 	}
 
 	// Set property "CriterionType":
-	criteria.CriterionType = &typedInput.CriterionType
+	var temp DynamicMetricCriteria_CriterionType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.CriterionType)
+	temp = DynamicMetricCriteria_CriterionType_STATUS(temp1)
+	criteria.CriterionType = &temp
 
 	// Set property "Dimensions":
 	for _, item := range typedInput.Dimensions {
@@ -5036,7 +5122,9 @@ func (criteria *DynamicMetricCriteria_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "Operator":
 	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
+		var operatorTemp string
+		operatorTemp = string(*typedInput.Operator)
+		operator := DynamicMetricCriteria_Operator_STATUS(operatorTemp)
 		criteria.Operator = &operator
 	}
 
@@ -5048,7 +5136,9 @@ func (criteria *DynamicMetricCriteria_STATUS) PopulateFromARM(owner genruntime.A
 
 	// Set property "TimeAggregation":
 	if typedInput.TimeAggregation != nil {
-		timeAggregation := *typedInput.TimeAggregation
+		var timeAggregationTemp string
+		timeAggregationTemp = string(*typedInput.TimeAggregation)
+		timeAggregation := DynamicMetricCriteria_TimeAggregation_STATUS(timeAggregationTemp)
 		criteria.TimeAggregation = &timeAggregation
 	}
 

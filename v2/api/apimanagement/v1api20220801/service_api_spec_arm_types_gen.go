@@ -45,7 +45,7 @@ type ApiCreateOrUpdateProperties_ARM struct {
 	// * `soap` creates a SOAP pass-through API
 	// * `websocket` creates websocket API
 	// * `graphql` creates GraphQL API.
-	ApiType *ApiCreateOrUpdateProperties_ApiType `json:"apiType,omitempty"`
+	ApiType *ApiCreateOrUpdateProperties_ApiType_ARM `json:"apiType,omitempty"`
 
 	// ApiVersionDescription: Description of the API Version.
 	ApiVersionDescription *string `json:"apiVersionDescription,omitempty"`
@@ -67,7 +67,7 @@ type ApiCreateOrUpdateProperties_ARM struct {
 	DisplayName *string `json:"displayName,omitempty"`
 
 	// Format: Format of the Content in which the API is getting imported.
-	Format *ApiCreateOrUpdateProperties_Format `json:"format,omitempty"`
+	Format *ApiCreateOrUpdateProperties_Format_ARM `json:"format,omitempty"`
 
 	// IsCurrent: Indicates if API revision is current api revision.
 	IsCurrent *bool `json:"isCurrent,omitempty"`
@@ -81,7 +81,7 @@ type ApiCreateOrUpdateProperties_ARM struct {
 	Path *string `json:"path,omitempty"`
 
 	// Protocols: Describes on which protocols the operations in this API can be invoked.
-	Protocols []ApiCreateOrUpdateProperties_Protocols `json:"protocols,omitempty"`
+	Protocols []ApiCreateOrUpdateProperties_Protocols_ARM `json:"protocols,omitempty"`
 
 	// ServiceUrl: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
 	ServiceUrl  *string `json:"serviceUrl,omitempty"`
@@ -98,10 +98,10 @@ type ApiCreateOrUpdateProperties_ARM struct {
 
 	// TranslateRequiredQueryParameters: Strategy of translating required query parameters to template ones. By default has
 	// value 'template'. Possible values: 'template', 'query'
-	TranslateRequiredQueryParameters *ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters `json:"translateRequiredQueryParameters,omitempty"`
+	TranslateRequiredQueryParameters *ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM `json:"translateRequiredQueryParameters,omitempty"`
 
 	// Type: Type of API.
-	Type *ApiCreateOrUpdateProperties_Type `json:"type,omitempty"`
+	Type *ApiCreateOrUpdateProperties_Type_ARM `json:"type,omitempty"`
 
 	// Value: Content value when Importing an API.
 	Value *string `json:"value,omitempty"`
@@ -120,6 +120,106 @@ type ApiContactInformation_ARM struct {
 
 	// Url: The URL pointing to the contact information. MUST be in the format of a URL
 	Url *string `json:"url,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"graphql","http","soap","websocket"}
+type ApiCreateOrUpdateProperties_ApiType_ARM string
+
+const (
+	ApiCreateOrUpdateProperties_ApiType_ARM_Graphql   = ApiCreateOrUpdateProperties_ApiType_ARM("graphql")
+	ApiCreateOrUpdateProperties_ApiType_ARM_Http      = ApiCreateOrUpdateProperties_ApiType_ARM("http")
+	ApiCreateOrUpdateProperties_ApiType_ARM_Soap      = ApiCreateOrUpdateProperties_ApiType_ARM("soap")
+	ApiCreateOrUpdateProperties_ApiType_ARM_Websocket = ApiCreateOrUpdateProperties_ApiType_ARM("websocket")
+)
+
+// Mapping from string to ApiCreateOrUpdateProperties_ApiType_ARM
+var apiCreateOrUpdateProperties_ApiType_ARM_Values = map[string]ApiCreateOrUpdateProperties_ApiType_ARM{
+	"graphql":   ApiCreateOrUpdateProperties_ApiType_ARM_Graphql,
+	"http":      ApiCreateOrUpdateProperties_ApiType_ARM_Http,
+	"soap":      ApiCreateOrUpdateProperties_ApiType_ARM_Soap,
+	"websocket": ApiCreateOrUpdateProperties_ApiType_ARM_Websocket,
+}
+
+// +kubebuilder:validation:Enum={"graphql-link","openapi","openapi+json","openapi+json-link","openapi-link","swagger-json","swagger-link-json","wadl-link-json","wadl-xml","wsdl","wsdl-link"}
+type ApiCreateOrUpdateProperties_Format_ARM string
+
+const (
+	ApiCreateOrUpdateProperties_Format_ARM_GraphqlLink     = ApiCreateOrUpdateProperties_Format_ARM("graphql-link")
+	ApiCreateOrUpdateProperties_Format_ARM_Openapi         = ApiCreateOrUpdateProperties_Format_ARM("openapi")
+	ApiCreateOrUpdateProperties_Format_ARM_OpenapiJson     = ApiCreateOrUpdateProperties_Format_ARM("openapi+json")
+	ApiCreateOrUpdateProperties_Format_ARM_OpenapiJsonLink = ApiCreateOrUpdateProperties_Format_ARM("openapi+json-link")
+	ApiCreateOrUpdateProperties_Format_ARM_OpenapiLink     = ApiCreateOrUpdateProperties_Format_ARM("openapi-link")
+	ApiCreateOrUpdateProperties_Format_ARM_SwaggerJson     = ApiCreateOrUpdateProperties_Format_ARM("swagger-json")
+	ApiCreateOrUpdateProperties_Format_ARM_SwaggerLinkJson = ApiCreateOrUpdateProperties_Format_ARM("swagger-link-json")
+	ApiCreateOrUpdateProperties_Format_ARM_WadlLinkJson    = ApiCreateOrUpdateProperties_Format_ARM("wadl-link-json")
+	ApiCreateOrUpdateProperties_Format_ARM_WadlXml         = ApiCreateOrUpdateProperties_Format_ARM("wadl-xml")
+	ApiCreateOrUpdateProperties_Format_ARM_Wsdl            = ApiCreateOrUpdateProperties_Format_ARM("wsdl")
+	ApiCreateOrUpdateProperties_Format_ARM_WsdlLink        = ApiCreateOrUpdateProperties_Format_ARM("wsdl-link")
+)
+
+// Mapping from string to ApiCreateOrUpdateProperties_Format_ARM
+var apiCreateOrUpdateProperties_Format_ARM_Values = map[string]ApiCreateOrUpdateProperties_Format_ARM{
+	"graphql-link":      ApiCreateOrUpdateProperties_Format_ARM_GraphqlLink,
+	"openapi":           ApiCreateOrUpdateProperties_Format_ARM_Openapi,
+	"openapi+json":      ApiCreateOrUpdateProperties_Format_ARM_OpenapiJson,
+	"openapi+json-link": ApiCreateOrUpdateProperties_Format_ARM_OpenapiJsonLink,
+	"openapi-link":      ApiCreateOrUpdateProperties_Format_ARM_OpenapiLink,
+	"swagger-json":      ApiCreateOrUpdateProperties_Format_ARM_SwaggerJson,
+	"swagger-link-json": ApiCreateOrUpdateProperties_Format_ARM_SwaggerLinkJson,
+	"wadl-link-json":    ApiCreateOrUpdateProperties_Format_ARM_WadlLinkJson,
+	"wadl-xml":          ApiCreateOrUpdateProperties_Format_ARM_WadlXml,
+	"wsdl":              ApiCreateOrUpdateProperties_Format_ARM_Wsdl,
+	"wsdl-link":         ApiCreateOrUpdateProperties_Format_ARM_WsdlLink,
+}
+
+// +kubebuilder:validation:Enum={"http","https","ws","wss"}
+type ApiCreateOrUpdateProperties_Protocols_ARM string
+
+const (
+	ApiCreateOrUpdateProperties_Protocols_ARM_Http  = ApiCreateOrUpdateProperties_Protocols_ARM("http")
+	ApiCreateOrUpdateProperties_Protocols_ARM_Https = ApiCreateOrUpdateProperties_Protocols_ARM("https")
+	ApiCreateOrUpdateProperties_Protocols_ARM_Ws    = ApiCreateOrUpdateProperties_Protocols_ARM("ws")
+	ApiCreateOrUpdateProperties_Protocols_ARM_Wss   = ApiCreateOrUpdateProperties_Protocols_ARM("wss")
+)
+
+// Mapping from string to ApiCreateOrUpdateProperties_Protocols_ARM
+var apiCreateOrUpdateProperties_Protocols_ARM_Values = map[string]ApiCreateOrUpdateProperties_Protocols_ARM{
+	"http":  ApiCreateOrUpdateProperties_Protocols_ARM_Http,
+	"https": ApiCreateOrUpdateProperties_Protocols_ARM_Https,
+	"ws":    ApiCreateOrUpdateProperties_Protocols_ARM_Ws,
+	"wss":   ApiCreateOrUpdateProperties_Protocols_ARM_Wss,
+}
+
+// +kubebuilder:validation:Enum={"query","template"}
+type ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM string
+
+const (
+	ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM_Query    = ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM("query")
+	ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM_Template = ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM("template")
+)
+
+// Mapping from string to ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM
+var apiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM_Values = map[string]ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM{
+	"query":    ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM_Query,
+	"template": ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM_Template,
+}
+
+// +kubebuilder:validation:Enum={"graphql","http","soap","websocket"}
+type ApiCreateOrUpdateProperties_Type_ARM string
+
+const (
+	ApiCreateOrUpdateProperties_Type_ARM_Graphql   = ApiCreateOrUpdateProperties_Type_ARM("graphql")
+	ApiCreateOrUpdateProperties_Type_ARM_Http      = ApiCreateOrUpdateProperties_Type_ARM("http")
+	ApiCreateOrUpdateProperties_Type_ARM_Soap      = ApiCreateOrUpdateProperties_Type_ARM("soap")
+	ApiCreateOrUpdateProperties_Type_ARM_Websocket = ApiCreateOrUpdateProperties_Type_ARM("websocket")
+)
+
+// Mapping from string to ApiCreateOrUpdateProperties_Type_ARM
+var apiCreateOrUpdateProperties_Type_ARM_Values = map[string]ApiCreateOrUpdateProperties_Type_ARM{
+	"graphql":   ApiCreateOrUpdateProperties_Type_ARM_Graphql,
+	"http":      ApiCreateOrUpdateProperties_Type_ARM_Http,
+	"soap":      ApiCreateOrUpdateProperties_Type_ARM_Soap,
+	"websocket": ApiCreateOrUpdateProperties_Type_ARM_Websocket,
 }
 
 type ApiCreateOrUpdateProperties_WsdlSelector_ARM struct {
@@ -155,7 +255,7 @@ type ApiVersionSetContractDetails_ARM struct {
 	VersionQueryName *string `json:"versionQueryName,omitempty"`
 
 	// VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.
-	VersioningScheme *ApiVersionSetContractDetails_VersioningScheme `json:"versioningScheme,omitempty"`
+	VersioningScheme *ApiVersionSetContractDetails_VersioningScheme_ARM `json:"versioningScheme,omitempty"`
 }
 
 // API Authentication Settings.
@@ -182,6 +282,22 @@ type SubscriptionKeyParameterNamesContract_ARM struct {
 	Query *string `json:"query,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Header","Query","Segment"}
+type ApiVersionSetContractDetails_VersioningScheme_ARM string
+
+const (
+	ApiVersionSetContractDetails_VersioningScheme_ARM_Header  = ApiVersionSetContractDetails_VersioningScheme_ARM("Header")
+	ApiVersionSetContractDetails_VersioningScheme_ARM_Query   = ApiVersionSetContractDetails_VersioningScheme_ARM("Query")
+	ApiVersionSetContractDetails_VersioningScheme_ARM_Segment = ApiVersionSetContractDetails_VersioningScheme_ARM("Segment")
+)
+
+// Mapping from string to ApiVersionSetContractDetails_VersioningScheme_ARM
+var apiVersionSetContractDetails_VersioningScheme_ARM_Values = map[string]ApiVersionSetContractDetails_VersioningScheme_ARM{
+	"header":  ApiVersionSetContractDetails_VersioningScheme_ARM_Header,
+	"query":   ApiVersionSetContractDetails_VersioningScheme_ARM_Query,
+	"segment": ApiVersionSetContractDetails_VersioningScheme_ARM_Segment,
+}
+
 // API OAuth2 Authentication settings details.
 type OAuth2AuthenticationSettingsContract_ARM struct {
 	// AuthorizationServerId: OAuth authorization server identifier.
@@ -194,8 +310,23 @@ type OAuth2AuthenticationSettingsContract_ARM struct {
 // API OAuth2 Authentication settings details.
 type OpenIdAuthenticationSettingsContract_ARM struct {
 	// BearerTokenSendingMethods: How to send token to the server.
-	BearerTokenSendingMethods []BearerTokenSendingMethodsContract `json:"bearerTokenSendingMethods,omitempty"`
+	BearerTokenSendingMethods []BearerTokenSendingMethodsContract_ARM `json:"bearerTokenSendingMethods,omitempty"`
 
 	// OpenidProviderId: OAuth authorization server identifier.
 	OpenidProviderId *string `json:"openidProviderId,omitempty"`
+}
+
+// Form of an authorization grant, which the client uses to request the access token.
+// +kubebuilder:validation:Enum={"authorizationHeader","query"}
+type BearerTokenSendingMethodsContract_ARM string
+
+const (
+	BearerTokenSendingMethodsContract_ARM_AuthorizationHeader = BearerTokenSendingMethodsContract_ARM("authorizationHeader")
+	BearerTokenSendingMethodsContract_ARM_Query               = BearerTokenSendingMethodsContract_ARM("query")
+)
+
+// Mapping from string to BearerTokenSendingMethodsContract_ARM
+var bearerTokenSendingMethodsContract_ARM_Values = map[string]BearerTokenSendingMethodsContract_ARM{
+	"authorizationheader": BearerTokenSendingMethodsContract_ARM_AuthorizationHeader,
+	"query":               BearerTokenSendingMethodsContract_ARM_Query,
 }

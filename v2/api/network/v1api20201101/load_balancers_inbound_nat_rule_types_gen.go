@@ -413,7 +413,9 @@ func (rule *LoadBalancers_InboundNatRule_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	if rule.Protocol != nil {
-		protocol := *rule.Protocol
+		var temp string
+		temp = string(*rule.Protocol)
+		protocol := TransportProtocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -503,7 +505,9 @@ func (rule *LoadBalancers_InboundNatRule_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := TransportProtocol(temp)
 			rule.Protocol = &protocol
 		}
 	}
@@ -975,7 +979,9 @@ func (rule *LoadBalancers_InboundNatRule_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := TransportProtocol_STATUS(temp)
 			rule.Protocol = &protocol
 		}
 	}
@@ -984,7 +990,9 @@ func (rule *LoadBalancers_InboundNatRule_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			rule.ProvisioningState = &provisioningState
 		}
 	}

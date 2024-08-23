@@ -140,7 +140,7 @@ type EmailReceiver_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Status: The receiver status of the e-mail.
-	Status *ReceiverStatus_STATUS `json:"status,omitempty"`
+	Status *ReceiverStatus_STATUS_ARM `json:"status,omitempty"`
 
 	// UseCommonAlertSchema: Indicates whether to use common alert schema.
 	UseCommonAlertSchema *bool `json:"useCommonAlertSchema,omitempty"`
@@ -214,7 +214,7 @@ type SmsReceiver_STATUS_ARM struct {
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 
 	// Status: The status of the receiver.
-	Status *ReceiverStatus_STATUS `json:"status,omitempty"`
+	Status *ReceiverStatus_STATUS_ARM `json:"status,omitempty"`
 }
 
 // A voice receiver.
@@ -251,4 +251,20 @@ type WebhookReceiver_STATUS_ARM struct {
 
 	// UseCommonAlertSchema: Indicates whether to use common alert schema.
 	UseCommonAlertSchema *bool `json:"useCommonAlertSchema,omitempty"`
+}
+
+// Indicates the status of the receiver. Receivers that are not Enabled will not receive any communications.
+type ReceiverStatus_STATUS_ARM string
+
+const (
+	ReceiverStatus_STATUS_ARM_Disabled     = ReceiverStatus_STATUS_ARM("Disabled")
+	ReceiverStatus_STATUS_ARM_Enabled      = ReceiverStatus_STATUS_ARM("Enabled")
+	ReceiverStatus_STATUS_ARM_NotSpecified = ReceiverStatus_STATUS_ARM("NotSpecified")
+)
+
+// Mapping from string to ReceiverStatus_STATUS_ARM
+var receiverStatus_STATUS_ARM_Values = map[string]ReceiverStatus_STATUS_ARM{
+	"disabled":     ReceiverStatus_STATUS_ARM_Disabled,
+	"enabled":      ReceiverStatus_STATUS_ARM_Enabled,
+	"notspecified": ReceiverStatus_STATUS_ARM_NotSpecified,
 }

@@ -77,7 +77,7 @@ func APIServerProfile_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAPIServerProfile_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Ip"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
-	gens["Visibility"] = gen.PtrOf(gen.OneConstOf(Visibility_STATUS_Private, Visibility_STATUS_Public))
+	gens["Visibility"] = gen.PtrOf(gen.OneConstOf(Visibility_STATUS_ARM_Private, Visibility_STATUS_ARM_Public))
 }
 
 func Test_ClusterProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -139,7 +139,7 @@ func ClusterProfile_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForClusterProfile_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForClusterProfile_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Domain"] = gen.PtrOf(gen.AlphaString())
-	gens["FipsValidatedModules"] = gen.PtrOf(gen.OneConstOf(FipsValidatedModules_STATUS_Disabled, FipsValidatedModules_STATUS_Enabled))
+	gens["FipsValidatedModules"] = gen.PtrOf(gen.OneConstOf(FipsValidatedModules_STATUS_ARM_Disabled, FipsValidatedModules_STATUS_ARM_Enabled))
 	gens["ResourceGroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
@@ -326,7 +326,7 @@ func IngressProfile_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIngressProfile_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Ip"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Visibility"] = gen.PtrOf(gen.OneConstOf(Visibility_STATUS_Private, Visibility_STATUS_Public))
+	gens["Visibility"] = gen.PtrOf(gen.OneConstOf(Visibility_STATUS_ARM_Private, Visibility_STATUS_ARM_Public))
 }
 
 func Test_LoadBalancerProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -511,7 +511,7 @@ func MasterProfile_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMasterProfile_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMasterProfile_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
-	gens["EncryptionAtHost"] = gen.PtrOf(gen.OneConstOf(EncryptionAtHost_STATUS_Disabled, EncryptionAtHost_STATUS_Enabled))
+	gens["EncryptionAtHost"] = gen.PtrOf(gen.OneConstOf(EncryptionAtHost_STATUS_ARM_Disabled, EncryptionAtHost_STATUS_ARM_Enabled))
 	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
@@ -583,9 +583,9 @@ func NetworkProfile_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkProfile_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(OutboundType_STATUS_Loadbalancer, OutboundType_STATUS_UserDefinedRouting))
+	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(OutboundType_STATUS_ARM_Loadbalancer, OutboundType_STATUS_ARM_UserDefinedRouting))
 	gens["PodCidr"] = gen.PtrOf(gen.AlphaString())
-	gens["PreconfiguredNSG"] = gen.PtrOf(gen.OneConstOf(PreconfiguredNSG_STATUS_Disabled, PreconfiguredNSG_STATUS_Enabled))
+	gens["PreconfiguredNSG"] = gen.PtrOf(gen.OneConstOf(PreconfiguredNSG_STATUS_ARM_Disabled, PreconfiguredNSG_STATUS_ARM_Enabled))
 	gens["ServiceCidr"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -662,13 +662,13 @@ func OpenShiftClusterProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOpenShiftClusterProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_AdminUpdating,
-		ProvisioningState_STATUS_Canceled,
-		ProvisioningState_STATUS_Creating,
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_AdminUpdating,
+		ProvisioningState_STATUS_ARM_Canceled,
+		ProvisioningState_STATUS_ARM_Creating,
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForOpenShiftClusterProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -888,17 +888,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }
 
 func Test_WorkerProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -962,7 +962,7 @@ func AddIndependentPropertyGeneratorsForWorkerProfile_STATUS_ARM(gens map[string
 	gens["Count"] = gen.PtrOf(gen.Int())
 	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["EncryptionAtHost"] = gen.PtrOf(gen.OneConstOf(EncryptionAtHost_STATUS_Disabled, EncryptionAtHost_STATUS_Enabled))
+	gens["EncryptionAtHost"] = gen.PtrOf(gen.OneConstOf(EncryptionAtHost_STATUS_ARM_Disabled, EncryptionAtHost_STATUS_ARM_Enabled))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())

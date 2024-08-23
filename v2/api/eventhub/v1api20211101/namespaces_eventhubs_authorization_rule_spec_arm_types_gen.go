@@ -31,5 +31,21 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec_ARM) GetType() string {
 
 type Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM struct {
 	// Rights: The rights associated with the rule.
-	Rights []Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec `json:"rights,omitempty"`
+	Rights []Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM `json:"rights,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Listen","Manage","Send"}
+type Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM string
+
+const (
+	Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM_Listen = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM("Listen")
+	Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM_Manage = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM("Manage")
+	Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM_Send   = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM("Send")
+)
+
+// Mapping from string to Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM
+var namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM_Values = map[string]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM{
+	"listen": Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM_Listen,
+	"manage": Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM_Manage,
+	"send":   Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM_Send,
 }

@@ -41,7 +41,7 @@ type BackendContractProperties_ARM struct {
 	Properties *BackendProperties_ARM `json:"properties,omitempty"`
 
 	// Protocol: Backend communication protocol.
-	Protocol *BackendContractProperties_Protocol `json:"protocol,omitempty"`
+	Protocol *BackendContractProperties_Protocol_ARM `json:"protocol,omitempty"`
 
 	// Proxy: Backend gateway Contract Properties
 	Proxy      *BackendProxyContract_ARM `json:"proxy,omitempty"`
@@ -55,6 +55,20 @@ type BackendContractProperties_ARM struct {
 
 	// Url: Runtime Url of the Backend.
 	Url *string `json:"url,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"http","soap"}
+type BackendContractProperties_Protocol_ARM string
+
+const (
+	BackendContractProperties_Protocol_ARM_Http = BackendContractProperties_Protocol_ARM("http")
+	BackendContractProperties_Protocol_ARM_Soap = BackendContractProperties_Protocol_ARM("soap")
+)
+
+// Mapping from string to BackendContractProperties_Protocol_ARM
+var backendContractProperties_Protocol_ARM_Values = map[string]BackendContractProperties_Protocol_ARM{
+	"http": BackendContractProperties_Protocol_ARM_Http,
+	"soap": BackendContractProperties_Protocol_ARM_Soap,
 }
 
 // Details of the Credentials used to connect to Backend.

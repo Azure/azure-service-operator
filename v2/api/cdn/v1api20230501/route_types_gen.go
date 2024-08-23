@@ -414,19 +414,27 @@ func (route *Profiles_AfdEndpoints_Route_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.CustomDomains = append(result.Properties.CustomDomains, *item_ARM.(*ActivatedResourceReference_ARM))
 	}
 	if route.EnabledState != nil {
-		enabledState := *route.EnabledState
+		var temp string
+		temp = string(*route.EnabledState)
+		enabledState := RouteProperties_EnabledState_ARM(temp)
 		result.Properties.EnabledState = &enabledState
 	}
 	if route.ForwardingProtocol != nil {
-		forwardingProtocol := *route.ForwardingProtocol
+		var temp string
+		temp = string(*route.ForwardingProtocol)
+		forwardingProtocol := RouteProperties_ForwardingProtocol_ARM(temp)
 		result.Properties.ForwardingProtocol = &forwardingProtocol
 	}
 	if route.HttpsRedirect != nil {
-		httpsRedirect := *route.HttpsRedirect
+		var temp string
+		temp = string(*route.HttpsRedirect)
+		httpsRedirect := RouteProperties_HttpsRedirect_ARM(temp)
 		result.Properties.HttpsRedirect = &httpsRedirect
 	}
 	if route.LinkToDefaultDomain != nil {
-		linkToDefaultDomain := *route.LinkToDefaultDomain
+		var temp string
+		temp = string(*route.LinkToDefaultDomain)
+		linkToDefaultDomain := RouteProperties_LinkToDefaultDomain_ARM(temp)
 		result.Properties.LinkToDefaultDomain = &linkToDefaultDomain
 	}
 	if route.OriginGroup != nil {
@@ -452,7 +460,9 @@ func (route *Profiles_AfdEndpoints_Route_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.RuleSets = append(result.Properties.RuleSets, *item_ARM.(*ResourceReference_ARM))
 	}
 	for _, item := range route.SupportedProtocols {
-		result.Properties.SupportedProtocols = append(result.Properties.SupportedProtocols, item)
+		var temp string
+		temp = string(item)
+		result.Properties.SupportedProtocols = append(result.Properties.SupportedProtocols, AFDEndpointProtocols_ARM(temp))
 	}
 	return result, nil
 }
@@ -503,7 +513,9 @@ func (route *Profiles_AfdEndpoints_Route_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnabledState != nil {
-			enabledState := *typedInput.Properties.EnabledState
+			var temp string
+			temp = string(*typedInput.Properties.EnabledState)
+			enabledState := RouteProperties_EnabledState(temp)
 			route.EnabledState = &enabledState
 		}
 	}
@@ -512,7 +524,9 @@ func (route *Profiles_AfdEndpoints_Route_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardingProtocol != nil {
-			forwardingProtocol := *typedInput.Properties.ForwardingProtocol
+			var temp string
+			temp = string(*typedInput.Properties.ForwardingProtocol)
+			forwardingProtocol := RouteProperties_ForwardingProtocol(temp)
 			route.ForwardingProtocol = &forwardingProtocol
 		}
 	}
@@ -521,7 +535,9 @@ func (route *Profiles_AfdEndpoints_Route_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HttpsRedirect != nil {
-			httpsRedirect := *typedInput.Properties.HttpsRedirect
+			var temp string
+			temp = string(*typedInput.Properties.HttpsRedirect)
+			httpsRedirect := RouteProperties_HttpsRedirect(temp)
 			route.HttpsRedirect = &httpsRedirect
 		}
 	}
@@ -530,7 +546,9 @@ func (route *Profiles_AfdEndpoints_Route_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LinkToDefaultDomain != nil {
-			linkToDefaultDomain := *typedInput.Properties.LinkToDefaultDomain
+			var temp string
+			temp = string(*typedInput.Properties.LinkToDefaultDomain)
+			linkToDefaultDomain := RouteProperties_LinkToDefaultDomain(temp)
 			route.LinkToDefaultDomain = &linkToDefaultDomain
 		}
 	}
@@ -589,7 +607,9 @@ func (route *Profiles_AfdEndpoints_Route_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SupportedProtocols {
-			route.SupportedProtocols = append(route.SupportedProtocols, item)
+			var temp string
+			temp = string(item)
+			route.SupportedProtocols = append(route.SupportedProtocols, AFDEndpointProtocols(temp))
 		}
 	}
 
@@ -1207,7 +1227,9 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeploymentStatus != nil {
-			deploymentStatus := *typedInput.Properties.DeploymentStatus
+			var temp string
+			temp = string(*typedInput.Properties.DeploymentStatus)
+			deploymentStatus := RouteProperties_DeploymentStatus_STATUS(temp)
 			route.DeploymentStatus = &deploymentStatus
 		}
 	}
@@ -1216,7 +1238,9 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnabledState != nil {
-			enabledState := *typedInput.Properties.EnabledState
+			var temp string
+			temp = string(*typedInput.Properties.EnabledState)
+			enabledState := RouteProperties_EnabledState_STATUS(temp)
 			route.EnabledState = &enabledState
 		}
 	}
@@ -1234,7 +1258,9 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardingProtocol != nil {
-			forwardingProtocol := *typedInput.Properties.ForwardingProtocol
+			var temp string
+			temp = string(*typedInput.Properties.ForwardingProtocol)
+			forwardingProtocol := RouteProperties_ForwardingProtocol_STATUS(temp)
 			route.ForwardingProtocol = &forwardingProtocol
 		}
 	}
@@ -1243,7 +1269,9 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HttpsRedirect != nil {
-			httpsRedirect := *typedInput.Properties.HttpsRedirect
+			var temp string
+			temp = string(*typedInput.Properties.HttpsRedirect)
+			httpsRedirect := RouteProperties_HttpsRedirect_STATUS(temp)
 			route.HttpsRedirect = &httpsRedirect
 		}
 	}
@@ -1258,7 +1286,9 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LinkToDefaultDomain != nil {
-			linkToDefaultDomain := *typedInput.Properties.LinkToDefaultDomain
+			var temp string
+			temp = string(*typedInput.Properties.LinkToDefaultDomain)
+			linkToDefaultDomain := RouteProperties_LinkToDefaultDomain_STATUS(temp)
 			route.LinkToDefaultDomain = &linkToDefaultDomain
 		}
 	}
@@ -1304,7 +1334,9 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := RouteProperties_ProvisioningState_STATUS(temp)
 			route.ProvisioningState = &provisioningState
 		}
 	}
@@ -1326,7 +1358,9 @@ func (route *Profiles_AfdEndpoints_Route_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SupportedProtocols {
-			route.SupportedProtocols = append(route.SupportedProtocols, item)
+			var temp string
+			temp = string(item)
+			route.SupportedProtocols = append(route.SupportedProtocols, AFDEndpointProtocols_STATUS(temp))
 		}
 	}
 
@@ -1861,6 +1895,35 @@ func (embedded *ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_Su
 	return nil
 }
 
+// Supported protocols for the customer's endpoint.
+// +kubebuilder:validation:Enum={"Http","Https"}
+type AFDEndpointProtocols string
+
+const (
+	AFDEndpointProtocols_Http  = AFDEndpointProtocols("Http")
+	AFDEndpointProtocols_Https = AFDEndpointProtocols("Https")
+)
+
+// Mapping from string to AFDEndpointProtocols
+var aFDEndpointProtocols_Values = map[string]AFDEndpointProtocols{
+	"http":  AFDEndpointProtocols_Http,
+	"https": AFDEndpointProtocols_Https,
+}
+
+// Supported protocols for the customer's endpoint.
+type AFDEndpointProtocols_STATUS string
+
+const (
+	AFDEndpointProtocols_STATUS_Http  = AFDEndpointProtocols_STATUS("Http")
+	AFDEndpointProtocols_STATUS_Https = AFDEndpointProtocols_STATUS("Https")
+)
+
+// Mapping from string to AFDEndpointProtocols_STATUS
+var aFDEndpointProtocols_STATUS_Values = map[string]AFDEndpointProtocols_STATUS{
+	"http":  AFDEndpointProtocols_STATUS_Http,
+	"https": AFDEndpointProtocols_STATUS_Https,
+}
+
 // Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type AfdRouteCacheConfiguration struct {
 	// CompressionSettings: compression settings.
@@ -1902,7 +1965,9 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 
 	// Set property "QueryStringCachingBehavior":
 	if configuration.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *configuration.QueryStringCachingBehavior
+		var temp string
+		temp = string(*configuration.QueryStringCachingBehavior)
+		queryStringCachingBehavior := AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM(temp)
 		result.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
 	return result, nil
@@ -1939,7 +2004,9 @@ func (configuration *AfdRouteCacheConfiguration) PopulateFromARM(owner genruntim
 
 	// Set property "QueryStringCachingBehavior":
 	if typedInput.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *typedInput.QueryStringCachingBehavior
+		var temp string
+		temp = string(*typedInput.QueryStringCachingBehavior)
+		queryStringCachingBehavior := AfdRouteCacheConfiguration_QueryStringCachingBehavior(temp)
 		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
 
@@ -2094,7 +2161,9 @@ func (configuration *AfdRouteCacheConfiguration_STATUS) PopulateFromARM(owner ge
 
 	// Set property "QueryStringCachingBehavior":
 	if typedInput.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *typedInput.QueryStringCachingBehavior
+		var temp string
+		temp = string(*typedInput.QueryStringCachingBehavior)
+		queryStringCachingBehavior := AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS(temp)
 		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
 
@@ -2172,6 +2241,154 @@ func (configuration *AfdRouteCacheConfiguration_STATUS) AssignProperties_To_AfdR
 	return nil
 }
 
+type RouteProperties_DeploymentStatus_STATUS string
+
+const (
+	RouteProperties_DeploymentStatus_STATUS_Failed     = RouteProperties_DeploymentStatus_STATUS("Failed")
+	RouteProperties_DeploymentStatus_STATUS_InProgress = RouteProperties_DeploymentStatus_STATUS("InProgress")
+	RouteProperties_DeploymentStatus_STATUS_NotStarted = RouteProperties_DeploymentStatus_STATUS("NotStarted")
+	RouteProperties_DeploymentStatus_STATUS_Succeeded  = RouteProperties_DeploymentStatus_STATUS("Succeeded")
+)
+
+// Mapping from string to RouteProperties_DeploymentStatus_STATUS
+var routeProperties_DeploymentStatus_STATUS_Values = map[string]RouteProperties_DeploymentStatus_STATUS{
+	"failed":     RouteProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": RouteProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": RouteProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  RouteProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type RouteProperties_EnabledState string
+
+const (
+	RouteProperties_EnabledState_Disabled = RouteProperties_EnabledState("Disabled")
+	RouteProperties_EnabledState_Enabled  = RouteProperties_EnabledState("Enabled")
+)
+
+// Mapping from string to RouteProperties_EnabledState
+var routeProperties_EnabledState_Values = map[string]RouteProperties_EnabledState{
+	"disabled": RouteProperties_EnabledState_Disabled,
+	"enabled":  RouteProperties_EnabledState_Enabled,
+}
+
+type RouteProperties_EnabledState_STATUS string
+
+const (
+	RouteProperties_EnabledState_STATUS_Disabled = RouteProperties_EnabledState_STATUS("Disabled")
+	RouteProperties_EnabledState_STATUS_Enabled  = RouteProperties_EnabledState_STATUS("Enabled")
+)
+
+// Mapping from string to RouteProperties_EnabledState_STATUS
+var routeProperties_EnabledState_STATUS_Values = map[string]RouteProperties_EnabledState_STATUS{
+	"disabled": RouteProperties_EnabledState_STATUS_Disabled,
+	"enabled":  RouteProperties_EnabledState_STATUS_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"HttpOnly","HttpsOnly","MatchRequest"}
+type RouteProperties_ForwardingProtocol string
+
+const (
+	RouteProperties_ForwardingProtocol_HttpOnly     = RouteProperties_ForwardingProtocol("HttpOnly")
+	RouteProperties_ForwardingProtocol_HttpsOnly    = RouteProperties_ForwardingProtocol("HttpsOnly")
+	RouteProperties_ForwardingProtocol_MatchRequest = RouteProperties_ForwardingProtocol("MatchRequest")
+)
+
+// Mapping from string to RouteProperties_ForwardingProtocol
+var routeProperties_ForwardingProtocol_Values = map[string]RouteProperties_ForwardingProtocol{
+	"httponly":     RouteProperties_ForwardingProtocol_HttpOnly,
+	"httpsonly":    RouteProperties_ForwardingProtocol_HttpsOnly,
+	"matchrequest": RouteProperties_ForwardingProtocol_MatchRequest,
+}
+
+type RouteProperties_ForwardingProtocol_STATUS string
+
+const (
+	RouteProperties_ForwardingProtocol_STATUS_HttpOnly     = RouteProperties_ForwardingProtocol_STATUS("HttpOnly")
+	RouteProperties_ForwardingProtocol_STATUS_HttpsOnly    = RouteProperties_ForwardingProtocol_STATUS("HttpsOnly")
+	RouteProperties_ForwardingProtocol_STATUS_MatchRequest = RouteProperties_ForwardingProtocol_STATUS("MatchRequest")
+)
+
+// Mapping from string to RouteProperties_ForwardingProtocol_STATUS
+var routeProperties_ForwardingProtocol_STATUS_Values = map[string]RouteProperties_ForwardingProtocol_STATUS{
+	"httponly":     RouteProperties_ForwardingProtocol_STATUS_HttpOnly,
+	"httpsonly":    RouteProperties_ForwardingProtocol_STATUS_HttpsOnly,
+	"matchrequest": RouteProperties_ForwardingProtocol_STATUS_MatchRequest,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type RouteProperties_HttpsRedirect string
+
+const (
+	RouteProperties_HttpsRedirect_Disabled = RouteProperties_HttpsRedirect("Disabled")
+	RouteProperties_HttpsRedirect_Enabled  = RouteProperties_HttpsRedirect("Enabled")
+)
+
+// Mapping from string to RouteProperties_HttpsRedirect
+var routeProperties_HttpsRedirect_Values = map[string]RouteProperties_HttpsRedirect{
+	"disabled": RouteProperties_HttpsRedirect_Disabled,
+	"enabled":  RouteProperties_HttpsRedirect_Enabled,
+}
+
+type RouteProperties_HttpsRedirect_STATUS string
+
+const (
+	RouteProperties_HttpsRedirect_STATUS_Disabled = RouteProperties_HttpsRedirect_STATUS("Disabled")
+	RouteProperties_HttpsRedirect_STATUS_Enabled  = RouteProperties_HttpsRedirect_STATUS("Enabled")
+)
+
+// Mapping from string to RouteProperties_HttpsRedirect_STATUS
+var routeProperties_HttpsRedirect_STATUS_Values = map[string]RouteProperties_HttpsRedirect_STATUS{
+	"disabled": RouteProperties_HttpsRedirect_STATUS_Disabled,
+	"enabled":  RouteProperties_HttpsRedirect_STATUS_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type RouteProperties_LinkToDefaultDomain string
+
+const (
+	RouteProperties_LinkToDefaultDomain_Disabled = RouteProperties_LinkToDefaultDomain("Disabled")
+	RouteProperties_LinkToDefaultDomain_Enabled  = RouteProperties_LinkToDefaultDomain("Enabled")
+)
+
+// Mapping from string to RouteProperties_LinkToDefaultDomain
+var routeProperties_LinkToDefaultDomain_Values = map[string]RouteProperties_LinkToDefaultDomain{
+	"disabled": RouteProperties_LinkToDefaultDomain_Disabled,
+	"enabled":  RouteProperties_LinkToDefaultDomain_Enabled,
+}
+
+type RouteProperties_LinkToDefaultDomain_STATUS string
+
+const (
+	RouteProperties_LinkToDefaultDomain_STATUS_Disabled = RouteProperties_LinkToDefaultDomain_STATUS("Disabled")
+	RouteProperties_LinkToDefaultDomain_STATUS_Enabled  = RouteProperties_LinkToDefaultDomain_STATUS("Enabled")
+)
+
+// Mapping from string to RouteProperties_LinkToDefaultDomain_STATUS
+var routeProperties_LinkToDefaultDomain_STATUS_Values = map[string]RouteProperties_LinkToDefaultDomain_STATUS{
+	"disabled": RouteProperties_LinkToDefaultDomain_STATUS_Disabled,
+	"enabled":  RouteProperties_LinkToDefaultDomain_STATUS_Enabled,
+}
+
+type RouteProperties_ProvisioningState_STATUS string
+
+const (
+	RouteProperties_ProvisioningState_STATUS_Creating  = RouteProperties_ProvisioningState_STATUS("Creating")
+	RouteProperties_ProvisioningState_STATUS_Deleting  = RouteProperties_ProvisioningState_STATUS("Deleting")
+	RouteProperties_ProvisioningState_STATUS_Failed    = RouteProperties_ProvisioningState_STATUS("Failed")
+	RouteProperties_ProvisioningState_STATUS_Succeeded = RouteProperties_ProvisioningState_STATUS("Succeeded")
+	RouteProperties_ProvisioningState_STATUS_Updating  = RouteProperties_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to RouteProperties_ProvisioningState_STATUS
+var routeProperties_ProvisioningState_STATUS_Values = map[string]RouteProperties_ProvisioningState_STATUS{
+	"creating":  RouteProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  RouteProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    RouteProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": RouteProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  RouteProperties_ProvisioningState_STATUS_Updating,
+}
+
 // Reference to another resource along with its state.
 type ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded struct {
 	// Id: Resource ID.
@@ -2229,6 +2446,41 @@ func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubRes
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"IgnoreQueryString","IgnoreSpecifiedQueryStrings","IncludeSpecifiedQueryStrings","UseQueryString"}
+type AfdRouteCacheConfiguration_QueryStringCachingBehavior string
+
+const (
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreQueryString            = AfdRouteCacheConfiguration_QueryStringCachingBehavior("IgnoreQueryString")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreSpecifiedQueryStrings  = AfdRouteCacheConfiguration_QueryStringCachingBehavior("IgnoreSpecifiedQueryStrings")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_IncludeSpecifiedQueryStrings = AfdRouteCacheConfiguration_QueryStringCachingBehavior("IncludeSpecifiedQueryStrings")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_UseQueryString               = AfdRouteCacheConfiguration_QueryStringCachingBehavior("UseQueryString")
+)
+
+// Mapping from string to AfdRouteCacheConfiguration_QueryStringCachingBehavior
+var afdRouteCacheConfiguration_QueryStringCachingBehavior_Values = map[string]AfdRouteCacheConfiguration_QueryStringCachingBehavior{
+	"ignorequerystring":            AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreQueryString,
+	"ignorespecifiedquerystrings":  AfdRouteCacheConfiguration_QueryStringCachingBehavior_IgnoreSpecifiedQueryStrings,
+	"includespecifiedquerystrings": AfdRouteCacheConfiguration_QueryStringCachingBehavior_IncludeSpecifiedQueryStrings,
+	"usequerystring":               AfdRouteCacheConfiguration_QueryStringCachingBehavior_UseQueryString,
+}
+
+type AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS string
+
+const (
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString            = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("IgnoreQueryString")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings  = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("IgnoreSpecifiedQueryStrings")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("IncludeSpecifiedQueryStrings")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString               = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("UseQueryString")
+)
+
+// Mapping from string to AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS
+var afdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_Values = map[string]AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS{
+	"ignorequerystring":            AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString,
+	"ignorespecifiedquerystrings":  AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings,
+	"includespecifiedquerystrings": AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings,
+	"usequerystring":               AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString,
 }
 
 // settings for compression.

@@ -22,47 +22,47 @@ type Profiles_RuleSet_STATUS_ARM struct {
 
 // The JSON object that contains the properties of the Rule Set to create.
 type RuleSetProperties_STATUS_ARM struct {
-	DeploymentStatus *RuleSetProperties_DeploymentStatus_STATUS `json:"deploymentStatus,omitempty"`
+	DeploymentStatus *RuleSetProperties_DeploymentStatus_STATUS_ARM `json:"deploymentStatus,omitempty"`
 
 	// ProfileName: The name of the profile which holds the rule set.
 	ProfileName *string `json:"profileName,omitempty"`
 
 	// ProvisioningState: Provisioning status
-	ProvisioningState *RuleSetProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *RuleSetProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
-type RuleSetProperties_DeploymentStatus_STATUS string
+type RuleSetProperties_DeploymentStatus_STATUS_ARM string
 
 const (
-	RuleSetProperties_DeploymentStatus_STATUS_Failed     = RuleSetProperties_DeploymentStatus_STATUS("Failed")
-	RuleSetProperties_DeploymentStatus_STATUS_InProgress = RuleSetProperties_DeploymentStatus_STATUS("InProgress")
-	RuleSetProperties_DeploymentStatus_STATUS_NotStarted = RuleSetProperties_DeploymentStatus_STATUS("NotStarted")
-	RuleSetProperties_DeploymentStatus_STATUS_Succeeded  = RuleSetProperties_DeploymentStatus_STATUS("Succeeded")
+	RuleSetProperties_DeploymentStatus_STATUS_ARM_Failed     = RuleSetProperties_DeploymentStatus_STATUS_ARM("Failed")
+	RuleSetProperties_DeploymentStatus_STATUS_ARM_InProgress = RuleSetProperties_DeploymentStatus_STATUS_ARM("InProgress")
+	RuleSetProperties_DeploymentStatus_STATUS_ARM_NotStarted = RuleSetProperties_DeploymentStatus_STATUS_ARM("NotStarted")
+	RuleSetProperties_DeploymentStatus_STATUS_ARM_Succeeded  = RuleSetProperties_DeploymentStatus_STATUS_ARM("Succeeded")
 )
 
-// Mapping from string to RuleSetProperties_DeploymentStatus_STATUS
-var ruleSetProperties_DeploymentStatus_STATUS_Values = map[string]RuleSetProperties_DeploymentStatus_STATUS{
-	"failed":     RuleSetProperties_DeploymentStatus_STATUS_Failed,
-	"inprogress": RuleSetProperties_DeploymentStatus_STATUS_InProgress,
-	"notstarted": RuleSetProperties_DeploymentStatus_STATUS_NotStarted,
-	"succeeded":  RuleSetProperties_DeploymentStatus_STATUS_Succeeded,
+// Mapping from string to RuleSetProperties_DeploymentStatus_STATUS_ARM
+var ruleSetProperties_DeploymentStatus_STATUS_ARM_Values = map[string]RuleSetProperties_DeploymentStatus_STATUS_ARM{
+	"failed":     RuleSetProperties_DeploymentStatus_STATUS_ARM_Failed,
+	"inprogress": RuleSetProperties_DeploymentStatus_STATUS_ARM_InProgress,
+	"notstarted": RuleSetProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+	"succeeded":  RuleSetProperties_DeploymentStatus_STATUS_ARM_Succeeded,
 }
 
-type RuleSetProperties_ProvisioningState_STATUS string
+type RuleSetProperties_ProvisioningState_STATUS_ARM string
 
 const (
-	RuleSetProperties_ProvisioningState_STATUS_Creating  = RuleSetProperties_ProvisioningState_STATUS("Creating")
-	RuleSetProperties_ProvisioningState_STATUS_Deleting  = RuleSetProperties_ProvisioningState_STATUS("Deleting")
-	RuleSetProperties_ProvisioningState_STATUS_Failed    = RuleSetProperties_ProvisioningState_STATUS("Failed")
-	RuleSetProperties_ProvisioningState_STATUS_Succeeded = RuleSetProperties_ProvisioningState_STATUS("Succeeded")
-	RuleSetProperties_ProvisioningState_STATUS_Updating  = RuleSetProperties_ProvisioningState_STATUS("Updating")
+	RuleSetProperties_ProvisioningState_STATUS_ARM_Creating  = RuleSetProperties_ProvisioningState_STATUS_ARM("Creating")
+	RuleSetProperties_ProvisioningState_STATUS_ARM_Deleting  = RuleSetProperties_ProvisioningState_STATUS_ARM("Deleting")
+	RuleSetProperties_ProvisioningState_STATUS_ARM_Failed    = RuleSetProperties_ProvisioningState_STATUS_ARM("Failed")
+	RuleSetProperties_ProvisioningState_STATUS_ARM_Succeeded = RuleSetProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	RuleSetProperties_ProvisioningState_STATUS_ARM_Updating  = RuleSetProperties_ProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to RuleSetProperties_ProvisioningState_STATUS
-var ruleSetProperties_ProvisioningState_STATUS_Values = map[string]RuleSetProperties_ProvisioningState_STATUS{
-	"creating":  RuleSetProperties_ProvisioningState_STATUS_Creating,
-	"deleting":  RuleSetProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    RuleSetProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": RuleSetProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  RuleSetProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to RuleSetProperties_ProvisioningState_STATUS_ARM
+var ruleSetProperties_ProvisioningState_STATUS_ARM_Values = map[string]RuleSetProperties_ProvisioningState_STATUS_ARM{
+	"creating":  RuleSetProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  RuleSetProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    RuleSetProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": RuleSetProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  RuleSetProperties_ProvisioningState_STATUS_ARM_Updating,
 }

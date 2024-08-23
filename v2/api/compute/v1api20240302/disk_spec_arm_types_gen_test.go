@@ -84,21 +84,21 @@ func CreationData_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCreationData_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationData_ARM(gens map[string]gopter.Gen) {
 	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(
-		CreationData_CreateOption_Attach,
-		CreationData_CreateOption_Copy,
-		CreationData_CreateOption_CopyFromSanSnapshot,
-		CreationData_CreateOption_CopyStart,
-		CreationData_CreateOption_Empty,
-		CreationData_CreateOption_FromImage,
-		CreationData_CreateOption_Import,
-		CreationData_CreateOption_ImportSecure,
-		CreationData_CreateOption_Restore,
-		CreationData_CreateOption_Upload,
-		CreationData_CreateOption_UploadPreparedSecure))
+		CreationData_CreateOption_ARM_Attach,
+		CreationData_CreateOption_ARM_Copy,
+		CreationData_CreateOption_ARM_CopyFromSanSnapshot,
+		CreationData_CreateOption_ARM_CopyStart,
+		CreationData_CreateOption_ARM_Empty,
+		CreationData_CreateOption_ARM_FromImage,
+		CreationData_CreateOption_ARM_Import,
+		CreationData_CreateOption_ARM_ImportSecure,
+		CreationData_CreateOption_ARM_Restore,
+		CreationData_CreateOption_ARM_Upload,
+		CreationData_CreateOption_ARM_UploadPreparedSecure))
 	gens["ElasticSanResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["PerformancePlus"] = gen.PtrOf(gen.Bool())
-	gens["ProvisionedBandwidthCopySpeed"] = gen.PtrOf(gen.OneConstOf(CreationData_ProvisionedBandwidthCopySpeed_Enhanced, CreationData_ProvisionedBandwidthCopySpeed_None))
+	gens["ProvisionedBandwidthCopySpeed"] = gen.PtrOf(gen.OneConstOf(CreationData_ProvisionedBandwidthCopySpeed_ARM_Enhanced, CreationData_ProvisionedBandwidthCopySpeed_ARM_None))
 	gens["SecurityDataUri"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUri"] = gen.PtrOf(gen.AlphaString())
@@ -180,19 +180,19 @@ func DiskProperties_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDiskProperties_ARM(gens map[string]gopter.Gen) {
 	gens["BurstingEnabled"] = gen.PtrOf(gen.Bool())
 	gens["CompletionPercent"] = gen.PtrOf(gen.Float64())
-	gens["DataAccessAuthMode"] = gen.PtrOf(gen.OneConstOf(DataAccessAuthMode_AzureActiveDirectory, DataAccessAuthMode_None))
+	gens["DataAccessAuthMode"] = gen.PtrOf(gen.OneConstOf(DataAccessAuthMode_ARM_AzureActiveDirectory, DataAccessAuthMode_ARM_None))
 	gens["DiskAccessId"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskIOPSReadOnly"] = gen.PtrOf(gen.Int())
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadOnly"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_HyperVGeneration_V1, DiskProperties_HyperVGeneration_V2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_HyperVGeneration_ARM_V1, DiskProperties_HyperVGeneration_ARM_V2))
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_ARM_AllowAll, NetworkAccessPolicy_ARM_AllowPrivate, NetworkAccessPolicy_ARM_DenyAll))
 	gens["OptimizedForFrequentAttach"] = gen.PtrOf(gen.Bool())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsType_Linux, DiskProperties_OsType_Windows))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsType_ARM_Linux, DiskProperties_OsType_ARM_Windows))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_ARM_Disabled, PublicNetworkAccess_ARM_Enabled))
 	gens["SupportsHibernation"] = gen.PtrOf(gen.Bool())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
@@ -267,11 +267,11 @@ func DiskSecurityProfile_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDiskSecurityProfile_ARM(gens map[string]gopter.Gen) {
 	gens["SecureVMDiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
 	gens["SecurityType"] = gen.PtrOf(gen.OneConstOf(
-		DiskSecurityType_ConfidentialVM_DiskEncryptedWithCustomerKey,
-		DiskSecurityType_ConfidentialVM_DiskEncryptedWithPlatformKey,
-		DiskSecurityType_ConfidentialVM_NonPersistedTPM,
-		DiskSecurityType_ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey,
-		DiskSecurityType_TrustedLaunch))
+		DiskSecurityType_ARM_ConfidentialVM_DiskEncryptedWithCustomerKey,
+		DiskSecurityType_ARM_ConfidentialVM_DiskEncryptedWithPlatformKey,
+		DiskSecurityType_ARM_ConfidentialVM_NonPersistedTPM,
+		DiskSecurityType_ARM_ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey,
+		DiskSecurityType_ARM_TrustedLaunch))
 }
 
 func Test_DiskSku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -332,13 +332,13 @@ func DiskSku_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDiskSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSku_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DiskSku_Name_PremiumV2_LRS,
-		DiskSku_Name_Premium_LRS,
-		DiskSku_Name_Premium_ZRS,
-		DiskSku_Name_StandardSSD_LRS,
-		DiskSku_Name_StandardSSD_ZRS,
-		DiskSku_Name_Standard_LRS,
-		DiskSku_Name_UltraSSD_LRS))
+		DiskSku_Name_ARM_PremiumV2_LRS,
+		DiskSku_Name_ARM_Premium_LRS,
+		DiskSku_Name_ARM_Premium_ZRS,
+		DiskSku_Name_ARM_StandardSSD_LRS,
+		DiskSku_Name_ARM_StandardSSD_ZRS,
+		DiskSku_Name_ARM_Standard_LRS,
+		DiskSku_Name_ARM_UltraSSD_LRS))
 }
 
 func Test_Disk_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -618,7 +618,7 @@ func Encryption_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEncryption_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryption_ARM(gens map[string]gopter.Gen) {
 	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionType_EncryptionAtRestWithCustomerKey, EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionType_EncryptionAtRestWithPlatformKey))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionType_ARM_EncryptionAtRestWithCustomerKey, EncryptionType_ARM_EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionType_ARM_EncryptionAtRestWithPlatformKey))
 }
 
 func Test_ImageDiskReference_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -957,6 +957,6 @@ func SupportedCapabilities_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSupportedCapabilities_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSupportedCapabilities_ARM(gens map[string]gopter.Gen) {
 	gens["AcceleratedNetwork"] = gen.PtrOf(gen.Bool())
-	gens["Architecture"] = gen.PtrOf(gen.OneConstOf(SupportedCapabilities_Architecture_Arm64, SupportedCapabilities_Architecture_X64))
+	gens["Architecture"] = gen.PtrOf(gen.OneConstOf(SupportedCapabilities_Architecture_ARM_Arm64, SupportedCapabilities_Architecture_ARM_X64))
 	gens["DiskControllerTypes"] = gen.PtrOf(gen.AlphaString())
 }

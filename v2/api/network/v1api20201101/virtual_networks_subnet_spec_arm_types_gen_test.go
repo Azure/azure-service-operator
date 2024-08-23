@@ -528,8 +528,8 @@ func SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARMGenera
 func AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
-	gens["PrivateEndpointNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Disabled, SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Enabled))
-	gens["PrivateLinkServiceNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Disabled, SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Enabled))
+	gens["PrivateEndpointNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM_Disabled, SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM_Enabled))
+	gens["PrivateLinkServiceNetworkPolicies"] = gen.PtrOf(gen.OneConstOf(SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM_Disabled, SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM is a factory method for creating gopter generators

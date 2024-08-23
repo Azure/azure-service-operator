@@ -48,7 +48,7 @@ type ApiManagementServiceIdentity_STATUS_ARM struct {
 
 	// Type: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
-	Type *ApiManagementServiceIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ApiManagementServiceIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 	// dictionary key references will be ARM resource ids in the form:
@@ -100,7 +100,7 @@ type ApiManagementServiceProperties_STATUS_ARM struct {
 	CustomProperties map[string]string `json:"customProperties,omitempty"`
 
 	// DeveloperPortalStatus: Status of developer portal in this API Management service.
-	DeveloperPortalStatus *ApiManagementServiceProperties_DeveloperPortalStatus_STATUS `json:"developerPortalStatus,omitempty"`
+	DeveloperPortalStatus *ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM `json:"developerPortalStatus,omitempty"`
 
 	// DeveloperPortalUrl: DEveloper Portal endpoint URL of the API Management service.
 	DeveloperPortalUrl *string `json:"developerPortalUrl,omitempty"`
@@ -124,13 +124,13 @@ type ApiManagementServiceProperties_STATUS_ARM struct {
 	HostnameConfigurations []HostnameConfiguration_STATUS_ARM `json:"hostnameConfigurations,omitempty"`
 
 	// LegacyPortalStatus: Status of legacy portal in the API Management service.
-	LegacyPortalStatus *ApiManagementServiceProperties_LegacyPortalStatus_STATUS `json:"legacyPortalStatus,omitempty"`
+	LegacyPortalStatus *ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM `json:"legacyPortalStatus,omitempty"`
 
 	// ManagementApiUrl: Management API endpoint URL of the API Management service.
 	ManagementApiUrl *string `json:"managementApiUrl,omitempty"`
 
 	// NatGatewayState: Property can be used to enable NAT Gateway for this API Management service.
-	NatGatewayState *ApiManagementServiceProperties_NatGatewayState_STATUS `json:"natGatewayState,omitempty"`
+	NatGatewayState *ApiManagementServiceProperties_NatGatewayState_STATUS_ARM `json:"natGatewayState,omitempty"`
 
 	// NotificationSenderEmail: Email address from which the notification will be sent.
 	NotificationSenderEmail *string `json:"notificationSenderEmail,omitempty"`
@@ -140,7 +140,7 @@ type ApiManagementServiceProperties_STATUS_ARM struct {
 	OutboundPublicIPAddresses []string `json:"outboundPublicIPAddresses,omitempty"`
 
 	// PlatformVersion: Compute Platform Version running the service in this location.
-	PlatformVersion *ApiManagementServiceProperties_PlatformVersion_STATUS `json:"platformVersion,omitempty"`
+	PlatformVersion *ApiManagementServiceProperties_PlatformVersion_STATUS_ARM `json:"platformVersion,omitempty"`
 
 	// PortalUrl: Publisher portal endpoint Url of the API Management service.
 	PortalUrl *string `json:"portalUrl,omitempty"`
@@ -167,7 +167,7 @@ type ApiManagementServiceProperties_STATUS_ARM struct {
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this API Management service.  Value is
 	// optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access
 	// method. Default value is 'Enabled'
-	PublicNetworkAccess *ApiManagementServiceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// PublisherEmail: Publisher email.
 	PublisherEmail *string `json:"publisherEmail,omitempty"`
@@ -193,7 +193,7 @@ type ApiManagementServiceProperties_STATUS_ARM struct {
 	// means the API Management service is not part of any Virtual Network, External means the API Management deployment is set
 	// up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is
 	// setup inside a Virtual Network having an Intranet Facing Endpoint only.
-	VirtualNetworkType *ApiManagementServiceProperties_VirtualNetworkType_STATUS `json:"virtualNetworkType,omitempty"`
+	VirtualNetworkType *ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM `json:"virtualNetworkType,omitempty"`
 }
 
 // API Management service resource SKU properties.
@@ -202,7 +202,7 @@ type ApiManagementServiceSkuProperties_STATUS_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of the Sku.
-	Name *ApiManagementServiceSkuProperties_Name_STATUS `json:"name,omitempty"`
+	Name *ApiManagementServiceSkuProperties_Name_STATUS_ARM `json:"name,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -214,7 +214,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -223,7 +223,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // Description of an additional API Management resource location.
@@ -239,14 +239,14 @@ type AdditionalLocation_STATUS_ARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// NatGatewayState: Property can be used to enable NAT Gateway for this API Management service.
-	NatGatewayState *AdditionalLocation_NatGatewayState_STATUS `json:"natGatewayState,omitempty"`
+	NatGatewayState *AdditionalLocation_NatGatewayState_STATUS_ARM `json:"natGatewayState,omitempty"`
 
 	// OutboundPublicIPAddresses: Outbound public IPV4 address prefixes associated with NAT Gateway deployed service. Available
 	// only for Premium SKU on stv2 platform.
 	OutboundPublicIPAddresses []string `json:"outboundPublicIPAddresses,omitempty"`
 
 	// PlatformVersion: Compute Platform Version running the service.
-	PlatformVersion *AdditionalLocation_PlatformVersion_STATUS `json:"platformVersion,omitempty"`
+	PlatformVersion *AdditionalLocation_PlatformVersion_STATUS_ARM `json:"platformVersion,omitempty"`
 
 	// PrivateIPAddresses: Private Static Load Balanced IP addresses of the API Management service which is deployed in an
 	// Internal Virtual Network in a particular additional location. Available only for Basic, Standard, Premium and Isolated
@@ -271,46 +271,132 @@ type AdditionalLocation_STATUS_ARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type ApiManagementServiceIdentity_Type_STATUS string
+type ApiManagementServiceIdentity_Type_STATUS_ARM string
 
 const (
-	ApiManagementServiceIdentity_Type_STATUS_None                       = ApiManagementServiceIdentity_Type_STATUS("None")
-	ApiManagementServiceIdentity_Type_STATUS_SystemAssigned             = ApiManagementServiceIdentity_Type_STATUS("SystemAssigned")
-	ApiManagementServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ApiManagementServiceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	ApiManagementServiceIdentity_Type_STATUS_UserAssigned               = ApiManagementServiceIdentity_Type_STATUS("UserAssigned")
+	ApiManagementServiceIdentity_Type_STATUS_ARM_None                       = ApiManagementServiceIdentity_Type_STATUS_ARM("None")
+	ApiManagementServiceIdentity_Type_STATUS_ARM_SystemAssigned             = ApiManagementServiceIdentity_Type_STATUS_ARM("SystemAssigned")
+	ApiManagementServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = ApiManagementServiceIdentity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	ApiManagementServiceIdentity_Type_STATUS_ARM_UserAssigned               = ApiManagementServiceIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ApiManagementServiceIdentity_Type_STATUS
-var apiManagementServiceIdentity_Type_STATUS_Values = map[string]ApiManagementServiceIdentity_Type_STATUS{
-	"none":                         ApiManagementServiceIdentity_Type_STATUS_None,
-	"systemassigned":               ApiManagementServiceIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": ApiManagementServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 ApiManagementServiceIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to ApiManagementServiceIdentity_Type_STATUS_ARM
+var apiManagementServiceIdentity_Type_STATUS_ARM_Values = map[string]ApiManagementServiceIdentity_Type_STATUS_ARM{
+	"none":                         ApiManagementServiceIdentity_Type_STATUS_ARM_None,
+	"systemassigned":               ApiManagementServiceIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": ApiManagementServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ApiManagementServiceIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
-type ApiManagementServiceSkuProperties_Name_STATUS string
+type ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM string
 
 const (
-	ApiManagementServiceSkuProperties_Name_STATUS_Basic       = ApiManagementServiceSkuProperties_Name_STATUS("Basic")
-	ApiManagementServiceSkuProperties_Name_STATUS_BasicV2     = ApiManagementServiceSkuProperties_Name_STATUS("BasicV2")
-	ApiManagementServiceSkuProperties_Name_STATUS_Consumption = ApiManagementServiceSkuProperties_Name_STATUS("Consumption")
-	ApiManagementServiceSkuProperties_Name_STATUS_Developer   = ApiManagementServiceSkuProperties_Name_STATUS("Developer")
-	ApiManagementServiceSkuProperties_Name_STATUS_Isolated    = ApiManagementServiceSkuProperties_Name_STATUS("Isolated")
-	ApiManagementServiceSkuProperties_Name_STATUS_Premium     = ApiManagementServiceSkuProperties_Name_STATUS("Premium")
-	ApiManagementServiceSkuProperties_Name_STATUS_Standard    = ApiManagementServiceSkuProperties_Name_STATUS("Standard")
-	ApiManagementServiceSkuProperties_Name_STATUS_StandardV2  = ApiManagementServiceSkuProperties_Name_STATUS("StandardV2")
+	ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM_Disabled = ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM("Disabled")
+	ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM_Enabled  = ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to ApiManagementServiceSkuProperties_Name_STATUS
-var apiManagementServiceSkuProperties_Name_STATUS_Values = map[string]ApiManagementServiceSkuProperties_Name_STATUS{
-	"basic":       ApiManagementServiceSkuProperties_Name_STATUS_Basic,
-	"basicv2":     ApiManagementServiceSkuProperties_Name_STATUS_BasicV2,
-	"consumption": ApiManagementServiceSkuProperties_Name_STATUS_Consumption,
-	"developer":   ApiManagementServiceSkuProperties_Name_STATUS_Developer,
-	"isolated":    ApiManagementServiceSkuProperties_Name_STATUS_Isolated,
-	"premium":     ApiManagementServiceSkuProperties_Name_STATUS_Premium,
-	"standard":    ApiManagementServiceSkuProperties_Name_STATUS_Standard,
-	"standardv2":  ApiManagementServiceSkuProperties_Name_STATUS_StandardV2,
+// Mapping from string to ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM
+var apiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM_Values = map[string]ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM{
+	"disabled": ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM_Disabled,
+	"enabled":  ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM_Enabled,
+}
+
+type ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM string
+
+const (
+	ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM_Disabled = ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM("Disabled")
+	ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM_Enabled  = ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM
+var apiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM_Values = map[string]ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM{
+	"disabled": ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM_Disabled,
+	"enabled":  ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM_Enabled,
+}
+
+type ApiManagementServiceProperties_NatGatewayState_STATUS_ARM string
+
+const (
+	ApiManagementServiceProperties_NatGatewayState_STATUS_ARM_Disabled = ApiManagementServiceProperties_NatGatewayState_STATUS_ARM("Disabled")
+	ApiManagementServiceProperties_NatGatewayState_STATUS_ARM_Enabled  = ApiManagementServiceProperties_NatGatewayState_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ApiManagementServiceProperties_NatGatewayState_STATUS_ARM
+var apiManagementServiceProperties_NatGatewayState_STATUS_ARM_Values = map[string]ApiManagementServiceProperties_NatGatewayState_STATUS_ARM{
+	"disabled": ApiManagementServiceProperties_NatGatewayState_STATUS_ARM_Disabled,
+	"enabled":  ApiManagementServiceProperties_NatGatewayState_STATUS_ARM_Enabled,
+}
+
+type ApiManagementServiceProperties_PlatformVersion_STATUS_ARM string
+
+const (
+	ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Mtv1         = ApiManagementServiceProperties_PlatformVersion_STATUS_ARM("mtv1")
+	ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Stv1         = ApiManagementServiceProperties_PlatformVersion_STATUS_ARM("stv1")
+	ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Stv2         = ApiManagementServiceProperties_PlatformVersion_STATUS_ARM("stv2")
+	ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Stv21        = ApiManagementServiceProperties_PlatformVersion_STATUS_ARM("stv2.1")
+	ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Undetermined = ApiManagementServiceProperties_PlatformVersion_STATUS_ARM("undetermined")
+)
+
+// Mapping from string to ApiManagementServiceProperties_PlatformVersion_STATUS_ARM
+var apiManagementServiceProperties_PlatformVersion_STATUS_ARM_Values = map[string]ApiManagementServiceProperties_PlatformVersion_STATUS_ARM{
+	"mtv1":         ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Mtv1,
+	"stv1":         ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Stv1,
+	"stv2":         ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Stv2,
+	"stv2.1":       ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Stv21,
+	"undetermined": ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Undetermined,
+}
+
+type ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM_Disabled = ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM
+var apiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
+}
+
+type ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM string
+
+const (
+	ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_External = ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM("External")
+	ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_Internal = ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM("Internal")
+	ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_None     = ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM("None")
+)
+
+// Mapping from string to ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM
+var apiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_Values = map[string]ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM{
+	"external": ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_External,
+	"internal": ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_Internal,
+	"none":     ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_None,
+}
+
+type ApiManagementServiceSkuProperties_Name_STATUS_ARM string
+
+const (
+	ApiManagementServiceSkuProperties_Name_STATUS_ARM_Basic       = ApiManagementServiceSkuProperties_Name_STATUS_ARM("Basic")
+	ApiManagementServiceSkuProperties_Name_STATUS_ARM_BasicV2     = ApiManagementServiceSkuProperties_Name_STATUS_ARM("BasicV2")
+	ApiManagementServiceSkuProperties_Name_STATUS_ARM_Consumption = ApiManagementServiceSkuProperties_Name_STATUS_ARM("Consumption")
+	ApiManagementServiceSkuProperties_Name_STATUS_ARM_Developer   = ApiManagementServiceSkuProperties_Name_STATUS_ARM("Developer")
+	ApiManagementServiceSkuProperties_Name_STATUS_ARM_Isolated    = ApiManagementServiceSkuProperties_Name_STATUS_ARM("Isolated")
+	ApiManagementServiceSkuProperties_Name_STATUS_ARM_Premium     = ApiManagementServiceSkuProperties_Name_STATUS_ARM("Premium")
+	ApiManagementServiceSkuProperties_Name_STATUS_ARM_Standard    = ApiManagementServiceSkuProperties_Name_STATUS_ARM("Standard")
+	ApiManagementServiceSkuProperties_Name_STATUS_ARM_StandardV2  = ApiManagementServiceSkuProperties_Name_STATUS_ARM("StandardV2")
+)
+
+// Mapping from string to ApiManagementServiceSkuProperties_Name_STATUS_ARM
+var apiManagementServiceSkuProperties_Name_STATUS_ARM_Values = map[string]ApiManagementServiceSkuProperties_Name_STATUS_ARM{
+	"basic":       ApiManagementServiceSkuProperties_Name_STATUS_ARM_Basic,
+	"basicv2":     ApiManagementServiceSkuProperties_Name_STATUS_ARM_BasicV2,
+	"consumption": ApiManagementServiceSkuProperties_Name_STATUS_ARM_Consumption,
+	"developer":   ApiManagementServiceSkuProperties_Name_STATUS_ARM_Developer,
+	"isolated":    ApiManagementServiceSkuProperties_Name_STATUS_ARM_Isolated,
+	"premium":     ApiManagementServiceSkuProperties_Name_STATUS_ARM_Premium,
+	"standard":    ApiManagementServiceSkuProperties_Name_STATUS_ARM_Standard,
+	"standardv2":  ApiManagementServiceSkuProperties_Name_STATUS_ARM_StandardV2,
 }
 
 // Control Plane Apis version constraint for the API Management service.
@@ -329,7 +415,7 @@ type CertificateConfiguration_STATUS_ARM struct {
 
 	// StoreName: The System.Security.Cryptography.x509certificates.StoreName certificate store location. Only Root and
 	// CertificateAuthority are valid locations.
-	StoreName *CertificateConfiguration_StoreName_STATUS `json:"storeName,omitempty"`
+	StoreName *CertificateConfiguration_StoreName_STATUS_ARM `json:"storeName,omitempty"`
 }
 
 // Information regarding the Configuration API of the API Management service.
@@ -337,7 +423,7 @@ type ConfigurationApi_STATUS_ARM struct {
 	// LegacyApi: Indication whether or not the legacy Configuration API (v1) should be exposed on the API Management service.
 	// Value is optional but must be 'Enabled' or 'Disabled'. If 'Disabled', legacy Configuration API (v1) will not be
 	// available for self-hosted gateways. Default value is 'Enabled'
-	LegacyApi *ConfigurationApi_LegacyApi_STATUS `json:"legacyApi,omitempty"`
+	LegacyApi *ConfigurationApi_LegacyApi_STATUS_ARM `json:"legacyApi,omitempty"`
 }
 
 // Custom hostname configuration.
@@ -346,10 +432,10 @@ type HostnameConfiguration_STATUS_ARM struct {
 	Certificate *CertificateInformation_STATUS_ARM `json:"certificate,omitempty"`
 
 	// CertificateSource: Certificate Source.
-	CertificateSource *HostnameConfiguration_CertificateSource_STATUS `json:"certificateSource,omitempty"`
+	CertificateSource *HostnameConfiguration_CertificateSource_STATUS_ARM `json:"certificateSource,omitempty"`
 
 	// CertificateStatus: Certificate Status.
-	CertificateStatus *HostnameConfiguration_CertificateStatus_STATUS `json:"certificateStatus,omitempty"`
+	CertificateStatus *HostnameConfiguration_CertificateStatus_STATUS_ARM `json:"certificateStatus,omitempty"`
 
 	// DefaultSslBinding: Specify true to setup the certificate associated with this Hostname as the Default SSL Certificate.
 	// If a client does not send the SNI header, then this will be the certificate that will be challenged. The property is
@@ -376,7 +462,7 @@ type HostnameConfiguration_STATUS_ARM struct {
 	NegotiateClientCertificate *bool `json:"negotiateClientCertificate,omitempty"`
 
 	// Type: Hostname type.
-	Type *HostnameConfiguration_Type_STATUS `json:"type,omitempty"`
+	Type *HostnameConfiguration_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Remote Private Endpoint Connection resource.
@@ -394,38 +480,38 @@ type RemotePrivateEndpointConnectionWrapper_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 type UserIdentityProperties_STATUS_ARM struct {
@@ -448,6 +534,51 @@ type VirtualNetworkConfiguration_STATUS_ARM struct {
 	Vnetid *string `json:"vnetid,omitempty"`
 }
 
+type AdditionalLocation_NatGatewayState_STATUS_ARM string
+
+const (
+	AdditionalLocation_NatGatewayState_STATUS_ARM_Disabled = AdditionalLocation_NatGatewayState_STATUS_ARM("Disabled")
+	AdditionalLocation_NatGatewayState_STATUS_ARM_Enabled  = AdditionalLocation_NatGatewayState_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to AdditionalLocation_NatGatewayState_STATUS_ARM
+var additionalLocation_NatGatewayState_STATUS_ARM_Values = map[string]AdditionalLocation_NatGatewayState_STATUS_ARM{
+	"disabled": AdditionalLocation_NatGatewayState_STATUS_ARM_Disabled,
+	"enabled":  AdditionalLocation_NatGatewayState_STATUS_ARM_Enabled,
+}
+
+type AdditionalLocation_PlatformVersion_STATUS_ARM string
+
+const (
+	AdditionalLocation_PlatformVersion_STATUS_ARM_Mtv1         = AdditionalLocation_PlatformVersion_STATUS_ARM("mtv1")
+	AdditionalLocation_PlatformVersion_STATUS_ARM_Stv1         = AdditionalLocation_PlatformVersion_STATUS_ARM("stv1")
+	AdditionalLocation_PlatformVersion_STATUS_ARM_Stv2         = AdditionalLocation_PlatformVersion_STATUS_ARM("stv2")
+	AdditionalLocation_PlatformVersion_STATUS_ARM_Stv21        = AdditionalLocation_PlatformVersion_STATUS_ARM("stv2.1")
+	AdditionalLocation_PlatformVersion_STATUS_ARM_Undetermined = AdditionalLocation_PlatformVersion_STATUS_ARM("undetermined")
+)
+
+// Mapping from string to AdditionalLocation_PlatformVersion_STATUS_ARM
+var additionalLocation_PlatformVersion_STATUS_ARM_Values = map[string]AdditionalLocation_PlatformVersion_STATUS_ARM{
+	"mtv1":         AdditionalLocation_PlatformVersion_STATUS_ARM_Mtv1,
+	"stv1":         AdditionalLocation_PlatformVersion_STATUS_ARM_Stv1,
+	"stv2":         AdditionalLocation_PlatformVersion_STATUS_ARM_Stv2,
+	"stv2.1":       AdditionalLocation_PlatformVersion_STATUS_ARM_Stv21,
+	"undetermined": AdditionalLocation_PlatformVersion_STATUS_ARM_Undetermined,
+}
+
+type CertificateConfiguration_StoreName_STATUS_ARM string
+
+const (
+	CertificateConfiguration_StoreName_STATUS_ARM_CertificateAuthority = CertificateConfiguration_StoreName_STATUS_ARM("CertificateAuthority")
+	CertificateConfiguration_StoreName_STATUS_ARM_Root                 = CertificateConfiguration_StoreName_STATUS_ARM("Root")
+)
+
+// Mapping from string to CertificateConfiguration_StoreName_STATUS_ARM
+var certificateConfiguration_StoreName_STATUS_ARM_Values = map[string]CertificateConfiguration_StoreName_STATUS_ARM{
+	"certificateauthority": CertificateConfiguration_StoreName_STATUS_ARM_CertificateAuthority,
+	"root":                 CertificateConfiguration_StoreName_STATUS_ARM_Root,
+}
+
 // SSL certificate information.
 type CertificateInformation_STATUS_ARM struct {
 	// Expiry: Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as
@@ -459,6 +590,72 @@ type CertificateInformation_STATUS_ARM struct {
 
 	// Thumbprint: Thumbprint of the certificate.
 	Thumbprint *string `json:"thumbprint,omitempty"`
+}
+
+type ConfigurationApi_LegacyApi_STATUS_ARM string
+
+const (
+	ConfigurationApi_LegacyApi_STATUS_ARM_Disabled = ConfigurationApi_LegacyApi_STATUS_ARM("Disabled")
+	ConfigurationApi_LegacyApi_STATUS_ARM_Enabled  = ConfigurationApi_LegacyApi_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ConfigurationApi_LegacyApi_STATUS_ARM
+var configurationApi_LegacyApi_STATUS_ARM_Values = map[string]ConfigurationApi_LegacyApi_STATUS_ARM{
+	"disabled": ConfigurationApi_LegacyApi_STATUS_ARM_Disabled,
+	"enabled":  ConfigurationApi_LegacyApi_STATUS_ARM_Enabled,
+}
+
+type HostnameConfiguration_CertificateSource_STATUS_ARM string
+
+const (
+	HostnameConfiguration_CertificateSource_STATUS_ARM_BuiltIn  = HostnameConfiguration_CertificateSource_STATUS_ARM("BuiltIn")
+	HostnameConfiguration_CertificateSource_STATUS_ARM_Custom   = HostnameConfiguration_CertificateSource_STATUS_ARM("Custom")
+	HostnameConfiguration_CertificateSource_STATUS_ARM_KeyVault = HostnameConfiguration_CertificateSource_STATUS_ARM("KeyVault")
+	HostnameConfiguration_CertificateSource_STATUS_ARM_Managed  = HostnameConfiguration_CertificateSource_STATUS_ARM("Managed")
+)
+
+// Mapping from string to HostnameConfiguration_CertificateSource_STATUS_ARM
+var hostnameConfiguration_CertificateSource_STATUS_ARM_Values = map[string]HostnameConfiguration_CertificateSource_STATUS_ARM{
+	"builtin":  HostnameConfiguration_CertificateSource_STATUS_ARM_BuiltIn,
+	"custom":   HostnameConfiguration_CertificateSource_STATUS_ARM_Custom,
+	"keyvault": HostnameConfiguration_CertificateSource_STATUS_ARM_KeyVault,
+	"managed":  HostnameConfiguration_CertificateSource_STATUS_ARM_Managed,
+}
+
+type HostnameConfiguration_CertificateStatus_STATUS_ARM string
+
+const (
+	HostnameConfiguration_CertificateStatus_STATUS_ARM_Completed  = HostnameConfiguration_CertificateStatus_STATUS_ARM("Completed")
+	HostnameConfiguration_CertificateStatus_STATUS_ARM_Failed     = HostnameConfiguration_CertificateStatus_STATUS_ARM("Failed")
+	HostnameConfiguration_CertificateStatus_STATUS_ARM_InProgress = HostnameConfiguration_CertificateStatus_STATUS_ARM("InProgress")
+)
+
+// Mapping from string to HostnameConfiguration_CertificateStatus_STATUS_ARM
+var hostnameConfiguration_CertificateStatus_STATUS_ARM_Values = map[string]HostnameConfiguration_CertificateStatus_STATUS_ARM{
+	"completed":  HostnameConfiguration_CertificateStatus_STATUS_ARM_Completed,
+	"failed":     HostnameConfiguration_CertificateStatus_STATUS_ARM_Failed,
+	"inprogress": HostnameConfiguration_CertificateStatus_STATUS_ARM_InProgress,
+}
+
+type HostnameConfiguration_Type_STATUS_ARM string
+
+const (
+	HostnameConfiguration_Type_STATUS_ARM_ConfigurationApi = HostnameConfiguration_Type_STATUS_ARM("ConfigurationApi")
+	HostnameConfiguration_Type_STATUS_ARM_DeveloperPortal  = HostnameConfiguration_Type_STATUS_ARM("DeveloperPortal")
+	HostnameConfiguration_Type_STATUS_ARM_Management       = HostnameConfiguration_Type_STATUS_ARM("Management")
+	HostnameConfiguration_Type_STATUS_ARM_Portal           = HostnameConfiguration_Type_STATUS_ARM("Portal")
+	HostnameConfiguration_Type_STATUS_ARM_Proxy            = HostnameConfiguration_Type_STATUS_ARM("Proxy")
+	HostnameConfiguration_Type_STATUS_ARM_Scm              = HostnameConfiguration_Type_STATUS_ARM("Scm")
+)
+
+// Mapping from string to HostnameConfiguration_Type_STATUS_ARM
+var hostnameConfiguration_Type_STATUS_ARM_Values = map[string]HostnameConfiguration_Type_STATUS_ARM{
+	"configurationapi": HostnameConfiguration_Type_STATUS_ARM_ConfigurationApi,
+	"developerportal":  HostnameConfiguration_Type_STATUS_ARM_DeveloperPortal,
+	"management":       HostnameConfiguration_Type_STATUS_ARM_Management,
+	"portal":           HostnameConfiguration_Type_STATUS_ARM_Portal,
+	"proxy":            HostnameConfiguration_Type_STATUS_ARM_Proxy,
+	"scm":              HostnameConfiguration_Type_STATUS_ARM_Scm,
 }
 
 // Properties of the PrivateEndpointConnectProperties.
@@ -491,5 +688,21 @@ type PrivateLinkServiceConnectionState_STATUS_ARM struct {
 	Description *string `json:"description,omitempty"`
 
 	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *PrivateEndpointServiceConnectionStatus_STATUS `json:"status,omitempty"`
+	Status *PrivateEndpointServiceConnectionStatus_STATUS_ARM `json:"status,omitempty"`
+}
+
+// The private endpoint connection status.
+type PrivateEndpointServiceConnectionStatus_STATUS_ARM string
+
+const (
+	PrivateEndpointServiceConnectionStatus_STATUS_ARM_Approved = PrivateEndpointServiceConnectionStatus_STATUS_ARM("Approved")
+	PrivateEndpointServiceConnectionStatus_STATUS_ARM_Pending  = PrivateEndpointServiceConnectionStatus_STATUS_ARM("Pending")
+	PrivateEndpointServiceConnectionStatus_STATUS_ARM_Rejected = PrivateEndpointServiceConnectionStatus_STATUS_ARM("Rejected")
+)
+
+// Mapping from string to PrivateEndpointServiceConnectionStatus_STATUS_ARM
+var privateEndpointServiceConnectionStatus_STATUS_ARM_Values = map[string]PrivateEndpointServiceConnectionStatus_STATUS_ARM{
+	"approved": PrivateEndpointServiceConnectionStatus_STATUS_ARM_Approved,
+	"pending":  PrivateEndpointServiceConnectionStatus_STATUS_ARM_Pending,
+	"rejected": PrivateEndpointServiceConnectionStatus_STATUS_ARM_Rejected,
 }
