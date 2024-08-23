@@ -150,7 +150,6 @@ var runes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567
 // GeneratePasswordOfLength generates and returns a non-deterministic password.
 // This method does not use any seed value, so the returned password is never stable.
 func (n ResourceNamer) GeneratePasswordOfLength(length int) string {
-
 	// This pass + <content> + pass pattern is to make it so that matchers can reliably find and prune
 	// generated passwords from the recordings. If you change it make sure to change the passwordMatcher
 	// in test_context.go as well.

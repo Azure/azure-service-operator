@@ -957,13 +957,13 @@ func AssignToEnum(
 	if err != nil {
 		// Couldn't the definition, this handler isn't the one we want
 		// (not actually an error)
-		return nil, nil
+		return nil, nil //nolint:nilerr // err is not nil, we defer to a different conversion
 	}
 
 	et, ok := AsEnumType(def.Type())
 	if !ok {
 		// Definition isn't for an enum type,
-		return nil, nil
+		return nil, nil //nolint:nilerr // err is not nil, we defer to a different conversion
 	}
 
 	if TypeEquals(et.BaseType(), params.SourceType) {
@@ -1045,9 +1045,7 @@ func AssignFromEnum(
 
 	def, err := builder.CodeGenerationContext.GetDefinition(itn)
 	if err != nil {
-		// Couldn't the definition, this handler isn't the one we want
-		// (not actually an error)
-		return nil, nil
+		return nil, nil //nolint:nilerr // err is not nil, we defer to a different conversion
 	}
 
 	et, ok := AsEnumType(def.Type())

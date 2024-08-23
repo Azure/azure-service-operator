@@ -500,7 +500,6 @@ func (tc *KubePerTestContext) CreateSimpleSecret(
 	key string,
 	secretData string,
 ) genruntime.SecretReference {
-
 	secret := &corev1.Secret{
 		ObjectMeta: tc.MakeObjectMeta(name),
 		StringData: map[string]string{
