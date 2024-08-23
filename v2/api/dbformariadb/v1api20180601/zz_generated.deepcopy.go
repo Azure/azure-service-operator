@@ -437,7 +437,7 @@ func (in *ServerPrivateEndpointConnectionProperties_STATUS_ARM) DeepCopyInto(out
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS)
+		*out = new(ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -537,7 +537,7 @@ func (in *ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM) DeepCopyIn
 	*out = *in
 	if in.ActionsRequired != nil {
 		in, out := &in.ActionsRequired, &out.ActionsRequired
-		*out = new(ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS)
+		*out = new(ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -547,7 +547,7 @@ func (in *ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM) DeepCopyIn
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS)
+		*out = new(ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -702,17 +702,17 @@ func (in *ServerPropertiesForDefaultCreate_ARM) DeepCopyInto(out *ServerProperti
 	}
 	if in.MinimalTlsVersion != nil {
 		in, out := &in.MinimalTlsVersion, &out.MinimalTlsVersion
-		*out = new(MinimalTlsVersion)
+		*out = new(MinimalTlsVersion_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccess)
+		*out = new(PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.SslEnforcement != nil {
 		in, out := &in.SslEnforcement, &out.SslEnforcement
-		*out = new(SslEnforcement)
+		*out = new(SslEnforcement_ARM)
 		**out = **in
 	}
 	if in.StorageProfile != nil {
@@ -722,7 +722,7 @@ func (in *ServerPropertiesForDefaultCreate_ARM) DeepCopyInto(out *ServerProperti
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
-		*out = new(ServerVersion)
+		*out = new(ServerVersion_ARM)
 		**out = **in
 	}
 }
@@ -792,12 +792,12 @@ func (in *ServerPropertiesForGeoRestore_ARM) DeepCopyInto(out *ServerPropertiesF
 	*out = *in
 	if in.MinimalTlsVersion != nil {
 		in, out := &in.MinimalTlsVersion, &out.MinimalTlsVersion
-		*out = new(MinimalTlsVersion)
+		*out = new(MinimalTlsVersion_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccess)
+		*out = new(PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.SourceServerId != nil {
@@ -807,7 +807,7 @@ func (in *ServerPropertiesForGeoRestore_ARM) DeepCopyInto(out *ServerPropertiesF
 	}
 	if in.SslEnforcement != nil {
 		in, out := &in.SslEnforcement, &out.SslEnforcement
-		*out = new(SslEnforcement)
+		*out = new(SslEnforcement_ARM)
 		**out = **in
 	}
 	if in.StorageProfile != nil {
@@ -817,7 +817,7 @@ func (in *ServerPropertiesForGeoRestore_ARM) DeepCopyInto(out *ServerPropertiesF
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
-		*out = new(ServerVersion)
+		*out = new(ServerVersion_ARM)
 		**out = **in
 	}
 }
@@ -887,12 +887,12 @@ func (in *ServerPropertiesForReplica_ARM) DeepCopyInto(out *ServerPropertiesForR
 	*out = *in
 	if in.MinimalTlsVersion != nil {
 		in, out := &in.MinimalTlsVersion, &out.MinimalTlsVersion
-		*out = new(MinimalTlsVersion)
+		*out = new(MinimalTlsVersion_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccess)
+		*out = new(PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.SourceServerId != nil {
@@ -902,7 +902,7 @@ func (in *ServerPropertiesForReplica_ARM) DeepCopyInto(out *ServerPropertiesForR
 	}
 	if in.SslEnforcement != nil {
 		in, out := &in.SslEnforcement, &out.SslEnforcement
-		*out = new(SslEnforcement)
+		*out = new(SslEnforcement_ARM)
 		**out = **in
 	}
 	if in.StorageProfile != nil {
@@ -912,7 +912,7 @@ func (in *ServerPropertiesForReplica_ARM) DeepCopyInto(out *ServerPropertiesForR
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
-		*out = new(ServerVersion)
+		*out = new(ServerVersion_ARM)
 		**out = **in
 	}
 }
@@ -987,12 +987,12 @@ func (in *ServerPropertiesForRestore_ARM) DeepCopyInto(out *ServerPropertiesForR
 	*out = *in
 	if in.MinimalTlsVersion != nil {
 		in, out := &in.MinimalTlsVersion, &out.MinimalTlsVersion
-		*out = new(MinimalTlsVersion)
+		*out = new(MinimalTlsVersion_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccess)
+		*out = new(PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.RestorePointInTime != nil {
@@ -1007,7 +1007,7 @@ func (in *ServerPropertiesForRestore_ARM) DeepCopyInto(out *ServerPropertiesForR
 	}
 	if in.SslEnforcement != nil {
 		in, out := &in.SslEnforcement, &out.SslEnforcement
-		*out = new(SslEnforcement)
+		*out = new(SslEnforcement_ARM)
 		**out = **in
 	}
 	if in.StorageProfile != nil {
@@ -1017,7 +1017,7 @@ func (in *ServerPropertiesForRestore_ARM) DeepCopyInto(out *ServerPropertiesForR
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
-		*out = new(ServerVersion)
+		*out = new(ServerVersion_ARM)
 		**out = **in
 	}
 }
@@ -1057,7 +1057,7 @@ func (in *ServerProperties_STATUS_ARM) DeepCopyInto(out *ServerProperties_STATUS
 	}
 	if in.MinimalTlsVersion != nil {
 		in, out := &in.MinimalTlsVersion, &out.MinimalTlsVersion
-		*out = new(MinimalTlsVersion_STATUS)
+		*out = new(MinimalTlsVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.PrivateEndpointConnections != nil {
@@ -1069,7 +1069,7 @@ func (in *ServerProperties_STATUS_ARM) DeepCopyInto(out *ServerProperties_STATUS
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccess_STATUS)
+		*out = new(PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.ReplicaCapacity != nil {
@@ -1084,7 +1084,7 @@ func (in *ServerProperties_STATUS_ARM) DeepCopyInto(out *ServerProperties_STATUS
 	}
 	if in.SslEnforcement != nil {
 		in, out := &in.SslEnforcement, &out.SslEnforcement
-		*out = new(SslEnforcement_STATUS)
+		*out = new(SslEnforcement_STATUS_ARM)
 		**out = **in
 	}
 	if in.StorageProfile != nil {
@@ -1094,12 +1094,12 @@ func (in *ServerProperties_STATUS_ARM) DeepCopyInto(out *ServerProperties_STATUS
 	}
 	if in.UserVisibleState != nil {
 		in, out := &in.UserVisibleState, &out.UserVisibleState
-		*out = new(ServerProperties_UserVisibleState_STATUS)
+		*out = new(ServerProperties_UserVisibleState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
-		*out = new(ServerVersion_STATUS)
+		*out = new(ServerVersion_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1720,7 +1720,7 @@ func (in *Sku_ARM) DeepCopyInto(out *Sku_ARM) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(Sku_Tier)
+		*out = new(Sku_Tier_ARM)
 		**out = **in
 	}
 }
@@ -1800,7 +1800,7 @@ func (in *Sku_STATUS_ARM) DeepCopyInto(out *Sku_STATUS_ARM) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(Sku_Tier_STATUS)
+		*out = new(Sku_Tier_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1860,12 +1860,12 @@ func (in *StorageProfile_ARM) DeepCopyInto(out *StorageProfile_ARM) {
 	}
 	if in.GeoRedundantBackup != nil {
 		in, out := &in.GeoRedundantBackup, &out.GeoRedundantBackup
-		*out = new(StorageProfile_GeoRedundantBackup)
+		*out = new(StorageProfile_GeoRedundantBackup_ARM)
 		**out = **in
 	}
 	if in.StorageAutogrow != nil {
 		in, out := &in.StorageAutogrow, &out.StorageAutogrow
-		*out = new(StorageProfile_StorageAutogrow)
+		*out = new(StorageProfile_StorageAutogrow_ARM)
 		**out = **in
 	}
 	if in.StorageMB != nil {
@@ -1930,12 +1930,12 @@ func (in *StorageProfile_STATUS_ARM) DeepCopyInto(out *StorageProfile_STATUS_ARM
 	}
 	if in.GeoRedundantBackup != nil {
 		in, out := &in.GeoRedundantBackup, &out.GeoRedundantBackup
-		*out = new(StorageProfile_GeoRedundantBackup_STATUS)
+		*out = new(StorageProfile_GeoRedundantBackup_STATUS_ARM)
 		**out = **in
 	}
 	if in.StorageAutogrow != nil {
 		in, out := &in.StorageAutogrow, &out.StorageAutogrow
-		*out = new(StorageProfile_StorageAutogrow_STATUS)
+		*out = new(StorageProfile_StorageAutogrow_STATUS_ARM)
 		**out = **in
 	}
 	if in.StorageMB != nil {

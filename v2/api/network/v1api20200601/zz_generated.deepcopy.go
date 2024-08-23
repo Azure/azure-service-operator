@@ -3705,7 +3705,7 @@ func (in *VirtualNetworkLinkProperties_STATUS_ARM) DeepCopyInto(out *VirtualNetw
 	*out = *in
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(VirtualNetworkLinkProperties_ProvisioningState_STATUS)
+		*out = new(VirtualNetworkLinkProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.RegistrationEnabled != nil {
@@ -3720,7 +3720,7 @@ func (in *VirtualNetworkLinkProperties_STATUS_ARM) DeepCopyInto(out *VirtualNetw
 	}
 	if in.VirtualNetworkLinkState != nil {
 		in, out := &in.VirtualNetworkLinkState, &out.VirtualNetworkLinkState
-		*out = new(VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS)
+		*out = new(VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_ARM)
 		**out = **in
 	}
 }

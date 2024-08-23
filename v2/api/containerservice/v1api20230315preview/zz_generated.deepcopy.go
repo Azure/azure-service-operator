@@ -431,7 +431,7 @@ func (in *FleetMemberProperties_STATUS_ARM) DeepCopyInto(out *FleetMemberPropert
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(FleetMemberProvisioningState_STATUS)
+		*out = new(FleetMemberProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -516,7 +516,7 @@ func (in *FleetProperties_STATUS_ARM) DeepCopyInto(out *FleetProperties_STATUS_A
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(FleetProvisioningState_STATUS)
+		*out = new(FleetProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1283,7 +1283,7 @@ func (in *ManagedClusterUpgradeSpec_ARM) DeepCopyInto(out *ManagedClusterUpgrade
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedClusterUpgradeType)
+		*out = new(ManagedClusterUpgradeType_ARM)
 		**out = **in
 	}
 }
@@ -1333,7 +1333,7 @@ func (in *ManagedClusterUpgradeSpec_STATUS_ARM) DeepCopyInto(out *ManagedCluster
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedClusterUpgradeType_STATUS)
+		*out = new(ManagedClusterUpgradeType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1478,7 +1478,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1493,7 +1493,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1687,7 +1687,7 @@ func (in *UpdateRunProperties_STATUS_ARM) DeepCopyInto(out *UpdateRunProperties_
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(UpdateRunProvisioningState_STATUS)
+		*out = new(UpdateRunProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Status != nil {
@@ -2111,7 +2111,7 @@ func (in *UpdateStatus_STATUS_ARM) DeepCopyInto(out *UpdateStatus_STATUS_ARM) {
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(UpdateState_STATUS)
+		*out = new(UpdateState_STATUS_ARM)
 		**out = **in
 	}
 }

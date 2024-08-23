@@ -107,7 +107,7 @@ func (in *DynamicMetricCriteria_ARM) DeepCopyInto(out *DynamicMetricCriteria_ARM
 	}
 	if in.AlertSensitivity != nil {
 		in, out := &in.AlertSensitivity, &out.AlertSensitivity
-		*out = new(DynamicMetricCriteria_AlertSensitivity)
+		*out = new(DynamicMetricCriteria_AlertSensitivity_ARM)
 		**out = **in
 	}
 	if in.Dimensions != nil {
@@ -144,7 +144,7 @@ func (in *DynamicMetricCriteria_ARM) DeepCopyInto(out *DynamicMetricCriteria_ARM
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(DynamicMetricCriteria_Operator)
+		*out = new(DynamicMetricCriteria_Operator_ARM)
 		**out = **in
 	}
 	if in.SkipMetricValidation != nil {
@@ -154,7 +154,7 @@ func (in *DynamicMetricCriteria_ARM) DeepCopyInto(out *DynamicMetricCriteria_ARM
 	}
 	if in.TimeAggregation != nil {
 		in, out := &in.TimeAggregation, &out.TimeAggregation
-		*out = new(DynamicMetricCriteria_TimeAggregation)
+		*out = new(DynamicMetricCriteria_TimeAggregation_ARM)
 		**out = **in
 	}
 }
@@ -260,7 +260,7 @@ func (in *DynamicMetricCriteria_STATUS_ARM) DeepCopyInto(out *DynamicMetricCrite
 	}
 	if in.AlertSensitivity != nil {
 		in, out := &in.AlertSensitivity, &out.AlertSensitivity
-		*out = new(DynamicMetricCriteria_AlertSensitivity_STATUS)
+		*out = new(DynamicMetricCriteria_AlertSensitivity_STATUS_ARM)
 		**out = **in
 	}
 	if in.Dimensions != nil {
@@ -297,7 +297,7 @@ func (in *DynamicMetricCriteria_STATUS_ARM) DeepCopyInto(out *DynamicMetricCrite
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(DynamicMetricCriteria_Operator_STATUS)
+		*out = new(DynamicMetricCriteria_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.SkipMetricValidation != nil {
@@ -307,7 +307,7 @@ func (in *DynamicMetricCriteria_STATUS_ARM) DeepCopyInto(out *DynamicMetricCrite
 	}
 	if in.TimeAggregation != nil {
 		in, out := &in.TimeAggregation, &out.TimeAggregation
-		*out = new(DynamicMetricCriteria_TimeAggregation_STATUS)
+		*out = new(DynamicMetricCriteria_TimeAggregation_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1502,7 +1502,7 @@ func (in *MetricCriteria_ARM) DeepCopyInto(out *MetricCriteria_ARM) {
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(MetricCriteria_Operator)
+		*out = new(MetricCriteria_Operator_ARM)
 		**out = **in
 	}
 	if in.SkipMetricValidation != nil {
@@ -1517,7 +1517,7 @@ func (in *MetricCriteria_ARM) DeepCopyInto(out *MetricCriteria_ARM) {
 	}
 	if in.TimeAggregation != nil {
 		in, out := &in.TimeAggregation, &out.TimeAggregation
-		*out = new(MetricCriteria_TimeAggregation)
+		*out = new(MetricCriteria_TimeAggregation_ARM)
 		**out = **in
 	}
 }
@@ -1635,7 +1635,7 @@ func (in *MetricCriteria_STATUS_ARM) DeepCopyInto(out *MetricCriteria_STATUS_ARM
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(MetricCriteria_Operator_STATUS)
+		*out = new(MetricCriteria_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.SkipMetricValidation != nil {
@@ -1650,7 +1650,7 @@ func (in *MetricCriteria_STATUS_ARM) DeepCopyInto(out *MetricCriteria_STATUS_ARM
 	}
 	if in.TimeAggregation != nil {
 		in, out := &in.TimeAggregation, &out.TimeAggregation
-		*out = new(MetricCriteria_TimeAggregation_STATUS)
+		*out = new(MetricCriteria_TimeAggregation_STATUS_ARM)
 		**out = **in
 	}
 }

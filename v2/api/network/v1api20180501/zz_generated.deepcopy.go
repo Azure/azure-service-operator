@@ -4870,7 +4870,7 @@ func (in *ZoneProperties_ARM) DeepCopyInto(out *ZoneProperties_ARM) {
 	}
 	if in.ZoneType != nil {
 		in, out := &in.ZoneType, &out.ZoneType
-		*out = new(ZoneProperties_ZoneType)
+		*out = new(ZoneProperties_ZoneType_ARM)
 		**out = **in
 	}
 }
@@ -4924,7 +4924,7 @@ func (in *ZoneProperties_STATUS_ARM) DeepCopyInto(out *ZoneProperties_STATUS_ARM
 	}
 	if in.ZoneType != nil {
 		in, out := &in.ZoneType, &out.ZoneType
-		*out = new(ZoneProperties_ZoneType_STATUS)
+		*out = new(ZoneProperties_ZoneType_STATUS_ARM)
 		**out = **in
 	}
 }

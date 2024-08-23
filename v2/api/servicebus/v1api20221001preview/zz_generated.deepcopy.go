@@ -440,7 +440,7 @@ func (in *Encryption_ARM) DeepCopyInto(out *Encryption_ARM) {
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(Encryption_KeySource)
+		*out = new(Encryption_KeySource_ARM)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -504,7 +504,7 @@ func (in *Encryption_STATUS_ARM) DeepCopyInto(out *Encryption_STATUS_ARM) {
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(Encryption_KeySource_STATUS)
+		*out = new(Encryption_KeySource_STATUS_ARM)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -561,7 +561,7 @@ func (in *Identity_ARM) DeepCopyInto(out *Identity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type)
+		*out = new(Identity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -635,7 +635,7 @@ func (in *Identity_STATUS_ARM) DeepCopyInto(out *Identity_STATUS_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type_STATUS)
+		*out = new(Identity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -1673,7 +1673,7 @@ func (in *Namespaces_AuthorizationRule_Properties_STATUS_ARM) DeepCopyInto(out *
 	*out = *in
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = make([]Namespaces_AuthorizationRule_Properties_Rights_STATUS, len(*in))
+		*out = make([]Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -1693,7 +1693,7 @@ func (in *Namespaces_AuthorizationRule_Properties_Spec_ARM) DeepCopyInto(out *Na
 	*out = *in
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = make([]Namespaces_AuthorizationRule_Properties_Rights_Spec, len(*in))
+		*out = make([]Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -2958,7 +2958,7 @@ func (in *Ruleproperties_ARM) DeepCopyInto(out *Ruleproperties_ARM) {
 	}
 	if in.FilterType != nil {
 		in, out := &in.FilterType, &out.FilterType
-		*out = new(FilterType)
+		*out = new(FilterType_ARM)
 		**out = **in
 	}
 	if in.SqlFilter != nil {
@@ -2993,7 +2993,7 @@ func (in *Ruleproperties_STATUS_ARM) DeepCopyInto(out *Ruleproperties_STATUS_ARM
 	}
 	if in.FilterType != nil {
 		in, out := &in.FilterType, &out.FilterType
-		*out = new(FilterType_STATUS)
+		*out = new(FilterType_STATUS_ARM)
 		**out = **in
 	}
 	if in.SqlFilter != nil {
@@ -3153,7 +3153,7 @@ func (in *SBNamespaceProperties_ARM) DeepCopyInto(out *SBNamespaceProperties_ARM
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(SBNamespaceProperties_MinimumTlsVersion)
+		*out = new(SBNamespaceProperties_MinimumTlsVersion_ARM)
 		**out = **in
 	}
 	if in.PremiumMessagingPartitions != nil {
@@ -3163,7 +3163,7 @@ func (in *SBNamespaceProperties_ARM) DeepCopyInto(out *SBNamespaceProperties_ARM
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(SBNamespaceProperties_PublicNetworkAccess)
+		*out = new(SBNamespaceProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.ZoneRedundant != nil {
@@ -3213,7 +3213,7 @@ func (in *SBNamespaceProperties_STATUS_ARM) DeepCopyInto(out *SBNamespacePropert
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(SBNamespaceProperties_MinimumTlsVersion_STATUS)
+		*out = new(SBNamespaceProperties_MinimumTlsVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.PremiumMessagingPartitions != nil {
@@ -3235,7 +3235,7 @@ func (in *SBNamespaceProperties_STATUS_ARM) DeepCopyInto(out *SBNamespacePropert
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(SBNamespaceProperties_PublicNetworkAccess_STATUS)
+		*out = new(SBNamespaceProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.ServiceBusEndpoint != nil {
@@ -3465,7 +3465,7 @@ func (in *SBQueueProperties_STATUS_ARM) DeepCopyInto(out *SBQueueProperties_STAT
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EntityStatus_STATUS)
+		*out = new(EntityStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.UpdatedAt != nil {
@@ -3525,12 +3525,12 @@ func (in *SBSku_ARM) DeepCopyInto(out *SBSku_ARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SBSku_Name)
+		*out = new(SBSku_Name_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SBSku_Tier)
+		*out = new(SBSku_Tier_ARM)
 		**out = **in
 	}
 }
@@ -3585,12 +3585,12 @@ func (in *SBSku_STATUS_ARM) DeepCopyInto(out *SBSku_STATUS_ARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SBSku_Name_STATUS)
+		*out = new(SBSku_Name_STATUS_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SBSku_Tier_STATUS)
+		*out = new(SBSku_Tier_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -3775,7 +3775,7 @@ func (in *SBSubscriptionProperties_STATUS_ARM) DeepCopyInto(out *SBSubscriptionP
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EntityStatus_STATUS)
+		*out = new(EntityStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.UpdatedAt != nil {
@@ -3930,7 +3930,7 @@ func (in *SBTopicProperties_STATUS_ARM) DeepCopyInto(out *SBTopicProperties_STAT
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EntityStatus_STATUS)
+		*out = new(EntityStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.SubscriptionCount != nil {
@@ -4140,7 +4140,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -4155,7 +4155,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

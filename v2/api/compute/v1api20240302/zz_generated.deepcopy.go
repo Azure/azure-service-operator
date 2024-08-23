@@ -189,7 +189,7 @@ func (in *CopyCompletionError_ARM) DeepCopyInto(out *CopyCompletionError_ARM) {
 	*out = *in
 	if in.ErrorCode != nil {
 		in, out := &in.ErrorCode, &out.ErrorCode
-		*out = new(CopyCompletionError_ErrorCode)
+		*out = new(CopyCompletionError_ErrorCode_ARM)
 		**out = **in
 	}
 	if in.ErrorMessage != nil {
@@ -239,7 +239,7 @@ func (in *CopyCompletionError_STATUS_ARM) DeepCopyInto(out *CopyCompletionError_
 	*out = *in
 	if in.ErrorCode != nil {
 		in, out := &in.ErrorCode, &out.ErrorCode
-		*out = new(CopyCompletionError_ErrorCode_STATUS)
+		*out = new(CopyCompletionError_ErrorCode_STATUS_ARM)
 		**out = **in
 	}
 	if in.ErrorMessage != nil {
@@ -339,7 +339,7 @@ func (in *CreationData_ARM) DeepCopyInto(out *CreationData_ARM) {
 	*out = *in
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreationData_CreateOption)
+		*out = new(CreationData_CreateOption_ARM)
 		**out = **in
 	}
 	if in.ElasticSanResourceId != nil {
@@ -369,7 +369,7 @@ func (in *CreationData_ARM) DeepCopyInto(out *CreationData_ARM) {
 	}
 	if in.ProvisionedBandwidthCopySpeed != nil {
 		in, out := &in.ProvisionedBandwidthCopySpeed, &out.ProvisionedBandwidthCopySpeed
-		*out = new(CreationData_ProvisionedBandwidthCopySpeed)
+		*out = new(CreationData_ProvisionedBandwidthCopySpeed_ARM)
 		**out = **in
 	}
 	if in.SecurityDataUri != nil {
@@ -494,7 +494,7 @@ func (in *CreationData_STATUS_ARM) DeepCopyInto(out *CreationData_STATUS_ARM) {
 	*out = *in
 	if in.CreateOption != nil {
 		in, out := &in.CreateOption, &out.CreateOption
-		*out = new(CreationData_CreateOption_STATUS)
+		*out = new(CreationData_CreateOption_STATUS_ARM)
 		**out = **in
 	}
 	if in.ElasticSanResourceId != nil {
@@ -524,7 +524,7 @@ func (in *CreationData_STATUS_ARM) DeepCopyInto(out *CreationData_STATUS_ARM) {
 	}
 	if in.ProvisionedBandwidthCopySpeed != nil {
 		in, out := &in.ProvisionedBandwidthCopySpeed, &out.ProvisionedBandwidthCopySpeed
-		*out = new(CreationData_ProvisionedBandwidthCopySpeed_STATUS)
+		*out = new(CreationData_ProvisionedBandwidthCopySpeed_STATUS_ARM)
 		**out = **in
 	}
 	if in.SecurityDataUri != nil {
@@ -1237,7 +1237,7 @@ func (in *DiskProperties_ARM) DeepCopyInto(out *DiskProperties_ARM) {
 	}
 	if in.DataAccessAuthMode != nil {
 		in, out := &in.DataAccessAuthMode, &out.DataAccessAuthMode
-		*out = new(DataAccessAuthMode)
+		*out = new(DataAccessAuthMode_ARM)
 		**out = **in
 	}
 	if in.DiskAccessId != nil {
@@ -1282,7 +1282,7 @@ func (in *DiskProperties_ARM) DeepCopyInto(out *DiskProperties_ARM) {
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(DiskProperties_HyperVGeneration)
+		*out = new(DiskProperties_HyperVGeneration_ARM)
 		**out = **in
 	}
 	if in.MaxShares != nil {
@@ -1292,7 +1292,7 @@ func (in *DiskProperties_ARM) DeepCopyInto(out *DiskProperties_ARM) {
 	}
 	if in.NetworkAccessPolicy != nil {
 		in, out := &in.NetworkAccessPolicy, &out.NetworkAccessPolicy
-		*out = new(NetworkAccessPolicy)
+		*out = new(NetworkAccessPolicy_ARM)
 		**out = **in
 	}
 	if in.OptimizedForFrequentAttach != nil {
@@ -1302,12 +1302,12 @@ func (in *DiskProperties_ARM) DeepCopyInto(out *DiskProperties_ARM) {
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(DiskProperties_OsType)
+		*out = new(DiskProperties_OsType_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccess)
+		*out = new(PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.PurchasePlan != nil {
@@ -1372,7 +1372,7 @@ func (in *DiskProperties_STATUS_ARM) DeepCopyInto(out *DiskProperties_STATUS_ARM
 	}
 	if in.DataAccessAuthMode != nil {
 		in, out := &in.DataAccessAuthMode, &out.DataAccessAuthMode
-		*out = new(DataAccessAuthMode_STATUS)
+		*out = new(DataAccessAuthMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.DiskAccessId != nil {
@@ -1412,7 +1412,7 @@ func (in *DiskProperties_STATUS_ARM) DeepCopyInto(out *DiskProperties_STATUS_ARM
 	}
 	if in.DiskState != nil {
 		in, out := &in.DiskState, &out.DiskState
-		*out = new(DiskState_STATUS)
+		*out = new(DiskState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Encryption != nil {
@@ -1427,7 +1427,7 @@ func (in *DiskProperties_STATUS_ARM) DeepCopyInto(out *DiskProperties_STATUS_ARM
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(DiskProperties_HyperVGeneration_STATUS)
+		*out = new(DiskProperties_HyperVGeneration_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastOwnershipUpdateTime != nil {
@@ -1442,7 +1442,7 @@ func (in *DiskProperties_STATUS_ARM) DeepCopyInto(out *DiskProperties_STATUS_ARM
 	}
 	if in.NetworkAccessPolicy != nil {
 		in, out := &in.NetworkAccessPolicy, &out.NetworkAccessPolicy
-		*out = new(NetworkAccessPolicy_STATUS)
+		*out = new(NetworkAccessPolicy_STATUS_ARM)
 		**out = **in
 	}
 	if in.OptimizedForFrequentAttach != nil {
@@ -1452,7 +1452,7 @@ func (in *DiskProperties_STATUS_ARM) DeepCopyInto(out *DiskProperties_STATUS_ARM
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(DiskProperties_OsType_STATUS)
+		*out = new(DiskProperties_OsType_STATUS_ARM)
 		**out = **in
 	}
 	if in.PropertyUpdatesInProgress != nil {
@@ -1467,7 +1467,7 @@ func (in *DiskProperties_STATUS_ARM) DeepCopyInto(out *DiskProperties_STATUS_ARM
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccess_STATUS)
+		*out = new(PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.PurchasePlan != nil {
@@ -1559,7 +1559,7 @@ func (in *DiskSecurityProfile_ARM) DeepCopyInto(out *DiskSecurityProfile_ARM) {
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-		*out = new(DiskSecurityType)
+		*out = new(DiskSecurityType_ARM)
 		**out = **in
 	}
 }
@@ -1609,7 +1609,7 @@ func (in *DiskSecurityProfile_STATUS_ARM) DeepCopyInto(out *DiskSecurityProfile_
 	}
 	if in.SecurityType != nil {
 		in, out := &in.SecurityType, &out.SecurityType
-		*out = new(DiskSecurityType_STATUS)
+		*out = new(DiskSecurityType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1649,7 +1649,7 @@ func (in *DiskSku_ARM) DeepCopyInto(out *DiskSku_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DiskSku_Name)
+		*out = new(DiskSku_Name_ARM)
 		**out = **in
 	}
 }
@@ -1694,7 +1694,7 @@ func (in *DiskSku_STATUS_ARM) DeepCopyInto(out *DiskSku_STATUS_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DiskSku_Name_STATUS)
+		*out = new(DiskSku_Name_STATUS_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
@@ -2286,7 +2286,7 @@ func (in *EncryptionSetIdentity_ARM) DeepCopyInto(out *EncryptionSetIdentity_ARM
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(EncryptionSetIdentity_Type)
+		*out = new(EncryptionSetIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2360,7 +2360,7 @@ func (in *EncryptionSetIdentity_STATUS_ARM) DeepCopyInto(out *EncryptionSetIdent
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(EncryptionSetIdentity_Type_STATUS)
+		*out = new(EncryptionSetIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2442,7 +2442,7 @@ func (in *EncryptionSetProperties_ARM) DeepCopyInto(out *EncryptionSetProperties
 	}
 	if in.EncryptionType != nil {
 		in, out := &in.EncryptionType, &out.EncryptionType
-		*out = new(DiskEncryptionSetType)
+		*out = new(DiskEncryptionSetType_ARM)
 		**out = **in
 	}
 	if in.FederatedClientId != nil {
@@ -2482,7 +2482,7 @@ func (in *EncryptionSetProperties_STATUS_ARM) DeepCopyInto(out *EncryptionSetPro
 	}
 	if in.EncryptionType != nil {
 		in, out := &in.EncryptionType, &out.EncryptionType
-		*out = new(DiskEncryptionSetType_STATUS)
+		*out = new(DiskEncryptionSetType_STATUS_ARM)
 		**out = **in
 	}
 	if in.FederatedClientId != nil {
@@ -2762,7 +2762,7 @@ func (in *Encryption_ARM) DeepCopyInto(out *Encryption_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(EncryptionType)
+		*out = new(EncryptionType_ARM)
 		**out = **in
 	}
 }
@@ -2812,7 +2812,7 @@ func (in *Encryption_STATUS_ARM) DeepCopyInto(out *Encryption_STATUS_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(EncryptionType_STATUS)
+		*out = new(EncryptionType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2862,7 +2862,7 @@ func (in *ExtendedLocation_ARM) DeepCopyInto(out *ExtendedLocation_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType)
+		*out = new(ExtendedLocationType_ARM)
 		**out = **in
 	}
 }
@@ -2912,7 +2912,7 @@ func (in *ExtendedLocation_STATUS_ARM) DeepCopyInto(out *ExtendedLocation_STATUS
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_STATUS)
+		*out = new(ExtendedLocationType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -3761,7 +3761,7 @@ func (in *SnapshotProperties_ARM) DeepCopyInto(out *SnapshotProperties_ARM) {
 	}
 	if in.DataAccessAuthMode != nil {
 		in, out := &in.DataAccessAuthMode, &out.DataAccessAuthMode
-		*out = new(DataAccessAuthMode)
+		*out = new(DataAccessAuthMode_ARM)
 		**out = **in
 	}
 	if in.DiskAccessId != nil {
@@ -3776,7 +3776,7 @@ func (in *SnapshotProperties_ARM) DeepCopyInto(out *SnapshotProperties_ARM) {
 	}
 	if in.DiskState != nil {
 		in, out := &in.DiskState, &out.DiskState
-		*out = new(DiskState)
+		*out = new(DiskState_ARM)
 		**out = **in
 	}
 	if in.Encryption != nil {
@@ -3791,7 +3791,7 @@ func (in *SnapshotProperties_ARM) DeepCopyInto(out *SnapshotProperties_ARM) {
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(SnapshotProperties_HyperVGeneration)
+		*out = new(SnapshotProperties_HyperVGeneration_ARM)
 		**out = **in
 	}
 	if in.Incremental != nil {
@@ -3801,17 +3801,17 @@ func (in *SnapshotProperties_ARM) DeepCopyInto(out *SnapshotProperties_ARM) {
 	}
 	if in.NetworkAccessPolicy != nil {
 		in, out := &in.NetworkAccessPolicy, &out.NetworkAccessPolicy
-		*out = new(NetworkAccessPolicy)
+		*out = new(NetworkAccessPolicy_ARM)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(SnapshotProperties_OsType)
+		*out = new(SnapshotProperties_OsType_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccess)
+		*out = new(PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.PurchasePlan != nil {
@@ -3866,7 +3866,7 @@ func (in *SnapshotProperties_STATUS_ARM) DeepCopyInto(out *SnapshotProperties_ST
 	}
 	if in.DataAccessAuthMode != nil {
 		in, out := &in.DataAccessAuthMode, &out.DataAccessAuthMode
-		*out = new(DataAccessAuthMode_STATUS)
+		*out = new(DataAccessAuthMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.DiskAccessId != nil {
@@ -3886,7 +3886,7 @@ func (in *SnapshotProperties_STATUS_ARM) DeepCopyInto(out *SnapshotProperties_ST
 	}
 	if in.DiskState != nil {
 		in, out := &in.DiskState, &out.DiskState
-		*out = new(DiskState_STATUS)
+		*out = new(DiskState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Encryption != nil {
@@ -3901,7 +3901,7 @@ func (in *SnapshotProperties_STATUS_ARM) DeepCopyInto(out *SnapshotProperties_ST
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(SnapshotProperties_HyperVGeneration_STATUS)
+		*out = new(SnapshotProperties_HyperVGeneration_STATUS_ARM)
 		**out = **in
 	}
 	if in.Incremental != nil {
@@ -3916,12 +3916,12 @@ func (in *SnapshotProperties_STATUS_ARM) DeepCopyInto(out *SnapshotProperties_ST
 	}
 	if in.NetworkAccessPolicy != nil {
 		in, out := &in.NetworkAccessPolicy, &out.NetworkAccessPolicy
-		*out = new(NetworkAccessPolicy_STATUS)
+		*out = new(NetworkAccessPolicy_STATUS_ARM)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(SnapshotProperties_OsType_STATUS)
+		*out = new(SnapshotProperties_OsType_STATUS_ARM)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -3931,7 +3931,7 @@ func (in *SnapshotProperties_STATUS_ARM) DeepCopyInto(out *SnapshotProperties_ST
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccess_STATUS)
+		*out = new(PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.PurchasePlan != nil {
@@ -4001,7 +4001,7 @@ func (in *SnapshotSku_ARM) DeepCopyInto(out *SnapshotSku_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SnapshotSku_Name)
+		*out = new(SnapshotSku_Name_ARM)
 		**out = **in
 	}
 }
@@ -4046,7 +4046,7 @@ func (in *SnapshotSku_STATUS_ARM) DeepCopyInto(out *SnapshotSku_STATUS_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SnapshotSku_Name_STATUS)
+		*out = new(SnapshotSku_Name_STATUS_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
@@ -4601,7 +4601,7 @@ func (in *SupportedCapabilities_ARM) DeepCopyInto(out *SupportedCapabilities_ARM
 	}
 	if in.Architecture != nil {
 		in, out := &in.Architecture, &out.Architecture
-		*out = new(SupportedCapabilities_Architecture)
+		*out = new(SupportedCapabilities_Architecture_ARM)
 		**out = **in
 	}
 	if in.DiskControllerTypes != nil {
@@ -4661,7 +4661,7 @@ func (in *SupportedCapabilities_STATUS_ARM) DeepCopyInto(out *SupportedCapabilit
 	}
 	if in.Architecture != nil {
 		in, out := &in.Architecture, &out.Architecture
-		*out = new(SupportedCapabilities_Architecture_STATUS)
+		*out = new(SupportedCapabilities_Architecture_STATUS_ARM)
 		**out = **in
 	}
 	if in.DiskControllerTypes != nil {

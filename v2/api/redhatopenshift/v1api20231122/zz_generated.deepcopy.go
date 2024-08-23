@@ -40,7 +40,7 @@ func (in *APIServerProfile_ARM) DeepCopyInto(out *APIServerProfile_ARM) {
 	*out = *in
 	if in.Visibility != nil {
 		in, out := &in.Visibility, &out.Visibility
-		*out = new(Visibility)
+		*out = new(Visibility_ARM)
 		**out = **in
 	}
 }
@@ -100,7 +100,7 @@ func (in *APIServerProfile_STATUS_ARM) DeepCopyInto(out *APIServerProfile_STATUS
 	}
 	if in.Visibility != nil {
 		in, out := &in.Visibility, &out.Visibility
-		*out = new(Visibility_STATUS)
+		*out = new(Visibility_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -165,7 +165,7 @@ func (in *ClusterProfile_ARM) DeepCopyInto(out *ClusterProfile_ARM) {
 	}
 	if in.FipsValidatedModules != nil {
 		in, out := &in.FipsValidatedModules, &out.FipsValidatedModules
-		*out = new(FipsValidatedModules)
+		*out = new(FipsValidatedModules_ARM)
 		**out = **in
 	}
 	if in.PullSecret != nil {
@@ -240,7 +240,7 @@ func (in *ClusterProfile_STATUS_ARM) DeepCopyInto(out *ClusterProfile_STATUS_ARM
 	}
 	if in.FipsValidatedModules != nil {
 		in, out := &in.FipsValidatedModules, &out.FipsValidatedModules
-		*out = new(FipsValidatedModules_STATUS)
+		*out = new(FipsValidatedModules_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceGroupId != nil {
@@ -380,7 +380,7 @@ func (in *IngressProfile_ARM) DeepCopyInto(out *IngressProfile_ARM) {
 	}
 	if in.Visibility != nil {
 		in, out := &in.Visibility, &out.Visibility
-		*out = new(Visibility)
+		*out = new(Visibility_ARM)
 		**out = **in
 	}
 }
@@ -440,7 +440,7 @@ func (in *IngressProfile_STATUS_ARM) DeepCopyInto(out *IngressProfile_STATUS_ARM
 	}
 	if in.Visibility != nil {
 		in, out := &in.Visibility, &out.Visibility
-		*out = new(Visibility_STATUS)
+		*out = new(Visibility_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -674,7 +674,7 @@ func (in *MasterProfile_ARM) DeepCopyInto(out *MasterProfile_ARM) {
 	}
 	if in.EncryptionAtHost != nil {
 		in, out := &in.EncryptionAtHost, &out.EncryptionAtHost
-		*out = new(EncryptionAtHost)
+		*out = new(EncryptionAtHost_ARM)
 		**out = **in
 	}
 	if in.SubnetId != nil {
@@ -744,7 +744,7 @@ func (in *MasterProfile_STATUS_ARM) DeepCopyInto(out *MasterProfile_STATUS_ARM) 
 	}
 	if in.EncryptionAtHost != nil {
 		in, out := &in.EncryptionAtHost, &out.EncryptionAtHost
-		*out = new(EncryptionAtHost_STATUS)
+		*out = new(EncryptionAtHost_STATUS_ARM)
 		**out = **in
 	}
 	if in.SubnetId != nil {
@@ -819,7 +819,7 @@ func (in *NetworkProfile_ARM) DeepCopyInto(out *NetworkProfile_ARM) {
 	}
 	if in.OutboundType != nil {
 		in, out := &in.OutboundType, &out.OutboundType
-		*out = new(OutboundType)
+		*out = new(OutboundType_ARM)
 		**out = **in
 	}
 	if in.PodCidr != nil {
@@ -829,7 +829,7 @@ func (in *NetworkProfile_ARM) DeepCopyInto(out *NetworkProfile_ARM) {
 	}
 	if in.PreconfiguredNSG != nil {
 		in, out := &in.PreconfiguredNSG, &out.PreconfiguredNSG
-		*out = new(PreconfiguredNSG)
+		*out = new(PreconfiguredNSG_ARM)
 		**out = **in
 	}
 	if in.ServiceCidr != nil {
@@ -899,7 +899,7 @@ func (in *NetworkProfile_STATUS_ARM) DeepCopyInto(out *NetworkProfile_STATUS_ARM
 	}
 	if in.OutboundType != nil {
 		in, out := &in.OutboundType, &out.OutboundType
-		*out = new(OutboundType_STATUS)
+		*out = new(OutboundType_STATUS_ARM)
 		**out = **in
 	}
 	if in.PodCidr != nil {
@@ -909,7 +909,7 @@ func (in *NetworkProfile_STATUS_ARM) DeepCopyInto(out *NetworkProfile_STATUS_ARM
 	}
 	if in.PreconfiguredNSG != nil {
 		in, out := &in.PreconfiguredNSG, &out.PreconfiguredNSG
-		*out = new(PreconfiguredNSG_STATUS)
+		*out = new(PreconfiguredNSG_STATUS_ARM)
 		**out = **in
 	}
 	if in.ServiceCidr != nil {
@@ -1079,7 +1079,7 @@ func (in *OpenShiftClusterProperties_STATUS_ARM) DeepCopyInto(out *OpenShiftClus
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_STATUS)
+		*out = new(ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ServicePrincipalProfile != nil {
@@ -1533,7 +1533,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1548,7 +1548,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1633,7 +1633,7 @@ func (in *WorkerProfile_ARM) DeepCopyInto(out *WorkerProfile_ARM) {
 	}
 	if in.EncryptionAtHost != nil {
 		in, out := &in.EncryptionAtHost, &out.EncryptionAtHost
-		*out = new(EncryptionAtHost)
+		*out = new(EncryptionAtHost_ARM)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -1733,7 +1733,7 @@ func (in *WorkerProfile_STATUS_ARM) DeepCopyInto(out *WorkerProfile_STATUS_ARM) 
 	}
 	if in.EncryptionAtHost != nil {
 		in, out := &in.EncryptionAtHost, &out.EncryptionAtHost
-		*out = new(EncryptionAtHost_STATUS)
+		*out = new(EncryptionAtHost_STATUS_ARM)
 		**out = **in
 	}
 	if in.Name != nil {

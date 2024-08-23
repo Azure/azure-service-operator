@@ -1302,7 +1302,7 @@ func (in *EmailReceiver_STATUS_ARM) DeepCopyInto(out *EmailReceiver_STATUS_ARM) 
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(ReceiverStatus_STATUS)
+		*out = new(ReceiverStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.UseCommonAlertSchema != nil {
@@ -1917,7 +1917,7 @@ func (in *SmsReceiver_STATUS_ARM) DeepCopyInto(out *SmsReceiver_STATUS_ARM) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(ReceiverStatus_STATUS)
+		*out = new(ReceiverStatus_STATUS_ARM)
 		**out = **in
 	}
 }

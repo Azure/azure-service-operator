@@ -212,7 +212,7 @@ func (in *Condition_ARM) DeepCopyInto(out *Condition_ARM) {
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(Condition_Operator)
+		*out = new(Condition_Operator_ARM)
 		**out = **in
 	}
 	if in.Query != nil {
@@ -232,7 +232,7 @@ func (in *Condition_ARM) DeepCopyInto(out *Condition_ARM) {
 	}
 	if in.TimeAggregation != nil {
 		in, out := &in.TimeAggregation, &out.TimeAggregation
-		*out = new(Condition_TimeAggregation)
+		*out = new(Condition_TimeAggregation_ARM)
 		**out = **in
 	}
 }
@@ -436,7 +436,7 @@ func (in *Condition_STATUS_ARM) DeepCopyInto(out *Condition_STATUS_ARM) {
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(Condition_Operator_STATUS)
+		*out = new(Condition_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Query != nil {
@@ -456,7 +456,7 @@ func (in *Condition_STATUS_ARM) DeepCopyInto(out *Condition_STATUS_ARM) {
 	}
 	if in.TimeAggregation != nil {
 		in, out := &in.TimeAggregation, &out.TimeAggregation
-		*out = new(Condition_TimeAggregation_STATUS)
+		*out = new(Condition_TimeAggregation_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -511,7 +511,7 @@ func (in *Dimension_ARM) DeepCopyInto(out *Dimension_ARM) {
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(Dimension_Operator)
+		*out = new(Dimension_Operator_ARM)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -571,7 +571,7 @@ func (in *Dimension_STATUS_ARM) DeepCopyInto(out *Dimension_STATUS_ARM) {
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(Dimension_Operator_STATUS)
+		*out = new(Dimension_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Values != nil {
@@ -898,7 +898,7 @@ func (in *ScheduledQueryRuleProperties_ARM) DeepCopyInto(out *ScheduledQueryRule
 	}
 	if in.Severity != nil {
 		in, out := &in.Severity, &out.Severity
-		*out = new(ScheduledQueryRuleProperties_Severity)
+		*out = new(ScheduledQueryRuleProperties_Severity_ARM)
 		**out = **in
 	}
 	if in.SkipQueryValidation != nil {
@@ -1003,7 +1003,7 @@ func (in *ScheduledQueryRuleProperties_STATUS_ARM) DeepCopyInto(out *ScheduledQu
 	}
 	if in.Severity != nil {
 		in, out := &in.Severity, &out.Severity
-		*out = new(ScheduledQueryRuleProperties_Severity_STATUS)
+		*out = new(ScheduledQueryRuleProperties_Severity_STATUS_ARM)
 		**out = **in
 	}
 	if in.SkipQueryValidation != nil {
@@ -1202,7 +1202,7 @@ func (in *ScheduledQueryRule_STATUS_ARM) DeepCopyInto(out *ScheduledQueryRule_ST
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ScheduledQueryRule_Kind_STATUS)
+		*out = new(ScheduledQueryRule_Kind_STATUS_ARM)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1366,7 +1366,7 @@ func (in *ScheduledQueryRule_Spec_ARM) DeepCopyInto(out *ScheduledQueryRule_Spec
 	*out = *in
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ScheduledQueryRule_Kind_Spec)
+		*out = new(ScheduledQueryRule_Kind_Spec_ARM)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1458,7 +1458,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1473,7 +1473,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1593,7 +1593,7 @@ func (in *WebTestProperties_ARM) DeepCopyInto(out *WebTestProperties_ARM) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(WebTestProperties_Kind)
+		*out = new(WebTestProperties_Kind_ARM)
 		**out = **in
 	}
 	if in.Locations != nil {
@@ -1938,7 +1938,7 @@ func (in *WebTestProperties_STATUS_ARM) DeepCopyInto(out *WebTestProperties_STAT
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(WebTestProperties_Kind_STATUS)
+		*out = new(WebTestProperties_Kind_STATUS_ARM)
 		**out = **in
 	}
 	if in.Locations != nil {

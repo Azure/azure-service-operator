@@ -540,7 +540,7 @@ func (in *AzureMonitorAlertSettings_ARM) DeepCopyInto(out *AzureMonitorAlertSett
 	*out = *in
 	if in.AlertsForAllJobFailures != nil {
 		in, out := &in.AlertsForAllJobFailures, &out.AlertsForAllJobFailures
-		*out = new(AzureMonitorAlertSettings_AlertsForAllJobFailures)
+		*out = new(AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM)
 		**out = **in
 	}
 }
@@ -580,7 +580,7 @@ func (in *AzureMonitorAlertSettings_STATUS_ARM) DeepCopyInto(out *AzureMonitorAl
 	*out = *in
 	if in.AlertsForAllJobFailures != nil {
 		in, out := &in.AlertsForAllJobFailures, &out.AlertsForAllJobFailures
-		*out = new(AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS)
+		*out = new(AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1492,7 +1492,7 @@ func (in *BackupVault_STATUS_ARM) DeepCopyInto(out *BackupVault_STATUS_ARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(BackupVault_ProvisioningState_STATUS)
+		*out = new(BackupVault_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceMoveDetails != nil {
@@ -1502,7 +1502,7 @@ func (in *BackupVault_STATUS_ARM) DeepCopyInto(out *BackupVault_STATUS_ARM) {
 	}
 	if in.ResourceMoveState != nil {
 		in, out := &in.ResourceMoveState, &out.ResourceMoveState
-		*out = new(BackupVault_ResourceMoveState_STATUS)
+		*out = new(BackupVault_ResourceMoveState_STATUS_ARM)
 		**out = **in
 	}
 	if in.SecuritySettings != nil {
@@ -2199,7 +2199,7 @@ func (in *CrossSubscriptionRestoreSettings_ARM) DeepCopyInto(out *CrossSubscript
 	*out = *in
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(CrossSubscriptionRestoreSettings_State)
+		*out = new(CrossSubscriptionRestoreSettings_State_ARM)
 		**out = **in
 	}
 }
@@ -2239,7 +2239,7 @@ func (in *CrossSubscriptionRestoreSettings_STATUS_ARM) DeepCopyInto(out *CrossSu
 	*out = *in
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(CrossSubscriptionRestoreSettings_State_STATUS)
+		*out = new(CrossSubscriptionRestoreSettings_State_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2374,7 +2374,7 @@ func (in *DataStoreInfoBase_ARM) DeepCopyInto(out *DataStoreInfoBase_ARM) {
 	*out = *in
 	if in.DataStoreType != nil {
 		in, out := &in.DataStoreType, &out.DataStoreType
-		*out = new(DataStoreInfoBase_DataStoreType)
+		*out = new(DataStoreInfoBase_DataStoreType_ARM)
 		**out = **in
 	}
 	if in.ObjectType != nil {
@@ -2424,7 +2424,7 @@ func (in *DataStoreInfoBase_STATUS_ARM) DeepCopyInto(out *DataStoreInfoBase_STAT
 	*out = *in
 	if in.DataStoreType != nil {
 		in, out := &in.DataStoreType, &out.DataStoreType
-		*out = new(DataStoreInfoBase_DataStoreType_STATUS)
+		*out = new(DataStoreInfoBase_DataStoreType_STATUS_ARM)
 		**out = **in
 	}
 	if in.ObjectType != nil {
@@ -2899,7 +2899,7 @@ func (in *ImmutabilitySettings_ARM) DeepCopyInto(out *ImmutabilitySettings_ARM) 
 	*out = *in
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ImmutabilitySettings_State)
+		*out = new(ImmutabilitySettings_State_ARM)
 		**out = **in
 	}
 }
@@ -2939,7 +2939,7 @@ func (in *ImmutabilitySettings_STATUS_ARM) DeepCopyInto(out *ImmutabilitySetting
 	*out = *in
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ImmutabilitySettings_State_STATUS)
+		*out = new(ImmutabilitySettings_State_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -3271,7 +3271,7 @@ func (in *ScheduleBasedBackupCriteria_ARM) DeepCopyInto(out *ScheduleBasedBackup
 	*out = *in
 	if in.AbsoluteCriteria != nil {
 		in, out := &in.AbsoluteCriteria, &out.AbsoluteCriteria
-		*out = make([]ScheduleBasedBackupCriteria_AbsoluteCriteria, len(*in))
+		*out = make([]ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.DaysOfMonth != nil {
@@ -3283,12 +3283,12 @@ func (in *ScheduleBasedBackupCriteria_ARM) DeepCopyInto(out *ScheduleBasedBackup
 	}
 	if in.DaysOfTheWeek != nil {
 		in, out := &in.DaysOfTheWeek, &out.DaysOfTheWeek
-		*out = make([]ScheduleBasedBackupCriteria_DaysOfTheWeek, len(*in))
+		*out = make([]ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.MonthsOfYear != nil {
 		in, out := &in.MonthsOfYear, &out.MonthsOfYear
-		*out = make([]ScheduleBasedBackupCriteria_MonthsOfYear, len(*in))
+		*out = make([]ScheduleBasedBackupCriteria_MonthsOfYear_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.ScheduleTimes != nil {
@@ -3298,7 +3298,7 @@ func (in *ScheduleBasedBackupCriteria_ARM) DeepCopyInto(out *ScheduleBasedBackup
 	}
 	if in.WeeksOfTheMonth != nil {
 		in, out := &in.WeeksOfTheMonth, &out.WeeksOfTheMonth
-		*out = make([]ScheduleBasedBackupCriteria_WeeksOfTheMonth, len(*in))
+		*out = make([]ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3370,7 +3370,7 @@ func (in *ScheduleBasedBackupCriteria_STATUS_ARM) DeepCopyInto(out *ScheduleBase
 	*out = *in
 	if in.AbsoluteCriteria != nil {
 		in, out := &in.AbsoluteCriteria, &out.AbsoluteCriteria
-		*out = make([]ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS, len(*in))
+		*out = make([]ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.DaysOfMonth != nil {
@@ -3382,12 +3382,12 @@ func (in *ScheduleBasedBackupCriteria_STATUS_ARM) DeepCopyInto(out *ScheduleBase
 	}
 	if in.DaysOfTheWeek != nil {
 		in, out := &in.DaysOfTheWeek, &out.DaysOfTheWeek
-		*out = make([]ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS, len(*in))
+		*out = make([]ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.MonthsOfYear != nil {
 		in, out := &in.MonthsOfYear, &out.MonthsOfYear
-		*out = make([]ScheduleBasedBackupCriteria_MonthsOfYear_STATUS, len(*in))
+		*out = make([]ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.ScheduleTimes != nil {
@@ -3397,7 +3397,7 @@ func (in *ScheduleBasedBackupCriteria_STATUS_ARM) DeepCopyInto(out *ScheduleBase
 	}
 	if in.WeeksOfTheMonth != nil {
 		in, out := &in.WeeksOfTheMonth, &out.WeeksOfTheMonth
-		*out = make([]ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS, len(*in))
+		*out = make([]ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3665,7 +3665,7 @@ func (in *SoftDeleteSettings_ARM) DeepCopyInto(out *SoftDeleteSettings_ARM) {
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(SoftDeleteSettings_State)
+		*out = new(SoftDeleteSettings_State_ARM)
 		**out = **in
 	}
 }
@@ -3715,7 +3715,7 @@ func (in *SoftDeleteSettings_STATUS_ARM) DeepCopyInto(out *SoftDeleteSettings_ST
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(SoftDeleteSettings_State_STATUS)
+		*out = new(SoftDeleteSettings_State_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -3888,12 +3888,12 @@ func (in *StorageSetting_ARM) DeepCopyInto(out *StorageSetting_ARM) {
 	*out = *in
 	if in.DatastoreType != nil {
 		in, out := &in.DatastoreType, &out.DatastoreType
-		*out = new(StorageSetting_DatastoreType)
+		*out = new(StorageSetting_DatastoreType_ARM)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(StorageSetting_Type)
+		*out = new(StorageSetting_Type_ARM)
 		**out = **in
 	}
 }
@@ -3938,12 +3938,12 @@ func (in *StorageSetting_STATUS_ARM) DeepCopyInto(out *StorageSetting_STATUS_ARM
 	*out = *in
 	if in.DatastoreType != nil {
 		in, out := &in.DatastoreType, &out.DatastoreType
-		*out = new(StorageSetting_DatastoreType_STATUS)
+		*out = new(StorageSetting_DatastoreType_STATUS_ARM)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(StorageSetting_Type_STATUS)
+		*out = new(StorageSetting_Type_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -4018,7 +4018,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -4033,7 +4033,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

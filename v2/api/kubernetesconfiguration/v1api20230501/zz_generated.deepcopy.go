@@ -386,7 +386,7 @@ func (in *ExtensionStatus_STATUS_ARM) DeepCopyInto(out *ExtensionStatus_STATUS_A
 	}
 	if in.Level != nil {
 		in, out := &in.Level, &out.Level
-		*out = new(ExtensionStatus_Level_STATUS)
+		*out = new(ExtensionStatus_Level_STATUS_ARM)
 		**out = **in
 	}
 	if in.Message != nil {
@@ -456,7 +456,7 @@ func (in *Extension_Properties_AksAssignedIdentity_STATUS_ARM) DeepCopyInto(out 
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Extension_Properties_AksAssignedIdentity_Type_STATUS)
+		*out = new(Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -496,7 +496,7 @@ func (in *Extension_Properties_AksAssignedIdentity_Spec_ARM) DeepCopyInto(out *E
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Extension_Properties_AksAssignedIdentity_Type_Spec)
+		*out = new(Extension_Properties_AksAssignedIdentity_Type_Spec_ARM)
 		**out = **in
 	}
 }
@@ -572,7 +572,7 @@ func (in *Extension_Properties_STATUS_ARM) DeepCopyInto(out *Extension_Propertie
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningStateDefinition_STATUS)
+		*out = new(ProvisioningStateDefinition_STATUS_ARM)
 		**out = **in
 	}
 	if in.ReleaseTrain != nil {
@@ -995,7 +995,7 @@ func (in *Identity_ARM) DeepCopyInto(out *Identity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type)
+		*out = new(Identity_Type_ARM)
 		**out = **in
 	}
 }
@@ -1055,7 +1055,7 @@ func (in *Identity_STATUS_ARM) DeepCopyInto(out *Identity_STATUS_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type_STATUS)
+		*out = new(Identity_Type_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1550,7 +1550,7 @@ func (in *SystemData_ARM) DeepCopyInto(out *SystemData_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType)
+		*out = new(SystemData_CreatedByType_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1565,7 +1565,7 @@ func (in *SystemData_ARM) DeepCopyInto(out *SystemData_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType)
+		*out = new(SystemData_LastModifiedByType_ARM)
 		**out = **in
 	}
 }
@@ -1640,7 +1640,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -1655,7 +1655,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }
