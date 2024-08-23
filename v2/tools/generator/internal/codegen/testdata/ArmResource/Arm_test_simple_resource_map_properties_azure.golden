@@ -263,16 +263,16 @@ type FakeResourceList struct {
 }
 
 type FakeResource_Spec_ARM struct {
-	APIVersion               FakeResource_APIVersion_Spec             `json:"apiVersion,omitempty"`
+	APIVersion               FakeResource_APIVersion_Spec_ARM         `json:"apiVersion,omitempty"`
 	MapFoo                   map[string]Foo_ARM                       `json:"mapFoo,omitempty"`
 	MapOfArrays              map[string][]Foo_ARM                     `json:"mapOfArrays,omitempty"`
-	MapOfEnums               map[string]Color                         `json:"mapOfEnums,omitempty"`
+	MapOfEnums               map[string]Color_ARM                     `json:"mapOfEnums,omitempty"`
 	MapOfMaps                map[string]map[string]Foo_ARM            `json:"mapOfMaps,omitempty"`
 	MapOfMapsOfMaps          map[string]map[string]map[string]Foo_ARM `json:"mapOfMapsOfMaps,omitempty"`
 	MapOfMapsOfMapsOfStrings map[string]map[string]map[string]string  `json:"mapOfMapsOfMapsOfStrings,omitempty"`
 	MapOfStrings             map[string]string                        `json:"mapOfStrings,omitempty"`
 	Name                     string                                   `json:"name,omitempty"`
-	Type                     FakeResource_Type_Spec                   `json:"type,omitempty"`
+	Type                     FakeResource_Type_Spec_ARM               `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_Spec_ARM{}
@@ -299,29 +299,29 @@ const APIVersion_Value = APIVersion("2020-01-01")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Color
 // +kubebuilder:validation:Enum={"blue","green","red"}
-type Color string
+type Color_ARM string
 
 const (
-	Color_Blue  = Color("blue")
-	Color_Green = Color("green")
-	Color_Red   = Color("red")
+	Color_ARM_Blue  = Color_ARM("blue")
+	Color_ARM_Green = Color_ARM("green")
+	Color_ARM_Red   = Color_ARM("red")
 )
 
-// Mapping from string to Color
-var color_Values = map[string]Color{
-	"blue":  Color_Blue,
-	"green": Color_Green,
-	"red":   Color_Red,
+// Mapping from string to Color_ARM
+var color_ARM_Values = map[string]Color_ARM{
+	"blue":  Color_ARM_Blue,
+	"green": Color_ARM_Green,
+	"red":   Color_ARM_Red,
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResource_APIVersion_Spec string
+type FakeResource_APIVersion_Spec_ARM string
 
-const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
+const FakeResource_APIVersion_Spec_ARM_20200601 = FakeResource_APIVersion_Spec_ARM("2020-06-01")
 
-// Mapping from string to FakeResource_APIVersion_Spec
-var fakeResource_APIVersion_Spec_Values = map[string]FakeResource_APIVersion_Spec{
-	"2020-06-01": FakeResource_APIVersion_Spec_20200601,
+// Mapping from string to FakeResource_APIVersion_Spec_ARM
+var fakeResource_APIVersion_Spec_ARM_Values = map[string]FakeResource_APIVersion_Spec_ARM{
+	"2020-06-01": FakeResource_APIVersion_Spec_ARM_20200601,
 }
 
 type FakeResource_Spec struct {
@@ -361,7 +361,9 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	result := &FakeResource_Spec_ARM{}
 
 	// Set property "APIVersion":
-	result.APIVersion = resource.APIVersion
+	var temp string
+	temp = string(resource.APIVersion)
+	result.APIVersion = FakeResource_APIVersion_Spec_ARM(temp)
 
 	// Set property "MapFoo":
 	if resource.MapFoo != nil {
@@ -393,9 +395,11 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "MapOfEnums":
 	if resource.MapOfEnums != nil {
-		result.MapOfEnums = make(map[string]Color, len(resource.MapOfEnums))
+		result.MapOfEnums = make(map[string]Color_ARM, len(resource.MapOfEnums))
 		for key, value := range resource.MapOfEnums {
-			result.MapOfEnums[key] = value
+			var valueTemp string
+			valueTemp = string(value)
+			result.MapOfEnums[key] = Color_ARM(valueTemp)
 		}
 	}
 
@@ -473,7 +477,9 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	result.Name = resolved.Name
 
 	// Set property "Type":
-	result.Type = resource.Type
+	var typeTemp string
+	typeTemp = string(resource.Type)
+	result.Type = FakeResource_Type_Spec_ARM(typeTemp)
 	return result, nil
 }
 
@@ -490,7 +496,9 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property "APIVersion":
-	resource.APIVersion = typedInput.APIVersion
+	var temp string
+	temp = string(typedInput.APIVersion)
+	resource.APIVersion = FakeResource_APIVersion_Spec(temp)
 
 	// Set property "AzureName":
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -529,7 +537,9 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.MapOfEnums != nil {
 		resource.MapOfEnums = make(map[string]Color, len(typedInput.MapOfEnums))
 		for key, value := range typedInput.MapOfEnums {
-			resource.MapOfEnums[key] = value
+			var valueTemp string
+			valueTemp = string(value)
+			resource.MapOfEnums[key] = Color(valueTemp)
 		}
 	}
 
@@ -612,7 +622,9 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property "Type":
-	resource.Type = typedInput.Type
+	var typeTemp string
+	typeTemp = string(typedInput.Type)
+	resource.Type = FakeResource_Type_Spec(typeTemp)
 
 	// No error
 	return nil
@@ -1051,6 +1063,48 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
+type FakeResource_Type_Spec_ARM string
+
+const FakeResource_Type_Spec_ARM_MicrosoftAzureFakeResource = FakeResource_Type_Spec_ARM("Microsoft.Azure/FakeResource")
+
+// Mapping from string to FakeResource_Type_Spec_ARM
+var fakeResource_Type_Spec_ARM_Values = map[string]FakeResource_Type_Spec_ARM{
+	"microsoft.azure/fakeresource": FakeResource_Type_Spec_ARM_MicrosoftAzureFakeResource,
+}
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+type Foo_ARM struct {
+	FooName *string `json:"fooName,omitempty"`
+}
+
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Color
+// +kubebuilder:validation:Enum={"blue","green","red"}
+type Color string
+
+const (
+	Color_Blue  = Color("blue")
+	Color_Green = Color("green")
+	Color_Red   = Color("red")
+)
+
+// Mapping from string to Color
+var color_Values = map[string]Color{
+	"blue":  Color_Blue,
+	"green": Color_Green,
+	"red":   Color_Red,
+}
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type FakeResource_APIVersion_Spec string
+
+const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to FakeResource_APIVersion_Spec
+var fakeResource_APIVersion_Spec_Values = map[string]FakeResource_APIVersion_Spec{
+	"2020-06-01": FakeResource_APIVersion_Spec_20200601,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
 type FakeResource_Type_Spec string
 
 const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
@@ -1058,11 +1112,6 @@ const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec
 // Mapping from string to FakeResource_Type_Spec
 var fakeResource_Type_Spec_Values = map[string]FakeResource_Type_Spec{
 	"microsoft.azure/fakeresource": FakeResource_Type_Spec_MicrosoftAzureFakeResource,
-}
-
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
-type Foo_ARM struct {
-	FooName *string `json:"fooName,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo

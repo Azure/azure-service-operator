@@ -73,8 +73,8 @@
  }
  
  type Person_Spec_ARM struct {
- 	APIVersion *APIVersion  `json:"apiVersion,omitempty"`
- 	Address    *Address_ARM `json:"address,omitempty"`
+ 	APIVersion *APIVersion_ARM `json:"apiVersion,omitempty"`
+ 	Address    *Address_ARM    `json:"address,omitempty"`
  
  	// FamilyName: Shared name of the family
  	FamilyName string `json:"familyName,omitempty"`
@@ -136,6 +136,16 @@
  
  const APIVersion_apiVersion = APIVersion(2020-06-01)
  
+ // +kubebuilder:validation:Enum={2020-06-01}
+ type APIVersion_ARM string
+ 
+ const APIVersion_ARM_apiVersion = APIVersion_ARM(2020-06-01)
+ 
+ // Mapping from string to APIVersion_ARM
+ var aPIVersion_ARM_Values = map[string]APIVersion_ARM{
+ 	2020-06-01: APIVersion_ARM_apiVersion,
+ }
+ 
  type Person_Spec struct {
  	// +kubebuilder:validation:Required
  	APIVersion *APIVersion `json:"apiVersion,omitempty"`
@@ -174,7 +184,9 @@
  
  	// Set property "APIVersion":
  	if person.APIVersion != nil {
- 		apiVersion := *person.APIVersion
+ 		var temp string
+ 		temp = string(*person.APIVersion)
+ 		apiVersion := APIVersion_ARM(temp)
  		result.APIVersion = &apiVersion
  	}
  
@@ -220,7 +232,9 @@
  
  	// Set property "APIVersion":
  	if typedInput.APIVersion != nil {
- 		apiVersion := *typedInput.APIVersion
+ 		var temp string
+ 		temp = string(*typedInput.APIVersion)
+ 		apiVersion := APIVersion(temp)
  		person.APIVersion = &apiVersion
  	}
  
