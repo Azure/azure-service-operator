@@ -151,14 +151,3 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 	return nil
 }
-
-// configuredTypes returns a sorted slice containing all the properties configured on this type
-func (vc *VersionConfiguration) configuredTypes() []string {
-	result := make([]string, 0, len(vc.types))
-	for _, t := range vc.types {
-		// Use the actual names of the types, not the lower-cased keys of the map
-		result = append(result, t.name)
-	}
-
-	return result
-}

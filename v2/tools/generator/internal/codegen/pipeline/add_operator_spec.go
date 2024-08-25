@@ -146,7 +146,6 @@ var identityConfigMapObjectTypeVisit = astmodel.MakeIdentityVisitOfObjectType(
 	})
 
 type configMapTypeWalker struct {
-	configuration        *config.Configuration
 	configuredProperties map[string]string
 	exportedProperties   ExportedProperties
 	walker               *astmodel.TypeWalker[configMapContext]

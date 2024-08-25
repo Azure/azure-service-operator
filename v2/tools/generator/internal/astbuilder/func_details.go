@@ -89,7 +89,7 @@ func (fn *FuncDetails) defineFunc(noBody bool) *dst.FuncDecl {
 	var bodyBlock *dst.BlockStmt
 	if noBody {
 		if len(body) > 0 {
-			panic(fmt.Sprintf("cannot generate fuction header for function that also has body"))
+			panic("cannot generate fuction header for function that also has body")
 		}
 	} else {
 		bodyBlock = &dst.BlockStmt{

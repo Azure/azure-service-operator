@@ -37,7 +37,7 @@ func setup() error {
 	format.TruncateThreshold = 4000 // Force a longer truncate threshold
 
 	// setup global logger for controller-runtime:
-	ctrl.SetLogger(klogr.New())
+	ctrl.SetLogger(klogr.New()) //nolint: staticcheck
 
 	nameConfig := testcommon.NewResourceNameConfig(
 		testcommon.LiveResourcePrefix,

@@ -12,8 +12,6 @@ import (
 
 	cdn "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
 	frontdoor "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
@@ -125,17 +123,6 @@ func Test_CDN_Profile_AFD_CRUD(t *testing.T) {
 
 	tc.DeleteResourceAndWait(profile)
 	tc.Expect(profile.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
-}
-
-func expectCDNDeleteSucceeds(tc *testcommon.KubePerTestContext, obj genruntime.ARMMetaObject, id string) {
-	tc.DeleteResourceAndWait(obj)
-
-	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
-		tc.Ctx,
-		id,
-		string(cdn.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(exists).To(BeFalse())
 }
 
 func newAFDEndpoint(tc *testcommon.KubePerTestContext, profile *cdn.Profile) *cdn.AfdEndpoint {

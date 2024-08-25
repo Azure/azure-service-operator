@@ -145,7 +145,7 @@ func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
-	bodyString := replayer.redactor.HideRecordingData(string(body.Bytes()))
+	bodyString := replayer.redactor.HideRecordingData(body.String())
 
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))

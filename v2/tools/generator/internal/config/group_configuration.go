@@ -125,8 +125,6 @@ func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) *Versio
 		return gc.findVersion(r.Base())
 	case astmodel.LocalPackageReference:
 		return gc.findVersionForLocalPackageReference(r)
-	case astmodel.SubPackageReference:
-		return gc.findVersion(r.Parent())
 	}
 
 	panic(fmt.Sprintf("didn't expect PackageReference of type %T", ref))
@@ -209,22 +207,4 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	return nil
-}
-
-// configuredVersions returns a sorted slice containing all the versions configured in this group
-func (gc *GroupConfiguration) configuredVersions() []string {
-	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
-	versionsSeen := set.Make[string]()
-	result := make([]string, 0, len(gc.versions))
-	for _, v := range gc.versions {
-		if versionsSeen.Contains(v.name) {
-			continue
-		}
-
-		// Use the actual names of the versions, not the lower-cased keys of the map
-		result = append(result, v.name)
-		versionsSeen.Add(v.name)
-	}
-
-	return result
 }

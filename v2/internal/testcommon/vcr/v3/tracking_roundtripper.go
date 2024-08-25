@@ -96,7 +96,7 @@ func (rt *requestCounter) addHashHeader(request *http.Request) {
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
-	bodyString := rt.redactor.HideRecordingData(string(body.Bytes()))
+	bodyString := rt.redactor.HideRecordingData(body.String())
 
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))

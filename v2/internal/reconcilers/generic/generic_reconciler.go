@@ -279,10 +279,7 @@ func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration, addition
 		workqueue.NewItemExponentialFailureRateLimiter(minBackoff, maxBackoff),
 	}
 
-	for _, l := range additionalLimiters {
-		limiters = append(limiters, l)
-	}
-
+	limiters = append(limiters, additionalLimiters...)
 	return workqueue.NewMaxOfRateLimiter(limiters...)
 }
 

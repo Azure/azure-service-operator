@@ -399,9 +399,6 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		// Try unwrapping the meta type and basing the name on what's inside
 		return s.getOneOfName(concreteType.Unwrap(), propIndex)
 
-	case *astmodel.OptionalType:
-		return s.getOneOfName(concreteType.Element(), propIndex)
-
 	case *astmodel.InterfaceType:
 		return propertyNames{}, errors.Errorf("Cannot merge oneOf containing interface (there should be no interfaces contained in a oneOf so this is likely a bug)")
 

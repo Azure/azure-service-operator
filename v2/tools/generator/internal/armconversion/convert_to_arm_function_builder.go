@@ -278,52 +278,6 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	), nil
 }
 
-func (builder *convertToARMBuilder) userAssignedIdentitiesPropertyHandler(
-	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType,
-) (propertyConversionHandlerResult, error) {
-	if _, ok := astmodel.IsUserAssignedIdentityProperty(toProp); !ok {
-		return notHandled, nil
-	}
-
-	fromProp, ok := fromType.Property(toProp.PropertyName())
-	if !ok {
-		return notHandled, nil
-	}
-
-	source := &dst.SelectorExpr{
-		X:   dst.NewIdent(builder.receiverIdent),
-		Sel: dst.NewIdent(string(fromProp.PropertyName())),
-	}
-
-	destination := &dst.SelectorExpr{
-		X:   dst.NewIdent(builder.resultIdent),
-		Sel: dst.NewIdent(string(toProp.PropertyName())),
-	}
-
-	conversion, err := builder.typeConversionBuilder.BuildConversion(
-		astmodel.ConversionParameters{
-			Source:              source,
-			SourceType:          fromProp.PropertyType(),
-			Destination:         destination,
-			DestinationType:     toProp.PropertyType(),
-			NameHint:            string(fromProp.PropertyName()),
-			ConversionContext:   nil,
-			Locals:              builder.locals,
-			SourceProperty:      fromProp,
-			DestinationProperty: toProp,
-		},
-	)
-	if err != nil {
-		return notHandled,
-			errors.Wrapf(err,
-				"unable to build conversion for property %s",
-				fromProp.PropertyName())
-	}
-
-	return handleWith(conversion), nil
-}
-
 func (builder *convertToARMBuilder) referencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,

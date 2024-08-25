@@ -140,7 +140,7 @@ func (t *TestLogger) Info(level int, msg string, keysAndValues ...interface{}) {
 		kvListFormat(b, t.values...)
 		kvListFormat(b, keysAndValues...)
 
-		t.t.Log(fmt.Sprintf("%s \"msg\"=\"%s\"%s", header, msg, b))
+		t.t.Logf("%s \"msg\"=\"%s\"%s", header, msg, b)
 	}
 }
 
@@ -157,7 +157,7 @@ func (t *TestLogger) Error(err error, msg string, keysAndValues ...interface{}) 
 		kvListFormat(b, t.values...)
 		kvListFormat(b, keysAndValues...)
 
-		t.t.Log(fmt.Sprintf("%s \"msg\"=\"%s\" \"err\"=\"%s\"%s", header, msg, err, b))
+		t.t.Logf("%s \"msg\"=\"%s\" \"err\"=\"%s\"%s", header, msg, err, b)
 	}
 }
 

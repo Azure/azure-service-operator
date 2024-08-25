@@ -61,11 +61,7 @@ func secretsSpecified(obj *mariadb.Server) bool {
 	}
 
 	secrets := obj.Spec.OperatorSpec.Secrets
-	if secrets.FullyQualifiedDomainName != nil {
-		return true
-	}
-
-	return false
+	return secrets.FullyQualifiedDomainName != nil
 }
 
 func secretsToWrite(obj *mariadb.Server) ([]*v1.Secret, error) {

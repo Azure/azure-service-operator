@@ -12,6 +12,7 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -100,6 +101,11 @@ func (o *JSONSerializationTestCase) AsFuncs(
 	errs := make([]error, 0, len(properties))
 	for _, p := range properties {
 		errs = append(errs, errors.Errorf("no generator created for %s (%s)", p.PropertyName(), p.PropertyType()))
+	}
+
+	err := kerrors.NewAggregate(errs)
+	if err != nil {
+		return nil, err
 	}
 
 	result := []dst.Decl{

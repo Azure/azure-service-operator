@@ -493,7 +493,6 @@ func getProperties(
 	props := schema.properties()
 	properties := make([]*astmodel.PropertyDefinition, 0, len(props))
 	for propName, propSchema := range props {
-
 		property, err := generatePropertyDefinition(ctx, scanner, propName, propSchema)
 		if err != nil {
 			return nil, err
@@ -562,7 +561,11 @@ func getProperties(
 			// (TODO: tell all Azure teams this fact and get them to update their API definitions!)
 			// for now we aren't following the spec 100% as it pollutes the generated code
 			// only generate this field if there are no other fields:
-			if len(properties) == 0 {
+			// Note: we use props here rather than properties as ref types may be pruned
+			// and that can result in a type that looks like it had no properties (so classified as a map below)
+			// when in fact it had properties, just they were pruned. This usually happens when
+			// the whole type is going to be pruned.
+			if len(props) == 0 {
 				// TODO: for JSON serialization this needs to be unpacked into "parent"
 				additionalProperties := astmodel.NewPropertyDefinition(
 					astmodel.AdditionalPropertiesPropertyName,

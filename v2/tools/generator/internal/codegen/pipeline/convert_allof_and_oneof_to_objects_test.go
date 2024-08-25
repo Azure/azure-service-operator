@@ -580,48 +580,6 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminatorValues_ReturnsExpect
 	test.AssertPropertyExists(t, actual, "Minima")
 }
 
-var (
-	olympianProperties = test.CreateObjectType(
-		test.FullNameProperty,
-		test.KnownAsProperty)
-
-	zeus = createTestLeafOneOfDefinition(
-		"Zeus",
-		"zeus",
-		"zeus",
-		olympianProperties,
-		astmodel.NewPropertyDefinition("LightningBolts", "lightningBolts", astmodel.IntType))
-
-	demeter = createTestLeafOneOfDefinition(
-		"Demeter",
-		"demeter",
-		"demeter",
-		olympianProperties,
-		astmodel.NewPropertyDefinition("Crops", "crops", astmodel.IntType))
-
-	poscidon = createTestLeafOneOfDefinition(
-		"Poseidon",
-		"poseidon",
-		"poseidon",
-		olympianProperties,
-		astmodel.NewPropertyDefinition("Tsunamis", "tsunamis", astmodel.IntType))
-
-	hades = createTestLeafOneOfDefinition(
-		"Hades",
-		"hades",
-		"hades",
-		olympianProperties,
-		astmodel.NewPropertyDefinition("Souls", "souls", astmodel.IntType))
-
-	olympian = createTestRootOneOfDefinition(
-		"Olympian",
-		"name",
-		zeus.Name(),
-		demeter.Name(),
-		poscidon.Name(),
-		hades.Name())
-)
-
 func createTestRootOneOfDefinition(
 	name string,
 	discriminatorProperty string,

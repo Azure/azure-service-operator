@@ -12,7 +12,6 @@ import (
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 )
@@ -385,43 +384,6 @@ func newStructuralComparer(definitions astmodel.TypeDefinitionSet) *structuralCo
 	return result
 }
 
-// areTypeSetsEqual returns true if the two sets of definitions are structurally equal, false otherwise.
-func (comparer *structuralComparer) areTypeSetsEqual(
-	left astmodel.TypeDefinitionSet,
-	right astmodel.TypeDefinitionSet,
-) bool {
-	if len(left) != len(right) {
-		return false
-	}
-
-	_, err := comparer.findCommonPackage(left)
-	if err != nil {
-		// Never expected to happen
-		panic(err)
-	}
-
-	rightPkg, err := comparer.findCommonPackage(right)
-	if err != nil {
-		// Never expected to happen
-		panic(err)
-	}
-
-	for leftName, leftDef := range left {
-		rightName := leftName.WithPackageReference(rightPkg)
-		rightDef, ok := right[rightName]
-		if !ok {
-			// Didn't find right-hand definition, types are not equal
-			return false
-		}
-
-		if !comparer.areTypesStructurallyEqual(leftDef.Type(), rightDef.Type()) {
-			return false
-		}
-	}
-
-	return true
-}
-
 func (comparer *structuralComparer) areTypesStructurallyEqual(left astmodel.Type, right astmodel.Type) bool {
 	return left.Equals(right, comparer.equalityOverrides)
 }
@@ -465,22 +427,4 @@ func (comparer *structuralComparer) simplifyProperties(o *astmodel.ObjectType) a
 	})
 
 	return result
-}
-
-func (comparer *structuralComparer) findCommonPackage(
-	defs astmodel.TypeDefinitionSet,
-) (astmodel.InternalPackageReference, error) {
-	pkgs := set.Make[astmodel.InternalPackageReference]()
-
-	for _, def := range defs {
-		pkgs.Add(def.Name().InternalPackageReference())
-	}
-
-	if len(pkgs) != 1 {
-		return nil, errors.Errorf(
-			"expected all definitions to be from the same package, but found %d packages instead",
-			len(pkgs))
-	}
-
-	return pkgs.Values()[0], nil
 }

@@ -37,12 +37,6 @@ const (
 	Failed   resourceImportReportStatus = "Failed"
 )
 
-var resourceImportReportStatusOrder = map[resourceImportReportStatus]int{
-	Imported: 0,
-	Skipped:  1,
-	Failed:   2,
-}
-
 // newResourceImportReport creates a new resourceImportReport
 func newResourceImportReport() *resourceImportReport {
 	return &resourceImportReport{

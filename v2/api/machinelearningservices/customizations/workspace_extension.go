@@ -124,8 +124,6 @@ func secretsToWrite(obj *storage.Workspace, keysResp armmachinelearning.ListWork
 		collector.AddValue(operatorSpecSecrets.PrimaryNotebookAccessKey, to.Value(keysResp.NotebookAccessKeys.PrimaryAccessKey))
 		collector.AddValue(operatorSpecSecrets.SecondaryNotebookAccessKey, to.Value(keysResp.NotebookAccessKeys.SecondaryAccessKey))
 	}
-	if keysResp.ContainerRegistryCredentials != nil {
-	}
 
 	return collector.Values()
 }

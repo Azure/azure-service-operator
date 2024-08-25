@@ -5,7 +5,9 @@ run:
 linters:
   enable:
     - gofmt
-    - megacheck
+    - staticcheck
+    - gosimple
+    - unused
     - tparallel
     - paralleltest
     - prealloc
@@ -15,11 +17,16 @@ linters:
     - unused
   disable:
     # The below rules are disabled due to bug with go1.18 and generics: https://github.com/golangci/golangci-lint/issues/2859
-    - staticcheck
-    - gosimple
     - stylecheck
-    - unused
     - musttag # Extremely slow, at least on CI machines
 linters-settings:
   govet:
     check-shadowing: true
+  unused:
+    generated-is-used: true
+  gosimple:
+    # See https://golangci-lint.run/usage/linters#gosimple for a breakdown of what's checked by this linter
+    checks:
+      - "all"
+      - "-S1002" # Comparison to bool explicitly can sometimes add clarity
+      - "-S1016" # Uncommon language feature, encourages coupling when it may not be appropriate

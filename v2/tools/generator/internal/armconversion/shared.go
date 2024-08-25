@@ -10,14 +10,12 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
-	"github.com/dave/dst"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
@@ -27,7 +25,6 @@ type conversionBuilder struct {
 	codeGenerationContext      *astmodel.CodeGenerationContext
 	idFactory                  astmodel.IdentifierFactory
 	typeKind                   TypeKind
-	payloadType                config.PayloadType
 	methodName                 string
 	destinationType            *astmodel.ObjectType
 	destinationTypeName        astmodel.InternalTypeName
