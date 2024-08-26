@@ -35,7 +35,6 @@ var armPackageDenyList = set.Make(
 	"compute",
 	"containerinstance",
 	"containerregistry",
-	"containerservice",
 	"datafactory",
 	"dataprotection",
 	"dbformariadb",
