@@ -20,7 +20,7 @@ type Fleet_Spec struct {
 var _ genruntime.ARMResourceSpec = &Fleet_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-03-15-preview"
-func (fleet Fleet_Spec_ARM) GetAPIVersion() string {
+func (fleet Fleet_Spec) GetAPIVersion() string {
 	return "2023-03-15-preview"
 }
 

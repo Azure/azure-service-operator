@@ -29,7 +29,7 @@ type ManagedCluster_Spec struct {
 var _ genruntime.ARMResourceSpec = &ManagedCluster_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-02-01"
-func (cluster ManagedCluster_Spec_ARM) GetAPIVersion() string {
+func (cluster ManagedCluster_Spec) GetAPIVersion() string {
 	return "2023-02-01"
 }
 
