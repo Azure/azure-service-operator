@@ -13,7 +13,7 @@ Basic use: run `task controller:test-integration-envtest`.
 | AZURE_SUBSCRIPTION_ID | The Azure Subscription ID                                                                               | Yes                            | Yes (when recording)                         |
 | AZURE_TENANT_ID       | The Azure Tenant ID                                                                                     | Yes                            | Yes (when recording)                         |
 | TEST_BILLING_ID       | The Azure billing ID                                                                                    | No                             | Yes (when recording SubscriptionAlias tests) |
-| CODECOV_TOKEN         | The token to <https://app.codecov.io/gh/Azure/azure-service-operator>                                     | Yes                            | No                                           |
+| CODECOV_TOKEN         | The token to <https://app.codecov.io/gh/Azure/azure-service-operator>                                   | Yes                            | No                                           |
 | REGISTRY_LOGIN        | The Azure Container Registry to log in to (for az acr login --name {name})                              | Yes                            | No                                           |
 | REGISTRY_PRERELEASE   | The path to the container prerelease registry (right now this isn't used)                               | No                             | No                                           |
 | REGISTRY_PUBLIC       | The path to the container release registry, used in --tag "{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}" | No                             | No                                           |
