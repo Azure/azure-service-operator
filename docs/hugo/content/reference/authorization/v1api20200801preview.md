@@ -126,6 +126,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec">
+RoleAssignmentOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
@@ -202,6 +216,36 @@ RoleAssignment_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec">RoleAssignmentOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec">RoleAssignment_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>namingConvention</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of &lsquo;stable&rsquo; or
+&lsquo;random&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -839,6 +883,20 @@ string
 </td>
 <td>
 <p>Description: Description of role assignment</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec">
+RoleAssignmentOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
