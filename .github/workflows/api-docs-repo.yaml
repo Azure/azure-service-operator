@@ -15,6 +15,14 @@ jobs:
       contents: read
       packages: read
     steps:
+      - name: Create token
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          # required
+          app-id: ${{ secrets.AUTOMATION_ID }}
+          private-key: ${{ secrets.AUTOMATION_KEY }}
+          
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -23,7 +31,7 @@ jobs:
       - name: Create Branch
         uses: peterjgrainger/action-create-branch@v2.4.0 # Pinned to v2.4.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
 
@@ -87,7 +95,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.0
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: Update API Docs
           branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
           base: main
