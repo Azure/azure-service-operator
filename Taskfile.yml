@@ -356,8 +356,9 @@ tasks:
         --set crdPattern=*"
       - task: controller:wait-for-operator-ready
     vars:
+      DIR: "{{.DIR | default .KIND_WORKLOAD_IDENTITY_PATH}}"
       AZURE_MI_CLIENT_ID:
-        sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
+        sh: "cat {{.DIR}}/azure/miclientid.txt"
 
   controller:test-upgrade-pre:
     desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
@@ -368,8 +369,9 @@ tasks:
       - "kubectl create namespace pre-release"
       - "go test -timeout 15m -count=1 -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
     vars:
+      DIR: "{{.DIR | default .KIND_WORKLOAD_IDENTITY_PATH}}"
       AZURE_MI_CLIENT_ID:
-        sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
+        sh: "cat {{.DIR}}/azure/miclientid.txt"
 
   controller:test-upgrade-apply-prerelease-chart:
     desc: Apply the {{.CONTROLLER_APP}} prelease chart for new release
@@ -379,8 +381,9 @@ tasks:
       - task: controller:package-helm-manifest
       - task: controller:install-helm-wi
         vars:
+          DIR: "{{.DIR | default .KIND_WORKLOAD_IDENTITY_PATH}}"
           AZURE_MI_CLIENT_ID:
-            sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
+            sh: "cat {{.DIR}}/azure/miclientid.txt"
 
   controller:test-upgrade-post:
     desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
@@ -962,8 +965,9 @@ tasks:
       - "{{.SCRIPTS_ROOT}}/deploy-testing-secret.sh workloadidentity"
     env:
       # Override the AZURE_CLIENT_ID env variable here
+      DIR: "{{.DIR | default .KIND_WORKLOAD_IDENTITY_PATH}}"
       AZURE_MI_CLIENT_ID:  # TODO: Ideally would override AZURE_CLIENT_ID here but we can't because of https://github.com/go-task/task/issues/1038
-        sh: "cat {{.KIND_WORKLOAD_IDENTITY_PATH}}/azure/miclientid.txt"
+        sh: "cat {{.DIR}}/azure/miclientid.txt"
 
   controller:deploy-multitenant-testing-secret:
     desc: Deploy a multitenant testing secret
