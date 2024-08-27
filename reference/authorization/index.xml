@@ -148,6 +148,20 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec&#34;&gt;
+RoleAssignmentOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference&#34;&gt;
@@ -224,6 +238,36 @@ RoleAssignment_STATUS
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec&#34;&gt;RoleAssignmentOperatorSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec&#34;&gt;RoleAssignment_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;namingConvention&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of &amp;lsquo;stable&amp;rsquo; or
+&amp;lsquo;random&amp;rsquo;.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -865,6 +909,20 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec&#34;&gt;
+RoleAssignmentOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference&#34;&gt;
@@ -1354,6 +1412,20 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentOperatorSpec&#34;&gt;
+RoleAssignmentOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference&#34;&gt;
@@ -1430,6 +1502,36 @@ RoleAssignment_STATUS
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;authorization.azure.com/v1api20220401.RoleAssignmentOperatorSpec&#34;&gt;RoleAssignmentOperatorSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignment_Spec&#34;&gt;RoleAssignment_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;namingConvention&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of &amp;lsquo;stable&amp;rsquo; or
+&amp;lsquo;random&amp;rsquo;.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -2075,6 +2177,20 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentOperatorSpec&#34;&gt;
+RoleAssignmentOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference&#34;&gt;
@@ -2257,6 +2373,20 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleDefinitionOperatorSpec&#34;&gt;
+RoleDefinitionOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference&#34;&gt;
@@ -2318,6 +2448,36 @@ RoleDefinition_STATUS
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;authorization.azure.com/v1api20220401.RoleDefinitionOperatorSpec&#34;&gt;RoleDefinitionOperatorSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleDefinition_Spec&#34;&gt;RoleDefinition_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;namingConvention&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of &amp;lsquo;stable&amp;rsquo; or
+&amp;lsquo;random&amp;rsquo;.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -2790,6 +2950,20 @@ string
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;Description: The role definition description.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleDefinitionOperatorSpec&#34;&gt;
+RoleDefinitionOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;

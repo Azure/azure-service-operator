@@ -39,7 +39,7 @@
     RoleAssignment   Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
 
-<meta itemprop="wordCount" content="805">
+<meta itemprop="wordCount" content="896">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="authorization.azure.com/v1api20200801preview"/>
 <meta name="twitter:description" content="authorization.azure.com/v1api20200801preview  Package v1api20200801preview contains API Schema definitions for the authorization v1api20200801preview API group
@@ -510,8 +510,13 @@
   <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
+  <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">redhatopenshift.azure.com/v1api20231122</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
@@ -896,6 +901,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec">
+RoleAssignmentOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
@@ -972,6 +991,36 @@ RoleAssignment_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec">RoleAssignmentOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec">RoleAssignment_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>namingConvention</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of &lsquo;stable&rsquo; or
+&lsquo;random&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -1609,6 +1658,20 @@ string
 </td>
 <td>
 <p>Description: Description of role assignment</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentOperatorSpec">
+RoleAssignmentOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
