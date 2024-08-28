@@ -274,13 +274,13 @@ func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaOb
 
 // NewRateLimiter creates a new workqueue.Ratelimiter for use controlling the speed of reconciliation.
 // It throttles individual requests exponentially and also controls for multiple requests.
-func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration, additionalLimiters ...workqueue.RateLimiter) workqueue.RateLimiter {
-	limiters := []workqueue.RateLimiter{
-		workqueue.NewItemExponentialFailureRateLimiter(minBackoff, maxBackoff),
+func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration, additionalLimiters ...workqueue.TypedRateLimiter[reconcile.Request]) workqueue.TypedRateLimiter[reconcile.Request] {
+	limiters := []workqueue.TypedRateLimiter[reconcile.Request]{
+		workqueue.NewTypedItemExponentialFailureRateLimiter[reconcile.Request](minBackoff, maxBackoff),
 	}
 
 	limiters = append(limiters, additionalLimiters...)
-	return workqueue.NewMaxOfRateLimiter(limiters...)
+	return workqueue.NewTypedMaxOfRateLimiter(limiters...)
 }
 
 func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log logr.Logger, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) error {

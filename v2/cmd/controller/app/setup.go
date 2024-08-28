@@ -432,11 +432,11 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 }
 
 func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
-	var additionalRateLimiters []workqueue.RateLimiter
+	var additionalRateLimiters []workqueue.TypedRateLimiter[reconcile.Request]
 	if cfg.RateLimit.Mode == config.RateLimitModeBucket {
 		additionalRateLimiters = append(
 			additionalRateLimiters,
-			&workqueue.BucketRateLimiter{
+			&workqueue.TypedBucketRateLimiter[reconcile.Request]{
 				Limiter: rate.NewLimiter(rate.Limit(cfg.RateLimit.QPS), cfg.RateLimit.BucketSize),
 			})
 	}

@@ -44,6 +44,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -202,6 +203,12 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		LoggerFactory: loggerFactory,
 		Config:        cfg.Values,
 		Options: controller.Options{
+			// Skip name validation because it uses a package global cache which results in mistakenly
+			// classifying two controllers with the same name in different EnvTest environments as conflicting
+			// when in reality they are running in separate apiservers (simulating separate operators).
+			// In a real Kubernetes deployment that might be a problem, but not in EnvTest.
+			SkipNameValidation: to.Ptr(true),
+
 			// Allow concurrent reconciliation in tests
 			MaxConcurrentReconciles: 5,
 
