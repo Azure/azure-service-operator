@@ -52,7 +52,6 @@ func createTextLogger() logr.Logger {
 }
 
 func createJSONLogger() (logr.Logger, error) {
-
 	level := zap.NewAtomicLevelAt(zap.InfoLevel)
 	if verbose != nil && *verbose {
 		level = zap.NewAtomicLevelAt(zap.DebugLevel)

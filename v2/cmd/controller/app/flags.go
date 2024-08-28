@@ -37,7 +37,6 @@ func (f Flags) String() string {
 }
 
 func InitFlags(flagSet *flag.FlagSet) Flags {
-
 	// default here for 'MetricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	metricsAddr := flagSet.String("metrics-addr", "0", "The address the metric endpoint binds to.")
 	secureMetrics := flagSet.Bool("secure-metrics", true, "Enable secure metrics. This secures the pprof and metrics endpoints via Kubernetes RBAC and HTTPS")

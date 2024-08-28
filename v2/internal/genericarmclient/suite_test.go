@@ -27,8 +27,6 @@ var testContext testcommon.TestContext
 func setup() error {
 	recordReplay := os.Getenv("RECORD_REPLAY") != "0"
 
-	log.Println("Running test setup")
-
 	gomega.SetDefaultEventuallyTimeout(DefaultEventuallyTimeout)
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
 	format.TruncateThreshold = 4000 // Force a longer truncate threshold
@@ -37,6 +35,8 @@ func setup() error {
 	cfg := textlogger.NewConfig(textlogger.Verbosity(3)) // Use verbose logging in tests
 	log := textlogger.NewLogger(cfg)
 	ctrl.SetLogger(log)
+
+	log.Info("Running test setup")
 
 	nameConfig := testcommon.NewResourceNameConfig(
 		testcommon.ResourcePrefix,
@@ -47,7 +47,7 @@ func setup() error {
 	// set global test context
 	testContext = testcommon.NewTestContext(testcommon.DefaultTestRegion, recordReplay, nameConfig)
 
-	log.Println("Done with test setup")
+	log.Info("Done with test setup")
 
 	return nil
 }
