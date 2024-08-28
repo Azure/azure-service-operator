@@ -13,7 +13,8 @@ import (
 
 	"github.com/onsi/gomega"
 	"github.com/onsi/gomega/format"
-	"k8s.io/klog/v2/klogr"
+	"k8s.io/klog/v2/textlogger"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -33,7 +34,9 @@ func setup() error {
 	format.TruncateThreshold = 4000 // Force a longer truncate threshold
 
 	// setup global logger for controller-runtime:
-	ctrl.SetLogger(klogr.New()) //nolint: staticcheck
+	cfg := textlogger.NewConfig(textlogger.Verbosity(3)) // Use verbose logging in tests
+	log := textlogger.NewLogger(cfg)
+	ctrl.SetLogger(log)
 
 	nameConfig := testcommon.NewResourceNameConfig(
 		testcommon.ResourcePrefix,
