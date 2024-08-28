@@ -24,12 +24,11 @@ type Flags struct {
 	EnableLeaderElection bool
 	CRDManagementMode    string
 	CRDPatterns          string // This is a ';' delimited string containing a collection of patterns
-	PreUpgradeCheck      bool
 }
 
 func (f Flags) String() string {
 	return fmt.Sprintf(
-		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s, PreUpgradeCheck: %t",
+		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s",
 		f.MetricsAddr,
 		f.SecureMetrics,
 		f.ProfilingMetrics,
@@ -38,8 +37,7 @@ func (f Flags) String() string {
 		f.WebhookCertDir,
 		f.EnableLeaderElection,
 		f.CRDManagementMode,
-		f.CRDPatterns,
-		f.PreUpgradeCheck)
+		f.CRDPatterns)
 }
 
 func ParseFlags(args []string) (Flags, error) {
@@ -56,7 +54,6 @@ func ParseFlags(args []string) (Flags, error) {
 	var enableLeaderElection bool
 	var crdManagementMode string
 	var crdPatterns string
-	var preUpgradeCheck bool
 
 	// default here for 'MetricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
@@ -71,8 +68,6 @@ func ParseFlags(args []string) (Flags, error) {
 	flagSet.StringVar(&crdManagementMode, "crd-management", "auto",
 		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")
 	flagSet.StringVar(&crdPatterns, "crd-pattern", "", "Install these CRDs. CRDs already in the cluster will also always be upgraded.")
-	flagSet.BoolVar(&preUpgradeCheck, "pre-upgrade-check", false,
-		"Enable pre upgrade check to check if existing crds contain helm 'keep' policy.")
 
 	flagSet.Parse(args[1:]) //nolint:errcheck
 
@@ -85,6 +80,5 @@ func ParseFlags(args []string) (Flags, error) {
 		EnableLeaderElection: enableLeaderElection,
 		CRDManagementMode:    crdManagementMode,
 		CRDPatterns:          crdPatterns,
-		PreUpgradeCheck:      preUpgradeCheck,
 	}, nil
 }

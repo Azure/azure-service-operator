@@ -12,7 +12,6 @@ import (
 	"net/http"
 	"net/http/pprof"
 	"os"
-	"regexp"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -22,16 +21,12 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/time/rate"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/util/workqueue"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	clientconfig "sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
@@ -40,7 +35,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
@@ -57,55 +51,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
-
-func SetupPreUpgradeCheck(ctx context.Context) error {
-	cfg, err := clientconfig.GetConfig()
-	if err != nil {
-		return errors.Wrap(err, "unable to get client config")
-	}
-
-	apiExtClient, err := apiextensionsclient.NewForConfig(cfg)
-	if err != nil {
-		return errors.Wrap(err, "unable to create kubernetes client")
-	}
-
-	// Had to list CRDs this way and not with crdManager, since we did not have "serviceoperator.azure.com/version" labels in earlier versions.
-	list, err := apiExtClient.CustomResourceDefinitions().List(ctx, v1.ListOptions{})
-	if err != nil {
-		return errors.Wrap(err, "failed to list CRDs")
-	}
-
-	scheme := api.CreateScheme()
-	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
-	var errs []error
-	for _, crd := range list.Items {
-		crd := crd
-		if !crdRegexp.MatchString(crd.Name) {
-			continue
-		}
-
-		if !scheme.Recognizes(crd.GroupVersionKind()) {
-			// Not one of our resources
-			continue
-		}
-
-		// If this CRD is annotated with "serviceoperator.azure.com/version", it must be >=2.0.0 and so safe
-		// as we didn't start using this label until 2.0.0. Same with "app.kubernetes.io/version" which was added in 2.3.0
-		// in favor of our custom serviceoperator.azure.com
-		_, hasOldLabel := crd.Labels[crdmanagement.ServiceOperatorVersionLabelOld]
-		_, hasNewLabel := crd.Labels[crdmanagement.ServiceOperatorVersionLabel]
-		if hasOldLabel || hasNewLabel {
-			continue
-		}
-
-		if policy, ok := crd.Annotations["helm.sh/resource-policy"]; !ok || policy != "keep" {
-			err = errors.New(fmt.Sprintf("CRD '%s' does not have annotation for helm keep policy. Make sure the upgrade is from beta.5", crd.Name))
-			errs = append(errs, err)
-		}
-	}
-
-	return kerrors.NewAggregate(errs)
-}
 
 func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) manager.Manager {
 	scheme := controllers.CreateScheme()

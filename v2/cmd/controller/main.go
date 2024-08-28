@@ -27,19 +27,10 @@ func main() {
 	}
 
 	setupLog.Info("Launching with flags", "flags", flgs.String())
-
-	if flgs.PreUpgradeCheck {
-		err = app.SetupPreUpgradeCheck(ctx)
-		if err != nil {
-			setupLog.Error(err, "pre-upgrade check failed")
-			os.Exit(1)
-		}
-	} else {
-		mgr := app.SetupControllerManager(ctx, setupLog, flgs)
-		setupLog.Info("starting manager")
-		if err = mgr.Start(ctx); err != nil {
-			setupLog.Error(err, "failed to start manager")
-			os.Exit(1)
-		}
+	mgr := app.SetupControllerManager(ctx, setupLog, flgs)
+	setupLog.Info("starting manager")
+	if err = mgr.Start(ctx); err != nil {
+		setupLog.Error(err, "failed to start manager")
+		os.Exit(1)
 	}
 }
