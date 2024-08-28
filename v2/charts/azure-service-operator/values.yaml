@@ -189,6 +189,9 @@ revisionHistoryLimit: 10
 
 # Specify security settings for a Container
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+# It is not recommended to reduce the restrictions in this list, but additional restrictions outside of the default set 
+# can be applied. If you believe additional securityContext configuration should be specified by default
+# please raise an issue.
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
