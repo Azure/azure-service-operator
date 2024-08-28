@@ -24,7 +24,7 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
           
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
         with:
           ref: main
 
@@ -36,7 +36,7 @@ jobs:
           branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
         with:
           ref: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
           fetch-depth: 0 # required to access tags

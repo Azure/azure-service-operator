@@ -22,7 +22,7 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
           
       - name: Checkout code
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
         with:
           ref: main
 
@@ -34,7 +34,7 @@ jobs:
           branch: "bot/update-diagrams"
 
       - name: Checkout code
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
         with:
           ref: bot/update-diagrams
 
