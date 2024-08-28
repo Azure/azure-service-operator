@@ -26,7 +26,7 @@ jobs:
       # of this job we update the "integration-tests" check to be passing as well (so this single job really
       # ends up writing the status 2 checks, 1 is "integration-tests" and one is "integration-tests-fork").
       - name: set-check-run-in-progress
-        uses: actions/github-script@v6
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # pinned to v7.0.1
         id: set-check-run-in-progress
         env:
           number: ${{ github.event.client_payload.pull_request.number }}
@@ -115,7 +115,7 @@ jobs:
 
       # Update check run called "integration-fork"
       - name: update-integration-tests-result
-        uses: actions/github-script@v6
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # pinned to v7.0.1
         id: update-check-run
         if: ${{ always() }}
         env:
