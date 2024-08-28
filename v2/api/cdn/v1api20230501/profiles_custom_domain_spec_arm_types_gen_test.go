@@ -84,8 +84,8 @@ func AFDDomainHttpsParameters_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAFDDomainHttpsParameters_ARM(gens map[string]gopter.Gen) {
-	gens["CertificateType"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_CertificateType_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_ManagedCertificate))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_MinimumTlsVersion_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_TLS12))
+	gens["CertificateType"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_CertificateType_ARM_AzureFirstPartyManagedCertificate, AFDDomainHttpsParameters_CertificateType_ARM_CustomerCertificate, AFDDomainHttpsParameters_CertificateType_ARM_ManagedCertificate))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(AFDDomainHttpsParameters_MinimumTlsVersion_ARM_TLS10, AFDDomainHttpsParameters_MinimumTlsVersion_ARM_TLS12))
 }
 
 // AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_ARM is a factory method for creating gopter generators

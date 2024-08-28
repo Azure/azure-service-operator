@@ -46,7 +46,7 @@ func (workspace *Workspace_Spec_ARM) GetType() string {
 // Identity for the resource.
 type Identity_ARM struct {
 	// Type: The identity type.
-	Type                   *Identity_Type                             `json:"type,omitempty"`
+	Type                   *Identity_Type_ARM                         `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -68,7 +68,7 @@ type SystemData_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -77,7 +77,7 @@ type SystemData_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // The properties of a machine learning workspace.
@@ -108,7 +108,7 @@ type WorkspaceProperties_ARM struct {
 	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// ServiceManagedResourcesSettings: The service managed resource settings.
 	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_ARM `json:"serviceManagedResourcesSettings,omitempty"`
@@ -126,25 +126,25 @@ type EncryptionProperty_ARM struct {
 	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for the workspace.
-	Status *EncryptionProperty_Status `json:"status,omitempty"`
+	Status *EncryptionProperty_Status_ARM `json:"status,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type Identity_Type string
+type Identity_Type_ARM string
 
 const (
-	Identity_Type_None                       = Identity_Type("None")
-	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
-	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned,UserAssigned")
-	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
+	Identity_Type_ARM_None                       = Identity_Type_ARM("None")
+	Identity_Type_ARM_SystemAssigned             = Identity_Type_ARM("SystemAssigned")
+	Identity_Type_ARM_SystemAssignedUserAssigned = Identity_Type_ARM("SystemAssigned,UserAssigned")
+	Identity_Type_ARM_UserAssigned               = Identity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":                        Identity_Type_None,
-	"systemassigned":              Identity_Type_SystemAssigned,
-	"systemassigned,userassigned": Identity_Type_SystemAssignedUserAssigned,
-	"userassigned":                Identity_Type_UserAssigned,
+// Mapping from string to Identity_Type_ARM
+var identity_Type_ARM_Values = map[string]Identity_Type_ARM{
+	"none":                        Identity_Type_ARM_None,
+	"systemassigned":              Identity_Type_ARM_SystemAssigned,
+	"systemassigned,userassigned": Identity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                Identity_Type_ARM_UserAssigned,
 }
 
 type ServiceManagedResourcesSettings_ARM struct {
@@ -161,48 +161,76 @@ type SharedPrivateLinkResource_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
+type SystemData_CreatedByType_ARM string
 
 const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
+	SystemData_CreatedByType_ARM_Application     = SystemData_CreatedByType_ARM("Application")
+	SystemData_CreatedByType_ARM_Key             = SystemData_CreatedByType_ARM("Key")
+	SystemData_CreatedByType_ARM_ManagedIdentity = SystemData_CreatedByType_ARM("ManagedIdentity")
+	SystemData_CreatedByType_ARM_User            = SystemData_CreatedByType_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType
-var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
-	"application":     SystemData_CreatedByType_Application,
-	"key":             SystemData_CreatedByType_Key,
-	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
-	"user":            SystemData_CreatedByType_User,
+// Mapping from string to SystemData_CreatedByType_ARM
+var systemData_CreatedByType_ARM_Values = map[string]SystemData_CreatedByType_ARM{
+	"application":     SystemData_CreatedByType_ARM_Application,
+	"key":             SystemData_CreatedByType_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_ARM_User,
 }
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
+type SystemData_LastModifiedByType_ARM string
 
 const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
+	SystemData_LastModifiedByType_ARM_Application     = SystemData_LastModifiedByType_ARM("Application")
+	SystemData_LastModifiedByType_ARM_Key             = SystemData_LastModifiedByType_ARM("Key")
+	SystemData_LastModifiedByType_ARM_ManagedIdentity = SystemData_LastModifiedByType_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_ARM_User            = SystemData_LastModifiedByType_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType
-var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
-	"application":     SystemData_LastModifiedByType_Application,
-	"key":             SystemData_LastModifiedByType_Key,
-	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_User,
+// Mapping from string to SystemData_LastModifiedByType_ARM
+var systemData_LastModifiedByType_ARM_Values = map[string]SystemData_LastModifiedByType_ARM{
+	"application":     SystemData_LastModifiedByType_ARM_Application,
+	"key":             SystemData_LastModifiedByType_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_ARM_User,
 }
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type WorkspaceProperties_PublicNetworkAccess_ARM string
+
+const (
+	WorkspaceProperties_PublicNetworkAccess_ARM_Disabled = WorkspaceProperties_PublicNetworkAccess_ARM("Disabled")
+	WorkspaceProperties_PublicNetworkAccess_ARM_Enabled  = WorkspaceProperties_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to WorkspaceProperties_PublicNetworkAccess_ARM
+var workspaceProperties_PublicNetworkAccess_ARM_Values = map[string]WorkspaceProperties_PublicNetworkAccess_ARM{
+	"disabled": WorkspaceProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  WorkspaceProperties_PublicNetworkAccess_ARM_Enabled,
+}
+
 type CosmosDbSettings_ARM struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type EncryptionProperty_Status_ARM string
+
+const (
+	EncryptionProperty_Status_ARM_Disabled = EncryptionProperty_Status_ARM("Disabled")
+	EncryptionProperty_Status_ARM_Enabled  = EncryptionProperty_Status_ARM("Enabled")
+)
+
+// Mapping from string to EncryptionProperty_Status_ARM
+var encryptionProperty_Status_ARM_Values = map[string]EncryptionProperty_Status_ARM{
+	"disabled": EncryptionProperty_Status_ARM_Disabled,
+	"enabled":  EncryptionProperty_Status_ARM_Enabled,
 }
 
 // Identity that will be used to access key vault for encryption at rest
@@ -232,5 +260,26 @@ type SharedPrivateLinkResourceProperty_ARM struct {
 	RequestMessage *string `json:"requestMessage,omitempty"`
 
 	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *PrivateEndpointServiceConnectionStatus `json:"status,omitempty"`
+	Status *PrivateEndpointServiceConnectionStatus_ARM `json:"status,omitempty"`
+}
+
+// The private endpoint connection status.
+// +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
+type PrivateEndpointServiceConnectionStatus_ARM string
+
+const (
+	PrivateEndpointServiceConnectionStatus_ARM_Approved     = PrivateEndpointServiceConnectionStatus_ARM("Approved")
+	PrivateEndpointServiceConnectionStatus_ARM_Disconnected = PrivateEndpointServiceConnectionStatus_ARM("Disconnected")
+	PrivateEndpointServiceConnectionStatus_ARM_Pending      = PrivateEndpointServiceConnectionStatus_ARM("Pending")
+	PrivateEndpointServiceConnectionStatus_ARM_Rejected     = PrivateEndpointServiceConnectionStatus_ARM("Rejected")
+	PrivateEndpointServiceConnectionStatus_ARM_Timeout      = PrivateEndpointServiceConnectionStatus_ARM("Timeout")
+)
+
+// Mapping from string to PrivateEndpointServiceConnectionStatus_ARM
+var privateEndpointServiceConnectionStatus_ARM_Values = map[string]PrivateEndpointServiceConnectionStatus_ARM{
+	"approved":     PrivateEndpointServiceConnectionStatus_ARM_Approved,
+	"disconnected": PrivateEndpointServiceConnectionStatus_ARM_Disconnected,
+	"pending":      PrivateEndpointServiceConnectionStatus_ARM_Pending,
+	"rejected":     PrivateEndpointServiceConnectionStatus_ARM_Rejected,
+	"timeout":      PrivateEndpointServiceConnectionStatus_ARM_Timeout,
 }

@@ -38,11 +38,39 @@ type ScheduleEntries_ARM struct {
 // Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry_ARM struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_DayOfWeek `json:"dayOfWeek,omitempty"`
+	DayOfWeek *ScheduleEntry_DayOfWeek_ARM `json:"dayOfWeek,omitempty"`
 
 	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	// StartHourUtc: Start hour after which cache patching can start.
 	StartHourUtc *int `json:"startHourUtc,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Everyday","Friday","Monday","Saturday","Sunday","Thursday","Tuesday","Wednesday","Weekend"}
+type ScheduleEntry_DayOfWeek_ARM string
+
+const (
+	ScheduleEntry_DayOfWeek_ARM_Everyday  = ScheduleEntry_DayOfWeek_ARM("Everyday")
+	ScheduleEntry_DayOfWeek_ARM_Friday    = ScheduleEntry_DayOfWeek_ARM("Friday")
+	ScheduleEntry_DayOfWeek_ARM_Monday    = ScheduleEntry_DayOfWeek_ARM("Monday")
+	ScheduleEntry_DayOfWeek_ARM_Saturday  = ScheduleEntry_DayOfWeek_ARM("Saturday")
+	ScheduleEntry_DayOfWeek_ARM_Sunday    = ScheduleEntry_DayOfWeek_ARM("Sunday")
+	ScheduleEntry_DayOfWeek_ARM_Thursday  = ScheduleEntry_DayOfWeek_ARM("Thursday")
+	ScheduleEntry_DayOfWeek_ARM_Tuesday   = ScheduleEntry_DayOfWeek_ARM("Tuesday")
+	ScheduleEntry_DayOfWeek_ARM_Wednesday = ScheduleEntry_DayOfWeek_ARM("Wednesday")
+	ScheduleEntry_DayOfWeek_ARM_Weekend   = ScheduleEntry_DayOfWeek_ARM("Weekend")
+)
+
+// Mapping from string to ScheduleEntry_DayOfWeek_ARM
+var scheduleEntry_DayOfWeek_ARM_Values = map[string]ScheduleEntry_DayOfWeek_ARM{
+	"everyday":  ScheduleEntry_DayOfWeek_ARM_Everyday,
+	"friday":    ScheduleEntry_DayOfWeek_ARM_Friday,
+	"monday":    ScheduleEntry_DayOfWeek_ARM_Monday,
+	"saturday":  ScheduleEntry_DayOfWeek_ARM_Saturday,
+	"sunday":    ScheduleEntry_DayOfWeek_ARM_Sunday,
+	"thursday":  ScheduleEntry_DayOfWeek_ARM_Thursday,
+	"tuesday":   ScheduleEntry_DayOfWeek_ARM_Tuesday,
+	"wednesday": ScheduleEntry_DayOfWeek_ARM_Wednesday,
+	"weekend":   ScheduleEntry_DayOfWeek_ARM_Weekend,
 }

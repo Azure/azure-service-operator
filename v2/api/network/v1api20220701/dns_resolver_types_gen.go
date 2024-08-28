@@ -720,7 +720,9 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsResolverState != nil {
-			dnsResolverState := *typedInput.Properties.DnsResolverState
+			var temp string
+			temp = string(*typedInput.Properties.DnsResolverState)
+			dnsResolverState := DnsResolverProperties_DnsResolverState_STATUS(temp)
 			resolver.DnsResolverState = &dnsResolverState
 		}
 	}
@@ -753,7 +755,9 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := DnsresolverProvisioningState_STATUS(temp)
 			resolver.ProvisioningState = &provisioningState
 		}
 	}

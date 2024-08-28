@@ -144,8 +144,8 @@ func AzureOperationalStoreParameters_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAzureOperationalStoreParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureOperationalStoreParameters_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DataStoreType"] = gen.PtrOf(gen.OneConstOf(AzureOperationalStoreParameters_DataStoreType_STATUS_ArchiveStore, AzureOperationalStoreParameters_DataStoreType_STATUS_OperationalStore, AzureOperationalStoreParameters_DataStoreType_STATUS_VaultStore))
-	gens["ObjectType"] = gen.OneConstOf(AzureOperationalStoreParameters_ObjectType_STATUS_AzureOperationalStoreParameters)
+	gens["DataStoreType"] = gen.PtrOf(gen.OneConstOf(AzureOperationalStoreParameters_DataStoreType_STATUS_ARM_ArchiveStore, AzureOperationalStoreParameters_DataStoreType_STATUS_ARM_OperationalStore, AzureOperationalStoreParameters_DataStoreType_STATUS_ARM_VaultStore))
+	gens["ObjectType"] = gen.OneConstOf(AzureOperationalStoreParameters_ObjectType_STATUS_ARM_AzureOperationalStoreParameters)
 	gens["ResourceGroupId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -289,22 +289,22 @@ func BackupInstance_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBackupInstance_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupInstance_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CurrentProtectionState"] = gen.PtrOf(gen.OneConstOf(
-		BackupInstance_CurrentProtectionState_STATUS_BackupSchedulesSuspended,
-		BackupInstance_CurrentProtectionState_STATUS_ConfiguringProtection,
-		BackupInstance_CurrentProtectionState_STATUS_ConfiguringProtectionFailed,
-		BackupInstance_CurrentProtectionState_STATUS_Invalid,
-		BackupInstance_CurrentProtectionState_STATUS_NotProtected,
-		BackupInstance_CurrentProtectionState_STATUS_ProtectionConfigured,
-		BackupInstance_CurrentProtectionState_STATUS_ProtectionError,
-		BackupInstance_CurrentProtectionState_STATUS_ProtectionStopped,
-		BackupInstance_CurrentProtectionState_STATUS_RetentionSchedulesSuspended,
-		BackupInstance_CurrentProtectionState_STATUS_SoftDeleted,
-		BackupInstance_CurrentProtectionState_STATUS_SoftDeleting,
-		BackupInstance_CurrentProtectionState_STATUS_UpdatingProtection))
+		BackupInstance_CurrentProtectionState_STATUS_ARM_BackupSchedulesSuspended,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_ConfiguringProtection,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_ConfiguringProtectionFailed,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_Invalid,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_NotProtected,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_ProtectionConfigured,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_ProtectionError,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_ProtectionStopped,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_RetentionSchedulesSuspended,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_SoftDeleted,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_SoftDeleting,
+		BackupInstance_CurrentProtectionState_STATUS_ARM_UpdatingProtection))
 	gens["FriendlyName"] = gen.PtrOf(gen.AlphaString())
 	gens["ObjectType"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ValidationType"] = gen.PtrOf(gen.OneConstOf(BackupInstance_ValidationType_STATUS_DeepValidation, BackupInstance_ValidationType_STATUS_ShallowValidation))
+	gens["ValidationType"] = gen.PtrOf(gen.OneConstOf(BackupInstance_ValidationType_STATUS_ARM_DeepValidation, BackupInstance_ValidationType_STATUS_ARM_ShallowValidation))
 }
 
 // AddRelatedPropertyGeneratorsForBackupInstance_STATUS_ARM is a factory method for creating gopter generators
@@ -527,7 +527,7 @@ func BlobBackupDatasourceParameters_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBlobBackupDatasourceParameters_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBlobBackupDatasourceParameters_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ContainersList"] = gen.SliceOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(BlobBackupDatasourceParameters_ObjectType_STATUS_BlobBackupDatasourceParameters)
+	gens["ObjectType"] = gen.OneConstOf(BlobBackupDatasourceParameters_ObjectType_STATUS_ARM_BlobBackupDatasourceParameters)
 }
 
 func Test_DataStoreParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -819,7 +819,7 @@ func DefaultResourceProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDefaultResourceProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDefaultResourceProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ObjectType"] = gen.OneConstOf(DefaultResourceProperties_ObjectType_STATUS_DefaultResourceProperties)
+	gens["ObjectType"] = gen.OneConstOf(DefaultResourceProperties_ObjectType_STATUS_ARM_DefaultResourceProperties)
 }
 
 func Test_IdentityDetails_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1099,7 +1099,7 @@ func AddIndependentPropertyGeneratorsForKubernetesClusterBackupDatasourceParamet
 	gens["IncludedNamespaces"] = gen.SliceOf(gen.AlphaString())
 	gens["IncludedResourceTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["LabelSelectors"] = gen.SliceOf(gen.AlphaString())
-	gens["ObjectType"] = gen.OneConstOf(KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS_KubernetesClusterBackupDatasourceParameters)
+	gens["ObjectType"] = gen.OneConstOf(KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS_ARM_KubernetesClusterBackupDatasourceParameters)
 	gens["SnapshotVolumes"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1376,12 +1376,12 @@ func ProtectionStatusDetails_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForProtectionStatusDetails_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProtectionStatusDetails_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		ProtectionStatusDetails_Status_STATUS_ConfiguringProtection,
-		ProtectionStatusDetails_Status_STATUS_ConfiguringProtectionFailed,
-		ProtectionStatusDetails_Status_STATUS_ProtectionConfigured,
-		ProtectionStatusDetails_Status_STATUS_ProtectionStopped,
-		ProtectionStatusDetails_Status_STATUS_SoftDeleted,
-		ProtectionStatusDetails_Status_STATUS_SoftDeleting))
+		ProtectionStatusDetails_Status_STATUS_ARM_ConfiguringProtection,
+		ProtectionStatusDetails_Status_STATUS_ARM_ConfiguringProtectionFailed,
+		ProtectionStatusDetails_Status_STATUS_ARM_ProtectionConfigured,
+		ProtectionStatusDetails_Status_STATUS_ARM_ProtectionStopped,
+		ProtectionStatusDetails_Status_STATUS_ARM_SoftDeleted,
+		ProtectionStatusDetails_Status_STATUS_ARM_SoftDeleting))
 }
 
 // AddRelatedPropertyGeneratorsForProtectionStatusDetails_STATUS_ARM is a factory method for creating gopter generators
@@ -1456,7 +1456,7 @@ func SecretStoreBasedAuthCredentials_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecretStoreBasedAuthCredentials_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecretStoreBasedAuthCredentials_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ObjectType"] = gen.OneConstOf(SecretStoreBasedAuthCredentials_ObjectType_STATUS_SecretStoreBasedAuthCredentials)
+	gens["ObjectType"] = gen.OneConstOf(SecretStoreBasedAuthCredentials_ObjectType_STATUS_ARM_SecretStoreBasedAuthCredentials)
 }
 
 // AddRelatedPropertyGeneratorsForSecretStoreBasedAuthCredentials_STATUS_ARM is a factory method for creating gopter generators
@@ -1522,7 +1522,7 @@ func SecretStoreResource_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecretStoreResource_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecretStoreResource_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["SecretStoreType"] = gen.PtrOf(gen.OneConstOf(SecretStoreResource_SecretStoreType_STATUS_AzureKeyVault, SecretStoreResource_SecretStoreType_STATUS_Invalid))
+	gens["SecretStoreType"] = gen.PtrOf(gen.OneConstOf(SecretStoreResource_SecretStoreType_STATUS_ARM_AzureKeyVault, SecretStoreResource_SecretStoreType_STATUS_ARM_Invalid))
 	gens["Uri"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

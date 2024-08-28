@@ -157,10 +157,10 @@ func AddIndependentPropertyGeneratorsForSubscriptionCreateParameterProperties_AR
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 	gens["SecondaryKey"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		SubscriptionCreateParameterProperties_State_Active,
-		SubscriptionCreateParameterProperties_State_Cancelled,
-		SubscriptionCreateParameterProperties_State_Expired,
-		SubscriptionCreateParameterProperties_State_Rejected,
-		SubscriptionCreateParameterProperties_State_Submitted,
-		SubscriptionCreateParameterProperties_State_Suspended))
+		SubscriptionCreateParameterProperties_State_ARM_Active,
+		SubscriptionCreateParameterProperties_State_ARM_Cancelled,
+		SubscriptionCreateParameterProperties_State_ARM_Expired,
+		SubscriptionCreateParameterProperties_State_ARM_Rejected,
+		SubscriptionCreateParameterProperties_State_ARM_Submitted,
+		SubscriptionCreateParameterProperties_State_ARM_Suspended))
 }

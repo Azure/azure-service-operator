@@ -85,7 +85,7 @@ func FailoverGroupProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFailoverGroupProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFailoverGroupProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Databases"] = gen.SliceOf(gen.AlphaString())
-	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(FailoverGroupProperties_ReplicationRole_STATUS_Primary, FailoverGroupProperties_ReplicationRole_STATUS_Secondary))
+	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(FailoverGroupProperties_ReplicationRole_STATUS_ARM_Primary, FailoverGroupProperties_ReplicationRole_STATUS_ARM_Secondary))
 	gens["ReplicationState"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -154,7 +154,7 @@ func FailoverGroupReadOnlyEndpoint_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFailoverGroupReadOnlyEndpoint_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFailoverGroupReadOnlyEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["FailoverPolicy"] = gen.PtrOf(gen.OneConstOf(FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_Disabled, FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_Enabled))
+	gens["FailoverPolicy"] = gen.PtrOf(gen.OneConstOf(FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_ARM_Disabled, FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_ARM_Enabled))
 }
 
 func Test_FailoverGroupReadWriteEndpoint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -215,7 +215,7 @@ func FailoverGroupReadWriteEndpoint_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFailoverGroupReadWriteEndpoint_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFailoverGroupReadWriteEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["FailoverPolicy"] = gen.PtrOf(gen.OneConstOf(FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_Automatic, FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_Manual))
+	gens["FailoverPolicy"] = gen.PtrOf(gen.OneConstOf(FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_ARM_Automatic, FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_ARM_Manual))
 	gens["FailoverWithDataLossGracePeriodMinutes"] = gen.PtrOf(gen.Int())
 }
 
@@ -279,7 +279,7 @@ func PartnerInfo_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPartnerInfo_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(PartnerInfo_ReplicationRole_STATUS_Primary, PartnerInfo_ReplicationRole_STATUS_Secondary))
+	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(PartnerInfo_ReplicationRole_STATUS_ARM_Primary, PartnerInfo_ReplicationRole_STATUS_ARM_Secondary))
 }
 
 func Test_Servers_FailoverGroup_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

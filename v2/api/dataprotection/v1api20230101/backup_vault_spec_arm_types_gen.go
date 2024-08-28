@@ -82,27 +82,27 @@ type SecuritySettings_ARM struct {
 // Storage setting
 type StorageSetting_ARM struct {
 	// DatastoreType: Gets or sets the type of the datastore.
-	DatastoreType *StorageSetting_DatastoreType `json:"datastoreType,omitempty"`
+	DatastoreType *StorageSetting_DatastoreType_ARM `json:"datastoreType,omitempty"`
 
 	// Type: Gets or sets the type.
-	Type *StorageSetting_Type `json:"type,omitempty"`
+	Type *StorageSetting_Type_ARM `json:"type,omitempty"`
 }
 
 // Settings for Azure Monitor based alerts
 type AzureMonitorAlertSettings_ARM struct {
-	AlertsForAllJobFailures *AzureMonitorAlertSettings_AlertsForAllJobFailures `json:"alertsForAllJobFailures,omitempty"`
+	AlertsForAllJobFailures *AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM `json:"alertsForAllJobFailures,omitempty"`
 }
 
 // CrossSubscriptionRestore Settings
 type CrossSubscriptionRestoreSettings_ARM struct {
 	// State: CrossSubscriptionRestore state
-	State *CrossSubscriptionRestoreSettings_State `json:"state,omitempty"`
+	State *CrossSubscriptionRestoreSettings_State_ARM `json:"state,omitempty"`
 }
 
 // Immutability Settings at vault level
 type ImmutabilitySettings_ARM struct {
 	// State: Immutability state
-	State *ImmutabilitySettings_State `json:"state,omitempty"`
+	State *ImmutabilitySettings_State_ARM `json:"state,omitempty"`
 }
 
 // Soft delete related settings
@@ -111,99 +111,99 @@ type SoftDeleteSettings_ARM struct {
 	RetentionDurationInDays *float64 `json:"retentionDurationInDays,omitempty"`
 
 	// State: State of soft delete
-	State *SoftDeleteSettings_State `json:"state,omitempty"`
+	State *SoftDeleteSettings_State_ARM `json:"state,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"ArchiveStore","OperationalStore","VaultStore"}
-type StorageSetting_DatastoreType string
+type StorageSetting_DatastoreType_ARM string
 
 const (
-	StorageSetting_DatastoreType_ArchiveStore     = StorageSetting_DatastoreType("ArchiveStore")
-	StorageSetting_DatastoreType_OperationalStore = StorageSetting_DatastoreType("OperationalStore")
-	StorageSetting_DatastoreType_VaultStore       = StorageSetting_DatastoreType("VaultStore")
+	StorageSetting_DatastoreType_ARM_ArchiveStore     = StorageSetting_DatastoreType_ARM("ArchiveStore")
+	StorageSetting_DatastoreType_ARM_OperationalStore = StorageSetting_DatastoreType_ARM("OperationalStore")
+	StorageSetting_DatastoreType_ARM_VaultStore       = StorageSetting_DatastoreType_ARM("VaultStore")
 )
 
-// Mapping from string to StorageSetting_DatastoreType
-var storageSetting_DatastoreType_Values = map[string]StorageSetting_DatastoreType{
-	"archivestore":     StorageSetting_DatastoreType_ArchiveStore,
-	"operationalstore": StorageSetting_DatastoreType_OperationalStore,
-	"vaultstore":       StorageSetting_DatastoreType_VaultStore,
+// Mapping from string to StorageSetting_DatastoreType_ARM
+var storageSetting_DatastoreType_ARM_Values = map[string]StorageSetting_DatastoreType_ARM{
+	"archivestore":     StorageSetting_DatastoreType_ARM_ArchiveStore,
+	"operationalstore": StorageSetting_DatastoreType_ARM_OperationalStore,
+	"vaultstore":       StorageSetting_DatastoreType_ARM_VaultStore,
 }
 
 // +kubebuilder:validation:Enum={"GeoRedundant","LocallyRedundant","ZoneRedundant"}
-type StorageSetting_Type string
+type StorageSetting_Type_ARM string
 
 const (
-	StorageSetting_Type_GeoRedundant     = StorageSetting_Type("GeoRedundant")
-	StorageSetting_Type_LocallyRedundant = StorageSetting_Type("LocallyRedundant")
-	StorageSetting_Type_ZoneRedundant    = StorageSetting_Type("ZoneRedundant")
+	StorageSetting_Type_ARM_GeoRedundant     = StorageSetting_Type_ARM("GeoRedundant")
+	StorageSetting_Type_ARM_LocallyRedundant = StorageSetting_Type_ARM("LocallyRedundant")
+	StorageSetting_Type_ARM_ZoneRedundant    = StorageSetting_Type_ARM("ZoneRedundant")
 )
 
-// Mapping from string to StorageSetting_Type
-var storageSetting_Type_Values = map[string]StorageSetting_Type{
-	"georedundant":     StorageSetting_Type_GeoRedundant,
-	"locallyredundant": StorageSetting_Type_LocallyRedundant,
-	"zoneredundant":    StorageSetting_Type_ZoneRedundant,
+// Mapping from string to StorageSetting_Type_ARM
+var storageSetting_Type_ARM_Values = map[string]StorageSetting_Type_ARM{
+	"georedundant":     StorageSetting_Type_ARM_GeoRedundant,
+	"locallyredundant": StorageSetting_Type_ARM_LocallyRedundant,
+	"zoneredundant":    StorageSetting_Type_ARM_ZoneRedundant,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type AzureMonitorAlertSettings_AlertsForAllJobFailures string
+type AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM string
 
 const (
-	AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled = AzureMonitorAlertSettings_AlertsForAllJobFailures("Disabled")
-	AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled  = AzureMonitorAlertSettings_AlertsForAllJobFailures("Enabled")
+	AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM_Disabled = AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM("Disabled")
+	AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM_Enabled  = AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM("Enabled")
 )
 
-// Mapping from string to AzureMonitorAlertSettings_AlertsForAllJobFailures
-var azureMonitorAlertSettings_AlertsForAllJobFailures_Values = map[string]AzureMonitorAlertSettings_AlertsForAllJobFailures{
-	"disabled": AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled,
-	"enabled":  AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled,
+// Mapping from string to AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM
+var azureMonitorAlertSettings_AlertsForAllJobFailures_ARM_Values = map[string]AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM{
+	"disabled": AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM_Disabled,
+	"enabled":  AzureMonitorAlertSettings_AlertsForAllJobFailures_ARM_Enabled,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled","PermanentlyDisabled"}
-type CrossSubscriptionRestoreSettings_State string
+type CrossSubscriptionRestoreSettings_State_ARM string
 
 const (
-	CrossSubscriptionRestoreSettings_State_Disabled            = CrossSubscriptionRestoreSettings_State("Disabled")
-	CrossSubscriptionRestoreSettings_State_Enabled             = CrossSubscriptionRestoreSettings_State("Enabled")
-	CrossSubscriptionRestoreSettings_State_PermanentlyDisabled = CrossSubscriptionRestoreSettings_State("PermanentlyDisabled")
+	CrossSubscriptionRestoreSettings_State_ARM_Disabled            = CrossSubscriptionRestoreSettings_State_ARM("Disabled")
+	CrossSubscriptionRestoreSettings_State_ARM_Enabled             = CrossSubscriptionRestoreSettings_State_ARM("Enabled")
+	CrossSubscriptionRestoreSettings_State_ARM_PermanentlyDisabled = CrossSubscriptionRestoreSettings_State_ARM("PermanentlyDisabled")
 )
 
-// Mapping from string to CrossSubscriptionRestoreSettings_State
-var crossSubscriptionRestoreSettings_State_Values = map[string]CrossSubscriptionRestoreSettings_State{
-	"disabled":            CrossSubscriptionRestoreSettings_State_Disabled,
-	"enabled":             CrossSubscriptionRestoreSettings_State_Enabled,
-	"permanentlydisabled": CrossSubscriptionRestoreSettings_State_PermanentlyDisabled,
+// Mapping from string to CrossSubscriptionRestoreSettings_State_ARM
+var crossSubscriptionRestoreSettings_State_ARM_Values = map[string]CrossSubscriptionRestoreSettings_State_ARM{
+	"disabled":            CrossSubscriptionRestoreSettings_State_ARM_Disabled,
+	"enabled":             CrossSubscriptionRestoreSettings_State_ARM_Enabled,
+	"permanentlydisabled": CrossSubscriptionRestoreSettings_State_ARM_PermanentlyDisabled,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Locked","Unlocked"}
-type ImmutabilitySettings_State string
+type ImmutabilitySettings_State_ARM string
 
 const (
-	ImmutabilitySettings_State_Disabled = ImmutabilitySettings_State("Disabled")
-	ImmutabilitySettings_State_Locked   = ImmutabilitySettings_State("Locked")
-	ImmutabilitySettings_State_Unlocked = ImmutabilitySettings_State("Unlocked")
+	ImmutabilitySettings_State_ARM_Disabled = ImmutabilitySettings_State_ARM("Disabled")
+	ImmutabilitySettings_State_ARM_Locked   = ImmutabilitySettings_State_ARM("Locked")
+	ImmutabilitySettings_State_ARM_Unlocked = ImmutabilitySettings_State_ARM("Unlocked")
 )
 
-// Mapping from string to ImmutabilitySettings_State
-var immutabilitySettings_State_Values = map[string]ImmutabilitySettings_State{
-	"disabled": ImmutabilitySettings_State_Disabled,
-	"locked":   ImmutabilitySettings_State_Locked,
-	"unlocked": ImmutabilitySettings_State_Unlocked,
+// Mapping from string to ImmutabilitySettings_State_ARM
+var immutabilitySettings_State_ARM_Values = map[string]ImmutabilitySettings_State_ARM{
+	"disabled": ImmutabilitySettings_State_ARM_Disabled,
+	"locked":   ImmutabilitySettings_State_ARM_Locked,
+	"unlocked": ImmutabilitySettings_State_ARM_Unlocked,
 }
 
 // +kubebuilder:validation:Enum={"AlwaysOn","Off","On"}
-type SoftDeleteSettings_State string
+type SoftDeleteSettings_State_ARM string
 
 const (
-	SoftDeleteSettings_State_AlwaysOn = SoftDeleteSettings_State("AlwaysOn")
-	SoftDeleteSettings_State_Off      = SoftDeleteSettings_State("Off")
-	SoftDeleteSettings_State_On       = SoftDeleteSettings_State("On")
+	SoftDeleteSettings_State_ARM_AlwaysOn = SoftDeleteSettings_State_ARM("AlwaysOn")
+	SoftDeleteSettings_State_ARM_Off      = SoftDeleteSettings_State_ARM("Off")
+	SoftDeleteSettings_State_ARM_On       = SoftDeleteSettings_State_ARM("On")
 )
 
-// Mapping from string to SoftDeleteSettings_State
-var softDeleteSettings_State_Values = map[string]SoftDeleteSettings_State{
-	"alwayson": SoftDeleteSettings_State_AlwaysOn,
-	"off":      SoftDeleteSettings_State_Off,
-	"on":       SoftDeleteSettings_State_On,
+// Mapping from string to SoftDeleteSettings_State_ARM
+var softDeleteSettings_State_ARM_Values = map[string]SoftDeleteSettings_State_ARM{
+	"alwayson": SoftDeleteSettings_State_ARM_AlwaysOn,
+	"off":      SoftDeleteSettings_State_ARM_Off,
+	"on":       SoftDeleteSettings_State_ARM_On,
 }

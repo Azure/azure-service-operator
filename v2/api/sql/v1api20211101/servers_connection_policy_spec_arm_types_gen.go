@@ -32,5 +32,21 @@ func (policy *Servers_ConnectionPolicy_Spec_ARM) GetType() string {
 // The properties of a server connection policy.
 type ServerConnectionPolicyProperties_ARM struct {
 	// ConnectionType: The server connection type.
-	ConnectionType *ServerConnectionPolicyProperties_ConnectionType `json:"connectionType,omitempty"`
+	ConnectionType *ServerConnectionPolicyProperties_ConnectionType_ARM `json:"connectionType,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Default","Proxy","Redirect"}
+type ServerConnectionPolicyProperties_ConnectionType_ARM string
+
+const (
+	ServerConnectionPolicyProperties_ConnectionType_ARM_Default  = ServerConnectionPolicyProperties_ConnectionType_ARM("Default")
+	ServerConnectionPolicyProperties_ConnectionType_ARM_Proxy    = ServerConnectionPolicyProperties_ConnectionType_ARM("Proxy")
+	ServerConnectionPolicyProperties_ConnectionType_ARM_Redirect = ServerConnectionPolicyProperties_ConnectionType_ARM("Redirect")
+)
+
+// Mapping from string to ServerConnectionPolicyProperties_ConnectionType_ARM
+var serverConnectionPolicyProperties_ConnectionType_ARM_Values = map[string]ServerConnectionPolicyProperties_ConnectionType_ARM{
+	"default":  ServerConnectionPolicyProperties_ConnectionType_ARM_Default,
+	"proxy":    ServerConnectionPolicyProperties_ConnectionType_ARM_Proxy,
+	"redirect": ServerConnectionPolicyProperties_ConnectionType_ARM_Redirect,
 }

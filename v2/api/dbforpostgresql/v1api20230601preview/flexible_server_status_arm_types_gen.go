@@ -49,7 +49,7 @@ type ServerProperties_STATUS_ARM struct {
 	Backup *Backup_STATUS_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_STATUS_ARM `json:"createMode,omitempty"`
 
 	// DataEncryption: Data encryption properties of a server.
 	DataEncryption *DataEncryption_STATUS_ARM `json:"dataEncryption,omitempty"`
@@ -85,20 +85,20 @@ type ServerProperties_STATUS_ARM struct {
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
 
 	// ReplicationRole: Replication role of the server
-	ReplicationRole *ReplicationRole_STATUS `json:"replicationRole,omitempty"`
+	ReplicationRole *ReplicationRole_STATUS_ARM `json:"replicationRole,omitempty"`
 
 	// SourceServerResourceId: The source server resource ID to restore from. It's required when 'createMode' is
 	// 'PointInTimeRestore' or 'GeoRestore' or 'Replica' or 'ReviveDropped'. This property is returned only for Replica server
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: A state of a server that is visible to user.
-	State *ServerProperties_State_STATUS `json:"state,omitempty"`
+	State *ServerProperties_State_STATUS_ARM `json:"state,omitempty"`
 
 	// Storage: Storage properties of a server.
 	Storage *Storage_STATUS_ARM `json:"storage,omitempty"`
 
 	// Version: PostgreSQL Server version.
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
+	Version *ServerVersion_STATUS_ARM `json:"version,omitempty"`
 }
 
 // Sku information related properties of a server.
@@ -107,7 +107,7 @@ type Sku_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Burstable.
-	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *Sku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -119,7 +119,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -128,7 +128,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // Information describing the identities associated with this application.
@@ -137,7 +137,7 @@ type UserAssignedIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: the types of identities associated with this resource; currently restricted to 'None and UserAssigned'
-	Type *UserAssignedIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *UserAssignedIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: represents user assigned identities map.
 	UserAssignedIdentities map[string]UserIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
@@ -146,10 +146,10 @@ type UserAssignedIdentity_STATUS_ARM struct {
 // Authentication configuration properties of a server
 type AuthConfig_STATUS_ARM struct {
 	// ActiveDirectoryAuth: If Enabled, Azure Active Directory authentication is enabled.
-	ActiveDirectoryAuth *AuthConfig_ActiveDirectoryAuth_STATUS `json:"activeDirectoryAuth,omitempty"`
+	ActiveDirectoryAuth *AuthConfig_ActiveDirectoryAuth_STATUS_ARM `json:"activeDirectoryAuth,omitempty"`
 
 	// PasswordAuth: If Enabled, Password authentication is enabled.
-	PasswordAuth *AuthConfig_PasswordAuth_STATUS `json:"passwordAuth,omitempty"`
+	PasswordAuth *AuthConfig_PasswordAuth_STATUS_ARM `json:"passwordAuth,omitempty"`
 
 	// TenantId: Tenant id of the server.
 	TenantId *string `json:"tenantId,omitempty"`
@@ -164,13 +164,13 @@ type Backup_STATUS_ARM struct {
 	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
 	// GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
-	GeoRedundantBackup *Backup_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *Backup_GeoRedundantBackup_STATUS_ARM `json:"geoRedundantBackup,omitempty"`
 }
 
 // Data encryption properties of a server
 type DataEncryption_STATUS_ARM struct {
 	// GeoBackupEncryptionKeyStatus: Geo-backup encryption key status for Data encryption enabled server.
-	GeoBackupEncryptionKeyStatus *DataEncryption_GeoBackupEncryptionKeyStatus_STATUS `json:"geoBackupEncryptionKeyStatus,omitempty"`
+	GeoBackupEncryptionKeyStatus *DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM `json:"geoBackupEncryptionKeyStatus,omitempty"`
 
 	// GeoBackupKeyURI: URI for the key in keyvault for data encryption for geo-backup of server.
 	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
@@ -180,7 +180,7 @@ type DataEncryption_STATUS_ARM struct {
 	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
 
 	// PrimaryEncryptionKeyStatus: Primary encryption key status for Data encryption enabled server.
-	PrimaryEncryptionKeyStatus *DataEncryption_PrimaryEncryptionKeyStatus_STATUS `json:"primaryEncryptionKeyStatus,omitempty"`
+	PrimaryEncryptionKeyStatus *DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM `json:"primaryEncryptionKeyStatus,omitempty"`
 
 	// PrimaryKeyURI: URI for the key in keyvault for data encryption of the primary server.
 	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty"`
@@ -190,19 +190,19 @@ type DataEncryption_STATUS_ARM struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: Data encryption type to depict if it is System Managed vs Azure Key vault.
-	Type *DataEncryption_Type_STATUS `json:"type,omitempty"`
+	Type *DataEncryption_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // High availability properties of a server
 type HighAvailability_STATUS_ARM struct {
 	// Mode: The HA mode for the server.
-	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_STATUS_ARM `json:"mode,omitempty"`
 
 	// StandbyAvailabilityZone: availability zone information of the standby.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: A state of a HA server that is visible to user.
-	State *HighAvailability_State_STATUS `json:"state,omitempty"`
+	State *HighAvailability_State_STATUS_ARM `json:"state,omitempty"`
 }
 
 // Maintenance window properties of a server.
@@ -233,7 +233,7 @@ type Network_STATUS_ARM struct {
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 
 	// PublicNetworkAccess: public network access is enabled or not
-	PublicNetworkAccess *Network_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *Network_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 }
 
 // The private endpoint connection resource.
@@ -249,38 +249,124 @@ type Replica_STATUS_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// PromoteMode: Sets the promote mode for a replica server. This is a write only property.
-	PromoteMode *Replica_PromoteMode_STATUS `json:"promoteMode,omitempty"`
+	PromoteMode *Replica_PromoteMode_STATUS_ARM `json:"promoteMode,omitempty"`
 
 	// PromoteOption: Sets the promote options for a replica server. This is a write only property.
-	PromoteOption *Replica_PromoteOption_STATUS `json:"promoteOption,omitempty"`
+	PromoteOption *Replica_PromoteOption_STATUS_ARM `json:"promoteOption,omitempty"`
 
 	// ReplicationState: Gets the replication state of a replica server. This property is returned only for replicas api call.
 	// Supported values are Active, Catchup, Provisioning, Updating, Broken, Reconfiguring
-	ReplicationState *Replica_ReplicationState_STATUS `json:"replicationState,omitempty"`
+	ReplicationState *Replica_ReplicationState_STATUS_ARM `json:"replicationState,omitempty"`
 
 	// Role: Used to indicate role of the server in replication set.
-	Role *ReplicationRole_STATUS `json:"role,omitempty"`
+	Role *ReplicationRole_STATUS_ARM `json:"role,omitempty"`
 }
 
-type Sku_Tier_STATUS string
+// Used to indicate role of the server in replication set.
+type ReplicationRole_STATUS_ARM string
 
 const (
-	Sku_Tier_STATUS_Burstable       = Sku_Tier_STATUS("Burstable")
-	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
-	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
+	ReplicationRole_STATUS_ARM_AsyncReplica    = ReplicationRole_STATUS_ARM("AsyncReplica")
+	ReplicationRole_STATUS_ARM_GeoAsyncReplica = ReplicationRole_STATUS_ARM("GeoAsyncReplica")
+	ReplicationRole_STATUS_ARM_None            = ReplicationRole_STATUS_ARM("None")
+	ReplicationRole_STATUS_ARM_Primary         = ReplicationRole_STATUS_ARM("Primary")
 )
 
-// Mapping from string to Sku_Tier_STATUS
-var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
-	"burstable":       Sku_Tier_STATUS_Burstable,
-	"generalpurpose":  Sku_Tier_STATUS_GeneralPurpose,
-	"memoryoptimized": Sku_Tier_STATUS_MemoryOptimized,
+// Mapping from string to ReplicationRole_STATUS_ARM
+var replicationRole_STATUS_ARM_Values = map[string]ReplicationRole_STATUS_ARM{
+	"asyncreplica":    ReplicationRole_STATUS_ARM_AsyncReplica,
+	"geoasyncreplica": ReplicationRole_STATUS_ARM_GeoAsyncReplica,
+	"none":            ReplicationRole_STATUS_ARM_None,
+	"primary":         ReplicationRole_STATUS_ARM_Primary,
+}
+
+type ServerProperties_CreateMode_STATUS_ARM string
+
+const (
+	ServerProperties_CreateMode_STATUS_ARM_Create             = ServerProperties_CreateMode_STATUS_ARM("Create")
+	ServerProperties_CreateMode_STATUS_ARM_Default            = ServerProperties_CreateMode_STATUS_ARM("Default")
+	ServerProperties_CreateMode_STATUS_ARM_GeoRestore         = ServerProperties_CreateMode_STATUS_ARM("GeoRestore")
+	ServerProperties_CreateMode_STATUS_ARM_PointInTimeRestore = ServerProperties_CreateMode_STATUS_ARM("PointInTimeRestore")
+	ServerProperties_CreateMode_STATUS_ARM_Replica            = ServerProperties_CreateMode_STATUS_ARM("Replica")
+	ServerProperties_CreateMode_STATUS_ARM_ReviveDropped      = ServerProperties_CreateMode_STATUS_ARM("ReviveDropped")
+	ServerProperties_CreateMode_STATUS_ARM_Update             = ServerProperties_CreateMode_STATUS_ARM("Update")
+)
+
+// Mapping from string to ServerProperties_CreateMode_STATUS_ARM
+var serverProperties_CreateMode_STATUS_ARM_Values = map[string]ServerProperties_CreateMode_STATUS_ARM{
+	"create":             ServerProperties_CreateMode_STATUS_ARM_Create,
+	"default":            ServerProperties_CreateMode_STATUS_ARM_Default,
+	"georestore":         ServerProperties_CreateMode_STATUS_ARM_GeoRestore,
+	"pointintimerestore": ServerProperties_CreateMode_STATUS_ARM_PointInTimeRestore,
+	"replica":            ServerProperties_CreateMode_STATUS_ARM_Replica,
+	"revivedropped":      ServerProperties_CreateMode_STATUS_ARM_ReviveDropped,
+	"update":             ServerProperties_CreateMode_STATUS_ARM_Update,
+}
+
+type ServerProperties_State_STATUS_ARM string
+
+const (
+	ServerProperties_State_STATUS_ARM_Disabled = ServerProperties_State_STATUS_ARM("Disabled")
+	ServerProperties_State_STATUS_ARM_Dropping = ServerProperties_State_STATUS_ARM("Dropping")
+	ServerProperties_State_STATUS_ARM_Ready    = ServerProperties_State_STATUS_ARM("Ready")
+	ServerProperties_State_STATUS_ARM_Starting = ServerProperties_State_STATUS_ARM("Starting")
+	ServerProperties_State_STATUS_ARM_Stopped  = ServerProperties_State_STATUS_ARM("Stopped")
+	ServerProperties_State_STATUS_ARM_Stopping = ServerProperties_State_STATUS_ARM("Stopping")
+	ServerProperties_State_STATUS_ARM_Updating = ServerProperties_State_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ServerProperties_State_STATUS_ARM
+var serverProperties_State_STATUS_ARM_Values = map[string]ServerProperties_State_STATUS_ARM{
+	"disabled": ServerProperties_State_STATUS_ARM_Disabled,
+	"dropping": ServerProperties_State_STATUS_ARM_Dropping,
+	"ready":    ServerProperties_State_STATUS_ARM_Ready,
+	"starting": ServerProperties_State_STATUS_ARM_Starting,
+	"stopped":  ServerProperties_State_STATUS_ARM_Stopped,
+	"stopping": ServerProperties_State_STATUS_ARM_Stopping,
+	"updating": ServerProperties_State_STATUS_ARM_Updating,
+}
+
+// The version of a server.
+type ServerVersion_STATUS_ARM string
+
+const (
+	ServerVersion_STATUS_ARM_11 = ServerVersion_STATUS_ARM("11")
+	ServerVersion_STATUS_ARM_12 = ServerVersion_STATUS_ARM("12")
+	ServerVersion_STATUS_ARM_13 = ServerVersion_STATUS_ARM("13")
+	ServerVersion_STATUS_ARM_14 = ServerVersion_STATUS_ARM("14")
+	ServerVersion_STATUS_ARM_15 = ServerVersion_STATUS_ARM("15")
+	ServerVersion_STATUS_ARM_16 = ServerVersion_STATUS_ARM("16")
+)
+
+// Mapping from string to ServerVersion_STATUS_ARM
+var serverVersion_STATUS_ARM_Values = map[string]ServerVersion_STATUS_ARM{
+	"11": ServerVersion_STATUS_ARM_11,
+	"12": ServerVersion_STATUS_ARM_12,
+	"13": ServerVersion_STATUS_ARM_13,
+	"14": ServerVersion_STATUS_ARM_14,
+	"15": ServerVersion_STATUS_ARM_15,
+	"16": ServerVersion_STATUS_ARM_16,
+}
+
+type Sku_Tier_STATUS_ARM string
+
+const (
+	Sku_Tier_STATUS_ARM_Burstable       = Sku_Tier_STATUS_ARM("Burstable")
+	Sku_Tier_STATUS_ARM_GeneralPurpose  = Sku_Tier_STATUS_ARM("GeneralPurpose")
+	Sku_Tier_STATUS_ARM_MemoryOptimized = Sku_Tier_STATUS_ARM("MemoryOptimized")
+)
+
+// Mapping from string to Sku_Tier_STATUS_ARM
+var sku_Tier_STATUS_ARM_Values = map[string]Sku_Tier_STATUS_ARM{
+	"burstable":       Sku_Tier_STATUS_ARM_Burstable,
+	"generalpurpose":  Sku_Tier_STATUS_ARM_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_STATUS_ARM_MemoryOptimized,
 }
 
 // Storage properties of a server
 type Storage_STATUS_ARM struct {
 	// AutoGrow: Flag to enable / disable Storage Auto grow for flexible server.
-	AutoGrow *Storage_AutoGrow_STATUS `json:"autoGrow,omitempty"`
+	AutoGrow *Storage_AutoGrow_STATUS_ARM `json:"autoGrow,omitempty"`
 
 	// Iops: Storage tier IOPS quantity. This property is required to be set for storage Type PremiumV2_LRS
 	Iops *int `json:"iops,omitempty"`
@@ -292,58 +378,58 @@ type Storage_STATUS_ARM struct {
 	Throughput *int `json:"throughput,omitempty"`
 
 	// Tier: Name of storage tier for IOPS.
-	Tier *Storage_Tier_STATUS `json:"tier,omitempty"`
+	Tier *Storage_Tier_STATUS_ARM `json:"tier,omitempty"`
 
 	// Type: Storage type for the server. Allowed values are Premium_LRS and PremiumV2_LRS, and default is Premium_LRS if not
 	// specified
-	Type *Storage_Type_STATUS `json:"type,omitempty"`
+	Type *Storage_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
-type UserAssignedIdentity_Type_STATUS string
+type UserAssignedIdentity_Type_STATUS_ARM string
 
 const (
-	UserAssignedIdentity_Type_STATUS_None         = UserAssignedIdentity_Type_STATUS("None")
-	UserAssignedIdentity_Type_STATUS_UserAssigned = UserAssignedIdentity_Type_STATUS("UserAssigned")
+	UserAssignedIdentity_Type_STATUS_ARM_None         = UserAssignedIdentity_Type_STATUS_ARM("None")
+	UserAssignedIdentity_Type_STATUS_ARM_UserAssigned = UserAssignedIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to UserAssignedIdentity_Type_STATUS
-var userAssignedIdentity_Type_STATUS_Values = map[string]UserAssignedIdentity_Type_STATUS{
-	"none":         UserAssignedIdentity_Type_STATUS_None,
-	"userassigned": UserAssignedIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to UserAssignedIdentity_Type_STATUS_ARM
+var userAssignedIdentity_Type_STATUS_ARM_Values = map[string]UserAssignedIdentity_Type_STATUS_ARM{
+	"none":         UserAssignedIdentity_Type_STATUS_ARM_None,
+	"userassigned": UserAssignedIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 // Describes a single user-assigned identity associated with the application.
@@ -353,4 +439,241 @@ type UserIdentity_STATUS_ARM struct {
 
 	// PrincipalId: the object identifier of the Service Principal which this identity represents.
 	PrincipalId *string `json:"principalId,omitempty"`
+}
+
+type AuthConfig_ActiveDirectoryAuth_STATUS_ARM string
+
+const (
+	AuthConfig_ActiveDirectoryAuth_STATUS_ARM_Disabled = AuthConfig_ActiveDirectoryAuth_STATUS_ARM("Disabled")
+	AuthConfig_ActiveDirectoryAuth_STATUS_ARM_Enabled  = AuthConfig_ActiveDirectoryAuth_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to AuthConfig_ActiveDirectoryAuth_STATUS_ARM
+var authConfig_ActiveDirectoryAuth_STATUS_ARM_Values = map[string]AuthConfig_ActiveDirectoryAuth_STATUS_ARM{
+	"disabled": AuthConfig_ActiveDirectoryAuth_STATUS_ARM_Disabled,
+	"enabled":  AuthConfig_ActiveDirectoryAuth_STATUS_ARM_Enabled,
+}
+
+type AuthConfig_PasswordAuth_STATUS_ARM string
+
+const (
+	AuthConfig_PasswordAuth_STATUS_ARM_Disabled = AuthConfig_PasswordAuth_STATUS_ARM("Disabled")
+	AuthConfig_PasswordAuth_STATUS_ARM_Enabled  = AuthConfig_PasswordAuth_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to AuthConfig_PasswordAuth_STATUS_ARM
+var authConfig_PasswordAuth_STATUS_ARM_Values = map[string]AuthConfig_PasswordAuth_STATUS_ARM{
+	"disabled": AuthConfig_PasswordAuth_STATUS_ARM_Disabled,
+	"enabled":  AuthConfig_PasswordAuth_STATUS_ARM_Enabled,
+}
+
+type Backup_GeoRedundantBackup_STATUS_ARM string
+
+const (
+	Backup_GeoRedundantBackup_STATUS_ARM_Disabled = Backup_GeoRedundantBackup_STATUS_ARM("Disabled")
+	Backup_GeoRedundantBackup_STATUS_ARM_Enabled  = Backup_GeoRedundantBackup_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to Backup_GeoRedundantBackup_STATUS_ARM
+var backup_GeoRedundantBackup_STATUS_ARM_Values = map[string]Backup_GeoRedundantBackup_STATUS_ARM{
+	"disabled": Backup_GeoRedundantBackup_STATUS_ARM_Disabled,
+	"enabled":  Backup_GeoRedundantBackup_STATUS_ARM_Enabled,
+}
+
+type DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM string
+
+const (
+	DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM_Invalid = DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM("Invalid")
+	DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM_Valid   = DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM("Valid")
+)
+
+// Mapping from string to DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM
+var dataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM_Values = map[string]DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM{
+	"invalid": DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM_Invalid,
+	"valid":   DataEncryption_GeoBackupEncryptionKeyStatus_STATUS_ARM_Valid,
+}
+
+type DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM string
+
+const (
+	DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM_Invalid = DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM("Invalid")
+	DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM_Valid   = DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM("Valid")
+)
+
+// Mapping from string to DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM
+var dataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM_Values = map[string]DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM{
+	"invalid": DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM_Invalid,
+	"valid":   DataEncryption_PrimaryEncryptionKeyStatus_STATUS_ARM_Valid,
+}
+
+type DataEncryption_Type_STATUS_ARM string
+
+const (
+	DataEncryption_Type_STATUS_ARM_AzureKeyVault = DataEncryption_Type_STATUS_ARM("AzureKeyVault")
+	DataEncryption_Type_STATUS_ARM_SystemManaged = DataEncryption_Type_STATUS_ARM("SystemManaged")
+)
+
+// Mapping from string to DataEncryption_Type_STATUS_ARM
+var dataEncryption_Type_STATUS_ARM_Values = map[string]DataEncryption_Type_STATUS_ARM{
+	"azurekeyvault": DataEncryption_Type_STATUS_ARM_AzureKeyVault,
+	"systemmanaged": DataEncryption_Type_STATUS_ARM_SystemManaged,
+}
+
+type HighAvailability_Mode_STATUS_ARM string
+
+const (
+	HighAvailability_Mode_STATUS_ARM_Disabled      = HighAvailability_Mode_STATUS_ARM("Disabled")
+	HighAvailability_Mode_STATUS_ARM_SameZone      = HighAvailability_Mode_STATUS_ARM("SameZone")
+	HighAvailability_Mode_STATUS_ARM_ZoneRedundant = HighAvailability_Mode_STATUS_ARM("ZoneRedundant")
+)
+
+// Mapping from string to HighAvailability_Mode_STATUS_ARM
+var highAvailability_Mode_STATUS_ARM_Values = map[string]HighAvailability_Mode_STATUS_ARM{
+	"disabled":      HighAvailability_Mode_STATUS_ARM_Disabled,
+	"samezone":      HighAvailability_Mode_STATUS_ARM_SameZone,
+	"zoneredundant": HighAvailability_Mode_STATUS_ARM_ZoneRedundant,
+}
+
+type HighAvailability_State_STATUS_ARM string
+
+const (
+	HighAvailability_State_STATUS_ARM_CreatingStandby = HighAvailability_State_STATUS_ARM("CreatingStandby")
+	HighAvailability_State_STATUS_ARM_FailingOver     = HighAvailability_State_STATUS_ARM("FailingOver")
+	HighAvailability_State_STATUS_ARM_Healthy         = HighAvailability_State_STATUS_ARM("Healthy")
+	HighAvailability_State_STATUS_ARM_NotEnabled      = HighAvailability_State_STATUS_ARM("NotEnabled")
+	HighAvailability_State_STATUS_ARM_RemovingStandby = HighAvailability_State_STATUS_ARM("RemovingStandby")
+	HighAvailability_State_STATUS_ARM_ReplicatingData = HighAvailability_State_STATUS_ARM("ReplicatingData")
+)
+
+// Mapping from string to HighAvailability_State_STATUS_ARM
+var highAvailability_State_STATUS_ARM_Values = map[string]HighAvailability_State_STATUS_ARM{
+	"creatingstandby": HighAvailability_State_STATUS_ARM_CreatingStandby,
+	"failingover":     HighAvailability_State_STATUS_ARM_FailingOver,
+	"healthy":         HighAvailability_State_STATUS_ARM_Healthy,
+	"notenabled":      HighAvailability_State_STATUS_ARM_NotEnabled,
+	"removingstandby": HighAvailability_State_STATUS_ARM_RemovingStandby,
+	"replicatingdata": HighAvailability_State_STATUS_ARM_ReplicatingData,
+}
+
+type Network_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	Network_PublicNetworkAccess_STATUS_ARM_Disabled = Network_PublicNetworkAccess_STATUS_ARM("Disabled")
+	Network_PublicNetworkAccess_STATUS_ARM_Enabled  = Network_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to Network_PublicNetworkAccess_STATUS_ARM
+var network_PublicNetworkAccess_STATUS_ARM_Values = map[string]Network_PublicNetworkAccess_STATUS_ARM{
+	"disabled": Network_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  Network_PublicNetworkAccess_STATUS_ARM_Enabled,
+}
+
+type Replica_PromoteMode_STATUS_ARM string
+
+const (
+	Replica_PromoteMode_STATUS_ARM_Standalone = Replica_PromoteMode_STATUS_ARM("standalone")
+	Replica_PromoteMode_STATUS_ARM_Switchover = Replica_PromoteMode_STATUS_ARM("switchover")
+)
+
+// Mapping from string to Replica_PromoteMode_STATUS_ARM
+var replica_PromoteMode_STATUS_ARM_Values = map[string]Replica_PromoteMode_STATUS_ARM{
+	"standalone": Replica_PromoteMode_STATUS_ARM_Standalone,
+	"switchover": Replica_PromoteMode_STATUS_ARM_Switchover,
+}
+
+type Replica_PromoteOption_STATUS_ARM string
+
+const (
+	Replica_PromoteOption_STATUS_ARM_Forced  = Replica_PromoteOption_STATUS_ARM("forced")
+	Replica_PromoteOption_STATUS_ARM_Planned = Replica_PromoteOption_STATUS_ARM("planned")
+)
+
+// Mapping from string to Replica_PromoteOption_STATUS_ARM
+var replica_PromoteOption_STATUS_ARM_Values = map[string]Replica_PromoteOption_STATUS_ARM{
+	"forced":  Replica_PromoteOption_STATUS_ARM_Forced,
+	"planned": Replica_PromoteOption_STATUS_ARM_Planned,
+}
+
+type Replica_ReplicationState_STATUS_ARM string
+
+const (
+	Replica_ReplicationState_STATUS_ARM_Active        = Replica_ReplicationState_STATUS_ARM("Active")
+	Replica_ReplicationState_STATUS_ARM_Broken        = Replica_ReplicationState_STATUS_ARM("Broken")
+	Replica_ReplicationState_STATUS_ARM_Catchup       = Replica_ReplicationState_STATUS_ARM("Catchup")
+	Replica_ReplicationState_STATUS_ARM_Provisioning  = Replica_ReplicationState_STATUS_ARM("Provisioning")
+	Replica_ReplicationState_STATUS_ARM_Reconfiguring = Replica_ReplicationState_STATUS_ARM("Reconfiguring")
+	Replica_ReplicationState_STATUS_ARM_Updating      = Replica_ReplicationState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to Replica_ReplicationState_STATUS_ARM
+var replica_ReplicationState_STATUS_ARM_Values = map[string]Replica_ReplicationState_STATUS_ARM{
+	"active":        Replica_ReplicationState_STATUS_ARM_Active,
+	"broken":        Replica_ReplicationState_STATUS_ARM_Broken,
+	"catchup":       Replica_ReplicationState_STATUS_ARM_Catchup,
+	"provisioning":  Replica_ReplicationState_STATUS_ARM_Provisioning,
+	"reconfiguring": Replica_ReplicationState_STATUS_ARM_Reconfiguring,
+	"updating":      Replica_ReplicationState_STATUS_ARM_Updating,
+}
+
+type Storage_AutoGrow_STATUS_ARM string
+
+const (
+	Storage_AutoGrow_STATUS_ARM_Disabled = Storage_AutoGrow_STATUS_ARM("Disabled")
+	Storage_AutoGrow_STATUS_ARM_Enabled  = Storage_AutoGrow_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to Storage_AutoGrow_STATUS_ARM
+var storage_AutoGrow_STATUS_ARM_Values = map[string]Storage_AutoGrow_STATUS_ARM{
+	"disabled": Storage_AutoGrow_STATUS_ARM_Disabled,
+	"enabled":  Storage_AutoGrow_STATUS_ARM_Enabled,
+}
+
+type Storage_Tier_STATUS_ARM string
+
+const (
+	Storage_Tier_STATUS_ARM_P1  = Storage_Tier_STATUS_ARM("P1")
+	Storage_Tier_STATUS_ARM_P10 = Storage_Tier_STATUS_ARM("P10")
+	Storage_Tier_STATUS_ARM_P15 = Storage_Tier_STATUS_ARM("P15")
+	Storage_Tier_STATUS_ARM_P2  = Storage_Tier_STATUS_ARM("P2")
+	Storage_Tier_STATUS_ARM_P20 = Storage_Tier_STATUS_ARM("P20")
+	Storage_Tier_STATUS_ARM_P3  = Storage_Tier_STATUS_ARM("P3")
+	Storage_Tier_STATUS_ARM_P30 = Storage_Tier_STATUS_ARM("P30")
+	Storage_Tier_STATUS_ARM_P4  = Storage_Tier_STATUS_ARM("P4")
+	Storage_Tier_STATUS_ARM_P40 = Storage_Tier_STATUS_ARM("P40")
+	Storage_Tier_STATUS_ARM_P50 = Storage_Tier_STATUS_ARM("P50")
+	Storage_Tier_STATUS_ARM_P6  = Storage_Tier_STATUS_ARM("P6")
+	Storage_Tier_STATUS_ARM_P60 = Storage_Tier_STATUS_ARM("P60")
+	Storage_Tier_STATUS_ARM_P70 = Storage_Tier_STATUS_ARM("P70")
+	Storage_Tier_STATUS_ARM_P80 = Storage_Tier_STATUS_ARM("P80")
+)
+
+// Mapping from string to Storage_Tier_STATUS_ARM
+var storage_Tier_STATUS_ARM_Values = map[string]Storage_Tier_STATUS_ARM{
+	"p1":  Storage_Tier_STATUS_ARM_P1,
+	"p10": Storage_Tier_STATUS_ARM_P10,
+	"p15": Storage_Tier_STATUS_ARM_P15,
+	"p2":  Storage_Tier_STATUS_ARM_P2,
+	"p20": Storage_Tier_STATUS_ARM_P20,
+	"p3":  Storage_Tier_STATUS_ARM_P3,
+	"p30": Storage_Tier_STATUS_ARM_P30,
+	"p4":  Storage_Tier_STATUS_ARM_P4,
+	"p40": Storage_Tier_STATUS_ARM_P40,
+	"p50": Storage_Tier_STATUS_ARM_P50,
+	"p6":  Storage_Tier_STATUS_ARM_P6,
+	"p60": Storage_Tier_STATUS_ARM_P60,
+	"p70": Storage_Tier_STATUS_ARM_P70,
+	"p80": Storage_Tier_STATUS_ARM_P80,
+}
+
+type Storage_Type_STATUS_ARM string
+
+const (
+	Storage_Type_STATUS_ARM_PremiumV2_LRS = Storage_Type_STATUS_ARM("PremiumV2_LRS")
+	Storage_Type_STATUS_ARM_Premium_LRS   = Storage_Type_STATUS_ARM("Premium_LRS")
+)
+
+// Mapping from string to Storage_Type_STATUS_ARM
+var storage_Type_STATUS_ARM_Values = map[string]Storage_Type_STATUS_ARM{
+	"premiumv2_lrs": Storage_Type_STATUS_ARM_PremiumV2_LRS,
+	"premium_lrs":   Storage_Type_STATUS_ARM_Premium_LRS,
 }

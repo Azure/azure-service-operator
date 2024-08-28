@@ -63,7 +63,7 @@ type VirtualNetworkGatewayPropertiesFormat_ARM struct {
 	GatewayDefaultSite *SubResource_ARM `json:"gatewayDefaultSite,omitempty"`
 
 	// GatewayType: The type of this virtual network gateway.
-	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType `json:"gatewayType,omitempty"`
+	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM `json:"gatewayType,omitempty"`
 
 	// IpConfigurations: IP configurations for virtual network gateway.
 	IpConfigurations []VirtualNetworkGatewayIPConfiguration_ARM `json:"ipConfigurations,omitempty"`
@@ -78,10 +78,10 @@ type VirtualNetworkGatewayPropertiesFormat_ARM struct {
 	VpnClientConfiguration *VpnClientConfiguration_ARM `json:"vpnClientConfiguration,omitempty"`
 
 	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
-	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
+	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM `json:"vpnGatewayGeneration,omitempty"`
 
 	// VpnType: The type of this virtual network gateway.
-	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType `json:"vpnType,omitempty"`
+	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType_ARM `json:"vpnType,omitempty"`
 }
 
 // AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
@@ -114,13 +114,59 @@ type VirtualNetworkGatewayIPConfiguration_ARM struct {
 	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"ExpressRoute","LocalGateway","Vpn"}
+type VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM string
+
+const (
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM_ExpressRoute = VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM("ExpressRoute")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM_LocalGateway = VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM("LocalGateway")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM_Vpn          = VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM("Vpn")
+)
+
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM
+var virtualNetworkGatewayPropertiesFormat_GatewayType_ARM_Values = map[string]VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM{
+	"expressroute": VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM_ExpressRoute,
+	"localgateway": VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM_LocalGateway,
+	"vpn":          VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM_Vpn,
+}
+
+// +kubebuilder:validation:Enum={"Generation1","Generation2","None"}
+type VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM string
+
+const (
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM_Generation1 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM("Generation1")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM_Generation2 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM("Generation2")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM_None        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM("None")
+)
+
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM
+var virtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM_Values = map[string]VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM{
+	"generation1": VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM_Generation1,
+	"generation2": VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM_Generation2,
+	"none":        VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM_None,
+}
+
+// +kubebuilder:validation:Enum={"PolicyBased","RouteBased"}
+type VirtualNetworkGatewayPropertiesFormat_VpnType_ARM string
+
+const (
+	VirtualNetworkGatewayPropertiesFormat_VpnType_ARM_PolicyBased = VirtualNetworkGatewayPropertiesFormat_VpnType_ARM("PolicyBased")
+	VirtualNetworkGatewayPropertiesFormat_VpnType_ARM_RouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType_ARM("RouteBased")
+)
+
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_VpnType_ARM
+var virtualNetworkGatewayPropertiesFormat_VpnType_ARM_Values = map[string]VirtualNetworkGatewayPropertiesFormat_VpnType_ARM{
+	"policybased": VirtualNetworkGatewayPropertiesFormat_VpnType_ARM_PolicyBased,
+	"routebased":  VirtualNetworkGatewayPropertiesFormat_VpnType_ARM_RouteBased,
+}
+
 // VirtualNetworkGatewaySku details.
 type VirtualNetworkGatewaySku_ARM struct {
 	// Name: Gateway SKU name.
-	Name *VirtualNetworkGatewaySku_Name `json:"name,omitempty"`
+	Name *VirtualNetworkGatewaySku_Name_ARM `json:"name,omitempty"`
 
 	// Tier: Gateway SKU tier.
-	Tier *VirtualNetworkGatewaySku_Tier `json:"tier,omitempty"`
+	Tier *VirtualNetworkGatewaySku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // VpnClientConfiguration for P2S client.
@@ -147,7 +193,7 @@ type VpnClientConfiguration_ARM struct {
 	RadiusServers []RadiusServer_ARM `json:"radiusServers,omitempty"`
 
 	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
-	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes_ARM `json:"vpnAuthenticationTypes,omitempty"`
 
 	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool *AddressSpace_ARM `json:"vpnClientAddressPool,omitempty"`
@@ -156,7 +202,7 @@ type VpnClientConfiguration_ARM struct {
 	VpnClientIpsecPolicies []IpsecPolicy_ARM `json:"vpnClientIpsecPolicies,omitempty"`
 
 	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
-	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols `json:"vpnClientProtocols,omitempty"`
+	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols_ARM `json:"vpnClientProtocols,omitempty"`
 
 	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
 	VpnClientRevokedCertificates []VpnClientRevokedCertificate_ARM `json:"vpnClientRevokedCertificates,omitempty"`
@@ -177,22 +223,22 @@ type IPConfigurationBgpPeeringAddress_ARM struct {
 // An IPSec Policy configuration for a virtual network gateway connection.
 type IpsecPolicy_ARM struct {
 	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
-	DhGroup *DhGroup `json:"dhGroup,omitempty"`
+	DhGroup *DhGroup_ARM `json:"dhGroup,omitempty"`
 
 	// IkeEncryption: The IKE encryption algorithm (IKE phase 2).
-	IkeEncryption *IkeEncryption `json:"ikeEncryption,omitempty"`
+	IkeEncryption *IkeEncryption_ARM `json:"ikeEncryption,omitempty"`
 
 	// IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
-	IkeIntegrity *IkeIntegrity `json:"ikeIntegrity,omitempty"`
+	IkeIntegrity *IkeIntegrity_ARM `json:"ikeIntegrity,omitempty"`
 
 	// IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
-	IpsecEncryption *IpsecEncryption `json:"ipsecEncryption,omitempty"`
+	IpsecEncryption *IpsecEncryption_ARM `json:"ipsecEncryption,omitempty"`
 
 	// IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
-	IpsecIntegrity *IpsecIntegrity `json:"ipsecIntegrity,omitempty"`
+	IpsecIntegrity *IpsecIntegrity_ARM `json:"ipsecIntegrity,omitempty"`
 
 	// PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
-	PfsGroup *PfsGroup `json:"pfsGroup,omitempty"`
+	PfsGroup *PfsGroup_ARM `json:"pfsGroup,omitempty"`
 
 	// SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
 	// to site VPN tunnel.
@@ -218,13 +264,133 @@ type RadiusServer_ARM struct {
 // Properties of VirtualNetworkGatewayIPConfiguration.
 type VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM struct {
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: The reference to the public IP resource.
 	PublicIPAddress *SubResource_ARM `json:"publicIPAddress,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
 	Subnet *SubResource_ARM `json:"subnet,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
+type VirtualNetworkGatewaySku_Name_ARM string
+
+const (
+	VirtualNetworkGatewaySku_Name_ARM_Basic            = VirtualNetworkGatewaySku_Name_ARM("Basic")
+	VirtualNetworkGatewaySku_Name_ARM_ErGw1AZ          = VirtualNetworkGatewaySku_Name_ARM("ErGw1AZ")
+	VirtualNetworkGatewaySku_Name_ARM_ErGw2AZ          = VirtualNetworkGatewaySku_Name_ARM("ErGw2AZ")
+	VirtualNetworkGatewaySku_Name_ARM_ErGw3AZ          = VirtualNetworkGatewaySku_Name_ARM("ErGw3AZ")
+	VirtualNetworkGatewaySku_Name_ARM_HighPerformance  = VirtualNetworkGatewaySku_Name_ARM("HighPerformance")
+	VirtualNetworkGatewaySku_Name_ARM_Standard         = VirtualNetworkGatewaySku_Name_ARM("Standard")
+	VirtualNetworkGatewaySku_Name_ARM_UltraPerformance = VirtualNetworkGatewaySku_Name_ARM("UltraPerformance")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw1           = VirtualNetworkGatewaySku_Name_ARM("VpnGw1")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw1AZ         = VirtualNetworkGatewaySku_Name_ARM("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw2           = VirtualNetworkGatewaySku_Name_ARM("VpnGw2")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw2AZ         = VirtualNetworkGatewaySku_Name_ARM("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw3           = VirtualNetworkGatewaySku_Name_ARM("VpnGw3")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw3AZ         = VirtualNetworkGatewaySku_Name_ARM("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw4           = VirtualNetworkGatewaySku_Name_ARM("VpnGw4")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw4AZ         = VirtualNetworkGatewaySku_Name_ARM("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw5           = VirtualNetworkGatewaySku_Name_ARM("VpnGw5")
+	VirtualNetworkGatewaySku_Name_ARM_VpnGw5AZ         = VirtualNetworkGatewaySku_Name_ARM("VpnGw5AZ")
+)
+
+// Mapping from string to VirtualNetworkGatewaySku_Name_ARM
+var virtualNetworkGatewaySku_Name_ARM_Values = map[string]VirtualNetworkGatewaySku_Name_ARM{
+	"basic":            VirtualNetworkGatewaySku_Name_ARM_Basic,
+	"ergw1az":          VirtualNetworkGatewaySku_Name_ARM_ErGw1AZ,
+	"ergw2az":          VirtualNetworkGatewaySku_Name_ARM_ErGw2AZ,
+	"ergw3az":          VirtualNetworkGatewaySku_Name_ARM_ErGw3AZ,
+	"highperformance":  VirtualNetworkGatewaySku_Name_ARM_HighPerformance,
+	"standard":         VirtualNetworkGatewaySku_Name_ARM_Standard,
+	"ultraperformance": VirtualNetworkGatewaySku_Name_ARM_UltraPerformance,
+	"vpngw1":           VirtualNetworkGatewaySku_Name_ARM_VpnGw1,
+	"vpngw1az":         VirtualNetworkGatewaySku_Name_ARM_VpnGw1AZ,
+	"vpngw2":           VirtualNetworkGatewaySku_Name_ARM_VpnGw2,
+	"vpngw2az":         VirtualNetworkGatewaySku_Name_ARM_VpnGw2AZ,
+	"vpngw3":           VirtualNetworkGatewaySku_Name_ARM_VpnGw3,
+	"vpngw3az":         VirtualNetworkGatewaySku_Name_ARM_VpnGw3AZ,
+	"vpngw4":           VirtualNetworkGatewaySku_Name_ARM_VpnGw4,
+	"vpngw4az":         VirtualNetworkGatewaySku_Name_ARM_VpnGw4AZ,
+	"vpngw5":           VirtualNetworkGatewaySku_Name_ARM_VpnGw5,
+	"vpngw5az":         VirtualNetworkGatewaySku_Name_ARM_VpnGw5AZ,
+}
+
+// +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
+type VirtualNetworkGatewaySku_Tier_ARM string
+
+const (
+	VirtualNetworkGatewaySku_Tier_ARM_Basic            = VirtualNetworkGatewaySku_Tier_ARM("Basic")
+	VirtualNetworkGatewaySku_Tier_ARM_ErGw1AZ          = VirtualNetworkGatewaySku_Tier_ARM("ErGw1AZ")
+	VirtualNetworkGatewaySku_Tier_ARM_ErGw2AZ          = VirtualNetworkGatewaySku_Tier_ARM("ErGw2AZ")
+	VirtualNetworkGatewaySku_Tier_ARM_ErGw3AZ          = VirtualNetworkGatewaySku_Tier_ARM("ErGw3AZ")
+	VirtualNetworkGatewaySku_Tier_ARM_HighPerformance  = VirtualNetworkGatewaySku_Tier_ARM("HighPerformance")
+	VirtualNetworkGatewaySku_Tier_ARM_Standard         = VirtualNetworkGatewaySku_Tier_ARM("Standard")
+	VirtualNetworkGatewaySku_Tier_ARM_UltraPerformance = VirtualNetworkGatewaySku_Tier_ARM("UltraPerformance")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw1           = VirtualNetworkGatewaySku_Tier_ARM("VpnGw1")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw1AZ         = VirtualNetworkGatewaySku_Tier_ARM("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw2           = VirtualNetworkGatewaySku_Tier_ARM("VpnGw2")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw2AZ         = VirtualNetworkGatewaySku_Tier_ARM("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw3           = VirtualNetworkGatewaySku_Tier_ARM("VpnGw3")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw3AZ         = VirtualNetworkGatewaySku_Tier_ARM("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw4           = VirtualNetworkGatewaySku_Tier_ARM("VpnGw4")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw4AZ         = VirtualNetworkGatewaySku_Tier_ARM("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw5           = VirtualNetworkGatewaySku_Tier_ARM("VpnGw5")
+	VirtualNetworkGatewaySku_Tier_ARM_VpnGw5AZ         = VirtualNetworkGatewaySku_Tier_ARM("VpnGw5AZ")
+)
+
+// Mapping from string to VirtualNetworkGatewaySku_Tier_ARM
+var virtualNetworkGatewaySku_Tier_ARM_Values = map[string]VirtualNetworkGatewaySku_Tier_ARM{
+	"basic":            VirtualNetworkGatewaySku_Tier_ARM_Basic,
+	"ergw1az":          VirtualNetworkGatewaySku_Tier_ARM_ErGw1AZ,
+	"ergw2az":          VirtualNetworkGatewaySku_Tier_ARM_ErGw2AZ,
+	"ergw3az":          VirtualNetworkGatewaySku_Tier_ARM_ErGw3AZ,
+	"highperformance":  VirtualNetworkGatewaySku_Tier_ARM_HighPerformance,
+	"standard":         VirtualNetworkGatewaySku_Tier_ARM_Standard,
+	"ultraperformance": VirtualNetworkGatewaySku_Tier_ARM_UltraPerformance,
+	"vpngw1":           VirtualNetworkGatewaySku_Tier_ARM_VpnGw1,
+	"vpngw1az":         VirtualNetworkGatewaySku_Tier_ARM_VpnGw1AZ,
+	"vpngw2":           VirtualNetworkGatewaySku_Tier_ARM_VpnGw2,
+	"vpngw2az":         VirtualNetworkGatewaySku_Tier_ARM_VpnGw2AZ,
+	"vpngw3":           VirtualNetworkGatewaySku_Tier_ARM_VpnGw3,
+	"vpngw3az":         VirtualNetworkGatewaySku_Tier_ARM_VpnGw3AZ,
+	"vpngw4":           VirtualNetworkGatewaySku_Tier_ARM_VpnGw4,
+	"vpngw4az":         VirtualNetworkGatewaySku_Tier_ARM_VpnGw4AZ,
+	"vpngw5":           VirtualNetworkGatewaySku_Tier_ARM_VpnGw5,
+	"vpngw5az":         VirtualNetworkGatewaySku_Tier_ARM_VpnGw5AZ,
+}
+
+// +kubebuilder:validation:Enum={"AAD","Certificate","Radius"}
+type VpnClientConfiguration_VpnAuthenticationTypes_ARM string
+
+const (
+	VpnClientConfiguration_VpnAuthenticationTypes_ARM_AAD         = VpnClientConfiguration_VpnAuthenticationTypes_ARM("AAD")
+	VpnClientConfiguration_VpnAuthenticationTypes_ARM_Certificate = VpnClientConfiguration_VpnAuthenticationTypes_ARM("Certificate")
+	VpnClientConfiguration_VpnAuthenticationTypes_ARM_Radius      = VpnClientConfiguration_VpnAuthenticationTypes_ARM("Radius")
+)
+
+// Mapping from string to VpnClientConfiguration_VpnAuthenticationTypes_ARM
+var vpnClientConfiguration_VpnAuthenticationTypes_ARM_Values = map[string]VpnClientConfiguration_VpnAuthenticationTypes_ARM{
+	"aad":         VpnClientConfiguration_VpnAuthenticationTypes_ARM_AAD,
+	"certificate": VpnClientConfiguration_VpnAuthenticationTypes_ARM_Certificate,
+	"radius":      VpnClientConfiguration_VpnAuthenticationTypes_ARM_Radius,
+}
+
+// +kubebuilder:validation:Enum={"IkeV2","OpenVPN","SSTP"}
+type VpnClientConfiguration_VpnClientProtocols_ARM string
+
+const (
+	VpnClientConfiguration_VpnClientProtocols_ARM_IkeV2   = VpnClientConfiguration_VpnClientProtocols_ARM("IkeV2")
+	VpnClientConfiguration_VpnClientProtocols_ARM_OpenVPN = VpnClientConfiguration_VpnClientProtocols_ARM("OpenVPN")
+	VpnClientConfiguration_VpnClientProtocols_ARM_SSTP    = VpnClientConfiguration_VpnClientProtocols_ARM("SSTP")
+)
+
+// Mapping from string to VpnClientConfiguration_VpnClientProtocols_ARM
+var vpnClientConfiguration_VpnClientProtocols_ARM_Values = map[string]VpnClientConfiguration_VpnClientProtocols_ARM{
+	"ikev2":   VpnClientConfiguration_VpnClientProtocols_ARM_IkeV2,
+	"openvpn": VpnClientConfiguration_VpnClientProtocols_ARM_OpenVPN,
+	"sstp":    VpnClientConfiguration_VpnClientProtocols_ARM_SSTP,
 }
 
 // VPN client revoked certificate of virtual network gateway.
@@ -243,6 +409,162 @@ type VpnClientRootCertificate_ARM struct {
 
 	// Properties: Properties of the vpn client root certificate.
 	Properties *VpnClientRootCertificatePropertiesFormat_ARM `json:"properties,omitempty"`
+}
+
+// The DH Groups used in IKE Phase 1 for initial SA.
+// +kubebuilder:validation:Enum={"DHGroup1","DHGroup14","DHGroup2","DHGroup2048","DHGroup24","ECP256","ECP384","None"}
+type DhGroup_ARM string
+
+const (
+	DhGroup_ARM_DHGroup1    = DhGroup_ARM("DHGroup1")
+	DhGroup_ARM_DHGroup14   = DhGroup_ARM("DHGroup14")
+	DhGroup_ARM_DHGroup2    = DhGroup_ARM("DHGroup2")
+	DhGroup_ARM_DHGroup2048 = DhGroup_ARM("DHGroup2048")
+	DhGroup_ARM_DHGroup24   = DhGroup_ARM("DHGroup24")
+	DhGroup_ARM_ECP256      = DhGroup_ARM("ECP256")
+	DhGroup_ARM_ECP384      = DhGroup_ARM("ECP384")
+	DhGroup_ARM_None        = DhGroup_ARM("None")
+)
+
+// Mapping from string to DhGroup_ARM
+var dhGroup_ARM_Values = map[string]DhGroup_ARM{
+	"dhgroup1":    DhGroup_ARM_DHGroup1,
+	"dhgroup14":   DhGroup_ARM_DHGroup14,
+	"dhgroup2":    DhGroup_ARM_DHGroup2,
+	"dhgroup2048": DhGroup_ARM_DHGroup2048,
+	"dhgroup24":   DhGroup_ARM_DHGroup24,
+	"ecp256":      DhGroup_ARM_ECP256,
+	"ecp384":      DhGroup_ARM_ECP384,
+	"none":        DhGroup_ARM_None,
+}
+
+// The IKE encryption algorithm (IKE phase 2).
+// +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES256"}
+type IkeEncryption_ARM string
+
+const (
+	IkeEncryption_ARM_AES128    = IkeEncryption_ARM("AES128")
+	IkeEncryption_ARM_AES192    = IkeEncryption_ARM("AES192")
+	IkeEncryption_ARM_AES256    = IkeEncryption_ARM("AES256")
+	IkeEncryption_ARM_DES       = IkeEncryption_ARM("DES")
+	IkeEncryption_ARM_DES3      = IkeEncryption_ARM("DES3")
+	IkeEncryption_ARM_GCMAES128 = IkeEncryption_ARM("GCMAES128")
+	IkeEncryption_ARM_GCMAES256 = IkeEncryption_ARM("GCMAES256")
+)
+
+// Mapping from string to IkeEncryption_ARM
+var ikeEncryption_ARM_Values = map[string]IkeEncryption_ARM{
+	"aes128":    IkeEncryption_ARM_AES128,
+	"aes192":    IkeEncryption_ARM_AES192,
+	"aes256":    IkeEncryption_ARM_AES256,
+	"des":       IkeEncryption_ARM_DES,
+	"des3":      IkeEncryption_ARM_DES3,
+	"gcmaes128": IkeEncryption_ARM_GCMAES128,
+	"gcmaes256": IkeEncryption_ARM_GCMAES256,
+}
+
+// The IKE integrity algorithm (IKE phase 2).
+// +kubebuilder:validation:Enum={"GCMAES128","GCMAES256","MD5","SHA1","SHA256","SHA384"}
+type IkeIntegrity_ARM string
+
+const (
+	IkeIntegrity_ARM_GCMAES128 = IkeIntegrity_ARM("GCMAES128")
+	IkeIntegrity_ARM_GCMAES256 = IkeIntegrity_ARM("GCMAES256")
+	IkeIntegrity_ARM_MD5       = IkeIntegrity_ARM("MD5")
+	IkeIntegrity_ARM_SHA1      = IkeIntegrity_ARM("SHA1")
+	IkeIntegrity_ARM_SHA256    = IkeIntegrity_ARM("SHA256")
+	IkeIntegrity_ARM_SHA384    = IkeIntegrity_ARM("SHA384")
+)
+
+// Mapping from string to IkeIntegrity_ARM
+var ikeIntegrity_ARM_Values = map[string]IkeIntegrity_ARM{
+	"gcmaes128": IkeIntegrity_ARM_GCMAES128,
+	"gcmaes256": IkeIntegrity_ARM_GCMAES256,
+	"md5":       IkeIntegrity_ARM_MD5,
+	"sha1":      IkeIntegrity_ARM_SHA1,
+	"sha256":    IkeIntegrity_ARM_SHA256,
+	"sha384":    IkeIntegrity_ARM_SHA384,
+}
+
+// The IPSec encryption algorithm (IKE phase 1).
+// +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES192","GCMAES256","None"}
+type IpsecEncryption_ARM string
+
+const (
+	IpsecEncryption_ARM_AES128    = IpsecEncryption_ARM("AES128")
+	IpsecEncryption_ARM_AES192    = IpsecEncryption_ARM("AES192")
+	IpsecEncryption_ARM_AES256    = IpsecEncryption_ARM("AES256")
+	IpsecEncryption_ARM_DES       = IpsecEncryption_ARM("DES")
+	IpsecEncryption_ARM_DES3      = IpsecEncryption_ARM("DES3")
+	IpsecEncryption_ARM_GCMAES128 = IpsecEncryption_ARM("GCMAES128")
+	IpsecEncryption_ARM_GCMAES192 = IpsecEncryption_ARM("GCMAES192")
+	IpsecEncryption_ARM_GCMAES256 = IpsecEncryption_ARM("GCMAES256")
+	IpsecEncryption_ARM_None      = IpsecEncryption_ARM("None")
+)
+
+// Mapping from string to IpsecEncryption_ARM
+var ipsecEncryption_ARM_Values = map[string]IpsecEncryption_ARM{
+	"aes128":    IpsecEncryption_ARM_AES128,
+	"aes192":    IpsecEncryption_ARM_AES192,
+	"aes256":    IpsecEncryption_ARM_AES256,
+	"des":       IpsecEncryption_ARM_DES,
+	"des3":      IpsecEncryption_ARM_DES3,
+	"gcmaes128": IpsecEncryption_ARM_GCMAES128,
+	"gcmaes192": IpsecEncryption_ARM_GCMAES192,
+	"gcmaes256": IpsecEncryption_ARM_GCMAES256,
+	"none":      IpsecEncryption_ARM_None,
+}
+
+// The IPSec integrity algorithm (IKE phase 1).
+// +kubebuilder:validation:Enum={"GCMAES128","GCMAES192","GCMAES256","MD5","SHA1","SHA256"}
+type IpsecIntegrity_ARM string
+
+const (
+	IpsecIntegrity_ARM_GCMAES128 = IpsecIntegrity_ARM("GCMAES128")
+	IpsecIntegrity_ARM_GCMAES192 = IpsecIntegrity_ARM("GCMAES192")
+	IpsecIntegrity_ARM_GCMAES256 = IpsecIntegrity_ARM("GCMAES256")
+	IpsecIntegrity_ARM_MD5       = IpsecIntegrity_ARM("MD5")
+	IpsecIntegrity_ARM_SHA1      = IpsecIntegrity_ARM("SHA1")
+	IpsecIntegrity_ARM_SHA256    = IpsecIntegrity_ARM("SHA256")
+)
+
+// Mapping from string to IpsecIntegrity_ARM
+var ipsecIntegrity_ARM_Values = map[string]IpsecIntegrity_ARM{
+	"gcmaes128": IpsecIntegrity_ARM_GCMAES128,
+	"gcmaes192": IpsecIntegrity_ARM_GCMAES192,
+	"gcmaes256": IpsecIntegrity_ARM_GCMAES256,
+	"md5":       IpsecIntegrity_ARM_MD5,
+	"sha1":      IpsecIntegrity_ARM_SHA1,
+	"sha256":    IpsecIntegrity_ARM_SHA256,
+}
+
+// The Pfs Groups used in IKE Phase 2 for new child SA.
+// +kubebuilder:validation:Enum={"ECP256","ECP384","None","PFS1","PFS14","PFS2","PFS2048","PFS24","PFSMM"}
+type PfsGroup_ARM string
+
+const (
+	PfsGroup_ARM_ECP256  = PfsGroup_ARM("ECP256")
+	PfsGroup_ARM_ECP384  = PfsGroup_ARM("ECP384")
+	PfsGroup_ARM_None    = PfsGroup_ARM("None")
+	PfsGroup_ARM_PFS1    = PfsGroup_ARM("PFS1")
+	PfsGroup_ARM_PFS14   = PfsGroup_ARM("PFS14")
+	PfsGroup_ARM_PFS2    = PfsGroup_ARM("PFS2")
+	PfsGroup_ARM_PFS2048 = PfsGroup_ARM("PFS2048")
+	PfsGroup_ARM_PFS24   = PfsGroup_ARM("PFS24")
+	PfsGroup_ARM_PFSMM   = PfsGroup_ARM("PFSMM")
+)
+
+// Mapping from string to PfsGroup_ARM
+var pfsGroup_ARM_Values = map[string]PfsGroup_ARM{
+	"ecp256":  PfsGroup_ARM_ECP256,
+	"ecp384":  PfsGroup_ARM_ECP384,
+	"none":    PfsGroup_ARM_None,
+	"pfs1":    PfsGroup_ARM_PFS1,
+	"pfs14":   PfsGroup_ARM_PFS14,
+	"pfs2":    PfsGroup_ARM_PFS2,
+	"pfs2048": PfsGroup_ARM_PFS2048,
+	"pfs24":   PfsGroup_ARM_PFS24,
+	"pfsmm":   PfsGroup_ARM_PFSMM,
 }
 
 // Properties of the revoked VPN client certificate of virtual network gateway.

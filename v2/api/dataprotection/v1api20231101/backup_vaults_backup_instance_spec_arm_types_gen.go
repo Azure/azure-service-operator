@@ -59,7 +59,7 @@ type BackupInstance_ARM struct {
 
 	// ValidationType: Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API
 	// will run again.
-	ValidationType *BackupInstance_ValidationType `json:"validationType,omitempty"`
+	ValidationType *BackupInstance_ValidationType_ARM `json:"validationType,omitempty"`
 }
 
 type AuthCredentials_ARM struct {
@@ -93,17 +93,17 @@ func (credentials *AuthCredentials_ARM) UnmarshalJSON(data []byte) error {
 }
 
 // +kubebuilder:validation:Enum={"DeepValidation","ShallowValidation"}
-type BackupInstance_ValidationType string
+type BackupInstance_ValidationType_ARM string
 
 const (
-	BackupInstance_ValidationType_DeepValidation    = BackupInstance_ValidationType("DeepValidation")
-	BackupInstance_ValidationType_ShallowValidation = BackupInstance_ValidationType("ShallowValidation")
+	BackupInstance_ValidationType_ARM_DeepValidation    = BackupInstance_ValidationType_ARM("DeepValidation")
+	BackupInstance_ValidationType_ARM_ShallowValidation = BackupInstance_ValidationType_ARM("ShallowValidation")
 )
 
-// Mapping from string to BackupInstance_ValidationType
-var backupInstance_ValidationType_Values = map[string]BackupInstance_ValidationType{
-	"deepvalidation":    BackupInstance_ValidationType_DeepValidation,
-	"shallowvalidation": BackupInstance_ValidationType_ShallowValidation,
+// Mapping from string to BackupInstance_ValidationType_ARM
+var backupInstance_ValidationType_ARM_Values = map[string]BackupInstance_ValidationType_ARM{
+	"deepvalidation":    BackupInstance_ValidationType_ARM_DeepValidation,
+	"shallowvalidation": BackupInstance_ValidationType_ARM_ShallowValidation,
 }
 
 // Datasource to be backed up
@@ -213,7 +213,7 @@ type PolicyParameters_ARM struct {
 
 type SecretStoreBasedAuthCredentials_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType SecretStoreBasedAuthCredentials_ObjectType `json:"objectType,omitempty"`
+	ObjectType SecretStoreBasedAuthCredentials_ObjectType_ARM `json:"objectType,omitempty"`
 
 	// SecretStoreResource: Secret store resource
 	SecretStoreResource *SecretStoreResource_ARM `json:"secretStoreResource,omitempty"`
@@ -291,23 +291,23 @@ func (parameters *DataStoreParameters_ARM) UnmarshalJSON(data []byte) error {
 
 type DefaultResourceProperties_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType DefaultResourceProperties_ObjectType `json:"objectType,omitempty"`
+	ObjectType DefaultResourceProperties_ObjectType_ARM `json:"objectType,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"SecretStoreBasedAuthCredentials"}
-type SecretStoreBasedAuthCredentials_ObjectType string
+type SecretStoreBasedAuthCredentials_ObjectType_ARM string
 
-const SecretStoreBasedAuthCredentials_ObjectType_SecretStoreBasedAuthCredentials = SecretStoreBasedAuthCredentials_ObjectType("SecretStoreBasedAuthCredentials")
+const SecretStoreBasedAuthCredentials_ObjectType_ARM_SecretStoreBasedAuthCredentials = SecretStoreBasedAuthCredentials_ObjectType_ARM("SecretStoreBasedAuthCredentials")
 
-// Mapping from string to SecretStoreBasedAuthCredentials_ObjectType
-var secretStoreBasedAuthCredentials_ObjectType_Values = map[string]SecretStoreBasedAuthCredentials_ObjectType{
-	"secretstorebasedauthcredentials": SecretStoreBasedAuthCredentials_ObjectType_SecretStoreBasedAuthCredentials,
+// Mapping from string to SecretStoreBasedAuthCredentials_ObjectType_ARM
+var secretStoreBasedAuthCredentials_ObjectType_ARM_Values = map[string]SecretStoreBasedAuthCredentials_ObjectType_ARM{
+	"secretstorebasedauthcredentials": SecretStoreBasedAuthCredentials_ObjectType_ARM_SecretStoreBasedAuthCredentials,
 }
 
 // Class representing a secret store resource.
 type SecretStoreResource_ARM struct {
 	// SecretStoreType: Gets or sets the type of secret store
-	SecretStoreType *SecretStoreResource_SecretStoreType `json:"secretStoreType,omitempty"`
+	SecretStoreType *SecretStoreResource_SecretStoreType_ARM `json:"secretStoreType,omitempty"`
 
 	// Uri: Uri to get to the resource
 	Uri *string `json:"uri,omitempty"`
@@ -318,11 +318,11 @@ type SecretStoreResource_ARM struct {
 
 type AzureOperationalStoreParameters_ARM struct {
 	// DataStoreType: type of datastore; Operational/Vault/Archive
-	DataStoreType *AzureOperationalStoreParameters_DataStoreType `json:"dataStoreType,omitempty"`
+	DataStoreType *AzureOperationalStoreParameters_DataStoreType_ARM `json:"dataStoreType,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType      AzureOperationalStoreParameters_ObjectType `json:"objectType,omitempty"`
-	ResourceGroupId *string                                    `json:"resourceGroupId,omitempty"`
+	ObjectType      AzureOperationalStoreParameters_ObjectType_ARM `json:"objectType,omitempty"`
+	ResourceGroupId *string                                        `json:"resourceGroupId,omitempty"`
 }
 
 type BlobBackupDatasourceParameters_ARM struct {
@@ -330,17 +330,17 @@ type BlobBackupDatasourceParameters_ARM struct {
 	ContainersList []string `json:"containersList,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType BlobBackupDatasourceParameters_ObjectType `json:"objectType,omitempty"`
+	ObjectType BlobBackupDatasourceParameters_ObjectType_ARM `json:"objectType,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"DefaultResourceProperties"}
-type DefaultResourceProperties_ObjectType string
+type DefaultResourceProperties_ObjectType_ARM string
 
-const DefaultResourceProperties_ObjectType_DefaultResourceProperties = DefaultResourceProperties_ObjectType("DefaultResourceProperties")
+const DefaultResourceProperties_ObjectType_ARM_DefaultResourceProperties = DefaultResourceProperties_ObjectType_ARM("DefaultResourceProperties")
 
-// Mapping from string to DefaultResourceProperties_ObjectType
-var defaultResourceProperties_ObjectType_Values = map[string]DefaultResourceProperties_ObjectType{
-	"defaultresourceproperties": DefaultResourceProperties_ObjectType_DefaultResourceProperties,
+// Mapping from string to DefaultResourceProperties_ObjectType_ARM
+var defaultResourceProperties_ObjectType_ARM_Values = map[string]DefaultResourceProperties_ObjectType_ARM{
+	"defaultresourceproperties": DefaultResourceProperties_ObjectType_ARM_DefaultResourceProperties,
 }
 
 type KubernetesClusterBackupDatasourceParameters_ARM struct {
@@ -373,7 +373,7 @@ type KubernetesClusterBackupDatasourceParameters_ARM struct {
 	LabelSelectors []string `json:"labelSelectors,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType KubernetesClusterBackupDatasourceParameters_ObjectType `json:"objectType,omitempty"`
+	ObjectType KubernetesClusterBackupDatasourceParameters_ObjectType_ARM `json:"objectType,omitempty"`
 
 	// SnapshotVolumes: Gets or sets the volume snapshot property. This property if enabled will take volume snapshots during
 	// backup.
@@ -381,63 +381,63 @@ type KubernetesClusterBackupDatasourceParameters_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"AzureKeyVault","Invalid"}
-type SecretStoreResource_SecretStoreType string
+type SecretStoreResource_SecretStoreType_ARM string
 
 const (
-	SecretStoreResource_SecretStoreType_AzureKeyVault = SecretStoreResource_SecretStoreType("AzureKeyVault")
-	SecretStoreResource_SecretStoreType_Invalid       = SecretStoreResource_SecretStoreType("Invalid")
+	SecretStoreResource_SecretStoreType_ARM_AzureKeyVault = SecretStoreResource_SecretStoreType_ARM("AzureKeyVault")
+	SecretStoreResource_SecretStoreType_ARM_Invalid       = SecretStoreResource_SecretStoreType_ARM("Invalid")
 )
 
-// Mapping from string to SecretStoreResource_SecretStoreType
-var secretStoreResource_SecretStoreType_Values = map[string]SecretStoreResource_SecretStoreType{
-	"azurekeyvault": SecretStoreResource_SecretStoreType_AzureKeyVault,
-	"invalid":       SecretStoreResource_SecretStoreType_Invalid,
+// Mapping from string to SecretStoreResource_SecretStoreType_ARM
+var secretStoreResource_SecretStoreType_ARM_Values = map[string]SecretStoreResource_SecretStoreType_ARM{
+	"azurekeyvault": SecretStoreResource_SecretStoreType_ARM_AzureKeyVault,
+	"invalid":       SecretStoreResource_SecretStoreType_ARM_Invalid,
 }
 
 // +kubebuilder:validation:Enum={"ArchiveStore","OperationalStore","VaultStore"}
-type AzureOperationalStoreParameters_DataStoreType string
+type AzureOperationalStoreParameters_DataStoreType_ARM string
 
 const (
-	AzureOperationalStoreParameters_DataStoreType_ArchiveStore     = AzureOperationalStoreParameters_DataStoreType("ArchiveStore")
-	AzureOperationalStoreParameters_DataStoreType_OperationalStore = AzureOperationalStoreParameters_DataStoreType("OperationalStore")
-	AzureOperationalStoreParameters_DataStoreType_VaultStore       = AzureOperationalStoreParameters_DataStoreType("VaultStore")
+	AzureOperationalStoreParameters_DataStoreType_ARM_ArchiveStore     = AzureOperationalStoreParameters_DataStoreType_ARM("ArchiveStore")
+	AzureOperationalStoreParameters_DataStoreType_ARM_OperationalStore = AzureOperationalStoreParameters_DataStoreType_ARM("OperationalStore")
+	AzureOperationalStoreParameters_DataStoreType_ARM_VaultStore       = AzureOperationalStoreParameters_DataStoreType_ARM("VaultStore")
 )
 
-// Mapping from string to AzureOperationalStoreParameters_DataStoreType
-var azureOperationalStoreParameters_DataStoreType_Values = map[string]AzureOperationalStoreParameters_DataStoreType{
-	"archivestore":     AzureOperationalStoreParameters_DataStoreType_ArchiveStore,
-	"operationalstore": AzureOperationalStoreParameters_DataStoreType_OperationalStore,
-	"vaultstore":       AzureOperationalStoreParameters_DataStoreType_VaultStore,
+// Mapping from string to AzureOperationalStoreParameters_DataStoreType_ARM
+var azureOperationalStoreParameters_DataStoreType_ARM_Values = map[string]AzureOperationalStoreParameters_DataStoreType_ARM{
+	"archivestore":     AzureOperationalStoreParameters_DataStoreType_ARM_ArchiveStore,
+	"operationalstore": AzureOperationalStoreParameters_DataStoreType_ARM_OperationalStore,
+	"vaultstore":       AzureOperationalStoreParameters_DataStoreType_ARM_VaultStore,
 }
 
 // +kubebuilder:validation:Enum={"AzureOperationalStoreParameters"}
-type AzureOperationalStoreParameters_ObjectType string
+type AzureOperationalStoreParameters_ObjectType_ARM string
 
-const AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters = AzureOperationalStoreParameters_ObjectType("AzureOperationalStoreParameters")
+const AzureOperationalStoreParameters_ObjectType_ARM_AzureOperationalStoreParameters = AzureOperationalStoreParameters_ObjectType_ARM("AzureOperationalStoreParameters")
 
-// Mapping from string to AzureOperationalStoreParameters_ObjectType
-var azureOperationalStoreParameters_ObjectType_Values = map[string]AzureOperationalStoreParameters_ObjectType{
-	"azureoperationalstoreparameters": AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters,
+// Mapping from string to AzureOperationalStoreParameters_ObjectType_ARM
+var azureOperationalStoreParameters_ObjectType_ARM_Values = map[string]AzureOperationalStoreParameters_ObjectType_ARM{
+	"azureoperationalstoreparameters": AzureOperationalStoreParameters_ObjectType_ARM_AzureOperationalStoreParameters,
 }
 
 // +kubebuilder:validation:Enum={"BlobBackupDatasourceParameters"}
-type BlobBackupDatasourceParameters_ObjectType string
+type BlobBackupDatasourceParameters_ObjectType_ARM string
 
-const BlobBackupDatasourceParameters_ObjectType_BlobBackupDatasourceParameters = BlobBackupDatasourceParameters_ObjectType("BlobBackupDatasourceParameters")
+const BlobBackupDatasourceParameters_ObjectType_ARM_BlobBackupDatasourceParameters = BlobBackupDatasourceParameters_ObjectType_ARM("BlobBackupDatasourceParameters")
 
-// Mapping from string to BlobBackupDatasourceParameters_ObjectType
-var blobBackupDatasourceParameters_ObjectType_Values = map[string]BlobBackupDatasourceParameters_ObjectType{
-	"blobbackupdatasourceparameters": BlobBackupDatasourceParameters_ObjectType_BlobBackupDatasourceParameters,
+// Mapping from string to BlobBackupDatasourceParameters_ObjectType_ARM
+var blobBackupDatasourceParameters_ObjectType_ARM_Values = map[string]BlobBackupDatasourceParameters_ObjectType_ARM{
+	"blobbackupdatasourceparameters": BlobBackupDatasourceParameters_ObjectType_ARM_BlobBackupDatasourceParameters,
 }
 
 // +kubebuilder:validation:Enum={"KubernetesClusterBackupDatasourceParameters"}
-type KubernetesClusterBackupDatasourceParameters_ObjectType string
+type KubernetesClusterBackupDatasourceParameters_ObjectType_ARM string
 
-const KubernetesClusterBackupDatasourceParameters_ObjectType_KubernetesClusterBackupDatasourceParameters = KubernetesClusterBackupDatasourceParameters_ObjectType("KubernetesClusterBackupDatasourceParameters")
+const KubernetesClusterBackupDatasourceParameters_ObjectType_ARM_KubernetesClusterBackupDatasourceParameters = KubernetesClusterBackupDatasourceParameters_ObjectType_ARM("KubernetesClusterBackupDatasourceParameters")
 
-// Mapping from string to KubernetesClusterBackupDatasourceParameters_ObjectType
-var kubernetesClusterBackupDatasourceParameters_ObjectType_Values = map[string]KubernetesClusterBackupDatasourceParameters_ObjectType{
-	"kubernetesclusterbackupdatasourceparameters": KubernetesClusterBackupDatasourceParameters_ObjectType_KubernetesClusterBackupDatasourceParameters,
+// Mapping from string to KubernetesClusterBackupDatasourceParameters_ObjectType_ARM
+var kubernetesClusterBackupDatasourceParameters_ObjectType_ARM_Values = map[string]KubernetesClusterBackupDatasourceParameters_ObjectType_ARM{
+	"kubernetesclusterbackupdatasourceparameters": KubernetesClusterBackupDatasourceParameters_ObjectType_ARM_KubernetesClusterBackupDatasourceParameters,
 }
 
 // Class to refer resources which contains namespace and name

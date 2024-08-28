@@ -293,7 +293,7 @@ func ExtensionStatus_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForExtensionStatus_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Level"] = gen.PtrOf(gen.OneConstOf(ExtensionStatus_Level_STATUS_Error, ExtensionStatus_Level_STATUS_Information, ExtensionStatus_Level_STATUS_Warning))
+	gens["Level"] = gen.PtrOf(gen.OneConstOf(ExtensionStatus_Level_STATUS_ARM_Error, ExtensionStatus_Level_STATUS_ARM_Information, ExtensionStatus_Level_STATUS_ARM_Warning))
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
 	gens["Time"] = gen.PtrOf(gen.AlphaString())
 }
@@ -358,7 +358,7 @@ func Extension_Properties_AksAssignedIdentity_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned, Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM_SystemAssigned, Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 func Test_Extension_Properties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -443,12 +443,12 @@ func AddIndependentPropertyGeneratorsForExtension_Properties_STATUS_ARM(gens map
 	gens["IsSystemExtension"] = gen.PtrOf(gen.Bool())
 	gens["PackageUri"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDefinition_STATUS_Canceled,
-		ProvisioningStateDefinition_STATUS_Creating,
-		ProvisioningStateDefinition_STATUS_Deleting,
-		ProvisioningStateDefinition_STATUS_Failed,
-		ProvisioningStateDefinition_STATUS_Succeeded,
-		ProvisioningStateDefinition_STATUS_Updating))
+		ProvisioningStateDefinition_STATUS_ARM_Canceled,
+		ProvisioningStateDefinition_STATUS_ARM_Creating,
+		ProvisioningStateDefinition_STATUS_ARM_Deleting,
+		ProvisioningStateDefinition_STATUS_ARM_Failed,
+		ProvisioningStateDefinition_STATUS_ARM_Succeeded,
+		ProvisioningStateDefinition_STATUS_ARM_Updating))
 	gens["ReleaseTrain"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
@@ -601,7 +601,7 @@ func Identity_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_STATUS_SystemAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_STATUS_ARM_SystemAssigned))
 }
 
 func Test_Plan_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -912,15 +912,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }

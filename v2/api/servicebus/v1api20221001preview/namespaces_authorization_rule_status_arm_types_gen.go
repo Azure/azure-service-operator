@@ -26,5 +26,20 @@ type Namespaces_AuthorizationRule_STATUS_ARM struct {
 
 type Namespaces_AuthorizationRule_Properties_STATUS_ARM struct {
 	// Rights: The rights associated with the rule.
-	Rights []Namespaces_AuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
+	Rights []Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM `json:"rights,omitempty"`
+}
+
+type Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM string
+
+const (
+	Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM_Listen = Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM("Listen")
+	Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM_Manage = Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM("Manage")
+	Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM_Send   = Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM("Send")
+)
+
+// Mapping from string to Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM
+var namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM_Values = map[string]Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM{
+	"listen": Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM_Listen,
+	"manage": Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM_Manage,
+	"send":   Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM_Send,
 }

@@ -30,17 +30,30 @@ type ForwardingRuleProperties_STATUS_ARM struct {
 	DomainName *string `json:"domainName,omitempty"`
 
 	// ForwardingRuleState: The state of forwarding rule.
-	ForwardingRuleState *ForwardingRuleProperties_ForwardingRuleState_STATUS `json:"forwardingRuleState,omitempty"`
+	ForwardingRuleState *ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM `json:"forwardingRuleState,omitempty"`
 
 	// Metadata: Metadata attached to the forwarding rule.
 	Metadata map[string]string `json:"metadata,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the forwarding rule. This is a read-only property and any attempt
 	// to set this value will be ignored.
-	ProvisioningState *DnsresolverProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *DnsresolverProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// TargetDnsServers: DNS servers to forward the DNS query to.
 	TargetDnsServers []TargetDnsServer_STATUS_ARM `json:"targetDnsServers,omitempty"`
+}
+
+type ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM string
+
+const (
+	ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM_Disabled = ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM("Disabled")
+	ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM_Enabled  = ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM
+var forwardingRuleProperties_ForwardingRuleState_STATUS_ARM_Values = map[string]ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM{
+	"disabled": ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM_Disabled,
+	"enabled":  ForwardingRuleProperties_ForwardingRuleState_STATUS_ARM_Enabled,
 }
 
 // Describes a server to forward the DNS queries to.

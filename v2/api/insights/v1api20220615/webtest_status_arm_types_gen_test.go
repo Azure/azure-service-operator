@@ -350,7 +350,7 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_STATUS_ARM(gens map[st
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(WebTestProperties_Kind_STATUS_Multistep, WebTestProperties_Kind_STATUS_Ping, WebTestProperties_Kind_STATUS_Standard))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(WebTestProperties_Kind_STATUS_ARM_Multistep, WebTestProperties_Kind_STATUS_ARM_Ping, WebTestProperties_Kind_STATUS_ARM_Standard))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())

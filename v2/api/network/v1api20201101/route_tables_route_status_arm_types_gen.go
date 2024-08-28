@@ -33,8 +33,28 @@ type RoutePropertiesFormat_STATUS_ARM struct {
 	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
 
 	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RouteNextHopType_STATUS `json:"nextHopType,omitempty"`
+	NextHopType *RouteNextHopType_STATUS_ARM `json:"nextHopType,omitempty"`
 
 	// ProvisioningState: The provisioning state of the route resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
+}
+
+// The type of Azure hop the packet should be sent to.
+type RouteNextHopType_STATUS_ARM string
+
+const (
+	RouteNextHopType_STATUS_ARM_Internet              = RouteNextHopType_STATUS_ARM("Internet")
+	RouteNextHopType_STATUS_ARM_None                  = RouteNextHopType_STATUS_ARM("None")
+	RouteNextHopType_STATUS_ARM_VirtualAppliance      = RouteNextHopType_STATUS_ARM("VirtualAppliance")
+	RouteNextHopType_STATUS_ARM_VirtualNetworkGateway = RouteNextHopType_STATUS_ARM("VirtualNetworkGateway")
+	RouteNextHopType_STATUS_ARM_VnetLocal             = RouteNextHopType_STATUS_ARM("VnetLocal")
+)
+
+// Mapping from string to RouteNextHopType_STATUS_ARM
+var routeNextHopType_STATUS_ARM_Values = map[string]RouteNextHopType_STATUS_ARM{
+	"internet":              RouteNextHopType_STATUS_ARM_Internet,
+	"none":                  RouteNextHopType_STATUS_ARM_None,
+	"virtualappliance":      RouteNextHopType_STATUS_ARM_VirtualAppliance,
+	"virtualnetworkgateway": RouteNextHopType_STATUS_ARM_VirtualNetworkGateway,
+	"vnetlocal":             RouteNextHopType_STATUS_ARM_VnetLocal,
 }

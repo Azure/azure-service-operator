@@ -1151,7 +1151,9 @@ func (identity *ArmIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ArmIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -1182,7 +1184,9 @@ func (identity *ArmIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ArmIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1336,7 +1340,9 @@ func (identity *ArmIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ArmIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -1649,7 +1655,9 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Features":
 	if properties.Features != nil {
-		features := *properties.Features
+		var temp string
+		temp = string(*properties.Features)
+		features := IotHubProperties_Features_ARM(temp)
 		result.Features = &features
 	}
 
@@ -1692,7 +1700,9 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "PublicNetworkAccess":
 	if properties.PublicNetworkAccess != nil {
-		publicNetworkAccess := *properties.PublicNetworkAccess
+		var temp string
+		temp = string(*properties.PublicNetworkAccess)
+		publicNetworkAccess := IotHubProperties_PublicNetworkAccess_ARM(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -1815,7 +1825,9 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Features":
 	if typedInput.Features != nil {
-		features := *typedInput.Features
+		var temp string
+		temp = string(*typedInput.Features)
+		features := IotHubProperties_Features(temp)
 		properties.Features = &features
 	}
 
@@ -1861,7 +1873,9 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		var temp string
+		temp = string(*typedInput.PublicNetworkAccess)
+		publicNetworkAccess := IotHubProperties_PublicNetworkAccess(temp)
 		properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -2702,7 +2716,9 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Features":
 	if typedInput.Features != nil {
-		features := *typedInput.Features
+		var temp string
+		temp = string(*typedInput.Features)
+		features := IotHubProperties_Features_STATUS(temp)
 		properties.Features = &features
 	}
 
@@ -2780,7 +2796,9 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		var temp string
+		temp = string(*typedInput.PublicNetworkAccess)
+		publicNetworkAccess := IotHubProperties_PublicNetworkAccess_STATUS(temp)
 		properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -3365,7 +3383,9 @@ func (info *IotHubSkuInfo) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Name":
 	if info.Name != nil {
-		name := *info.Name
+		var temp string
+		temp = string(*info.Name)
+		name := IotHubSkuInfo_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -3391,7 +3411,9 @@ func (info *IotHubSkuInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := IotHubSkuInfo_Name(temp)
 		info.Name = &name
 	}
 
@@ -3498,13 +3520,17 @@ func (info *IotHubSkuInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := IotHubSkuInfo_Name_STATUS(temp)
 		info.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := IotHubSkuInfo_Tier_STATUS(temp)
 		info.Tier = &tier
 	}
 
@@ -3624,7 +3650,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -3642,7 +3670,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -3729,6 +3759,41 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type ArmIdentity_Type string
+
+const (
+	ArmIdentity_Type_None                       = ArmIdentity_Type("None")
+	ArmIdentity_Type_SystemAssigned             = ArmIdentity_Type("SystemAssigned")
+	ArmIdentity_Type_SystemAssignedUserAssigned = ArmIdentity_Type("SystemAssigned, UserAssigned")
+	ArmIdentity_Type_UserAssigned               = ArmIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to ArmIdentity_Type
+var armIdentity_Type_Values = map[string]ArmIdentity_Type{
+	"none":                         ArmIdentity_Type_None,
+	"systemassigned":               ArmIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": ArmIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 ArmIdentity_Type_UserAssigned,
+}
+
+type ArmIdentity_Type_STATUS string
+
+const (
+	ArmIdentity_Type_STATUS_None                       = ArmIdentity_Type_STATUS("None")
+	ArmIdentity_Type_STATUS_SystemAssigned             = ArmIdentity_Type_STATUS("SystemAssigned")
+	ArmIdentity_Type_STATUS_SystemAssignedUserAssigned = ArmIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	ArmIdentity_Type_STATUS_UserAssigned               = ArmIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to ArmIdentity_Type_STATUS
+var armIdentity_Type_STATUS_Values = map[string]ArmIdentity_Type_STATUS{
+	"none":                         ArmIdentity_Type_STATUS_None,
+	"systemassigned":               ArmIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ArmIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ArmIdentity_Type_STATUS_UserAssigned,
 }
 
 type ArmUserIdentity_STATUS struct {
@@ -4365,7 +4430,9 @@ func (description *IotHubLocationDescription_STATUS) PopulateFromARM(owner genru
 
 	// Set property "Role":
 	if typedInput.Role != nil {
-		role := *typedInput.Role
+		var temp string
+		temp = string(*typedInput.Role)
+		role := IotHubLocationDescription_Role_STATUS(temp)
 		description.Role = &role
 	}
 
@@ -4644,6 +4711,122 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"DeviceManagement","None"}
+type IotHubProperties_Features string
+
+const (
+	IotHubProperties_Features_DeviceManagement = IotHubProperties_Features("DeviceManagement")
+	IotHubProperties_Features_None             = IotHubProperties_Features("None")
+)
+
+// Mapping from string to IotHubProperties_Features
+var iotHubProperties_Features_Values = map[string]IotHubProperties_Features{
+	"devicemanagement": IotHubProperties_Features_DeviceManagement,
+	"none":             IotHubProperties_Features_None,
+}
+
+type IotHubProperties_Features_STATUS string
+
+const (
+	IotHubProperties_Features_STATUS_DeviceManagement = IotHubProperties_Features_STATUS("DeviceManagement")
+	IotHubProperties_Features_STATUS_None             = IotHubProperties_Features_STATUS("None")
+)
+
+// Mapping from string to IotHubProperties_Features_STATUS
+var iotHubProperties_Features_STATUS_Values = map[string]IotHubProperties_Features_STATUS{
+	"devicemanagement": IotHubProperties_Features_STATUS_DeviceManagement,
+	"none":             IotHubProperties_Features_STATUS_None,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type IotHubProperties_PublicNetworkAccess string
+
+const (
+	IotHubProperties_PublicNetworkAccess_Disabled = IotHubProperties_PublicNetworkAccess("Disabled")
+	IotHubProperties_PublicNetworkAccess_Enabled  = IotHubProperties_PublicNetworkAccess("Enabled")
+)
+
+// Mapping from string to IotHubProperties_PublicNetworkAccess
+var iotHubProperties_PublicNetworkAccess_Values = map[string]IotHubProperties_PublicNetworkAccess{
+	"disabled": IotHubProperties_PublicNetworkAccess_Disabled,
+	"enabled":  IotHubProperties_PublicNetworkAccess_Enabled,
+}
+
+type IotHubProperties_PublicNetworkAccess_STATUS string
+
+const (
+	IotHubProperties_PublicNetworkAccess_STATUS_Disabled = IotHubProperties_PublicNetworkAccess_STATUS("Disabled")
+	IotHubProperties_PublicNetworkAccess_STATUS_Enabled  = IotHubProperties_PublicNetworkAccess_STATUS("Enabled")
+)
+
+// Mapping from string to IotHubProperties_PublicNetworkAccess_STATUS
+var iotHubProperties_PublicNetworkAccess_STATUS_Values = map[string]IotHubProperties_PublicNetworkAccess_STATUS{
+	"disabled": IotHubProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  IotHubProperties_PublicNetworkAccess_STATUS_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"B1","B2","B3","F1","S1","S2","S3"}
+type IotHubSkuInfo_Name string
+
+const (
+	IotHubSkuInfo_Name_B1 = IotHubSkuInfo_Name("B1")
+	IotHubSkuInfo_Name_B2 = IotHubSkuInfo_Name("B2")
+	IotHubSkuInfo_Name_B3 = IotHubSkuInfo_Name("B3")
+	IotHubSkuInfo_Name_F1 = IotHubSkuInfo_Name("F1")
+	IotHubSkuInfo_Name_S1 = IotHubSkuInfo_Name("S1")
+	IotHubSkuInfo_Name_S2 = IotHubSkuInfo_Name("S2")
+	IotHubSkuInfo_Name_S3 = IotHubSkuInfo_Name("S3")
+)
+
+// Mapping from string to IotHubSkuInfo_Name
+var iotHubSkuInfo_Name_Values = map[string]IotHubSkuInfo_Name{
+	"b1": IotHubSkuInfo_Name_B1,
+	"b2": IotHubSkuInfo_Name_B2,
+	"b3": IotHubSkuInfo_Name_B3,
+	"f1": IotHubSkuInfo_Name_F1,
+	"s1": IotHubSkuInfo_Name_S1,
+	"s2": IotHubSkuInfo_Name_S2,
+	"s3": IotHubSkuInfo_Name_S3,
+}
+
+type IotHubSkuInfo_Name_STATUS string
+
+const (
+	IotHubSkuInfo_Name_STATUS_B1 = IotHubSkuInfo_Name_STATUS("B1")
+	IotHubSkuInfo_Name_STATUS_B2 = IotHubSkuInfo_Name_STATUS("B2")
+	IotHubSkuInfo_Name_STATUS_B3 = IotHubSkuInfo_Name_STATUS("B3")
+	IotHubSkuInfo_Name_STATUS_F1 = IotHubSkuInfo_Name_STATUS("F1")
+	IotHubSkuInfo_Name_STATUS_S1 = IotHubSkuInfo_Name_STATUS("S1")
+	IotHubSkuInfo_Name_STATUS_S2 = IotHubSkuInfo_Name_STATUS("S2")
+	IotHubSkuInfo_Name_STATUS_S3 = IotHubSkuInfo_Name_STATUS("S3")
+)
+
+// Mapping from string to IotHubSkuInfo_Name_STATUS
+var iotHubSkuInfo_Name_STATUS_Values = map[string]IotHubSkuInfo_Name_STATUS{
+	"b1": IotHubSkuInfo_Name_STATUS_B1,
+	"b2": IotHubSkuInfo_Name_STATUS_B2,
+	"b3": IotHubSkuInfo_Name_STATUS_B3,
+	"f1": IotHubSkuInfo_Name_STATUS_F1,
+	"s1": IotHubSkuInfo_Name_STATUS_S1,
+	"s2": IotHubSkuInfo_Name_STATUS_S2,
+	"s3": IotHubSkuInfo_Name_STATUS_S3,
+}
+
+type IotHubSkuInfo_Tier_STATUS string
+
+const (
+	IotHubSkuInfo_Tier_STATUS_Basic    = IotHubSkuInfo_Tier_STATUS("Basic")
+	IotHubSkuInfo_Tier_STATUS_Free     = IotHubSkuInfo_Tier_STATUS("Free")
+	IotHubSkuInfo_Tier_STATUS_Standard = IotHubSkuInfo_Tier_STATUS("Standard")
+)
+
+// Mapping from string to IotHubSkuInfo_Tier_STATUS
+var iotHubSkuInfo_Tier_STATUS_Values = map[string]IotHubSkuInfo_Tier_STATUS{
+	"basic":    IotHubSkuInfo_Tier_STATUS_Basic,
+	"free":     IotHubSkuInfo_Tier_STATUS_Free,
+	"standard": IotHubSkuInfo_Tier_STATUS_Standard,
+}
+
 // The IP filter rules for the IoT hub.
 type IpFilterRule struct {
 	// +kubebuilder:validation:Required
@@ -4670,7 +4853,9 @@ func (rule *IpFilterRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property "Action":
 	if rule.Action != nil {
-		action := *rule.Action
+		var temp string
+		temp = string(*rule.Action)
+		action := IpFilterRule_Action_ARM(temp)
 		result.Action = &action
 	}
 
@@ -4702,7 +4887,9 @@ func (rule *IpFilterRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := IpFilterRule_Action(temp)
 		rule.Action = &action
 	}
 
@@ -4823,7 +5010,9 @@ func (rule *IpFilterRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := IpFilterRule_Action_STATUS(temp)
 		rule.Action = &action
 	}
 
@@ -5168,7 +5357,9 @@ func (properties *NetworkRuleSetProperties) ConvertToARM(resolved genruntime.Con
 
 	// Set property "DefaultAction":
 	if properties.DefaultAction != nil {
-		defaultAction := *properties.DefaultAction
+		var temp string
+		temp = string(*properties.DefaultAction)
+		defaultAction := NetworkRuleSetProperties_DefaultAction_ARM(temp)
 		result.DefaultAction = &defaultAction
 	}
 
@@ -5203,7 +5394,9 @@ func (properties *NetworkRuleSetProperties) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := NetworkRuleSetProperties_DefaultAction(temp)
 		properties.DefaultAction = &defaultAction
 	}
 
@@ -5388,7 +5581,9 @@ func (properties *NetworkRuleSetProperties_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := NetworkRuleSetProperties_DefaultAction_STATUS(temp)
 		properties.DefaultAction = &defaultAction
 	}
 
@@ -6149,7 +6344,9 @@ func (rule *SharedAccessSignatureAuthorizationRule) ConvertToARM(resolved genrun
 
 	// Set property "Rights":
 	if rule.Rights != nil {
-		rights := *rule.Rights
+		var temp string
+		temp = string(*rule.Rights)
+		rights := SharedAccessSignatureAuthorizationRule_Rights_ARM(temp)
 		result.Rights = &rights
 	}
 	return result, nil
@@ -6175,7 +6372,9 @@ func (rule *SharedAccessSignatureAuthorizationRule) PopulateFromARM(owner genrun
 
 	// Set property "Rights":
 	if typedInput.Rights != nil {
-		rights := *typedInput.Rights
+		var temp string
+		temp = string(*typedInput.Rights)
+		rights := SharedAccessSignatureAuthorizationRule_Rights(temp)
 		rule.Rights = &rights
 	}
 
@@ -6278,7 +6477,9 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) PopulateFromARM(owner
 
 	// Set property "Rights":
 	if typedInput.Rights != nil {
-		rights := *typedInput.Rights
+		var temp string
+		temp = string(*typedInput.Rights)
+		rights := SharedAccessSignatureAuthorizationRule_Rights_STATUS(temp)
 		rule.Rights = &rights
 	}
 
@@ -6365,7 +6566,9 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
-		authenticationType := *properties.AuthenticationType
+		var temp string
+		temp = string(*properties.AuthenticationType)
+		authenticationType := StorageEndpointProperties_AuthenticationType_ARM(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -6417,7 +6620,9 @@ func (properties *StorageEndpointProperties) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := StorageEndpointProperties_AuthenticationType(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -6608,7 +6813,9 @@ func (properties *StorageEndpointProperties_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := StorageEndpointProperties_AuthenticationType_STATUS(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -6713,6 +6920,40 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageE
 
 	// No error
 	return nil
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // Information about the user assigned identity for the resource
@@ -7062,7 +7303,9 @@ func (properties *FallbackRouteProperties) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Source":
 	if properties.Source != nil {
-		source := *properties.Source
+		var temp string
+		temp = string(*properties.Source)
+		source := FallbackRouteProperties_Source_ARM(temp)
 		result.Source = &source
 	}
 	return result, nil
@@ -7105,7 +7348,9 @@ func (properties *FallbackRouteProperties) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Source":
 	if typedInput.Source != nil {
-		source := *typedInput.Source
+		var temp string
+		temp = string(*typedInput.Source)
+		source := FallbackRouteProperties_Source(temp)
 		properties.Source = &source
 	}
 
@@ -7310,7 +7555,9 @@ func (properties *FallbackRouteProperties_STATUS) PopulateFromARM(owner genrunti
 
 	// Set property "Source":
 	if typedInput.Source != nil {
-		source := *typedInput.Source
+		var temp string
+		temp = string(*typedInput.Source)
+		source := FallbackRouteProperties_Source_STATUS(temp)
 		properties.Source = &source
 	}
 
@@ -7636,6 +7883,46 @@ func (properties *FeedbackProperties_STATUS) AssignProperties_To_FeedbackPropert
 	return nil
 }
 
+type IotHubLocationDescription_Role_STATUS string
+
+const (
+	IotHubLocationDescription_Role_STATUS_Primary   = IotHubLocationDescription_Role_STATUS("primary")
+	IotHubLocationDescription_Role_STATUS_Secondary = IotHubLocationDescription_Role_STATUS("secondary")
+)
+
+// Mapping from string to IotHubLocationDescription_Role_STATUS
+var iotHubLocationDescription_Role_STATUS_Values = map[string]IotHubLocationDescription_Role_STATUS{
+	"primary":   IotHubLocationDescription_Role_STATUS_Primary,
+	"secondary": IotHubLocationDescription_Role_STATUS_Secondary,
+}
+
+// +kubebuilder:validation:Enum={"Accept","Reject"}
+type IpFilterRule_Action string
+
+const (
+	IpFilterRule_Action_Accept = IpFilterRule_Action("Accept")
+	IpFilterRule_Action_Reject = IpFilterRule_Action("Reject")
+)
+
+// Mapping from string to IpFilterRule_Action
+var ipFilterRule_Action_Values = map[string]IpFilterRule_Action{
+	"accept": IpFilterRule_Action_Accept,
+	"reject": IpFilterRule_Action_Reject,
+}
+
+type IpFilterRule_Action_STATUS string
+
+const (
+	IpFilterRule_Action_STATUS_Accept = IpFilterRule_Action_STATUS("Accept")
+	IpFilterRule_Action_STATUS_Reject = IpFilterRule_Action_STATUS("Reject")
+)
+
+// Mapping from string to IpFilterRule_Action_STATUS
+var ipFilterRule_Action_STATUS_Values = map[string]IpFilterRule_Action_STATUS{
+	"accept": IpFilterRule_Action_STATUS_Accept,
+	"reject": IpFilterRule_Action_STATUS_Reject,
+}
+
 // The properties of the Managed identity.
 type ManagedIdentity struct {
 	// UserAssignedIdentity: The user assigned identity.
@@ -7804,7 +8091,9 @@ func (rule *NetworkRuleSetIpRule) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Action":
 	if rule.Action != nil {
-		action := *rule.Action
+		var temp string
+		temp = string(*rule.Action)
+		action := NetworkRuleSetIpRule_Action_ARM(temp)
 		result.Action = &action
 	}
 
@@ -7836,7 +8125,9 @@ func (rule *NetworkRuleSetIpRule) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := NetworkRuleSetIpRule_Action(temp)
 		rule.Action = &action
 	}
 
@@ -7957,7 +8248,9 @@ func (rule *NetworkRuleSetIpRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := NetworkRuleSetIpRule_Action_STATUS(temp)
 		rule.Action = &action
 	}
 
@@ -8029,6 +8322,33 @@ func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_To_NetworkRuleSetIpRul
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Allow","Deny"}
+type NetworkRuleSetProperties_DefaultAction string
+
+const (
+	NetworkRuleSetProperties_DefaultAction_Allow = NetworkRuleSetProperties_DefaultAction("Allow")
+	NetworkRuleSetProperties_DefaultAction_Deny  = NetworkRuleSetProperties_DefaultAction("Deny")
+)
+
+// Mapping from string to NetworkRuleSetProperties_DefaultAction
+var networkRuleSetProperties_DefaultAction_Values = map[string]NetworkRuleSetProperties_DefaultAction{
+	"allow": NetworkRuleSetProperties_DefaultAction_Allow,
+	"deny":  NetworkRuleSetProperties_DefaultAction_Deny,
+}
+
+type NetworkRuleSetProperties_DefaultAction_STATUS string
+
+const (
+	NetworkRuleSetProperties_DefaultAction_STATUS_Allow = NetworkRuleSetProperties_DefaultAction_STATUS("Allow")
+	NetworkRuleSetProperties_DefaultAction_STATUS_Deny  = NetworkRuleSetProperties_DefaultAction_STATUS("Deny")
+)
+
+// Mapping from string to NetworkRuleSetProperties_DefaultAction_STATUS
+var networkRuleSetProperties_DefaultAction_STATUS_Values = map[string]NetworkRuleSetProperties_DefaultAction_STATUS{
+	"allow": NetworkRuleSetProperties_DefaultAction_STATUS_Allow,
+	"deny":  NetworkRuleSetProperties_DefaultAction_STATUS_Deny,
+}
+
 // The properties of a routing rule that your IoT hub uses to route messages to endpoints.
 type RouteProperties struct {
 	// Condition: The condition that is evaluated to apply the routing rule. If no condition is provided, it evaluates to true
@@ -8091,7 +8411,9 @@ func (properties *RouteProperties) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Source":
 	if properties.Source != nil {
-		source := *properties.Source
+		var temp string
+		temp = string(*properties.Source)
+		source := RouteProperties_Source_ARM(temp)
 		result.Source = &source
 	}
 	return result, nil
@@ -8134,7 +8456,9 @@ func (properties *RouteProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "Source":
 	if typedInput.Source != nil {
-		source := *typedInput.Source
+		var temp string
+		temp = string(*typedInput.Source)
+		source := RouteProperties_Source(temp)
 		properties.Source = &source
 	}
 
@@ -8353,7 +8677,9 @@ func (properties *RouteProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "Source":
 	if typedInput.Source != nil {
-		source := *typedInput.Source
+		var temp string
+		temp = string(*typedInput.Source)
+		source := RouteProperties_Source_STATUS(temp)
 		properties.Source = &source
 	}
 
@@ -9049,6 +9375,193 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"DeviceConnect","RegistryRead","RegistryRead, DeviceConnect","RegistryRead, RegistryWrite","RegistryRead, RegistryWrite, DeviceConnect","RegistryRead, RegistryWrite, ServiceConnect","RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect","RegistryRead, ServiceConnect","RegistryRead, ServiceConnect, DeviceConnect","RegistryWrite","RegistryWrite, DeviceConnect","RegistryWrite, ServiceConnect","RegistryWrite, ServiceConnect, DeviceConnect","ServiceConnect","ServiceConnect, DeviceConnect"}
+type SharedAccessSignatureAuthorizationRule_Rights string
+
+const (
+	SharedAccessSignatureAuthorizationRule_Rights_DeviceConnect                                        = SharedAccessSignatureAuthorizationRule_Rights("DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryRead                                         = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadDeviceConnect                            = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWrite                            = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, RegistryWrite")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteDeviceConnect               = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, RegistryWrite, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnect              = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, RegistryWrite, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnectDeviceConnect = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnect                           = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnectDeviceConnect              = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryWrite                                        = SharedAccessSignatureAuthorizationRule_Rights("RegistryWrite")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteDeviceConnect                           = SharedAccessSignatureAuthorizationRule_Rights("RegistryWrite, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnect                          = SharedAccessSignatureAuthorizationRule_Rights("RegistryWrite, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnectDeviceConnect             = SharedAccessSignatureAuthorizationRule_Rights("RegistryWrite, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ServiceConnect                                       = SharedAccessSignatureAuthorizationRule_Rights("ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ServiceConnectDeviceConnect                          = SharedAccessSignatureAuthorizationRule_Rights("ServiceConnect, DeviceConnect")
+)
+
+// Mapping from string to SharedAccessSignatureAuthorizationRule_Rights
+var sharedAccessSignatureAuthorizationRule_Rights_Values = map[string]SharedAccessSignatureAuthorizationRule_Rights{
+	"deviceconnect":                                              SharedAccessSignatureAuthorizationRule_Rights_DeviceConnect,
+	"registryread":                                               SharedAccessSignatureAuthorizationRule_Rights_RegistryRead,
+	"registryread, deviceconnect":                                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadDeviceConnect,
+	"registryread, registrywrite":                                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWrite,
+	"registryread, registrywrite, deviceconnect":                 SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteDeviceConnect,
+	"registryread, registrywrite, serviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnect,
+	"registryread, registrywrite, serviceconnect, deviceconnect": SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnectDeviceConnect,
+	"registryread, serviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnect,
+	"registryread, serviceconnect, deviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnectDeviceConnect,
+	"registrywrite":                                              SharedAccessSignatureAuthorizationRule_Rights_RegistryWrite,
+	"registrywrite, deviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteDeviceConnect,
+	"registrywrite, serviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnect,
+	"registrywrite, serviceconnect, deviceconnect":               SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnectDeviceConnect,
+	"serviceconnect":                                             SharedAccessSignatureAuthorizationRule_Rights_ServiceConnect,
+	"serviceconnect, deviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_ServiceConnectDeviceConnect,
+}
+
+type SharedAccessSignatureAuthorizationRule_Rights_STATUS string
+
+const (
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_DeviceConnect                                        = SharedAccessSignatureAuthorizationRule_Rights_STATUS("DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryRead                                         = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadDeviceConnect                            = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWrite                            = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, RegistryWrite")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteDeviceConnect               = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, RegistryWrite, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnect              = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, RegistryWrite, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnectDeviceConnect = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnect                           = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnectDeviceConnect              = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryRead, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWrite                                        = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryWrite")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteDeviceConnect                           = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryWrite, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnect                          = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryWrite, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnectDeviceConnect             = SharedAccessSignatureAuthorizationRule_Rights_STATUS("RegistryWrite, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnect                                       = SharedAccessSignatureAuthorizationRule_Rights_STATUS("ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnectDeviceConnect                          = SharedAccessSignatureAuthorizationRule_Rights_STATUS("ServiceConnect, DeviceConnect")
+)
+
+// Mapping from string to SharedAccessSignatureAuthorizationRule_Rights_STATUS
+var sharedAccessSignatureAuthorizationRule_Rights_STATUS_Values = map[string]SharedAccessSignatureAuthorizationRule_Rights_STATUS{
+	"deviceconnect":                                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_DeviceConnect,
+	"registryread":                                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryRead,
+	"registryread, deviceconnect":                                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadDeviceConnect,
+	"registryread, registrywrite":                                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWrite,
+	"registryread, registrywrite, deviceconnect":                 SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteDeviceConnect,
+	"registryread, registrywrite, serviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnect,
+	"registryread, registrywrite, serviceconnect, deviceconnect": SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnectDeviceConnect,
+	"registryread, serviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnect,
+	"registryread, serviceconnect, deviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnectDeviceConnect,
+	"registrywrite":                                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWrite,
+	"registrywrite, deviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteDeviceConnect,
+	"registrywrite, serviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnect,
+	"registrywrite, serviceconnect, deviceconnect":               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnectDeviceConnect,
+	"serviceconnect":                                             SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnect,
+	"serviceconnect, deviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnectDeviceConnect,
+}
+
+// +kubebuilder:validation:Enum={"identityBased","keyBased"}
+type StorageEndpointProperties_AuthenticationType string
+
+const (
+	StorageEndpointProperties_AuthenticationType_IdentityBased = StorageEndpointProperties_AuthenticationType("identityBased")
+	StorageEndpointProperties_AuthenticationType_KeyBased      = StorageEndpointProperties_AuthenticationType("keyBased")
+)
+
+// Mapping from string to StorageEndpointProperties_AuthenticationType
+var storageEndpointProperties_AuthenticationType_Values = map[string]StorageEndpointProperties_AuthenticationType{
+	"identitybased": StorageEndpointProperties_AuthenticationType_IdentityBased,
+	"keybased":      StorageEndpointProperties_AuthenticationType_KeyBased,
+}
+
+type StorageEndpointProperties_AuthenticationType_STATUS string
+
+const (
+	StorageEndpointProperties_AuthenticationType_STATUS_IdentityBased = StorageEndpointProperties_AuthenticationType_STATUS("identityBased")
+	StorageEndpointProperties_AuthenticationType_STATUS_KeyBased      = StorageEndpointProperties_AuthenticationType_STATUS("keyBased")
+)
+
+// Mapping from string to StorageEndpointProperties_AuthenticationType_STATUS
+var storageEndpointProperties_AuthenticationType_STATUS_Values = map[string]StorageEndpointProperties_AuthenticationType_STATUS{
+	"identitybased": StorageEndpointProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      StorageEndpointProperties_AuthenticationType_STATUS_KeyBased,
+}
+
+// +kubebuilder:validation:Enum={"DeviceMessages"}
+type FallbackRouteProperties_Source string
+
+const FallbackRouteProperties_Source_DeviceMessages = FallbackRouteProperties_Source("DeviceMessages")
+
+// Mapping from string to FallbackRouteProperties_Source
+var fallbackRouteProperties_Source_Values = map[string]FallbackRouteProperties_Source{
+	"devicemessages": FallbackRouteProperties_Source_DeviceMessages,
+}
+
+type FallbackRouteProperties_Source_STATUS string
+
+const FallbackRouteProperties_Source_STATUS_DeviceMessages = FallbackRouteProperties_Source_STATUS("DeviceMessages")
+
+// Mapping from string to FallbackRouteProperties_Source_STATUS
+var fallbackRouteProperties_Source_STATUS_Values = map[string]FallbackRouteProperties_Source_STATUS{
+	"devicemessages": FallbackRouteProperties_Source_STATUS_DeviceMessages,
+}
+
+// +kubebuilder:validation:Enum={"Allow"}
+type NetworkRuleSetIpRule_Action string
+
+const NetworkRuleSetIpRule_Action_Allow = NetworkRuleSetIpRule_Action("Allow")
+
+// Mapping from string to NetworkRuleSetIpRule_Action
+var networkRuleSetIpRule_Action_Values = map[string]NetworkRuleSetIpRule_Action{
+	"allow": NetworkRuleSetIpRule_Action_Allow,
+}
+
+type NetworkRuleSetIpRule_Action_STATUS string
+
+const NetworkRuleSetIpRule_Action_STATUS_Allow = NetworkRuleSetIpRule_Action_STATUS("Allow")
+
+// Mapping from string to NetworkRuleSetIpRule_Action_STATUS
+var networkRuleSetIpRule_Action_STATUS_Values = map[string]NetworkRuleSetIpRule_Action_STATUS{
+	"allow": NetworkRuleSetIpRule_Action_STATUS_Allow,
+}
+
+// +kubebuilder:validation:Enum={"DeviceConnectionStateEvents","DeviceJobLifecycleEvents","DeviceLifecycleEvents","DeviceMessages","Invalid","TwinChangeEvents"}
+type RouteProperties_Source string
+
+const (
+	RouteProperties_Source_DeviceConnectionStateEvents = RouteProperties_Source("DeviceConnectionStateEvents")
+	RouteProperties_Source_DeviceJobLifecycleEvents    = RouteProperties_Source("DeviceJobLifecycleEvents")
+	RouteProperties_Source_DeviceLifecycleEvents       = RouteProperties_Source("DeviceLifecycleEvents")
+	RouteProperties_Source_DeviceMessages              = RouteProperties_Source("DeviceMessages")
+	RouteProperties_Source_Invalid                     = RouteProperties_Source("Invalid")
+	RouteProperties_Source_TwinChangeEvents            = RouteProperties_Source("TwinChangeEvents")
+)
+
+// Mapping from string to RouteProperties_Source
+var routeProperties_Source_Values = map[string]RouteProperties_Source{
+	"deviceconnectionstateevents": RouteProperties_Source_DeviceConnectionStateEvents,
+	"devicejoblifecycleevents":    RouteProperties_Source_DeviceJobLifecycleEvents,
+	"devicelifecycleevents":       RouteProperties_Source_DeviceLifecycleEvents,
+	"devicemessages":              RouteProperties_Source_DeviceMessages,
+	"invalid":                     RouteProperties_Source_Invalid,
+	"twinchangeevents":            RouteProperties_Source_TwinChangeEvents,
+}
+
+type RouteProperties_Source_STATUS string
+
+const (
+	RouteProperties_Source_STATUS_DeviceConnectionStateEvents = RouteProperties_Source_STATUS("DeviceConnectionStateEvents")
+	RouteProperties_Source_STATUS_DeviceJobLifecycleEvents    = RouteProperties_Source_STATUS("DeviceJobLifecycleEvents")
+	RouteProperties_Source_STATUS_DeviceLifecycleEvents       = RouteProperties_Source_STATUS("DeviceLifecycleEvents")
+	RouteProperties_Source_STATUS_DeviceMessages              = RouteProperties_Source_STATUS("DeviceMessages")
+	RouteProperties_Source_STATUS_Invalid                     = RouteProperties_Source_STATUS("Invalid")
+	RouteProperties_Source_STATUS_TwinChangeEvents            = RouteProperties_Source_STATUS("TwinChangeEvents")
+)
+
+// Mapping from string to RouteProperties_Source_STATUS
+var routeProperties_Source_STATUS_Values = map[string]RouteProperties_Source_STATUS{
+	"deviceconnectionstateevents": RouteProperties_Source_STATUS_DeviceConnectionStateEvents,
+	"devicejoblifecycleevents":    RouteProperties_Source_STATUS_DeviceJobLifecycleEvents,
+	"devicelifecycleevents":       RouteProperties_Source_STATUS_DeviceLifecycleEvents,
+	"devicemessages":              RouteProperties_Source_STATUS_DeviceMessages,
+	"invalid":                     RouteProperties_Source_STATUS_Invalid,
+	"twinchangeevents":            RouteProperties_Source_STATUS_TwinChangeEvents,
+}
+
 // The properties related to an event hub endpoint.
 type RoutingEventHubProperties struct {
 	// AuthenticationType: Method used to authenticate against the event hub endpoint
@@ -9094,7 +9607,9 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
-		authenticationType := *properties.AuthenticationType
+		var temp string
+		temp = string(*properties.AuthenticationType)
+		authenticationType := RoutingEventHubProperties_AuthenticationType_ARM(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -9174,7 +9689,9 @@ func (properties *RoutingEventHubProperties) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := RoutingEventHubProperties_AuthenticationType(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -9463,7 +9980,9 @@ func (properties *RoutingEventHubProperties_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := RoutingEventHubProperties_AuthenticationType_STATUS(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -9663,7 +10182,9 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
-		authenticationType := *properties.AuthenticationType
+		var temp string
+		temp = string(*properties.AuthenticationType)
+		authenticationType := RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -9743,7 +10264,9 @@ func (properties *RoutingServiceBusQueueEndpointProperties) PopulateFromARM(owne
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := RoutingServiceBusQueueEndpointProperties_AuthenticationType(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -10032,7 +10555,9 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) PopulateFromA
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -10232,7 +10757,9 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
-		authenticationType := *properties.AuthenticationType
+		var temp string
+		temp = string(*properties.AuthenticationType)
+		authenticationType := RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -10312,7 +10839,9 @@ func (properties *RoutingServiceBusTopicEndpointProperties) PopulateFromARM(owne
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := RoutingServiceBusTopicEndpointProperties_AuthenticationType(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -10601,7 +11130,9 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) PopulateFromA
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -10822,7 +11353,9 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
-		authenticationType := *properties.AuthenticationType
+		var temp string
+		temp = string(*properties.AuthenticationType)
+		authenticationType := RoutingStorageContainerProperties_AuthenticationType_ARM(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -10850,7 +11383,9 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 
 	// Set property "Encoding":
 	if properties.Encoding != nil {
-		encoding := *properties.Encoding
+		var temp string
+		temp = string(*properties.Encoding)
+		encoding := RoutingStorageContainerProperties_Encoding_ARM(temp)
 		result.Encoding = &encoding
 	}
 
@@ -10926,7 +11461,9 @@ func (properties *RoutingStorageContainerProperties) PopulateFromARM(owner genru
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := RoutingStorageContainerProperties_AuthenticationType(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -10946,7 +11483,9 @@ func (properties *RoutingStorageContainerProperties) PopulateFromARM(owner genru
 
 	// Set property "Encoding":
 	if typedInput.Encoding != nil {
-		encoding := *typedInput.Encoding
+		var temp string
+		temp = string(*typedInput.Encoding)
+		encoding := RoutingStorageContainerProperties_Encoding(temp)
 		properties.Encoding = &encoding
 	}
 
@@ -11337,7 +11876,9 @@ func (properties *RoutingStorageContainerProperties_STATUS) PopulateFromARM(owne
 
 	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
-		authenticationType := *typedInput.AuthenticationType
+		var temp string
+		temp = string(*typedInput.AuthenticationType)
+		authenticationType := RoutingStorageContainerProperties_AuthenticationType_STATUS(temp)
 		properties.AuthenticationType = &authenticationType
 	}
 
@@ -11355,7 +11896,9 @@ func (properties *RoutingStorageContainerProperties_STATUS) PopulateFromARM(owne
 
 	// Set property "Encoding":
 	if typedInput.Encoding != nil {
-		encoding := *typedInput.Encoding
+		var temp string
+		temp = string(*typedInput.Encoding)
+		encoding := RoutingStorageContainerProperties_Encoding_STATUS(temp)
 		properties.Encoding = &encoding
 	}
 
@@ -11549,6 +12092,145 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"identityBased","keyBased"}
+type RoutingEventHubProperties_AuthenticationType string
+
+const (
+	RoutingEventHubProperties_AuthenticationType_IdentityBased = RoutingEventHubProperties_AuthenticationType("identityBased")
+	RoutingEventHubProperties_AuthenticationType_KeyBased      = RoutingEventHubProperties_AuthenticationType("keyBased")
+)
+
+// Mapping from string to RoutingEventHubProperties_AuthenticationType
+var routingEventHubProperties_AuthenticationType_Values = map[string]RoutingEventHubProperties_AuthenticationType{
+	"identitybased": RoutingEventHubProperties_AuthenticationType_IdentityBased,
+	"keybased":      RoutingEventHubProperties_AuthenticationType_KeyBased,
+}
+
+type RoutingEventHubProperties_AuthenticationType_STATUS string
+
+const (
+	RoutingEventHubProperties_AuthenticationType_STATUS_IdentityBased = RoutingEventHubProperties_AuthenticationType_STATUS("identityBased")
+	RoutingEventHubProperties_AuthenticationType_STATUS_KeyBased      = RoutingEventHubProperties_AuthenticationType_STATUS("keyBased")
+)
+
+// Mapping from string to RoutingEventHubProperties_AuthenticationType_STATUS
+var routingEventHubProperties_AuthenticationType_STATUS_Values = map[string]RoutingEventHubProperties_AuthenticationType_STATUS{
+	"identitybased": RoutingEventHubProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      RoutingEventHubProperties_AuthenticationType_STATUS_KeyBased,
+}
+
+// +kubebuilder:validation:Enum={"identityBased","keyBased"}
+type RoutingServiceBusQueueEndpointProperties_AuthenticationType string
+
+const (
+	RoutingServiceBusQueueEndpointProperties_AuthenticationType_IdentityBased = RoutingServiceBusQueueEndpointProperties_AuthenticationType("identityBased")
+	RoutingServiceBusQueueEndpointProperties_AuthenticationType_KeyBased      = RoutingServiceBusQueueEndpointProperties_AuthenticationType("keyBased")
+)
+
+// Mapping from string to RoutingServiceBusQueueEndpointProperties_AuthenticationType
+var routingServiceBusQueueEndpointProperties_AuthenticationType_Values = map[string]RoutingServiceBusQueueEndpointProperties_AuthenticationType{
+	"identitybased": RoutingServiceBusQueueEndpointProperties_AuthenticationType_IdentityBased,
+	"keybased":      RoutingServiceBusQueueEndpointProperties_AuthenticationType_KeyBased,
+}
+
+type RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS string
+
+const (
+	RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_IdentityBased = RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS("identityBased")
+	RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_KeyBased      = RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS("keyBased")
+)
+
+// Mapping from string to RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS
+var routingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_Values = map[string]RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS{
+	"identitybased": RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_KeyBased,
+}
+
+// +kubebuilder:validation:Enum={"identityBased","keyBased"}
+type RoutingServiceBusTopicEndpointProperties_AuthenticationType string
+
+const (
+	RoutingServiceBusTopicEndpointProperties_AuthenticationType_IdentityBased = RoutingServiceBusTopicEndpointProperties_AuthenticationType("identityBased")
+	RoutingServiceBusTopicEndpointProperties_AuthenticationType_KeyBased      = RoutingServiceBusTopicEndpointProperties_AuthenticationType("keyBased")
+)
+
+// Mapping from string to RoutingServiceBusTopicEndpointProperties_AuthenticationType
+var routingServiceBusTopicEndpointProperties_AuthenticationType_Values = map[string]RoutingServiceBusTopicEndpointProperties_AuthenticationType{
+	"identitybased": RoutingServiceBusTopicEndpointProperties_AuthenticationType_IdentityBased,
+	"keybased":      RoutingServiceBusTopicEndpointProperties_AuthenticationType_KeyBased,
+}
+
+type RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS string
+
+const (
+	RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_IdentityBased = RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS("identityBased")
+	RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_KeyBased      = RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS("keyBased")
+)
+
+// Mapping from string to RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS
+var routingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_Values = map[string]RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS{
+	"identitybased": RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_KeyBased,
+}
+
+// +kubebuilder:validation:Enum={"identityBased","keyBased"}
+type RoutingStorageContainerProperties_AuthenticationType string
+
+const (
+	RoutingStorageContainerProperties_AuthenticationType_IdentityBased = RoutingStorageContainerProperties_AuthenticationType("identityBased")
+	RoutingStorageContainerProperties_AuthenticationType_KeyBased      = RoutingStorageContainerProperties_AuthenticationType("keyBased")
+)
+
+// Mapping from string to RoutingStorageContainerProperties_AuthenticationType
+var routingStorageContainerProperties_AuthenticationType_Values = map[string]RoutingStorageContainerProperties_AuthenticationType{
+	"identitybased": RoutingStorageContainerProperties_AuthenticationType_IdentityBased,
+	"keybased":      RoutingStorageContainerProperties_AuthenticationType_KeyBased,
+}
+
+type RoutingStorageContainerProperties_AuthenticationType_STATUS string
+
+const (
+	RoutingStorageContainerProperties_AuthenticationType_STATUS_IdentityBased = RoutingStorageContainerProperties_AuthenticationType_STATUS("identityBased")
+	RoutingStorageContainerProperties_AuthenticationType_STATUS_KeyBased      = RoutingStorageContainerProperties_AuthenticationType_STATUS("keyBased")
+)
+
+// Mapping from string to RoutingStorageContainerProperties_AuthenticationType_STATUS
+var routingStorageContainerProperties_AuthenticationType_STATUS_Values = map[string]RoutingStorageContainerProperties_AuthenticationType_STATUS{
+	"identitybased": RoutingStorageContainerProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      RoutingStorageContainerProperties_AuthenticationType_STATUS_KeyBased,
+}
+
+// +kubebuilder:validation:Enum={"Avro","AvroDeflate","JSON"}
+type RoutingStorageContainerProperties_Encoding string
+
+const (
+	RoutingStorageContainerProperties_Encoding_Avro        = RoutingStorageContainerProperties_Encoding("Avro")
+	RoutingStorageContainerProperties_Encoding_AvroDeflate = RoutingStorageContainerProperties_Encoding("AvroDeflate")
+	RoutingStorageContainerProperties_Encoding_JSON        = RoutingStorageContainerProperties_Encoding("JSON")
+)
+
+// Mapping from string to RoutingStorageContainerProperties_Encoding
+var routingStorageContainerProperties_Encoding_Values = map[string]RoutingStorageContainerProperties_Encoding{
+	"avro":        RoutingStorageContainerProperties_Encoding_Avro,
+	"avrodeflate": RoutingStorageContainerProperties_Encoding_AvroDeflate,
+	"json":        RoutingStorageContainerProperties_Encoding_JSON,
+}
+
+type RoutingStorageContainerProperties_Encoding_STATUS string
+
+const (
+	RoutingStorageContainerProperties_Encoding_STATUS_Avro        = RoutingStorageContainerProperties_Encoding_STATUS("Avro")
+	RoutingStorageContainerProperties_Encoding_STATUS_AvroDeflate = RoutingStorageContainerProperties_Encoding_STATUS("AvroDeflate")
+	RoutingStorageContainerProperties_Encoding_STATUS_JSON        = RoutingStorageContainerProperties_Encoding_STATUS("JSON")
+)
+
+// Mapping from string to RoutingStorageContainerProperties_Encoding_STATUS
+var routingStorageContainerProperties_Encoding_STATUS_Values = map[string]RoutingStorageContainerProperties_Encoding_STATUS{
+	"avro":        RoutingStorageContainerProperties_Encoding_STATUS_Avro,
+	"avrodeflate": RoutingStorageContainerProperties_Encoding_STATUS_AvroDeflate,
+	"json":        RoutingStorageContainerProperties_Encoding_STATUS_JSON,
 }
 
 func init() {

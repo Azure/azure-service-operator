@@ -43,7 +43,7 @@ func (workspace *Workspace_Spec_ARM) GetType() string {
 // The workspace managed identity
 type ManagedIdentity_ARM struct {
 	// Type: The type of managed identity for the workspace
-	Type                   *ManagedIdentity_Type                      `json:"type,omitempty"`
+	Type                   *ManagedIdentity_Type_ARM                  `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -74,7 +74,7 @@ type WorkspaceProperties_ARM struct {
 	ManagedVirtualNetworkSettings *ManagedVirtualNetworkSettings_ARM `json:"managedVirtualNetworkSettings,omitempty"`
 
 	// PublicNetworkAccess: Enable or Disable public network access to workspace
-	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// PurviewConfiguration: Purview Configuration
 	PurviewConfiguration *PurviewConfiguration_ARM `json:"purviewConfiguration,omitempty"`
@@ -121,19 +121,19 @@ type EncryptionDetails_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned"}
-type ManagedIdentity_Type string
+type ManagedIdentity_Type_ARM string
 
 const (
-	ManagedIdentity_Type_None                       = ManagedIdentity_Type("None")
-	ManagedIdentity_Type_SystemAssigned             = ManagedIdentity_Type("SystemAssigned")
-	ManagedIdentity_Type_SystemAssignedUserAssigned = ManagedIdentity_Type("SystemAssigned,UserAssigned")
+	ManagedIdentity_Type_ARM_None                       = ManagedIdentity_Type_ARM("None")
+	ManagedIdentity_Type_ARM_SystemAssigned             = ManagedIdentity_Type_ARM("SystemAssigned")
+	ManagedIdentity_Type_ARM_SystemAssignedUserAssigned = ManagedIdentity_Type_ARM("SystemAssigned,UserAssigned")
 )
 
-// Mapping from string to ManagedIdentity_Type
-var managedIdentity_Type_Values = map[string]ManagedIdentity_Type{
-	"none":                        ManagedIdentity_Type_None,
-	"systemassigned":              ManagedIdentity_Type_SystemAssigned,
-	"systemassigned,userassigned": ManagedIdentity_Type_SystemAssignedUserAssigned,
+// Mapping from string to ManagedIdentity_Type_ARM
+var managedIdentity_Type_ARM_Values = map[string]ManagedIdentity_Type_ARM{
+	"none":                        ManagedIdentity_Type_ARM_None,
+	"systemassigned":              ManagedIdentity_Type_ARM_SystemAssigned,
+	"systemassigned,userassigned": ManagedIdentity_Type_ARM_SystemAssignedUserAssigned,
 }
 
 // Managed Virtual Network Settings
@@ -161,6 +161,20 @@ type UserAssignedIdentityDetails_ARM struct {
 type VirtualNetworkProfile_ARM struct {
 	// ComputeSubnetId: Subnet ID used for computes in workspace
 	ComputeSubnetId *string `json:"computeSubnetId,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type WorkspaceProperties_PublicNetworkAccess_ARM string
+
+const (
+	WorkspaceProperties_PublicNetworkAccess_ARM_Disabled = WorkspaceProperties_PublicNetworkAccess_ARM("Disabled")
+	WorkspaceProperties_PublicNetworkAccess_ARM_Enabled  = WorkspaceProperties_PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to WorkspaceProperties_PublicNetworkAccess_ARM
+var workspaceProperties_PublicNetworkAccess_ARM_Values = map[string]WorkspaceProperties_PublicNetworkAccess_ARM{
+	"disabled": WorkspaceProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  WorkspaceProperties_PublicNetworkAccess_ARM_Enabled,
 }
 
 // Git integration settings

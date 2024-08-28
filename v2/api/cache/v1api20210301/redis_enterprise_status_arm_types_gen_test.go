@@ -85,28 +85,28 @@ func ClusterProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForClusterProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForClusterProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_STATUS_10, ClusterProperties_MinimumTlsVersion_STATUS_11, ClusterProperties_MinimumTlsVersion_STATUS_12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_STATUS_ARM_10, ClusterProperties_MinimumTlsVersion_STATUS_ARM_11, ClusterProperties_MinimumTlsVersion_STATUS_ARM_12))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Canceled,
-		ProvisioningState_STATUS_Creating,
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
+		ProvisioningState_STATUS_ARM_Canceled,
+		ProvisioningState_STATUS_ARM_Creating,
+		ProvisioningState_STATUS_ARM_Deleting,
+		ProvisioningState_STATUS_ARM_Failed,
+		ProvisioningState_STATUS_ARM_Succeeded,
+		ProvisioningState_STATUS_ARM_Updating))
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_STATUS_CreateFailed,
-		ResourceState_STATUS_Creating,
-		ResourceState_STATUS_DeleteFailed,
-		ResourceState_STATUS_Deleting,
-		ResourceState_STATUS_DisableFailed,
-		ResourceState_STATUS_Disabled,
-		ResourceState_STATUS_Disabling,
-		ResourceState_STATUS_EnableFailed,
-		ResourceState_STATUS_Enabling,
-		ResourceState_STATUS_Running,
-		ResourceState_STATUS_UpdateFailed,
-		ResourceState_STATUS_Updating))
+		ResourceState_STATUS_ARM_CreateFailed,
+		ResourceState_STATUS_ARM_Creating,
+		ResourceState_STATUS_ARM_DeleteFailed,
+		ResourceState_STATUS_ARM_Deleting,
+		ResourceState_STATUS_ARM_DisableFailed,
+		ResourceState_STATUS_ARM_Disabled,
+		ResourceState_STATUS_ARM_Disabling,
+		ResourceState_STATUS_ARM_EnableFailed,
+		ResourceState_STATUS_ARM_Enabling,
+		ResourceState_STATUS_ARM_Running,
+		ResourceState_STATUS_ARM_UpdateFailed,
+		ResourceState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForClusterProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -317,11 +317,11 @@ func Sku_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSku_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_STATUS_EnterpriseFlash_F1500,
-		Sku_Name_STATUS_EnterpriseFlash_F300,
-		Sku_Name_STATUS_EnterpriseFlash_F700,
-		Sku_Name_STATUS_Enterprise_E10,
-		Sku_Name_STATUS_Enterprise_E100,
-		Sku_Name_STATUS_Enterprise_E20,
-		Sku_Name_STATUS_Enterprise_E50))
+		Sku_Name_STATUS_ARM_EnterpriseFlash_F1500,
+		Sku_Name_STATUS_ARM_EnterpriseFlash_F300,
+		Sku_Name_STATUS_ARM_EnterpriseFlash_F700,
+		Sku_Name_STATUS_ARM_Enterprise_E10,
+		Sku_Name_STATUS_ARM_Enterprise_E100,
+		Sku_Name_STATUS_ARM_Enterprise_E20,
+		Sku_Name_STATUS_ARM_Enterprise_E50))
 }

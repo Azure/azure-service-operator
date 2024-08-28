@@ -151,51 +151,51 @@ func AddIndependentPropertyGeneratorsForApiCreateOrUpdateProperties_ARM(gens map
 	gens["ApiRevision"] = gen.PtrOf(gen.AlphaString())
 	gens["ApiRevisionDescription"] = gen.PtrOf(gen.AlphaString())
 	gens["ApiType"] = gen.PtrOf(gen.OneConstOf(
-		ApiCreateOrUpdateProperties_ApiType_Graphql,
-		ApiCreateOrUpdateProperties_ApiType_Grpc,
-		ApiCreateOrUpdateProperties_ApiType_Http,
-		ApiCreateOrUpdateProperties_ApiType_Odata,
-		ApiCreateOrUpdateProperties_ApiType_Soap,
-		ApiCreateOrUpdateProperties_ApiType_Websocket))
+		ApiCreateOrUpdateProperties_ApiType_ARM_Graphql,
+		ApiCreateOrUpdateProperties_ApiType_ARM_Grpc,
+		ApiCreateOrUpdateProperties_ApiType_ARM_Http,
+		ApiCreateOrUpdateProperties_ApiType_ARM_Odata,
+		ApiCreateOrUpdateProperties_ApiType_ARM_Soap,
+		ApiCreateOrUpdateProperties_ApiType_ARM_Websocket))
 	gens["ApiVersionDescription"] = gen.PtrOf(gen.AlphaString())
 	gens["ApiVersionSetId"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["Format"] = gen.PtrOf(gen.OneConstOf(
-		ApiCreateOrUpdateProperties_Format_GraphqlLink,
-		ApiCreateOrUpdateProperties_Format_Grpc,
-		ApiCreateOrUpdateProperties_Format_GrpcLink,
-		ApiCreateOrUpdateProperties_Format_Odata,
-		ApiCreateOrUpdateProperties_Format_OdataLink,
-		ApiCreateOrUpdateProperties_Format_Openapi,
-		ApiCreateOrUpdateProperties_Format_OpenapiJson,
-		ApiCreateOrUpdateProperties_Format_OpenapiJsonLink,
-		ApiCreateOrUpdateProperties_Format_OpenapiLink,
-		ApiCreateOrUpdateProperties_Format_SwaggerJson,
-		ApiCreateOrUpdateProperties_Format_SwaggerLinkJson,
-		ApiCreateOrUpdateProperties_Format_WadlLinkJson,
-		ApiCreateOrUpdateProperties_Format_WadlXml,
-		ApiCreateOrUpdateProperties_Format_Wsdl,
-		ApiCreateOrUpdateProperties_Format_WsdlLink))
+		ApiCreateOrUpdateProperties_Format_ARM_GraphqlLink,
+		ApiCreateOrUpdateProperties_Format_ARM_Grpc,
+		ApiCreateOrUpdateProperties_Format_ARM_GrpcLink,
+		ApiCreateOrUpdateProperties_Format_ARM_Odata,
+		ApiCreateOrUpdateProperties_Format_ARM_OdataLink,
+		ApiCreateOrUpdateProperties_Format_ARM_Openapi,
+		ApiCreateOrUpdateProperties_Format_ARM_OpenapiJson,
+		ApiCreateOrUpdateProperties_Format_ARM_OpenapiJsonLink,
+		ApiCreateOrUpdateProperties_Format_ARM_OpenapiLink,
+		ApiCreateOrUpdateProperties_Format_ARM_SwaggerJson,
+		ApiCreateOrUpdateProperties_Format_ARM_SwaggerLinkJson,
+		ApiCreateOrUpdateProperties_Format_ARM_WadlLinkJson,
+		ApiCreateOrUpdateProperties_Format_ARM_WadlXml,
+		ApiCreateOrUpdateProperties_Format_ARM_Wsdl,
+		ApiCreateOrUpdateProperties_Format_ARM_WsdlLink))
 	gens["IsCurrent"] = gen.PtrOf(gen.Bool())
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Protocols"] = gen.SliceOf(gen.OneConstOf(
-		ApiCreateOrUpdateProperties_Protocols_Http,
-		ApiCreateOrUpdateProperties_Protocols_Https,
-		ApiCreateOrUpdateProperties_Protocols_Ws,
-		ApiCreateOrUpdateProperties_Protocols_Wss))
+		ApiCreateOrUpdateProperties_Protocols_ARM_Http,
+		ApiCreateOrUpdateProperties_Protocols_ARM_Https,
+		ApiCreateOrUpdateProperties_Protocols_ARM_Ws,
+		ApiCreateOrUpdateProperties_Protocols_ARM_Wss))
 	gens["ServiceUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceApiId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionRequired"] = gen.PtrOf(gen.Bool())
 	gens["TermsOfServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["TranslateRequiredQueryParameters"] = gen.PtrOf(gen.OneConstOf(ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Query, ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Template))
+	gens["TranslateRequiredQueryParameters"] = gen.PtrOf(gen.OneConstOf(ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM_Query, ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM_Template))
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ApiCreateOrUpdateProperties_Type_Graphql,
-		ApiCreateOrUpdateProperties_Type_Grpc,
-		ApiCreateOrUpdateProperties_Type_Http,
-		ApiCreateOrUpdateProperties_Type_Odata,
-		ApiCreateOrUpdateProperties_Type_Soap,
-		ApiCreateOrUpdateProperties_Type_Websocket))
+		ApiCreateOrUpdateProperties_Type_ARM_Graphql,
+		ApiCreateOrUpdateProperties_Type_ARM_Grpc,
+		ApiCreateOrUpdateProperties_Type_ARM_Http,
+		ApiCreateOrUpdateProperties_Type_ARM_Odata,
+		ApiCreateOrUpdateProperties_Type_ARM_Soap,
+		ApiCreateOrUpdateProperties_Type_ARM_Websocket))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -396,7 +396,7 @@ func AddIndependentPropertyGeneratorsForApiVersionSetContractDetails_ARM(gens ma
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())
-	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractDetails_VersioningScheme_Header, ApiVersionSetContractDetails_VersioningScheme_Query, ApiVersionSetContractDetails_VersioningScheme_Segment))
+	gens["VersioningScheme"] = gen.PtrOf(gen.OneConstOf(ApiVersionSetContractDetails_VersioningScheme_ARM_Header, ApiVersionSetContractDetails_VersioningScheme_ARM_Query, ApiVersionSetContractDetails_VersioningScheme_ARM_Segment))
 }
 
 func Test_AuthenticationSettingsContract_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -583,7 +583,7 @@ func OpenIdAuthenticationSettingsContract_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOpenIdAuthenticationSettingsContract_ARM(gens map[string]gopter.Gen) {
-	gens["BearerTokenSendingMethods"] = gen.SliceOf(gen.OneConstOf(BearerTokenSendingMethodsContract_AuthorizationHeader, BearerTokenSendingMethodsContract_Query))
+	gens["BearerTokenSendingMethods"] = gen.SliceOf(gen.OneConstOf(BearerTokenSendingMethodsContract_ARM_AuthorizationHeader, BearerTokenSendingMethodsContract_ARM_Query))
 	gens["OpenidProviderId"] = gen.PtrOf(gen.AlphaString())
 }
 

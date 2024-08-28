@@ -544,7 +544,9 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.HostnameConfigurations = append(result.Properties.HostnameConfigurations, *item_ARM.(*HostnameConfiguration_ARM))
 	}
 	if service.NatGatewayState != nil {
-		natGatewayState := *service.NatGatewayState
+		var temp string
+		temp = string(*service.NatGatewayState)
+		natGatewayState := ApiManagementServiceProperties_NatGatewayState_ARM(temp)
 		result.Properties.NatGatewayState = &natGatewayState
 	}
 	if service.NotificationSenderEmail != nil {
@@ -560,7 +562,9 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.PublicIpAddressId = &publicIpAddressId
 	}
 	if service.PublicNetworkAccess != nil {
-		publicNetworkAccess := *service.PublicNetworkAccess
+		var temp string
+		temp = string(*service.PublicNetworkAccess)
+		publicNetworkAccess := ApiManagementServiceProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if service.PublisherEmail != nil {
@@ -584,7 +588,9 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.VirtualNetworkConfiguration = &virtualNetworkConfiguration
 	}
 	if service.VirtualNetworkType != nil {
-		virtualNetworkType := *service.VirtualNetworkType
+		var temp string
+		temp = string(*service.VirtualNetworkType)
+		virtualNetworkType := ApiManagementServiceProperties_VirtualNetworkType_ARM(temp)
 		result.Properties.VirtualNetworkType = &virtualNetworkType
 	}
 
@@ -731,7 +737,9 @@ func (service *Service_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NatGatewayState != nil {
-			natGatewayState := *typedInput.Properties.NatGatewayState
+			var temp string
+			temp = string(*typedInput.Properties.NatGatewayState)
+			natGatewayState := ApiManagementServiceProperties_NatGatewayState(temp)
 			service.NatGatewayState = &natGatewayState
 		}
 	}
@@ -757,7 +765,9 @@ func (service *Service_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := ApiManagementServiceProperties_PublicNetworkAccess(temp)
 			service.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -826,7 +836,9 @@ func (service *Service_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetworkType != nil {
-			virtualNetworkType := *typedInput.Properties.VirtualNetworkType
+			var temp string
+			temp = string(*typedInput.Properties.VirtualNetworkType)
+			virtualNetworkType := ApiManagementServiceProperties_VirtualNetworkType(temp)
 			service.VirtualNetworkType = &virtualNetworkType
 		}
 	}
@@ -1932,7 +1944,9 @@ func (service *Service_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NatGatewayState != nil {
-			natGatewayState := *typedInput.Properties.NatGatewayState
+			var temp string
+			temp = string(*typedInput.Properties.NatGatewayState)
+			natGatewayState := ApiManagementServiceProperties_NatGatewayState_STATUS(temp)
 			service.NatGatewayState = &natGatewayState
 		}
 	}
@@ -1958,7 +1972,9 @@ func (service *Service_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PlatformVersion != nil {
-			platformVersion := *typedInput.Properties.PlatformVersion
+			var temp string
+			temp = string(*typedInput.Properties.PlatformVersion)
+			platformVersion := ApiManagementServiceProperties_PlatformVersion_STATUS(temp)
 			service.PlatformVersion = &platformVersion
 		}
 	}
@@ -2023,7 +2039,9 @@ func (service *Service_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := ApiManagementServiceProperties_PublicNetworkAccess_STATUS(temp)
 			service.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -2127,7 +2145,9 @@ func (service *Service_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetworkType != nil {
-			virtualNetworkType := *typedInput.Properties.VirtualNetworkType
+			var temp string
+			temp = string(*typedInput.Properties.VirtualNetworkType)
+			virtualNetworkType := ApiManagementServiceProperties_VirtualNetworkType_STATUS(temp)
 			service.VirtualNetworkType = &virtualNetworkType
 		}
 	}
@@ -2745,7 +2765,9 @@ func (location *AdditionalLocation) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "NatGatewayState":
 	if location.NatGatewayState != nil {
-		natGatewayState := *location.NatGatewayState
+		var temp string
+		temp = string(*location.NatGatewayState)
+		natGatewayState := AdditionalLocation_NatGatewayState_ARM(temp)
 		result.NatGatewayState = &natGatewayState
 	}
 
@@ -2812,7 +2834,9 @@ func (location *AdditionalLocation) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "NatGatewayState":
 	if typedInput.NatGatewayState != nil {
-		natGatewayState := *typedInput.NatGatewayState
+		var temp string
+		temp = string(*typedInput.NatGatewayState)
+		natGatewayState := AdditionalLocation_NatGatewayState(temp)
 		location.NatGatewayState = &natGatewayState
 	}
 
@@ -3121,7 +3145,9 @@ func (location *AdditionalLocation_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "NatGatewayState":
 	if typedInput.NatGatewayState != nil {
-		natGatewayState := *typedInput.NatGatewayState
+		var temp string
+		temp = string(*typedInput.NatGatewayState)
+		natGatewayState := AdditionalLocation_NatGatewayState_STATUS(temp)
 		location.NatGatewayState = &natGatewayState
 	}
 
@@ -3132,7 +3158,9 @@ func (location *AdditionalLocation_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "PlatformVersion":
 	if typedInput.PlatformVersion != nil {
-		platformVersion := *typedInput.PlatformVersion
+		var temp string
+		temp = string(*typedInput.PlatformVersion)
+		platformVersion := AdditionalLocation_PlatformVersion_STATUS(temp)
 		location.PlatformVersion = &platformVersion
 	}
 
@@ -3371,7 +3399,9 @@ func (identity *ApiManagementServiceIdentity) ConvertToARM(resolved genruntime.C
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ApiManagementServiceIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -3402,7 +3432,9 @@ func (identity *ApiManagementServiceIdentity) PopulateFromARM(owner genruntime.A
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ApiManagementServiceIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3562,7 +3594,9 @@ func (identity *ApiManagementServiceIdentity_STATUS) PopulateFromARM(owner genru
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ApiManagementServiceIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -3801,7 +3835,9 @@ func (properties *ApiManagementServiceSkuProperties) ConvertToARM(resolved genru
 
 	// Set property "Name":
 	if properties.Name != nil {
-		name := *properties.Name
+		var temp string
+		temp = string(*properties.Name)
+		name := ApiManagementServiceSkuProperties_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -3827,7 +3863,9 @@ func (properties *ApiManagementServiceSkuProperties) PopulateFromARM(owner genru
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := ApiManagementServiceSkuProperties_Name(temp)
 		properties.Name = &name
 	}
 
@@ -3930,7 +3968,9 @@ func (properties *ApiManagementServiceSkuProperties_STATUS) PopulateFromARM(owne
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := ApiManagementServiceSkuProperties_Name_STATUS(temp)
 		properties.Name = &name
 	}
 
@@ -4181,7 +4221,9 @@ func (configuration *CertificateConfiguration) ConvertToARM(resolved genruntime.
 
 	// Set property "StoreName":
 	if configuration.StoreName != nil {
-		storeName := *configuration.StoreName
+		var temp string
+		temp = string(*configuration.StoreName)
+		storeName := CertificateConfiguration_StoreName_ARM(temp)
 		result.StoreName = &storeName
 	}
 	return result, nil
@@ -4220,7 +4262,9 @@ func (configuration *CertificateConfiguration) PopulateFromARM(owner genruntime.
 
 	// Set property "StoreName":
 	if typedInput.StoreName != nil {
-		storeName := *typedInput.StoreName
+		var temp string
+		temp = string(*typedInput.StoreName)
+		storeName := CertificateConfiguration_StoreName(temp)
 		configuration.StoreName = &storeName
 	}
 
@@ -4390,7 +4434,9 @@ func (configuration *CertificateConfiguration_STATUS) PopulateFromARM(owner genr
 
 	// Set property "StoreName":
 	if typedInput.StoreName != nil {
-		storeName := *typedInput.StoreName
+		var temp string
+		temp = string(*typedInput.StoreName)
+		storeName := CertificateConfiguration_StoreName_STATUS(temp)
 		configuration.StoreName = &storeName
 	}
 
@@ -4547,13 +4593,17 @@ func (configuration *HostnameConfiguration) ConvertToARM(resolved genruntime.Con
 
 	// Set property "CertificateSource":
 	if configuration.CertificateSource != nil {
-		certificateSource := *configuration.CertificateSource
+		var temp string
+		temp = string(*configuration.CertificateSource)
+		certificateSource := HostnameConfiguration_CertificateSource_ARM(temp)
 		result.CertificateSource = &certificateSource
 	}
 
 	// Set property "CertificateStatus":
 	if configuration.CertificateStatus != nil {
-		certificateStatus := *configuration.CertificateStatus
+		var temp string
+		temp = string(*configuration.CertificateStatus)
+		certificateStatus := HostnameConfiguration_CertificateStatus_ARM(temp)
 		result.CertificateStatus = &certificateStatus
 	}
 
@@ -4603,7 +4653,9 @@ func (configuration *HostnameConfiguration) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Type":
 	if configuration.Type != nil {
-		typeVar := *configuration.Type
+		var temp string
+		temp = string(*configuration.Type)
+		typeVar := HostnameConfiguration_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -4636,13 +4688,17 @@ func (configuration *HostnameConfiguration) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "CertificateSource":
 	if typedInput.CertificateSource != nil {
-		certificateSource := *typedInput.CertificateSource
+		var temp string
+		temp = string(*typedInput.CertificateSource)
+		certificateSource := HostnameConfiguration_CertificateSource(temp)
 		configuration.CertificateSource = &certificateSource
 	}
 
 	// Set property "CertificateStatus":
 	if typedInput.CertificateStatus != nil {
-		certificateStatus := *typedInput.CertificateStatus
+		var temp string
+		temp = string(*typedInput.CertificateStatus)
+		certificateStatus := HostnameConfiguration_CertificateStatus(temp)
 		configuration.CertificateStatus = &certificateStatus
 	}
 
@@ -4686,7 +4742,9 @@ func (configuration *HostnameConfiguration) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := HostnameConfiguration_Type(temp)
 		configuration.Type = &typeVar
 	}
 
@@ -5017,13 +5075,17 @@ func (configuration *HostnameConfiguration_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "CertificateSource":
 	if typedInput.CertificateSource != nil {
-		certificateSource := *typedInput.CertificateSource
+		var temp string
+		temp = string(*typedInput.CertificateSource)
+		certificateSource := HostnameConfiguration_CertificateSource_STATUS(temp)
 		configuration.CertificateSource = &certificateSource
 	}
 
 	// Set property "CertificateStatus":
 	if typedInput.CertificateStatus != nil {
-		certificateStatus := *typedInput.CertificateStatus
+		var temp string
+		temp = string(*typedInput.CertificateStatus)
+		certificateStatus := HostnameConfiguration_CertificateStatus_STATUS(temp)
 		configuration.CertificateStatus = &certificateStatus
 	}
 
@@ -5065,7 +5127,9 @@ func (configuration *HostnameConfiguration_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := HostnameConfiguration_Type_STATUS(temp)
 		configuration.Type = &typeVar
 	}
 
@@ -5483,7 +5547,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -5501,7 +5567,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -5820,6 +5888,84 @@ var additionalLocation_PlatformVersion_STATUS_Values = map[string]AdditionalLoca
 	"stv1":         AdditionalLocation_PlatformVersion_STATUS_Stv1,
 	"stv2":         AdditionalLocation_PlatformVersion_STATUS_Stv2,
 	"undetermined": AdditionalLocation_PlatformVersion_STATUS_Undetermined,
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type ApiManagementServiceIdentity_Type string
+
+const (
+	ApiManagementServiceIdentity_Type_None                       = ApiManagementServiceIdentity_Type("None")
+	ApiManagementServiceIdentity_Type_SystemAssigned             = ApiManagementServiceIdentity_Type("SystemAssigned")
+	ApiManagementServiceIdentity_Type_SystemAssignedUserAssigned = ApiManagementServiceIdentity_Type("SystemAssigned, UserAssigned")
+	ApiManagementServiceIdentity_Type_UserAssigned               = ApiManagementServiceIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to ApiManagementServiceIdentity_Type
+var apiManagementServiceIdentity_Type_Values = map[string]ApiManagementServiceIdentity_Type{
+	"none":                         ApiManagementServiceIdentity_Type_None,
+	"systemassigned":               ApiManagementServiceIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": ApiManagementServiceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 ApiManagementServiceIdentity_Type_UserAssigned,
+}
+
+type ApiManagementServiceIdentity_Type_STATUS string
+
+const (
+	ApiManagementServiceIdentity_Type_STATUS_None                       = ApiManagementServiceIdentity_Type_STATUS("None")
+	ApiManagementServiceIdentity_Type_STATUS_SystemAssigned             = ApiManagementServiceIdentity_Type_STATUS("SystemAssigned")
+	ApiManagementServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ApiManagementServiceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	ApiManagementServiceIdentity_Type_STATUS_UserAssigned               = ApiManagementServiceIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to ApiManagementServiceIdentity_Type_STATUS
+var apiManagementServiceIdentity_Type_STATUS_Values = map[string]ApiManagementServiceIdentity_Type_STATUS{
+	"none":                         ApiManagementServiceIdentity_Type_STATUS_None,
+	"systemassigned":               ApiManagementServiceIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ApiManagementServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ApiManagementServiceIdentity_Type_STATUS_UserAssigned,
+}
+
+// +kubebuilder:validation:Enum={"Basic","Consumption","Developer","Isolated","Premium","Standard"}
+type ApiManagementServiceSkuProperties_Name string
+
+const (
+	ApiManagementServiceSkuProperties_Name_Basic       = ApiManagementServiceSkuProperties_Name("Basic")
+	ApiManagementServiceSkuProperties_Name_Consumption = ApiManagementServiceSkuProperties_Name("Consumption")
+	ApiManagementServiceSkuProperties_Name_Developer   = ApiManagementServiceSkuProperties_Name("Developer")
+	ApiManagementServiceSkuProperties_Name_Isolated    = ApiManagementServiceSkuProperties_Name("Isolated")
+	ApiManagementServiceSkuProperties_Name_Premium     = ApiManagementServiceSkuProperties_Name("Premium")
+	ApiManagementServiceSkuProperties_Name_Standard    = ApiManagementServiceSkuProperties_Name("Standard")
+)
+
+// Mapping from string to ApiManagementServiceSkuProperties_Name
+var apiManagementServiceSkuProperties_Name_Values = map[string]ApiManagementServiceSkuProperties_Name{
+	"basic":       ApiManagementServiceSkuProperties_Name_Basic,
+	"consumption": ApiManagementServiceSkuProperties_Name_Consumption,
+	"developer":   ApiManagementServiceSkuProperties_Name_Developer,
+	"isolated":    ApiManagementServiceSkuProperties_Name_Isolated,
+	"premium":     ApiManagementServiceSkuProperties_Name_Premium,
+	"standard":    ApiManagementServiceSkuProperties_Name_Standard,
+}
+
+type ApiManagementServiceSkuProperties_Name_STATUS string
+
+const (
+	ApiManagementServiceSkuProperties_Name_STATUS_Basic       = ApiManagementServiceSkuProperties_Name_STATUS("Basic")
+	ApiManagementServiceSkuProperties_Name_STATUS_Consumption = ApiManagementServiceSkuProperties_Name_STATUS("Consumption")
+	ApiManagementServiceSkuProperties_Name_STATUS_Developer   = ApiManagementServiceSkuProperties_Name_STATUS("Developer")
+	ApiManagementServiceSkuProperties_Name_STATUS_Isolated    = ApiManagementServiceSkuProperties_Name_STATUS("Isolated")
+	ApiManagementServiceSkuProperties_Name_STATUS_Premium     = ApiManagementServiceSkuProperties_Name_STATUS("Premium")
+	ApiManagementServiceSkuProperties_Name_STATUS_Standard    = ApiManagementServiceSkuProperties_Name_STATUS("Standard")
+)
+
+// Mapping from string to ApiManagementServiceSkuProperties_Name_STATUS
+var apiManagementServiceSkuProperties_Name_STATUS_Values = map[string]ApiManagementServiceSkuProperties_Name_STATUS{
+	"basic":       ApiManagementServiceSkuProperties_Name_STATUS_Basic,
+	"consumption": ApiManagementServiceSkuProperties_Name_STATUS_Consumption,
+	"developer":   ApiManagementServiceSkuProperties_Name_STATUS_Developer,
+	"isolated":    ApiManagementServiceSkuProperties_Name_STATUS_Isolated,
+	"premium":     ApiManagementServiceSkuProperties_Name_STATUS_Premium,
+	"standard":    ApiManagementServiceSkuProperties_Name_STATUS_Standard,
 }
 
 // A wrapper for an ARM resource id
@@ -6363,7 +6509,9 @@ func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner gen
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := PrivateEndpointServiceConnectionStatus_STATUS(temp)
 		state.Status = &status
 	}
 
@@ -6421,6 +6569,40 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_Priva
 
 	// No error
 	return nil
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 // Information about the user assigned identity for the resource

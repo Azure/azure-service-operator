@@ -45,7 +45,7 @@ func (in *ArmIdentity_ARM) DeepCopyInto(out *ArmIdentity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ArmIdentity_Type)
+		*out = new(ArmIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -119,7 +119,7 @@ func (in *ArmIdentity_STATUS_ARM) DeepCopyInto(out *ArmIdentity_STATUS_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ArmIdentity_Type_STATUS)
+		*out = new(ArmIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -626,7 +626,7 @@ func (in *FallbackRouteProperties_ARM) DeepCopyInto(out *FallbackRouteProperties
 	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
-		*out = new(FallbackRouteProperties_Source)
+		*out = new(FallbackRouteProperties_Source_ARM)
 		**out = **in
 	}
 }
@@ -706,7 +706,7 @@ func (in *FallbackRouteProperties_STATUS_ARM) DeepCopyInto(out *FallbackRoutePro
 	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
-		*out = new(FallbackRouteProperties_Source_STATUS)
+		*out = new(FallbackRouteProperties_Source_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -935,7 +935,7 @@ func (in *IotHubLocationDescription_STATUS_ARM) DeepCopyInto(out *IotHubLocation
 	}
 	if in.Role != nil {
 		in, out := &in.Role, &out.Role
-		*out = new(IotHubLocationDescription_Role_STATUS)
+		*out = new(IotHubLocationDescription_Role_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1214,7 +1214,7 @@ func (in *IotHubProperties_ARM) DeepCopyInto(out *IotHubProperties_ARM) {
 	}
 	if in.Features != nil {
 		in, out := &in.Features, &out.Features
-		*out = new(IotHubProperties_Features)
+		*out = new(IotHubProperties_Features_ARM)
 		**out = **in
 	}
 	if in.IpFilterRules != nil {
@@ -1243,7 +1243,7 @@ func (in *IotHubProperties_ARM) DeepCopyInto(out *IotHubProperties_ARM) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(IotHubProperties_PublicNetworkAccess)
+		*out = new(IotHubProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.RestrictOutboundNetworkAccess != nil {
@@ -1483,7 +1483,7 @@ func (in *IotHubProperties_STATUS_ARM) DeepCopyInto(out *IotHubProperties_STATUS
 	}
 	if in.Features != nil {
 		in, out := &in.Features, &out.Features
-		*out = new(IotHubProperties_Features_STATUS)
+		*out = new(IotHubProperties_Features_STATUS_ARM)
 		**out = **in
 	}
 	if in.HostName != nil {
@@ -1536,7 +1536,7 @@ func (in *IotHubProperties_STATUS_ARM) DeepCopyInto(out *IotHubProperties_STATUS
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(IotHubProperties_PublicNetworkAccess_STATUS)
+		*out = new(IotHubProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.RestrictOutboundNetworkAccess != nil {
@@ -1608,7 +1608,7 @@ func (in *IotHubSkuInfo_ARM) DeepCopyInto(out *IotHubSkuInfo_ARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(IotHubSkuInfo_Name)
+		*out = new(IotHubSkuInfo_Name_ARM)
 		**out = **in
 	}
 }
@@ -1663,12 +1663,12 @@ func (in *IotHubSkuInfo_STATUS_ARM) DeepCopyInto(out *IotHubSkuInfo_STATUS_ARM) 
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(IotHubSkuInfo_Name_STATUS)
+		*out = new(IotHubSkuInfo_Name_STATUS_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(IotHubSkuInfo_Tier_STATUS)
+		*out = new(IotHubSkuInfo_Tier_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1953,7 +1953,7 @@ func (in *IpFilterRule_ARM) DeepCopyInto(out *IpFilterRule_ARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IpFilterRule_Action)
+		*out = new(IpFilterRule_Action_ARM)
 		**out = **in
 	}
 	if in.FilterName != nil {
@@ -2013,7 +2013,7 @@ func (in *IpFilterRule_STATUS_ARM) DeepCopyInto(out *IpFilterRule_STATUS_ARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(IpFilterRule_Action_STATUS)
+		*out = new(IpFilterRule_Action_STATUS_ARM)
 		**out = **in
 	}
 	if in.FilterName != nil {
@@ -2273,7 +2273,7 @@ func (in *NetworkRuleSetIpRule_ARM) DeepCopyInto(out *NetworkRuleSetIpRule_ARM) 
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(NetworkRuleSetIpRule_Action)
+		*out = new(NetworkRuleSetIpRule_Action_ARM)
 		**out = **in
 	}
 	if in.FilterName != nil {
@@ -2333,7 +2333,7 @@ func (in *NetworkRuleSetIpRule_STATUS_ARM) DeepCopyInto(out *NetworkRuleSetIpRul
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(NetworkRuleSetIpRule_Action_STATUS)
+		*out = new(NetworkRuleSetIpRule_Action_STATUS_ARM)
 		**out = **in
 	}
 	if in.FilterName != nil {
@@ -2400,7 +2400,7 @@ func (in *NetworkRuleSetProperties_ARM) DeepCopyInto(out *NetworkRuleSetProperti
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetProperties_DefaultAction)
+		*out = new(NetworkRuleSetProperties_DefaultAction_ARM)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -2464,7 +2464,7 @@ func (in *NetworkRuleSetProperties_STATUS_ARM) DeepCopyInto(out *NetworkRuleSetP
 	}
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(NetworkRuleSetProperties_DefaultAction_STATUS)
+		*out = new(NetworkRuleSetProperties_DefaultAction_STATUS_ARM)
 		**out = **in
 	}
 	if in.IpRules != nil {
@@ -2591,7 +2591,7 @@ func (in *RouteProperties_ARM) DeepCopyInto(out *RouteProperties_ARM) {
 	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
-		*out = new(RouteProperties_Source)
+		*out = new(RouteProperties_Source_ARM)
 		**out = **in
 	}
 }
@@ -2671,7 +2671,7 @@ func (in *RouteProperties_STATUS_ARM) DeepCopyInto(out *RouteProperties_STATUS_A
 	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
-		*out = new(RouteProperties_Source_STATUS)
+		*out = new(RouteProperties_Source_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2923,7 +2923,7 @@ func (in *RoutingEventHubProperties_ARM) DeepCopyInto(out *RoutingEventHubProper
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(RoutingEventHubProperties_AuthenticationType)
+		*out = new(RoutingEventHubProperties_AuthenticationType_ARM)
 		**out = **in
 	}
 	if in.ConnectionString != nil {
@@ -3038,7 +3038,7 @@ func (in *RoutingEventHubProperties_STATUS_ARM) DeepCopyInto(out *RoutingEventHu
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(RoutingEventHubProperties_AuthenticationType_STATUS)
+		*out = new(RoutingEventHubProperties_AuthenticationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.EndpointUri != nil {
@@ -3309,7 +3309,7 @@ func (in *RoutingServiceBusQueueEndpointProperties_ARM) DeepCopyInto(out *Routin
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(RoutingServiceBusQueueEndpointProperties_AuthenticationType)
+		*out = new(RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM)
 		**out = **in
 	}
 	if in.ConnectionString != nil {
@@ -3424,7 +3424,7 @@ func (in *RoutingServiceBusQueueEndpointProperties_STATUS_ARM) DeepCopyInto(out 
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS)
+		*out = new(RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.EndpointUri != nil {
@@ -3539,7 +3539,7 @@ func (in *RoutingServiceBusTopicEndpointProperties_ARM) DeepCopyInto(out *Routin
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(RoutingServiceBusTopicEndpointProperties_AuthenticationType)
+		*out = new(RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM)
 		**out = **in
 	}
 	if in.ConnectionString != nil {
@@ -3654,7 +3654,7 @@ func (in *RoutingServiceBusTopicEndpointProperties_STATUS_ARM) DeepCopyInto(out 
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS)
+		*out = new(RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.EndpointUri != nil {
@@ -3789,7 +3789,7 @@ func (in *RoutingStorageContainerProperties_ARM) DeepCopyInto(out *RoutingStorag
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(RoutingStorageContainerProperties_AuthenticationType)
+		*out = new(RoutingStorageContainerProperties_AuthenticationType_ARM)
 		**out = **in
 	}
 	if in.BatchFrequencyInSeconds != nil {
@@ -3809,7 +3809,7 @@ func (in *RoutingStorageContainerProperties_ARM) DeepCopyInto(out *RoutingStorag
 	}
 	if in.Encoding != nil {
 		in, out := &in.Encoding, &out.Encoding
-		*out = new(RoutingStorageContainerProperties_Encoding)
+		*out = new(RoutingStorageContainerProperties_Encoding_ARM)
 		**out = **in
 	}
 	if in.EndpointUri != nil {
@@ -3944,7 +3944,7 @@ func (in *RoutingStorageContainerProperties_STATUS_ARM) DeepCopyInto(out *Routin
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(RoutingStorageContainerProperties_AuthenticationType_STATUS)
+		*out = new(RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.BatchFrequencyInSeconds != nil {
@@ -3959,7 +3959,7 @@ func (in *RoutingStorageContainerProperties_STATUS_ARM) DeepCopyInto(out *Routin
 	}
 	if in.Encoding != nil {
 		in, out := &in.Encoding, &out.Encoding
-		*out = new(RoutingStorageContainerProperties_Encoding_STATUS)
+		*out = new(RoutingStorageContainerProperties_Encoding_STATUS_ARM)
 		**out = **in
 	}
 	if in.EndpointUri != nil {
@@ -4049,7 +4049,7 @@ func (in *SharedAccessSignatureAuthorizationRule_ARM) DeepCopyInto(out *SharedAc
 	}
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = new(SharedAccessSignatureAuthorizationRule_Rights)
+		*out = new(SharedAccessSignatureAuthorizationRule_Rights_ARM)
 		**out = **in
 	}
 }
@@ -4099,7 +4099,7 @@ func (in *SharedAccessSignatureAuthorizationRule_STATUS_ARM) DeepCopyInto(out *S
 	}
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = new(SharedAccessSignatureAuthorizationRule_Rights_STATUS)
+		*out = new(SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -4159,7 +4159,7 @@ func (in *StorageEndpointProperties_ARM) DeepCopyInto(out *StorageEndpointProper
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(StorageEndpointProperties_AuthenticationType)
+		*out = new(StorageEndpointProperties_AuthenticationType_ARM)
 		**out = **in
 	}
 	if in.ConnectionString != nil {
@@ -4234,7 +4234,7 @@ func (in *StorageEndpointProperties_STATUS_ARM) DeepCopyInto(out *StorageEndpoin
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(StorageEndpointProperties_AuthenticationType_STATUS)
+		*out = new(StorageEndpointProperties_AuthenticationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.ContainerName != nil {
@@ -4324,7 +4324,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -4339,7 +4339,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

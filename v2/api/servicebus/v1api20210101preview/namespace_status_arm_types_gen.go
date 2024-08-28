@@ -41,7 +41,7 @@ type Identity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
+	Type *Identity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Properties for User Assigned Identities
 	UserAssignedIdentities map[string]DictionaryValue_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
@@ -83,10 +83,10 @@ type SBSku_STATUS_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of this SKU.
-	Name *SBSku_Name_STATUS `json:"name,omitempty"`
+	Name *SBSku_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: The billing tier of this particular SKU.
-	Tier *SBSku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *SBSku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // Metadata pertaining to creation and last modification of the resource.
@@ -98,7 +98,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The type of identity that last modified the resource.
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -107,7 +107,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
 }
 
 // Recognized Dictionary value.
@@ -122,7 +122,7 @@ type DictionaryValue_STATUS_ARM struct {
 // Properties to configure Encryption
 type Encryption_STATUS_ARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_STATUS_ARM `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
@@ -131,21 +131,21 @@ type Encryption_STATUS_ARM struct {
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-type Identity_Type_STATUS string
+type Identity_Type_STATUS_ARM string
 
 const (
-	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
-	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned, UserAssigned")
-	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
+	Identity_Type_STATUS_ARM_None                       = Identity_Type_STATUS_ARM("None")
+	Identity_Type_STATUS_ARM_SystemAssigned             = Identity_Type_STATUS_ARM("SystemAssigned")
+	Identity_Type_STATUS_ARM_SystemAssignedUserAssigned = Identity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	Identity_Type_STATUS_ARM_UserAssigned               = Identity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to Identity_Type_STATUS
-var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
-	"none":                         Identity_Type_STATUS_None,
-	"systemassigned":               Identity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": Identity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 Identity_Type_STATUS_UserAssigned,
+// Mapping from string to Identity_Type_STATUS_ARM
+var identity_Type_STATUS_ARM_Values = map[string]Identity_Type_STATUS_ARM{
+	"none":                         Identity_Type_STATUS_ARM_None,
+	"systemassigned":               Identity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": Identity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 Identity_Type_STATUS_ARM_UserAssigned,
 }
 
 // Properties of the PrivateEndpointConnection.
@@ -154,68 +154,77 @@ type PrivateEndpointConnection_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type SBSku_Name_STATUS string
+type SBSku_Name_STATUS_ARM string
 
 const (
-	SBSku_Name_STATUS_Basic    = SBSku_Name_STATUS("Basic")
-	SBSku_Name_STATUS_Premium  = SBSku_Name_STATUS("Premium")
-	SBSku_Name_STATUS_Standard = SBSku_Name_STATUS("Standard")
+	SBSku_Name_STATUS_ARM_Basic    = SBSku_Name_STATUS_ARM("Basic")
+	SBSku_Name_STATUS_ARM_Premium  = SBSku_Name_STATUS_ARM("Premium")
+	SBSku_Name_STATUS_ARM_Standard = SBSku_Name_STATUS_ARM("Standard")
 )
 
-// Mapping from string to SBSku_Name_STATUS
-var sBSku_Name_STATUS_Values = map[string]SBSku_Name_STATUS{
-	"basic":    SBSku_Name_STATUS_Basic,
-	"premium":  SBSku_Name_STATUS_Premium,
-	"standard": SBSku_Name_STATUS_Standard,
+// Mapping from string to SBSku_Name_STATUS_ARM
+var sBSku_Name_STATUS_ARM_Values = map[string]SBSku_Name_STATUS_ARM{
+	"basic":    SBSku_Name_STATUS_ARM_Basic,
+	"premium":  SBSku_Name_STATUS_ARM_Premium,
+	"standard": SBSku_Name_STATUS_ARM_Standard,
 }
 
-type SBSku_Tier_STATUS string
+type SBSku_Tier_STATUS_ARM string
 
 const (
-	SBSku_Tier_STATUS_Basic    = SBSku_Tier_STATUS("Basic")
-	SBSku_Tier_STATUS_Premium  = SBSku_Tier_STATUS("Premium")
-	SBSku_Tier_STATUS_Standard = SBSku_Tier_STATUS("Standard")
+	SBSku_Tier_STATUS_ARM_Basic    = SBSku_Tier_STATUS_ARM("Basic")
+	SBSku_Tier_STATUS_ARM_Premium  = SBSku_Tier_STATUS_ARM("Premium")
+	SBSku_Tier_STATUS_ARM_Standard = SBSku_Tier_STATUS_ARM("Standard")
 )
 
-// Mapping from string to SBSku_Tier_STATUS
-var sBSku_Tier_STATUS_Values = map[string]SBSku_Tier_STATUS{
-	"basic":    SBSku_Tier_STATUS_Basic,
-	"premium":  SBSku_Tier_STATUS_Premium,
-	"standard": SBSku_Tier_STATUS_Standard,
+// Mapping from string to SBSku_Tier_STATUS_ARM
+var sBSku_Tier_STATUS_ARM_Values = map[string]SBSku_Tier_STATUS_ARM{
+	"basic":    SBSku_Tier_STATUS_ARM_Basic,
+	"premium":  SBSku_Tier_STATUS_ARM_Premium,
+	"standard": SBSku_Tier_STATUS_ARM_Standard,
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
+}
+
+type Encryption_KeySource_STATUS_ARM string
+
+const Encryption_KeySource_STATUS_ARM_MicrosoftKeyVault = Encryption_KeySource_STATUS_ARM("Microsoft.KeyVault")
+
+// Mapping from string to Encryption_KeySource_STATUS_ARM
+var encryption_KeySource_STATUS_ARM_Values = map[string]Encryption_KeySource_STATUS_ARM{
+	"microsoft.keyvault": Encryption_KeySource_STATUS_ARM_MicrosoftKeyVault,
 }
 
 // Properties to configure keyVault Properties

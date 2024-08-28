@@ -32,7 +32,7 @@ type EventSubscriptionProperties_STATUS_ARM struct {
 	Destination *EventSubscriptionDestination_STATUS_ARM `json:"destination,omitempty"`
 
 	// EventDeliverySchema: The event delivery schema for the event subscription.
-	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema_STATUS `json:"eventDeliverySchema,omitempty"`
+	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM `json:"eventDeliverySchema,omitempty"`
 
 	// ExpirationTimeUtc: Expiration time of the event subscription.
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
@@ -44,7 +44,7 @@ type EventSubscriptionProperties_STATUS_ARM struct {
 	Labels []string `json:"labels,omitempty"`
 
 	// ProvisioningState: Provisioning state of the event subscription.
-	ProvisioningState *EventSubscriptionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *EventSubscriptionProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
 	// live for events.
@@ -195,6 +195,44 @@ type EventSubscriptionFilter_STATUS_ARM struct {
 	// SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
 	// Wildcard characters are not supported in this path.
 	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
+}
+
+type EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM string
+
+const (
+	EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM_CloudEventSchemaV1_0 = EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM("CloudEventSchemaV1_0")
+	EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM_CustomInputSchema    = EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM("CustomInputSchema")
+	EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM_EventGridSchema      = EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM("EventGridSchema")
+)
+
+// Mapping from string to EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM
+var eventSubscriptionProperties_EventDeliverySchema_STATUS_ARM_Values = map[string]EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM{
+	"cloudeventschemav1_0": EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM_CloudEventSchemaV1_0,
+	"custominputschema":    EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM_CustomInputSchema,
+	"eventgridschema":      EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM_EventGridSchema,
+}
+
+type EventSubscriptionProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	EventSubscriptionProperties_ProvisioningState_STATUS_ARM_AwaitingManualAction = EventSubscriptionProperties_ProvisioningState_STATUS_ARM("AwaitingManualAction")
+	EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Canceled             = EventSubscriptionProperties_ProvisioningState_STATUS_ARM("Canceled")
+	EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Creating             = EventSubscriptionProperties_ProvisioningState_STATUS_ARM("Creating")
+	EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Deleting             = EventSubscriptionProperties_ProvisioningState_STATUS_ARM("Deleting")
+	EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Failed               = EventSubscriptionProperties_ProvisioningState_STATUS_ARM("Failed")
+	EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Succeeded            = EventSubscriptionProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Updating             = EventSubscriptionProperties_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to EventSubscriptionProperties_ProvisioningState_STATUS_ARM
+var eventSubscriptionProperties_ProvisioningState_STATUS_ARM_Values = map[string]EventSubscriptionProperties_ProvisioningState_STATUS_ARM{
+	"awaitingmanualaction": EventSubscriptionProperties_ProvisioningState_STATUS_ARM_AwaitingManualAction,
+	"canceled":             EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Canceled,
+	"creating":             EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":             EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":               EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded":            EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":             EventSubscriptionProperties_ProvisioningState_STATUS_ARM_Updating,
 }
 
 // Information about the retry policy for an event subscription.
@@ -348,7 +386,7 @@ func (filter *AdvancedFilter_STATUS_ARM) UnmarshalJSON(data []byte) error {
 
 type AzureFunctionEventSubscriptionDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Azure Function Properties of the event subscription destination.
 	Properties *AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM `json:"properties,omitempty"`
@@ -356,7 +394,7 @@ type AzureFunctionEventSubscriptionDestination_STATUS_ARM struct {
 
 type EventHubEventSubscriptionDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType EventHubEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Event Hub Properties of the event subscription destination.
 	Properties *EventHubEventSubscriptionDestinationProperties_STATUS_ARM `json:"properties,omitempty"`
@@ -364,7 +402,7 @@ type EventHubEventSubscriptionDestination_STATUS_ARM struct {
 
 type HybridConnectionEventSubscriptionDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Hybrid connection Properties of the event subscription destination.
 	Properties *HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM `json:"properties,omitempty"`
@@ -372,7 +410,7 @@ type HybridConnectionEventSubscriptionDestination_STATUS_ARM struct {
 
 type ServiceBusQueueEventSubscriptionDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Service Bus Properties of the event subscription destination.
 	Properties *ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM `json:"properties,omitempty"`
@@ -380,7 +418,7 @@ type ServiceBusQueueEventSubscriptionDestination_STATUS_ARM struct {
 
 type ServiceBusTopicEventSubscriptionDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Service Bus Topic Properties of the event subscription destination.
 	Properties *ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM `json:"properties,omitempty"`
@@ -388,7 +426,7 @@ type ServiceBusTopicEventSubscriptionDestination_STATUS_ARM struct {
 
 type StorageBlobDeadLetterDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType StorageBlobDeadLetterDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM `json:"endpointType,omitempty"`
 
 	// Properties: The properties of the Storage Blob based deadletter destination
 	Properties *StorageBlobDeadLetterDestinationProperties_STATUS_ARM `json:"properties,omitempty"`
@@ -396,7 +434,7 @@ type StorageBlobDeadLetterDestination_STATUS_ARM struct {
 
 type StorageQueueEventSubscriptionDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType StorageQueueEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Storage Queue Properties of the event subscription destination.
 	Properties *StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM `json:"properties,omitempty"`
@@ -404,10 +442,19 @@ type StorageQueueEventSubscriptionDestination_STATUS_ARM struct {
 
 type WebHookEventSubscriptionDestination_STATUS_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType WebHookEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM `json:"endpointType,omitempty"`
 
 	// Properties: WebHook Properties of the event subscription destination.
 	Properties *WebHookEventSubscriptionDestinationProperties_STATUS_ARM `json:"properties,omitempty"`
+}
+
+type AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM string
+
+const AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM_AzureFunction = AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM("AzureFunction")
+
+// Mapping from string to AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM
+var azureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM_Values = map[string]AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM{
+	"azurefunction": AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM_AzureFunction,
 }
 
 // The properties that represent the Azure Function destination of an event subscription.
@@ -428,16 +475,34 @@ type BoolEqualsAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType BoolEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Value: The boolean filter value.
 	Value *bool `json:"value,omitempty"`
+}
+
+type EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM string
+
+const EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM_EventHub = EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM("EventHub")
+
+// Mapping from string to EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM
+var eventHubEventSubscriptionDestination_EndpointType_STATUS_ARM_Values = map[string]EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM{
+	"eventhub": EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM_EventHub,
 }
 
 // The properties for a event hub destination.
 type EventHubEventSubscriptionDestinationProperties_STATUS_ARM struct {
 	// ResourceId: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription.
 	ResourceId *string `json:"resourceId,omitempty"`
+}
+
+type HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM string
+
+const HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM_HybridConnection = HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM("HybridConnection")
+
+// Mapping from string to HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM
+var hybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM_Values = map[string]HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM{
+	"hybridconnection": HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM_HybridConnection,
 }
 
 // The properties for a hybrid connection destination.
@@ -451,7 +516,7 @@ type NumberGreaterThanAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberGreaterThanAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -462,7 +527,7 @@ type NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -473,7 +538,7 @@ type NumberInAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType NumberInAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
@@ -484,7 +549,7 @@ type NumberLessThanAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberLessThanAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -495,7 +560,7 @@ type NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -506,16 +571,34 @@ type NumberNotInAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberNotInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType NumberNotInAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
+}
+
+type ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM string
+
+const ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM_ServiceBusQueue = ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM("ServiceBusQueue")
+
+// Mapping from string to ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
+var serviceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM_Values = map[string]ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM{
+	"servicebusqueue": ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM_ServiceBusQueue,
 }
 
 // The properties that represent the Service Bus destination of an event subscription.
 type ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM struct {
 	// ResourceId: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription.
 	ResourceId *string `json:"resourceId,omitempty"`
+}
+
+type ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM string
+
+const ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM_ServiceBusTopic = ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM("ServiceBusTopic")
+
+// Mapping from string to ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM
+var serviceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM_Values = map[string]ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM{
+	"servicebustopic": ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM_ServiceBusTopic,
 }
 
 // The properties that represent the Service Bus Topic destination of an event subscription.
@@ -525,6 +608,15 @@ type ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
+type StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM string
+
+const StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM_StorageBlob = StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM("StorageBlob")
+
+// Mapping from string to StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM
+var storageBlobDeadLetterDestination_EndpointType_STATUS_ARM_Values = map[string]StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM{
+	"storageblob": StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM_StorageBlob,
+}
+
 // Properties of the storage blob based dead letter destination.
 type StorageBlobDeadLetterDestinationProperties_STATUS_ARM struct {
 	// BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
@@ -532,6 +624,15 @@ type StorageBlobDeadLetterDestinationProperties_STATUS_ARM struct {
 
 	// ResourceId: The Azure Resource ID of the storage account that is the destination of the deadletter events
 	ResourceId *string `json:"resourceId,omitempty"`
+}
+
+type StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM string
+
+const StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM_StorageQueue = StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM("StorageQueue")
+
+// Mapping from string to StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
+var storageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM_Values = map[string]StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM{
+	"storagequeue": StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM_StorageQueue,
 }
 
 // The properties for a storage queue destination.
@@ -549,7 +650,7 @@ type StringBeginsWithAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringBeginsWithAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -560,7 +661,7 @@ type StringContainsAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringContainsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType StringContainsAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -571,7 +672,7 @@ type StringEndsWithAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringEndsWithAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -582,7 +683,7 @@ type StringInAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType StringInAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -593,10 +694,19 @@ type StringNotInAdvancedFilter_STATUS_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringNotInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType StringNotInAdvancedFilter_OperatorType_STATUS_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
+}
+
+type WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM string
+
+const WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM_WebHook = WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM("WebHook")
+
+// Mapping from string to WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM
+var webHookEventSubscriptionDestination_EndpointType_STATUS_ARM_Values = map[string]WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM{
+	"webhook": WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM_WebHook,
 }
 
 // Information about the webhook destination properties for an event subscription.
@@ -617,4 +727,112 @@ type WebHookEventSubscriptionDestinationProperties_STATUS_ARM struct {
 
 	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
 	PreferredBatchSizeInKilobytes *int `json:"preferredBatchSizeInKilobytes,omitempty"`
+}
+
+type BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM string
+
+const BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM_BoolEquals = BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM("BoolEquals")
+
+// Mapping from string to BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM
+var boolEqualsAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM{
+	"boolequals": BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM_BoolEquals,
+}
+
+type NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM string
+
+const NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM_NumberGreaterThan = NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM("NumberGreaterThan")
+
+// Mapping from string to NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM
+var numberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM{
+	"numbergreaterthan": NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM_NumberGreaterThan,
+}
+
+type NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM string
+
+const NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM_NumberGreaterThanOrEquals = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM("NumberGreaterThanOrEquals")
+
+// Mapping from string to NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
+var numberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM{
+	"numbergreaterthanorequals": NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM_NumberGreaterThanOrEquals,
+}
+
+type NumberInAdvancedFilter_OperatorType_STATUS_ARM string
+
+const NumberInAdvancedFilter_OperatorType_STATUS_ARM_NumberIn = NumberInAdvancedFilter_OperatorType_STATUS_ARM("NumberIn")
+
+// Mapping from string to NumberInAdvancedFilter_OperatorType_STATUS_ARM
+var numberInAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]NumberInAdvancedFilter_OperatorType_STATUS_ARM{
+	"numberin": NumberInAdvancedFilter_OperatorType_STATUS_ARM_NumberIn,
+}
+
+type NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM string
+
+const NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM_NumberLessThan = NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM("NumberLessThan")
+
+// Mapping from string to NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM
+var numberLessThanAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM{
+	"numberlessthan": NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM_NumberLessThan,
+}
+
+type NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM string
+
+const NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM_NumberLessThanOrEquals = NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM("NumberLessThanOrEquals")
+
+// Mapping from string to NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
+var numberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM{
+	"numberlessthanorequals": NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM_NumberLessThanOrEquals,
+}
+
+type NumberNotInAdvancedFilter_OperatorType_STATUS_ARM string
+
+const NumberNotInAdvancedFilter_OperatorType_STATUS_ARM_NumberNotIn = NumberNotInAdvancedFilter_OperatorType_STATUS_ARM("NumberNotIn")
+
+// Mapping from string to NumberNotInAdvancedFilter_OperatorType_STATUS_ARM
+var numberNotInAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]NumberNotInAdvancedFilter_OperatorType_STATUS_ARM{
+	"numbernotin": NumberNotInAdvancedFilter_OperatorType_STATUS_ARM_NumberNotIn,
+}
+
+type StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM string
+
+const StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM_StringBeginsWith = StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM("StringBeginsWith")
+
+// Mapping from string to StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM
+var stringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM{
+	"stringbeginswith": StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM_StringBeginsWith,
+}
+
+type StringContainsAdvancedFilter_OperatorType_STATUS_ARM string
+
+const StringContainsAdvancedFilter_OperatorType_STATUS_ARM_StringContains = StringContainsAdvancedFilter_OperatorType_STATUS_ARM("StringContains")
+
+// Mapping from string to StringContainsAdvancedFilter_OperatorType_STATUS_ARM
+var stringContainsAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]StringContainsAdvancedFilter_OperatorType_STATUS_ARM{
+	"stringcontains": StringContainsAdvancedFilter_OperatorType_STATUS_ARM_StringContains,
+}
+
+type StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM string
+
+const StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM_StringEndsWith = StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM("StringEndsWith")
+
+// Mapping from string to StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM
+var stringEndsWithAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM{
+	"stringendswith": StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM_StringEndsWith,
+}
+
+type StringInAdvancedFilter_OperatorType_STATUS_ARM string
+
+const StringInAdvancedFilter_OperatorType_STATUS_ARM_StringIn = StringInAdvancedFilter_OperatorType_STATUS_ARM("StringIn")
+
+// Mapping from string to StringInAdvancedFilter_OperatorType_STATUS_ARM
+var stringInAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]StringInAdvancedFilter_OperatorType_STATUS_ARM{
+	"stringin": StringInAdvancedFilter_OperatorType_STATUS_ARM_StringIn,
+}
+
+type StringNotInAdvancedFilter_OperatorType_STATUS_ARM string
+
+const StringNotInAdvancedFilter_OperatorType_STATUS_ARM_StringNotIn = StringNotInAdvancedFilter_OperatorType_STATUS_ARM("StringNotIn")
+
+// Mapping from string to StringNotInAdvancedFilter_OperatorType_STATUS_ARM
+var stringNotInAdvancedFilter_OperatorType_STATUS_ARM_Values = map[string]StringNotInAdvancedFilter_OperatorType_STATUS_ARM{
+	"stringnotin": StringNotInAdvancedFilter_OperatorType_STATUS_ARM_StringNotIn,
 }

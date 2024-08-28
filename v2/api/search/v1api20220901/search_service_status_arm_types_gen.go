@@ -43,7 +43,7 @@ type Identity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
+	Type *Identity_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Properties of the search service.
@@ -63,7 +63,7 @@ type SearchServiceProperties_STATUS_ARM struct {
 	// HostingMode: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions
 	// that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the
 	// standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
-	HostingMode *SearchServiceProperties_HostingMode_STATUS `json:"hostingMode,omitempty"`
+	HostingMode *SearchServiceProperties_HostingMode_STATUS_ARM `json:"hostingMode,omitempty"`
 
 	// NetworkRuleSet: Network specific rules that determine how the Azure Cognitive Search service may be reached.
 	NetworkRuleSet *NetworkRuleSet_STATUS_ARM `json:"networkRuleSet,omitempty"`
@@ -82,12 +82,12 @@ type SearchServiceProperties_STATUS_ARM struct {
 	// interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is
 	// completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to
 	// Create search service. This is because the free service uses capacity that is already set up.
-	ProvisioningState *SearchServiceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *SearchServiceProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and
 	// templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be
 	// the exclusive access method.
-	PublicNetworkAccess *SearchServiceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *SearchServiceProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// ReplicaCount: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive
 	// for standard SKUs or between 1 and 3 inclusive for basic SKU.
@@ -104,7 +104,7 @@ type SearchServiceProperties_STATUS_ARM struct {
 	// all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or
 	// error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated
 	// services in these states are still chargeable based on the number of search units provisioned.
-	Status *SearchServiceProperties_Status_STATUS `json:"status,omitempty"`
+	Status *SearchServiceProperties_Status_STATUS_ARM `json:"status,omitempty"`
 
 	// StatusDetails: The details of the search service status.
 	StatusDetails *string `json:"statusDetails,omitempty"`
@@ -118,7 +118,7 @@ type Sku_STATUS_ARM struct {
 	// replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity').
 	// 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per
 	// partition, up to 12 partitions.'
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Name *Sku_Name_STATUS_ARM `json:"name,omitempty"`
 }
 
 // Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if
@@ -138,23 +138,23 @@ type EncryptionWithCmk_STATUS_ARM struct {
 	// EncryptionComplianceStatus: Describes whether the search service is compliant or not with respect to having non customer
 	// encrypted resources. If a service has more than one non customer encrypted resource and 'Enforcement' is 'enabled' then
 	// the service will be marked as 'nonCompliant'.
-	EncryptionComplianceStatus *EncryptionWithCmk_EncryptionComplianceStatus_STATUS `json:"encryptionComplianceStatus,omitempty"`
+	EncryptionComplianceStatus *EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM `json:"encryptionComplianceStatus,omitempty"`
 
 	// Enforcement: Describes how a search service should enforce having one or more non customer encrypted resources.
-	Enforcement *EncryptionWithCmk_Enforcement_STATUS `json:"enforcement,omitempty"`
+	Enforcement *EncryptionWithCmk_Enforcement_STATUS_ARM `json:"enforcement,omitempty"`
 }
 
-type Identity_Type_STATUS string
+type Identity_Type_STATUS_ARM string
 
 const (
-	Identity_Type_STATUS_None           = Identity_Type_STATUS("None")
-	Identity_Type_STATUS_SystemAssigned = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_STATUS_ARM_None           = Identity_Type_STATUS_ARM("None")
+	Identity_Type_STATUS_ARM_SystemAssigned = Identity_Type_STATUS_ARM("SystemAssigned")
 )
 
-// Mapping from string to Identity_Type_STATUS
-var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
-	"none":           Identity_Type_STATUS_None,
-	"systemassigned": Identity_Type_STATUS_SystemAssigned,
+// Mapping from string to Identity_Type_STATUS_ARM
+var identity_Type_STATUS_ARM_Values = map[string]Identity_Type_STATUS_ARM{
+	"none":           Identity_Type_STATUS_ARM_None,
+	"systemassigned": Identity_Type_STATUS_ARM_SystemAssigned,
 }
 
 // Network specific rules that determine how the Azure Cognitive Search service may be reached.
@@ -173,6 +173,68 @@ type PrivateEndpointConnection_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+type SearchServiceProperties_HostingMode_STATUS_ARM string
+
+const (
+	SearchServiceProperties_HostingMode_STATUS_ARM_Default     = SearchServiceProperties_HostingMode_STATUS_ARM("default")
+	SearchServiceProperties_HostingMode_STATUS_ARM_HighDensity = SearchServiceProperties_HostingMode_STATUS_ARM("highDensity")
+)
+
+// Mapping from string to SearchServiceProperties_HostingMode_STATUS_ARM
+var searchServiceProperties_HostingMode_STATUS_ARM_Values = map[string]SearchServiceProperties_HostingMode_STATUS_ARM{
+	"default":     SearchServiceProperties_HostingMode_STATUS_ARM_Default,
+	"highdensity": SearchServiceProperties_HostingMode_STATUS_ARM_HighDensity,
+}
+
+type SearchServiceProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	SearchServiceProperties_ProvisioningState_STATUS_ARM_Failed       = SearchServiceProperties_ProvisioningState_STATUS_ARM("failed")
+	SearchServiceProperties_ProvisioningState_STATUS_ARM_Provisioning = SearchServiceProperties_ProvisioningState_STATUS_ARM("provisioning")
+	SearchServiceProperties_ProvisioningState_STATUS_ARM_Succeeded    = SearchServiceProperties_ProvisioningState_STATUS_ARM("succeeded")
+)
+
+// Mapping from string to SearchServiceProperties_ProvisioningState_STATUS_ARM
+var searchServiceProperties_ProvisioningState_STATUS_ARM_Values = map[string]SearchServiceProperties_ProvisioningState_STATUS_ARM{
+	"failed":       SearchServiceProperties_ProvisioningState_STATUS_ARM_Failed,
+	"provisioning": SearchServiceProperties_ProvisioningState_STATUS_ARM_Provisioning,
+	"succeeded":    SearchServiceProperties_ProvisioningState_STATUS_ARM_Succeeded,
+}
+
+type SearchServiceProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	SearchServiceProperties_PublicNetworkAccess_STATUS_ARM_Disabled = SearchServiceProperties_PublicNetworkAccess_STATUS_ARM("disabled")
+	SearchServiceProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = SearchServiceProperties_PublicNetworkAccess_STATUS_ARM("enabled")
+)
+
+// Mapping from string to SearchServiceProperties_PublicNetworkAccess_STATUS_ARM
+var searchServiceProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]SearchServiceProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": SearchServiceProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  SearchServiceProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
+}
+
+type SearchServiceProperties_Status_STATUS_ARM string
+
+const (
+	SearchServiceProperties_Status_STATUS_ARM_Degraded     = SearchServiceProperties_Status_STATUS_ARM("degraded")
+	SearchServiceProperties_Status_STATUS_ARM_Deleting     = SearchServiceProperties_Status_STATUS_ARM("deleting")
+	SearchServiceProperties_Status_STATUS_ARM_Disabled     = SearchServiceProperties_Status_STATUS_ARM("disabled")
+	SearchServiceProperties_Status_STATUS_ARM_Error        = SearchServiceProperties_Status_STATUS_ARM("error")
+	SearchServiceProperties_Status_STATUS_ARM_Provisioning = SearchServiceProperties_Status_STATUS_ARM("provisioning")
+	SearchServiceProperties_Status_STATUS_ARM_Running      = SearchServiceProperties_Status_STATUS_ARM("running")
+)
+
+// Mapping from string to SearchServiceProperties_Status_STATUS_ARM
+var searchServiceProperties_Status_STATUS_ARM_Values = map[string]SearchServiceProperties_Status_STATUS_ARM{
+	"degraded":     SearchServiceProperties_Status_STATUS_ARM_Degraded,
+	"deleting":     SearchServiceProperties_Status_STATUS_ARM_Deleting,
+	"disabled":     SearchServiceProperties_Status_STATUS_ARM_Disabled,
+	"error":        SearchServiceProperties_Status_STATUS_ARM_Error,
+	"provisioning": SearchServiceProperties_Status_STATUS_ARM_Provisioning,
+	"running":      SearchServiceProperties_Status_STATUS_ARM_Running,
+}
+
 // Describes a Shared Private Link Resource managed by the Azure Cognitive Search service.
 type SharedPrivateLinkResource_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
@@ -180,34 +242,62 @@ type SharedPrivateLinkResource_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type Sku_Name_STATUS string
+type Sku_Name_STATUS_ARM string
 
 const (
-	Sku_Name_STATUS_Basic                = Sku_Name_STATUS("basic")
-	Sku_Name_STATUS_Free                 = Sku_Name_STATUS("free")
-	Sku_Name_STATUS_Standard             = Sku_Name_STATUS("standard")
-	Sku_Name_STATUS_Standard2            = Sku_Name_STATUS("standard2")
-	Sku_Name_STATUS_Standard3            = Sku_Name_STATUS("standard3")
-	Sku_Name_STATUS_Storage_Optimized_L1 = Sku_Name_STATUS("storage_optimized_l1")
-	Sku_Name_STATUS_Storage_Optimized_L2 = Sku_Name_STATUS("storage_optimized_l2")
+	Sku_Name_STATUS_ARM_Basic                = Sku_Name_STATUS_ARM("basic")
+	Sku_Name_STATUS_ARM_Free                 = Sku_Name_STATUS_ARM("free")
+	Sku_Name_STATUS_ARM_Standard             = Sku_Name_STATUS_ARM("standard")
+	Sku_Name_STATUS_ARM_Standard2            = Sku_Name_STATUS_ARM("standard2")
+	Sku_Name_STATUS_ARM_Standard3            = Sku_Name_STATUS_ARM("standard3")
+	Sku_Name_STATUS_ARM_Storage_Optimized_L1 = Sku_Name_STATUS_ARM("storage_optimized_l1")
+	Sku_Name_STATUS_ARM_Storage_Optimized_L2 = Sku_Name_STATUS_ARM("storage_optimized_l2")
 )
 
-// Mapping from string to Sku_Name_STATUS
-var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
-	"basic":                Sku_Name_STATUS_Basic,
-	"free":                 Sku_Name_STATUS_Free,
-	"standard":             Sku_Name_STATUS_Standard,
-	"standard2":            Sku_Name_STATUS_Standard2,
-	"standard3":            Sku_Name_STATUS_Standard3,
-	"storage_optimized_l1": Sku_Name_STATUS_Storage_Optimized_L1,
-	"storage_optimized_l2": Sku_Name_STATUS_Storage_Optimized_L2,
+// Mapping from string to Sku_Name_STATUS_ARM
+var sku_Name_STATUS_ARM_Values = map[string]Sku_Name_STATUS_ARM{
+	"basic":                Sku_Name_STATUS_ARM_Basic,
+	"free":                 Sku_Name_STATUS_ARM_Free,
+	"standard":             Sku_Name_STATUS_ARM_Standard,
+	"standard2":            Sku_Name_STATUS_ARM_Standard2,
+	"standard3":            Sku_Name_STATUS_ARM_Standard3,
+	"storage_optimized_l1": Sku_Name_STATUS_ARM_Storage_Optimized_L1,
+	"storage_optimized_l2": Sku_Name_STATUS_ARM_Storage_Optimized_L2,
 }
 
 // Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
 type DataPlaneAadOrApiKeyAuthOption_STATUS_ARM struct {
 	// AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed
 	// authentication.
-	AadAuthFailureMode *DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS `json:"aadAuthFailureMode,omitempty"`
+	AadAuthFailureMode *DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM `json:"aadAuthFailureMode,omitempty"`
+}
+
+type EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM string
+
+const (
+	EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM_Compliant    = EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM("Compliant")
+	EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM_NonCompliant = EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM("NonCompliant")
+)
+
+// Mapping from string to EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM
+var encryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM_Values = map[string]EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM{
+	"compliant":    EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM_Compliant,
+	"noncompliant": EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM_NonCompliant,
+}
+
+type EncryptionWithCmk_Enforcement_STATUS_ARM string
+
+const (
+	EncryptionWithCmk_Enforcement_STATUS_ARM_Disabled    = EncryptionWithCmk_Enforcement_STATUS_ARM("Disabled")
+	EncryptionWithCmk_Enforcement_STATUS_ARM_Enabled     = EncryptionWithCmk_Enforcement_STATUS_ARM("Enabled")
+	EncryptionWithCmk_Enforcement_STATUS_ARM_Unspecified = EncryptionWithCmk_Enforcement_STATUS_ARM("Unspecified")
+)
+
+// Mapping from string to EncryptionWithCmk_Enforcement_STATUS_ARM
+var encryptionWithCmk_Enforcement_STATUS_ARM_Values = map[string]EncryptionWithCmk_Enforcement_STATUS_ARM{
+	"disabled":    EncryptionWithCmk_Enforcement_STATUS_ARM_Disabled,
+	"enabled":     EncryptionWithCmk_Enforcement_STATUS_ARM_Enabled,
+	"unspecified": EncryptionWithCmk_Enforcement_STATUS_ARM_Unspecified,
 }
 
 // The IP restriction rule of the Azure Cognitive Search service.
@@ -215,4 +305,17 @@ type IpRule_STATUS_ARM struct {
 	// Value: Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in CIDR format (eg., 123.1.2.3/24)
 	// to be allowed.
 	Value *string `json:"value,omitempty"`
+}
+
+type DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM string
+
+const (
+	DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM_Http401WithBearerChallenge = DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM("http401WithBearerChallenge")
+	DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM_Http403                    = DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM("http403")
+)
+
+// Mapping from string to DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM
+var dataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM_Values = map[string]DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM{
+	"http401withbearerchallenge": DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM_Http401WithBearerChallenge,
+	"http403":                    DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM_Http403,
 }

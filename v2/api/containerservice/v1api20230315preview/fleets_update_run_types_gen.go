@@ -768,7 +768,9 @@ func (updateRun *Fleets_UpdateRun_STATUS) PopulateFromARM(owner genruntime.Arbit
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := UpdateRunProvisioningState_STATUS(temp)
 			updateRun.ProvisioningState = &provisioningState
 		}
 	}
@@ -1607,7 +1609,9 @@ func (upgrade *ManagedClusterUpgradeSpec) ConvertToARM(resolved genruntime.Conve
 
 	// Set property "Type":
 	if upgrade.Type != nil {
-		typeVar := *upgrade.Type
+		var temp string
+		temp = string(*upgrade.Type)
+		typeVar := ManagedClusterUpgradeType_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -1633,7 +1637,9 @@ func (upgrade *ManagedClusterUpgradeSpec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedClusterUpgradeType(temp)
 		upgrade.Type = &typeVar
 	}
 
@@ -1736,7 +1742,9 @@ func (upgrade *ManagedClusterUpgradeSpec_STATUS) PopulateFromARM(owner genruntim
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedClusterUpgradeType_STATUS(temp)
 		upgrade.Type = &typeVar
 	}
 
@@ -2358,7 +2366,9 @@ func (status *UpdateStatus_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := UpdateState_STATUS(temp)
 		status.State = &state
 	}
 

@@ -49,14 +49,14 @@ type FailoverGroupProperties_ARM struct {
 // Read-only endpoint of the failover group instance.
 type FailoverGroupReadOnlyEndpoint_ARM struct {
 	// FailoverPolicy: Failover policy of the read-only endpoint for the failover group.
-	FailoverPolicy *FailoverGroupReadOnlyEndpoint_FailoverPolicy `json:"failoverPolicy,omitempty"`
+	FailoverPolicy *FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM `json:"failoverPolicy,omitempty"`
 }
 
 // Read-write endpoint of the failover group instance.
 type FailoverGroupReadWriteEndpoint_ARM struct {
 	// FailoverPolicy: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then
 	// failoverWithDataLossGracePeriodMinutes is required.
-	FailoverPolicy *FailoverGroupReadWriteEndpoint_FailoverPolicy `json:"failoverPolicy,omitempty"`
+	FailoverPolicy *FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM `json:"failoverPolicy,omitempty"`
 
 	// FailoverWithDataLossGracePeriodMinutes: Grace period before failover with data loss is attempted for the read-write
 	// endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
@@ -66,4 +66,32 @@ type FailoverGroupReadWriteEndpoint_ARM struct {
 // Partner server information for the failover group.
 type PartnerInfo_ARM struct {
 	Id *string `json:"id,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM string
+
+const (
+	FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM_Disabled = FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM("Disabled")
+	FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM_Enabled  = FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM("Enabled")
+)
+
+// Mapping from string to FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM
+var failoverGroupReadOnlyEndpoint_FailoverPolicy_ARM_Values = map[string]FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM{
+	"disabled": FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM_Disabled,
+	"enabled":  FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Automatic","Manual"}
+type FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM string
+
+const (
+	FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM_Automatic = FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM("Automatic")
+	FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM_Manual    = FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM("Manual")
+)
+
+// Mapping from string to FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM
+var failoverGroupReadWriteEndpoint_FailoverPolicy_ARM_Values = map[string]FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM{
+	"automatic": FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM_Automatic,
+	"manual":    FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM_Manual,
 }

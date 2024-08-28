@@ -1004,7 +1004,11 @@ func (policy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "ObjectType":
 	if policy.ObjectType != nil {
-		result.ObjectType = *policy.ObjectType
+		var temp BackupPolicy_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*policy.ObjectType)
+		temp = BackupPolicy_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 
 	// Set property "PolicyRules":
@@ -1036,7 +1040,11 @@ func (policy *BackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	}
 
 	// Set property "ObjectType":
-	policy.ObjectType = &typedInput.ObjectType
+	var temp BackupPolicy_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = BackupPolicy_ObjectType(temp1)
+	policy.ObjectType = &temp
 
 	// Set property "PolicyRules":
 	for _, item := range typedInput.PolicyRules {
@@ -1199,7 +1207,11 @@ func (policy *BackupPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property "ObjectType":
-	policy.ObjectType = &typedInput.ObjectType
+	var temp BackupPolicy_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = BackupPolicy_ObjectType_STATUS(temp1)
+	policy.ObjectType = &temp
 
 	// Set property "PolicyRules":
 	for _, item := range typedInput.PolicyRules {
@@ -1295,6 +1307,25 @@ func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(desti
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"BackupPolicy"}
+type BackupPolicy_ObjectType string
+
+const BackupPolicy_ObjectType_BackupPolicy = BackupPolicy_ObjectType("BackupPolicy")
+
+// Mapping from string to BackupPolicy_ObjectType
+var backupPolicy_ObjectType_Values = map[string]BackupPolicy_ObjectType{
+	"backuppolicy": BackupPolicy_ObjectType_BackupPolicy,
+}
+
+type BackupPolicy_ObjectType_STATUS string
+
+const BackupPolicy_ObjectType_STATUS_BackupPolicy = BackupPolicy_ObjectType_STATUS("BackupPolicy")
+
+// Mapping from string to BackupPolicy_ObjectType_STATUS
+var backupPolicy_ObjectType_STATUS_Values = map[string]BackupPolicy_ObjectType_STATUS{
+	"backuppolicy": BackupPolicy_ObjectType_STATUS_BackupPolicy,
 }
 
 type BasePolicyRule struct {
@@ -1649,7 +1680,11 @@ func (rule *AzureBackupRule) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property "ObjectType":
 	if rule.ObjectType != nil {
-		result.ObjectType = *rule.ObjectType
+		var temp AzureBackupRule_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*rule.ObjectType)
+		temp = AzureBackupRule_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 
 	// Set property "Trigger":
@@ -1705,7 +1740,11 @@ func (rule *AzureBackupRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property "ObjectType":
-	rule.ObjectType = &typedInput.ObjectType
+	var temp AzureBackupRule_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AzureBackupRule_ObjectType(temp1)
+	rule.ObjectType = &temp
 
 	// Set property "Trigger":
 	if typedInput.Trigger != nil {
@@ -1947,7 +1986,11 @@ func (rule *AzureBackupRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property "ObjectType":
-	rule.ObjectType = &typedInput.ObjectType
+	var temp AzureBackupRule_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AzureBackupRule_ObjectType_STATUS(temp1)
+	rule.ObjectType = &temp
 
 	// Set property "Trigger":
 	if typedInput.Trigger != nil {
@@ -2127,7 +2170,11 @@ func (rule *AzureRetentionRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "ObjectType":
 	if rule.ObjectType != nil {
-		result.ObjectType = *rule.ObjectType
+		var temp AzureRetentionRule_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*rule.ObjectType)
+		temp = AzureRetentionRule_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 	return result, nil
 }
@@ -2167,7 +2214,11 @@ func (rule *AzureRetentionRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property "ObjectType":
-	rule.ObjectType = &typedInput.ObjectType
+	var temp AzureRetentionRule_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AzureRetentionRule_ObjectType(temp1)
+	rule.ObjectType = &temp
 
 	// No error
 	return nil
@@ -2359,7 +2410,11 @@ func (rule *AzureRetentionRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property "ObjectType":
-	rule.ObjectType = &typedInput.ObjectType
+	var temp AzureRetentionRule_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AzureRetentionRule_ObjectType_STATUS(temp1)
+	rule.ObjectType = &temp
 
 	// No error
 	return nil
@@ -2461,6 +2516,44 @@ func (rule *AzureRetentionRule_STATUS) AssignProperties_To_AzureRetentionRule_ST
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"AzureBackupRule"}
+type AzureBackupRule_ObjectType string
+
+const AzureBackupRule_ObjectType_AzureBackupRule = AzureBackupRule_ObjectType("AzureBackupRule")
+
+// Mapping from string to AzureBackupRule_ObjectType
+var azureBackupRule_ObjectType_Values = map[string]AzureBackupRule_ObjectType{
+	"azurebackuprule": AzureBackupRule_ObjectType_AzureBackupRule,
+}
+
+type AzureBackupRule_ObjectType_STATUS string
+
+const AzureBackupRule_ObjectType_STATUS_AzureBackupRule = AzureBackupRule_ObjectType_STATUS("AzureBackupRule")
+
+// Mapping from string to AzureBackupRule_ObjectType_STATUS
+var azureBackupRule_ObjectType_STATUS_Values = map[string]AzureBackupRule_ObjectType_STATUS{
+	"azurebackuprule": AzureBackupRule_ObjectType_STATUS_AzureBackupRule,
+}
+
+// +kubebuilder:validation:Enum={"AzureRetentionRule"}
+type AzureRetentionRule_ObjectType string
+
+const AzureRetentionRule_ObjectType_AzureRetentionRule = AzureRetentionRule_ObjectType("AzureRetentionRule")
+
+// Mapping from string to AzureRetentionRule_ObjectType
+var azureRetentionRule_ObjectType_Values = map[string]AzureRetentionRule_ObjectType{
+	"azureretentionrule": AzureRetentionRule_ObjectType_AzureRetentionRule,
+}
+
+type AzureRetentionRule_ObjectType_STATUS string
+
+const AzureRetentionRule_ObjectType_STATUS_AzureRetentionRule = AzureRetentionRule_ObjectType_STATUS("AzureRetentionRule")
+
+// Mapping from string to AzureRetentionRule_ObjectType_STATUS
+var azureRetentionRule_ObjectType_STATUS_Values = map[string]AzureRetentionRule_ObjectType_STATUS{
+	"azureretentionrule": AzureRetentionRule_ObjectType_STATUS_AzureRetentionRule,
 }
 
 type BackupParameters struct {
@@ -2685,7 +2778,9 @@ func (base *DataStoreInfoBase) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "DataStoreType":
 	if base.DataStoreType != nil {
-		dataStoreType := *base.DataStoreType
+		var temp string
+		temp = string(*base.DataStoreType)
+		dataStoreType := DataStoreInfoBase_DataStoreType_ARM(temp)
 		result.DataStoreType = &dataStoreType
 	}
 
@@ -2711,7 +2806,9 @@ func (base *DataStoreInfoBase) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "DataStoreType":
 	if typedInput.DataStoreType != nil {
-		dataStoreType := *typedInput.DataStoreType
+		var temp string
+		temp = string(*typedInput.DataStoreType)
+		dataStoreType := DataStoreInfoBase_DataStoreType(temp)
 		base.DataStoreType = &dataStoreType
 	}
 
@@ -2814,7 +2911,9 @@ func (base *DataStoreInfoBase_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "DataStoreType":
 	if typedInput.DataStoreType != nil {
-		dataStoreType := *typedInput.DataStoreType
+		var temp string
+		temp = string(*typedInput.DataStoreType)
+		dataStoreType := DataStoreInfoBase_DataStoreType_STATUS(temp)
 		base.DataStoreType = &dataStoreType
 	}
 
@@ -3614,7 +3713,11 @@ func (context *AdhocBasedTriggerContext) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "ObjectType":
 	if context.ObjectType != nil {
-		result.ObjectType = *context.ObjectType
+		var temp AdhocBasedTriggerContext_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*context.ObjectType)
+		temp = AdhocBasedTriggerContext_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 
 	// Set property "TaggingCriteria":
@@ -3642,7 +3745,11 @@ func (context *AdhocBasedTriggerContext) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property "ObjectType":
-	context.ObjectType = &typedInput.ObjectType
+	var temp AdhocBasedTriggerContext_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AdhocBasedTriggerContext_ObjectType(temp1)
+	context.ObjectType = &temp
 
 	// Set property "TaggingCriteria":
 	if typedInput.TaggingCriteria != nil {
@@ -3773,7 +3880,11 @@ func (context *AdhocBasedTriggerContext_STATUS) PopulateFromARM(owner genruntime
 	}
 
 	// Set property "ObjectType":
-	context.ObjectType = &typedInput.ObjectType
+	var temp AdhocBasedTriggerContext_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AdhocBasedTriggerContext_ObjectType_STATUS(temp1)
+	context.ObjectType = &temp
 
 	// Set property "TaggingCriteria":
 	if typedInput.TaggingCriteria != nil {
@@ -3881,7 +3992,11 @@ func (params *AzureBackupParams) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "ObjectType":
 	if params.ObjectType != nil {
-		result.ObjectType = *params.ObjectType
+		var temp AzureBackupParams_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*params.ObjectType)
+		temp = AzureBackupParams_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 	return result, nil
 }
@@ -3905,7 +4020,11 @@ func (params *AzureBackupParams) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property "ObjectType":
-	params.ObjectType = &typedInput.ObjectType
+	var temp AzureBackupParams_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AzureBackupParams_ObjectType(temp1)
+	params.ObjectType = &temp
 
 	// No error
 	return nil
@@ -4004,7 +4123,11 @@ func (params *AzureBackupParams_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property "ObjectType":
-	params.ObjectType = &typedInput.ObjectType
+	var temp AzureBackupParams_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AzureBackupParams_ObjectType_STATUS(temp1)
+	params.ObjectType = &temp
 
 	// No error
 	return nil
@@ -4054,6 +4177,37 @@ func (params *AzureBackupParams_STATUS) AssignProperties_To_AzureBackupParams_ST
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"ArchiveStore","OperationalStore","VaultStore"}
+type DataStoreInfoBase_DataStoreType string
+
+const (
+	DataStoreInfoBase_DataStoreType_ArchiveStore     = DataStoreInfoBase_DataStoreType("ArchiveStore")
+	DataStoreInfoBase_DataStoreType_OperationalStore = DataStoreInfoBase_DataStoreType("OperationalStore")
+	DataStoreInfoBase_DataStoreType_VaultStore       = DataStoreInfoBase_DataStoreType("VaultStore")
+)
+
+// Mapping from string to DataStoreInfoBase_DataStoreType
+var dataStoreInfoBase_DataStoreType_Values = map[string]DataStoreInfoBase_DataStoreType{
+	"archivestore":     DataStoreInfoBase_DataStoreType_ArchiveStore,
+	"operationalstore": DataStoreInfoBase_DataStoreType_OperationalStore,
+	"vaultstore":       DataStoreInfoBase_DataStoreType_VaultStore,
+}
+
+type DataStoreInfoBase_DataStoreType_STATUS string
+
+const (
+	DataStoreInfoBase_DataStoreType_STATUS_ArchiveStore     = DataStoreInfoBase_DataStoreType_STATUS("ArchiveStore")
+	DataStoreInfoBase_DataStoreType_STATUS_OperationalStore = DataStoreInfoBase_DataStoreType_STATUS("OperationalStore")
+	DataStoreInfoBase_DataStoreType_STATUS_VaultStore       = DataStoreInfoBase_DataStoreType_STATUS("VaultStore")
+)
+
+// Mapping from string to DataStoreInfoBase_DataStoreType_STATUS
+var dataStoreInfoBase_DataStoreType_STATUS_Values = map[string]DataStoreInfoBase_DataStoreType_STATUS{
+	"archivestore":     DataStoreInfoBase_DataStoreType_STATUS_ArchiveStore,
+	"operationalstore": DataStoreInfoBase_DataStoreType_STATUS_OperationalStore,
+	"vaultstore":       DataStoreInfoBase_DataStoreType_STATUS_VaultStore,
 }
 
 type DeleteOption struct {
@@ -4281,7 +4435,11 @@ func (context *ScheduleBasedTriggerContext) ConvertToARM(resolved genruntime.Con
 
 	// Set property "ObjectType":
 	if context.ObjectType != nil {
-		result.ObjectType = *context.ObjectType
+		var temp ScheduleBasedTriggerContext_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*context.ObjectType)
+		temp = ScheduleBasedTriggerContext_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 
 	// Set property "Schedule":
@@ -4318,7 +4476,11 @@ func (context *ScheduleBasedTriggerContext) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property "ObjectType":
-	context.ObjectType = &typedInput.ObjectType
+	var temp ScheduleBasedTriggerContext_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = ScheduleBasedTriggerContext_ObjectType(temp1)
+	context.ObjectType = &temp
 
 	// Set property "Schedule":
 	if typedInput.Schedule != nil {
@@ -4516,7 +4678,11 @@ func (context *ScheduleBasedTriggerContext_STATUS) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "ObjectType":
-	context.ObjectType = &typedInput.ObjectType
+	var temp ScheduleBasedTriggerContext_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = ScheduleBasedTriggerContext_ObjectType_STATUS(temp1)
+	context.ObjectType = &temp
 
 	// Set property "Schedule":
 	if typedInput.Schedule != nil {
@@ -4972,7 +5138,11 @@ func (option *AbsoluteDeleteOption) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "ObjectType":
 	if option.ObjectType != nil {
-		result.ObjectType = *option.ObjectType
+		var temp AbsoluteDeleteOption_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*option.ObjectType)
+		temp = AbsoluteDeleteOption_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 	return result, nil
 }
@@ -4996,7 +5166,11 @@ func (option *AbsoluteDeleteOption) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property "ObjectType":
-	option.ObjectType = &typedInput.ObjectType
+	var temp AbsoluteDeleteOption_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AbsoluteDeleteOption_ObjectType(temp1)
+	option.ObjectType = &temp
 
 	// No error
 	return nil
@@ -5095,7 +5269,11 @@ func (option *AbsoluteDeleteOption_STATUS) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property "ObjectType":
-	option.ObjectType = &typedInput.ObjectType
+	var temp AbsoluteDeleteOption_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = AbsoluteDeleteOption_ObjectType_STATUS(temp1)
+	option.ObjectType = &temp
 
 	// No error
 	return nil
@@ -5347,6 +5525,44 @@ func (criteria *AdhocBasedTaggingCriteria_STATUS) AssignProperties_To_AdhocBased
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"AdhocBasedTriggerContext"}
+type AdhocBasedTriggerContext_ObjectType string
+
+const AdhocBasedTriggerContext_ObjectType_AdhocBasedTriggerContext = AdhocBasedTriggerContext_ObjectType("AdhocBasedTriggerContext")
+
+// Mapping from string to AdhocBasedTriggerContext_ObjectType
+var adhocBasedTriggerContext_ObjectType_Values = map[string]AdhocBasedTriggerContext_ObjectType{
+	"adhocbasedtriggercontext": AdhocBasedTriggerContext_ObjectType_AdhocBasedTriggerContext,
+}
+
+type AdhocBasedTriggerContext_ObjectType_STATUS string
+
+const AdhocBasedTriggerContext_ObjectType_STATUS_AdhocBasedTriggerContext = AdhocBasedTriggerContext_ObjectType_STATUS("AdhocBasedTriggerContext")
+
+// Mapping from string to AdhocBasedTriggerContext_ObjectType_STATUS
+var adhocBasedTriggerContext_ObjectType_STATUS_Values = map[string]AdhocBasedTriggerContext_ObjectType_STATUS{
+	"adhocbasedtriggercontext": AdhocBasedTriggerContext_ObjectType_STATUS_AdhocBasedTriggerContext,
+}
+
+// +kubebuilder:validation:Enum={"AzureBackupParams"}
+type AzureBackupParams_ObjectType string
+
+const AzureBackupParams_ObjectType_AzureBackupParams = AzureBackupParams_ObjectType("AzureBackupParams")
+
+// Mapping from string to AzureBackupParams_ObjectType
+var azureBackupParams_ObjectType_Values = map[string]AzureBackupParams_ObjectType{
+	"azurebackupparams": AzureBackupParams_ObjectType_AzureBackupParams,
+}
+
+type AzureBackupParams_ObjectType_STATUS string
+
+const AzureBackupParams_ObjectType_STATUS_AzureBackupParams = AzureBackupParams_ObjectType_STATUS("AzureBackupParams")
+
+// Mapping from string to AzureBackupParams_ObjectType_STATUS
+var azureBackupParams_ObjectType_STATUS_Values = map[string]AzureBackupParams_ObjectType_STATUS{
+	"azurebackupparams": AzureBackupParams_ObjectType_STATUS_AzureBackupParams,
 }
 
 // Schedule for backup
@@ -5925,6 +6141,25 @@ func (option *CopyOption_STATUS) AssignProperties_To_CopyOption_STATUS(destinati
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"ScheduleBasedTriggerContext"}
+type ScheduleBasedTriggerContext_ObjectType string
+
+const ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext = ScheduleBasedTriggerContext_ObjectType("ScheduleBasedTriggerContext")
+
+// Mapping from string to ScheduleBasedTriggerContext_ObjectType
+var scheduleBasedTriggerContext_ObjectType_Values = map[string]ScheduleBasedTriggerContext_ObjectType{
+	"schedulebasedtriggercontext": ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext,
+}
+
+type ScheduleBasedTriggerContext_ObjectType_STATUS string
+
+const ScheduleBasedTriggerContext_ObjectType_STATUS_ScheduleBasedTriggerContext = ScheduleBasedTriggerContext_ObjectType_STATUS("ScheduleBasedTriggerContext")
+
+// Mapping from string to ScheduleBasedTriggerContext_ObjectType_STATUS
+var scheduleBasedTriggerContext_ObjectType_STATUS_Values = map[string]ScheduleBasedTriggerContext_ObjectType_STATUS{
+	"schedulebasedtriggercontext": ScheduleBasedTriggerContext_ObjectType_STATUS_ScheduleBasedTriggerContext,
+}
+
 // Tagging criteria
 type TaggingCriteria struct {
 	// Criteria: Criteria which decides whether the tag can be applied to a triggered backup.
@@ -6358,6 +6593,25 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_To_TaggingCriteria_STAT
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"AbsoluteDeleteOption"}
+type AbsoluteDeleteOption_ObjectType string
+
+const AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption = AbsoluteDeleteOption_ObjectType("AbsoluteDeleteOption")
+
+// Mapping from string to AbsoluteDeleteOption_ObjectType
+var absoluteDeleteOption_ObjectType_Values = map[string]AbsoluteDeleteOption_ObjectType{
+	"absolutedeleteoption": AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption,
+}
+
+type AbsoluteDeleteOption_ObjectType_STATUS string
+
+const AbsoluteDeleteOption_ObjectType_STATUS_AbsoluteDeleteOption = AbsoluteDeleteOption_ObjectType_STATUS("AbsoluteDeleteOption")
+
+// Mapping from string to AbsoluteDeleteOption_ObjectType_STATUS
+var absoluteDeleteOption_ObjectType_STATUS_Values = map[string]AbsoluteDeleteOption_ObjectType_STATUS{
+	"absolutedeleteoption": AbsoluteDeleteOption_ObjectType_STATUS_AbsoluteDeleteOption,
+}
+
 type BackupCriteria struct {
 	// ScheduleBasedBackupCriteria: Mutually exclusive with all other properties
 	ScheduleBasedBackupCriteria *ScheduleBasedBackupCriteria `json:"scheduleBasedBackupCriteria,omitempty"`
@@ -6575,7 +6829,11 @@ func (option *CopyOnExpiryOption) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "ObjectType":
 	if option.ObjectType != nil {
-		result.ObjectType = *option.ObjectType
+		var temp CopyOnExpiryOption_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*option.ObjectType)
+		temp = CopyOnExpiryOption_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 	return result, nil
 }
@@ -6593,7 +6851,11 @@ func (option *CopyOnExpiryOption) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property "ObjectType":
-	option.ObjectType = &typedInput.ObjectType
+	var temp CopyOnExpiryOption_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = CopyOnExpiryOption_ObjectType(temp1)
+	option.ObjectType = &temp
 
 	// No error
 	return nil
@@ -6674,7 +6936,11 @@ func (option *CopyOnExpiryOption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property "ObjectType":
-	option.ObjectType = &typedInput.ObjectType
+	var temp CopyOnExpiryOption_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = CopyOnExpiryOption_ObjectType_STATUS(temp1)
+	option.ObjectType = &temp
 
 	// No error
 	return nil
@@ -6746,7 +7012,11 @@ func (option *CustomCopyOption) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "ObjectType":
 	if option.ObjectType != nil {
-		result.ObjectType = *option.ObjectType
+		var temp CustomCopyOption_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*option.ObjectType)
+		temp = CustomCopyOption_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 	return result, nil
 }
@@ -6770,7 +7040,11 @@ func (option *CustomCopyOption) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property "ObjectType":
-	option.ObjectType = &typedInput.ObjectType
+	var temp CustomCopyOption_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = CustomCopyOption_ObjectType(temp1)
+	option.ObjectType = &temp
 
 	// No error
 	return nil
@@ -6869,7 +7143,11 @@ func (option *CustomCopyOption_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property "ObjectType":
-	option.ObjectType = &typedInput.ObjectType
+	var temp CustomCopyOption_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = CustomCopyOption_ObjectType_STATUS(temp1)
+	option.ObjectType = &temp
 
 	// No error
 	return nil
@@ -6938,7 +7216,11 @@ func (option *ImmediateCopyOption) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "ObjectType":
 	if option.ObjectType != nil {
-		result.ObjectType = *option.ObjectType
+		var temp ImmediateCopyOption_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*option.ObjectType)
+		temp = ImmediateCopyOption_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 	return result, nil
 }
@@ -6956,7 +7238,11 @@ func (option *ImmediateCopyOption) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property "ObjectType":
-	option.ObjectType = &typedInput.ObjectType
+	var temp ImmediateCopyOption_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = ImmediateCopyOption_ObjectType(temp1)
+	option.ObjectType = &temp
 
 	// No error
 	return nil
@@ -7037,7 +7323,11 @@ func (option *ImmediateCopyOption_STATUS) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property "ObjectType":
-	option.ObjectType = &typedInput.ObjectType
+	var temp ImmediateCopyOption_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = ImmediateCopyOption_ObjectType_STATUS(temp1)
+	option.ObjectType = &temp
 
 	// No error
 	return nil
@@ -7257,6 +7547,63 @@ func (retentionTag *RetentionTag_STATUS) AssignProperties_To_RetentionTag_STATUS
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"CopyOnExpiryOption"}
+type CopyOnExpiryOption_ObjectType string
+
+const CopyOnExpiryOption_ObjectType_CopyOnExpiryOption = CopyOnExpiryOption_ObjectType("CopyOnExpiryOption")
+
+// Mapping from string to CopyOnExpiryOption_ObjectType
+var copyOnExpiryOption_ObjectType_Values = map[string]CopyOnExpiryOption_ObjectType{
+	"copyonexpiryoption": CopyOnExpiryOption_ObjectType_CopyOnExpiryOption,
+}
+
+type CopyOnExpiryOption_ObjectType_STATUS string
+
+const CopyOnExpiryOption_ObjectType_STATUS_CopyOnExpiryOption = CopyOnExpiryOption_ObjectType_STATUS("CopyOnExpiryOption")
+
+// Mapping from string to CopyOnExpiryOption_ObjectType_STATUS
+var copyOnExpiryOption_ObjectType_STATUS_Values = map[string]CopyOnExpiryOption_ObjectType_STATUS{
+	"copyonexpiryoption": CopyOnExpiryOption_ObjectType_STATUS_CopyOnExpiryOption,
+}
+
+// +kubebuilder:validation:Enum={"CustomCopyOption"}
+type CustomCopyOption_ObjectType string
+
+const CustomCopyOption_ObjectType_CustomCopyOption = CustomCopyOption_ObjectType("CustomCopyOption")
+
+// Mapping from string to CustomCopyOption_ObjectType
+var customCopyOption_ObjectType_Values = map[string]CustomCopyOption_ObjectType{
+	"customcopyoption": CustomCopyOption_ObjectType_CustomCopyOption,
+}
+
+type CustomCopyOption_ObjectType_STATUS string
+
+const CustomCopyOption_ObjectType_STATUS_CustomCopyOption = CustomCopyOption_ObjectType_STATUS("CustomCopyOption")
+
+// Mapping from string to CustomCopyOption_ObjectType_STATUS
+var customCopyOption_ObjectType_STATUS_Values = map[string]CustomCopyOption_ObjectType_STATUS{
+	"customcopyoption": CustomCopyOption_ObjectType_STATUS_CustomCopyOption,
+}
+
+// +kubebuilder:validation:Enum={"ImmediateCopyOption"}
+type ImmediateCopyOption_ObjectType string
+
+const ImmediateCopyOption_ObjectType_ImmediateCopyOption = ImmediateCopyOption_ObjectType("ImmediateCopyOption")
+
+// Mapping from string to ImmediateCopyOption_ObjectType
+var immediateCopyOption_ObjectType_Values = map[string]ImmediateCopyOption_ObjectType{
+	"immediatecopyoption": ImmediateCopyOption_ObjectType_ImmediateCopyOption,
+}
+
+type ImmediateCopyOption_ObjectType_STATUS string
+
+const ImmediateCopyOption_ObjectType_STATUS_ImmediateCopyOption = ImmediateCopyOption_ObjectType_STATUS("ImmediateCopyOption")
+
+// Mapping from string to ImmediateCopyOption_ObjectType_STATUS
+var immediateCopyOption_ObjectType_STATUS_Values = map[string]ImmediateCopyOption_ObjectType_STATUS{
+	"immediatecopyoption": ImmediateCopyOption_ObjectType_STATUS_ImmediateCopyOption,
+}
+
 type ScheduleBasedBackupCriteria struct {
 	// AbsoluteCriteria: it contains absolute values like "AllBackup" / "FirstOfDay" / "FirstOfWeek" / "FirstOfMonth"
 	// and should be part of AbsoluteMarker enum
@@ -7293,7 +7640,9 @@ func (criteria *ScheduleBasedBackupCriteria) ConvertToARM(resolved genruntime.Co
 
 	// Set property "AbsoluteCriteria":
 	for _, item := range criteria.AbsoluteCriteria {
-		result.AbsoluteCriteria = append(result.AbsoluteCriteria, item)
+		var temp string
+		temp = string(item)
+		result.AbsoluteCriteria = append(result.AbsoluteCriteria, ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM(temp))
 	}
 
 	// Set property "DaysOfMonth":
@@ -7307,17 +7656,25 @@ func (criteria *ScheduleBasedBackupCriteria) ConvertToARM(resolved genruntime.Co
 
 	// Set property "DaysOfTheWeek":
 	for _, item := range criteria.DaysOfTheWeek {
-		result.DaysOfTheWeek = append(result.DaysOfTheWeek, item)
+		var temp string
+		temp = string(item)
+		result.DaysOfTheWeek = append(result.DaysOfTheWeek, ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM(temp))
 	}
 
 	// Set property "MonthsOfYear":
 	for _, item := range criteria.MonthsOfYear {
-		result.MonthsOfYear = append(result.MonthsOfYear, item)
+		var temp string
+		temp = string(item)
+		result.MonthsOfYear = append(result.MonthsOfYear, ScheduleBasedBackupCriteria_MonthsOfYear_ARM(temp))
 	}
 
 	// Set property "ObjectType":
 	if criteria.ObjectType != nil {
-		result.ObjectType = *criteria.ObjectType
+		var temp ScheduleBasedBackupCriteria_ObjectType_ARM
+		var temp1 string
+		temp1 = string(*criteria.ObjectType)
+		temp = ScheduleBasedBackupCriteria_ObjectType_ARM(temp1)
+		result.ObjectType = temp
 	}
 
 	// Set property "ScheduleTimes":
@@ -7327,7 +7684,9 @@ func (criteria *ScheduleBasedBackupCriteria) ConvertToARM(resolved genruntime.Co
 
 	// Set property "WeeksOfTheMonth":
 	for _, item := range criteria.WeeksOfTheMonth {
-		result.WeeksOfTheMonth = append(result.WeeksOfTheMonth, item)
+		var temp string
+		temp = string(item)
+		result.WeeksOfTheMonth = append(result.WeeksOfTheMonth, ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM(temp))
 	}
 	return result, nil
 }
@@ -7346,7 +7705,9 @@ func (criteria *ScheduleBasedBackupCriteria) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "AbsoluteCriteria":
 	for _, item := range typedInput.AbsoluteCriteria {
-		criteria.AbsoluteCriteria = append(criteria.AbsoluteCriteria, item)
+		var temp string
+		temp = string(item)
+		criteria.AbsoluteCriteria = append(criteria.AbsoluteCriteria, ScheduleBasedBackupCriteria_AbsoluteCriteria(temp))
 	}
 
 	// Set property "DaysOfMonth":
@@ -7361,16 +7722,24 @@ func (criteria *ScheduleBasedBackupCriteria) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "DaysOfTheWeek":
 	for _, item := range typedInput.DaysOfTheWeek {
-		criteria.DaysOfTheWeek = append(criteria.DaysOfTheWeek, item)
+		var temp string
+		temp = string(item)
+		criteria.DaysOfTheWeek = append(criteria.DaysOfTheWeek, ScheduleBasedBackupCriteria_DaysOfTheWeek(temp))
 	}
 
 	// Set property "MonthsOfYear":
 	for _, item := range typedInput.MonthsOfYear {
-		criteria.MonthsOfYear = append(criteria.MonthsOfYear, item)
+		var temp string
+		temp = string(item)
+		criteria.MonthsOfYear = append(criteria.MonthsOfYear, ScheduleBasedBackupCriteria_MonthsOfYear(temp))
 	}
 
 	// Set property "ObjectType":
-	criteria.ObjectType = &typedInput.ObjectType
+	var temp ScheduleBasedBackupCriteria_ObjectType
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = ScheduleBasedBackupCriteria_ObjectType(temp1)
+	criteria.ObjectType = &temp
 
 	// Set property "ScheduleTimes":
 	for _, item := range typedInput.ScheduleTimes {
@@ -7379,7 +7748,9 @@ func (criteria *ScheduleBasedBackupCriteria) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "WeeksOfTheMonth":
 	for _, item := range typedInput.WeeksOfTheMonth {
-		criteria.WeeksOfTheMonth = append(criteria.WeeksOfTheMonth, item)
+		var itemTemp string
+		itemTemp = string(item)
+		criteria.WeeksOfTheMonth = append(criteria.WeeksOfTheMonth, ScheduleBasedBackupCriteria_WeeksOfTheMonth(itemTemp))
 	}
 
 	// No error
@@ -7704,7 +8075,9 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "AbsoluteCriteria":
 	for _, item := range typedInput.AbsoluteCriteria {
-		criteria.AbsoluteCriteria = append(criteria.AbsoluteCriteria, item)
+		var temp string
+		temp = string(item)
+		criteria.AbsoluteCriteria = append(criteria.AbsoluteCriteria, ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS(temp))
 	}
 
 	// Set property "DaysOfMonth":
@@ -7719,16 +8092,24 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "DaysOfTheWeek":
 	for _, item := range typedInput.DaysOfTheWeek {
-		criteria.DaysOfTheWeek = append(criteria.DaysOfTheWeek, item)
+		var temp string
+		temp = string(item)
+		criteria.DaysOfTheWeek = append(criteria.DaysOfTheWeek, ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS(temp))
 	}
 
 	// Set property "MonthsOfYear":
 	for _, item := range typedInput.MonthsOfYear {
-		criteria.MonthsOfYear = append(criteria.MonthsOfYear, item)
+		var temp string
+		temp = string(item)
+		criteria.MonthsOfYear = append(criteria.MonthsOfYear, ScheduleBasedBackupCriteria_MonthsOfYear_STATUS(temp))
 	}
 
 	// Set property "ObjectType":
-	criteria.ObjectType = &typedInput.ObjectType
+	var temp ScheduleBasedBackupCriteria_ObjectType_STATUS
+	var temp1 string
+	temp1 = string(typedInput.ObjectType)
+	temp = ScheduleBasedBackupCriteria_ObjectType_STATUS(temp1)
+	criteria.ObjectType = &temp
 
 	// Set property "ScheduleTimes":
 	for _, item := range typedInput.ScheduleTimes {
@@ -7737,7 +8118,9 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "WeeksOfTheMonth":
 	for _, item := range typedInput.WeeksOfTheMonth {
-		criteria.WeeksOfTheMonth = append(criteria.WeeksOfTheMonth, item)
+		var itemTemp string
+		itemTemp = string(item)
+		criteria.WeeksOfTheMonth = append(criteria.WeeksOfTheMonth, ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS(itemTemp))
 	}
 
 	// No error
@@ -8135,6 +8518,217 @@ func (day *Day_STATUS) AssignProperties_To_Day_STATUS(destination *storage.Day_S
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"AllBackup","FirstOfDay","FirstOfMonth","FirstOfWeek","FirstOfYear"}
+type ScheduleBasedBackupCriteria_AbsoluteCriteria string
+
+const (
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_AllBackup    = ScheduleBasedBackupCriteria_AbsoluteCriteria("AllBackup")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfDay   = ScheduleBasedBackupCriteria_AbsoluteCriteria("FirstOfDay")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfMonth = ScheduleBasedBackupCriteria_AbsoluteCriteria("FirstOfMonth")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfWeek  = ScheduleBasedBackupCriteria_AbsoluteCriteria("FirstOfWeek")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfYear  = ScheduleBasedBackupCriteria_AbsoluteCriteria("FirstOfYear")
+)
+
+// Mapping from string to ScheduleBasedBackupCriteria_AbsoluteCriteria
+var scheduleBasedBackupCriteria_AbsoluteCriteria_Values = map[string]ScheduleBasedBackupCriteria_AbsoluteCriteria{
+	"allbackup":    ScheduleBasedBackupCriteria_AbsoluteCriteria_AllBackup,
+	"firstofday":   ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfDay,
+	"firstofmonth": ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfMonth,
+	"firstofweek":  ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfWeek,
+	"firstofyear":  ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfYear,
+}
+
+type ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS string
+
+const (
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_AllBackup    = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("AllBackup")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfDay   = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("FirstOfDay")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfMonth = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("FirstOfMonth")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfWeek  = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("FirstOfWeek")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfYear  = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("FirstOfYear")
+)
+
+// Mapping from string to ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS
+var scheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_Values = map[string]ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS{
+	"allbackup":    ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_AllBackup,
+	"firstofday":   ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfDay,
+	"firstofmonth": ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfMonth,
+	"firstofweek":  ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfWeek,
+	"firstofyear":  ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfYear,
+}
+
+// +kubebuilder:validation:Enum={"Friday","Monday","Saturday","Sunday","Thursday","Tuesday","Wednesday"}
+type ScheduleBasedBackupCriteria_DaysOfTheWeek string
+
+const (
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_Friday    = ScheduleBasedBackupCriteria_DaysOfTheWeek("Friday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_Monday    = ScheduleBasedBackupCriteria_DaysOfTheWeek("Monday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_Saturday  = ScheduleBasedBackupCriteria_DaysOfTheWeek("Saturday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_Sunday    = ScheduleBasedBackupCriteria_DaysOfTheWeek("Sunday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_Thursday  = ScheduleBasedBackupCriteria_DaysOfTheWeek("Thursday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_Tuesday   = ScheduleBasedBackupCriteria_DaysOfTheWeek("Tuesday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_Wednesday = ScheduleBasedBackupCriteria_DaysOfTheWeek("Wednesday")
+)
+
+// Mapping from string to ScheduleBasedBackupCriteria_DaysOfTheWeek
+var scheduleBasedBackupCriteria_DaysOfTheWeek_Values = map[string]ScheduleBasedBackupCriteria_DaysOfTheWeek{
+	"friday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_Friday,
+	"monday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_Monday,
+	"saturday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_Saturday,
+	"sunday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_Sunday,
+	"thursday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_Thursday,
+	"tuesday":   ScheduleBasedBackupCriteria_DaysOfTheWeek_Tuesday,
+	"wednesday": ScheduleBasedBackupCriteria_DaysOfTheWeek_Wednesday,
+}
+
+type ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS string
+
+const (
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Friday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Friday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Monday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Monday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Saturday  = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Saturday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Sunday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Sunday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Thursday  = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Thursday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Tuesday   = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Tuesday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Wednesday = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Wednesday")
+)
+
+// Mapping from string to ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS
+var scheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Values = map[string]ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS{
+	"friday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Friday,
+	"monday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Monday,
+	"saturday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Saturday,
+	"sunday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Sunday,
+	"thursday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Thursday,
+	"tuesday":   ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Tuesday,
+	"wednesday": ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Wednesday,
+}
+
+// +kubebuilder:validation:Enum={"April","August","December","February","January","July","June","March","May","November","October","September"}
+type ScheduleBasedBackupCriteria_MonthsOfYear string
+
+const (
+	ScheduleBasedBackupCriteria_MonthsOfYear_April     = ScheduleBasedBackupCriteria_MonthsOfYear("April")
+	ScheduleBasedBackupCriteria_MonthsOfYear_August    = ScheduleBasedBackupCriteria_MonthsOfYear("August")
+	ScheduleBasedBackupCriteria_MonthsOfYear_December  = ScheduleBasedBackupCriteria_MonthsOfYear("December")
+	ScheduleBasedBackupCriteria_MonthsOfYear_February  = ScheduleBasedBackupCriteria_MonthsOfYear("February")
+	ScheduleBasedBackupCriteria_MonthsOfYear_January   = ScheduleBasedBackupCriteria_MonthsOfYear("January")
+	ScheduleBasedBackupCriteria_MonthsOfYear_July      = ScheduleBasedBackupCriteria_MonthsOfYear("July")
+	ScheduleBasedBackupCriteria_MonthsOfYear_June      = ScheduleBasedBackupCriteria_MonthsOfYear("June")
+	ScheduleBasedBackupCriteria_MonthsOfYear_March     = ScheduleBasedBackupCriteria_MonthsOfYear("March")
+	ScheduleBasedBackupCriteria_MonthsOfYear_May       = ScheduleBasedBackupCriteria_MonthsOfYear("May")
+	ScheduleBasedBackupCriteria_MonthsOfYear_November  = ScheduleBasedBackupCriteria_MonthsOfYear("November")
+	ScheduleBasedBackupCriteria_MonthsOfYear_October   = ScheduleBasedBackupCriteria_MonthsOfYear("October")
+	ScheduleBasedBackupCriteria_MonthsOfYear_September = ScheduleBasedBackupCriteria_MonthsOfYear("September")
+)
+
+// Mapping from string to ScheduleBasedBackupCriteria_MonthsOfYear
+var scheduleBasedBackupCriteria_MonthsOfYear_Values = map[string]ScheduleBasedBackupCriteria_MonthsOfYear{
+	"april":     ScheduleBasedBackupCriteria_MonthsOfYear_April,
+	"august":    ScheduleBasedBackupCriteria_MonthsOfYear_August,
+	"december":  ScheduleBasedBackupCriteria_MonthsOfYear_December,
+	"february":  ScheduleBasedBackupCriteria_MonthsOfYear_February,
+	"january":   ScheduleBasedBackupCriteria_MonthsOfYear_January,
+	"july":      ScheduleBasedBackupCriteria_MonthsOfYear_July,
+	"june":      ScheduleBasedBackupCriteria_MonthsOfYear_June,
+	"march":     ScheduleBasedBackupCriteria_MonthsOfYear_March,
+	"may":       ScheduleBasedBackupCriteria_MonthsOfYear_May,
+	"november":  ScheduleBasedBackupCriteria_MonthsOfYear_November,
+	"october":   ScheduleBasedBackupCriteria_MonthsOfYear_October,
+	"september": ScheduleBasedBackupCriteria_MonthsOfYear_September,
+}
+
+type ScheduleBasedBackupCriteria_MonthsOfYear_STATUS string
+
+const (
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_April     = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("April")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_August    = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("August")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_December  = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("December")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_February  = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("February")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_January   = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("January")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_July      = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("July")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_June      = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("June")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_March     = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("March")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_May       = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("May")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_November  = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("November")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_October   = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("October")
+	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_September = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("September")
+)
+
+// Mapping from string to ScheduleBasedBackupCriteria_MonthsOfYear_STATUS
+var scheduleBasedBackupCriteria_MonthsOfYear_STATUS_Values = map[string]ScheduleBasedBackupCriteria_MonthsOfYear_STATUS{
+	"april":     ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_April,
+	"august":    ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_August,
+	"december":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_December,
+	"february":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_February,
+	"january":   ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_January,
+	"july":      ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_July,
+	"june":      ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_June,
+	"march":     ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_March,
+	"may":       ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_May,
+	"november":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_November,
+	"october":   ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_October,
+	"september": ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_September,
+}
+
+// +kubebuilder:validation:Enum={"ScheduleBasedBackupCriteria"}
+type ScheduleBasedBackupCriteria_ObjectType string
+
+const ScheduleBasedBackupCriteria_ObjectType_ScheduleBasedBackupCriteria = ScheduleBasedBackupCriteria_ObjectType("ScheduleBasedBackupCriteria")
+
+// Mapping from string to ScheduleBasedBackupCriteria_ObjectType
+var scheduleBasedBackupCriteria_ObjectType_Values = map[string]ScheduleBasedBackupCriteria_ObjectType{
+	"schedulebasedbackupcriteria": ScheduleBasedBackupCriteria_ObjectType_ScheduleBasedBackupCriteria,
+}
+
+type ScheduleBasedBackupCriteria_ObjectType_STATUS string
+
+const ScheduleBasedBackupCriteria_ObjectType_STATUS_ScheduleBasedBackupCriteria = ScheduleBasedBackupCriteria_ObjectType_STATUS("ScheduleBasedBackupCriteria")
+
+// Mapping from string to ScheduleBasedBackupCriteria_ObjectType_STATUS
+var scheduleBasedBackupCriteria_ObjectType_STATUS_Values = map[string]ScheduleBasedBackupCriteria_ObjectType_STATUS{
+	"schedulebasedbackupcriteria": ScheduleBasedBackupCriteria_ObjectType_STATUS_ScheduleBasedBackupCriteria,
+}
+
+// +kubebuilder:validation:Enum={"First","Fourth","Last","Second","Third"}
+type ScheduleBasedBackupCriteria_WeeksOfTheMonth string
+
+const (
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_First  = ScheduleBasedBackupCriteria_WeeksOfTheMonth("First")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Fourth = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Fourth")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Last   = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Last")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Second = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Second")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Third  = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Third")
+)
+
+// Mapping from string to ScheduleBasedBackupCriteria_WeeksOfTheMonth
+var scheduleBasedBackupCriteria_WeeksOfTheMonth_Values = map[string]ScheduleBasedBackupCriteria_WeeksOfTheMonth{
+	"first":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_First,
+	"fourth": ScheduleBasedBackupCriteria_WeeksOfTheMonth_Fourth,
+	"last":   ScheduleBasedBackupCriteria_WeeksOfTheMonth_Last,
+	"second": ScheduleBasedBackupCriteria_WeeksOfTheMonth_Second,
+	"third":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_Third,
+}
+
+type ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS string
+
+const (
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_First  = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("First")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Fourth = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Fourth")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Last   = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Last")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Second = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Second")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Third  = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Third")
+)
+
+// Mapping from string to ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS
+var scheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Values = map[string]ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS{
+	"first":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_First,
+	"fourth": ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Fourth,
+	"last":   ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Last,
+	"second": ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Second,
+	"third":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Third,
 }
 
 func init() {

@@ -959,7 +959,9 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ApplicationGatewayProvisioningState_STATUS(temp)
 			gateway.ProvisioningState = &provisioningState
 		}
 	}
@@ -1295,7 +1297,9 @@ func (gatewaySku *NatGatewaySku) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property "Name":
 	if gatewaySku.Name != nil {
-		name := *gatewaySku.Name
+		var temp string
+		temp = string(*gatewaySku.Name)
+		name := NatGatewaySku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -1315,7 +1319,9 @@ func (gatewaySku *NatGatewaySku) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := NatGatewaySku_Name(temp)
 		gatewaySku.Name = &name
 	}
 
@@ -1400,7 +1406,9 @@ func (gatewaySku *NatGatewaySku_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := NatGatewaySku_Name_STATUS(temp)
 		gatewaySku.Name = &name
 	}
 
@@ -1446,6 +1454,25 @@ func (gatewaySku *NatGatewaySku_STATUS) AssignProperties_To_NatGatewaySku_STATUS
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Standard"}
+type NatGatewaySku_Name string
+
+const NatGatewaySku_Name_Standard = NatGatewaySku_Name("Standard")
+
+// Mapping from string to NatGatewaySku_Name
+var natGatewaySku_Name_Values = map[string]NatGatewaySku_Name{
+	"standard": NatGatewaySku_Name_Standard,
+}
+
+type NatGatewaySku_Name_STATUS string
+
+const NatGatewaySku_Name_STATUS_Standard = NatGatewaySku_Name_STATUS("Standard")
+
+// Mapping from string to NatGatewaySku_Name_STATUS
+var natGatewaySku_Name_STATUS_Values = map[string]NatGatewaySku_Name_STATUS{
+	"standard": NatGatewaySku_Name_STATUS_Standard,
 }
 
 func init() {

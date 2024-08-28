@@ -80,7 +80,7 @@ func (in *AdditionalLocation_ARM) DeepCopyInto(out *AdditionalLocation_ARM) {
 	}
 	if in.NatGatewayState != nil {
 		in, out := &in.NatGatewayState, &out.NatGatewayState
-		*out = new(AdditionalLocation_NatGatewayState)
+		*out = new(AdditionalLocation_NatGatewayState_ARM)
 		**out = **in
 	}
 	if in.PublicIpAddressId != nil {
@@ -210,7 +210,7 @@ func (in *AdditionalLocation_STATUS_ARM) DeepCopyInto(out *AdditionalLocation_ST
 	}
 	if in.NatGatewayState != nil {
 		in, out := &in.NatGatewayState, &out.NatGatewayState
-		*out = new(AdditionalLocation_NatGatewayState_STATUS)
+		*out = new(AdditionalLocation_NatGatewayState_STATUS_ARM)
 		**out = **in
 	}
 	if in.OutboundPublicIPAddresses != nil {
@@ -220,7 +220,7 @@ func (in *AdditionalLocation_STATUS_ARM) DeepCopyInto(out *AdditionalLocation_ST
 	}
 	if in.PlatformVersion != nil {
 		in, out := &in.PlatformVersion, &out.PlatformVersion
-		*out = new(AdditionalLocation_PlatformVersion_STATUS)
+		*out = new(AdditionalLocation_PlatformVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.PrivateIPAddresses != nil {
@@ -487,7 +487,7 @@ func (in *ApiContractProperties_STATUS_ARM) DeepCopyInto(out *ApiContractPropert
 	}
 	if in.Protocols != nil {
 		in, out := &in.Protocols, &out.Protocols
-		*out = make([]ApiContractProperties_Protocols_STATUS, len(*in))
+		*out = make([]ApiContractProperties_Protocols_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.ProvisioningState != nil {
@@ -522,7 +522,7 @@ func (in *ApiContractProperties_STATUS_ARM) DeepCopyInto(out *ApiContractPropert
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ApiContractProperties_Type_STATUS)
+		*out = new(ApiContractProperties_Type_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -557,7 +557,7 @@ func (in *ApiCreateOrUpdateProperties_ARM) DeepCopyInto(out *ApiCreateOrUpdatePr
 	}
 	if in.ApiType != nil {
 		in, out := &in.ApiType, &out.ApiType
-		*out = new(ApiCreateOrUpdateProperties_ApiType)
+		*out = new(ApiCreateOrUpdateProperties_ApiType_ARM)
 		**out = **in
 	}
 	if in.ApiVersionDescription != nil {
@@ -597,7 +597,7 @@ func (in *ApiCreateOrUpdateProperties_ARM) DeepCopyInto(out *ApiCreateOrUpdatePr
 	}
 	if in.Format != nil {
 		in, out := &in.Format, &out.Format
-		*out = new(ApiCreateOrUpdateProperties_Format)
+		*out = new(ApiCreateOrUpdateProperties_Format_ARM)
 		**out = **in
 	}
 	if in.IsCurrent != nil {
@@ -617,7 +617,7 @@ func (in *ApiCreateOrUpdateProperties_ARM) DeepCopyInto(out *ApiCreateOrUpdatePr
 	}
 	if in.Protocols != nil {
 		in, out := &in.Protocols, &out.Protocols
-		*out = make([]ApiCreateOrUpdateProperties_Protocols, len(*in))
+		*out = make([]ApiCreateOrUpdateProperties_Protocols_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.ServiceUrl != nil {
@@ -647,12 +647,12 @@ func (in *ApiCreateOrUpdateProperties_ARM) DeepCopyInto(out *ApiCreateOrUpdatePr
 	}
 	if in.TranslateRequiredQueryParameters != nil {
 		in, out := &in.TranslateRequiredQueryParameters, &out.TranslateRequiredQueryParameters
-		*out = new(ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters)
+		*out = new(ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ApiCreateOrUpdateProperties_Type)
+		*out = new(ApiCreateOrUpdateProperties_Type_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -889,7 +889,7 @@ func (in *ApiManagementServiceIdentity_ARM) DeepCopyInto(out *ApiManagementServi
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ApiManagementServiceIdentity_Type)
+		*out = new(ApiManagementServiceIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -963,7 +963,7 @@ func (in *ApiManagementServiceIdentity_STATUS_ARM) DeepCopyInto(out *ApiManageme
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ApiManagementServiceIdentity_Type_STATUS)
+		*out = new(ApiManagementServiceIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -1021,7 +1021,7 @@ func (in *ApiManagementServiceProperties_ARM) DeepCopyInto(out *ApiManagementSer
 	}
 	if in.DeveloperPortalStatus != nil {
 		in, out := &in.DeveloperPortalStatus, &out.DeveloperPortalStatus
-		*out = new(ApiManagementServiceProperties_DeveloperPortalStatus)
+		*out = new(ApiManagementServiceProperties_DeveloperPortalStatus_ARM)
 		**out = **in
 	}
 	if in.DisableGateway != nil {
@@ -1043,12 +1043,12 @@ func (in *ApiManagementServiceProperties_ARM) DeepCopyInto(out *ApiManagementSer
 	}
 	if in.LegacyPortalStatus != nil {
 		in, out := &in.LegacyPortalStatus, &out.LegacyPortalStatus
-		*out = new(ApiManagementServiceProperties_LegacyPortalStatus)
+		*out = new(ApiManagementServiceProperties_LegacyPortalStatus_ARM)
 		**out = **in
 	}
 	if in.NatGatewayState != nil {
 		in, out := &in.NatGatewayState, &out.NatGatewayState
-		*out = new(ApiManagementServiceProperties_NatGatewayState)
+		*out = new(ApiManagementServiceProperties_NatGatewayState_ARM)
 		**out = **in
 	}
 	if in.NotificationSenderEmail != nil {
@@ -1063,7 +1063,7 @@ func (in *ApiManagementServiceProperties_ARM) DeepCopyInto(out *ApiManagementSer
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(ApiManagementServiceProperties_PublicNetworkAccess)
+		*out = new(ApiManagementServiceProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.PublisherEmail != nil {
@@ -1088,7 +1088,7 @@ func (in *ApiManagementServiceProperties_ARM) DeepCopyInto(out *ApiManagementSer
 	}
 	if in.VirtualNetworkType != nil {
 		in, out := &in.VirtualNetworkType, &out.VirtualNetworkType
-		*out = new(ApiManagementServiceProperties_VirtualNetworkType)
+		*out = new(ApiManagementServiceProperties_VirtualNetworkType_ARM)
 		**out = **in
 	}
 }
@@ -1144,7 +1144,7 @@ func (in *ApiManagementServiceProperties_STATUS_ARM) DeepCopyInto(out *ApiManage
 	}
 	if in.DeveloperPortalStatus != nil {
 		in, out := &in.DeveloperPortalStatus, &out.DeveloperPortalStatus
-		*out = new(ApiManagementServiceProperties_DeveloperPortalStatus_STATUS)
+		*out = new(ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.DeveloperPortalUrl != nil {
@@ -1181,7 +1181,7 @@ func (in *ApiManagementServiceProperties_STATUS_ARM) DeepCopyInto(out *ApiManage
 	}
 	if in.LegacyPortalStatus != nil {
 		in, out := &in.LegacyPortalStatus, &out.LegacyPortalStatus
-		*out = new(ApiManagementServiceProperties_LegacyPortalStatus_STATUS)
+		*out = new(ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.ManagementApiUrl != nil {
@@ -1191,7 +1191,7 @@ func (in *ApiManagementServiceProperties_STATUS_ARM) DeepCopyInto(out *ApiManage
 	}
 	if in.NatGatewayState != nil {
 		in, out := &in.NatGatewayState, &out.NatGatewayState
-		*out = new(ApiManagementServiceProperties_NatGatewayState_STATUS)
+		*out = new(ApiManagementServiceProperties_NatGatewayState_STATUS_ARM)
 		**out = **in
 	}
 	if in.NotificationSenderEmail != nil {
@@ -1206,7 +1206,7 @@ func (in *ApiManagementServiceProperties_STATUS_ARM) DeepCopyInto(out *ApiManage
 	}
 	if in.PlatformVersion != nil {
 		in, out := &in.PlatformVersion, &out.PlatformVersion
-		*out = new(ApiManagementServiceProperties_PlatformVersion_STATUS)
+		*out = new(ApiManagementServiceProperties_PlatformVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.PortalUrl != nil {
@@ -1243,7 +1243,7 @@ func (in *ApiManagementServiceProperties_STATUS_ARM) DeepCopyInto(out *ApiManage
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(ApiManagementServiceProperties_PublicNetworkAccess_STATUS)
+		*out = new(ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublisherEmail != nil {
@@ -1278,7 +1278,7 @@ func (in *ApiManagementServiceProperties_STATUS_ARM) DeepCopyInto(out *ApiManage
 	}
 	if in.VirtualNetworkType != nil {
 		in, out := &in.VirtualNetworkType, &out.VirtualNetworkType
-		*out = new(ApiManagementServiceProperties_VirtualNetworkType_STATUS)
+		*out = new(ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1328,7 +1328,7 @@ func (in *ApiManagementServiceSkuProperties_ARM) DeepCopyInto(out *ApiManagement
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ApiManagementServiceSkuProperties_Name)
+		*out = new(ApiManagementServiceSkuProperties_Name_ARM)
 		**out = **in
 	}
 }
@@ -1378,7 +1378,7 @@ func (in *ApiManagementServiceSkuProperties_STATUS_ARM) DeepCopyInto(out *ApiMan
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ApiManagementServiceSkuProperties_Name_STATUS)
+		*out = new(ApiManagementServiceSkuProperties_Name_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1575,7 +1575,7 @@ func (in *ApiVersionSetContractDetails_ARM) DeepCopyInto(out *ApiVersionSetContr
 	}
 	if in.VersioningScheme != nil {
 		in, out := &in.VersioningScheme, &out.VersioningScheme
-		*out = new(ApiVersionSetContractDetails_VersioningScheme)
+		*out = new(ApiVersionSetContractDetails_VersioningScheme_ARM)
 		**out = **in
 	}
 }
@@ -1665,7 +1665,7 @@ func (in *ApiVersionSetContractDetails_STATUS_ARM) DeepCopyInto(out *ApiVersionS
 	}
 	if in.VersioningScheme != nil {
 		in, out := &in.VersioningScheme, &out.VersioningScheme
-		*out = new(ApiVersionSetContractDetails_VersioningScheme_STATUS)
+		*out = new(ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1705,7 +1705,7 @@ func (in *ApiVersionSetContractProperties_ARM) DeepCopyInto(out *ApiVersionSetCo
 	}
 	if in.VersioningScheme != nil {
 		in, out := &in.VersioningScheme, &out.VersioningScheme
-		*out = new(ApiVersionSetContractProperties_VersioningScheme)
+		*out = new(ApiVersionSetContractProperties_VersioningScheme_ARM)
 		**out = **in
 	}
 }
@@ -1745,7 +1745,7 @@ func (in *ApiVersionSetContractProperties_STATUS_ARM) DeepCopyInto(out *ApiVersi
 	}
 	if in.VersioningScheme != nil {
 		in, out := &in.VersioningScheme, &out.VersioningScheme
-		*out = new(ApiVersionSetContractProperties_VersioningScheme_STATUS)
+		*out = new(ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2053,12 +2053,12 @@ func (in *AuthorizationContractProperties_ARM) DeepCopyInto(out *AuthorizationCo
 	*out = *in
 	if in.AuthorizationType != nil {
 		in, out := &in.AuthorizationType, &out.AuthorizationType
-		*out = new(AuthorizationContractProperties_AuthorizationType)
+		*out = new(AuthorizationContractProperties_AuthorizationType_ARM)
 		**out = **in
 	}
 	if in.Oauth2GrantType != nil {
 		in, out := &in.Oauth2GrantType, &out.Oauth2GrantType
-		*out = new(AuthorizationContractProperties_Oauth2GrantType)
+		*out = new(AuthorizationContractProperties_Oauth2GrantType_ARM)
 		**out = **in
 	}
 	if in.Parameters != nil {
@@ -2085,7 +2085,7 @@ func (in *AuthorizationContractProperties_STATUS_ARM) DeepCopyInto(out *Authoriz
 	*out = *in
 	if in.AuthorizationType != nil {
 		in, out := &in.AuthorizationType, &out.AuthorizationType
-		*out = new(AuthorizationContractProperties_AuthorizationType_STATUS)
+		*out = new(AuthorizationContractProperties_AuthorizationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.Error != nil {
@@ -2095,7 +2095,7 @@ func (in *AuthorizationContractProperties_STATUS_ARM) DeepCopyInto(out *Authoriz
 	}
 	if in.Oauth2GrantType != nil {
 		in, out := &in.Oauth2GrantType, &out.Oauth2GrantType
-		*out = new(AuthorizationContractProperties_Oauth2GrantType_STATUS)
+		*out = new(AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM)
 		**out = **in
 	}
 	if in.Parameters != nil {
@@ -2866,7 +2866,7 @@ func (in *BackendContractProperties_ARM) DeepCopyInto(out *BackendContractProper
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(BackendContractProperties_Protocol)
+		*out = new(BackendContractProperties_Protocol_ARM)
 		**out = **in
 	}
 	if in.Proxy != nil {
@@ -2891,7 +2891,7 @@ func (in *BackendContractProperties_ARM) DeepCopyInto(out *BackendContractProper
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(BackendContractProperties_Type)
+		*out = new(BackendContractProperties_Type_ARM)
 		**out = **in
 	}
 	if in.Url != nil {
@@ -2941,7 +2941,7 @@ func (in *BackendContractProperties_STATUS_ARM) DeepCopyInto(out *BackendContrac
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(BackendContractProperties_Protocol_STATUS)
+		*out = new(BackendContractProperties_Protocol_STATUS_ARM)
 		**out = **in
 	}
 	if in.Proxy != nil {
@@ -2966,7 +2966,7 @@ func (in *BackendContractProperties_STATUS_ARM) DeepCopyInto(out *BackendContrac
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(BackendContractProperties_Type_STATUS)
+		*out = new(BackendContractProperties_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.Url != nil {
@@ -3967,7 +3967,7 @@ func (in *CertificateConfiguration_ARM) DeepCopyInto(out *CertificateConfigurati
 	}
 	if in.StoreName != nil {
 		in, out := &in.StoreName, &out.StoreName
-		*out = new(CertificateConfiguration_StoreName)
+		*out = new(CertificateConfiguration_StoreName_ARM)
 		**out = **in
 	}
 }
@@ -4027,7 +4027,7 @@ func (in *CertificateConfiguration_STATUS_ARM) DeepCopyInto(out *CertificateConf
 	}
 	if in.StoreName != nil {
 		in, out := &in.StoreName, &out.StoreName
-		*out = new(CertificateConfiguration_StoreName_STATUS)
+		*out = new(CertificateConfiguration_StoreName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -4490,7 +4490,7 @@ func (in *ConfigurationApi_ARM) DeepCopyInto(out *ConfigurationApi_ARM) {
 	*out = *in
 	if in.LegacyApi != nil {
 		in, out := &in.LegacyApi, &out.LegacyApi
-		*out = new(ConfigurationApi_LegacyApi)
+		*out = new(ConfigurationApi_LegacyApi_ARM)
 		**out = **in
 	}
 }
@@ -4530,7 +4530,7 @@ func (in *ConfigurationApi_STATUS_ARM) DeepCopyInto(out *ConfigurationApi_STATUS
 	*out = *in
 	if in.LegacyApi != nil {
 		in, out := &in.LegacyApi, &out.LegacyApi
-		*out = new(ConfigurationApi_LegacyApi_STATUS)
+		*out = new(ConfigurationApi_LegacyApi_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -4735,12 +4735,12 @@ func (in *HostnameConfiguration_ARM) DeepCopyInto(out *HostnameConfiguration_ARM
 	}
 	if in.CertificateSource != nil {
 		in, out := &in.CertificateSource, &out.CertificateSource
-		*out = new(HostnameConfiguration_CertificateSource)
+		*out = new(HostnameConfiguration_CertificateSource_ARM)
 		**out = **in
 	}
 	if in.CertificateStatus != nil {
 		in, out := &in.CertificateStatus, &out.CertificateStatus
-		*out = new(HostnameConfiguration_CertificateStatus)
+		*out = new(HostnameConfiguration_CertificateStatus_ARM)
 		**out = **in
 	}
 	if in.DefaultSslBinding != nil {
@@ -4775,7 +4775,7 @@ func (in *HostnameConfiguration_ARM) DeepCopyInto(out *HostnameConfiguration_ARM
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(HostnameConfiguration_Type)
+		*out = new(HostnameConfiguration_Type_ARM)
 		**out = **in
 	}
 }
@@ -4865,12 +4865,12 @@ func (in *HostnameConfiguration_STATUS_ARM) DeepCopyInto(out *HostnameConfigurat
 	}
 	if in.CertificateSource != nil {
 		in, out := &in.CertificateSource, &out.CertificateSource
-		*out = new(HostnameConfiguration_CertificateSource_STATUS)
+		*out = new(HostnameConfiguration_CertificateSource_STATUS_ARM)
 		**out = **in
 	}
 	if in.CertificateStatus != nil {
 		in, out := &in.CertificateStatus, &out.CertificateStatus
-		*out = new(HostnameConfiguration_CertificateStatus_STATUS)
+		*out = new(HostnameConfiguration_CertificateStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.DefaultSslBinding != nil {
@@ -4905,7 +4905,7 @@ func (in *HostnameConfiguration_STATUS_ARM) DeepCopyInto(out *HostnameConfigurat
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(HostnameConfiguration_Type_STATUS)
+		*out = new(HostnameConfiguration_Type_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -5369,7 +5369,7 @@ func (in *OpenIdAuthenticationSettingsContract_ARM) DeepCopyInto(out *OpenIdAuth
 	*out = *in
 	if in.BearerTokenSendingMethods != nil {
 		in, out := &in.BearerTokenSendingMethods, &out.BearerTokenSendingMethods
-		*out = make([]BearerTokenSendingMethodsContract, len(*in))
+		*out = make([]BearerTokenSendingMethodsContract_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.OpenidProviderId != nil {
@@ -5419,7 +5419,7 @@ func (in *OpenIdAuthenticationSettingsContract_STATUS_ARM) DeepCopyInto(out *Ope
 	*out = *in
 	if in.BearerTokenSendingMethods != nil {
 		in, out := &in.BearerTokenSendingMethods, &out.BearerTokenSendingMethods
-		*out = make([]BearerTokenSendingMethodsContract_STATUS, len(*in))
+		*out = make([]BearerTokenSendingMethodsContract_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.OpenidProviderId != nil {
@@ -5471,7 +5471,7 @@ func (in *PolicyContractProperties_ARM) DeepCopyInto(out *PolicyContractProperti
 	*out = *in
 	if in.Format != nil {
 		in, out := &in.Format, &out.Format
-		*out = new(PolicyContractProperties_Format)
+		*out = new(PolicyContractProperties_Format_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -5496,7 +5496,7 @@ func (in *PolicyContractProperties_STATUS_ARM) DeepCopyInto(out *PolicyContractP
 	*out = *in
 	if in.Format != nil {
 		in, out := &in.Format, &out.Format
-		*out = new(PolicyContractProperties_Format_STATUS)
+		*out = new(PolicyContractProperties_Format_STATUS_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -5553,7 +5553,7 @@ func (in *PolicyFragmentContractProperties_ARM) DeepCopyInto(out *PolicyFragment
 	}
 	if in.Format != nil {
 		in, out := &in.Format, &out.Format
-		*out = new(PolicyFragmentContractProperties_Format)
+		*out = new(PolicyFragmentContractProperties_Format_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -5583,7 +5583,7 @@ func (in *PolicyFragmentContractProperties_STATUS_ARM) DeepCopyInto(out *PolicyF
 	}
 	if in.Format != nil {
 		in, out := &in.Format, &out.Format
-		*out = new(PolicyFragmentContractProperties_Format_STATUS)
+		*out = new(PolicyFragmentContractProperties_Format_STATUS_ARM)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -5752,7 +5752,7 @@ func (in *PrivateLinkServiceConnectionState_STATUS_ARM) DeepCopyInto(out *Privat
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(PrivateEndpointServiceConnectionStatus_STATUS)
+		*out = new(PrivateEndpointServiceConnectionStatus_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -5873,7 +5873,7 @@ func (in *ProductContractProperties_ARM) DeepCopyInto(out *ProductContractProper
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ProductContractProperties_State)
+		*out = new(ProductContractProperties_State_ARM)
 		**out = **in
 	}
 	if in.SubscriptionRequired != nil {
@@ -5923,7 +5923,7 @@ func (in *ProductContractProperties_STATUS_ARM) DeepCopyInto(out *ProductContrac
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ProductContractProperties_State_STATUS)
+		*out = new(ProductContractProperties_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.SubscriptionRequired != nil {
@@ -9011,7 +9011,7 @@ func (in *SubscriptionContractProperties_STATUS_ARM) DeepCopyInto(out *Subscript
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(SubscriptionContractProperties_State_STATUS)
+		*out = new(SubscriptionContractProperties_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.StateComment != nil {
@@ -9066,7 +9066,7 @@ func (in *SubscriptionCreateParameterProperties_ARM) DeepCopyInto(out *Subscript
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(SubscriptionCreateParameterProperties_State)
+		*out = new(SubscriptionCreateParameterProperties_State_ARM)
 		**out = **in
 	}
 }
@@ -9318,7 +9318,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -9333,7 +9333,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

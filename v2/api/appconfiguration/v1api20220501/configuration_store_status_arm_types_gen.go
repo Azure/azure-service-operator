@@ -38,7 +38,7 @@ type ConfigurationStore_STATUS_ARM struct {
 // The properties of a configuration store.
 type ConfigurationStoreProperties_STATUS_ARM struct {
 	// CreateMode: Indicates whether the configuration store need to be recovered.
-	CreateMode *ConfigurationStoreProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+	CreateMode *ConfigurationStoreProperties_CreateMode_STATUS_ARM `json:"createMode,omitempty"`
 
 	// CreationDate: The creation date of configuration store.
 	CreationDate *string `json:"creationDate,omitempty"`
@@ -59,11 +59,11 @@ type ConfigurationStoreProperties_STATUS_ARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnectionReference_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the configuration store.
-	ProvisioningState *ConfigurationStoreProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ConfigurationStoreProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
 	// enabled.
-	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
 	// deleted.
@@ -81,7 +81,7 @@ type ResourceIdentity_STATUS_ARM struct {
 
 	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
 	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
-	Type *ResourceIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ResourceIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user-assigned identities associated with the resource. The user-assigned identity
 	// dictionary keys will be ARM resource ids in the form:
@@ -104,7 +104,7 @@ type SystemData_STATUS_ARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -113,7 +113,54 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
+}
+
+type ConfigurationStoreProperties_CreateMode_STATUS_ARM string
+
+const (
+	ConfigurationStoreProperties_CreateMode_STATUS_ARM_Default = ConfigurationStoreProperties_CreateMode_STATUS_ARM("Default")
+	ConfigurationStoreProperties_CreateMode_STATUS_ARM_Recover = ConfigurationStoreProperties_CreateMode_STATUS_ARM("Recover")
+)
+
+// Mapping from string to ConfigurationStoreProperties_CreateMode_STATUS_ARM
+var configurationStoreProperties_CreateMode_STATUS_ARM_Values = map[string]ConfigurationStoreProperties_CreateMode_STATUS_ARM{
+	"default": ConfigurationStoreProperties_CreateMode_STATUS_ARM_Default,
+	"recover": ConfigurationStoreProperties_CreateMode_STATUS_ARM_Recover,
+}
+
+type ConfigurationStoreProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Canceled  = ConfigurationStoreProperties_ProvisioningState_STATUS_ARM("Canceled")
+	ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Creating  = ConfigurationStoreProperties_ProvisioningState_STATUS_ARM("Creating")
+	ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Deleting  = ConfigurationStoreProperties_ProvisioningState_STATUS_ARM("Deleting")
+	ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Failed    = ConfigurationStoreProperties_ProvisioningState_STATUS_ARM("Failed")
+	ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Succeeded = ConfigurationStoreProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Updating  = ConfigurationStoreProperties_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ConfigurationStoreProperties_ProvisioningState_STATUS_ARM
+var configurationStoreProperties_ProvisioningState_STATUS_ARM_Values = map[string]ConfigurationStoreProperties_ProvisioningState_STATUS_ARM{
+	"canceled":  ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Canceled,
+	"creating":  ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  ConfigurationStoreProperties_ProvisioningState_STATUS_ARM_Updating,
+}
+
+type ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM_Disabled = ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM
+var configurationStoreProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
 }
 
 // The encryption settings for a configuration store.
@@ -128,55 +175,55 @@ type PrivateEndpointConnectionReference_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type ResourceIdentity_Type_STATUS string
+type ResourceIdentity_Type_STATUS_ARM string
 
 const (
-	ResourceIdentity_Type_STATUS_None                       = ResourceIdentity_Type_STATUS("None")
-	ResourceIdentity_Type_STATUS_SystemAssigned             = ResourceIdentity_Type_STATUS("SystemAssigned")
-	ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned = ResourceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	ResourceIdentity_Type_STATUS_UserAssigned               = ResourceIdentity_Type_STATUS("UserAssigned")
+	ResourceIdentity_Type_STATUS_ARM_None                       = ResourceIdentity_Type_STATUS_ARM("None")
+	ResourceIdentity_Type_STATUS_ARM_SystemAssigned             = ResourceIdentity_Type_STATUS_ARM("SystemAssigned")
+	ResourceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = ResourceIdentity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	ResourceIdentity_Type_STATUS_ARM_UserAssigned               = ResourceIdentity_Type_STATUS_ARM("UserAssigned")
 )
 
-// Mapping from string to ResourceIdentity_Type_STATUS
-var resourceIdentity_Type_STATUS_Values = map[string]ResourceIdentity_Type_STATUS{
-	"none":                         ResourceIdentity_Type_STATUS_None,
-	"systemassigned":               ResourceIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 ResourceIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to ResourceIdentity_Type_STATUS_ARM
+var resourceIdentity_Type_STATUS_ARM_Values = map[string]ResourceIdentity_Type_STATUS_ARM{
+	"none":                         ResourceIdentity_Type_STATUS_ARM_None,
+	"systemassigned":               ResourceIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": ResourceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ResourceIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
-type SystemData_CreatedByType_STATUS string
+type SystemData_CreatedByType_STATUS_ARM string
 
 const (
-	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
+	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
+	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_CreatedByType_STATUS
-var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
-	"application":     SystemData_CreatedByType_STATUS_Application,
-	"key":             SystemData_CreatedByType_STATUS_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_User,
+// Mapping from string to SystemData_CreatedByType_STATUS_ARM
+var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
+	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
+	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_ARM_User,
 }
 
-type SystemData_LastModifiedByType_STATUS string
+type SystemData_LastModifiedByType_STATUS_ARM string
 
 const (
-	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
+	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
+	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
 )
 
-// Mapping from string to SystemData_LastModifiedByType_STATUS
-var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
-	"application":     SystemData_LastModifiedByType_STATUS_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_User,
+// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
+var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
+	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
 }
 
 // A resource identity that is managed by the user of the service.

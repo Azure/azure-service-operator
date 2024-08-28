@@ -454,7 +454,9 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.DiskSizeGB = &diskSizeGB
 	}
 	if snapshot.DiskState != nil {
-		diskState := *snapshot.DiskState
+		var temp string
+		temp = string(*snapshot.DiskState)
+		diskState := DiskState_ARM(temp)
 		result.Properties.DiskState = &diskState
 	}
 	if snapshot.Encryption != nil {
@@ -474,7 +476,9 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.EncryptionSettingsCollection = &encryptionSettingsCollection
 	}
 	if snapshot.HyperVGeneration != nil {
-		hyperVGeneration := *snapshot.HyperVGeneration
+		var temp string
+		temp = string(*snapshot.HyperVGeneration)
+		hyperVGeneration := SnapshotProperties_HyperVGeneration_ARM(temp)
 		result.Properties.HyperVGeneration = &hyperVGeneration
 	}
 	if snapshot.Incremental != nil {
@@ -482,11 +486,15 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.Incremental = &incremental
 	}
 	if snapshot.NetworkAccessPolicy != nil {
-		networkAccessPolicy := *snapshot.NetworkAccessPolicy
+		var temp string
+		temp = string(*snapshot.NetworkAccessPolicy)
+		networkAccessPolicy := NetworkAccessPolicy_ARM(temp)
 		result.Properties.NetworkAccessPolicy = &networkAccessPolicy
 	}
 	if snapshot.OsType != nil {
-		osType := *snapshot.OsType
+		var temp string
+		temp = string(*snapshot.OsType)
+		osType := SnapshotProperties_OsType_ARM(temp)
 		result.Properties.OsType = &osType
 	}
 	if snapshot.PurchasePlan != nil {
@@ -562,7 +570,9 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskState != nil {
-			diskState := *typedInput.Properties.DiskState
+			var temp string
+			temp = string(*typedInput.Properties.DiskState)
+			diskState := DiskState(temp)
 			snapshot.DiskState = &diskState
 		}
 	}
@@ -610,7 +620,9 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperVGeneration != nil {
-			hyperVGeneration := *typedInput.Properties.HyperVGeneration
+			var temp string
+			temp = string(*typedInput.Properties.HyperVGeneration)
+			hyperVGeneration := SnapshotProperties_HyperVGeneration(temp)
 			snapshot.HyperVGeneration = &hyperVGeneration
 		}
 	}
@@ -634,7 +646,9 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAccessPolicy != nil {
-			networkAccessPolicy := *typedInput.Properties.NetworkAccessPolicy
+			var temp string
+			temp = string(*typedInput.Properties.NetworkAccessPolicy)
+			networkAccessPolicy := NetworkAccessPolicy(temp)
 			snapshot.NetworkAccessPolicy = &networkAccessPolicy
 		}
 	}
@@ -643,7 +657,9 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
-			osType := *typedInput.Properties.OsType
+			var temp string
+			temp = string(*typedInput.Properties.OsType)
+			osType := SnapshotProperties_OsType(temp)
 			snapshot.OsType = &osType
 		}
 	}
@@ -1250,7 +1266,9 @@ func (snapshot *Snapshot_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskState != nil {
-			diskState := *typedInput.Properties.DiskState
+			var temp string
+			temp = string(*typedInput.Properties.DiskState)
+			diskState := DiskState_STATUS(temp)
 			snapshot.DiskState = &diskState
 		}
 	}
@@ -1298,7 +1316,9 @@ func (snapshot *Snapshot_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperVGeneration != nil {
-			hyperVGeneration := *typedInput.Properties.HyperVGeneration
+			var temp string
+			temp = string(*typedInput.Properties.HyperVGeneration)
+			hyperVGeneration := SnapshotProperties_HyperVGeneration_STATUS(temp)
 			snapshot.HyperVGeneration = &hyperVGeneration
 		}
 	}
@@ -1340,7 +1360,9 @@ func (snapshot *Snapshot_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAccessPolicy != nil {
-			networkAccessPolicy := *typedInput.Properties.NetworkAccessPolicy
+			var temp string
+			temp = string(*typedInput.Properties.NetworkAccessPolicy)
+			networkAccessPolicy := NetworkAccessPolicy_STATUS(temp)
 			snapshot.NetworkAccessPolicy = &networkAccessPolicy
 		}
 	}
@@ -1349,7 +1371,9 @@ func (snapshot *Snapshot_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
-			osType := *typedInput.Properties.OsType
+			var temp string
+			temp = string(*typedInput.Properties.OsType)
+			osType := SnapshotProperties_OsType_STATUS(temp)
 			snapshot.OsType = &osType
 		}
 	}
@@ -1848,7 +1872,9 @@ func (snapshotSku *SnapshotSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Name":
 	if snapshotSku.Name != nil {
-		name := *snapshotSku.Name
+		var temp string
+		temp = string(*snapshotSku.Name)
+		name := SnapshotSku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -1868,7 +1894,9 @@ func (snapshotSku *SnapshotSku) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := SnapshotSku_Name(temp)
 		snapshotSku.Name = &name
 	}
 
@@ -1942,7 +1970,9 @@ func (snapshotSku *SnapshotSku_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := SnapshotSku_Name_STATUS(temp)
 		snapshotSku.Name = &name
 	}
 
@@ -2000,6 +2030,37 @@ func (snapshotSku *SnapshotSku_STATUS) AssignProperties_To_SnapshotSku_STATUS(de
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Premium_LRS","Standard_LRS","Standard_ZRS"}
+type SnapshotSku_Name string
+
+const (
+	SnapshotSku_Name_Premium_LRS  = SnapshotSku_Name("Premium_LRS")
+	SnapshotSku_Name_Standard_LRS = SnapshotSku_Name("Standard_LRS")
+	SnapshotSku_Name_Standard_ZRS = SnapshotSku_Name("Standard_ZRS")
+)
+
+// Mapping from string to SnapshotSku_Name
+var snapshotSku_Name_Values = map[string]SnapshotSku_Name{
+	"premium_lrs":  SnapshotSku_Name_Premium_LRS,
+	"standard_lrs": SnapshotSku_Name_Standard_LRS,
+	"standard_zrs": SnapshotSku_Name_Standard_ZRS,
+}
+
+type SnapshotSku_Name_STATUS string
+
+const (
+	SnapshotSku_Name_STATUS_Premium_LRS  = SnapshotSku_Name_STATUS("Premium_LRS")
+	SnapshotSku_Name_STATUS_Standard_LRS = SnapshotSku_Name_STATUS("Standard_LRS")
+	SnapshotSku_Name_STATUS_Standard_ZRS = SnapshotSku_Name_STATUS("Standard_ZRS")
+)
+
+// Mapping from string to SnapshotSku_Name_STATUS
+var snapshotSku_Name_STATUS_Values = map[string]SnapshotSku_Name_STATUS{
+	"premium_lrs":  SnapshotSku_Name_STATUS_Premium_LRS,
+	"standard_lrs": SnapshotSku_Name_STATUS_Standard_LRS,
+	"standard_zrs": SnapshotSku_Name_STATUS_Standard_ZRS,
 }
 
 func init() {

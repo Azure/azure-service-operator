@@ -230,7 +230,7 @@ func AddIndependentPropertyGeneratorsForZoneProperties_STATUS_ARM(gens map[strin
 	gens["MaxNumberOfRecordsPerRecordSet"] = gen.PtrOf(gen.Int())
 	gens["NameServers"] = gen.SliceOf(gen.AlphaString())
 	gens["NumberOfRecordSets"] = gen.PtrOf(gen.Int())
-	gens["ZoneType"] = gen.PtrOf(gen.OneConstOf(ZoneProperties_ZoneType_STATUS_Private, ZoneProperties_ZoneType_STATUS_Public))
+	gens["ZoneType"] = gen.PtrOf(gen.OneConstOf(ZoneProperties_ZoneType_STATUS_ARM_Private, ZoneProperties_ZoneType_STATUS_ARM_Public))
 }
 
 // AddRelatedPropertyGeneratorsForZoneProperties_STATUS_ARM is a factory method for creating gopter generators

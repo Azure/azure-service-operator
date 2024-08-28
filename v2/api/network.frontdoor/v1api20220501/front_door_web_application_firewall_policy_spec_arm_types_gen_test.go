@@ -144,17 +144,17 @@ func CustomRule_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCustomRule_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomRule_ARM(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(
-		ActionType_Allow,
-		ActionType_AnomalyScoring,
-		ActionType_Block,
-		ActionType_Log,
-		ActionType_Redirect))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(CustomRule_EnabledState_Disabled, CustomRule_EnabledState_Enabled))
+		ActionType_ARM_Allow,
+		ActionType_ARM_AnomalyScoring,
+		ActionType_ARM_Block,
+		ActionType_ARM_Log,
+		ActionType_ARM_Redirect))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(CustomRule_EnabledState_ARM_Disabled, CustomRule_EnabledState_ARM_Enabled))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["RateLimitDurationInMinutes"] = gen.PtrOf(gen.Int())
 	gens["RateLimitThreshold"] = gen.PtrOf(gen.Int())
-	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(CustomRule_RuleType_MatchRule, CustomRule_RuleType_RateLimitRule))
+	gens["RuleType"] = gen.PtrOf(gen.OneConstOf(CustomRule_RuleType_ARM_MatchRule, CustomRule_RuleType_ARM_RateLimitRule))
 }
 
 // AddRelatedPropertyGeneratorsForCustomRule_ARM is a factory method for creating gopter generators
@@ -302,18 +302,18 @@ func ManagedRuleExclusion_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedRuleExclusion_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedRuleExclusion_ARM(gens map[string]gopter.Gen) {
 	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
-		ManagedRuleExclusion_MatchVariable_QueryStringArgNames,
-		ManagedRuleExclusion_MatchVariable_RequestBodyJsonArgNames,
-		ManagedRuleExclusion_MatchVariable_RequestBodyPostArgNames,
-		ManagedRuleExclusion_MatchVariable_RequestCookieNames,
-		ManagedRuleExclusion_MatchVariable_RequestHeaderNames))
+		ManagedRuleExclusion_MatchVariable_ARM_QueryStringArgNames,
+		ManagedRuleExclusion_MatchVariable_ARM_RequestBodyJsonArgNames,
+		ManagedRuleExclusion_MatchVariable_ARM_RequestBodyPostArgNames,
+		ManagedRuleExclusion_MatchVariable_ARM_RequestCookieNames,
+		ManagedRuleExclusion_MatchVariable_ARM_RequestHeaderNames))
 	gens["Selector"] = gen.PtrOf(gen.AlphaString())
 	gens["SelectorMatchOperator"] = gen.PtrOf(gen.OneConstOf(
-		ManagedRuleExclusion_SelectorMatchOperator_Contains,
-		ManagedRuleExclusion_SelectorMatchOperator_EndsWith,
-		ManagedRuleExclusion_SelectorMatchOperator_Equals,
-		ManagedRuleExclusion_SelectorMatchOperator_EqualsAny,
-		ManagedRuleExclusion_SelectorMatchOperator_StartsWith))
+		ManagedRuleExclusion_SelectorMatchOperator_ARM_Contains,
+		ManagedRuleExclusion_SelectorMatchOperator_ARM_EndsWith,
+		ManagedRuleExclusion_SelectorMatchOperator_ARM_Equals,
+		ManagedRuleExclusion_SelectorMatchOperator_ARM_EqualsAny,
+		ManagedRuleExclusion_SelectorMatchOperator_ARM_StartsWith))
 }
 
 func Test_ManagedRuleGroupOverride_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -460,12 +460,12 @@ func ManagedRuleOverride_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedRuleOverride_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedRuleOverride_ARM(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(
-		ActionType_Allow,
-		ActionType_AnomalyScoring,
-		ActionType_Block,
-		ActionType_Log,
-		ActionType_Redirect))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(ManagedRuleEnabledState_Disabled, ManagedRuleEnabledState_Enabled))
+		ActionType_ARM_Allow,
+		ActionType_ARM_AnomalyScoring,
+		ActionType_ARM_Block,
+		ActionType_ARM_Log,
+		ActionType_ARM_Redirect))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(ManagedRuleEnabledState_ARM_Disabled, ManagedRuleEnabledState_ARM_Enabled))
 	gens["RuleId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -601,7 +601,7 @@ func ManagedRuleSet_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedRuleSet_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedRuleSet_ARM(gens map[string]gopter.Gen) {
-	gens["RuleSetAction"] = gen.PtrOf(gen.OneConstOf(ManagedRuleSetActionType_Block, ManagedRuleSetActionType_Log, ManagedRuleSetActionType_Redirect))
+	gens["RuleSetAction"] = gen.PtrOf(gen.OneConstOf(ManagedRuleSetActionType_ARM_Block, ManagedRuleSetActionType_ARM_Log, ManagedRuleSetActionType_ARM_Redirect))
 	gens["RuleSetType"] = gen.PtrOf(gen.AlphaString())
 	gens["RuleSetVersion"] = gen.PtrOf(gen.AlphaString())
 }
@@ -671,37 +671,37 @@ func MatchCondition_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForMatchCondition_ARM(gens map[string]gopter.Gen) {
 	gens["MatchValue"] = gen.SliceOf(gen.AlphaString())
 	gens["MatchVariable"] = gen.PtrOf(gen.OneConstOf(
-		MatchCondition_MatchVariable_Cookies,
-		MatchCondition_MatchVariable_PostArgs,
-		MatchCondition_MatchVariable_QueryString,
-		MatchCondition_MatchVariable_RemoteAddr,
-		MatchCondition_MatchVariable_RequestBody,
-		MatchCondition_MatchVariable_RequestHeader,
-		MatchCondition_MatchVariable_RequestMethod,
-		MatchCondition_MatchVariable_RequestUri,
-		MatchCondition_MatchVariable_SocketAddr))
+		MatchCondition_MatchVariable_ARM_Cookies,
+		MatchCondition_MatchVariable_ARM_PostArgs,
+		MatchCondition_MatchVariable_ARM_QueryString,
+		MatchCondition_MatchVariable_ARM_RemoteAddr,
+		MatchCondition_MatchVariable_ARM_RequestBody,
+		MatchCondition_MatchVariable_ARM_RequestHeader,
+		MatchCondition_MatchVariable_ARM_RequestMethod,
+		MatchCondition_MatchVariable_ARM_RequestUri,
+		MatchCondition_MatchVariable_ARM_SocketAddr))
 	gens["NegateCondition"] = gen.PtrOf(gen.Bool())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		MatchCondition_Operator_Any,
-		MatchCondition_Operator_BeginsWith,
-		MatchCondition_Operator_Contains,
-		MatchCondition_Operator_EndsWith,
-		MatchCondition_Operator_Equal,
-		MatchCondition_Operator_GeoMatch,
-		MatchCondition_Operator_GreaterThan,
-		MatchCondition_Operator_GreaterThanOrEqual,
-		MatchCondition_Operator_IPMatch,
-		MatchCondition_Operator_LessThan,
-		MatchCondition_Operator_LessThanOrEqual,
-		MatchCondition_Operator_RegEx))
+		MatchCondition_Operator_ARM_Any,
+		MatchCondition_Operator_ARM_BeginsWith,
+		MatchCondition_Operator_ARM_Contains,
+		MatchCondition_Operator_ARM_EndsWith,
+		MatchCondition_Operator_ARM_Equal,
+		MatchCondition_Operator_ARM_GeoMatch,
+		MatchCondition_Operator_ARM_GreaterThan,
+		MatchCondition_Operator_ARM_GreaterThanOrEqual,
+		MatchCondition_Operator_ARM_IPMatch,
+		MatchCondition_Operator_ARM_LessThan,
+		MatchCondition_Operator_ARM_LessThanOrEqual,
+		MatchCondition_Operator_ARM_RegEx))
 	gens["Selector"] = gen.PtrOf(gen.AlphaString())
 	gens["Transforms"] = gen.SliceOf(gen.OneConstOf(
-		TransformType_Lowercase,
-		TransformType_RemoveNulls,
-		TransformType_Trim,
-		TransformType_Uppercase,
-		TransformType_UrlDecode,
-		TransformType_UrlEncode))
+		TransformType_ARM_Lowercase,
+		TransformType_ARM_RemoveNulls,
+		TransformType_ARM_Trim,
+		TransformType_ARM_Uppercase,
+		TransformType_ARM_UrlDecode,
+		TransformType_ARM_UrlEncode))
 }
 
 func Test_PolicySettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -763,10 +763,10 @@ func PolicySettings_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPolicySettings_ARM(gens map[string]gopter.Gen) {
 	gens["CustomBlockResponseBody"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomBlockResponseStatusCode"] = gen.PtrOf(gen.Int())
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(PolicySettings_EnabledState_Disabled, PolicySettings_EnabledState_Enabled))
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(PolicySettings_Mode_Detection, PolicySettings_Mode_Prevention))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(PolicySettings_EnabledState_ARM_Disabled, PolicySettings_EnabledState_ARM_Enabled))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(PolicySettings_Mode_ARM_Detection, PolicySettings_Mode_ARM_Prevention))
 	gens["RedirectUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["RequestBodyCheck"] = gen.PtrOf(gen.OneConstOf(PolicySettings_RequestBodyCheck_Disabled, PolicySettings_RequestBodyCheck_Enabled))
+	gens["RequestBodyCheck"] = gen.PtrOf(gen.OneConstOf(PolicySettings_RequestBodyCheck_ARM_Disabled, PolicySettings_RequestBodyCheck_ARM_Enabled))
 }
 
 func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -826,7 +826,7 @@ func Sku_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_Classic_AzureFrontDoor, Sku_Name_Premium_AzureFrontDoor, Sku_Name_Standard_AzureFrontDoor))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_ARM_Classic_AzureFrontDoor, Sku_Name_ARM_Premium_AzureFrontDoor, Sku_Name_ARM_Standard_AzureFrontDoor))
 }
 
 func Test_WebApplicationFirewallPolicyProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

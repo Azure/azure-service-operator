@@ -3338,7 +3338,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OperationalState != nil {
-			operationalState := *typedInput.Properties.OperationalState
+			var temp string
+			temp = string(*typedInput.Properties.OperationalState)
+			operationalState := ApplicationGatewayPropertiesFormat_OperationalState_STATUS(temp)
 			embedded.OperationalState = &operationalState
 		}
 	}
@@ -3386,7 +3388,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ApplicationGatewayProvisioningState_STATUS(temp)
 			embedded.ProvisioningState = &provisioningState
 		}
 	}
@@ -5429,7 +5433,9 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		result.Properties.ConnectionDraining = &connectionDraining
 	}
 	if settings.CookieBasedAffinity != nil {
-		cookieBasedAffinity := *settings.CookieBasedAffinity
+		var temp string
+		temp = string(*settings.CookieBasedAffinity)
+		cookieBasedAffinity := ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM(temp)
 		result.Properties.CookieBasedAffinity = &cookieBasedAffinity
 	}
 	if settings.HostName != nil {
@@ -5461,7 +5467,9 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		result.Properties.ProbeEnabled = &probeEnabled
 	}
 	if settings.Protocol != nil {
-		protocol := *settings.Protocol
+		var temp string
+		temp = string(*settings.Protocol)
+		protocol := ApplicationGatewayProtocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if settings.RequestTimeout != nil {
@@ -5530,7 +5538,9 @@ func (settings *ApplicationGatewayBackendHttpSettings) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CookieBasedAffinity != nil {
-			cookieBasedAffinity := *typedInput.Properties.CookieBasedAffinity
+			var temp string
+			temp = string(*typedInput.Properties.CookieBasedAffinity)
+			cookieBasedAffinity := ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity(temp)
 			settings.CookieBasedAffinity = &cookieBasedAffinity
 		}
 	}
@@ -5604,7 +5614,9 @@ func (settings *ApplicationGatewayBackendHttpSettings) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := ApplicationGatewayProtocol(temp)
 			settings.Protocol = &protocol
 		}
 	}
@@ -6021,7 +6033,9 @@ func (settings *ApplicationGatewayBackendSettings) ConvertToARM(resolved genrunt
 		result.Properties.Probe = &probe
 	}
 	if settings.Protocol != nil {
-		protocol := *settings.Protocol
+		var temp string
+		temp = string(*settings.Protocol)
+		protocol := ApplicationGatewayProtocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if settings.Timeout != nil {
@@ -6101,7 +6115,9 @@ func (settings *ApplicationGatewayBackendSettings) PopulateFromARM(owner genrunt
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := ApplicationGatewayProtocol(temp)
 			settings.Protocol = &protocol
 		}
 	}
@@ -6364,7 +6380,9 @@ func (error *ApplicationGatewayCustomError) ConvertToARM(resolved genruntime.Con
 
 	// Set property "StatusCode":
 	if error.StatusCode != nil {
-		statusCode := *error.StatusCode
+		var temp string
+		temp = string(*error.StatusCode)
+		statusCode := ApplicationGatewayCustomError_StatusCode_ARM(temp)
 		result.StatusCode = &statusCode
 	}
 	return result, nil
@@ -6390,7 +6408,9 @@ func (error *ApplicationGatewayCustomError) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "StatusCode":
 	if typedInput.StatusCode != nil {
-		statusCode := *typedInput.StatusCode
+		var temp string
+		temp = string(*typedInput.StatusCode)
+		statusCode := ApplicationGatewayCustomError_StatusCode(temp)
 		error.StatusCode = &statusCode
 	}
 
@@ -6493,7 +6513,9 @@ func (error *ApplicationGatewayCustomError_STATUS) PopulateFromARM(owner genrunt
 
 	// Set property "StatusCode":
 	if typedInput.StatusCode != nil {
-		statusCode := *typedInput.StatusCode
+		var temp string
+		temp = string(*typedInput.StatusCode)
+		statusCode := ApplicationGatewayCustomError_StatusCode_STATUS(temp)
 		error.StatusCode = &statusCode
 	}
 
@@ -6596,7 +6618,9 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		result.Properties.PrivateIPAddress = &privateIPAddress
 	}
 	if configuration.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := *configuration.PrivateIPAllocationMethod
+		var temp string
+		temp = string(*configuration.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := IPAllocationMethod_ARM(temp)
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.PrivateLinkConfiguration != nil {
@@ -6657,7 +6681,9 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) PopulateFromARM(
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
-			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAllocationMethod)
+			privateIPAllocationMethod := IPAllocationMethod(temp)
 			configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
 		}
 	}
@@ -7400,7 +7426,9 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		result.Properties.HostNames = append(result.Properties.HostNames, item)
 	}
 	if listener.Protocol != nil {
-		protocol := *listener.Protocol
+		var temp string
+		temp = string(*listener.Protocol)
+		protocol := ApplicationGatewayProtocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if listener.RequireServerNameIndication != nil {
@@ -7520,7 +7548,9 @@ func (listener *ApplicationGatewayHttpListener) PopulateFromARM(owner genruntime
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := ApplicationGatewayProtocol(temp)
 			listener.Protocol = &protocol
 		}
 	}
@@ -8117,7 +8147,9 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		result.Properties.FrontendPort = &frontendPort
 	}
 	if listener.Protocol != nil {
-		protocol := *listener.Protocol
+		var temp string
+		temp = string(*listener.Protocol)
+		protocol := ApplicationGatewayProtocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if listener.SslCertificate != nil {
@@ -8189,7 +8221,9 @@ func (listener *ApplicationGatewayListener) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := ApplicationGatewayProtocol(temp)
 			listener.Protocol = &protocol
 		}
 	}
@@ -8466,7 +8500,9 @@ func (policy *ApplicationGatewayLoadDistributionPolicy) ConvertToARM(resolved ge
 		result.Properties = &ApplicationGatewayLoadDistributionPolicyPropertiesFormat_ARM{}
 	}
 	if policy.LoadDistributionAlgorithm != nil {
-		loadDistributionAlgorithm := *policy.LoadDistributionAlgorithm
+		var temp string
+		temp = string(*policy.LoadDistributionAlgorithm)
+		loadDistributionAlgorithm := ApplicationGatewayLoadDistributionAlgorithmEnum_ARM(temp)
 		result.Properties.LoadDistributionAlgorithm = &loadDistributionAlgorithm
 	}
 	for _, item := range policy.LoadDistributionTargets {
@@ -8495,7 +8531,9 @@ func (policy *ApplicationGatewayLoadDistributionPolicy) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LoadDistributionAlgorithm != nil {
-			loadDistributionAlgorithm := *typedInput.Properties.LoadDistributionAlgorithm
+			var temp string
+			temp = string(*typedInput.Properties.LoadDistributionAlgorithm)
+			loadDistributionAlgorithm := ApplicationGatewayLoadDistributionAlgorithmEnum(temp)
 			policy.LoadDistributionAlgorithm = &loadDistributionAlgorithm
 		}
 	}
@@ -9047,7 +9085,9 @@ func (probe *ApplicationGatewayProbe) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.Port = &port
 	}
 	if probe.Protocol != nil {
-		protocol := *probe.Protocol
+		var temp string
+		temp = string(*probe.Protocol)
+		protocol := ApplicationGatewayProtocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if probe.Timeout != nil {
@@ -9160,7 +9200,9 @@ func (probe *ApplicationGatewayProbe) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := ApplicationGatewayProtocol(temp)
 			probe.Protocol = &protocol
 		}
 	}
@@ -9514,7 +9556,9 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 		result.Properties.PathRules = append(result.Properties.PathRules, *item_ARM.(*ApplicationGatewaySubResource_ARM))
 	}
 	if configuration.RedirectType != nil {
-		redirectType := *configuration.RedirectType
+		var temp string
+		temp = string(*configuration.RedirectType)
+		redirectType := RedirectTypeEnum_ARM(temp)
 		result.Properties.RedirectType = &redirectType
 	}
 	for _, item := range configuration.RequestRoutingRules {
@@ -9599,7 +9643,9 @@ func (configuration *ApplicationGatewayRedirectConfiguration) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedirectType != nil {
-			redirectType := *typedInput.Properties.RedirectType
+			var temp string
+			temp = string(*typedInput.Properties.RedirectType)
+			redirectType := RedirectTypeEnum(temp)
 			configuration.RedirectType = &redirectType
 		}
 	}
@@ -10054,7 +10100,9 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		result.Properties.RewriteRuleSet = &rewriteRuleSet
 	}
 	if rule.RuleType != nil {
-		ruleType := *rule.RuleType
+		var temp string
+		temp = string(*rule.RuleType)
+		ruleType := ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM(temp)
 		result.Properties.RuleType = &ruleType
 	}
 	if rule.UrlPathMap != nil {
@@ -10183,7 +10231,9 @@ func (rule *ApplicationGatewayRequestRoutingRule) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RuleType != nil {
-			ruleType := *typedInput.Properties.RuleType
+			var temp string
+			temp = string(*typedInput.Properties.RuleType)
+			ruleType := ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType(temp)
 			rule.RuleType = &ruleType
 		}
 	}
@@ -10782,7 +10832,9 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		result.Properties.Priority = &priority
 	}
 	if rule.RuleType != nil {
-		ruleType := *rule.RuleType
+		var temp string
+		temp = string(*rule.RuleType)
+		ruleType := ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM(temp)
 		result.Properties.RuleType = &ruleType
 	}
 	return result, nil
@@ -10861,7 +10913,9 @@ func (rule *ApplicationGatewayRoutingRule) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RuleType != nil {
-			ruleType := *typedInput.Properties.RuleType
+			var temp string
+			temp = string(*typedInput.Properties.RuleType)
+			ruleType := ApplicationGatewayRoutingRulePropertiesFormat_RuleType(temp)
 			rule.RuleType = &ruleType
 		}
 	}
@@ -11099,13 +11153,17 @@ func (gatewaySku *ApplicationGatewaySku) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "Name":
 	if gatewaySku.Name != nil {
-		name := *gatewaySku.Name
+		var temp string
+		temp = string(*gatewaySku.Name)
+		name := ApplicationGatewaySku_Name_ARM(temp)
 		result.Name = &name
 	}
 
 	// Set property "Tier":
 	if gatewaySku.Tier != nil {
-		tier := *gatewaySku.Tier
+		var temp string
+		temp = string(*gatewaySku.Tier)
+		tier := ApplicationGatewaySku_Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -11131,13 +11189,17 @@ func (gatewaySku *ApplicationGatewaySku) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := ApplicationGatewaySku_Name(temp)
 		gatewaySku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := ApplicationGatewaySku_Tier(temp)
 		gatewaySku.Tier = &tier
 	}
 
@@ -11268,13 +11330,17 @@ func (gatewaySku *ApplicationGatewaySku_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := ApplicationGatewaySku_Name_STATUS(temp)
 		gatewaySku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := ApplicationGatewaySku_Tier_STATUS(temp)
 		gatewaySku.Tier = &tier
 	}
 
@@ -11601,29 +11667,39 @@ func (policy *ApplicationGatewaySslPolicy) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "CipherSuites":
 	for _, item := range policy.CipherSuites {
-		result.CipherSuites = append(result.CipherSuites, item)
+		var temp string
+		temp = string(item)
+		result.CipherSuites = append(result.CipherSuites, CipherSuitesEnum_ARM(temp))
 	}
 
 	// Set property "DisabledSslProtocols":
 	for _, item := range policy.DisabledSslProtocols {
-		result.DisabledSslProtocols = append(result.DisabledSslProtocols, item)
+		var temp string
+		temp = string(item)
+		result.DisabledSslProtocols = append(result.DisabledSslProtocols, ProtocolsEnum_ARM(temp))
 	}
 
 	// Set property "MinProtocolVersion":
 	if policy.MinProtocolVersion != nil {
-		minProtocolVersion := *policy.MinProtocolVersion
+		var temp string
+		temp = string(*policy.MinProtocolVersion)
+		minProtocolVersion := ProtocolsEnum_ARM(temp)
 		result.MinProtocolVersion = &minProtocolVersion
 	}
 
 	// Set property "PolicyName":
 	if policy.PolicyName != nil {
-		policyName := *policy.PolicyName
+		var temp string
+		temp = string(*policy.PolicyName)
+		policyName := PolicyNameEnum_ARM(temp)
 		result.PolicyName = &policyName
 	}
 
 	// Set property "PolicyType":
 	if policy.PolicyType != nil {
-		policyType := *policy.PolicyType
+		var temp string
+		temp = string(*policy.PolicyType)
+		policyType := ApplicationGatewaySslPolicy_PolicyType_ARM(temp)
 		result.PolicyType = &policyType
 	}
 	return result, nil
@@ -11643,29 +11719,39 @@ func (policy *ApplicationGatewaySslPolicy) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "CipherSuites":
 	for _, item := range typedInput.CipherSuites {
-		policy.CipherSuites = append(policy.CipherSuites, item)
+		var temp string
+		temp = string(item)
+		policy.CipherSuites = append(policy.CipherSuites, CipherSuitesEnum(temp))
 	}
 
 	// Set property "DisabledSslProtocols":
 	for _, item := range typedInput.DisabledSslProtocols {
-		policy.DisabledSslProtocols = append(policy.DisabledSslProtocols, item)
+		var temp string
+		temp = string(item)
+		policy.DisabledSslProtocols = append(policy.DisabledSslProtocols, ProtocolsEnum(temp))
 	}
 
 	// Set property "MinProtocolVersion":
 	if typedInput.MinProtocolVersion != nil {
-		minProtocolVersion := *typedInput.MinProtocolVersion
+		var temp string
+		temp = string(*typedInput.MinProtocolVersion)
+		minProtocolVersion := ProtocolsEnum(temp)
 		policy.MinProtocolVersion = &minProtocolVersion
 	}
 
 	// Set property "PolicyName":
 	if typedInput.PolicyName != nil {
-		policyName := *typedInput.PolicyName
+		var temp string
+		temp = string(*typedInput.PolicyName)
+		policyName := PolicyNameEnum(temp)
 		policy.PolicyName = &policyName
 	}
 
 	// Set property "PolicyType":
 	if typedInput.PolicyType != nil {
-		policyType := *typedInput.PolicyType
+		var temp string
+		temp = string(*typedInput.PolicyType)
+		policyType := ApplicationGatewaySslPolicy_PolicyType(temp)
 		policy.PolicyType = &policyType
 	}
 
@@ -11892,29 +11978,39 @@ func (policy *ApplicationGatewaySslPolicy_STATUS) PopulateFromARM(owner genrunti
 
 	// Set property "CipherSuites":
 	for _, item := range typedInput.CipherSuites {
-		policy.CipherSuites = append(policy.CipherSuites, item)
+		var temp string
+		temp = string(item)
+		policy.CipherSuites = append(policy.CipherSuites, CipherSuitesEnum_STATUS(temp))
 	}
 
 	// Set property "DisabledSslProtocols":
 	for _, item := range typedInput.DisabledSslProtocols {
-		policy.DisabledSslProtocols = append(policy.DisabledSslProtocols, item)
+		var temp string
+		temp = string(item)
+		policy.DisabledSslProtocols = append(policy.DisabledSslProtocols, ProtocolsEnum_STATUS(temp))
 	}
 
 	// Set property "MinProtocolVersion":
 	if typedInput.MinProtocolVersion != nil {
-		minProtocolVersion := *typedInput.MinProtocolVersion
+		var temp string
+		temp = string(*typedInput.MinProtocolVersion)
+		minProtocolVersion := ProtocolsEnum_STATUS(temp)
 		policy.MinProtocolVersion = &minProtocolVersion
 	}
 
 	// Set property "PolicyName":
 	if typedInput.PolicyName != nil {
-		policyName := *typedInput.PolicyName
+		var temp string
+		temp = string(*typedInput.PolicyName)
+		policyName := PolicyNameEnum_STATUS(temp)
 		policy.PolicyName = &policyName
 	}
 
 	// Set property "PolicyType":
 	if typedInput.PolicyType != nil {
-		policyType := *typedInput.PolicyType
+		var temp string
+		temp = string(*typedInput.PolicyType)
+		policyType := ApplicationGatewaySslPolicy_PolicyType_STATUS(temp)
 		policy.PolicyType = &policyType
 	}
 
@@ -13417,7 +13513,9 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Conv
 
 	// Set property "FirewallMode":
 	if configuration.FirewallMode != nil {
-		firewallMode := *configuration.FirewallMode
+		var temp string
+		temp = string(*configuration.FirewallMode)
+		firewallMode := ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM(temp)
 		result.FirewallMode = &firewallMode
 	}
 
@@ -13499,7 +13597,9 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Popu
 
 	// Set property "FirewallMode":
 	if typedInput.FirewallMode != nil {
-		firewallMode := *typedInput.FirewallMode
+		var temp string
+		temp = string(*typedInput.FirewallMode)
+		firewallMode := ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode(temp)
 		configuration.FirewallMode = &firewallMode
 	}
 
@@ -13919,7 +14019,9 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration_STATU
 
 	// Set property "FirewallMode":
 	if typedInput.FirewallMode != nil {
-		firewallMode := *typedInput.FirewallMode
+		var temp string
+		temp = string(*typedInput.FirewallMode)
+		firewallMode := ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS(temp)
 		configuration.FirewallMode = &firewallMode
 	}
 
@@ -14155,7 +14257,9 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Type":
 	if identity.Type != nil {
-		typeVar := *identity.Type
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := ManagedServiceIdentity_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -14186,7 +14290,9 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentity_Type(temp)
 		identity.Type = &typeVar
 	}
 
@@ -14348,7 +14454,9 @@ func (identity *ManagedServiceIdentity_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagedServiceIdentity_Type_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
@@ -14592,7 +14700,9 @@ func (configuration *ApplicationGatewayClientAuthConfiguration) ConvertToARM(res
 
 	// Set property "VerifyClientRevocation":
 	if configuration.VerifyClientRevocation != nil {
-		verifyClientRevocation := *configuration.VerifyClientRevocation
+		var temp string
+		temp = string(*configuration.VerifyClientRevocation)
+		verifyClientRevocation := ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM(temp)
 		result.VerifyClientRevocation = &verifyClientRevocation
 	}
 	return result, nil
@@ -14618,7 +14728,9 @@ func (configuration *ApplicationGatewayClientAuthConfiguration) PopulateFromARM(
 
 	// Set property "VerifyClientRevocation":
 	if typedInput.VerifyClientRevocation != nil {
-		verifyClientRevocation := *typedInput.VerifyClientRevocation
+		var temp string
+		temp = string(*typedInput.VerifyClientRevocation)
+		verifyClientRevocation := ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation(temp)
 		configuration.VerifyClientRevocation = &verifyClientRevocation
 	}
 
@@ -16185,6 +16297,41 @@ const (
 var iPAllocationMethod_Values = map[string]IPAllocationMethod{
 	"dynamic": IPAllocationMethod_Dynamic,
 	"static":  IPAllocationMethod_Static,
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type ManagedServiceIdentity_Type string
+
+const (
+	ManagedServiceIdentity_Type_None                       = ManagedServiceIdentity_Type("None")
+	ManagedServiceIdentity_Type_SystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
+	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentity_Type
+var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
+	"none":                         ManagedServiceIdentity_Type_None,
+	"systemassigned":               ManagedServiceIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentity_Type_UserAssigned,
+}
+
+type ManagedServiceIdentity_Type_STATUS string
+
+const (
+	ManagedServiceIdentity_Type_STATUS_None                       = ManagedServiceIdentity_Type_STATUS("None")
+	ManagedServiceIdentity_Type_STATUS_SystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
+	ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to ManagedServiceIdentity_Type_STATUS
+var managedServiceIdentity_Type_STATUS_Values = map[string]ManagedServiceIdentity_Type_STATUS{
+	"none":                         ManagedServiceIdentity_Type_STATUS_None,
+	"systemassigned":               ManagedServiceIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentity_Type_STATUS_UserAssigned,
 }
 
 type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {

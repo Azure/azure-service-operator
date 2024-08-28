@@ -176,15 +176,15 @@ func AddIndependentPropertyGeneratorsForSBTopicProperties_STATUS_ARM(gens map[st
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		EntityStatus_STATUS_Active,
-		EntityStatus_STATUS_Creating,
-		EntityStatus_STATUS_Deleting,
-		EntityStatus_STATUS_Disabled,
-		EntityStatus_STATUS_ReceiveDisabled,
-		EntityStatus_STATUS_Renaming,
-		EntityStatus_STATUS_Restoring,
-		EntityStatus_STATUS_SendDisabled,
-		EntityStatus_STATUS_Unknown))
+		EntityStatus_STATUS_ARM_Active,
+		EntityStatus_STATUS_ARM_Creating,
+		EntityStatus_STATUS_ARM_Deleting,
+		EntityStatus_STATUS_ARM_Disabled,
+		EntityStatus_STATUS_ARM_ReceiveDisabled,
+		EntityStatus_STATUS_ARM_Renaming,
+		EntityStatus_STATUS_ARM_Restoring,
+		EntityStatus_STATUS_ARM_SendDisabled,
+		EntityStatus_STATUS_ARM_Unknown))
 	gens["SubscriptionCount"] = gen.PtrOf(gen.Int())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())

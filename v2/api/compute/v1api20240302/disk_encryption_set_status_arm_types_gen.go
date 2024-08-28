@@ -40,7 +40,7 @@ type EncryptionSetIdentity_STATUS_ARM struct {
 	// Type: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations.
 	// Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active
 	// Directory tenant; it will cause the encrypted resources to lose access to the keys.
-	Type *EncryptionSetIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *EncryptionSetIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the disk encryption set. The user identity
 	// dictionary key references will be ARM resource ids in the form:
@@ -57,7 +57,7 @@ type EncryptionSetProperties_STATUS_ARM struct {
 	AutoKeyRotationError *ApiError_STATUS_ARM `json:"autoKeyRotationError,omitempty"`
 
 	// EncryptionType: The type of key used to encrypt the data of the disk.
-	EncryptionType *DiskEncryptionSetType_STATUS `json:"encryptionType,omitempty"`
+	EncryptionType *DiskEncryptionSetType_STATUS_ARM `json:"encryptionType,omitempty"`
 
 	// FederatedClientId: Multi-tenant application client id to access key vault in a different tenant. Setting the value to
 	// 'None' will clear the property.
@@ -96,21 +96,37 @@ type ApiError_STATUS_ARM struct {
 	Target *string `json:"target,omitempty"`
 }
 
-type EncryptionSetIdentity_Type_STATUS string
+// The type of key used to encrypt the data of the disk.
+type DiskEncryptionSetType_STATUS_ARM string
 
 const (
-	EncryptionSetIdentity_Type_STATUS_None                       = EncryptionSetIdentity_Type_STATUS("None")
-	EncryptionSetIdentity_Type_STATUS_SystemAssigned             = EncryptionSetIdentity_Type_STATUS("SystemAssigned")
-	EncryptionSetIdentity_Type_STATUS_SystemAssignedUserAssigned = EncryptionSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	EncryptionSetIdentity_Type_STATUS_UserAssigned               = EncryptionSetIdentity_Type_STATUS("UserAssigned")
+	DiskEncryptionSetType_STATUS_ARM_ConfidentialVmEncryptedWithCustomerKey      = DiskEncryptionSetType_STATUS_ARM("ConfidentialVmEncryptedWithCustomerKey")
+	DiskEncryptionSetType_STATUS_ARM_EncryptionAtRestWithCustomerKey             = DiskEncryptionSetType_STATUS_ARM("EncryptionAtRestWithCustomerKey")
+	DiskEncryptionSetType_STATUS_ARM_EncryptionAtRestWithPlatformAndCustomerKeys = DiskEncryptionSetType_STATUS_ARM("EncryptionAtRestWithPlatformAndCustomerKeys")
 )
 
-// Mapping from string to EncryptionSetIdentity_Type_STATUS
-var encryptionSetIdentity_Type_STATUS_Values = map[string]EncryptionSetIdentity_Type_STATUS{
-	"none":                         EncryptionSetIdentity_Type_STATUS_None,
-	"systemassigned":               EncryptionSetIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned, userassigned": EncryptionSetIdentity_Type_STATUS_SystemAssignedUserAssigned,
-	"userassigned":                 EncryptionSetIdentity_Type_STATUS_UserAssigned,
+// Mapping from string to DiskEncryptionSetType_STATUS_ARM
+var diskEncryptionSetType_STATUS_ARM_Values = map[string]DiskEncryptionSetType_STATUS_ARM{
+	"confidentialvmencryptedwithcustomerkey":      DiskEncryptionSetType_STATUS_ARM_ConfidentialVmEncryptedWithCustomerKey,
+	"encryptionatrestwithcustomerkey":             DiskEncryptionSetType_STATUS_ARM_EncryptionAtRestWithCustomerKey,
+	"encryptionatrestwithplatformandcustomerkeys": DiskEncryptionSetType_STATUS_ARM_EncryptionAtRestWithPlatformAndCustomerKeys,
+}
+
+type EncryptionSetIdentity_Type_STATUS_ARM string
+
+const (
+	EncryptionSetIdentity_Type_STATUS_ARM_None                       = EncryptionSetIdentity_Type_STATUS_ARM("None")
+	EncryptionSetIdentity_Type_STATUS_ARM_SystemAssigned             = EncryptionSetIdentity_Type_STATUS_ARM("SystemAssigned")
+	EncryptionSetIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = EncryptionSetIdentity_Type_STATUS_ARM("SystemAssigned, UserAssigned")
+	EncryptionSetIdentity_Type_STATUS_ARM_UserAssigned               = EncryptionSetIdentity_Type_STATUS_ARM("UserAssigned")
+)
+
+// Mapping from string to EncryptionSetIdentity_Type_STATUS_ARM
+var encryptionSetIdentity_Type_STATUS_ARM_Values = map[string]EncryptionSetIdentity_Type_STATUS_ARM{
+	"none":                         EncryptionSetIdentity_Type_STATUS_ARM_None,
+	"systemassigned":               EncryptionSetIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned, userassigned": EncryptionSetIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 EncryptionSetIdentity_Type_STATUS_ARM_UserAssigned,
 }
 
 type EncryptionSetIdentity_UserAssignedIdentities_STATUS_ARM struct {

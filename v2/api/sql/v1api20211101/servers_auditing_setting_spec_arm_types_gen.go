@@ -130,7 +130,7 @@ type ServerBlobAuditingPolicyProperties_ARM struct {
 
 	// State: Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
 	// required.
-	State *ServerBlobAuditingPolicyProperties_State `json:"state,omitempty"`
+	State *ServerBlobAuditingPolicyProperties_State_ARM `json:"state,omitempty"`
 
 	// StorageAccountAccessKey: Specifies the identifier key of the auditing storage account.
 	// If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server
@@ -149,4 +149,18 @@ type ServerBlobAuditingPolicyProperties_ARM struct {
 	// StorageEndpoint: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is
 	// Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
 	StorageEndpoint *string `json:"storageEndpoint,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ServerBlobAuditingPolicyProperties_State_ARM string
+
+const (
+	ServerBlobAuditingPolicyProperties_State_ARM_Disabled = ServerBlobAuditingPolicyProperties_State_ARM("Disabled")
+	ServerBlobAuditingPolicyProperties_State_ARM_Enabled  = ServerBlobAuditingPolicyProperties_State_ARM("Enabled")
+)
+
+// Mapping from string to ServerBlobAuditingPolicyProperties_State_ARM
+var serverBlobAuditingPolicyProperties_State_ARM_Values = map[string]ServerBlobAuditingPolicyProperties_State_ARM{
+	"disabled": ServerBlobAuditingPolicyProperties_State_ARM_Disabled,
+	"enabled":  ServerBlobAuditingPolicyProperties_State_ARM_Enabled,
 }

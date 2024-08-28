@@ -319,7 +319,7 @@ func (in *PrivateZoneProperties_STATUS_ARM) DeepCopyInto(out *PrivateZonePropert
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateZoneProperties_ProvisioningState_STATUS)
+		*out = new(PrivateZoneProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 }

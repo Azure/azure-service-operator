@@ -430,7 +430,9 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.PrefixLength = &prefixLength
 	}
 	if prefix.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := *prefix.PublicIPAddressVersion
+		var temp string
+		temp = string(*prefix.PublicIPAddressVersion)
+		publicIPAddressVersion := IPVersion_ARM(temp)
 		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
 	}
 
@@ -551,7 +553,9 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddressVersion != nil {
-			publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PublicIPAddressVersion)
+			publicIPAddressVersion := IPVersion(temp)
 			prefix.PublicIPAddressVersion = &publicIPAddressVersion
 		}
 	}
@@ -1198,7 +1202,9 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := PublicIpPrefixProvisioningState_STATUS(temp)
 			prefix.ProvisioningState = &provisioningState
 		}
 	}
@@ -1207,7 +1213,9 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddressVersion != nil {
-			publicIPAddressVersion := *typedInput.Properties.PublicIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PublicIPAddressVersion)
+			publicIPAddressVersion := IPVersion_STATUS(temp)
 			prefix.PublicIPAddressVersion = &publicIPAddressVersion
 		}
 	}
@@ -1990,13 +1998,17 @@ func (prefixSku *PublicIPPrefixSku) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Name":
 	if prefixSku.Name != nil {
-		name := *prefixSku.Name
+		var temp string
+		temp = string(*prefixSku.Name)
+		name := PublicIPPrefixSku_Name_ARM(temp)
 		result.Name = &name
 	}
 
 	// Set property "Tier":
 	if prefixSku.Tier != nil {
-		tier := *prefixSku.Tier
+		var temp string
+		temp = string(*prefixSku.Tier)
+		tier := PublicIPPrefixSku_Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -2016,13 +2028,17 @@ func (prefixSku *PublicIPPrefixSku) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := PublicIPPrefixSku_Name(temp)
 		prefixSku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := PublicIPPrefixSku_Tier(temp)
 		prefixSku.Tier = &tier
 	}
 
@@ -2135,13 +2151,17 @@ func (prefixSku *PublicIPPrefixSku_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := PublicIPPrefixSku_Name_STATUS(temp)
 		prefixSku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := PublicIPPrefixSku_Tier_STATUS(temp)
 		prefixSku.Tier = &tier
 	}
 
@@ -2421,6 +2441,52 @@ func (address *ReferencedPublicIpAddress_STATUS) AssignProperties_To_ReferencedP
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Standard"}
+type PublicIPPrefixSku_Name string
+
+const PublicIPPrefixSku_Name_Standard = PublicIPPrefixSku_Name("Standard")
+
+// Mapping from string to PublicIPPrefixSku_Name
+var publicIPPrefixSku_Name_Values = map[string]PublicIPPrefixSku_Name{
+	"standard": PublicIPPrefixSku_Name_Standard,
+}
+
+type PublicIPPrefixSku_Name_STATUS string
+
+const PublicIPPrefixSku_Name_STATUS_Standard = PublicIPPrefixSku_Name_STATUS("Standard")
+
+// Mapping from string to PublicIPPrefixSku_Name_STATUS
+var publicIPPrefixSku_Name_STATUS_Values = map[string]PublicIPPrefixSku_Name_STATUS{
+	"standard": PublicIPPrefixSku_Name_STATUS_Standard,
+}
+
+// +kubebuilder:validation:Enum={"Global","Regional"}
+type PublicIPPrefixSku_Tier string
+
+const (
+	PublicIPPrefixSku_Tier_Global   = PublicIPPrefixSku_Tier("Global")
+	PublicIPPrefixSku_Tier_Regional = PublicIPPrefixSku_Tier("Regional")
+)
+
+// Mapping from string to PublicIPPrefixSku_Tier
+var publicIPPrefixSku_Tier_Values = map[string]PublicIPPrefixSku_Tier{
+	"global":   PublicIPPrefixSku_Tier_Global,
+	"regional": PublicIPPrefixSku_Tier_Regional,
+}
+
+type PublicIPPrefixSku_Tier_STATUS string
+
+const (
+	PublicIPPrefixSku_Tier_STATUS_Global   = PublicIPPrefixSku_Tier_STATUS("Global")
+	PublicIPPrefixSku_Tier_STATUS_Regional = PublicIPPrefixSku_Tier_STATUS("Regional")
+)
+
+// Mapping from string to PublicIPPrefixSku_Tier_STATUS
+var publicIPPrefixSku_Tier_STATUS_Values = map[string]PublicIPPrefixSku_Tier_STATUS{
+	"global":   PublicIPPrefixSku_Tier_STATUS_Global,
+	"regional": PublicIPPrefixSku_Tier_STATUS_Regional,
 }
 
 func init() {

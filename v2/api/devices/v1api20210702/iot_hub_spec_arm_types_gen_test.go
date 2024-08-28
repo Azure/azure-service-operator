@@ -84,10 +84,10 @@ func ArmIdentity_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForArmIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForArmIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ArmIdentity_Type_None,
-		ArmIdentity_Type_SystemAssigned,
-		ArmIdentity_Type_SystemAssignedUserAssigned,
-		ArmIdentity_Type_UserAssigned))
+		ArmIdentity_Type_ARM_None,
+		ArmIdentity_Type_ARM_SystemAssigned,
+		ArmIdentity_Type_ARM_SystemAssignedUserAssigned,
+		ArmIdentity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForArmIdentity_ARM is a factory method for creating gopter generators
@@ -360,7 +360,7 @@ func AddIndependentPropertyGeneratorsForFallbackRouteProperties_ARM(gens map[str
 	gens["EndpointNames"] = gen.SliceOf(gen.AlphaString())
 	gens["IsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Source"] = gen.PtrOf(gen.OneConstOf(FallbackRouteProperties_Source_DeviceMessages))
+	gens["Source"] = gen.PtrOf(gen.OneConstOf(FallbackRouteProperties_Source_ARM_DeviceMessages))
 }
 
 func Test_FeedbackProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -500,9 +500,9 @@ func AddIndependentPropertyGeneratorsForIotHubProperties_ARM(gens map[string]gop
 	gens["DisableModuleSAS"] = gen.PtrOf(gen.Bool())
 	gens["EnableDataResidency"] = gen.PtrOf(gen.Bool())
 	gens["EnableFileUploadNotifications"] = gen.PtrOf(gen.Bool())
-	gens["Features"] = gen.PtrOf(gen.OneConstOf(IotHubProperties_Features_DeviceManagement, IotHubProperties_Features_None))
+	gens["Features"] = gen.PtrOf(gen.OneConstOf(IotHubProperties_Features_ARM_DeviceManagement, IotHubProperties_Features_ARM_None))
 	gens["MinTlsVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(IotHubProperties_PublicNetworkAccess_Disabled, IotHubProperties_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(IotHubProperties_PublicNetworkAccess_ARM_Disabled, IotHubProperties_PublicNetworkAccess_ARM_Enabled))
 	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.Bool())
 }
 
@@ -583,13 +583,13 @@ func IotHubSkuInfo_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIotHubSkuInfo_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		IotHubSkuInfo_Name_B1,
-		IotHubSkuInfo_Name_B2,
-		IotHubSkuInfo_Name_B3,
-		IotHubSkuInfo_Name_F1,
-		IotHubSkuInfo_Name_S1,
-		IotHubSkuInfo_Name_S2,
-		IotHubSkuInfo_Name_S3))
+		IotHubSkuInfo_Name_ARM_B1,
+		IotHubSkuInfo_Name_ARM_B2,
+		IotHubSkuInfo_Name_ARM_B3,
+		IotHubSkuInfo_Name_ARM_F1,
+		IotHubSkuInfo_Name_ARM_S1,
+		IotHubSkuInfo_Name_ARM_S2,
+		IotHubSkuInfo_Name_ARM_S3))
 }
 
 func Test_IotHub_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -729,7 +729,7 @@ func IpFilterRule_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIpFilterRule_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpFilterRule_ARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(IpFilterRule_Action_Accept, IpFilterRule_Action_Reject))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(IpFilterRule_Action_ARM_Accept, IpFilterRule_Action_ARM_Reject))
 	gens["FilterName"] = gen.PtrOf(gen.AlphaString())
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
@@ -916,7 +916,7 @@ func NetworkRuleSetIpRule_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSetIpRule_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetIpRule_ARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetIpRule_Action_Allow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetIpRule_Action_ARM_Allow))
 	gens["FilterName"] = gen.PtrOf(gen.AlphaString())
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
@@ -989,7 +989,7 @@ func NetworkRuleSetProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNetworkRuleSetProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetProperties_ARM(gens map[string]gopter.Gen) {
 	gens["ApplyToBuiltInEventHubEndpoint"] = gen.PtrOf(gen.Bool())
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetProperties_DefaultAction_Allow, NetworkRuleSetProperties_DefaultAction_Deny))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetProperties_DefaultAction_ARM_Allow, NetworkRuleSetProperties_DefaultAction_ARM_Deny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSetProperties_ARM is a factory method for creating gopter generators
@@ -1060,12 +1060,12 @@ func AddIndependentPropertyGeneratorsForRouteProperties_ARM(gens map[string]gopt
 	gens["IsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Source"] = gen.PtrOf(gen.OneConstOf(
-		RouteProperties_Source_DeviceConnectionStateEvents,
-		RouteProperties_Source_DeviceJobLifecycleEvents,
-		RouteProperties_Source_DeviceLifecycleEvents,
-		RouteProperties_Source_DeviceMessages,
-		RouteProperties_Source_Invalid,
-		RouteProperties_Source_TwinChangeEvents))
+		RouteProperties_Source_ARM_DeviceConnectionStateEvents,
+		RouteProperties_Source_ARM_DeviceJobLifecycleEvents,
+		RouteProperties_Source_ARM_DeviceLifecycleEvents,
+		RouteProperties_Source_ARM_DeviceMessages,
+		RouteProperties_Source_ARM_Invalid,
+		RouteProperties_Source_ARM_TwinChangeEvents))
 }
 
 func Test_RoutingEndpoints_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1199,7 +1199,7 @@ func RoutingEventHubProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoutingEventHubProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingEventHubProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingEventHubProperties_AuthenticationType_IdentityBased, RoutingEventHubProperties_AuthenticationType_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingEventHubProperties_AuthenticationType_ARM_IdentityBased, RoutingEventHubProperties_AuthenticationType_ARM_KeyBased))
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["EntityPath"] = gen.PtrOf(gen.AlphaString())
@@ -1345,7 +1345,7 @@ func RoutingServiceBusQueueEndpointProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoutingServiceBusQueueEndpointProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingServiceBusQueueEndpointProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusQueueEndpointProperties_AuthenticationType_IdentityBased, RoutingServiceBusQueueEndpointProperties_AuthenticationType_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM_IdentityBased, RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM_KeyBased))
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["EntityPath"] = gen.PtrOf(gen.AlphaString())
@@ -1427,7 +1427,7 @@ func RoutingServiceBusTopicEndpointProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoutingServiceBusTopicEndpointProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingServiceBusTopicEndpointProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusTopicEndpointProperties_AuthenticationType_IdentityBased, RoutingServiceBusTopicEndpointProperties_AuthenticationType_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM_IdentityBased, RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM_KeyBased))
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["EntityPath"] = gen.PtrOf(gen.AlphaString())
@@ -1509,11 +1509,11 @@ func RoutingStorageContainerProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoutingStorageContainerProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingStorageContainerProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_AuthenticationType_IdentityBased, RoutingStorageContainerProperties_AuthenticationType_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_AuthenticationType_ARM_IdentityBased, RoutingStorageContainerProperties_AuthenticationType_ARM_KeyBased))
 	gens["BatchFrequencyInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_Encoding_Avro, RoutingStorageContainerProperties_Encoding_AvroDeflate, RoutingStorageContainerProperties_Encoding_JSON))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_Encoding_ARM_Avro, RoutingStorageContainerProperties_Encoding_ARM_AvroDeflate, RoutingStorageContainerProperties_Encoding_ARM_JSON))
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["FileNameFormat"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -1588,21 +1588,21 @@ func SharedAccessSignatureAuthorizationRule_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule_ARM(gens map[string]gopter.Gen) {
 	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
 	gens["Rights"] = gen.PtrOf(gen.OneConstOf(
-		SharedAccessSignatureAuthorizationRule_Rights_DeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryRead,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryReadDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWrite,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnectDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnectDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryWrite,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnectDeviceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_ServiceConnect,
-		SharedAccessSignatureAuthorizationRule_Rights_ServiceConnectDeviceConnect))
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_DeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryRead,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWrite,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWriteDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWriteServiceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWriteServiceConnectDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadServiceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadServiceConnectDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWrite,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWriteDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWriteServiceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWriteServiceConnectDeviceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_ServiceConnect,
+		SharedAccessSignatureAuthorizationRule_Rights_ARM_ServiceConnectDeviceConnect))
 }
 
 func Test_StorageEndpointProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1672,7 +1672,7 @@ func StorageEndpointProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageEndpointProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageEndpointProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(StorageEndpointProperties_AuthenticationType_IdentityBased, StorageEndpointProperties_AuthenticationType_KeyBased))
+	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(StorageEndpointProperties_AuthenticationType_ARM_IdentityBased, StorageEndpointProperties_AuthenticationType_ARM_KeyBased))
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
 	gens["SasTtlAsIso8601"] = gen.PtrOf(gen.AlphaString())

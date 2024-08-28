@@ -48,7 +48,7 @@ type MongoDBCollectionResource_ARM struct {
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
 	// CreateMode: Enum to indicate the mode of resource creation.
-	CreateMode *CreateMode `json:"createMode,omitempty"`
+	CreateMode *CreateMode_ARM `json:"createMode,omitempty"`
 
 	// Id: Name of the Cosmos DB MongoDB collection
 	Id *string `json:"id,omitempty"`

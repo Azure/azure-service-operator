@@ -388,7 +388,9 @@ func (connection *Workspaces_Connection_Spec) ConvertToARM(resolved genruntime.C
 		result.Properties.Value = &value
 	}
 	if connection.ValueFormat != nil {
-		valueFormat := *connection.ValueFormat
+		var temp string
+		temp = string(*connection.ValueFormat)
+		valueFormat := WorkspaceConnectionProps_ValueFormat_ARM(temp)
 		result.Properties.ValueFormat = &valueFormat
 	}
 	return result, nil
@@ -455,7 +457,9 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ValueFormat != nil {
-			valueFormat := *typedInput.Properties.ValueFormat
+			var temp string
+			temp = string(*typedInput.Properties.ValueFormat)
+			valueFormat := WorkspaceConnectionProps_ValueFormat(temp)
 			connection.ValueFormat = &valueFormat
 		}
 	}
@@ -793,7 +797,9 @@ func (connection *Workspaces_Connection_STATUS) PopulateFromARM(owner genruntime
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ValueFormat != nil {
-			valueFormat := *typedInput.Properties.ValueFormat
+			var temp string
+			temp = string(*typedInput.Properties.ValueFormat)
+			valueFormat := WorkspaceConnectionProps_ValueFormat_STATUS(temp)
 			connection.ValueFormat = &valueFormat
 		}
 	}

@@ -160,7 +160,7 @@ func ForwardingRuleProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForForwardingRuleProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForForwardingRuleProperties_ARM(gens map[string]gopter.Gen) {
 	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
-	gens["ForwardingRuleState"] = gen.PtrOf(gen.OneConstOf(ForwardingRuleProperties_ForwardingRuleState_Disabled, ForwardingRuleProperties_ForwardingRuleState_Enabled))
+	gens["ForwardingRuleState"] = gen.PtrOf(gen.OneConstOf(ForwardingRuleProperties_ForwardingRuleState_ARM_Disabled, ForwardingRuleProperties_ForwardingRuleState_ARM_Enabled))
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())

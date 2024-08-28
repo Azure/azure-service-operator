@@ -23,8 +23,29 @@ type VirtualNetworkRuleProperties_STATUS_ARM struct {
 	IgnoreMissingVnetServiceEndpoint *bool `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
 
 	// State: Virtual Network Rule State
-	State *VirtualNetworkRuleProperties_State_STATUS `json:"state,omitempty"`
+	State *VirtualNetworkRuleProperties_State_STATUS_ARM `json:"state,omitempty"`
 
 	// VirtualNetworkSubnetId: The ARM resource id of the virtual network subnet.
 	VirtualNetworkSubnetId *string `json:"virtualNetworkSubnetId,omitempty"`
+}
+
+type VirtualNetworkRuleProperties_State_STATUS_ARM string
+
+const (
+	VirtualNetworkRuleProperties_State_STATUS_ARM_Deleting     = VirtualNetworkRuleProperties_State_STATUS_ARM("Deleting")
+	VirtualNetworkRuleProperties_State_STATUS_ARM_Failed       = VirtualNetworkRuleProperties_State_STATUS_ARM("Failed")
+	VirtualNetworkRuleProperties_State_STATUS_ARM_InProgress   = VirtualNetworkRuleProperties_State_STATUS_ARM("InProgress")
+	VirtualNetworkRuleProperties_State_STATUS_ARM_Initializing = VirtualNetworkRuleProperties_State_STATUS_ARM("Initializing")
+	VirtualNetworkRuleProperties_State_STATUS_ARM_Ready        = VirtualNetworkRuleProperties_State_STATUS_ARM("Ready")
+	VirtualNetworkRuleProperties_State_STATUS_ARM_Unknown      = VirtualNetworkRuleProperties_State_STATUS_ARM("Unknown")
+)
+
+// Mapping from string to VirtualNetworkRuleProperties_State_STATUS_ARM
+var virtualNetworkRuleProperties_State_STATUS_ARM_Values = map[string]VirtualNetworkRuleProperties_State_STATUS_ARM{
+	"deleting":     VirtualNetworkRuleProperties_State_STATUS_ARM_Deleting,
+	"failed":       VirtualNetworkRuleProperties_State_STATUS_ARM_Failed,
+	"inprogress":   VirtualNetworkRuleProperties_State_STATUS_ARM_InProgress,
+	"initializing": VirtualNetworkRuleProperties_State_STATUS_ARM_Initializing,
+	"ready":        VirtualNetworkRuleProperties_State_STATUS_ARM_Ready,
+	"unknown":      VirtualNetworkRuleProperties_State_STATUS_ARM_Unknown,
 }

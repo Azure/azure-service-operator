@@ -400,7 +400,9 @@ func (versionSet *Service_ApiVersionSet_Spec) ConvertToARM(resolved genruntime.C
 		result.Properties.VersionQueryName = &versionQueryName
 	}
 	if versionSet.VersioningScheme != nil {
-		versioningScheme := *versionSet.VersioningScheme
+		var temp string
+		temp = string(*versionSet.VersioningScheme)
+		versioningScheme := ApiVersionSetContractProperties_VersioningScheme_ARM(temp)
 		result.Properties.VersioningScheme = &versioningScheme
 	}
 	return result, nil
@@ -467,7 +469,9 @@ func (versionSet *Service_ApiVersionSet_Spec) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VersioningScheme != nil {
-			versioningScheme := *typedInput.Properties.VersioningScheme
+			var temp string
+			temp = string(*typedInput.Properties.VersioningScheme)
+			versioningScheme := ApiVersionSetContractProperties_VersioningScheme(temp)
 			versionSet.VersioningScheme = &versioningScheme
 		}
 	}
@@ -851,7 +855,9 @@ func (versionSet *Service_ApiVersionSet_STATUS) PopulateFromARM(owner genruntime
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VersioningScheme != nil {
-			versioningScheme := *typedInput.Properties.VersioningScheme
+			var temp string
+			temp = string(*typedInput.Properties.VersioningScheme)
+			versioningScheme := ApiVersionSetContractProperties_VersioningScheme_STATUS(temp)
 			versionSet.VersioningScheme = &versioningScheme
 		}
 	}

@@ -108,7 +108,7 @@ type DatabaseBlobAuditingPolicyProperties_STATUS_ARM struct {
 
 	// State: Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are
 	// required.
-	State *DatabaseBlobAuditingPolicyProperties_State_STATUS `json:"state,omitempty"`
+	State *DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM `json:"state,omitempty"`
 
 	// StorageAccountSubscriptionId: Specifies the blob storage subscription Id.
 	StorageAccountSubscriptionId *string `json:"storageAccountSubscriptionId,omitempty"`
@@ -116,4 +116,17 @@ type DatabaseBlobAuditingPolicyProperties_STATUS_ARM struct {
 	// StorageEndpoint: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is
 	// Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
 	StorageEndpoint *string `json:"storageEndpoint,omitempty"`
+}
+
+type DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM string
+
+const (
+	DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM_Disabled = DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM("Disabled")
+	DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM_Enabled  = DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM
+var databaseBlobAuditingPolicyProperties_State_STATUS_ARM_Values = map[string]DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM{
+	"disabled": DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM_Disabled,
+	"enabled":  DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM_Enabled,
 }

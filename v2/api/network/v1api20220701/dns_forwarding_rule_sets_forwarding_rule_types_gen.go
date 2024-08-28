@@ -387,7 +387,9 @@ func (rule *DnsForwardingRulesets_ForwardingRule_Spec) ConvertToARM(resolved gen
 		result.Properties.DomainName = &domainName
 	}
 	if rule.ForwardingRuleState != nil {
-		forwardingRuleState := *rule.ForwardingRuleState
+		var temp string
+		temp = string(*rule.ForwardingRuleState)
+		forwardingRuleState := ForwardingRuleProperties_ForwardingRuleState_ARM(temp)
 		result.Properties.ForwardingRuleState = &forwardingRuleState
 	}
 	if rule.Metadata != nil {
@@ -434,7 +436,9 @@ func (rule *DnsForwardingRulesets_ForwardingRule_Spec) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardingRuleState != nil {
-			forwardingRuleState := *typedInput.Properties.ForwardingRuleState
+			var temp string
+			temp = string(*typedInput.Properties.ForwardingRuleState)
+			forwardingRuleState := ForwardingRuleProperties_ForwardingRuleState(temp)
 			rule.ForwardingRuleState = &forwardingRuleState
 		}
 	}
@@ -807,7 +811,9 @@ func (rule *DnsForwardingRulesets_ForwardingRule_STATUS) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardingRuleState != nil {
-			forwardingRuleState := *typedInput.Properties.ForwardingRuleState
+			var temp string
+			temp = string(*typedInput.Properties.ForwardingRuleState)
+			forwardingRuleState := ForwardingRuleProperties_ForwardingRuleState_STATUS(temp)
 			rule.ForwardingRuleState = &forwardingRuleState
 		}
 	}
@@ -839,7 +845,9 @@ func (rule *DnsForwardingRulesets_ForwardingRule_STATUS) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := DnsresolverProvisioningState_STATUS(temp)
 			rule.ProvisioningState = &provisioningState
 		}
 	}
@@ -1135,7 +1143,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -1153,7 +1163,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -1451,6 +1463,40 @@ func (server *TargetDnsServer_STATUS) AssignProperties_To_TargetDnsServer_STATUS
 
 	// No error
 	return nil
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
 func init() {

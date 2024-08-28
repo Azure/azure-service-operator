@@ -256,9 +256,9 @@ type AResourceList struct {
 }
 
 type AResource_Spec_ARM struct {
-	APIVersion AResource_APIVersion_Spec `json:"apiVersion,omitempty"`
-	Name       string                    `json:"name,omitempty"`
-	Type       AResource_Type_Spec       `json:"type,omitempty"`
+	APIVersion AResource_APIVersion_Spec_ARM `json:"apiVersion,omitempty"`
+	Name       string                        `json:"name,omitempty"`
+	Type       AResource_Type_Spec_ARM       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &AResource_Spec_ARM{}
@@ -284,13 +284,13 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2020-01-01")
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
-type AResource_APIVersion_Spec string
+type AResource_APIVersion_Spec_ARM string
 
-const AResource_APIVersion_Spec_20200601 = AResource_APIVersion_Spec("2020-06-01")
+const AResource_APIVersion_Spec_ARM_20200601 = AResource_APIVersion_Spec_ARM("2020-06-01")
 
-// Mapping from string to AResource_APIVersion_Spec
-var aResource_APIVersion_Spec_Values = map[string]AResource_APIVersion_Spec{
-	"2020-06-01": AResource_APIVersion_Spec_20200601,
+// Mapping from string to AResource_APIVersion_Spec_ARM
+var aResource_APIVersion_Spec_ARM_Values = map[string]AResource_APIVersion_Spec_ARM{
+	"2020-06-01": AResource_APIVersion_Spec_ARM_20200601,
 }
 
 type AResource_Spec struct {
@@ -317,13 +317,17 @@ func (resource *AResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	result := &AResource_Spec_ARM{}
 
 	// Set property "APIVersion":
-	result.APIVersion = resource.APIVersion
+	var temp string
+	temp = string(resource.APIVersion)
+	result.APIVersion = AResource_APIVersion_Spec_ARM(temp)
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Type":
-	result.Type = resource.Type
+	var typeTemp string
+	typeTemp = string(resource.Type)
+	result.Type = AResource_Type_Spec_ARM(typeTemp)
 	return result, nil
 }
 
@@ -340,7 +344,9 @@ func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property "APIVersion":
-	resource.APIVersion = typedInput.APIVersion
+	var temp string
+	temp = string(typedInput.APIVersion)
+	resource.APIVersion = AResource_APIVersion_Spec(temp)
 
 	// Set property "Owner":
 	resource.Owner = &genruntime.KnownResourceReference{
@@ -349,7 +355,9 @@ func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property "Type":
-	resource.Type = typedInput.Type
+	var typeTemp string
+	typeTemp = string(typedInput.Type)
+	resource.Type = AResource_Type_Spec(typeTemp)
 
 	// No error
 	return nil
@@ -474,6 +482,26 @@ func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *
 // OriginalVersion returns the original API version used to create the resource.
 func (resource *AResource_Spec) OriginalVersion() string {
 	return GroupVersion.Version
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/AResource"}
+type AResource_Type_Spec_ARM string
+
+const AResource_Type_Spec_ARM_MicrosoftAzureAResource = AResource_Type_Spec_ARM("Microsoft.Azure/AResource")
+
+// Mapping from string to AResource_Type_Spec_ARM
+var aResource_Type_Spec_ARM_Values = map[string]AResource_Type_Spec_ARM{
+	"microsoft.azure/aresource": AResource_Type_Spec_ARM_MicrosoftAzureAResource,
+}
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type AResource_APIVersion_Spec string
+
+const AResource_APIVersion_Spec_20200601 = AResource_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to AResource_APIVersion_Spec
+var aResource_APIVersion_Spec_Values = map[string]AResource_APIVersion_Spec{
+	"2020-06-01": AResource_APIVersion_Spec_20200601,
 }
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/AResource"}

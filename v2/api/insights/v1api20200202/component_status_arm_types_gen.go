@@ -39,7 +39,7 @@ type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
 	// Application_Type: Type of application being monitored.
-	Application_Type *ApplicationInsightsComponentProperties_Application_Type_STATUS `json:"Application_Type,omitempty"`
+	Application_Type *ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM `json:"Application_Type,omitempty"`
 
 	// ConnectionString: Application Insights component connection string.
 	ConnectionString *string `json:"ConnectionString,omitempty"`
@@ -55,7 +55,7 @@ type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 
 	// Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is
 	// to be set to 'Bluefield' when creating/updating a component via the REST API.
-	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_STATUS `json:"Flow_Type,omitempty"`
+	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM `json:"Flow_Type,omitempty"`
 
 	// ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.
 	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
@@ -71,7 +71,7 @@ type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	// IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_STATUS `json:"IngestionMode,omitempty"`
+	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM `json:"IngestionMode,omitempty"`
 
 	// InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
 	// the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
@@ -93,14 +93,14 @@ type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS_ARM `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *PublicNetworkAccessType_STATUS_ARM `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
 	// this to the default 'rest'.
-	Request_Source *ApplicationInsightsComponentProperties_Request_Source_STATUS `json:"Request_Source,omitempty"`
+	Request_Source *ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM `json:"Request_Source,omitempty"`
 
 	// RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
@@ -117,6 +117,52 @@ type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }
 
+type ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM string
+
+const (
+	ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM_Other = ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM("other")
+	ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM_Web   = ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM("web")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM
+var applicationInsightsComponentProperties_Application_Type_STATUS_ARM_Values = map[string]ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM{
+	"other": ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM_Other,
+	"web":   ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM_Web,
+}
+
+type ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM string
+
+const ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM_Bluefield = ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM("Bluefield")
+
+// Mapping from string to ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM
+var applicationInsightsComponentProperties_Flow_Type_STATUS_ARM_Values = map[string]ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM{
+	"bluefield": ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM_Bluefield,
+}
+
+type ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM string
+
+const (
+	ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM_ApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM_LogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM("LogAnalytics")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM
+var applicationInsightsComponentProperties_IngestionMode_STATUS_ARM_Values = map[string]ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM{
+	"applicationinsights":                       ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM_ApplicationInsights,
+	"applicationinsightswithdiagnosticsettings": ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM_ApplicationInsightsWithDiagnosticSettings,
+	"loganalytics":                              ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM_LogAnalytics,
+}
+
+type ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM string
+
+const ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM_Rest = ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM("rest")
+
+// Mapping from string to ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM
+var applicationInsightsComponentProperties_Request_Source_STATUS_ARM_Values = map[string]ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM{
+	"rest": ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM_Rest,
+}
+
 // The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS_ARM struct {
 	// ResourceId: The full resource Id of the private link scope resource.
@@ -124,4 +170,18 @@ type PrivateLinkScopedResource_STATUS_ARM struct {
 
 	// ScopeId: The private link scope unique Identifier.
 	ScopeId *string `json:"ScopeId,omitempty"`
+}
+
+// The network access type for operating on the Application Insights Component. By default it is Enabled
+type PublicNetworkAccessType_STATUS_ARM string
+
+const (
+	PublicNetworkAccessType_STATUS_ARM_Disabled = PublicNetworkAccessType_STATUS_ARM("Disabled")
+	PublicNetworkAccessType_STATUS_ARM_Enabled  = PublicNetworkAccessType_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccessType_STATUS_ARM
+var publicNetworkAccessType_STATUS_ARM_Values = map[string]PublicNetworkAccessType_STATUS_ARM{
+	"disabled": PublicNetworkAccessType_STATUS_ARM_Disabled,
+	"enabled":  PublicNetworkAccessType_STATUS_ARM_Enabled,
 }

@@ -38,5 +38,18 @@ type RedisLinkedServerProperties_STATUS_ARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerProperties_ServerRole_STATUS `json:"serverRole,omitempty"`
+	ServerRole *RedisLinkedServerProperties_ServerRole_STATUS_ARM `json:"serverRole,omitempty"`
+}
+
+type RedisLinkedServerProperties_ServerRole_STATUS_ARM string
+
+const (
+	RedisLinkedServerProperties_ServerRole_STATUS_ARM_Primary   = RedisLinkedServerProperties_ServerRole_STATUS_ARM("Primary")
+	RedisLinkedServerProperties_ServerRole_STATUS_ARM_Secondary = RedisLinkedServerProperties_ServerRole_STATUS_ARM("Secondary")
+)
+
+// Mapping from string to RedisLinkedServerProperties_ServerRole_STATUS_ARM
+var redisLinkedServerProperties_ServerRole_STATUS_ARM_Values = map[string]RedisLinkedServerProperties_ServerRole_STATUS_ARM{
+	"primary":   RedisLinkedServerProperties_ServerRole_STATUS_ARM_Primary,
+	"secondary": RedisLinkedServerProperties_ServerRole_STATUS_ARM_Secondary,
 }

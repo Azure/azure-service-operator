@@ -53,7 +53,7 @@ type ServerProperties_ARM struct {
 	Backup *Backup_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerProperties_CreateMode_ARM `json:"createMode,omitempty"`
 
 	// HighAvailability: High availability properties of a server.
 	HighAvailability *HighAvailability_ARM `json:"highAvailability,omitempty"`
@@ -73,7 +73,7 @@ type ServerProperties_ARM struct {
 	Storage *Storage_ARM `json:"storage,omitempty"`
 
 	// Version: PostgreSQL Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version *ServerVersion_ARM `json:"version,omitempty"`
 }
 
 // Sku information related properties of a server.
@@ -82,7 +82,7 @@ type Sku_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Burstable.
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Tier *Sku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // Backup properties of a server
@@ -91,13 +91,13 @@ type Backup_ARM struct {
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
-	GeoRedundantBackup *Backup_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *Backup_GeoRedundantBackup_ARM `json:"geoRedundantBackup,omitempty"`
 }
 
 // High availability properties of a server
 type HighAvailability_ARM struct {
 	// Mode: The HA mode for the server.
-	Mode *HighAvailability_Mode `json:"mode,omitempty"`
+	Mode *HighAvailability_Mode_ARM `json:"mode,omitempty"`
 
 	// StandbyAvailabilityZone: availability zone information of the standby.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
@@ -124,24 +124,91 @@ type Network_ARM struct {
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
-type Sku_Tier string
+// +kubebuilder:validation:Enum={"Create","Default","PointInTimeRestore","Update"}
+type ServerProperties_CreateMode_ARM string
 
 const (
-	Sku_Tier_Burstable       = Sku_Tier("Burstable")
-	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
-	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
+	ServerProperties_CreateMode_ARM_Create             = ServerProperties_CreateMode_ARM("Create")
+	ServerProperties_CreateMode_ARM_Default            = ServerProperties_CreateMode_ARM("Default")
+	ServerProperties_CreateMode_ARM_PointInTimeRestore = ServerProperties_CreateMode_ARM("PointInTimeRestore")
+	ServerProperties_CreateMode_ARM_Update             = ServerProperties_CreateMode_ARM("Update")
 )
 
-// Mapping from string to Sku_Tier
-var sku_Tier_Values = map[string]Sku_Tier{
-	"burstable":       Sku_Tier_Burstable,
-	"generalpurpose":  Sku_Tier_GeneralPurpose,
-	"memoryoptimized": Sku_Tier_MemoryOptimized,
+// Mapping from string to ServerProperties_CreateMode_ARM
+var serverProperties_CreateMode_ARM_Values = map[string]ServerProperties_CreateMode_ARM{
+	"create":             ServerProperties_CreateMode_ARM_Create,
+	"default":            ServerProperties_CreateMode_ARM_Default,
+	"pointintimerestore": ServerProperties_CreateMode_ARM_PointInTimeRestore,
+	"update":             ServerProperties_CreateMode_ARM_Update,
+}
+
+// The version of a server.
+// +kubebuilder:validation:Enum={"11","12","13","14"}
+type ServerVersion_ARM string
+
+const (
+	ServerVersion_ARM_11 = ServerVersion_ARM("11")
+	ServerVersion_ARM_12 = ServerVersion_ARM("12")
+	ServerVersion_ARM_13 = ServerVersion_ARM("13")
+	ServerVersion_ARM_14 = ServerVersion_ARM("14")
+)
+
+// Mapping from string to ServerVersion_ARM
+var serverVersion_ARM_Values = map[string]ServerVersion_ARM{
+	"11": ServerVersion_ARM_11,
+	"12": ServerVersion_ARM_12,
+	"13": ServerVersion_ARM_13,
+	"14": ServerVersion_ARM_14,
+}
+
+// +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
+type Sku_Tier_ARM string
+
+const (
+	Sku_Tier_ARM_Burstable       = Sku_Tier_ARM("Burstable")
+	Sku_Tier_ARM_GeneralPurpose  = Sku_Tier_ARM("GeneralPurpose")
+	Sku_Tier_ARM_MemoryOptimized = Sku_Tier_ARM("MemoryOptimized")
+)
+
+// Mapping from string to Sku_Tier_ARM
+var sku_Tier_ARM_Values = map[string]Sku_Tier_ARM{
+	"burstable":       Sku_Tier_ARM_Burstable,
+	"generalpurpose":  Sku_Tier_ARM_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_ARM_MemoryOptimized,
 }
 
 // Storage properties of a server
 type Storage_ARM struct {
 	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type Backup_GeoRedundantBackup_ARM string
+
+const (
+	Backup_GeoRedundantBackup_ARM_Disabled = Backup_GeoRedundantBackup_ARM("Disabled")
+	Backup_GeoRedundantBackup_ARM_Enabled  = Backup_GeoRedundantBackup_ARM("Enabled")
+)
+
+// Mapping from string to Backup_GeoRedundantBackup_ARM
+var backup_GeoRedundantBackup_ARM_Values = map[string]Backup_GeoRedundantBackup_ARM{
+	"disabled": Backup_GeoRedundantBackup_ARM_Disabled,
+	"enabled":  Backup_GeoRedundantBackup_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","SameZone","ZoneRedundant"}
+type HighAvailability_Mode_ARM string
+
+const (
+	HighAvailability_Mode_ARM_Disabled      = HighAvailability_Mode_ARM("Disabled")
+	HighAvailability_Mode_ARM_SameZone      = HighAvailability_Mode_ARM("SameZone")
+	HighAvailability_Mode_ARM_ZoneRedundant = HighAvailability_Mode_ARM("ZoneRedundant")
+)
+
+// Mapping from string to HighAvailability_Mode_ARM
+var highAvailability_Mode_ARM_Values = map[string]HighAvailability_Mode_ARM{
+	"disabled":      HighAvailability_Mode_ARM_Disabled,
+	"samezone":      HighAvailability_Mode_ARM_SameZone,
+	"zoneredundant": HighAvailability_Mode_ARM_ZoneRedundant,
 }

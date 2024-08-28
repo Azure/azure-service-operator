@@ -51,42 +51,42 @@ type SqlTriggerResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// TriggerOperation: The operation the trigger is associated with
-	TriggerOperation *SqlTriggerResource_TriggerOperation `json:"triggerOperation,omitempty"`
+	TriggerOperation *SqlTriggerResource_TriggerOperation_ARM `json:"triggerOperation,omitempty"`
 
 	// TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerResource_TriggerType `json:"triggerType,omitempty"`
+	TriggerType *SqlTriggerResource_TriggerType_ARM `json:"triggerType,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"All","Create","Delete","Replace","Update"}
-type SqlTriggerResource_TriggerOperation string
+type SqlTriggerResource_TriggerOperation_ARM string
 
 const (
-	SqlTriggerResource_TriggerOperation_All     = SqlTriggerResource_TriggerOperation("All")
-	SqlTriggerResource_TriggerOperation_Create  = SqlTriggerResource_TriggerOperation("Create")
-	SqlTriggerResource_TriggerOperation_Delete  = SqlTriggerResource_TriggerOperation("Delete")
-	SqlTriggerResource_TriggerOperation_Replace = SqlTriggerResource_TriggerOperation("Replace")
-	SqlTriggerResource_TriggerOperation_Update  = SqlTriggerResource_TriggerOperation("Update")
+	SqlTriggerResource_TriggerOperation_ARM_All     = SqlTriggerResource_TriggerOperation_ARM("All")
+	SqlTriggerResource_TriggerOperation_ARM_Create  = SqlTriggerResource_TriggerOperation_ARM("Create")
+	SqlTriggerResource_TriggerOperation_ARM_Delete  = SqlTriggerResource_TriggerOperation_ARM("Delete")
+	SqlTriggerResource_TriggerOperation_ARM_Replace = SqlTriggerResource_TriggerOperation_ARM("Replace")
+	SqlTriggerResource_TriggerOperation_ARM_Update  = SqlTriggerResource_TriggerOperation_ARM("Update")
 )
 
-// Mapping from string to SqlTriggerResource_TriggerOperation
-var sqlTriggerResource_TriggerOperation_Values = map[string]SqlTriggerResource_TriggerOperation{
-	"all":     SqlTriggerResource_TriggerOperation_All,
-	"create":  SqlTriggerResource_TriggerOperation_Create,
-	"delete":  SqlTriggerResource_TriggerOperation_Delete,
-	"replace": SqlTriggerResource_TriggerOperation_Replace,
-	"update":  SqlTriggerResource_TriggerOperation_Update,
+// Mapping from string to SqlTriggerResource_TriggerOperation_ARM
+var sqlTriggerResource_TriggerOperation_ARM_Values = map[string]SqlTriggerResource_TriggerOperation_ARM{
+	"all":     SqlTriggerResource_TriggerOperation_ARM_All,
+	"create":  SqlTriggerResource_TriggerOperation_ARM_Create,
+	"delete":  SqlTriggerResource_TriggerOperation_ARM_Delete,
+	"replace": SqlTriggerResource_TriggerOperation_ARM_Replace,
+	"update":  SqlTriggerResource_TriggerOperation_ARM_Update,
 }
 
 // +kubebuilder:validation:Enum={"Post","Pre"}
-type SqlTriggerResource_TriggerType string
+type SqlTriggerResource_TriggerType_ARM string
 
 const (
-	SqlTriggerResource_TriggerType_Post = SqlTriggerResource_TriggerType("Post")
-	SqlTriggerResource_TriggerType_Pre  = SqlTriggerResource_TriggerType("Pre")
+	SqlTriggerResource_TriggerType_ARM_Post = SqlTriggerResource_TriggerType_ARM("Post")
+	SqlTriggerResource_TriggerType_ARM_Pre  = SqlTriggerResource_TriggerType_ARM("Pre")
 )
 
-// Mapping from string to SqlTriggerResource_TriggerType
-var sqlTriggerResource_TriggerType_Values = map[string]SqlTriggerResource_TriggerType{
-	"post": SqlTriggerResource_TriggerType_Post,
-	"pre":  SqlTriggerResource_TriggerType_Pre,
+// Mapping from string to SqlTriggerResource_TriggerType_ARM
+var sqlTriggerResource_TriggerType_ARM_Values = map[string]SqlTriggerResource_TriggerType_ARM{
+	"post": SqlTriggerResource_TriggerType_ARM_Post,
+	"pre":  SqlTriggerResource_TriggerType_ARM_Pre,
 }

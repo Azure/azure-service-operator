@@ -33,5 +33,21 @@ func (setting *Servers_AdvancedThreatProtectionSetting_Spec_ARM) GetType() strin
 type AdvancedThreatProtectionProperties_ARM struct {
 	// State: Specifies the state of the Advanced Threat Protection, whether it is enabled or disabled or a state has not been
 	// applied yet on the specific database or server.
-	State *AdvancedThreatProtectionProperties_State `json:"state,omitempty"`
+	State *AdvancedThreatProtectionProperties_State_ARM `json:"state,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled","New"}
+type AdvancedThreatProtectionProperties_State_ARM string
+
+const (
+	AdvancedThreatProtectionProperties_State_ARM_Disabled = AdvancedThreatProtectionProperties_State_ARM("Disabled")
+	AdvancedThreatProtectionProperties_State_ARM_Enabled  = AdvancedThreatProtectionProperties_State_ARM("Enabled")
+	AdvancedThreatProtectionProperties_State_ARM_New      = AdvancedThreatProtectionProperties_State_ARM("New")
+)
+
+// Mapping from string to AdvancedThreatProtectionProperties_State_ARM
+var advancedThreatProtectionProperties_State_ARM_Values = map[string]AdvancedThreatProtectionProperties_State_ARM{
+	"disabled": AdvancedThreatProtectionProperties_State_ARM_Disabled,
+	"enabled":  AdvancedThreatProtectionProperties_State_ARM_Enabled,
+	"new":      AdvancedThreatProtectionProperties_State_ARM_New,
 }

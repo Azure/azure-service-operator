@@ -454,7 +454,9 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *item_ARM.(*InboundIpRule_ARM))
 	}
 	if topic.InputSchema != nil {
-		inputSchema := *topic.InputSchema
+		var temp string
+		temp = string(*topic.InputSchema)
+		inputSchema := TopicProperties_InputSchema_ARM(temp)
 		result.Properties.InputSchema = &inputSchema
 	}
 	if topic.InputSchemaMapping != nil {
@@ -466,7 +468,9 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.InputSchemaMapping = &inputSchemaMapping
 	}
 	if topic.PublicNetworkAccess != nil {
-		publicNetworkAccess := *topic.PublicNetworkAccess
+		var temp string
+		temp = string(*topic.PublicNetworkAccess)
+		publicNetworkAccess := TopicProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -512,7 +516,9 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchema != nil {
-			inputSchema := *typedInput.Properties.InputSchema
+			var temp string
+			temp = string(*typedInput.Properties.InputSchema)
+			inputSchema := TopicProperties_InputSchema(temp)
 			topic.InputSchema = &inputSchema
 		}
 	}
@@ -549,7 +555,9 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := TopicProperties_PublicNetworkAccess(temp)
 			topic.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1009,7 +1017,9 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchema != nil {
-			inputSchema := *typedInput.Properties.InputSchema
+			var temp string
+			temp = string(*typedInput.Properties.InputSchema)
+			inputSchema := TopicProperties_InputSchema_STATUS(temp)
 			topic.InputSchema = &inputSchema
 		}
 	}
@@ -1066,7 +1076,9 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := TopicProperties_ProvisioningState_STATUS(temp)
 			topic.ProvisioningState = &provisioningState
 		}
 	}
@@ -1075,7 +1087,9 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := TopicProperties_PublicNetworkAccess_STATUS(temp)
 			topic.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}

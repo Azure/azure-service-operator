@@ -75,7 +75,7 @@ func CopyCompletionError_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCopyCompletionError_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCopyCompletionError_ARM(gens map[string]gopter.Gen) {
-	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionError_ErrorCode_CopySourceNotFound))
+	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionError_ErrorCode_ARM_CopySourceNotFound))
 	gens["ErrorMessage"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -147,23 +147,23 @@ func SnapshotProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSnapshotProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotProperties_ARM(gens map[string]gopter.Gen) {
 	gens["CompletionPercent"] = gen.PtrOf(gen.Float64())
-	gens["DataAccessAuthMode"] = gen.PtrOf(gen.OneConstOf(DataAccessAuthMode_AzureActiveDirectory, DataAccessAuthMode_None))
+	gens["DataAccessAuthMode"] = gen.PtrOf(gen.OneConstOf(DataAccessAuthMode_ARM_AzureActiveDirectory, DataAccessAuthMode_ARM_None))
 	gens["DiskAccessId"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-		DiskState_ActiveSAS,
-		DiskState_ActiveSASFrozen,
-		DiskState_ActiveUpload,
-		DiskState_Attached,
-		DiskState_Frozen,
-		DiskState_ReadyToUpload,
-		DiskState_Reserved,
-		DiskState_Unattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_V1, SnapshotProperties_HyperVGeneration_V2))
+		DiskState_ARM_ActiveSAS,
+		DiskState_ARM_ActiveSASFrozen,
+		DiskState_ARM_ActiveUpload,
+		DiskState_ARM_Attached,
+		DiskState_ARM_Frozen,
+		DiskState_ARM_ReadyToUpload,
+		DiskState_ARM_Reserved,
+		DiskState_ARM_Unattached))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_ARM_V1, SnapshotProperties_HyperVGeneration_ARM_V2))
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_Linux, SnapshotProperties_OsType_Windows))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_ARM_AllowAll, NetworkAccessPolicy_ARM_AllowPrivate, NetworkAccessPolicy_ARM_DenyAll))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_ARM_Linux, SnapshotProperties_OsType_ARM_Windows))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_ARM_Disabled, PublicNetworkAccess_ARM_Enabled))
 	gens["SupportsHibernation"] = gen.PtrOf(gen.Bool())
 }
 
@@ -235,7 +235,7 @@ func SnapshotSku_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSku_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_Premium_LRS, SnapshotSku_Name_Standard_LRS, SnapshotSku_Name_Standard_ZRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_ARM_Premium_LRS, SnapshotSku_Name_ARM_Standard_LRS, SnapshotSku_Name_ARM_Standard_ZRS))
 }
 
 func Test_Snapshot_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

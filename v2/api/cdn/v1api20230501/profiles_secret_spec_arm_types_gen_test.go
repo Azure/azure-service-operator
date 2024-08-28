@@ -76,7 +76,7 @@ func AzureFirstPartyManagedCertificateParameters_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAzureFirstPartyManagedCertificateParameters_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFirstPartyManagedCertificateParameters_ARM(gens map[string]gopter.Gen) {
 	gens["SubjectAlternativeNames"] = gen.SliceOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(AzureFirstPartyManagedCertificateParameters_Type_AzureFirstPartyManagedCertificate)
+	gens["Type"] = gen.OneConstOf(AzureFirstPartyManagedCertificateParameters_Type_ARM_AzureFirstPartyManagedCertificate)
 }
 
 func Test_CustomerCertificateParameters_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -148,7 +148,7 @@ func CustomerCertificateParameters_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCustomerCertificateParameters_ARM(gens map[string]gopter.Gen) {
 	gens["SecretVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["SubjectAlternativeNames"] = gen.SliceOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(CustomerCertificateParameters_Type_CustomerCertificate)
+	gens["Type"] = gen.OneConstOf(CustomerCertificateParameters_Type_ARM_CustomerCertificate)
 	gens["UseLatestVersion"] = gen.PtrOf(gen.Bool())
 }
 
@@ -215,7 +215,7 @@ func ManagedCertificateParameters_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedCertificateParameters_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedCertificateParameters_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.OneConstOf(ManagedCertificateParameters_Type_ManagedCertificate)
+	gens["Type"] = gen.OneConstOf(ManagedCertificateParameters_Type_ARM_ManagedCertificate)
 }
 
 func Test_Profiles_Secret_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -501,7 +501,7 @@ func UrlSigningKeyParameters_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForUrlSigningKeyParameters_ARM(gens map[string]gopter.Gen) {
 	gens["KeyId"] = gen.PtrOf(gen.AlphaString())
 	gens["SecretVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(UrlSigningKeyParameters_Type_UrlSigningKey)
+	gens["Type"] = gen.OneConstOf(UrlSigningKeyParameters_Type_ARM_UrlSigningKey)
 }
 
 // AddRelatedPropertyGeneratorsForUrlSigningKeyParameters_ARM is a factory method for creating gopter generators

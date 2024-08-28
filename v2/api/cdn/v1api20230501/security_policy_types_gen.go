@@ -653,7 +653,9 @@ func (policy *Profiles_SecurityPolicy_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeploymentStatus != nil {
-			deploymentStatus := *typedInput.Properties.DeploymentStatus
+			var temp string
+			temp = string(*typedInput.Properties.DeploymentStatus)
+			deploymentStatus := SecurityPolicyProperties_DeploymentStatus_STATUS(temp)
 			policy.DeploymentStatus = &deploymentStatus
 		}
 	}
@@ -697,7 +699,9 @@ func (policy *Profiles_SecurityPolicy_STATUS) PopulateFromARM(owner genruntime.A
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := SecurityPolicyProperties_ProvisioningState_STATUS(temp)
 			policy.ProvisioningState = &provisioningState
 		}
 	}
@@ -856,6 +860,42 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_To_Profiles_Secur
 
 	// No error
 	return nil
+}
+
+type SecurityPolicyProperties_DeploymentStatus_STATUS string
+
+const (
+	SecurityPolicyProperties_DeploymentStatus_STATUS_Failed     = SecurityPolicyProperties_DeploymentStatus_STATUS("Failed")
+	SecurityPolicyProperties_DeploymentStatus_STATUS_InProgress = SecurityPolicyProperties_DeploymentStatus_STATUS("InProgress")
+	SecurityPolicyProperties_DeploymentStatus_STATUS_NotStarted = SecurityPolicyProperties_DeploymentStatus_STATUS("NotStarted")
+	SecurityPolicyProperties_DeploymentStatus_STATUS_Succeeded  = SecurityPolicyProperties_DeploymentStatus_STATUS("Succeeded")
+)
+
+// Mapping from string to SecurityPolicyProperties_DeploymentStatus_STATUS
+var securityPolicyProperties_DeploymentStatus_STATUS_Values = map[string]SecurityPolicyProperties_DeploymentStatus_STATUS{
+	"failed":     SecurityPolicyProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": SecurityPolicyProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": SecurityPolicyProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  SecurityPolicyProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
+type SecurityPolicyProperties_ProvisioningState_STATUS string
+
+const (
+	SecurityPolicyProperties_ProvisioningState_STATUS_Creating  = SecurityPolicyProperties_ProvisioningState_STATUS("Creating")
+	SecurityPolicyProperties_ProvisioningState_STATUS_Deleting  = SecurityPolicyProperties_ProvisioningState_STATUS("Deleting")
+	SecurityPolicyProperties_ProvisioningState_STATUS_Failed    = SecurityPolicyProperties_ProvisioningState_STATUS("Failed")
+	SecurityPolicyProperties_ProvisioningState_STATUS_Succeeded = SecurityPolicyProperties_ProvisioningState_STATUS("Succeeded")
+	SecurityPolicyProperties_ProvisioningState_STATUS_Updating  = SecurityPolicyProperties_ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to SecurityPolicyProperties_ProvisioningState_STATUS
+var securityPolicyProperties_ProvisioningState_STATUS_Values = map[string]SecurityPolicyProperties_ProvisioningState_STATUS{
+	"creating":  SecurityPolicyProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  SecurityPolicyProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    SecurityPolicyProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": SecurityPolicyProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  SecurityPolicyProperties_ProvisioningState_STATUS_Updating,
 }
 
 type SecurityPolicyPropertiesParameters struct {
@@ -1090,7 +1130,11 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		result.Type = *parameters.Type
+		var temp SecurityPolicyWebApplicationFirewallParameters_Type_ARM
+		var temp1 string
+		temp1 = string(*parameters.Type)
+		temp = SecurityPolicyWebApplicationFirewallParameters_Type_ARM(temp1)
+		result.Type = temp
 	}
 
 	// Set property "WafPolicy":
@@ -1128,7 +1172,11 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) PopulateFromAR
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp SecurityPolicyWebApplicationFirewallParameters_Type
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = SecurityPolicyWebApplicationFirewallParameters_Type(temp1)
+	parameters.Type = &temp
 
 	// Set property "WafPolicy":
 	if typedInput.WafPolicy != nil {
@@ -1326,7 +1374,11 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) Populat
 	}
 
 	// Set property "Type":
-	parameters.Type = &typedInput.Type
+	var temp SecurityPolicyWebApplicationFirewallParameters_Type_STATUS
+	var temp1 string
+	temp1 = string(typedInput.Type)
+	temp = SecurityPolicyWebApplicationFirewallParameters_Type_STATUS(temp1)
+	parameters.Type = &temp
 
 	// Set property "WafPolicy":
 	if typedInput.WafPolicy != nil {
@@ -1706,6 +1758,25 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) Assig
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"WebApplicationFirewall"}
+type SecurityPolicyWebApplicationFirewallParameters_Type string
+
+const SecurityPolicyWebApplicationFirewallParameters_Type_WebApplicationFirewall = SecurityPolicyWebApplicationFirewallParameters_Type("WebApplicationFirewall")
+
+// Mapping from string to SecurityPolicyWebApplicationFirewallParameters_Type
+var securityPolicyWebApplicationFirewallParameters_Type_Values = map[string]SecurityPolicyWebApplicationFirewallParameters_Type{
+	"webapplicationfirewall": SecurityPolicyWebApplicationFirewallParameters_Type_WebApplicationFirewall,
+}
+
+type SecurityPolicyWebApplicationFirewallParameters_Type_STATUS string
+
+const SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_WebApplicationFirewall = SecurityPolicyWebApplicationFirewallParameters_Type_STATUS("WebApplicationFirewall")
+
+// Mapping from string to SecurityPolicyWebApplicationFirewallParameters_Type_STATUS
+var securityPolicyWebApplicationFirewallParameters_Type_STATUS_Values = map[string]SecurityPolicyWebApplicationFirewallParameters_Type_STATUS{
+	"webapplicationfirewall": SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_WebApplicationFirewall,
 }
 
 func init() {

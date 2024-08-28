@@ -84,20 +84,20 @@ func DynamicMetricCriteria_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDynamicMetricCriteria_ARM(gens map[string]gopter.Gen) {
-	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_High, DynamicMetricCriteria_AlertSensitivity_Low, DynamicMetricCriteria_AlertSensitivity_Medium))
-	gens["CriterionType"] = gen.OneConstOf(DynamicMetricCriteria_CriterionType_DynamicThresholdCriterion)
+	gens["AlertSensitivity"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_AlertSensitivity_ARM_High, DynamicMetricCriteria_AlertSensitivity_ARM_Low, DynamicMetricCriteria_AlertSensitivity_ARM_Medium))
+	gens["CriterionType"] = gen.OneConstOf(DynamicMetricCriteria_CriterionType_ARM_DynamicThresholdCriterion)
 	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_GreaterOrLessThan, DynamicMetricCriteria_Operator_GreaterThan, DynamicMetricCriteria_Operator_LessThan))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DynamicMetricCriteria_Operator_ARM_GreaterOrLessThan, DynamicMetricCriteria_Operator_ARM_GreaterThan, DynamicMetricCriteria_Operator_ARM_LessThan))
 	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
 	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		DynamicMetricCriteria_TimeAggregation_Average,
-		DynamicMetricCriteria_TimeAggregation_Count,
-		DynamicMetricCriteria_TimeAggregation_Maximum,
-		DynamicMetricCriteria_TimeAggregation_Minimum,
-		DynamicMetricCriteria_TimeAggregation_Total))
+		DynamicMetricCriteria_TimeAggregation_ARM_Average,
+		DynamicMetricCriteria_TimeAggregation_ARM_Count,
+		DynamicMetricCriteria_TimeAggregation_ARM_Maximum,
+		DynamicMetricCriteria_TimeAggregation_ARM_Minimum,
+		DynamicMetricCriteria_TimeAggregation_ARM_Total))
 }
 
 // AddRelatedPropertyGeneratorsForDynamicMetricCriteria_ARM is a factory method for creating gopter generators
@@ -374,7 +374,7 @@ func MetricAlertMultipleResourceMultipleMetricCriteria_ARMGenerator() gopter.Gen
 
 // AddIndependentPropertyGeneratorsForMetricAlertMultipleResourceMultipleMetricCriteria_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricAlertMultipleResourceMultipleMetricCriteria_ARM(gens map[string]gopter.Gen) {
-	gens["OdataType"] = gen.OneConstOf(MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria)
+	gens["OdataType"] = gen.OneConstOf(MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria)
 }
 
 // AddRelatedPropertyGeneratorsForMetricAlertMultipleResourceMultipleMetricCriteria_ARM is a factory method for creating gopter generators
@@ -533,7 +533,7 @@ func MetricAlertSingleResourceMultipleMetricCriteria_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForMetricAlertSingleResourceMultipleMetricCriteria_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricAlertSingleResourceMultipleMetricCriteria_ARM(gens map[string]gopter.Gen) {
-	gens["OdataType"] = gen.OneConstOf(MetricAlertSingleResourceMultipleMetricCriteria_OdataType_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria)
+	gens["OdataType"] = gen.OneConstOf(MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria)
 }
 
 // AddRelatedPropertyGeneratorsForMetricAlertSingleResourceMultipleMetricCriteria_ARM is a factory method for creating gopter generators
@@ -686,24 +686,24 @@ func MetricCriteria_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForMetricCriteria_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricCriteria_ARM(gens map[string]gopter.Gen) {
-	gens["CriterionType"] = gen.OneConstOf(MetricCriteria_CriterionType_StaticThresholdCriterion)
+	gens["CriterionType"] = gen.OneConstOf(MetricCriteria_CriterionType_ARM_StaticThresholdCriterion)
 	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricNamespace"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		MetricCriteria_Operator_Equals,
-		MetricCriteria_Operator_GreaterThan,
-		MetricCriteria_Operator_GreaterThanOrEqual,
-		MetricCriteria_Operator_LessThan,
-		MetricCriteria_Operator_LessThanOrEqual))
+		MetricCriteria_Operator_ARM_Equals,
+		MetricCriteria_Operator_ARM_GreaterThan,
+		MetricCriteria_Operator_ARM_GreaterThanOrEqual,
+		MetricCriteria_Operator_ARM_LessThan,
+		MetricCriteria_Operator_ARM_LessThanOrEqual))
 	gens["SkipMetricValidation"] = gen.PtrOf(gen.Bool())
 	gens["Threshold"] = gen.PtrOf(gen.Float64())
 	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		MetricCriteria_TimeAggregation_Average,
-		MetricCriteria_TimeAggregation_Count,
-		MetricCriteria_TimeAggregation_Maximum,
-		MetricCriteria_TimeAggregation_Minimum,
-		MetricCriteria_TimeAggregation_Total))
+		MetricCriteria_TimeAggregation_ARM_Average,
+		MetricCriteria_TimeAggregation_ARM_Count,
+		MetricCriteria_TimeAggregation_ARM_Maximum,
+		MetricCriteria_TimeAggregation_ARM_Minimum,
+		MetricCriteria_TimeAggregation_ARM_Total))
 }
 
 // AddRelatedPropertyGeneratorsForMetricCriteria_ARM is a factory method for creating gopter generators
@@ -906,6 +906,6 @@ func WebtestLocationAvailabilityCriteria_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWebtestLocationAvailabilityCriteria_ARM(gens map[string]gopter.Gen) {
 	gens["ComponentId"] = gen.PtrOf(gen.AlphaString())
 	gens["FailedLocationCount"] = gen.PtrOf(gen.Float64())
-	gens["OdataType"] = gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria)
+	gens["OdataType"] = gen.OneConstOf(WebtestLocationAvailabilityCriteria_OdataType_ARM_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria)
 	gens["WebTestId"] = gen.PtrOf(gen.AlphaString())
 }

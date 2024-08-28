@@ -145,7 +145,7 @@ func EncryptionProperty_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperty_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperty_ARM(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_Status_Disabled, EncryptionProperty_Status_Enabled))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_Status_ARM_Disabled, EncryptionProperty_Status_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperty_ARM is a factory method for creating gopter generators
@@ -281,10 +281,10 @@ func Identity_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		Identity_Type_None,
-		Identity_Type_SystemAssigned,
-		Identity_Type_SystemAssignedUserAssigned,
-		Identity_Type_UserAssigned))
+		Identity_Type_ARM_None,
+		Identity_Type_ARM_SystemAssigned,
+		Identity_Type_ARM_SystemAssignedUserAssigned,
+		Identity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentity_ARM is a factory method for creating gopter generators
@@ -480,11 +480,11 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResourceProperty_ARM(ge
 	gens["PrivateLinkResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequestMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointServiceConnectionStatus_Approved,
-		PrivateEndpointServiceConnectionStatus_Disconnected,
-		PrivateEndpointServiceConnectionStatus_Pending,
-		PrivateEndpointServiceConnectionStatus_Rejected,
-		PrivateEndpointServiceConnectionStatus_Timeout))
+		PrivateEndpointServiceConnectionStatus_ARM_Approved,
+		PrivateEndpointServiceConnectionStatus_ARM_Disconnected,
+		PrivateEndpointServiceConnectionStatus_ARM_Pending,
+		PrivateEndpointServiceConnectionStatus_ARM_Rejected,
+		PrivateEndpointServiceConnectionStatus_ARM_Timeout))
 }
 
 func Test_SharedPrivateLinkResource_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -683,17 +683,17 @@ func AddIndependentPropertyGeneratorsForSystemData_ARM(gens map[string]gopter.Ge
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application,
-		SystemData_CreatedByType_Key,
-		SystemData_CreatedByType_ManagedIdentity,
-		SystemData_CreatedByType_User))
+		SystemData_CreatedByType_ARM_Application,
+		SystemData_CreatedByType_ARM_Key,
+		SystemData_CreatedByType_ARM_ManagedIdentity,
+		SystemData_CreatedByType_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application,
-		SystemData_LastModifiedByType_Key,
-		SystemData_LastModifiedByType_ManagedIdentity,
-		SystemData_LastModifiedByType_User))
+		SystemData_LastModifiedByType_ARM_Application,
+		SystemData_LastModifiedByType_ARM_Key,
+		SystemData_LastModifiedByType_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_ARM_User))
 }
 
 func Test_UserAssignedIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -828,7 +828,7 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_ARM(gens map[string]
 	gens["ImageBuildCompute"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVault"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_Disabled, WorkspaceProperties_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_ARM_Disabled, WorkspaceProperties_PublicNetworkAccess_ARM_Enabled))
 	gens["StorageAccount"] = gen.PtrOf(gen.AlphaString())
 }
 

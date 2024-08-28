@@ -381,15 +381,21 @@ func (database *RedisEnterprise_Database_Spec) ConvertToARM(resolved genruntime.
 		result.Properties = &DatabaseProperties_ARM{}
 	}
 	if database.ClientProtocol != nil {
-		clientProtocol := *database.ClientProtocol
+		var temp string
+		temp = string(*database.ClientProtocol)
+		clientProtocol := DatabaseProperties_ClientProtocol_ARM(temp)
 		result.Properties.ClientProtocol = &clientProtocol
 	}
 	if database.ClusteringPolicy != nil {
-		clusteringPolicy := *database.ClusteringPolicy
+		var temp string
+		temp = string(*database.ClusteringPolicy)
+		clusteringPolicy := DatabaseProperties_ClusteringPolicy_ARM(temp)
 		result.Properties.ClusteringPolicy = &clusteringPolicy
 	}
 	if database.EvictionPolicy != nil {
-		evictionPolicy := *database.EvictionPolicy
+		var temp string
+		temp = string(*database.EvictionPolicy)
+		evictionPolicy := DatabaseProperties_EvictionPolicy_ARM(temp)
 		result.Properties.EvictionPolicy = &evictionPolicy
 	}
 	if database.GeoReplication != nil {
@@ -441,7 +447,9 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClientProtocol != nil {
-			clientProtocol := *typedInput.Properties.ClientProtocol
+			var temp string
+			temp = string(*typedInput.Properties.ClientProtocol)
+			clientProtocol := DatabaseProperties_ClientProtocol(temp)
 			database.ClientProtocol = &clientProtocol
 		}
 	}
@@ -450,7 +458,9 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClusteringPolicy != nil {
-			clusteringPolicy := *typedInput.Properties.ClusteringPolicy
+			var temp string
+			temp = string(*typedInput.Properties.ClusteringPolicy)
+			clusteringPolicy := DatabaseProperties_ClusteringPolicy(temp)
 			database.ClusteringPolicy = &clusteringPolicy
 		}
 	}
@@ -459,7 +469,9 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EvictionPolicy != nil {
-			evictionPolicy := *typedInput.Properties.EvictionPolicy
+			var temp string
+			temp = string(*typedInput.Properties.EvictionPolicy)
+			evictionPolicy := DatabaseProperties_EvictionPolicy(temp)
 			database.EvictionPolicy = &evictionPolicy
 		}
 	}
@@ -960,7 +972,9 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClientProtocol != nil {
-			clientProtocol := *typedInput.Properties.ClientProtocol
+			var temp string
+			temp = string(*typedInput.Properties.ClientProtocol)
+			clientProtocol := DatabaseProperties_ClientProtocol_STATUS(temp)
 			database.ClientProtocol = &clientProtocol
 		}
 	}
@@ -969,7 +983,9 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClusteringPolicy != nil {
-			clusteringPolicy := *typedInput.Properties.ClusteringPolicy
+			var temp string
+			temp = string(*typedInput.Properties.ClusteringPolicy)
+			clusteringPolicy := DatabaseProperties_ClusteringPolicy_STATUS(temp)
 			database.ClusteringPolicy = &clusteringPolicy
 		}
 	}
@@ -980,7 +996,9 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EvictionPolicy != nil {
-			evictionPolicy := *typedInput.Properties.EvictionPolicy
+			var temp string
+			temp = string(*typedInput.Properties.EvictionPolicy)
+			evictionPolicy := DatabaseProperties_EvictionPolicy_STATUS(temp)
 			database.EvictionPolicy = &evictionPolicy
 		}
 	}
@@ -1051,7 +1069,9 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			database.ProvisioningState = &provisioningState
 		}
 	}
@@ -1060,7 +1080,9 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
+			var temp string
+			temp = string(*typedInput.Properties.ResourceState)
+			resourceState := ResourceState_STATUS(temp)
 			database.ResourceState = &resourceState
 		}
 	}
@@ -1898,7 +1920,9 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "AofFrequency":
 	if persistence.AofFrequency != nil {
-		aofFrequency := *persistence.AofFrequency
+		var temp string
+		temp = string(*persistence.AofFrequency)
+		aofFrequency := Persistence_AofFrequency_ARM(temp)
 		result.AofFrequency = &aofFrequency
 	}
 
@@ -1910,7 +1934,9 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "RdbFrequency":
 	if persistence.RdbFrequency != nil {
-		rdbFrequency := *persistence.RdbFrequency
+		var temp string
+		temp = string(*persistence.RdbFrequency)
+		rdbFrequency := Persistence_RdbFrequency_ARM(temp)
 		result.RdbFrequency = &rdbFrequency
 	}
 	return result, nil
@@ -1936,7 +1962,9 @@ func (persistence *Persistence) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "AofFrequency":
 	if typedInput.AofFrequency != nil {
-		aofFrequency := *typedInput.AofFrequency
+		var temp string
+		temp = string(*typedInput.AofFrequency)
+		aofFrequency := Persistence_AofFrequency(temp)
 		persistence.AofFrequency = &aofFrequency
 	}
 
@@ -1948,7 +1976,9 @@ func (persistence *Persistence) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "RdbFrequency":
 	if typedInput.RdbFrequency != nil {
-		rdbFrequency := *typedInput.RdbFrequency
+		var temp string
+		temp = string(*typedInput.RdbFrequency)
+		rdbFrequency := Persistence_RdbFrequency(temp)
 		persistence.RdbFrequency = &rdbFrequency
 	}
 
@@ -2121,7 +2151,9 @@ func (persistence *Persistence_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "AofFrequency":
 	if typedInput.AofFrequency != nil {
-		aofFrequency := *typedInput.AofFrequency
+		var temp string
+		temp = string(*typedInput.AofFrequency)
+		aofFrequency := Persistence_AofFrequency_STATUS(temp)
 		persistence.AofFrequency = &aofFrequency
 	}
 
@@ -2133,7 +2165,9 @@ func (persistence *Persistence_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "RdbFrequency":
 	if typedInput.RdbFrequency != nil {
-		rdbFrequency := *typedInput.RdbFrequency
+		var temp string
+		temp = string(*typedInput.RdbFrequency)
+		rdbFrequency := Persistence_RdbFrequency_STATUS(temp)
 		persistence.RdbFrequency = &rdbFrequency
 	}
 
@@ -2360,7 +2394,9 @@ func (database *LinkedDatabase_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "State":
 	if typedInput.State != nil {
-		state := *typedInput.State
+		var temp string
+		temp = string(*typedInput.State)
+		state := LinkedDatabase_State_STATUS(temp)
 		database.State = &state
 	}
 

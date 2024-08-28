@@ -387,7 +387,9 @@ func (rule *Namespaces_AuthorizationRule_Spec) ConvertToARM(resolved genruntime.
 		result.Properties = &Namespaces_AuthorizationRule_Properties_Spec_ARM{}
 	}
 	for _, item := range rule.Rights {
-		result.Properties.Rights = append(result.Properties.Rights, item)
+		var temp string
+		temp = string(item)
+		result.Properties.Rights = append(result.Properties.Rights, Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM(temp))
 	}
 	return result, nil
 }
@@ -419,7 +421,9 @@ func (rule *Namespaces_AuthorizationRule_Spec) PopulateFromARM(owner genruntime.
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Rights {
-			rule.Rights = append(rule.Rights, item)
+			var temp string
+			temp = string(item)
+			rule.Rights = append(rule.Rights, Namespaces_AuthorizationRule_Properties_Rights_Spec(temp))
 		}
 	}
 
@@ -687,7 +691,9 @@ func (rule *Namespaces_AuthorizationRule_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Rights {
-			rule.Rights = append(rule.Rights, item)
+			var temp string
+			temp = string(item)
+			rule.Rights = append(rule.Rights, Namespaces_AuthorizationRule_Properties_Rights_STATUS(temp))
 		}
 	}
 

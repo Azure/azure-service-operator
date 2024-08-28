@@ -84,17 +84,17 @@ func EndpointProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEndpointProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEndpointProperties_ARM(gens map[string]gopter.Gen) {
-	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_AlwaysServe_Disabled, EndpointProperties_AlwaysServe_Enabled))
+	gens["AlwaysServe"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_AlwaysServe_ARM_Disabled, EndpointProperties_AlwaysServe_ARM_Enabled))
 	gens["EndpointLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointMonitorStatus"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_EndpointMonitorStatus_CheckingEndpoint,
-		EndpointProperties_EndpointMonitorStatus_Degraded,
-		EndpointProperties_EndpointMonitorStatus_Disabled,
-		EndpointProperties_EndpointMonitorStatus_Inactive,
-		EndpointProperties_EndpointMonitorStatus_Online,
-		EndpointProperties_EndpointMonitorStatus_Stopped,
-		EndpointProperties_EndpointMonitorStatus_Unmonitored))
-	gens["EndpointStatus"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_EndpointStatus_Disabled, EndpointProperties_EndpointStatus_Enabled))
+		EndpointProperties_EndpointMonitorStatus_ARM_CheckingEndpoint,
+		EndpointProperties_EndpointMonitorStatus_ARM_Degraded,
+		EndpointProperties_EndpointMonitorStatus_ARM_Disabled,
+		EndpointProperties_EndpointMonitorStatus_ARM_Inactive,
+		EndpointProperties_EndpointMonitorStatus_ARM_Online,
+		EndpointProperties_EndpointMonitorStatus_ARM_Stopped,
+		EndpointProperties_EndpointMonitorStatus_ARM_Unmonitored))
+	gens["EndpointStatus"] = gen.PtrOf(gen.OneConstOf(EndpointProperties_EndpointStatus_ARM_Disabled, EndpointProperties_EndpointStatus_ARM_Enabled))
 	gens["GeoMapping"] = gen.SliceOf(gen.AlphaString())
 	gens["MinChildEndpoints"] = gen.PtrOf(gen.Int())
 	gens["MinChildEndpointsIPv4"] = gen.PtrOf(gen.Int())

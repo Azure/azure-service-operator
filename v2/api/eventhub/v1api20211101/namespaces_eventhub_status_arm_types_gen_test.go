@@ -85,7 +85,7 @@ func CaptureDescription_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCaptureDescription_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCaptureDescription_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescription_Encoding_STATUS_Avro, CaptureDescription_Encoding_STATUS_AvroDeflate))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescription_Encoding_STATUS_ARM_Avro, CaptureDescription_Encoding_STATUS_ARM_AvroDeflate))
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["SizeLimitInBytes"] = gen.PtrOf(gen.Int())
 	gens["SkipEmptyArchives"] = gen.PtrOf(gen.Bool())
@@ -309,15 +309,15 @@ func AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_STATUS_AR
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
 	gens["PartitionIds"] = gen.SliceOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		Namespaces_Eventhub_Properties_Status_STATUS_Active,
-		Namespaces_Eventhub_Properties_Status_STATUS_Creating,
-		Namespaces_Eventhub_Properties_Status_STATUS_Deleting,
-		Namespaces_Eventhub_Properties_Status_STATUS_Disabled,
-		Namespaces_Eventhub_Properties_Status_STATUS_ReceiveDisabled,
-		Namespaces_Eventhub_Properties_Status_STATUS_Renaming,
-		Namespaces_Eventhub_Properties_Status_STATUS_Restoring,
-		Namespaces_Eventhub_Properties_Status_STATUS_SendDisabled,
-		Namespaces_Eventhub_Properties_Status_STATUS_Unknown))
+		Namespaces_Eventhub_Properties_Status_STATUS_ARM_Active,
+		Namespaces_Eventhub_Properties_Status_STATUS_ARM_Creating,
+		Namespaces_Eventhub_Properties_Status_STATUS_ARM_Deleting,
+		Namespaces_Eventhub_Properties_Status_STATUS_ARM_Disabled,
+		Namespaces_Eventhub_Properties_Status_STATUS_ARM_ReceiveDisabled,
+		Namespaces_Eventhub_Properties_Status_STATUS_ARM_Renaming,
+		Namespaces_Eventhub_Properties_Status_STATUS_ARM_Restoring,
+		Namespaces_Eventhub_Properties_Status_STATUS_ARM_SendDisabled,
+		Namespaces_Eventhub_Properties_Status_STATUS_ARM_Unknown))
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 

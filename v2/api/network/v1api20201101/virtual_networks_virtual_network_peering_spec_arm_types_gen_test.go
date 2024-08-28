@@ -88,7 +88,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormat_AR
 	gens["AllowGatewayTransit"] = gen.PtrOf(gen.Bool())
 	gens["AllowVirtualNetworkAccess"] = gen.PtrOf(gen.Bool())
 	gens["DoNotVerifyRemoteGateways"] = gen.PtrOf(gen.Bool())
-	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormat_PeeringState_Connected, VirtualNetworkPeeringPropertiesFormat_PeeringState_Disconnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_Initiated))
+	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Connected, VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Disconnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Initiated))
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
 }
 

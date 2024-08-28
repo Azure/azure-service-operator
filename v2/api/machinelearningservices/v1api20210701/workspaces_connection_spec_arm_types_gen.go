@@ -44,5 +44,15 @@ type WorkspaceConnectionProps_ARM struct {
 	Value *string `json:"value,omitempty"`
 
 	// ValueFormat: format for the workspace connection value
-	ValueFormat *WorkspaceConnectionProps_ValueFormat `json:"valueFormat,omitempty"`
+	ValueFormat *WorkspaceConnectionProps_ValueFormat_ARM `json:"valueFormat,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"JSON"}
+type WorkspaceConnectionProps_ValueFormat_ARM string
+
+const WorkspaceConnectionProps_ValueFormat_ARM_JSON = WorkspaceConnectionProps_ValueFormat_ARM("JSON")
+
+// Mapping from string to WorkspaceConnectionProps_ValueFormat_ARM
+var workspaceConnectionProps_ValueFormat_ARM_Values = map[string]WorkspaceConnectionProps_ValueFormat_ARM{
+	"json": WorkspaceConnectionProps_ValueFormat_ARM_JSON,
 }

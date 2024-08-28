@@ -21,8 +21,8 @@ func TestPropertyReferenceSet_NewPropertyReferenceSet_ReturnsEmptySet(t *testing
 func TestPropertyReferenceSet_AfterAdd_ContainsReference(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	pkg := makeTestLocalPackageReference("Demo", "v1")
-	typ := MakeInternalTypeName(pkg, "Person")
+	demoPkg := makeTestLocalPackageReference("Demo", "v1")
+	typ := MakeInternalTypeName(demoPkg, "Person")
 	ref := MakePropertyReference(typ, "FullName")
 
 	set := NewPropertyReferenceSet()
@@ -34,8 +34,8 @@ func TestPropertyReferenceSet_AfterAdd_ContainsReference(t *testing.T) {
 func TestPropertyReferenceSet_Except_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	pkg := makeTestLocalPackageReference("Demo", "v1")
-	typ := MakeInternalTypeName(pkg, "Person")
+	demoPkg := makeTestLocalPackageReference("Demo", "v1")
+	typ := MakeInternalTypeName(demoPkg, "Person")
 	alpha := MakePropertyReference(typ, "Alpha")
 	beta := MakePropertyReference(typ, "Beta")
 	gamma := MakePropertyReference(typ, "Gamma")

@@ -147,15 +147,15 @@ func FileShareProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFileShareProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFileShareProperties_ARM(gens map[string]gopter.Gen) {
 	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(
-		FileShareProperties_AccessTier_Cool,
-		FileShareProperties_AccessTier_Hot,
-		FileShareProperties_AccessTier_Premium,
-		FileShareProperties_AccessTier_TransactionOptimized))
-	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_EnabledProtocols_NFS, FileShareProperties_EnabledProtocols_SMB))
+		FileShareProperties_AccessTier_ARM_Cool,
+		FileShareProperties_AccessTier_ARM_Hot,
+		FileShareProperties_AccessTier_ARM_Premium,
+		FileShareProperties_AccessTier_ARM_TransactionOptimized))
+	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_EnabledProtocols_ARM_NFS, FileShareProperties_EnabledProtocols_ARM_SMB))
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_AllSquash, FileShareProperties_RootSquash_NoRootSquash, FileShareProperties_RootSquash_RootSquash))
+	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_ARM_AllSquash, FileShareProperties_RootSquash_ARM_NoRootSquash, FileShareProperties_RootSquash_ARM_RootSquash))
 	gens["ShareQuota"] = gen.PtrOf(gen.Int())
 }
 

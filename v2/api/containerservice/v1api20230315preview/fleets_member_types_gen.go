@@ -719,7 +719,9 @@ func (member *Fleets_Member_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := FleetMemberProvisioningState_STATUS(temp)
 			member.ProvisioningState = &provisioningState
 		}
 	}

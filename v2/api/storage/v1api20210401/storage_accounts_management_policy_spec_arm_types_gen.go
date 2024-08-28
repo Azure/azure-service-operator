@@ -57,7 +57,7 @@ type ManagementPolicyRule_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRule_Type `json:"type,omitempty"`
+	Type *ManagementPolicyRule_Type_ARM `json:"type,omitempty"`
 }
 
 // An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
@@ -67,6 +67,16 @@ type ManagementPolicyDefinition_ARM struct {
 
 	// Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_ARM `json:"filters,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Lifecycle"}
+type ManagementPolicyRule_Type_ARM string
+
+const ManagementPolicyRule_Type_ARM_Lifecycle = ManagementPolicyRule_Type_ARM("Lifecycle")
+
+// Mapping from string to ManagementPolicyRule_Type_ARM
+var managementPolicyRule_Type_ARM_Values = map[string]ManagementPolicyRule_Type_ARM{
+	"lifecycle": ManagementPolicyRule_Type_ARM_Lifecycle,
 }
 
 // Actions are applied to the filtered blobs when the execution condition is met.

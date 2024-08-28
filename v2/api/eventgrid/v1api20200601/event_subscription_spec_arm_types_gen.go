@@ -41,7 +41,7 @@ type EventSubscriptionProperties_ARM struct {
 	Destination *EventSubscriptionDestination_ARM `json:"destination,omitempty"`
 
 	// EventDeliverySchema: The event delivery schema for the event subscription.
-	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
+	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema_ARM `json:"eventDeliverySchema,omitempty"`
 
 	// ExpirationTimeUtc: Expiration time of the event subscription.
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
@@ -200,6 +200,22 @@ type EventSubscriptionFilter_ARM struct {
 	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomInputSchema","EventGridSchema"}
+type EventSubscriptionProperties_EventDeliverySchema_ARM string
+
+const (
+	EventSubscriptionProperties_EventDeliverySchema_ARM_CloudEventSchemaV1_0 = EventSubscriptionProperties_EventDeliverySchema_ARM("CloudEventSchemaV1_0")
+	EventSubscriptionProperties_EventDeliverySchema_ARM_CustomInputSchema    = EventSubscriptionProperties_EventDeliverySchema_ARM("CustomInputSchema")
+	EventSubscriptionProperties_EventDeliverySchema_ARM_EventGridSchema      = EventSubscriptionProperties_EventDeliverySchema_ARM("EventGridSchema")
+)
+
+// Mapping from string to EventSubscriptionProperties_EventDeliverySchema_ARM
+var eventSubscriptionProperties_EventDeliverySchema_ARM_Values = map[string]EventSubscriptionProperties_EventDeliverySchema_ARM{
+	"cloudeventschemav1_0": EventSubscriptionProperties_EventDeliverySchema_ARM_CloudEventSchemaV1_0,
+	"custominputschema":    EventSubscriptionProperties_EventDeliverySchema_ARM_CustomInputSchema,
+	"eventgridschema":      EventSubscriptionProperties_EventDeliverySchema_ARM_EventGridSchema,
+}
+
 // Information about the retry policy for an event subscription.
 type RetryPolicy_ARM struct {
 	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
@@ -351,7 +367,7 @@ func (filter *AdvancedFilter_ARM) UnmarshalJSON(data []byte) error {
 
 type AzureFunctionEventSubscriptionDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Azure Function Properties of the event subscription destination.
 	Properties *AzureFunctionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
@@ -359,7 +375,7 @@ type AzureFunctionEventSubscriptionDestination_ARM struct {
 
 type EventHubEventSubscriptionDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType EventHubEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType EventHubEventSubscriptionDestination_EndpointType_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Event Hub Properties of the event subscription destination.
 	Properties *EventHubEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
@@ -367,7 +383,7 @@ type EventHubEventSubscriptionDestination_ARM struct {
 
 type HybridConnectionEventSubscriptionDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Hybrid connection Properties of the event subscription destination.
 	Properties *HybridConnectionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
@@ -375,7 +391,7 @@ type HybridConnectionEventSubscriptionDestination_ARM struct {
 
 type ServiceBusQueueEventSubscriptionDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Service Bus Properties of the event subscription destination.
 	Properties *ServiceBusQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
@@ -383,7 +399,7 @@ type ServiceBusQueueEventSubscriptionDestination_ARM struct {
 
 type ServiceBusTopicEventSubscriptionDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Service Bus Topic Properties of the event subscription destination.
 	Properties *ServiceBusTopicEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
@@ -391,7 +407,7 @@ type ServiceBusTopicEventSubscriptionDestination_ARM struct {
 
 type StorageBlobDeadLetterDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType StorageBlobDeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType StorageBlobDeadLetterDestination_EndpointType_ARM `json:"endpointType,omitempty"`
 
 	// Properties: The properties of the Storage Blob based deadletter destination
 	Properties *StorageBlobDeadLetterDestinationProperties_ARM `json:"properties,omitempty"`
@@ -399,7 +415,7 @@ type StorageBlobDeadLetterDestination_ARM struct {
 
 type StorageQueueEventSubscriptionDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType StorageQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType StorageQueueEventSubscriptionDestination_EndpointType_ARM `json:"endpointType,omitempty"`
 
 	// Properties: Storage Queue Properties of the event subscription destination.
 	Properties *StorageQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
@@ -407,10 +423,20 @@ type StorageQueueEventSubscriptionDestination_ARM struct {
 
 type WebHookEventSubscriptionDestination_ARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType WebHookEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType WebHookEventSubscriptionDestination_EndpointType_ARM `json:"endpointType,omitempty"`
 
 	// Properties: WebHook Properties of the event subscription destination.
 	Properties *WebHookEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"AzureFunction"}
+type AzureFunctionEventSubscriptionDestination_EndpointType_ARM string
+
+const AzureFunctionEventSubscriptionDestination_EndpointType_ARM_AzureFunction = AzureFunctionEventSubscriptionDestination_EndpointType_ARM("AzureFunction")
+
+// Mapping from string to AzureFunctionEventSubscriptionDestination_EndpointType_ARM
+var azureFunctionEventSubscriptionDestination_EndpointType_ARM_Values = map[string]AzureFunctionEventSubscriptionDestination_EndpointType_ARM{
+	"azurefunction": AzureFunctionEventSubscriptionDestination_EndpointType_ARM_AzureFunction,
 }
 
 // The properties that represent the Azure Function destination of an event subscription.
@@ -428,15 +454,35 @@ type BoolEqualsAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType BoolEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType BoolEqualsAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Value: The boolean filter value.
 	Value *bool `json:"value,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"EventHub"}
+type EventHubEventSubscriptionDestination_EndpointType_ARM string
+
+const EventHubEventSubscriptionDestination_EndpointType_ARM_EventHub = EventHubEventSubscriptionDestination_EndpointType_ARM("EventHub")
+
+// Mapping from string to EventHubEventSubscriptionDestination_EndpointType_ARM
+var eventHubEventSubscriptionDestination_EndpointType_ARM_Values = map[string]EventHubEventSubscriptionDestination_EndpointType_ARM{
+	"eventhub": EventHubEventSubscriptionDestination_EndpointType_ARM_EventHub,
+}
+
 // The properties for a event hub destination.
 type EventHubEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"HybridConnection"}
+type HybridConnectionEventSubscriptionDestination_EndpointType_ARM string
+
+const HybridConnectionEventSubscriptionDestination_EndpointType_ARM_HybridConnection = HybridConnectionEventSubscriptionDestination_EndpointType_ARM("HybridConnection")
+
+// Mapping from string to HybridConnectionEventSubscriptionDestination_EndpointType_ARM
+var hybridConnectionEventSubscriptionDestination_EndpointType_ARM_Values = map[string]HybridConnectionEventSubscriptionDestination_EndpointType_ARM{
+	"hybridconnection": HybridConnectionEventSubscriptionDestination_EndpointType_ARM_HybridConnection,
 }
 
 // The properties for a hybrid connection destination.
@@ -449,7 +495,7 @@ type NumberGreaterThanAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberGreaterThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType NumberGreaterThanAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -460,7 +506,7 @@ type NumberGreaterThanOrEqualsAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberGreaterThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -471,7 +517,7 @@ type NumberInAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType NumberInAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
@@ -482,7 +528,7 @@ type NumberLessThanAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberLessThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType NumberLessThanAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -493,7 +539,7 @@ type NumberLessThanOrEqualsAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberLessThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -504,10 +550,20 @@ type NumberNotInAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType NumberNotInAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"ServiceBusQueue"}
+type ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM string
+
+const ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM_ServiceBusQueue = ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM("ServiceBusQueue")
+
+// Mapping from string to ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM
+var serviceBusQueueEventSubscriptionDestination_EndpointType_ARM_Values = map[string]ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM{
+	"servicebusqueue": ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM_ServiceBusQueue,
 }
 
 // The properties that represent the Service Bus destination of an event subscription.
@@ -515,9 +571,29 @@ type ServiceBusQueueEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"ServiceBusTopic"}
+type ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM string
+
+const ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM_ServiceBusTopic = ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM("ServiceBusTopic")
+
+// Mapping from string to ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM
+var serviceBusTopicEventSubscriptionDestination_EndpointType_ARM_Values = map[string]ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM{
+	"servicebustopic": ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM_ServiceBusTopic,
+}
+
 // The properties that represent the Service Bus Topic destination of an event subscription.
 type ServiceBusTopicEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"StorageBlob"}
+type StorageBlobDeadLetterDestination_EndpointType_ARM string
+
+const StorageBlobDeadLetterDestination_EndpointType_ARM_StorageBlob = StorageBlobDeadLetterDestination_EndpointType_ARM("StorageBlob")
+
+// Mapping from string to StorageBlobDeadLetterDestination_EndpointType_ARM
+var storageBlobDeadLetterDestination_EndpointType_ARM_Values = map[string]StorageBlobDeadLetterDestination_EndpointType_ARM{
+	"storageblob": StorageBlobDeadLetterDestination_EndpointType_ARM_StorageBlob,
 }
 
 // Properties of the storage blob based dead letter destination.
@@ -525,6 +601,16 @@ type StorageBlobDeadLetterDestinationProperties_ARM struct {
 	// BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
 	BlobContainerName *string `json:"blobContainerName,omitempty"`
 	ResourceId        *string `json:"resourceId,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"StorageQueue"}
+type StorageQueueEventSubscriptionDestination_EndpointType_ARM string
+
+const StorageQueueEventSubscriptionDestination_EndpointType_ARM_StorageQueue = StorageQueueEventSubscriptionDestination_EndpointType_ARM("StorageQueue")
+
+// Mapping from string to StorageQueueEventSubscriptionDestination_EndpointType_ARM
+var storageQueueEventSubscriptionDestination_EndpointType_ARM_Values = map[string]StorageQueueEventSubscriptionDestination_EndpointType_ARM{
+	"storagequeue": StorageQueueEventSubscriptionDestination_EndpointType_ARM_StorageQueue,
 }
 
 // The properties for a storage queue destination.
@@ -539,7 +625,7 @@ type StringBeginsWithAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringBeginsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType StringBeginsWithAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -550,7 +636,7 @@ type StringContainsAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringContainsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType StringContainsAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -561,7 +647,7 @@ type StringEndsWithAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringEndsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType StringEndsWithAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -572,7 +658,7 @@ type StringInAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType StringInAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -583,10 +669,20 @@ type StringNotInAdvancedFilter_ARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType StringNotInAdvancedFilter_OperatorType_ARM `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"WebHook"}
+type WebHookEventSubscriptionDestination_EndpointType_ARM string
+
+const WebHookEventSubscriptionDestination_EndpointType_ARM_WebHook = WebHookEventSubscriptionDestination_EndpointType_ARM("WebHook")
+
+// Mapping from string to WebHookEventSubscriptionDestination_EndpointType_ARM
+var webHookEventSubscriptionDestination_EndpointType_ARM_Values = map[string]WebHookEventSubscriptionDestination_EndpointType_ARM{
+	"webhook": WebHookEventSubscriptionDestination_EndpointType_ARM_WebHook,
 }
 
 // Information about the webhook destination properties for an event subscription.
@@ -607,4 +703,124 @@ type WebHookEventSubscriptionDestinationProperties_ARM struct {
 
 	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
 	PreferredBatchSizeInKilobytes *int `json:"preferredBatchSizeInKilobytes,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"BoolEquals"}
+type BoolEqualsAdvancedFilter_OperatorType_ARM string
+
+const BoolEqualsAdvancedFilter_OperatorType_ARM_BoolEquals = BoolEqualsAdvancedFilter_OperatorType_ARM("BoolEquals")
+
+// Mapping from string to BoolEqualsAdvancedFilter_OperatorType_ARM
+var boolEqualsAdvancedFilter_OperatorType_ARM_Values = map[string]BoolEqualsAdvancedFilter_OperatorType_ARM{
+	"boolequals": BoolEqualsAdvancedFilter_OperatorType_ARM_BoolEquals,
+}
+
+// +kubebuilder:validation:Enum={"NumberGreaterThan"}
+type NumberGreaterThanAdvancedFilter_OperatorType_ARM string
+
+const NumberGreaterThanAdvancedFilter_OperatorType_ARM_NumberGreaterThan = NumberGreaterThanAdvancedFilter_OperatorType_ARM("NumberGreaterThan")
+
+// Mapping from string to NumberGreaterThanAdvancedFilter_OperatorType_ARM
+var numberGreaterThanAdvancedFilter_OperatorType_ARM_Values = map[string]NumberGreaterThanAdvancedFilter_OperatorType_ARM{
+	"numbergreaterthan": NumberGreaterThanAdvancedFilter_OperatorType_ARM_NumberGreaterThan,
+}
+
+// +kubebuilder:validation:Enum={"NumberGreaterThanOrEquals"}
+type NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM string
+
+const NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM_NumberGreaterThanOrEquals = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM("NumberGreaterThanOrEquals")
+
+// Mapping from string to NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM
+var numberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM_Values = map[string]NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM{
+	"numbergreaterthanorequals": NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM_NumberGreaterThanOrEquals,
+}
+
+// +kubebuilder:validation:Enum={"NumberIn"}
+type NumberInAdvancedFilter_OperatorType_ARM string
+
+const NumberInAdvancedFilter_OperatorType_ARM_NumberIn = NumberInAdvancedFilter_OperatorType_ARM("NumberIn")
+
+// Mapping from string to NumberInAdvancedFilter_OperatorType_ARM
+var numberInAdvancedFilter_OperatorType_ARM_Values = map[string]NumberInAdvancedFilter_OperatorType_ARM{
+	"numberin": NumberInAdvancedFilter_OperatorType_ARM_NumberIn,
+}
+
+// +kubebuilder:validation:Enum={"NumberLessThan"}
+type NumberLessThanAdvancedFilter_OperatorType_ARM string
+
+const NumberLessThanAdvancedFilter_OperatorType_ARM_NumberLessThan = NumberLessThanAdvancedFilter_OperatorType_ARM("NumberLessThan")
+
+// Mapping from string to NumberLessThanAdvancedFilter_OperatorType_ARM
+var numberLessThanAdvancedFilter_OperatorType_ARM_Values = map[string]NumberLessThanAdvancedFilter_OperatorType_ARM{
+	"numberlessthan": NumberLessThanAdvancedFilter_OperatorType_ARM_NumberLessThan,
+}
+
+// +kubebuilder:validation:Enum={"NumberLessThanOrEquals"}
+type NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM string
+
+const NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM_NumberLessThanOrEquals = NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM("NumberLessThanOrEquals")
+
+// Mapping from string to NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM
+var numberLessThanOrEqualsAdvancedFilter_OperatorType_ARM_Values = map[string]NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM{
+	"numberlessthanorequals": NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM_NumberLessThanOrEquals,
+}
+
+// +kubebuilder:validation:Enum={"NumberNotIn"}
+type NumberNotInAdvancedFilter_OperatorType_ARM string
+
+const NumberNotInAdvancedFilter_OperatorType_ARM_NumberNotIn = NumberNotInAdvancedFilter_OperatorType_ARM("NumberNotIn")
+
+// Mapping from string to NumberNotInAdvancedFilter_OperatorType_ARM
+var numberNotInAdvancedFilter_OperatorType_ARM_Values = map[string]NumberNotInAdvancedFilter_OperatorType_ARM{
+	"numbernotin": NumberNotInAdvancedFilter_OperatorType_ARM_NumberNotIn,
+}
+
+// +kubebuilder:validation:Enum={"StringBeginsWith"}
+type StringBeginsWithAdvancedFilter_OperatorType_ARM string
+
+const StringBeginsWithAdvancedFilter_OperatorType_ARM_StringBeginsWith = StringBeginsWithAdvancedFilter_OperatorType_ARM("StringBeginsWith")
+
+// Mapping from string to StringBeginsWithAdvancedFilter_OperatorType_ARM
+var stringBeginsWithAdvancedFilter_OperatorType_ARM_Values = map[string]StringBeginsWithAdvancedFilter_OperatorType_ARM{
+	"stringbeginswith": StringBeginsWithAdvancedFilter_OperatorType_ARM_StringBeginsWith,
+}
+
+// +kubebuilder:validation:Enum={"StringContains"}
+type StringContainsAdvancedFilter_OperatorType_ARM string
+
+const StringContainsAdvancedFilter_OperatorType_ARM_StringContains = StringContainsAdvancedFilter_OperatorType_ARM("StringContains")
+
+// Mapping from string to StringContainsAdvancedFilter_OperatorType_ARM
+var stringContainsAdvancedFilter_OperatorType_ARM_Values = map[string]StringContainsAdvancedFilter_OperatorType_ARM{
+	"stringcontains": StringContainsAdvancedFilter_OperatorType_ARM_StringContains,
+}
+
+// +kubebuilder:validation:Enum={"StringEndsWith"}
+type StringEndsWithAdvancedFilter_OperatorType_ARM string
+
+const StringEndsWithAdvancedFilter_OperatorType_ARM_StringEndsWith = StringEndsWithAdvancedFilter_OperatorType_ARM("StringEndsWith")
+
+// Mapping from string to StringEndsWithAdvancedFilter_OperatorType_ARM
+var stringEndsWithAdvancedFilter_OperatorType_ARM_Values = map[string]StringEndsWithAdvancedFilter_OperatorType_ARM{
+	"stringendswith": StringEndsWithAdvancedFilter_OperatorType_ARM_StringEndsWith,
+}
+
+// +kubebuilder:validation:Enum={"StringIn"}
+type StringInAdvancedFilter_OperatorType_ARM string
+
+const StringInAdvancedFilter_OperatorType_ARM_StringIn = StringInAdvancedFilter_OperatorType_ARM("StringIn")
+
+// Mapping from string to StringInAdvancedFilter_OperatorType_ARM
+var stringInAdvancedFilter_OperatorType_ARM_Values = map[string]StringInAdvancedFilter_OperatorType_ARM{
+	"stringin": StringInAdvancedFilter_OperatorType_ARM_StringIn,
+}
+
+// +kubebuilder:validation:Enum={"StringNotIn"}
+type StringNotInAdvancedFilter_OperatorType_ARM string
+
+const StringNotInAdvancedFilter_OperatorType_ARM_StringNotIn = StringNotInAdvancedFilter_OperatorType_ARM("StringNotIn")
+
+// Mapping from string to StringNotInAdvancedFilter_OperatorType_ARM
+var stringNotInAdvancedFilter_OperatorType_ARM_Values = map[string]StringNotInAdvancedFilter_OperatorType_ARM{
+	"stringnotin": StringNotInAdvancedFilter_OperatorType_ARM_StringNotIn,
 }

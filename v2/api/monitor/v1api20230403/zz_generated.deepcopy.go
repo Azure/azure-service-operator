@@ -296,7 +296,7 @@ func (in *AzureMonitorWorkspace_ARM) DeepCopyInto(out *AzureMonitorWorkspace_ARM
 	*out = *in
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(AzureMonitorWorkspace_PublicNetworkAccess)
+		*out = new(AzureMonitorWorkspace_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 }
@@ -338,12 +338,12 @@ func (in *AzureMonitorWorkspace_STATUS_ARM) DeepCopyInto(out *AzureMonitorWorksp
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(AzureMonitorWorkspace_ProvisioningState_STATUS)
+		*out = new(AzureMonitorWorkspace_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(AzureMonitorWorkspace_PublicNetworkAccess_STATUS)
+		*out = new(AzureMonitorWorkspace_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -558,7 +558,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -573,7 +573,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

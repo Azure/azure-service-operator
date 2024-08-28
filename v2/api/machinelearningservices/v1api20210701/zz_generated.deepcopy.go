@@ -181,7 +181,7 @@ func (in *AKS_Properties_ARM) DeepCopyInto(out *AKS_Properties_ARM) {
 	}
 	if in.ClusterPurpose != nil {
 		in, out := &in.ClusterPurpose, &out.ClusterPurpose
-		*out = new(AKS_Properties_ClusterPurpose)
+		*out = new(AKS_Properties_ClusterPurpose_ARM)
 		**out = **in
 	}
 	if in.LoadBalancerSubnet != nil {
@@ -191,7 +191,7 @@ func (in *AKS_Properties_ARM) DeepCopyInto(out *AKS_Properties_ARM) {
 	}
 	if in.LoadBalancerType != nil {
 		in, out := &in.LoadBalancerType, &out.LoadBalancerType
-		*out = new(AKS_Properties_LoadBalancerType)
+		*out = new(AKS_Properties_LoadBalancerType_ARM)
 		**out = **in
 	}
 	if in.SslConfiguration != nil {
@@ -298,7 +298,7 @@ func (in *AKS_Properties_STATUS_ARM) DeepCopyInto(out *AKS_Properties_STATUS_ARM
 	}
 	if in.ClusterPurpose != nil {
 		in, out := &in.ClusterPurpose, &out.ClusterPurpose
-		*out = new(AKS_Properties_ClusterPurpose_STATUS)
+		*out = new(AKS_Properties_ClusterPurpose_STATUS_ARM)
 		**out = **in
 	}
 	if in.LoadBalancerSubnet != nil {
@@ -308,7 +308,7 @@ func (in *AKS_Properties_STATUS_ARM) DeepCopyInto(out *AKS_Properties_STATUS_ARM
 	}
 	if in.LoadBalancerType != nil {
 		in, out := &in.LoadBalancerType, &out.LoadBalancerType
-		*out = new(AKS_Properties_LoadBalancerType_STATUS)
+		*out = new(AKS_Properties_LoadBalancerType_STATUS_ARM)
 		**out = **in
 	}
 	if in.SslConfiguration != nil {
@@ -454,7 +454,7 @@ func (in *AKS_STATUS_ARM) DeepCopyInto(out *AKS_STATUS_ARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(AKS_ProvisioningState_STATUS)
+		*out = new(AKS_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -739,12 +739,12 @@ func (in *AmlComputeProperties_ARM) DeepCopyInto(out *AmlComputeProperties_ARM) 
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(AmlComputeProperties_OsType)
+		*out = new(AmlComputeProperties_OsType_ARM)
 		**out = **in
 	}
 	if in.RemoteLoginPortPublicAccess != nil {
 		in, out := &in.RemoteLoginPortPublicAccess, &out.RemoteLoginPortPublicAccess
-		*out = new(AmlComputeProperties_RemoteLoginPortPublicAccess)
+		*out = new(AmlComputeProperties_RemoteLoginPortPublicAccess_ARM)
 		**out = **in
 	}
 	if in.ScaleSettings != nil {
@@ -769,7 +769,7 @@ func (in *AmlComputeProperties_ARM) DeepCopyInto(out *AmlComputeProperties_ARM) 
 	}
 	if in.VmPriority != nil {
 		in, out := &in.VmPriority, &out.VmPriority
-		*out = new(AmlComputeProperties_VmPriority)
+		*out = new(AmlComputeProperties_VmPriority_ARM)
 		**out = **in
 	}
 	if in.VmSize != nil {
@@ -891,7 +891,7 @@ func (in *AmlComputeProperties_STATUS_ARM) DeepCopyInto(out *AmlComputePropertie
 	*out = *in
 	if in.AllocationState != nil {
 		in, out := &in.AllocationState, &out.AllocationState
-		*out = new(AmlComputeProperties_AllocationState_STATUS)
+		*out = new(AmlComputeProperties_AllocationState_STATUS_ARM)
 		**out = **in
 	}
 	if in.AllocationStateTransitionTime != nil {
@@ -928,12 +928,12 @@ func (in *AmlComputeProperties_STATUS_ARM) DeepCopyInto(out *AmlComputePropertie
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(AmlComputeProperties_OsType_STATUS)
+		*out = new(AmlComputeProperties_OsType_STATUS_ARM)
 		**out = **in
 	}
 	if in.RemoteLoginPortPublicAccess != nil {
 		in, out := &in.RemoteLoginPortPublicAccess, &out.RemoteLoginPortPublicAccess
-		*out = new(AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS)
+		*out = new(AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.ScaleSettings != nil {
@@ -963,7 +963,7 @@ func (in *AmlComputeProperties_STATUS_ARM) DeepCopyInto(out *AmlComputePropertie
 	}
 	if in.VmPriority != nil {
 		in, out := &in.VmPriority, &out.VmPriority
-		*out = new(AmlComputeProperties_VmPriority_STATUS)
+		*out = new(AmlComputeProperties_VmPriority_STATUS_ARM)
 		**out = **in
 	}
 	if in.VmSize != nil {
@@ -1142,7 +1142,7 @@ func (in *AmlCompute_STATUS_ARM) DeepCopyInto(out *AmlCompute_STATUS_ARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(AmlCompute_ProvisioningState_STATUS)
+		*out = new(AmlCompute_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -1787,12 +1787,12 @@ func (in *ComputeInstanceLastOperation_STATUS_ARM) DeepCopyInto(out *ComputeInst
 	*out = *in
 	if in.OperationName != nil {
 		in, out := &in.OperationName, &out.OperationName
-		*out = new(ComputeInstanceLastOperation_OperationName_STATUS)
+		*out = new(ComputeInstanceLastOperation_OperationName_STATUS_ARM)
 		**out = **in
 	}
 	if in.OperationStatus != nil {
 		in, out := &in.OperationStatus, &out.OperationStatus
-		*out = new(ComputeInstanceLastOperation_OperationStatus_STATUS)
+		*out = new(ComputeInstanceLastOperation_OperationStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.OperationTime != nil {
@@ -1867,12 +1867,12 @@ func (in *ComputeInstanceProperties_ARM) DeepCopyInto(out *ComputeInstanceProper
 	*out = *in
 	if in.ApplicationSharingPolicy != nil {
 		in, out := &in.ApplicationSharingPolicy, &out.ApplicationSharingPolicy
-		*out = new(ComputeInstanceProperties_ApplicationSharingPolicy)
+		*out = new(ComputeInstanceProperties_ApplicationSharingPolicy_ARM)
 		**out = **in
 	}
 	if in.ComputeInstanceAuthorizationType != nil {
 		in, out := &in.ComputeInstanceAuthorizationType, &out.ComputeInstanceAuthorizationType
-		*out = new(ComputeInstanceProperties_ComputeInstanceAuthorizationType)
+		*out = new(ComputeInstanceProperties_ComputeInstanceAuthorizationType_ARM)
 		**out = **in
 	}
 	if in.PersonalComputeInstanceSettings != nil {
@@ -2001,7 +2001,7 @@ func (in *ComputeInstanceProperties_STATUS_ARM) DeepCopyInto(out *ComputeInstanc
 	*out = *in
 	if in.ApplicationSharingPolicy != nil {
 		in, out := &in.ApplicationSharingPolicy, &out.ApplicationSharingPolicy
-		*out = new(ComputeInstanceProperties_ApplicationSharingPolicy_STATUS)
+		*out = new(ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_ARM)
 		**out = **in
 	}
 	if in.Applications != nil {
@@ -2013,7 +2013,7 @@ func (in *ComputeInstanceProperties_STATUS_ARM) DeepCopyInto(out *ComputeInstanc
 	}
 	if in.ComputeInstanceAuthorizationType != nil {
 		in, out := &in.ComputeInstanceAuthorizationType, &out.ComputeInstanceAuthorizationType
-		*out = new(ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS)
+		*out = new(ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.ConnectivityEndpoints != nil {
@@ -2055,7 +2055,7 @@ func (in *ComputeInstanceProperties_STATUS_ARM) DeepCopyInto(out *ComputeInstanc
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(ComputeInstanceState_STATUS)
+		*out = new(ComputeInstanceState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -2115,7 +2115,7 @@ func (in *ComputeInstanceSshSettings_ARM) DeepCopyInto(out *ComputeInstanceSshSe
 	}
 	if in.SshPublicAccess != nil {
 		in, out := &in.SshPublicAccess, &out.SshPublicAccess
-		*out = new(ComputeInstanceSshSettings_SshPublicAccess)
+		*out = new(ComputeInstanceSshSettings_SshPublicAccess_ARM)
 		**out = **in
 	}
 }
@@ -2185,7 +2185,7 @@ func (in *ComputeInstanceSshSettings_STATUS_ARM) DeepCopyInto(out *ComputeInstan
 	}
 	if in.SshPublicAccess != nil {
 		in, out := &in.SshPublicAccess, &out.SshPublicAccess
-		*out = new(ComputeInstanceSshSettings_SshPublicAccess_STATUS)
+		*out = new(ComputeInstanceSshSettings_SshPublicAccess_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2359,7 +2359,7 @@ func (in *ComputeInstance_STATUS_ARM) DeepCopyInto(out *ComputeInstance_STATUS_A
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ComputeInstance_ProvisioningState_STATUS)
+		*out = new(ComputeInstance_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -2838,7 +2838,7 @@ func (in *DataFactory_STATUS_ARM) DeepCopyInto(out *DataFactory_STATUS_ARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DataFactory_ProvisioningState_STATUS)
+		*out = new(DataFactory_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -3142,7 +3142,7 @@ func (in *DataLakeAnalytics_STATUS_ARM) DeepCopyInto(out *DataLakeAnalytics_STAT
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DataLakeAnalytics_ProvisioningState_STATUS)
+		*out = new(DataLakeAnalytics_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -3466,7 +3466,7 @@ func (in *Databricks_STATUS_ARM) DeepCopyInto(out *Databricks_STATUS_ARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(Databricks_ProvisioningState_STATUS)
+		*out = new(Databricks_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -3531,7 +3531,7 @@ func (in *EncryptionProperty_ARM) DeepCopyInto(out *EncryptionProperty_ARM) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionProperty_Status)
+		*out = new(EncryptionProperty_Status_ARM)
 		**out = **in
 	}
 }
@@ -3591,7 +3591,7 @@ func (in *EncryptionProperty_STATUS_ARM) DeepCopyInto(out *EncryptionProperty_ST
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EncryptionProperty_Status_STATUS)
+		*out = new(EncryptionProperty_Status_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -4186,7 +4186,7 @@ func (in *HDInsight_STATUS_ARM) DeepCopyInto(out *HDInsight_STATUS_ARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(HDInsight_ProvisioningState_STATUS)
+		*out = new(HDInsight_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -4316,7 +4316,7 @@ func (in *Identity_ARM) DeepCopyInto(out *Identity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type)
+		*out = new(Identity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -4390,7 +4390,7 @@ func (in *Identity_STATUS_ARM) DeepCopyInto(out *Identity_STATUS_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type_STATUS)
+		*out = new(Identity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -5168,7 +5168,7 @@ func (in *Kubernetes_STATUS_ARM) DeepCopyInto(out *Kubernetes_STATUS_ARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(Kubernetes_ProvisioningState_STATUS)
+		*out = new(Kubernetes_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -6168,7 +6168,7 @@ func (in *SharedPrivateLinkResourceProperty_ARM) DeepCopyInto(out *SharedPrivate
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(PrivateEndpointServiceConnectionStatus)
+		*out = new(PrivateEndpointServiceConnectionStatus_ARM)
 		**out = **in
 	}
 }
@@ -6203,7 +6203,7 @@ func (in *SharedPrivateLinkResourceProperty_STATUS_ARM) DeepCopyInto(out *Shared
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(PrivateEndpointServiceConnectionStatus_STATUS)
+		*out = new(PrivateEndpointServiceConnectionStatus_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -6483,7 +6483,7 @@ func (in *SslConfiguration_ARM) DeepCopyInto(out *SslConfiguration_ARM) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(SslConfiguration_Status)
+		*out = new(SslConfiguration_Status_ARM)
 		**out = **in
 	}
 }
@@ -6573,7 +6573,7 @@ func (in *SslConfiguration_STATUS_ARM) DeepCopyInto(out *SslConfiguration_STATUS
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(SslConfiguration_Status_STATUS)
+		*out = new(SslConfiguration_Status_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -7052,7 +7052,7 @@ func (in *SynapseSpark_STATUS_ARM) DeepCopyInto(out *SynapseSpark_STATUS_ARM) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(SynapseSpark_ProvisioningState_STATUS)
+		*out = new(SynapseSpark_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -7132,7 +7132,7 @@ func (in *SystemData_ARM) DeepCopyInto(out *SystemData_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType)
+		*out = new(SystemData_CreatedByType_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -7147,7 +7147,7 @@ func (in *SystemData_ARM) DeepCopyInto(out *SystemData_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType)
+		*out = new(SystemData_LastModifiedByType_ARM)
 		**out = **in
 	}
 }
@@ -7222,7 +7222,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -7237,7 +7237,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8077,7 +8077,7 @@ func (in *VirtualMachine_STATUS_ARM) DeepCopyInto(out *VirtualMachine_STATUS_ARM
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(VirtualMachine_ProvisioningState_STATUS)
+		*out = new(VirtualMachine_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceId != nil {
@@ -8149,7 +8149,7 @@ func (in *WorkspaceConnectionProps_ARM) DeepCopyInto(out *WorkspaceConnectionPro
 	}
 	if in.ValueFormat != nil {
 		in, out := &in.ValueFormat, &out.ValueFormat
-		*out = new(WorkspaceConnectionProps_ValueFormat)
+		*out = new(WorkspaceConnectionProps_ValueFormat_ARM)
 		**out = **in
 	}
 }
@@ -8189,7 +8189,7 @@ func (in *WorkspaceConnectionProps_STATUS_ARM) DeepCopyInto(out *WorkspaceConnec
 	}
 	if in.ValueFormat != nil {
 		in, out := &in.ValueFormat, &out.ValueFormat
-		*out = new(WorkspaceConnectionProps_ValueFormat_STATUS)
+		*out = new(WorkspaceConnectionProps_ValueFormat_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8366,7 +8366,7 @@ func (in *WorkspaceProperties_ARM) DeepCopyInto(out *WorkspaceProperties_ARM) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(WorkspaceProperties_PublicNetworkAccess)
+		*out = new(WorkspaceProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.ServiceManagedResourcesSettings != nil {
@@ -8480,12 +8480,12 @@ func (in *WorkspaceProperties_STATUS_ARM) DeepCopyInto(out *WorkspaceProperties_
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(WorkspaceProperties_ProvisioningState_STATUS)
+		*out = new(WorkspaceProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(WorkspaceProperties_PublicNetworkAccess_STATUS)
+		*out = new(WorkspaceProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.ServiceManagedResourcesSettings != nil {

@@ -382,7 +382,7 @@ func ApplicationGatewayCustomError_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApplicationGatewayCustomError_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayCustomError_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CustomErrorPageUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["StatusCode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus403, ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus502))
+	gens["StatusCode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayCustomError_StatusCode_STATUS_ARM_HttpStatus403, ApplicationGatewayCustomError_StatusCode_STATUS_ARM_HttpStatus502))
 }
 
 func Test_ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1193,15 +1193,15 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayPropertiesFormat_STATU
 	gens["EnableHttp2"] = gen.PtrOf(gen.Bool())
 	gens["ForceFirewallPolicyAssociation"] = gen.PtrOf(gen.Bool())
 	gens["OperationalState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Running,
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Starting,
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopped,
-		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopping))
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Running,
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Starting,
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Stopped,
+		ApplicationGatewayPropertiesFormat_OperationalState_STATUS_ARM_Stopping))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewayProvisioningState_STATUS_Deleting,
-		ApplicationGatewayProvisioningState_STATUS_Failed,
-		ApplicationGatewayProvisioningState_STATUS_Succeeded,
-		ApplicationGatewayProvisioningState_STATUS_Updating))
+		ApplicationGatewayProvisioningState_STATUS_ARM_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Failed,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1542,18 +1542,18 @@ func ApplicationGatewaySku_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApplicationGatewaySku_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewaySku_Name_STATUS_Standard_Large,
-		ApplicationGatewaySku_Name_STATUS_Standard_Medium,
-		ApplicationGatewaySku_Name_STATUS_Standard_Small,
-		ApplicationGatewaySku_Name_STATUS_Standard_V2,
-		ApplicationGatewaySku_Name_STATUS_WAF_Large,
-		ApplicationGatewaySku_Name_STATUS_WAF_Medium,
-		ApplicationGatewaySku_Name_STATUS_WAF_V2))
+		ApplicationGatewaySku_Name_STATUS_ARM_Standard_Large,
+		ApplicationGatewaySku_Name_STATUS_ARM_Standard_Medium,
+		ApplicationGatewaySku_Name_STATUS_ARM_Standard_Small,
+		ApplicationGatewaySku_Name_STATUS_ARM_Standard_V2,
+		ApplicationGatewaySku_Name_STATUS_ARM_WAF_Large,
+		ApplicationGatewaySku_Name_STATUS_ARM_WAF_Medium,
+		ApplicationGatewaySku_Name_STATUS_ARM_WAF_V2))
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		ApplicationGatewaySku_Tier_STATUS_Standard,
-		ApplicationGatewaySku_Tier_STATUS_Standard_V2,
-		ApplicationGatewaySku_Tier_STATUS_WAF,
-		ApplicationGatewaySku_Tier_STATUS_WAF_V2))
+		ApplicationGatewaySku_Tier_STATUS_ARM_Standard,
+		ApplicationGatewaySku_Tier_STATUS_ARM_Standard_V2,
+		ApplicationGatewaySku_Tier_STATUS_ARM_WAF,
+		ApplicationGatewaySku_Tier_STATUS_ARM_WAF_V2))
 }
 
 func Test_ApplicationGatewaySslCertificate_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1676,51 +1676,51 @@ func ApplicationGatewaySslPolicy_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApplicationGatewaySslPolicy_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewaySslPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CipherSuites"] = gen.SliceOf(gen.OneConstOf(
-		CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
-		CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
-		CipherSuitesEnum_STATUS_TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
-		CipherSuitesEnum_STATUS_TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-		CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-		CipherSuitesEnum_STATUS_TLS_RSA_WITH_3DES_EDE_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_128_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_128_CBC_SHA256,
-		CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_128_GCM_SHA256,
-		CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_256_CBC_SHA,
-		CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_256_CBC_SHA256,
-		CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_256_GCM_SHA384))
+		CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+		CipherSuitesEnum_STATUS_ARM_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+		CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_128_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_128_CBC_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_128_GCM_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_256_CBC_SHA,
+		CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_256_CBC_SHA256,
+		CipherSuitesEnum_STATUS_ARM_TLS_RSA_WITH_AES_256_GCM_SHA384))
 	gens["DisabledSslProtocols"] = gen.SliceOf(gen.OneConstOf(
-		ProtocolsEnum_STATUS_TLSv1_0,
-		ProtocolsEnum_STATUS_TLSv1_1,
-		ProtocolsEnum_STATUS_TLSv1_2,
-		ProtocolsEnum_STATUS_TLSv1_3))
+		ProtocolsEnum_STATUS_ARM_TLSv1_0,
+		ProtocolsEnum_STATUS_ARM_TLSv1_1,
+		ProtocolsEnum_STATUS_ARM_TLSv1_2,
+		ProtocolsEnum_STATUS_ARM_TLSv1_3))
 	gens["MinProtocolVersion"] = gen.PtrOf(gen.OneConstOf(
-		ProtocolsEnum_STATUS_TLSv1_0,
-		ProtocolsEnum_STATUS_TLSv1_1,
-		ProtocolsEnum_STATUS_TLSv1_2,
-		ProtocolsEnum_STATUS_TLSv1_3))
+		ProtocolsEnum_STATUS_ARM_TLSv1_0,
+		ProtocolsEnum_STATUS_ARM_TLSv1_1,
+		ProtocolsEnum_STATUS_ARM_TLSv1_2,
+		ProtocolsEnum_STATUS_ARM_TLSv1_3))
 	gens["PolicyName"] = gen.PtrOf(gen.OneConstOf(
-		PolicyNameEnum_STATUS_AppGwSslPolicy20150501,
-		PolicyNameEnum_STATUS_AppGwSslPolicy20170401,
-		PolicyNameEnum_STATUS_AppGwSslPolicy20170401S,
-		PolicyNameEnum_STATUS_AppGwSslPolicy20220101,
-		PolicyNameEnum_STATUS_AppGwSslPolicy20220101S))
-	gens["PolicyType"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewaySslPolicy_PolicyType_STATUS_Custom, ApplicationGatewaySslPolicy_PolicyType_STATUS_CustomV2, ApplicationGatewaySslPolicy_PolicyType_STATUS_Predefined))
+		PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20150501,
+		PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20170401,
+		PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20170401S,
+		PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20220101,
+		PolicyNameEnum_STATUS_ARM_AppGwSslPolicy20220101S))
+	gens["PolicyType"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM_Custom, ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM_CustomV2, ApplicationGatewaySslPolicy_PolicyType_STATUS_ARM_Predefined))
 }
 
 func Test_ApplicationGatewaySslProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2097,7 +2097,7 @@ func ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARMGenerator()
 func AddIndependentPropertyGeneratorsForApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["FileUploadLimitInMb"] = gen.PtrOf(gen.Int())
-	gens["FirewallMode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_Detection, ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_Prevention))
+	gens["FirewallMode"] = gen.PtrOf(gen.OneConstOf(ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM_Detection, ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_ARM_Prevention))
 	gens["MaxRequestBodySize"] = gen.PtrOf(gen.Int())
 	gens["MaxRequestBodySizeInKb"] = gen.PtrOf(gen.Int())
 	gens["RequestBodyCheck"] = gen.PtrOf(gen.Bool())
@@ -2265,10 +2265,10 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens m
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentity_Type_STATUS_None,
-		ManagedServiceIdentity_Type_STATUS_SystemAssigned,
-		ManagedServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-		ManagedServiceIdentity_Type_STATUS_UserAssigned))
+		ManagedServiceIdentity_Type_STATUS_ARM_None,
+		ManagedServiceIdentity_Type_STATUS_ARM_SystemAssigned,
+		ManagedServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+		ManagedServiceIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators

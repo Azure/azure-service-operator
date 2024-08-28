@@ -26,5 +26,20 @@ type Servers_ConnectionPolicy_STATUS_ARM struct {
 // The properties of a server connection policy.
 type ServerConnectionPolicyProperties_STATUS_ARM struct {
 	// ConnectionType: The server connection type.
-	ConnectionType *ServerConnectionPolicyProperties_ConnectionType_STATUS `json:"connectionType,omitempty"`
+	ConnectionType *ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM `json:"connectionType,omitempty"`
+}
+
+type ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM string
+
+const (
+	ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM_Default  = ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM("Default")
+	ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM_Proxy    = ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM("Proxy")
+	ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM_Redirect = ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM("Redirect")
+)
+
+// Mapping from string to ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM
+var serverConnectionPolicyProperties_ConnectionType_STATUS_ARM_Values = map[string]ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM{
+	"default":  ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM_Default,
+	"proxy":    ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM_Proxy,
+	"redirect": ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM_Redirect,
 }

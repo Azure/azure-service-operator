@@ -86,11 +86,11 @@ func PrivateEndpointConnectionProperties_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["GroupIds"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Approving,
-		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Dropping,
-		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed,
-		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Ready,
-		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting))
+		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Approving,
+		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Dropping,
+		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Failed,
+		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Ready,
+		PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Rejecting))
 }
 
 // AddRelatedPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -218,13 +218,13 @@ func PrivateLinkServiceConnectionStateProperty_STATUS_ARMGenerator() gopter.Gen 
 
 // AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateProperty_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateProperty_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None))
+	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM_None))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateLinkServiceConnectionStateProperty_Status_STATUS_Approved,
-		PrivateLinkServiceConnectionStateProperty_Status_STATUS_Disconnected,
-		PrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending,
-		PrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected))
+		PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Approved,
+		PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Disconnected,
+		PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Pending,
+		PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Rejected))
 }
 
 func Test_ResourceIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -297,10 +297,10 @@ func AddIndependentPropertyGeneratorsForResourceIdentity_STATUS_ARM(gens map[str
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ResourceIdentity_Type_STATUS_None,
-		ResourceIdentity_Type_STATUS_SystemAssigned,
-		ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-		ResourceIdentity_Type_STATUS_UserAssigned))
+		ResourceIdentity_Type_STATUS_ARM_None,
+		ResourceIdentity_Type_STATUS_ARM_SystemAssigned,
+		ResourceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+		ResourceIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForResourceIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -368,10 +368,10 @@ func ServerExternalAdministrator_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerExternalAdministrator_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerExternalAdministrator_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(ServerExternalAdministrator_AdministratorType_STATUS_ActiveDirectory))
+	gens["AdministratorType"] = gen.PtrOf(gen.OneConstOf(ServerExternalAdministrator_AdministratorType_STATUS_ARM_ActiveDirectory))
 	gens["AzureADOnlyAuthentication"] = gen.PtrOf(gen.Bool())
 	gens["Login"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(ServerExternalAdministrator_PrincipalType_STATUS_Application, ServerExternalAdministrator_PrincipalType_STATUS_Group, ServerExternalAdministrator_PrincipalType_STATUS_User))
+	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(ServerExternalAdministrator_PrincipalType_STATUS_ARM_Application, ServerExternalAdministrator_PrincipalType_STATUS_ARM_Group, ServerExternalAdministrator_PrincipalType_STATUS_ARM_User))
 	gens["Sid"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -524,11 +524,11 @@ func AddIndependentPropertyGeneratorsForServerProperties_STATUS_ARM(gens map[str
 	gens["KeyId"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_PublicNetworkAccess_STATUS_Disabled, ServerProperties_PublicNetworkAccess_STATUS_Enabled))
-	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_RestrictOutboundNetworkAccess_STATUS_Disabled, ServerProperties_RestrictOutboundNetworkAccess_STATUS_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_PublicNetworkAccess_STATUS_ARM_Disabled, ServerProperties_PublicNetworkAccess_STATUS_ARM_Enabled))
+	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM_Disabled, ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM_Enabled))
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
-	gens["WorkspaceFeature"] = gen.PtrOf(gen.OneConstOf(ServerProperties_WorkspaceFeature_STATUS_Connected, ServerProperties_WorkspaceFeature_STATUS_Disconnected))
+	gens["WorkspaceFeature"] = gen.PtrOf(gen.OneConstOf(ServerProperties_WorkspaceFeature_STATUS_ARM_Connected, ServerProperties_WorkspaceFeature_STATUS_ARM_Disconnected))
 }
 
 // AddRelatedPropertyGeneratorsForServerProperties_STATUS_ARM is a factory method for creating gopter generators

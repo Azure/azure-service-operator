@@ -213,7 +213,7 @@ func CompositePath_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCompositePath_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCompositePath_ARM(gens map[string]gopter.Gen) {
-	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePath_Order_Ascending, CompositePath_Order_Descending))
+	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePath_Order_ARM_Ascending, CompositePath_Order_ARM_Descending))
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -339,7 +339,7 @@ func ConflictResolutionPolicy_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForConflictResolutionPolicy_ARM(gens map[string]gopter.Gen) {
 	gens["ConflictResolutionPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ConflictResolutionProcedure"] = gen.PtrOf(gen.AlphaString())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicy_Mode_Custom, ConflictResolutionPolicy_Mode_LastWriterWins))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicy_Mode_ARM_Custom, ConflictResolutionPolicy_Mode_ARM_LastWriterWins))
 }
 
 func Test_ContainerPartitionKey_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -400,7 +400,7 @@ func ContainerPartitionKey_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerPartitionKey_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerPartitionKey_ARM(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_Kind_Hash, ContainerPartitionKey_Kind_MultiHash, ContainerPartitionKey_Kind_Range))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_Kind_ARM_Hash, ContainerPartitionKey_Kind_ARM_MultiHash, ContainerPartitionKey_Kind_ARM_Range))
 	gens["Paths"] = gen.SliceOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.Int())
 }
@@ -676,13 +676,13 @@ func Indexes_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIndexes_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexes_ARM(gens map[string]gopter.Gen) {
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		Indexes_DataType_LineString,
-		Indexes_DataType_MultiPolygon,
-		Indexes_DataType_Number,
-		Indexes_DataType_Point,
-		Indexes_DataType_Polygon,
-		Indexes_DataType_String))
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Indexes_Kind_Hash, Indexes_Kind_Range, Indexes_Kind_Spatial))
+		Indexes_DataType_ARM_LineString,
+		Indexes_DataType_ARM_MultiPolygon,
+		Indexes_DataType_ARM_Number,
+		Indexes_DataType_ARM_Point,
+		Indexes_DataType_ARM_Polygon,
+		Indexes_DataType_ARM_String))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Indexes_Kind_ARM_Hash, Indexes_Kind_ARM_Range, Indexes_Kind_ARM_Spatial))
 	gens["Precision"] = gen.PtrOf(gen.Int())
 }
 
@@ -753,7 +753,7 @@ func IndexingPolicy_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIndexingPolicy_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexingPolicy_ARM(gens map[string]gopter.Gen) {
 	gens["Automatic"] = gen.PtrOf(gen.Bool())
-	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicy_IndexingMode_Consistent, IndexingPolicy_IndexingMode_Lazy, IndexingPolicy_IndexingMode_None))
+	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicy_IndexingMode_ARM_Consistent, IndexingPolicy_IndexingMode_ARM_Lazy, IndexingPolicy_IndexingMode_ARM_None))
 }
 
 // AddRelatedPropertyGeneratorsForIndexingPolicy_ARM is a factory method for creating gopter generators
@@ -823,10 +823,10 @@ func SpatialSpec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSpatialSpec_ARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Types"] = gen.SliceOf(gen.OneConstOf(
-		SpatialType_LineString,
-		SpatialType_MultiPolygon,
-		SpatialType_Point,
-		SpatialType_Polygon))
+		SpatialType_ARM_LineString,
+		SpatialType_ARM_MultiPolygon,
+		SpatialType_ARM_Point,
+		SpatialType_ARM_Polygon))
 }
 
 func Test_SqlContainerCreateUpdateProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -959,7 +959,7 @@ func SqlContainerResource_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSqlContainerResource_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSqlContainerResource_ARM(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(CreateMode_Default, CreateMode_Restore))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(CreateMode_ARM_Default, CreateMode_ARM_Restore))
 	gens["DefaultTtl"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

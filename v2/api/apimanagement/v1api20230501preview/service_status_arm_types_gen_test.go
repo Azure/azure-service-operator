@@ -87,14 +87,14 @@ func AddIndependentPropertyGeneratorsForAdditionalLocation_STATUS_ARM(gens map[s
 	gens["DisableGateway"] = gen.PtrOf(gen.Bool())
 	gens["GatewayRegionalUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["NatGatewayState"] = gen.PtrOf(gen.OneConstOf(AdditionalLocation_NatGatewayState_STATUS_Disabled, AdditionalLocation_NatGatewayState_STATUS_Enabled))
+	gens["NatGatewayState"] = gen.PtrOf(gen.OneConstOf(AdditionalLocation_NatGatewayState_STATUS_ARM_Disabled, AdditionalLocation_NatGatewayState_STATUS_ARM_Enabled))
 	gens["OutboundPublicIPAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["PlatformVersion"] = gen.PtrOf(gen.OneConstOf(
-		AdditionalLocation_PlatformVersion_STATUS_Mtv1,
-		AdditionalLocation_PlatformVersion_STATUS_Stv1,
-		AdditionalLocation_PlatformVersion_STATUS_Stv2,
-		AdditionalLocation_PlatformVersion_STATUS_Stv21,
-		AdditionalLocation_PlatformVersion_STATUS_Undetermined))
+		AdditionalLocation_PlatformVersion_STATUS_ARM_Mtv1,
+		AdditionalLocation_PlatformVersion_STATUS_ARM_Stv1,
+		AdditionalLocation_PlatformVersion_STATUS_ARM_Stv2,
+		AdditionalLocation_PlatformVersion_STATUS_ARM_Stv21,
+		AdditionalLocation_PlatformVersion_STATUS_ARM_Undetermined))
 	gens["PrivateIPAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["PublicIPAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["PublicIpAddressId"] = gen.PtrOf(gen.AlphaString())
@@ -177,10 +177,10 @@ func AddIndependentPropertyGeneratorsForApiManagementServiceIdentity_STATUS_ARM(
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ApiManagementServiceIdentity_Type_STATUS_None,
-		ApiManagementServiceIdentity_Type_STATUS_SystemAssigned,
-		ApiManagementServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
-		ApiManagementServiceIdentity_Type_STATUS_UserAssigned))
+		ApiManagementServiceIdentity_Type_STATUS_ARM_None,
+		ApiManagementServiceIdentity_Type_STATUS_ARM_SystemAssigned,
+		ApiManagementServiceIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
+		ApiManagementServiceIdentity_Type_STATUS_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForApiManagementServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
@@ -261,35 +261,35 @@ func AddIndependentPropertyGeneratorsForApiManagementServiceProperties_STATUS_AR
 	gens["CustomProperties"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-	gens["DeveloperPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_Disabled, ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_Enabled))
+	gens["DeveloperPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM_Disabled, ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM_Enabled))
 	gens["DeveloperPortalUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableGateway"] = gen.PtrOf(gen.Bool())
 	gens["EnableClientCertificate"] = gen.PtrOf(gen.Bool())
 	gens["GatewayRegionalUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["GatewayUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["LegacyPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_LegacyPortalStatus_STATUS_Disabled, ApiManagementServiceProperties_LegacyPortalStatus_STATUS_Enabled))
+	gens["LegacyPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM_Disabled, ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM_Enabled))
 	gens["ManagementApiUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["NatGatewayState"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_NatGatewayState_STATUS_Disabled, ApiManagementServiceProperties_NatGatewayState_STATUS_Enabled))
+	gens["NatGatewayState"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_NatGatewayState_STATUS_ARM_Disabled, ApiManagementServiceProperties_NatGatewayState_STATUS_ARM_Enabled))
 	gens["NotificationSenderEmail"] = gen.PtrOf(gen.AlphaString())
 	gens["OutboundPublicIPAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["PlatformVersion"] = gen.PtrOf(gen.OneConstOf(
-		ApiManagementServiceProperties_PlatformVersion_STATUS_Mtv1,
-		ApiManagementServiceProperties_PlatformVersion_STATUS_Stv1,
-		ApiManagementServiceProperties_PlatformVersion_STATUS_Stv2,
-		ApiManagementServiceProperties_PlatformVersion_STATUS_Stv21,
-		ApiManagementServiceProperties_PlatformVersion_STATUS_Undetermined))
+		ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Mtv1,
+		ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Stv1,
+		ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Stv2,
+		ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Stv21,
+		ApiManagementServiceProperties_PlatformVersion_STATUS_ARM_Undetermined))
 	gens["PortalUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicIPAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["PublicIpAddressId"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_PublicNetworkAccess_STATUS_Disabled, ApiManagementServiceProperties_PublicNetworkAccess_STATUS_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM_Disabled, ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM_Enabled))
 	gens["PublisherEmail"] = gen.PtrOf(gen.AlphaString())
 	gens["PublisherName"] = gen.PtrOf(gen.AlphaString())
 	gens["Restore"] = gen.PtrOf(gen.Bool())
 	gens["ScmUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["TargetProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["VirtualNetworkType"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_VirtualNetworkType_STATUS_External, ApiManagementServiceProperties_VirtualNetworkType_STATUS_Internal, ApiManagementServiceProperties_VirtualNetworkType_STATUS_None))
+	gens["VirtualNetworkType"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_External, ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_Internal, ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM_None))
 }
 
 // AddRelatedPropertyGeneratorsForApiManagementServiceProperties_STATUS_ARM is a factory method for creating gopter generators
@@ -363,14 +363,14 @@ func ApiManagementServiceSkuProperties_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApiManagementServiceSkuProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		ApiManagementServiceSkuProperties_Name_STATUS_Basic,
-		ApiManagementServiceSkuProperties_Name_STATUS_BasicV2,
-		ApiManagementServiceSkuProperties_Name_STATUS_Consumption,
-		ApiManagementServiceSkuProperties_Name_STATUS_Developer,
-		ApiManagementServiceSkuProperties_Name_STATUS_Isolated,
-		ApiManagementServiceSkuProperties_Name_STATUS_Premium,
-		ApiManagementServiceSkuProperties_Name_STATUS_Standard,
-		ApiManagementServiceSkuProperties_Name_STATUS_StandardV2))
+		ApiManagementServiceSkuProperties_Name_STATUS_ARM_Basic,
+		ApiManagementServiceSkuProperties_Name_STATUS_ARM_BasicV2,
+		ApiManagementServiceSkuProperties_Name_STATUS_ARM_Consumption,
+		ApiManagementServiceSkuProperties_Name_STATUS_ARM_Developer,
+		ApiManagementServiceSkuProperties_Name_STATUS_ARM_Isolated,
+		ApiManagementServiceSkuProperties_Name_STATUS_ARM_Premium,
+		ApiManagementServiceSkuProperties_Name_STATUS_ARM_Standard,
+		ApiManagementServiceSkuProperties_Name_STATUS_ARM_StandardV2))
 }
 
 func Test_ApiVersionConstraint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -563,7 +563,7 @@ func CertificateConfiguration_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCertificateConfiguration_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCertificateConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["EncodedCertificate"] = gen.PtrOf(gen.AlphaString())
-	gens["StoreName"] = gen.PtrOf(gen.OneConstOf(CertificateConfiguration_StoreName_STATUS_CertificateAuthority, CertificateConfiguration_StoreName_STATUS_Root))
+	gens["StoreName"] = gen.PtrOf(gen.OneConstOf(CertificateConfiguration_StoreName_STATUS_ARM_CertificateAuthority, CertificateConfiguration_StoreName_STATUS_ARM_Root))
 }
 
 // AddRelatedPropertyGeneratorsForCertificateConfiguration_STATUS_ARM is a factory method for creating gopter generators
@@ -692,7 +692,7 @@ func ConfigurationApi_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConfigurationApi_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationApi_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["LegacyApi"] = gen.PtrOf(gen.OneConstOf(ConfigurationApi_LegacyApi_STATUS_Disabled, ConfigurationApi_LegacyApi_STATUS_Enabled))
+	gens["LegacyApi"] = gen.PtrOf(gen.OneConstOf(ConfigurationApi_LegacyApi_STATUS_ARM_Disabled, ConfigurationApi_LegacyApi_STATUS_ARM_Enabled))
 }
 
 func Test_HostnameConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -763,11 +763,11 @@ func HostnameConfiguration_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForHostnameConfiguration_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHostnameConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CertificateSource"] = gen.PtrOf(gen.OneConstOf(
-		HostnameConfiguration_CertificateSource_STATUS_BuiltIn,
-		HostnameConfiguration_CertificateSource_STATUS_Custom,
-		HostnameConfiguration_CertificateSource_STATUS_KeyVault,
-		HostnameConfiguration_CertificateSource_STATUS_Managed))
-	gens["CertificateStatus"] = gen.PtrOf(gen.OneConstOf(HostnameConfiguration_CertificateStatus_STATUS_Completed, HostnameConfiguration_CertificateStatus_STATUS_Failed, HostnameConfiguration_CertificateStatus_STATUS_InProgress))
+		HostnameConfiguration_CertificateSource_STATUS_ARM_BuiltIn,
+		HostnameConfiguration_CertificateSource_STATUS_ARM_Custom,
+		HostnameConfiguration_CertificateSource_STATUS_ARM_KeyVault,
+		HostnameConfiguration_CertificateSource_STATUS_ARM_Managed))
+	gens["CertificateStatus"] = gen.PtrOf(gen.OneConstOf(HostnameConfiguration_CertificateStatus_STATUS_ARM_Completed, HostnameConfiguration_CertificateStatus_STATUS_ARM_Failed, HostnameConfiguration_CertificateStatus_STATUS_ARM_InProgress))
 	gens["DefaultSslBinding"] = gen.PtrOf(gen.Bool())
 	gens["EncodedCertificate"] = gen.PtrOf(gen.AlphaString())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
@@ -775,12 +775,12 @@ func AddIndependentPropertyGeneratorsForHostnameConfiguration_STATUS_ARM(gens ma
 	gens["KeyVaultId"] = gen.PtrOf(gen.AlphaString())
 	gens["NegotiateClientCertificate"] = gen.PtrOf(gen.Bool())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		HostnameConfiguration_Type_STATUS_ConfigurationApi,
-		HostnameConfiguration_Type_STATUS_DeveloperPortal,
-		HostnameConfiguration_Type_STATUS_Management,
-		HostnameConfiguration_Type_STATUS_Portal,
-		HostnameConfiguration_Type_STATUS_Proxy,
-		HostnameConfiguration_Type_STATUS_Scm))
+		HostnameConfiguration_Type_STATUS_ARM_ConfigurationApi,
+		HostnameConfiguration_Type_STATUS_ARM_DeveloperPortal,
+		HostnameConfiguration_Type_STATUS_ARM_Management,
+		HostnameConfiguration_Type_STATUS_ARM_Portal,
+		HostnameConfiguration_Type_STATUS_ARM_Proxy,
+		HostnameConfiguration_Type_STATUS_ARM_Scm))
 }
 
 // AddRelatedPropertyGeneratorsForHostnameConfiguration_STATUS_ARM is a factory method for creating gopter generators
@@ -925,7 +925,7 @@ func PrivateLinkServiceConnectionState_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ActionsRequired"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(PrivateEndpointServiceConnectionStatus_STATUS_Approved, PrivateEndpointServiceConnectionStatus_STATUS_Pending, PrivateEndpointServiceConnectionStatus_STATUS_Rejected))
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(PrivateEndpointServiceConnectionStatus_STATUS_ARM_Approved, PrivateEndpointServiceConnectionStatus_STATUS_ARM_Pending, PrivateEndpointServiceConnectionStatus_STATUS_ARM_Rejected))
 }
 
 func Test_RemotePrivateEndpointConnectionWrapper_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1151,17 +1151,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }
 
 func Test_UserIdentityProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

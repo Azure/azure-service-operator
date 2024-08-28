@@ -161,12 +161,12 @@ func AddIndependentPropertyGeneratorsForSqlTriggerGetProperties_Resource_STATUS_
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
-		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_All,
-		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Create,
-		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Delete,
-		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Replace,
-		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Update))
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerGetProperties_Resource_TriggerType_STATUS_Post, SqlTriggerGetProperties_Resource_TriggerType_STATUS_Pre))
+		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_ARM_All,
+		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_ARM_Create,
+		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_ARM_Delete,
+		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_ARM_Replace,
+		SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_ARM_Update))
+	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerGetProperties_Resource_TriggerType_STATUS_ARM_Post, SqlTriggerGetProperties_Resource_TriggerType_STATUS_ARM_Pre))
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
 

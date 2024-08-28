@@ -20,7 +20,7 @@ func (in *AdministratorProperties_ARM) DeepCopyInto(out *AdministratorProperties
 	*out = *in
 	if in.AdministratorType != nil {
 		in, out := &in.AdministratorType, &out.AdministratorType
-		*out = new(AdministratorProperties_AdministratorType)
+		*out = new(AdministratorProperties_AdministratorType_ARM)
 		**out = **in
 	}
 	if in.IdentityResourceId != nil {
@@ -60,7 +60,7 @@ func (in *AdministratorProperties_STATUS_ARM) DeepCopyInto(out *AdministratorPro
 	*out = *in
 	if in.AdministratorType != nil {
 		in, out := &in.AdministratorType, &out.AdministratorType
-		*out = new(AdministratorProperties_AdministratorType_STATUS)
+		*out = new(AdministratorProperties_AdministratorType_STATUS_ARM)
 		**out = **in
 	}
 	if in.IdentityResourceId != nil {
@@ -105,7 +105,7 @@ func (in *ConfigurationProperties_ARM) DeepCopyInto(out *ConfigurationProperties
 	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
-		*out = new(ConfigurationProperties_Source)
+		*out = new(ConfigurationProperties_Source_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -160,22 +160,22 @@ func (in *ConfigurationProperties_STATUS_ARM) DeepCopyInto(out *ConfigurationPro
 	}
 	if in.IsConfigPendingRestart != nil {
 		in, out := &in.IsConfigPendingRestart, &out.IsConfigPendingRestart
-		*out = new(ConfigurationProperties_IsConfigPendingRestart_STATUS)
+		*out = new(ConfigurationProperties_IsConfigPendingRestart_STATUS_ARM)
 		**out = **in
 	}
 	if in.IsDynamicConfig != nil {
 		in, out := &in.IsDynamicConfig, &out.IsDynamicConfig
-		*out = new(ConfigurationProperties_IsDynamicConfig_STATUS)
+		*out = new(ConfigurationProperties_IsDynamicConfig_STATUS_ARM)
 		**out = **in
 	}
 	if in.IsReadOnly != nil {
 		in, out := &in.IsReadOnly, &out.IsReadOnly
-		*out = new(ConfigurationProperties_IsReadOnly_STATUS)
+		*out = new(ConfigurationProperties_IsReadOnly_STATUS_ARM)
 		**out = **in
 	}
 	if in.Source != nil {
 		in, out := &in.Source, &out.Source
-		*out = new(ConfigurationProperties_Source_STATUS)
+		*out = new(ConfigurationProperties_Source_STATUS_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -747,7 +747,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -762,7 +762,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

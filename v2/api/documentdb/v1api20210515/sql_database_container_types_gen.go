@@ -1537,7 +1537,9 @@ func (policy *ConflictResolutionPolicy) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "Mode":
 	if policy.Mode != nil {
-		mode := *policy.Mode
+		var temp string
+		temp = string(*policy.Mode)
+		mode := ConflictResolutionPolicy_Mode_ARM(temp)
 		result.Mode = &mode
 	}
 	return result, nil
@@ -1569,7 +1571,9 @@ func (policy *ConflictResolutionPolicy) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := ConflictResolutionPolicy_Mode(temp)
 		policy.Mode = &mode
 	}
 
@@ -1669,7 +1673,9 @@ func (policy *ConflictResolutionPolicy_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property "Mode":
 	if typedInput.Mode != nil {
-		mode := *typedInput.Mode
+		var temp string
+		temp = string(*typedInput.Mode)
+		mode := ConflictResolutionPolicy_Mode_STATUS(temp)
 		policy.Mode = &mode
 	}
 
@@ -1755,7 +1761,9 @@ func (partitionKey *ContainerPartitionKey) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Kind":
 	if partitionKey.Kind != nil {
-		kind := *partitionKey.Kind
+		var temp string
+		temp = string(*partitionKey.Kind)
+		kind := ContainerPartitionKey_Kind_ARM(temp)
 		result.Kind = &kind
 	}
 
@@ -1786,7 +1794,9 @@ func (partitionKey *ContainerPartitionKey) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := ContainerPartitionKey_Kind(temp)
 		partitionKey.Kind = &kind
 	}
 
@@ -1899,7 +1909,9 @@ func (partitionKey *ContainerPartitionKey_STATUS) PopulateFromARM(owner genrunti
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := ContainerPartitionKey_Kind_STATUS(temp)
 		partitionKey.Kind = &kind
 	}
 
@@ -2061,7 +2073,9 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property "IndexingMode":
 	if policy.IndexingMode != nil {
-		indexingMode := *policy.IndexingMode
+		var temp string
+		temp = string(*policy.IndexingMode)
+		indexingMode := IndexingPolicy_IndexingMode_ARM(temp)
 		result.IndexingMode = &indexingMode
 	}
 
@@ -2130,7 +2144,9 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property "IndexingMode":
 	if typedInput.IndexingMode != nil {
-		indexingMode := *typedInput.IndexingMode
+		var temp string
+		temp = string(*typedInput.IndexingMode)
+		indexingMode := IndexingPolicy_IndexingMode(temp)
 		policy.IndexingMode = &indexingMode
 	}
 
@@ -2445,7 +2461,9 @@ func (policy *IndexingPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "IndexingMode":
 	if typedInput.IndexingMode != nil {
-		indexingMode := *typedInput.IndexingMode
+		var temp string
+		temp = string(*typedInput.IndexingMode)
+		indexingMode := IndexingPolicy_IndexingMode_STATUS(temp)
 		policy.IndexingMode = &indexingMode
 	}
 
@@ -2911,7 +2929,9 @@ func (path *CompositePath) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Order":
 	if path.Order != nil {
-		order := *path.Order
+		var temp string
+		temp = string(*path.Order)
+		order := CompositePath_Order_ARM(temp)
 		result.Order = &order
 	}
 
@@ -2937,7 +2957,9 @@ func (path *CompositePath) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Order":
 	if typedInput.Order != nil {
-		order := *typedInput.Order
+		var temp string
+		temp = string(*typedInput.Order)
+		order := CompositePath_Order(temp)
 		path.Order = &order
 	}
 
@@ -3022,7 +3044,9 @@ func (path *CompositePath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Order":
 	if typedInput.Order != nil {
-		order := *typedInput.Order
+		var temp string
+		temp = string(*typedInput.Order)
+		order := CompositePath_Order_STATUS(temp)
 		path.Order = &order
 	}
 
@@ -3080,6 +3104,64 @@ func (path *CompositePath_STATUS) AssignProperties_To_CompositePath_STATUS(desti
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Custom","LastWriterWins"}
+type ConflictResolutionPolicy_Mode string
+
+const (
+	ConflictResolutionPolicy_Mode_Custom         = ConflictResolutionPolicy_Mode("Custom")
+	ConflictResolutionPolicy_Mode_LastWriterWins = ConflictResolutionPolicy_Mode("LastWriterWins")
+)
+
+// Mapping from string to ConflictResolutionPolicy_Mode
+var conflictResolutionPolicy_Mode_Values = map[string]ConflictResolutionPolicy_Mode{
+	"custom":         ConflictResolutionPolicy_Mode_Custom,
+	"lastwriterwins": ConflictResolutionPolicy_Mode_LastWriterWins,
+}
+
+type ConflictResolutionPolicy_Mode_STATUS string
+
+const (
+	ConflictResolutionPolicy_Mode_STATUS_Custom         = ConflictResolutionPolicy_Mode_STATUS("Custom")
+	ConflictResolutionPolicy_Mode_STATUS_LastWriterWins = ConflictResolutionPolicy_Mode_STATUS("LastWriterWins")
+)
+
+// Mapping from string to ConflictResolutionPolicy_Mode_STATUS
+var conflictResolutionPolicy_Mode_STATUS_Values = map[string]ConflictResolutionPolicy_Mode_STATUS{
+	"custom":         ConflictResolutionPolicy_Mode_STATUS_Custom,
+	"lastwriterwins": ConflictResolutionPolicy_Mode_STATUS_LastWriterWins,
+}
+
+// +kubebuilder:validation:Enum={"Hash","MultiHash","Range"}
+type ContainerPartitionKey_Kind string
+
+const (
+	ContainerPartitionKey_Kind_Hash      = ContainerPartitionKey_Kind("Hash")
+	ContainerPartitionKey_Kind_MultiHash = ContainerPartitionKey_Kind("MultiHash")
+	ContainerPartitionKey_Kind_Range     = ContainerPartitionKey_Kind("Range")
+)
+
+// Mapping from string to ContainerPartitionKey_Kind
+var containerPartitionKey_Kind_Values = map[string]ContainerPartitionKey_Kind{
+	"hash":      ContainerPartitionKey_Kind_Hash,
+	"multihash": ContainerPartitionKey_Kind_MultiHash,
+	"range":     ContainerPartitionKey_Kind_Range,
+}
+
+type ContainerPartitionKey_Kind_STATUS string
+
+const (
+	ContainerPartitionKey_Kind_STATUS_Hash      = ContainerPartitionKey_Kind_STATUS("Hash")
+	ContainerPartitionKey_Kind_STATUS_MultiHash = ContainerPartitionKey_Kind_STATUS("MultiHash")
+	ContainerPartitionKey_Kind_STATUS_Range     = ContainerPartitionKey_Kind_STATUS("Range")
+)
+
+// Mapping from string to ContainerPartitionKey_Kind_STATUS
+var containerPartitionKey_Kind_STATUS_Values = map[string]ContainerPartitionKey_Kind_STATUS{
+	"hash":      ContainerPartitionKey_Kind_STATUS_Hash,
+	"multihash": ContainerPartitionKey_Kind_STATUS_MultiHash,
+	"range":     ContainerPartitionKey_Kind_STATUS_Range,
 }
 
 type ExcludedPath struct {
@@ -3457,6 +3539,37 @@ func (path *IncludedPath_STATUS) AssignProperties_To_IncludedPath_STATUS(destina
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"consistent","lazy","none"}
+type IndexingPolicy_IndexingMode string
+
+const (
+	IndexingPolicy_IndexingMode_Consistent = IndexingPolicy_IndexingMode("consistent")
+	IndexingPolicy_IndexingMode_Lazy       = IndexingPolicy_IndexingMode("lazy")
+	IndexingPolicy_IndexingMode_None       = IndexingPolicy_IndexingMode("none")
+)
+
+// Mapping from string to IndexingPolicy_IndexingMode
+var indexingPolicy_IndexingMode_Values = map[string]IndexingPolicy_IndexingMode{
+	"consistent": IndexingPolicy_IndexingMode_Consistent,
+	"lazy":       IndexingPolicy_IndexingMode_Lazy,
+	"none":       IndexingPolicy_IndexingMode_None,
+}
+
+type IndexingPolicy_IndexingMode_STATUS string
+
+const (
+	IndexingPolicy_IndexingMode_STATUS_Consistent = IndexingPolicy_IndexingMode_STATUS("consistent")
+	IndexingPolicy_IndexingMode_STATUS_Lazy       = IndexingPolicy_IndexingMode_STATUS("lazy")
+	IndexingPolicy_IndexingMode_STATUS_None       = IndexingPolicy_IndexingMode_STATUS("none")
+)
+
+// Mapping from string to IndexingPolicy_IndexingMode_STATUS
+var indexingPolicy_IndexingMode_STATUS_Values = map[string]IndexingPolicy_IndexingMode_STATUS{
+	"consistent": IndexingPolicy_IndexingMode_STATUS_Consistent,
+	"lazy":       IndexingPolicy_IndexingMode_STATUS_Lazy,
+	"none":       IndexingPolicy_IndexingMode_STATUS_None,
+}
+
 type SpatialSpec struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
@@ -3483,7 +3596,9 @@ func (spatial *SpatialSpec) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Types":
 	for _, item := range spatial.Types {
-		result.Types = append(result.Types, item)
+		var temp string
+		temp = string(item)
+		result.Types = append(result.Types, SpatialType_ARM(temp))
 	}
 	return result, nil
 }
@@ -3508,7 +3623,9 @@ func (spatial *SpatialSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 
 	// Set property "Types":
 	for _, item := range typedInput.Types {
-		spatial.Types = append(spatial.Types, item)
+		var temp string
+		temp = string(item)
+		spatial.Types = append(spatial.Types, SpatialType(temp))
 	}
 
 	// No error
@@ -3601,7 +3718,9 @@ func (spatial *SpatialSpec_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "Types":
 	for _, item := range typedInput.Types {
-		spatial.Types = append(spatial.Types, item)
+		var temp string
+		temp = string(item)
+		spatial.Types = append(spatial.Types, SpatialType_STATUS(temp))
 	}
 
 	// No error
@@ -3793,6 +3912,33 @@ func (uniqueKey *UniqueKey_STATUS) AssignProperties_To_UniqueKey_STATUS(destinat
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"ascending","descending"}
+type CompositePath_Order string
+
+const (
+	CompositePath_Order_Ascending  = CompositePath_Order("ascending")
+	CompositePath_Order_Descending = CompositePath_Order("descending")
+)
+
+// Mapping from string to CompositePath_Order
+var compositePath_Order_Values = map[string]CompositePath_Order{
+	"ascending":  CompositePath_Order_Ascending,
+	"descending": CompositePath_Order_Descending,
+}
+
+type CompositePath_Order_STATUS string
+
+const (
+	CompositePath_Order_STATUS_Ascending  = CompositePath_Order_STATUS("ascending")
+	CompositePath_Order_STATUS_Descending = CompositePath_Order_STATUS("descending")
+)
+
+// Mapping from string to CompositePath_Order_STATUS
+var compositePath_Order_STATUS_Values = map[string]CompositePath_Order_STATUS{
+	"ascending":  CompositePath_Order_STATUS_Ascending,
+	"descending": CompositePath_Order_STATUS_Descending,
+}
+
 // The indexes for the path.
 type Indexes struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
@@ -3816,13 +3962,17 @@ func (indexes *Indexes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "DataType":
 	if indexes.DataType != nil {
-		dataType := *indexes.DataType
+		var temp string
+		temp = string(*indexes.DataType)
+		dataType := Indexes_DataType_ARM(temp)
 		result.DataType = &dataType
 	}
 
 	// Set property "Kind":
 	if indexes.Kind != nil {
-		kind := *indexes.Kind
+		var temp string
+		temp = string(*indexes.Kind)
+		kind := Indexes_Kind_ARM(temp)
 		result.Kind = &kind
 	}
 
@@ -3848,13 +3998,17 @@ func (indexes *Indexes) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 
 	// Set property "DataType":
 	if typedInput.DataType != nil {
-		dataType := *typedInput.DataType
+		var temp string
+		temp = string(*typedInput.DataType)
+		dataType := Indexes_DataType(temp)
 		indexes.DataType = &dataType
 	}
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := Indexes_Kind(temp)
 		indexes.Kind = &kind
 	}
 
@@ -3959,13 +4113,17 @@ func (indexes *Indexes_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "DataType":
 	if typedInput.DataType != nil {
-		dataType := *typedInput.DataType
+		var temp string
+		temp = string(*typedInput.DataType)
+		dataType := Indexes_DataType_STATUS(temp)
 		indexes.DataType = &dataType
 	}
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
+		var temp string
+		temp = string(*typedInput.Kind)
+		kind := Indexes_Kind_STATUS(temp)
 		indexes.Kind = &kind
 	}
 
@@ -4040,6 +4198,117 @@ func (indexes *Indexes_STATUS) AssignProperties_To_Indexes_STATUS(destination *s
 
 	// No error
 	return nil
+}
+
+// Indicates the spatial type of index.
+// +kubebuilder:validation:Enum={"LineString","MultiPolygon","Point","Polygon"}
+type SpatialType string
+
+const (
+	SpatialType_LineString   = SpatialType("LineString")
+	SpatialType_MultiPolygon = SpatialType("MultiPolygon")
+	SpatialType_Point        = SpatialType("Point")
+	SpatialType_Polygon      = SpatialType("Polygon")
+)
+
+// Mapping from string to SpatialType
+var spatialType_Values = map[string]SpatialType{
+	"linestring":   SpatialType_LineString,
+	"multipolygon": SpatialType_MultiPolygon,
+	"point":        SpatialType_Point,
+	"polygon":      SpatialType_Polygon,
+}
+
+// Indicates the spatial type of index.
+type SpatialType_STATUS string
+
+const (
+	SpatialType_STATUS_LineString   = SpatialType_STATUS("LineString")
+	SpatialType_STATUS_MultiPolygon = SpatialType_STATUS("MultiPolygon")
+	SpatialType_STATUS_Point        = SpatialType_STATUS("Point")
+	SpatialType_STATUS_Polygon      = SpatialType_STATUS("Polygon")
+)
+
+// Mapping from string to SpatialType_STATUS
+var spatialType_STATUS_Values = map[string]SpatialType_STATUS{
+	"linestring":   SpatialType_STATUS_LineString,
+	"multipolygon": SpatialType_STATUS_MultiPolygon,
+	"point":        SpatialType_STATUS_Point,
+	"polygon":      SpatialType_STATUS_Polygon,
+}
+
+// +kubebuilder:validation:Enum={"LineString","MultiPolygon","Number","Point","Polygon","String"}
+type Indexes_DataType string
+
+const (
+	Indexes_DataType_LineString   = Indexes_DataType("LineString")
+	Indexes_DataType_MultiPolygon = Indexes_DataType("MultiPolygon")
+	Indexes_DataType_Number       = Indexes_DataType("Number")
+	Indexes_DataType_Point        = Indexes_DataType("Point")
+	Indexes_DataType_Polygon      = Indexes_DataType("Polygon")
+	Indexes_DataType_String       = Indexes_DataType("String")
+)
+
+// Mapping from string to Indexes_DataType
+var indexes_DataType_Values = map[string]Indexes_DataType{
+	"linestring":   Indexes_DataType_LineString,
+	"multipolygon": Indexes_DataType_MultiPolygon,
+	"number":       Indexes_DataType_Number,
+	"point":        Indexes_DataType_Point,
+	"polygon":      Indexes_DataType_Polygon,
+	"string":       Indexes_DataType_String,
+}
+
+type Indexes_DataType_STATUS string
+
+const (
+	Indexes_DataType_STATUS_LineString   = Indexes_DataType_STATUS("LineString")
+	Indexes_DataType_STATUS_MultiPolygon = Indexes_DataType_STATUS("MultiPolygon")
+	Indexes_DataType_STATUS_Number       = Indexes_DataType_STATUS("Number")
+	Indexes_DataType_STATUS_Point        = Indexes_DataType_STATUS("Point")
+	Indexes_DataType_STATUS_Polygon      = Indexes_DataType_STATUS("Polygon")
+	Indexes_DataType_STATUS_String       = Indexes_DataType_STATUS("String")
+)
+
+// Mapping from string to Indexes_DataType_STATUS
+var indexes_DataType_STATUS_Values = map[string]Indexes_DataType_STATUS{
+	"linestring":   Indexes_DataType_STATUS_LineString,
+	"multipolygon": Indexes_DataType_STATUS_MultiPolygon,
+	"number":       Indexes_DataType_STATUS_Number,
+	"point":        Indexes_DataType_STATUS_Point,
+	"polygon":      Indexes_DataType_STATUS_Polygon,
+	"string":       Indexes_DataType_STATUS_String,
+}
+
+// +kubebuilder:validation:Enum={"Hash","Range","Spatial"}
+type Indexes_Kind string
+
+const (
+	Indexes_Kind_Hash    = Indexes_Kind("Hash")
+	Indexes_Kind_Range   = Indexes_Kind("Range")
+	Indexes_Kind_Spatial = Indexes_Kind("Spatial")
+)
+
+// Mapping from string to Indexes_Kind
+var indexes_Kind_Values = map[string]Indexes_Kind{
+	"hash":    Indexes_Kind_Hash,
+	"range":   Indexes_Kind_Range,
+	"spatial": Indexes_Kind_Spatial,
+}
+
+type Indexes_Kind_STATUS string
+
+const (
+	Indexes_Kind_STATUS_Hash    = Indexes_Kind_STATUS("Hash")
+	Indexes_Kind_STATUS_Range   = Indexes_Kind_STATUS("Range")
+	Indexes_Kind_STATUS_Spatial = Indexes_Kind_STATUS("Spatial")
+)
+
+// Mapping from string to Indexes_Kind_STATUS
+var indexes_Kind_STATUS_Values = map[string]Indexes_Kind_STATUS{
+	"hash":    Indexes_Kind_STATUS_Hash,
+	"range":   Indexes_Kind_STATUS_Range,
+	"spatial": Indexes_Kind_STATUS_Spatial,
 }
 
 func init() {

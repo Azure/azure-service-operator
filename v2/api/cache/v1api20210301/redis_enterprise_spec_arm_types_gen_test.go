@@ -75,7 +75,7 @@ func ClusterProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForClusterProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForClusterProperties_ARM(gens map[string]gopter.Gen) {
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_10, ClusterProperties_MinimumTlsVersion_11, ClusterProperties_MinimumTlsVersion_12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_ARM_10, ClusterProperties_MinimumTlsVersion_ARM_11, ClusterProperties_MinimumTlsVersion_ARM_12))
 }
 
 func Test_RedisEnterprise_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -218,11 +218,11 @@ func Sku_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_EnterpriseFlash_F1500,
-		Sku_Name_EnterpriseFlash_F300,
-		Sku_Name_EnterpriseFlash_F700,
-		Sku_Name_Enterprise_E10,
-		Sku_Name_Enterprise_E100,
-		Sku_Name_Enterprise_E20,
-		Sku_Name_Enterprise_E50))
+		Sku_Name_ARM_EnterpriseFlash_F1500,
+		Sku_Name_ARM_EnterpriseFlash_F300,
+		Sku_Name_ARM_EnterpriseFlash_F700,
+		Sku_Name_ARM_Enterprise_E10,
+		Sku_Name_ARM_Enterprise_E100,
+		Sku_Name_ARM_Enterprise_E20,
+		Sku_Name_ARM_Enterprise_E50))
 }

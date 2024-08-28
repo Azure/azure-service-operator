@@ -52,7 +52,7 @@ func (database *Servers_Database_Spec_ARM) GetType() string {
 // Azure Active Directory identity configuration for a resource.
 type DatabaseIdentity_ARM struct {
 	// Type: The identity type
-	Type                   *DatabaseIdentity_Type                     `json:"type,omitempty"`
+	Type                   *DatabaseIdentity_Type_ARM                 `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -63,7 +63,7 @@ type DatabaseProperties_ARM struct {
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
 
 	// CatalogCollation: Collation of the metadata catalog.
-	CatalogCollation *DatabaseProperties_CatalogCollation `json:"catalogCollation,omitempty"`
+	CatalogCollation *DatabaseProperties_CatalogCollation_ARM `json:"catalogCollation,omitempty"`
 
 	// Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
@@ -85,8 +85,8 @@ type DatabaseProperties_ARM struct {
 	// RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault.
 	// recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
 	// Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
-	CreateMode    *DatabaseProperties_CreateMode `json:"createMode,omitempty"`
-	ElasticPoolId *string                        `json:"elasticPoolId,omitempty"`
+	CreateMode    *DatabaseProperties_CreateMode_ARM `json:"createMode,omitempty"`
+	ElasticPoolId *string                            `json:"elasticPoolId,omitempty"`
 
 	// FederatedClientId: The Client id used for cross tenant per database CMK scenario
 	FederatedClientId *string `json:"federatedClientId,omitempty"`
@@ -101,8 +101,8 @@ type DatabaseProperties_ARM struct {
 
 	// LicenseType: The license type to apply for this database. `LicenseIncluded` if you need a license, or `BasePrice` if you
 	// have a license and are eligible for the Azure Hybrid Benefit.
-	LicenseType                       *DatabaseProperties_LicenseType `json:"licenseType,omitempty"`
-	LongTermRetentionBackupResourceId *string                         `json:"longTermRetentionBackupResourceId,omitempty"`
+	LicenseType                       *DatabaseProperties_LicenseType_ARM `json:"licenseType,omitempty"`
+	LongTermRetentionBackupResourceId *string                             `json:"longTermRetentionBackupResourceId,omitempty"`
 
 	// MaintenanceConfigurationId: Maintenance configuration id assigned to the database. This configuration defines the period
 	// when the maintenance updates will occur.
@@ -117,23 +117,23 @@ type DatabaseProperties_ARM struct {
 	// ReadScale: The state of read-only routing. If enabled, connections that have application intent set to readonly in their
 	// connection string may be routed to a readonly secondary replica in the same region. Not applicable to a Hyperscale
 	// database within an elastic pool.
-	ReadScale                       *DatabaseProperties_ReadScale `json:"readScale,omitempty"`
-	RecoverableDatabaseId           *string                       `json:"recoverableDatabaseId,omitempty"`
-	RecoveryServicesRecoveryPointId *string                       `json:"recoveryServicesRecoveryPointId,omitempty"`
+	ReadScale                       *DatabaseProperties_ReadScale_ARM `json:"readScale,omitempty"`
+	RecoverableDatabaseId           *string                           `json:"recoverableDatabaseId,omitempty"`
+	RecoveryServicesRecoveryPointId *string                           `json:"recoveryServicesRecoveryPointId,omitempty"`
 
 	// RequestedBackupStorageRedundancy: The storage account type to be used to store backups for this database.
-	RequestedBackupStorageRedundancy *DatabaseProperties_RequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
-	RestorableDroppedDatabaseId      *string                                              `json:"restorableDroppedDatabaseId,omitempty"`
+	RequestedBackupStorageRedundancy *DatabaseProperties_RequestedBackupStorageRedundancy_ARM `json:"requestedBackupStorageRedundancy,omitempty"`
+	RestorableDroppedDatabaseId      *string                                                  `json:"restorableDroppedDatabaseId,omitempty"`
 
 	// RestorePointInTime: Specifies the point in time (ISO8601 format) of the source database that will be restored to create
 	// the new database.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
 	// SampleName: The name of the sample schema to apply when creating this database.
-	SampleName *DatabaseProperties_SampleName `json:"sampleName,omitempty"`
+	SampleName *DatabaseProperties_SampleName_ARM `json:"sampleName,omitempty"`
 
 	// SecondaryType: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
-	SecondaryType *DatabaseProperties_SecondaryType `json:"secondaryType,omitempty"`
+	SecondaryType *DatabaseProperties_SecondaryType_ARM `json:"secondaryType,omitempty"`
 
 	// SourceDatabaseDeletionDate: Specifies the time that the database was deleted.
 	SourceDatabaseDeletionDate *string `json:"sourceDatabaseDeletionDate,omitempty"`
@@ -164,15 +164,135 @@ type Sku_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","UserAssigned"}
-type DatabaseIdentity_Type string
+type DatabaseIdentity_Type_ARM string
 
 const (
-	DatabaseIdentity_Type_None         = DatabaseIdentity_Type("None")
-	DatabaseIdentity_Type_UserAssigned = DatabaseIdentity_Type("UserAssigned")
+	DatabaseIdentity_Type_ARM_None         = DatabaseIdentity_Type_ARM("None")
+	DatabaseIdentity_Type_ARM_UserAssigned = DatabaseIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to DatabaseIdentity_Type
-var databaseIdentity_Type_Values = map[string]DatabaseIdentity_Type{
-	"none":         DatabaseIdentity_Type_None,
-	"userassigned": DatabaseIdentity_Type_UserAssigned,
+// Mapping from string to DatabaseIdentity_Type_ARM
+var databaseIdentity_Type_ARM_Values = map[string]DatabaseIdentity_Type_ARM{
+	"none":         DatabaseIdentity_Type_ARM_None,
+	"userassigned": DatabaseIdentity_Type_ARM_UserAssigned,
+}
+
+// +kubebuilder:validation:Enum={"DATABASE_DEFAULT","SQL_Latin1_General_CP1_CI_AS"}
+type DatabaseProperties_CatalogCollation_ARM string
+
+const (
+	DatabaseProperties_CatalogCollation_ARM_DATABASE_DEFAULT             = DatabaseProperties_CatalogCollation_ARM("DATABASE_DEFAULT")
+	DatabaseProperties_CatalogCollation_ARM_SQL_Latin1_General_CP1_CI_AS = DatabaseProperties_CatalogCollation_ARM("SQL_Latin1_General_CP1_CI_AS")
+)
+
+// Mapping from string to DatabaseProperties_CatalogCollation_ARM
+var databaseProperties_CatalogCollation_ARM_Values = map[string]DatabaseProperties_CatalogCollation_ARM{
+	"database_default":             DatabaseProperties_CatalogCollation_ARM_DATABASE_DEFAULT,
+	"sql_latin1_general_cp1_ci_as": DatabaseProperties_CatalogCollation_ARM_SQL_Latin1_General_CP1_CI_AS,
+}
+
+// +kubebuilder:validation:Enum={"Copy","Default","OnlineSecondary","PointInTimeRestore","Recovery","Restore","RestoreExternalBackup","RestoreExternalBackupSecondary","RestoreLongTermRetentionBackup","Secondary"}
+type DatabaseProperties_CreateMode_ARM string
+
+const (
+	DatabaseProperties_CreateMode_ARM_Copy                           = DatabaseProperties_CreateMode_ARM("Copy")
+	DatabaseProperties_CreateMode_ARM_Default                        = DatabaseProperties_CreateMode_ARM("Default")
+	DatabaseProperties_CreateMode_ARM_OnlineSecondary                = DatabaseProperties_CreateMode_ARM("OnlineSecondary")
+	DatabaseProperties_CreateMode_ARM_PointInTimeRestore             = DatabaseProperties_CreateMode_ARM("PointInTimeRestore")
+	DatabaseProperties_CreateMode_ARM_Recovery                       = DatabaseProperties_CreateMode_ARM("Recovery")
+	DatabaseProperties_CreateMode_ARM_Restore                        = DatabaseProperties_CreateMode_ARM("Restore")
+	DatabaseProperties_CreateMode_ARM_RestoreExternalBackup          = DatabaseProperties_CreateMode_ARM("RestoreExternalBackup")
+	DatabaseProperties_CreateMode_ARM_RestoreExternalBackupSecondary = DatabaseProperties_CreateMode_ARM("RestoreExternalBackupSecondary")
+	DatabaseProperties_CreateMode_ARM_RestoreLongTermRetentionBackup = DatabaseProperties_CreateMode_ARM("RestoreLongTermRetentionBackup")
+	DatabaseProperties_CreateMode_ARM_Secondary                      = DatabaseProperties_CreateMode_ARM("Secondary")
+)
+
+// Mapping from string to DatabaseProperties_CreateMode_ARM
+var databaseProperties_CreateMode_ARM_Values = map[string]DatabaseProperties_CreateMode_ARM{
+	"copy":                           DatabaseProperties_CreateMode_ARM_Copy,
+	"default":                        DatabaseProperties_CreateMode_ARM_Default,
+	"onlinesecondary":                DatabaseProperties_CreateMode_ARM_OnlineSecondary,
+	"pointintimerestore":             DatabaseProperties_CreateMode_ARM_PointInTimeRestore,
+	"recovery":                       DatabaseProperties_CreateMode_ARM_Recovery,
+	"restore":                        DatabaseProperties_CreateMode_ARM_Restore,
+	"restoreexternalbackup":          DatabaseProperties_CreateMode_ARM_RestoreExternalBackup,
+	"restoreexternalbackupsecondary": DatabaseProperties_CreateMode_ARM_RestoreExternalBackupSecondary,
+	"restorelongtermretentionbackup": DatabaseProperties_CreateMode_ARM_RestoreLongTermRetentionBackup,
+	"secondary":                      DatabaseProperties_CreateMode_ARM_Secondary,
+}
+
+// +kubebuilder:validation:Enum={"BasePrice","LicenseIncluded"}
+type DatabaseProperties_LicenseType_ARM string
+
+const (
+	DatabaseProperties_LicenseType_ARM_BasePrice       = DatabaseProperties_LicenseType_ARM("BasePrice")
+	DatabaseProperties_LicenseType_ARM_LicenseIncluded = DatabaseProperties_LicenseType_ARM("LicenseIncluded")
+)
+
+// Mapping from string to DatabaseProperties_LicenseType_ARM
+var databaseProperties_LicenseType_ARM_Values = map[string]DatabaseProperties_LicenseType_ARM{
+	"baseprice":       DatabaseProperties_LicenseType_ARM_BasePrice,
+	"licenseincluded": DatabaseProperties_LicenseType_ARM_LicenseIncluded,
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type DatabaseProperties_ReadScale_ARM string
+
+const (
+	DatabaseProperties_ReadScale_ARM_Disabled = DatabaseProperties_ReadScale_ARM("Disabled")
+	DatabaseProperties_ReadScale_ARM_Enabled  = DatabaseProperties_ReadScale_ARM("Enabled")
+)
+
+// Mapping from string to DatabaseProperties_ReadScale_ARM
+var databaseProperties_ReadScale_ARM_Values = map[string]DatabaseProperties_ReadScale_ARM{
+	"disabled": DatabaseProperties_ReadScale_ARM_Disabled,
+	"enabled":  DatabaseProperties_ReadScale_ARM_Enabled,
+}
+
+// +kubebuilder:validation:Enum={"Geo","GeoZone","Local","Zone"}
+type DatabaseProperties_RequestedBackupStorageRedundancy_ARM string
+
+const (
+	DatabaseProperties_RequestedBackupStorageRedundancy_ARM_Geo     = DatabaseProperties_RequestedBackupStorageRedundancy_ARM("Geo")
+	DatabaseProperties_RequestedBackupStorageRedundancy_ARM_GeoZone = DatabaseProperties_RequestedBackupStorageRedundancy_ARM("GeoZone")
+	DatabaseProperties_RequestedBackupStorageRedundancy_ARM_Local   = DatabaseProperties_RequestedBackupStorageRedundancy_ARM("Local")
+	DatabaseProperties_RequestedBackupStorageRedundancy_ARM_Zone    = DatabaseProperties_RequestedBackupStorageRedundancy_ARM("Zone")
+)
+
+// Mapping from string to DatabaseProperties_RequestedBackupStorageRedundancy_ARM
+var databaseProperties_RequestedBackupStorageRedundancy_ARM_Values = map[string]DatabaseProperties_RequestedBackupStorageRedundancy_ARM{
+	"geo":     DatabaseProperties_RequestedBackupStorageRedundancy_ARM_Geo,
+	"geozone": DatabaseProperties_RequestedBackupStorageRedundancy_ARM_GeoZone,
+	"local":   DatabaseProperties_RequestedBackupStorageRedundancy_ARM_Local,
+	"zone":    DatabaseProperties_RequestedBackupStorageRedundancy_ARM_Zone,
+}
+
+// +kubebuilder:validation:Enum={"AdventureWorksLT","WideWorldImportersFull","WideWorldImportersStd"}
+type DatabaseProperties_SampleName_ARM string
+
+const (
+	DatabaseProperties_SampleName_ARM_AdventureWorksLT       = DatabaseProperties_SampleName_ARM("AdventureWorksLT")
+	DatabaseProperties_SampleName_ARM_WideWorldImportersFull = DatabaseProperties_SampleName_ARM("WideWorldImportersFull")
+	DatabaseProperties_SampleName_ARM_WideWorldImportersStd  = DatabaseProperties_SampleName_ARM("WideWorldImportersStd")
+)
+
+// Mapping from string to DatabaseProperties_SampleName_ARM
+var databaseProperties_SampleName_ARM_Values = map[string]DatabaseProperties_SampleName_ARM{
+	"adventureworkslt":       DatabaseProperties_SampleName_ARM_AdventureWorksLT,
+	"wideworldimportersfull": DatabaseProperties_SampleName_ARM_WideWorldImportersFull,
+	"wideworldimportersstd":  DatabaseProperties_SampleName_ARM_WideWorldImportersStd,
+}
+
+// +kubebuilder:validation:Enum={"Geo","Named"}
+type DatabaseProperties_SecondaryType_ARM string
+
+const (
+	DatabaseProperties_SecondaryType_ARM_Geo   = DatabaseProperties_SecondaryType_ARM("Geo")
+	DatabaseProperties_SecondaryType_ARM_Named = DatabaseProperties_SecondaryType_ARM("Named")
+)
+
+// Mapping from string to DatabaseProperties_SecondaryType_ARM
+var databaseProperties_SecondaryType_ARM_Values = map[string]DatabaseProperties_SecondaryType_ARM{
+	"geo":   DatabaseProperties_SecondaryType_ARM_Geo,
+	"named": DatabaseProperties_SecondaryType_ARM_Named,
 }

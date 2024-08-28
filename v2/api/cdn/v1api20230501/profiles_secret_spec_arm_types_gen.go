@@ -100,8 +100,8 @@ func (parameters *SecretParameters_ARM) UnmarshalJSON(data []byte) error {
 
 type AzureFirstPartyManagedCertificateParameters_ARM struct {
 	// SubjectAlternativeNames: The list of SANs.
-	SubjectAlternativeNames []string                                         `json:"subjectAlternativeNames,omitempty"`
-	Type                    AzureFirstPartyManagedCertificateParameters_Type `json:"type,omitempty"`
+	SubjectAlternativeNames []string                                             `json:"subjectAlternativeNames,omitempty"`
+	Type                    AzureFirstPartyManagedCertificateParameters_Type_ARM `json:"type,omitempty"`
 }
 
 type CustomerCertificateParameters_ARM struct {
@@ -113,15 +113,15 @@ type CustomerCertificateParameters_ARM struct {
 	SecretVersion *string `json:"secretVersion,omitempty"`
 
 	// SubjectAlternativeNames: The list of SANs.
-	SubjectAlternativeNames []string                           `json:"subjectAlternativeNames,omitempty"`
-	Type                    CustomerCertificateParameters_Type `json:"type,omitempty"`
+	SubjectAlternativeNames []string                               `json:"subjectAlternativeNames,omitempty"`
+	Type                    CustomerCertificateParameters_Type_ARM `json:"type,omitempty"`
 
 	// UseLatestVersion: Whether to use the latest version for the certificate
 	UseLatestVersion *bool `json:"useLatestVersion,omitempty"`
 }
 
 type ManagedCertificateParameters_ARM struct {
-	Type ManagedCertificateParameters_Type `json:"type,omitempty"`
+	Type ManagedCertificateParameters_Type_ARM `json:"type,omitempty"`
 }
 
 type UrlSigningKeyParameters_ARM struct {
@@ -134,46 +134,46 @@ type UrlSigningKeyParameters_ARM struct {
 	SecretSource *ResourceReference_ARM `json:"secretSource,omitempty"`
 
 	// SecretVersion: Version of the secret to be used
-	SecretVersion *string                      `json:"secretVersion,omitempty"`
-	Type          UrlSigningKeyParameters_Type `json:"type,omitempty"`
+	SecretVersion *string                          `json:"secretVersion,omitempty"`
+	Type          UrlSigningKeyParameters_Type_ARM `json:"type,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"AzureFirstPartyManagedCertificate"}
-type AzureFirstPartyManagedCertificateParameters_Type string
+type AzureFirstPartyManagedCertificateParameters_Type_ARM string
 
-const AzureFirstPartyManagedCertificateParameters_Type_AzureFirstPartyManagedCertificate = AzureFirstPartyManagedCertificateParameters_Type("AzureFirstPartyManagedCertificate")
+const AzureFirstPartyManagedCertificateParameters_Type_ARM_AzureFirstPartyManagedCertificate = AzureFirstPartyManagedCertificateParameters_Type_ARM("AzureFirstPartyManagedCertificate")
 
-// Mapping from string to AzureFirstPartyManagedCertificateParameters_Type
-var azureFirstPartyManagedCertificateParameters_Type_Values = map[string]AzureFirstPartyManagedCertificateParameters_Type{
-	"azurefirstpartymanagedcertificate": AzureFirstPartyManagedCertificateParameters_Type_AzureFirstPartyManagedCertificate,
+// Mapping from string to AzureFirstPartyManagedCertificateParameters_Type_ARM
+var azureFirstPartyManagedCertificateParameters_Type_ARM_Values = map[string]AzureFirstPartyManagedCertificateParameters_Type_ARM{
+	"azurefirstpartymanagedcertificate": AzureFirstPartyManagedCertificateParameters_Type_ARM_AzureFirstPartyManagedCertificate,
 }
 
 // +kubebuilder:validation:Enum={"CustomerCertificate"}
-type CustomerCertificateParameters_Type string
+type CustomerCertificateParameters_Type_ARM string
 
-const CustomerCertificateParameters_Type_CustomerCertificate = CustomerCertificateParameters_Type("CustomerCertificate")
+const CustomerCertificateParameters_Type_ARM_CustomerCertificate = CustomerCertificateParameters_Type_ARM("CustomerCertificate")
 
-// Mapping from string to CustomerCertificateParameters_Type
-var customerCertificateParameters_Type_Values = map[string]CustomerCertificateParameters_Type{
-	"customercertificate": CustomerCertificateParameters_Type_CustomerCertificate,
+// Mapping from string to CustomerCertificateParameters_Type_ARM
+var customerCertificateParameters_Type_ARM_Values = map[string]CustomerCertificateParameters_Type_ARM{
+	"customercertificate": CustomerCertificateParameters_Type_ARM_CustomerCertificate,
 }
 
 // +kubebuilder:validation:Enum={"ManagedCertificate"}
-type ManagedCertificateParameters_Type string
+type ManagedCertificateParameters_Type_ARM string
 
-const ManagedCertificateParameters_Type_ManagedCertificate = ManagedCertificateParameters_Type("ManagedCertificate")
+const ManagedCertificateParameters_Type_ARM_ManagedCertificate = ManagedCertificateParameters_Type_ARM("ManagedCertificate")
 
-// Mapping from string to ManagedCertificateParameters_Type
-var managedCertificateParameters_Type_Values = map[string]ManagedCertificateParameters_Type{
-	"managedcertificate": ManagedCertificateParameters_Type_ManagedCertificate,
+// Mapping from string to ManagedCertificateParameters_Type_ARM
+var managedCertificateParameters_Type_ARM_Values = map[string]ManagedCertificateParameters_Type_ARM{
+	"managedcertificate": ManagedCertificateParameters_Type_ARM_ManagedCertificate,
 }
 
 // +kubebuilder:validation:Enum={"UrlSigningKey"}
-type UrlSigningKeyParameters_Type string
+type UrlSigningKeyParameters_Type_ARM string
 
-const UrlSigningKeyParameters_Type_UrlSigningKey = UrlSigningKeyParameters_Type("UrlSigningKey")
+const UrlSigningKeyParameters_Type_ARM_UrlSigningKey = UrlSigningKeyParameters_Type_ARM("UrlSigningKey")
 
-// Mapping from string to UrlSigningKeyParameters_Type
-var urlSigningKeyParameters_Type_Values = map[string]UrlSigningKeyParameters_Type{
-	"urlsigningkey": UrlSigningKeyParameters_Type_UrlSigningKey,
+// Mapping from string to UrlSigningKeyParameters_Type_ARM
+var urlSigningKeyParameters_Type_ARM_Values = map[string]UrlSigningKeyParameters_Type_ARM{
+	"urlsigningkey": UrlSigningKeyParameters_Type_ARM_UrlSigningKey,
 }

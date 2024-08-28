@@ -666,7 +666,9 @@ func (configuration *FlexibleServers_Configuration_STATUS) PopulateFromARM(owner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataType != nil {
-			dataType := *typedInput.Properties.DataType
+			var temp string
+			temp = string(*typedInput.Properties.DataType)
+			dataType := ConfigurationProperties_DataType_STATUS(temp)
 			configuration.DataType = &dataType
 		}
 	}

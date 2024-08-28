@@ -56,5 +56,26 @@ type PrivateZoneProperties_STATUS_ARM struct {
 
 	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
 	// value will be ignored.
-	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
+}
+
+type PrivateZoneProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	PrivateZoneProperties_ProvisioningState_STATUS_ARM_Canceled  = PrivateZoneProperties_ProvisioningState_STATUS_ARM("Canceled")
+	PrivateZoneProperties_ProvisioningState_STATUS_ARM_Creating  = PrivateZoneProperties_ProvisioningState_STATUS_ARM("Creating")
+	PrivateZoneProperties_ProvisioningState_STATUS_ARM_Deleting  = PrivateZoneProperties_ProvisioningState_STATUS_ARM("Deleting")
+	PrivateZoneProperties_ProvisioningState_STATUS_ARM_Failed    = PrivateZoneProperties_ProvisioningState_STATUS_ARM("Failed")
+	PrivateZoneProperties_ProvisioningState_STATUS_ARM_Succeeded = PrivateZoneProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	PrivateZoneProperties_ProvisioningState_STATUS_ARM_Updating  = PrivateZoneProperties_ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to PrivateZoneProperties_ProvisioningState_STATUS_ARM
+var privateZoneProperties_ProvisioningState_STATUS_ARM_Values = map[string]PrivateZoneProperties_ProvisioningState_STATUS_ARM{
+	"canceled":  PrivateZoneProperties_ProvisioningState_STATUS_ARM_Canceled,
+	"creating":  PrivateZoneProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  PrivateZoneProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    PrivateZoneProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": PrivateZoneProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  PrivateZoneProperties_ProvisioningState_STATUS_ARM_Updating,
 }

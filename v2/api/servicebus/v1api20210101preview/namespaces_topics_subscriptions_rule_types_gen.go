@@ -390,7 +390,9 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertToARM(resolved gen
 		result.Properties.CorrelationFilter = &correlationFilter
 	}
 	if rule.FilterType != nil {
-		filterType := *rule.FilterType
+		var temp string
+		temp = string(*rule.FilterType)
+		filterType := FilterType_ARM(temp)
 		result.Properties.FilterType = &filterType
 	}
 	if rule.SqlFilter != nil {
@@ -451,7 +453,9 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FilterType != nil {
-			filterType := *typedInput.Properties.FilterType
+			var temp string
+			temp = string(*typedInput.Properties.FilterType)
+			filterType := FilterType(temp)
 			rule.FilterType = &filterType
 		}
 	}
@@ -805,7 +809,9 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FilterType != nil {
-			filterType := *typedInput.Properties.FilterType
+			var temp string
+			temp = string(*typedInput.Properties.FilterType)
+			filterType := FilterType_STATUS(temp)
 			rule.FilterType = &filterType
 		}
 	}

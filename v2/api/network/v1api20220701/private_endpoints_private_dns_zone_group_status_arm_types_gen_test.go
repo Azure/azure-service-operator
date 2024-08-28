@@ -160,10 +160,10 @@ func PrivateDnsZoneGroupPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPrivateDnsZoneGroupPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateDnsZoneGroupPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointProvisioningState_STATUS_Deleting,
-		PrivateEndpointProvisioningState_STATUS_Failed,
-		PrivateEndpointProvisioningState_STATUS_Succeeded,
-		PrivateEndpointProvisioningState_STATUS_Updating))
+		PrivateEndpointProvisioningState_STATUS_ARM_Deleting,
+		PrivateEndpointProvisioningState_STATUS_ARM_Failed,
+		PrivateEndpointProvisioningState_STATUS_ARM_Succeeded,
+		PrivateEndpointProvisioningState_STATUS_ARM_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForPrivateDnsZoneGroupPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
@@ -384,10 +384,10 @@ func AddIndependentPropertyGeneratorsForRecordSet_STATUS_ARM(gens map[string]gop
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["IpAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointProvisioningState_STATUS_Deleting,
-		PrivateEndpointProvisioningState_STATUS_Failed,
-		PrivateEndpointProvisioningState_STATUS_Succeeded,
-		PrivateEndpointProvisioningState_STATUS_Updating))
+		PrivateEndpointProvisioningState_STATUS_ARM_Deleting,
+		PrivateEndpointProvisioningState_STATUS_ARM_Failed,
+		PrivateEndpointProvisioningState_STATUS_ARM_Succeeded,
+		PrivateEndpointProvisioningState_STATUS_ARM_Updating))
 	gens["RecordSetName"] = gen.PtrOf(gen.AlphaString())
 	gens["RecordType"] = gen.PtrOf(gen.AlphaString())
 	gens["Ttl"] = gen.PtrOf(gen.Int())

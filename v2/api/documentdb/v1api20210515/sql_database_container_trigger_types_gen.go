@@ -916,13 +916,17 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) PopulateFromARM(owner g
 
 	// Set property "TriggerOperation":
 	if typedInput.TriggerOperation != nil {
-		triggerOperation := *typedInput.TriggerOperation
+		var temp string
+		temp = string(*typedInput.TriggerOperation)
+		triggerOperation := SqlTriggerGetProperties_Resource_TriggerOperation_STATUS(temp)
 		resource.TriggerOperation = &triggerOperation
 	}
 
 	// Set property "TriggerType":
 	if typedInput.TriggerType != nil {
-		triggerType := *typedInput.TriggerType
+		var temp string
+		temp = string(*typedInput.TriggerType)
+		triggerType := SqlTriggerGetProperties_Resource_TriggerType_STATUS(temp)
 		resource.TriggerType = &triggerType
 	}
 
@@ -1072,13 +1076,17 @@ func (resource *SqlTriggerResource) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "TriggerOperation":
 	if resource.TriggerOperation != nil {
-		triggerOperation := *resource.TriggerOperation
+		var temp string
+		temp = string(*resource.TriggerOperation)
+		triggerOperation := SqlTriggerResource_TriggerOperation_ARM(temp)
 		result.TriggerOperation = &triggerOperation
 	}
 
 	// Set property "TriggerType":
 	if resource.TriggerType != nil {
-		triggerType := *resource.TriggerType
+		var temp string
+		temp = string(*resource.TriggerType)
+		triggerType := SqlTriggerResource_TriggerType_ARM(temp)
 		result.TriggerType = &triggerType
 	}
 	return result, nil
@@ -1110,13 +1118,17 @@ func (resource *SqlTriggerResource) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "TriggerOperation":
 	if typedInput.TriggerOperation != nil {
-		triggerOperation := *typedInput.TriggerOperation
+		var temp string
+		temp = string(*typedInput.TriggerOperation)
+		triggerOperation := SqlTriggerResource_TriggerOperation(temp)
 		resource.TriggerOperation = &triggerOperation
 	}
 
 	// Set property "TriggerType":
 	if typedInput.TriggerType != nil {
-		triggerType := *typedInput.TriggerType
+		var temp string
+		temp = string(*typedInput.TriggerType)
+		triggerType := SqlTriggerResource_TriggerType(temp)
 		resource.TriggerType = &triggerType
 	}
 
@@ -1191,6 +1203,72 @@ func (resource *SqlTriggerResource) AssignProperties_To_SqlTriggerResource(desti
 
 	// No error
 	return nil
+}
+
+type SqlTriggerGetProperties_Resource_TriggerOperation_STATUS string
+
+const (
+	SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_All     = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("All")
+	SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Create  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Create")
+	SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Delete  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Delete")
+	SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Replace = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Replace")
+	SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Update  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Update")
+)
+
+// Mapping from string to SqlTriggerGetProperties_Resource_TriggerOperation_STATUS
+var sqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Values = map[string]SqlTriggerGetProperties_Resource_TriggerOperation_STATUS{
+	"all":     SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_All,
+	"create":  SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Create,
+	"delete":  SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Delete,
+	"replace": SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Replace,
+	"update":  SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Update,
+}
+
+type SqlTriggerGetProperties_Resource_TriggerType_STATUS string
+
+const (
+	SqlTriggerGetProperties_Resource_TriggerType_STATUS_Post = SqlTriggerGetProperties_Resource_TriggerType_STATUS("Post")
+	SqlTriggerGetProperties_Resource_TriggerType_STATUS_Pre  = SqlTriggerGetProperties_Resource_TriggerType_STATUS("Pre")
+)
+
+// Mapping from string to SqlTriggerGetProperties_Resource_TriggerType_STATUS
+var sqlTriggerGetProperties_Resource_TriggerType_STATUS_Values = map[string]SqlTriggerGetProperties_Resource_TriggerType_STATUS{
+	"post": SqlTriggerGetProperties_Resource_TriggerType_STATUS_Post,
+	"pre":  SqlTriggerGetProperties_Resource_TriggerType_STATUS_Pre,
+}
+
+// +kubebuilder:validation:Enum={"All","Create","Delete","Replace","Update"}
+type SqlTriggerResource_TriggerOperation string
+
+const (
+	SqlTriggerResource_TriggerOperation_All     = SqlTriggerResource_TriggerOperation("All")
+	SqlTriggerResource_TriggerOperation_Create  = SqlTriggerResource_TriggerOperation("Create")
+	SqlTriggerResource_TriggerOperation_Delete  = SqlTriggerResource_TriggerOperation("Delete")
+	SqlTriggerResource_TriggerOperation_Replace = SqlTriggerResource_TriggerOperation("Replace")
+	SqlTriggerResource_TriggerOperation_Update  = SqlTriggerResource_TriggerOperation("Update")
+)
+
+// Mapping from string to SqlTriggerResource_TriggerOperation
+var sqlTriggerResource_TriggerOperation_Values = map[string]SqlTriggerResource_TriggerOperation{
+	"all":     SqlTriggerResource_TriggerOperation_All,
+	"create":  SqlTriggerResource_TriggerOperation_Create,
+	"delete":  SqlTriggerResource_TriggerOperation_Delete,
+	"replace": SqlTriggerResource_TriggerOperation_Replace,
+	"update":  SqlTriggerResource_TriggerOperation_Update,
+}
+
+// +kubebuilder:validation:Enum={"Post","Pre"}
+type SqlTriggerResource_TriggerType string
+
+const (
+	SqlTriggerResource_TriggerType_Post = SqlTriggerResource_TriggerType("Post")
+	SqlTriggerResource_TriggerType_Pre  = SqlTriggerResource_TriggerType("Pre")
+)
+
+// Mapping from string to SqlTriggerResource_TriggerType
+var sqlTriggerResource_TriggerType_Values = map[string]SqlTriggerResource_TriggerType{
+	"post": SqlTriggerResource_TriggerType_Post,
+	"pre":  SqlTriggerResource_TriggerType_Pre,
 }
 
 func init() {

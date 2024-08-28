@@ -47,7 +47,7 @@ type VirtualNetworkPeeringPropertiesFormat_ARM struct {
 	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
 
 	// PeeringState: The status of the virtual network peering.
-	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState `json:"peeringState,omitempty"`
+	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM `json:"peeringState,omitempty"`
 
 	// RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpace_ARM `json:"remoteAddressSpace,omitempty"`
@@ -65,4 +65,20 @@ type VirtualNetworkPeeringPropertiesFormat_ARM struct {
 	// transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
 	// gateway.
 	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Connected","Disconnected","Initiated"}
+type VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM string
+
+const (
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Connected    = VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM("Connected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Disconnected = VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM("Disconnected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Initiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM("Initiated")
+)
+
+// Mapping from string to VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM
+var virtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Values = map[string]VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM{
+	"connected":    VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Connected,
+	"disconnected": VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Disconnected,
+	"initiated":    VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM_Initiated,
 }

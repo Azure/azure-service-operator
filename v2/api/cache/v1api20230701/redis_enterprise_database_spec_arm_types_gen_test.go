@@ -84,17 +84,17 @@ func DatabaseProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_Encrypted, DatabaseProperties_ClientProtocol_Plaintext))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_OSSCluster))
+	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClientProtocol_ARM_Encrypted, DatabaseProperties_ClientProtocol_ARM_Plaintext))
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabaseProperties_ClusteringPolicy_ARM_EnterpriseCluster, DatabaseProperties_ClusteringPolicy_ARM_OSSCluster))
 	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabaseProperties_EvictionPolicy_AllKeysLFU,
-		DatabaseProperties_EvictionPolicy_AllKeysLRU,
-		DatabaseProperties_EvictionPolicy_AllKeysRandom,
-		DatabaseProperties_EvictionPolicy_NoEviction,
-		DatabaseProperties_EvictionPolicy_VolatileLFU,
-		DatabaseProperties_EvictionPolicy_VolatileLRU,
-		DatabaseProperties_EvictionPolicy_VolatileRandom,
-		DatabaseProperties_EvictionPolicy_VolatileTTL))
+		DatabaseProperties_EvictionPolicy_ARM_AllKeysLFU,
+		DatabaseProperties_EvictionPolicy_ARM_AllKeysLRU,
+		DatabaseProperties_EvictionPolicy_ARM_AllKeysRandom,
+		DatabaseProperties_EvictionPolicy_ARM_NoEviction,
+		DatabaseProperties_EvictionPolicy_ARM_VolatileLFU,
+		DatabaseProperties_EvictionPolicy_ARM_VolatileLRU,
+		DatabaseProperties_EvictionPolicy_ARM_VolatileRandom,
+		DatabaseProperties_EvictionPolicy_ARM_VolatileTTL))
 	gens["Port"] = gen.PtrOf(gen.Int())
 }
 
@@ -359,9 +359,9 @@ func Persistence_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPersistence_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPersistence_ARM(gens map[string]gopter.Gen) {
 	gens["AofEnabled"] = gen.PtrOf(gen.Bool())
-	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_AofFrequency_1S, Persistence_AofFrequency_Always))
+	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_AofFrequency_ARM_1S, Persistence_AofFrequency_ARM_Always))
 	gens["RdbEnabled"] = gen.PtrOf(gen.Bool())
-	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_12H, Persistence_RdbFrequency_1H, Persistence_RdbFrequency_6H))
+	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_ARM_12H, Persistence_RdbFrequency_ARM_1H, Persistence_RdbFrequency_ARM_6H))
 }
 
 func Test_RedisEnterprise_Database_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

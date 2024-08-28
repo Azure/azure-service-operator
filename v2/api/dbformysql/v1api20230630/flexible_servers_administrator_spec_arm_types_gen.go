@@ -32,8 +32,8 @@ func (administrator *FlexibleServers_Administrator_Spec_ARM) GetType() string {
 // The properties of an administrator.
 type AdministratorProperties_ARM struct {
 	// AdministratorType: Type of the sever administrator.
-	AdministratorType  *AdministratorProperties_AdministratorType `json:"administratorType,omitempty"`
-	IdentityResourceId *string                                    `json:"identityResourceId,omitempty"`
+	AdministratorType  *AdministratorProperties_AdministratorType_ARM `json:"administratorType,omitempty"`
+	IdentityResourceId *string                                        `json:"identityResourceId,omitempty"`
 
 	// Login: Login name of the server administrator.
 	Login *string `json:"login,omitempty"`
@@ -43,4 +43,14 @@ type AdministratorProperties_ARM struct {
 
 	// TenantId: Tenant ID of the administrator.
 	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+}
+
+// +kubebuilder:validation:Enum={"ActiveDirectory"}
+type AdministratorProperties_AdministratorType_ARM string
+
+const AdministratorProperties_AdministratorType_ARM_ActiveDirectory = AdministratorProperties_AdministratorType_ARM("ActiveDirectory")
+
+// Mapping from string to AdministratorProperties_AdministratorType_ARM
+var administratorProperties_AdministratorType_ARM_Values = map[string]AdministratorProperties_AdministratorType_ARM{
+	"activedirectory": AdministratorProperties_AdministratorType_ARM_ActiveDirectory,
 }

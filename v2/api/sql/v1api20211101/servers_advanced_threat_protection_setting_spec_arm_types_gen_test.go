@@ -75,7 +75,7 @@ func AdvancedThreatProtectionProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionProperties_State_Disabled, AdvancedThreatProtectionProperties_State_Enabled, AdvancedThreatProtectionProperties_State_New))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionProperties_State_ARM_Disabled, AdvancedThreatProtectionProperties_State_ARM_Enabled, AdvancedThreatProtectionProperties_State_ARM_New))
 }
 
 func Test_Servers_AdvancedThreatProtectionSetting_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

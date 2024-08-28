@@ -39,7 +39,7 @@ type ManagedIdentity_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The type of managed identity for the workspace
-	Type *ManagedIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *ManagedIdentity_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The user assigned managed identities.
 	UserAssignedIdentities map[string]UserAssignedManagedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
@@ -87,7 +87,7 @@ type WorkspaceProperties_STATUS_ARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Enable or Disable public network access to workspace
-	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// PurviewConfiguration: Purview Configuration
 	PurviewConfiguration *PurviewConfiguration_STATUS_ARM `json:"purviewConfiguration,omitempty"`
@@ -141,19 +141,19 @@ type EncryptionDetails_STATUS_ARM struct {
 	DoubleEncryptionEnabled *bool `json:"doubleEncryptionEnabled,omitempty"`
 }
 
-type ManagedIdentity_Type_STATUS string
+type ManagedIdentity_Type_STATUS_ARM string
 
 const (
-	ManagedIdentity_Type_STATUS_None                       = ManagedIdentity_Type_STATUS("None")
-	ManagedIdentity_Type_STATUS_SystemAssigned             = ManagedIdentity_Type_STATUS("SystemAssigned")
-	ManagedIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedIdentity_Type_STATUS("SystemAssigned,UserAssigned")
+	ManagedIdentity_Type_STATUS_ARM_None                       = ManagedIdentity_Type_STATUS_ARM("None")
+	ManagedIdentity_Type_STATUS_ARM_SystemAssigned             = ManagedIdentity_Type_STATUS_ARM("SystemAssigned")
+	ManagedIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned = ManagedIdentity_Type_STATUS_ARM("SystemAssigned,UserAssigned")
 )
 
-// Mapping from string to ManagedIdentity_Type_STATUS
-var managedIdentity_Type_STATUS_Values = map[string]ManagedIdentity_Type_STATUS{
-	"none":                        ManagedIdentity_Type_STATUS_None,
-	"systemassigned":              ManagedIdentity_Type_STATUS_SystemAssigned,
-	"systemassigned,userassigned": ManagedIdentity_Type_STATUS_SystemAssignedUserAssigned,
+// Mapping from string to ManagedIdentity_Type_STATUS_ARM
+var managedIdentity_Type_STATUS_ARM_Values = map[string]ManagedIdentity_Type_STATUS_ARM{
+	"none":                        ManagedIdentity_Type_STATUS_ARM_None,
+	"systemassigned":              ManagedIdentity_Type_STATUS_ARM_SystemAssigned,
+	"systemassigned,userassigned": ManagedIdentity_Type_STATUS_ARM_SystemAssignedUserAssigned,
 }
 
 // Managed Virtual Network Settings
@@ -194,6 +194,19 @@ type UserAssignedManagedIdentity_STATUS_ARM struct {
 type VirtualNetworkProfile_STATUS_ARM struct {
 	// ComputeSubnetId: Subnet ID used for computes in workspace
 	ComputeSubnetId *string `json:"computeSubnetId,omitempty"`
+}
+
+type WorkspaceProperties_PublicNetworkAccess_STATUS_ARM string
+
+const (
+	WorkspaceProperties_PublicNetworkAccess_STATUS_ARM_Disabled = WorkspaceProperties_PublicNetworkAccess_STATUS_ARM("Disabled")
+	WorkspaceProperties_PublicNetworkAccess_STATUS_ARM_Enabled  = WorkspaceProperties_PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to WorkspaceProperties_PublicNetworkAccess_STATUS_ARM
+var workspaceProperties_PublicNetworkAccess_STATUS_ARM_Values = map[string]WorkspaceProperties_PublicNetworkAccess_STATUS_ARM{
+	"disabled": WorkspaceProperties_PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  WorkspaceProperties_PublicNetworkAccess_STATUS_ARM_Enabled,
 }
 
 // Git integration settings

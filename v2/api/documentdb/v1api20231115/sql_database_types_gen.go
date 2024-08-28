@@ -976,7 +976,9 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) PopulateFromARM(owner 
 
 	// Set property "CreateMode":
 	if typedInput.CreateMode != nil {
-		createMode := *typedInput.CreateMode
+		var temp string
+		temp = string(*typedInput.CreateMode)
+		createMode := CreateMode_STATUS(temp)
 		resource.CreateMode = &createMode
 	}
 
@@ -1159,7 +1161,9 @@ func (resource *SqlDatabaseResource) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "CreateMode":
 	if resource.CreateMode != nil {
-		createMode := *resource.CreateMode
+		var temp string
+		temp = string(*resource.CreateMode)
+		createMode := CreateMode_ARM(temp)
 		result.CreateMode = &createMode
 	}
 
@@ -1195,7 +1199,9 @@ func (resource *SqlDatabaseResource) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "CreateMode":
 	if typedInput.CreateMode != nil {
-		createMode := *typedInput.CreateMode
+		var temp string
+		temp = string(*typedInput.CreateMode)
+		createMode := CreateMode(temp)
 		resource.CreateMode = &createMode
 	}
 

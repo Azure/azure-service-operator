@@ -154,11 +154,11 @@ func VirtualNetworkRuleProperties_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworkRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["IgnoreMissingVnetServiceEndpoint"] = gen.PtrOf(gen.Bool())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		VirtualNetworkRuleProperties_State_STATUS_Deleting,
-		VirtualNetworkRuleProperties_State_STATUS_Failed,
-		VirtualNetworkRuleProperties_State_STATUS_InProgress,
-		VirtualNetworkRuleProperties_State_STATUS_Initializing,
-		VirtualNetworkRuleProperties_State_STATUS_Ready,
-		VirtualNetworkRuleProperties_State_STATUS_Unknown))
+		VirtualNetworkRuleProperties_State_STATUS_ARM_Deleting,
+		VirtualNetworkRuleProperties_State_STATUS_ARM_Failed,
+		VirtualNetworkRuleProperties_State_STATUS_ARM_InProgress,
+		VirtualNetworkRuleProperties_State_STATUS_ARM_Initializing,
+		VirtualNetworkRuleProperties_State_STATUS_ARM_Ready,
+		VirtualNetworkRuleProperties_State_STATUS_ARM_Unknown))
 	gens["VirtualNetworkSubnetId"] = gen.PtrOf(gen.AlphaString())
 }

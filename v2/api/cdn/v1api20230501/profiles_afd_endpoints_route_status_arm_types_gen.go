@@ -28,23 +28,23 @@ type RouteProperties_STATUS_ARM struct {
 
 	// CustomDomains: Domains referenced by this endpoint.
 	CustomDomains    []ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_ARM `json:"customDomains,omitempty"`
-	DeploymentStatus *RouteProperties_DeploymentStatus_STATUS                                                `json:"deploymentStatus,omitempty"`
+	DeploymentStatus *RouteProperties_DeploymentStatus_STATUS_ARM                                            `json:"deploymentStatus,omitempty"`
 
 	// EnabledState: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
-	EnabledState *RouteProperties_EnabledState_STATUS `json:"enabledState,omitempty"`
+	EnabledState *RouteProperties_EnabledState_STATUS_ARM `json:"enabledState,omitempty"`
 
 	// EndpointName: The name of the endpoint which holds the route.
 	EndpointName *string `json:"endpointName,omitempty"`
 
 	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
-	ForwardingProtocol *RouteProperties_ForwardingProtocol_STATUS `json:"forwardingProtocol,omitempty"`
+	ForwardingProtocol *RouteProperties_ForwardingProtocol_STATUS_ARM `json:"forwardingProtocol,omitempty"`
 
 	// HttpsRedirect: Whether to automatically redirect HTTP traffic to HTTPS traffic. Note that this is a easy way to set up
 	// this rule and it will be the first rule that gets executed.
-	HttpsRedirect *RouteProperties_HttpsRedirect_STATUS `json:"httpsRedirect,omitempty"`
+	HttpsRedirect *RouteProperties_HttpsRedirect_STATUS_ARM `json:"httpsRedirect,omitempty"`
 
 	// LinkToDefaultDomain: whether this route will be linked to the default endpoint domain.
-	LinkToDefaultDomain *RouteProperties_LinkToDefaultDomain_STATUS `json:"linkToDefaultDomain,omitempty"`
+	LinkToDefaultDomain *RouteProperties_LinkToDefaultDomain_STATUS_ARM `json:"linkToDefaultDomain,omitempty"`
 
 	// OriginGroup: A reference to the origin group.
 	OriginGroup *ResourceReference_STATUS_ARM `json:"originGroup,omitempty"`
@@ -57,13 +57,13 @@ type RouteProperties_STATUS_ARM struct {
 	PatternsToMatch []string `json:"patternsToMatch,omitempty"`
 
 	// ProvisioningState: Provisioning status
-	ProvisioningState *RouteProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *RouteProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// RuleSets: rule sets referenced by this endpoint.
 	RuleSets []ResourceReference_STATUS_ARM `json:"ruleSets,omitempty"`
 
 	// SupportedProtocols: List of supported protocols for this route.
-	SupportedProtocols []AFDEndpointProtocols_STATUS `json:"supportedProtocols,omitempty"`
+	SupportedProtocols []AFDEndpointProtocols_STATUS_ARM `json:"supportedProtocols,omitempty"`
 }
 
 // Reference to another resource along with its state.
@@ -73,17 +73,17 @@ type ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEm
 }
 
 // Supported protocols for the customer's endpoint.
-type AFDEndpointProtocols_STATUS string
+type AFDEndpointProtocols_STATUS_ARM string
 
 const (
-	AFDEndpointProtocols_STATUS_Http  = AFDEndpointProtocols_STATUS("Http")
-	AFDEndpointProtocols_STATUS_Https = AFDEndpointProtocols_STATUS("Https")
+	AFDEndpointProtocols_STATUS_ARM_Http  = AFDEndpointProtocols_STATUS_ARM("Http")
+	AFDEndpointProtocols_STATUS_ARM_Https = AFDEndpointProtocols_STATUS_ARM("Https")
 )
 
-// Mapping from string to AFDEndpointProtocols_STATUS
-var aFDEndpointProtocols_STATUS_Values = map[string]AFDEndpointProtocols_STATUS{
-	"http":  AFDEndpointProtocols_STATUS_Http,
-	"https": AFDEndpointProtocols_STATUS_Https,
+// Mapping from string to AFDEndpointProtocols_STATUS_ARM
+var aFDEndpointProtocols_STATUS_ARM_Values = map[string]AFDEndpointProtocols_STATUS_ARM{
+	"http":  AFDEndpointProtocols_STATUS_ARM_Http,
+	"https": AFDEndpointProtocols_STATUS_ARM_Https,
 }
 
 // Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
@@ -97,7 +97,7 @@ type AfdRouteCacheConfiguration_STATUS_ARM struct {
 	// QueryStringCachingBehavior: Defines how Frontdoor caches requests that include query strings. You can ignore any query
 	// strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query
 	// strings.
-	QueryStringCachingBehavior *AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM `json:"queryStringCachingBehavior,omitempty"`
 }
 
 // Reference to another resource.
@@ -106,111 +106,111 @@ type ResourceReference_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type RouteProperties_DeploymentStatus_STATUS string
+type RouteProperties_DeploymentStatus_STATUS_ARM string
 
 const (
-	RouteProperties_DeploymentStatus_STATUS_Failed     = RouteProperties_DeploymentStatus_STATUS("Failed")
-	RouteProperties_DeploymentStatus_STATUS_InProgress = RouteProperties_DeploymentStatus_STATUS("InProgress")
-	RouteProperties_DeploymentStatus_STATUS_NotStarted = RouteProperties_DeploymentStatus_STATUS("NotStarted")
-	RouteProperties_DeploymentStatus_STATUS_Succeeded  = RouteProperties_DeploymentStatus_STATUS("Succeeded")
+	RouteProperties_DeploymentStatus_STATUS_ARM_Failed     = RouteProperties_DeploymentStatus_STATUS_ARM("Failed")
+	RouteProperties_DeploymentStatus_STATUS_ARM_InProgress = RouteProperties_DeploymentStatus_STATUS_ARM("InProgress")
+	RouteProperties_DeploymentStatus_STATUS_ARM_NotStarted = RouteProperties_DeploymentStatus_STATUS_ARM("NotStarted")
+	RouteProperties_DeploymentStatus_STATUS_ARM_Succeeded  = RouteProperties_DeploymentStatus_STATUS_ARM("Succeeded")
 )
 
-// Mapping from string to RouteProperties_DeploymentStatus_STATUS
-var routeProperties_DeploymentStatus_STATUS_Values = map[string]RouteProperties_DeploymentStatus_STATUS{
-	"failed":     RouteProperties_DeploymentStatus_STATUS_Failed,
-	"inprogress": RouteProperties_DeploymentStatus_STATUS_InProgress,
-	"notstarted": RouteProperties_DeploymentStatus_STATUS_NotStarted,
-	"succeeded":  RouteProperties_DeploymentStatus_STATUS_Succeeded,
+// Mapping from string to RouteProperties_DeploymentStatus_STATUS_ARM
+var routeProperties_DeploymentStatus_STATUS_ARM_Values = map[string]RouteProperties_DeploymentStatus_STATUS_ARM{
+	"failed":     RouteProperties_DeploymentStatus_STATUS_ARM_Failed,
+	"inprogress": RouteProperties_DeploymentStatus_STATUS_ARM_InProgress,
+	"notstarted": RouteProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+	"succeeded":  RouteProperties_DeploymentStatus_STATUS_ARM_Succeeded,
 }
 
-type RouteProperties_EnabledState_STATUS string
+type RouteProperties_EnabledState_STATUS_ARM string
 
 const (
-	RouteProperties_EnabledState_STATUS_Disabled = RouteProperties_EnabledState_STATUS("Disabled")
-	RouteProperties_EnabledState_STATUS_Enabled  = RouteProperties_EnabledState_STATUS("Enabled")
+	RouteProperties_EnabledState_STATUS_ARM_Disabled = RouteProperties_EnabledState_STATUS_ARM("Disabled")
+	RouteProperties_EnabledState_STATUS_ARM_Enabled  = RouteProperties_EnabledState_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to RouteProperties_EnabledState_STATUS
-var routeProperties_EnabledState_STATUS_Values = map[string]RouteProperties_EnabledState_STATUS{
-	"disabled": RouteProperties_EnabledState_STATUS_Disabled,
-	"enabled":  RouteProperties_EnabledState_STATUS_Enabled,
+// Mapping from string to RouteProperties_EnabledState_STATUS_ARM
+var routeProperties_EnabledState_STATUS_ARM_Values = map[string]RouteProperties_EnabledState_STATUS_ARM{
+	"disabled": RouteProperties_EnabledState_STATUS_ARM_Disabled,
+	"enabled":  RouteProperties_EnabledState_STATUS_ARM_Enabled,
 }
 
-type RouteProperties_ForwardingProtocol_STATUS string
+type RouteProperties_ForwardingProtocol_STATUS_ARM string
 
 const (
-	RouteProperties_ForwardingProtocol_STATUS_HttpOnly     = RouteProperties_ForwardingProtocol_STATUS("HttpOnly")
-	RouteProperties_ForwardingProtocol_STATUS_HttpsOnly    = RouteProperties_ForwardingProtocol_STATUS("HttpsOnly")
-	RouteProperties_ForwardingProtocol_STATUS_MatchRequest = RouteProperties_ForwardingProtocol_STATUS("MatchRequest")
+	RouteProperties_ForwardingProtocol_STATUS_ARM_HttpOnly     = RouteProperties_ForwardingProtocol_STATUS_ARM("HttpOnly")
+	RouteProperties_ForwardingProtocol_STATUS_ARM_HttpsOnly    = RouteProperties_ForwardingProtocol_STATUS_ARM("HttpsOnly")
+	RouteProperties_ForwardingProtocol_STATUS_ARM_MatchRequest = RouteProperties_ForwardingProtocol_STATUS_ARM("MatchRequest")
 )
 
-// Mapping from string to RouteProperties_ForwardingProtocol_STATUS
-var routeProperties_ForwardingProtocol_STATUS_Values = map[string]RouteProperties_ForwardingProtocol_STATUS{
-	"httponly":     RouteProperties_ForwardingProtocol_STATUS_HttpOnly,
-	"httpsonly":    RouteProperties_ForwardingProtocol_STATUS_HttpsOnly,
-	"matchrequest": RouteProperties_ForwardingProtocol_STATUS_MatchRequest,
+// Mapping from string to RouteProperties_ForwardingProtocol_STATUS_ARM
+var routeProperties_ForwardingProtocol_STATUS_ARM_Values = map[string]RouteProperties_ForwardingProtocol_STATUS_ARM{
+	"httponly":     RouteProperties_ForwardingProtocol_STATUS_ARM_HttpOnly,
+	"httpsonly":    RouteProperties_ForwardingProtocol_STATUS_ARM_HttpsOnly,
+	"matchrequest": RouteProperties_ForwardingProtocol_STATUS_ARM_MatchRequest,
 }
 
-type RouteProperties_HttpsRedirect_STATUS string
+type RouteProperties_HttpsRedirect_STATUS_ARM string
 
 const (
-	RouteProperties_HttpsRedirect_STATUS_Disabled = RouteProperties_HttpsRedirect_STATUS("Disabled")
-	RouteProperties_HttpsRedirect_STATUS_Enabled  = RouteProperties_HttpsRedirect_STATUS("Enabled")
+	RouteProperties_HttpsRedirect_STATUS_ARM_Disabled = RouteProperties_HttpsRedirect_STATUS_ARM("Disabled")
+	RouteProperties_HttpsRedirect_STATUS_ARM_Enabled  = RouteProperties_HttpsRedirect_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to RouteProperties_HttpsRedirect_STATUS
-var routeProperties_HttpsRedirect_STATUS_Values = map[string]RouteProperties_HttpsRedirect_STATUS{
-	"disabled": RouteProperties_HttpsRedirect_STATUS_Disabled,
-	"enabled":  RouteProperties_HttpsRedirect_STATUS_Enabled,
+// Mapping from string to RouteProperties_HttpsRedirect_STATUS_ARM
+var routeProperties_HttpsRedirect_STATUS_ARM_Values = map[string]RouteProperties_HttpsRedirect_STATUS_ARM{
+	"disabled": RouteProperties_HttpsRedirect_STATUS_ARM_Disabled,
+	"enabled":  RouteProperties_HttpsRedirect_STATUS_ARM_Enabled,
 }
 
-type RouteProperties_LinkToDefaultDomain_STATUS string
+type RouteProperties_LinkToDefaultDomain_STATUS_ARM string
 
 const (
-	RouteProperties_LinkToDefaultDomain_STATUS_Disabled = RouteProperties_LinkToDefaultDomain_STATUS("Disabled")
-	RouteProperties_LinkToDefaultDomain_STATUS_Enabled  = RouteProperties_LinkToDefaultDomain_STATUS("Enabled")
+	RouteProperties_LinkToDefaultDomain_STATUS_ARM_Disabled = RouteProperties_LinkToDefaultDomain_STATUS_ARM("Disabled")
+	RouteProperties_LinkToDefaultDomain_STATUS_ARM_Enabled  = RouteProperties_LinkToDefaultDomain_STATUS_ARM("Enabled")
 )
 
-// Mapping from string to RouteProperties_LinkToDefaultDomain_STATUS
-var routeProperties_LinkToDefaultDomain_STATUS_Values = map[string]RouteProperties_LinkToDefaultDomain_STATUS{
-	"disabled": RouteProperties_LinkToDefaultDomain_STATUS_Disabled,
-	"enabled":  RouteProperties_LinkToDefaultDomain_STATUS_Enabled,
+// Mapping from string to RouteProperties_LinkToDefaultDomain_STATUS_ARM
+var routeProperties_LinkToDefaultDomain_STATUS_ARM_Values = map[string]RouteProperties_LinkToDefaultDomain_STATUS_ARM{
+	"disabled": RouteProperties_LinkToDefaultDomain_STATUS_ARM_Disabled,
+	"enabled":  RouteProperties_LinkToDefaultDomain_STATUS_ARM_Enabled,
 }
 
-type RouteProperties_ProvisioningState_STATUS string
+type RouteProperties_ProvisioningState_STATUS_ARM string
 
 const (
-	RouteProperties_ProvisioningState_STATUS_Creating  = RouteProperties_ProvisioningState_STATUS("Creating")
-	RouteProperties_ProvisioningState_STATUS_Deleting  = RouteProperties_ProvisioningState_STATUS("Deleting")
-	RouteProperties_ProvisioningState_STATUS_Failed    = RouteProperties_ProvisioningState_STATUS("Failed")
-	RouteProperties_ProvisioningState_STATUS_Succeeded = RouteProperties_ProvisioningState_STATUS("Succeeded")
-	RouteProperties_ProvisioningState_STATUS_Updating  = RouteProperties_ProvisioningState_STATUS("Updating")
+	RouteProperties_ProvisioningState_STATUS_ARM_Creating  = RouteProperties_ProvisioningState_STATUS_ARM("Creating")
+	RouteProperties_ProvisioningState_STATUS_ARM_Deleting  = RouteProperties_ProvisioningState_STATUS_ARM("Deleting")
+	RouteProperties_ProvisioningState_STATUS_ARM_Failed    = RouteProperties_ProvisioningState_STATUS_ARM("Failed")
+	RouteProperties_ProvisioningState_STATUS_ARM_Succeeded = RouteProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	RouteProperties_ProvisioningState_STATUS_ARM_Updating  = RouteProperties_ProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to RouteProperties_ProvisioningState_STATUS
-var routeProperties_ProvisioningState_STATUS_Values = map[string]RouteProperties_ProvisioningState_STATUS{
-	"creating":  RouteProperties_ProvisioningState_STATUS_Creating,
-	"deleting":  RouteProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    RouteProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": RouteProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  RouteProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to RouteProperties_ProvisioningState_STATUS_ARM
+var routeProperties_ProvisioningState_STATUS_ARM_Values = map[string]RouteProperties_ProvisioningState_STATUS_ARM{
+	"creating":  RouteProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  RouteProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    RouteProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": RouteProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  RouteProperties_ProvisioningState_STATUS_ARM_Updating,
 }
 
-type AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS string
+type AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM string
 
 const (
-	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString            = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("IgnoreQueryString")
-	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings  = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("IgnoreSpecifiedQueryStrings")
-	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("IncludeSpecifiedQueryStrings")
-	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString               = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("UseQueryString")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IgnoreQueryString            = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM("IgnoreQueryString")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IgnoreSpecifiedQueryStrings  = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM("IgnoreSpecifiedQueryStrings")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IncludeSpecifiedQueryStrings = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM("IncludeSpecifiedQueryStrings")
+	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_UseQueryString               = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM("UseQueryString")
 )
 
-// Mapping from string to AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS
-var afdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_Values = map[string]AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS{
-	"ignorequerystring":            AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString,
-	"ignorespecifiedquerystrings":  AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings,
-	"includespecifiedquerystrings": AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings,
-	"usequerystring":               AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString,
+// Mapping from string to AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM
+var afdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_Values = map[string]AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM{
+	"ignorequerystring":            AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IgnoreQueryString,
+	"ignorespecifiedquerystrings":  AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IgnoreSpecifiedQueryStrings,
+	"includespecifiedquerystrings": AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_IncludeSpecifiedQueryStrings,
+	"usequerystring":               AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_ARM_UseQueryString,
 }
 
 // settings for compression.

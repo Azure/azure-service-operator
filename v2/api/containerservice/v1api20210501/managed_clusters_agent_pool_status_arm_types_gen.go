@@ -50,14 +50,14 @@ type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
 	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-	GpuInstanceProfile *GPUInstanceProfile_STATUS `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile *GPUInstanceProfile_STATUS_ARM `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
 	KubeletConfig *KubeletConfig_STATUS_ARM `json:"kubeletConfig,omitempty"`
 
 	// KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
 	// storage.
-	KubeletDiskType *KubeletDiskType_STATUS `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType *KubeletDiskType_STATUS_ARM `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_STATUS_ARM `json:"linuxOSConfig,omitempty"`
@@ -73,7 +73,7 @@ type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
 
 	// Mode: A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool
 	// restrictions  and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
-	Mode *AgentPoolMode_STATUS `json:"mode,omitempty"`
+	Mode *AgentPoolMode_STATUS_ARM `json:"mode,omitempty"`
 
 	// NodeImageVersion: The version of node image
 	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
@@ -99,13 +99,13 @@ type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
 	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
 	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
 	// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
-	OsDiskType *OSDiskType_STATUS `json:"osDiskType,omitempty"`
+	OsDiskType *OSDiskType_STATUS_ARM `json:"osDiskType,omitempty"`
 
 	// OsSKU: Specifies an OS SKU. This value must not be specified if OSType is Windows.
-	OsSKU *OSSKU_STATUS `json:"osSKU,omitempty"`
+	OsSKU *OSSKU_STATUS_ARM `json:"osSKU,omitempty"`
 
 	// OsType: The operating system type. The default is Linux.
-	OsType *OSType_STATUS `json:"osType,omitempty"`
+	OsType *OSType_STATUS_ARM `json:"osType,omitempty"`
 
 	// PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 	// of the form:
@@ -123,10 +123,10 @@ type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
-	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_STATUS `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_STATUS_ARM `json:"scaleSetEvictionPolicy,omitempty"`
 
 	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
-	ScaleSetPriority *ScaleSetPriority_STATUS `json:"scaleSetPriority,omitempty"`
+	ScaleSetPriority *ScaleSetPriority_STATUS_ARM `json:"scaleSetPriority,omitempty"`
 
 	// SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
 	// on-demand price. For more details on spot pricing, see [spot VMs
@@ -137,7 +137,7 @@ type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
 	Tags map[string]string `json:"tags"`
 
 	// Type: The type of Agent Pool.
-	Type *AgentPoolType_STATUS `json:"type,omitempty"`
+	Type *AgentPoolType_STATUS_ARM `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_STATUS_ARM `json:"upgradeSettings,omitempty"`
@@ -153,6 +153,35 @@ type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
+// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions
+// and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+type AgentPoolMode_STATUS_ARM string
+
+const (
+	AgentPoolMode_STATUS_ARM_System = AgentPoolMode_STATUS_ARM("System")
+	AgentPoolMode_STATUS_ARM_User   = AgentPoolMode_STATUS_ARM("User")
+)
+
+// Mapping from string to AgentPoolMode_STATUS_ARM
+var agentPoolMode_STATUS_ARM_Values = map[string]AgentPoolMode_STATUS_ARM{
+	"system": AgentPoolMode_STATUS_ARM_System,
+	"user":   AgentPoolMode_STATUS_ARM_User,
+}
+
+// The type of Agent Pool.
+type AgentPoolType_STATUS_ARM string
+
+const (
+	AgentPoolType_STATUS_ARM_AvailabilitySet         = AgentPoolType_STATUS_ARM("AvailabilitySet")
+	AgentPoolType_STATUS_ARM_VirtualMachineScaleSets = AgentPoolType_STATUS_ARM("VirtualMachineScaleSets")
+)
+
+// Mapping from string to AgentPoolType_STATUS_ARM
+var agentPoolType_STATUS_ARM_Values = map[string]AgentPoolType_STATUS_ARM{
+	"availabilityset":         AgentPoolType_STATUS_ARM_AvailabilitySet,
+	"virtualmachinescalesets": AgentPoolType_STATUS_ARM_VirtualMachineScaleSets,
+}
+
 // Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings_STATUS_ARM struct {
 	// MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
@@ -160,6 +189,26 @@ type AgentPoolUpgradeSettings_STATUS_ARM struct {
 	// up. If not specified, the default is 1. For more information, including best practices, see:
 	// https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
 	MaxSurge *string `json:"maxSurge,omitempty"`
+}
+
+// GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
+type GPUInstanceProfile_STATUS_ARM string
+
+const (
+	GPUInstanceProfile_STATUS_ARM_MIG1G = GPUInstanceProfile_STATUS_ARM("MIG1g")
+	GPUInstanceProfile_STATUS_ARM_MIG2G = GPUInstanceProfile_STATUS_ARM("MIG2g")
+	GPUInstanceProfile_STATUS_ARM_MIG3G = GPUInstanceProfile_STATUS_ARM("MIG3g")
+	GPUInstanceProfile_STATUS_ARM_MIG4G = GPUInstanceProfile_STATUS_ARM("MIG4g")
+	GPUInstanceProfile_STATUS_ARM_MIG7G = GPUInstanceProfile_STATUS_ARM("MIG7g")
+)
+
+// Mapping from string to GPUInstanceProfile_STATUS_ARM
+var gPUInstanceProfile_STATUS_ARM_Values = map[string]GPUInstanceProfile_STATUS_ARM{
+	"mig1g": GPUInstanceProfile_STATUS_ARM_MIG1G,
+	"mig2g": GPUInstanceProfile_STATUS_ARM_MIG2G,
+	"mig3g": GPUInstanceProfile_STATUS_ARM_MIG3G,
+	"mig4g": GPUInstanceProfile_STATUS_ARM_MIG4G,
+	"mig7g": GPUInstanceProfile_STATUS_ARM_MIG7G,
 }
 
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
@@ -204,6 +253,20 @@ type KubeletConfig_STATUS_ARM struct {
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
+// Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
+type KubeletDiskType_STATUS_ARM string
+
+const (
+	KubeletDiskType_STATUS_ARM_OS        = KubeletDiskType_STATUS_ARM("OS")
+	KubeletDiskType_STATUS_ARM_Temporary = KubeletDiskType_STATUS_ARM("Temporary")
+)
+
+// Mapping from string to KubeletDiskType_STATUS_ARM
+var kubeletDiskType_STATUS_ARM_Values = map[string]KubeletDiskType_STATUS_ARM{
+	"os":        KubeletDiskType_STATUS_ARM_OS,
+	"temporary": KubeletDiskType_STATUS_ARM_Temporary,
+}
+
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig_STATUS_ARM struct {
 	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
@@ -221,6 +284,79 @@ type LinuxOSConfig_STATUS_ARM struct {
 	// information see [Transparent
 	// Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
+}
+
+// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
+// defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
+// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+type OSDiskType_STATUS_ARM string
+
+const (
+	OSDiskType_STATUS_ARM_Ephemeral = OSDiskType_STATUS_ARM("Ephemeral")
+	OSDiskType_STATUS_ARM_Managed   = OSDiskType_STATUS_ARM("Managed")
+)
+
+// Mapping from string to OSDiskType_STATUS_ARM
+var oSDiskType_STATUS_ARM_Values = map[string]OSDiskType_STATUS_ARM{
+	"ephemeral": OSDiskType_STATUS_ARM_Ephemeral,
+	"managed":   OSDiskType_STATUS_ARM_Managed,
+}
+
+// Specifies an OS SKU. This value must not be specified if OSType is Windows.
+type OSSKU_STATUS_ARM string
+
+const (
+	OSSKU_STATUS_ARM_CBLMariner = OSSKU_STATUS_ARM("CBLMariner")
+	OSSKU_STATUS_ARM_Ubuntu     = OSSKU_STATUS_ARM("Ubuntu")
+)
+
+// Mapping from string to OSSKU_STATUS_ARM
+var oSSKU_STATUS_ARM_Values = map[string]OSSKU_STATUS_ARM{
+	"cblmariner": OSSKU_STATUS_ARM_CBLMariner,
+	"ubuntu":     OSSKU_STATUS_ARM_Ubuntu,
+}
+
+// The operating system type. The default is Linux.
+type OSType_STATUS_ARM string
+
+const (
+	OSType_STATUS_ARM_Linux   = OSType_STATUS_ARM("Linux")
+	OSType_STATUS_ARM_Windows = OSType_STATUS_ARM("Windows")
+)
+
+// Mapping from string to OSType_STATUS_ARM
+var oSType_STATUS_ARM_Values = map[string]OSType_STATUS_ARM{
+	"linux":   OSType_STATUS_ARM_Linux,
+	"windows": OSType_STATUS_ARM_Windows,
+}
+
+// The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
+// about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
+type ScaleSetEvictionPolicy_STATUS_ARM string
+
+const (
+	ScaleSetEvictionPolicy_STATUS_ARM_Deallocate = ScaleSetEvictionPolicy_STATUS_ARM("Deallocate")
+	ScaleSetEvictionPolicy_STATUS_ARM_Delete     = ScaleSetEvictionPolicy_STATUS_ARM("Delete")
+)
+
+// Mapping from string to ScaleSetEvictionPolicy_STATUS_ARM
+var scaleSetEvictionPolicy_STATUS_ARM_Values = map[string]ScaleSetEvictionPolicy_STATUS_ARM{
+	"deallocate": ScaleSetEvictionPolicy_STATUS_ARM_Deallocate,
+	"delete":     ScaleSetEvictionPolicy_STATUS_ARM_Delete,
+}
+
+// The Virtual Machine Scale Set priority.
+type ScaleSetPriority_STATUS_ARM string
+
+const (
+	ScaleSetPriority_STATUS_ARM_Regular = ScaleSetPriority_STATUS_ARM("Regular")
+	ScaleSetPriority_STATUS_ARM_Spot    = ScaleSetPriority_STATUS_ARM("Spot")
+)
+
+// Mapping from string to ScaleSetPriority_STATUS_ARM
+var scaleSetPriority_STATUS_ARM_Values = map[string]ScaleSetPriority_STATUS_ARM{
+	"regular": ScaleSetPriority_STATUS_ARM_Regular,
+	"spot":    ScaleSetPriority_STATUS_ARM_Spot,
 }
 
 // Sysctl settings for Linux agent nodes.

@@ -292,7 +292,7 @@ func Ruleproperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRuleproperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRuleproperties_ARM(gens map[string]gopter.Gen) {
-	gens["FilterType"] = gen.PtrOf(gen.OneConstOf(FilterType_CorrelationFilter, FilterType_SqlFilter))
+	gens["FilterType"] = gen.PtrOf(gen.OneConstOf(FilterType_ARM_CorrelationFilter, FilterType_ARM_SqlFilter))
 }
 
 // AddRelatedPropertyGeneratorsForRuleproperties_ARM is a factory method for creating gopter generators

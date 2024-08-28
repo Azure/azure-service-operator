@@ -61,7 +61,7 @@ type OpenShiftClusterProperties_ARM struct {
 // APIServerProfile represents an API server profile.
 type APIServerProfile_ARM struct {
 	// Visibility: API server visibility.
-	Visibility *Visibility `json:"visibility,omitempty"`
+	Visibility *Visibility_ARM `json:"visibility,omitempty"`
 }
 
 // ClusterProfile represents a cluster profile.
@@ -70,7 +70,7 @@ type ClusterProfile_ARM struct {
 	Domain *string `json:"domain,omitempty"`
 
 	// FipsValidatedModules: If FIPS validated crypto modules are used
-	FipsValidatedModules *FipsValidatedModules `json:"fipsValidatedModules,omitempty"`
+	FipsValidatedModules *FipsValidatedModules_ARM `json:"fipsValidatedModules,omitempty"`
 
 	// PullSecret: The pull secret for the cluster.
 	PullSecret *string `json:"pullSecret,omitempty"`
@@ -88,7 +88,7 @@ type IngressProfile_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Visibility: Ingress visibility.
-	Visibility *Visibility `json:"visibility,omitempty"`
+	Visibility *Visibility_ARM `json:"visibility,omitempty"`
 }
 
 // MasterProfile represents a master profile.
@@ -96,8 +96,8 @@ type MasterProfile_ARM struct {
 	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
 
 	// EncryptionAtHost: Whether master virtual machines are encrypted at host.
-	EncryptionAtHost *EncryptionAtHost `json:"encryptionAtHost,omitempty"`
-	SubnetId         *string           `json:"subnetId,omitempty"`
+	EncryptionAtHost *EncryptionAtHost_ARM `json:"encryptionAtHost,omitempty"`
+	SubnetId         *string               `json:"subnetId,omitempty"`
 
 	// VmSize: The size of the master VMs.
 	VmSize *string `json:"vmSize,omitempty"`
@@ -109,13 +109,13 @@ type NetworkProfile_ARM struct {
 	LoadBalancerProfile *LoadBalancerProfile_ARM `json:"loadBalancerProfile,omitempty"`
 
 	// OutboundType: The OutboundType used for egress traffic.
-	OutboundType *OutboundType `json:"outboundType,omitempty"`
+	OutboundType *OutboundType_ARM `json:"outboundType,omitempty"`
 
 	// PodCidr: The CIDR used for OpenShift/Kubernetes Pods.
 	PodCidr *string `json:"podCidr,omitempty"`
 
 	// PreconfiguredNSG: Specifies whether subnets are pre-attached with an NSG
-	PreconfiguredNSG *PreconfiguredNSG `json:"preconfiguredNSG,omitempty"`
+	PreconfiguredNSG *PreconfiguredNSG_ARM `json:"preconfiguredNSG,omitempty"`
 
 	// ServiceCidr: The CIDR used for OpenShift/Kubernetes Services.
 	ServiceCidr *string `json:"serviceCidr,omitempty"`
@@ -140,7 +140,7 @@ type WorkerProfile_ARM struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// EncryptionAtHost: Whether master virtual machines are encrypted at host.
-	EncryptionAtHost *EncryptionAtHost `json:"encryptionAtHost,omitempty"`
+	EncryptionAtHost *EncryptionAtHost_ARM `json:"encryptionAtHost,omitempty"`
 
 	// Name: The worker profile name.
 	Name     *string `json:"name,omitempty"`
@@ -150,10 +150,85 @@ type WorkerProfile_ARM struct {
 	VmSize *string `json:"vmSize,omitempty"`
 }
 
+// EncryptionAtHost represents encryption at host state
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type EncryptionAtHost_ARM string
+
+const (
+	EncryptionAtHost_ARM_Disabled = EncryptionAtHost_ARM("Disabled")
+	EncryptionAtHost_ARM_Enabled  = EncryptionAtHost_ARM("Enabled")
+)
+
+// Mapping from string to EncryptionAtHost_ARM
+var encryptionAtHost_ARM_Values = map[string]EncryptionAtHost_ARM{
+	"disabled": EncryptionAtHost_ARM_Disabled,
+	"enabled":  EncryptionAtHost_ARM_Enabled,
+}
+
+// FipsValidatedModules determines if FIPS is used.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type FipsValidatedModules_ARM string
+
+const (
+	FipsValidatedModules_ARM_Disabled = FipsValidatedModules_ARM("Disabled")
+	FipsValidatedModules_ARM_Enabled  = FipsValidatedModules_ARM("Enabled")
+)
+
+// Mapping from string to FipsValidatedModules_ARM
+var fipsValidatedModules_ARM_Values = map[string]FipsValidatedModules_ARM{
+	"disabled": FipsValidatedModules_ARM_Disabled,
+	"enabled":  FipsValidatedModules_ARM_Enabled,
+}
+
 // LoadBalancerProfile represents the profile of the cluster public load balancer.
 type LoadBalancerProfile_ARM struct {
 	// ManagedOutboundIps: The desired managed outbound IPs for the cluster public load balancer.
 	ManagedOutboundIps *ManagedOutboundIPs_ARM `json:"managedOutboundIps,omitempty"`
+}
+
+// The outbound routing strategy used to provide your cluster egress to the internet.
+// +kubebuilder:validation:Enum={"Loadbalancer","UserDefinedRouting"}
+type OutboundType_ARM string
+
+const (
+	OutboundType_ARM_Loadbalancer       = OutboundType_ARM("Loadbalancer")
+	OutboundType_ARM_UserDefinedRouting = OutboundType_ARM("UserDefinedRouting")
+)
+
+// Mapping from string to OutboundType_ARM
+var outboundType_ARM_Values = map[string]OutboundType_ARM{
+	"loadbalancer":       OutboundType_ARM_Loadbalancer,
+	"userdefinedrouting": OutboundType_ARM_UserDefinedRouting,
+}
+
+// PreconfiguredNSG represents whether customers want to use their own NSG attached to the subnets
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PreconfiguredNSG_ARM string
+
+const (
+	PreconfiguredNSG_ARM_Disabled = PreconfiguredNSG_ARM("Disabled")
+	PreconfiguredNSG_ARM_Enabled  = PreconfiguredNSG_ARM("Enabled")
+)
+
+// Mapping from string to PreconfiguredNSG_ARM
+var preconfiguredNSG_ARM_Values = map[string]PreconfiguredNSG_ARM{
+	"disabled": PreconfiguredNSG_ARM_Disabled,
+	"enabled":  PreconfiguredNSG_ARM_Enabled,
+}
+
+// Visibility represents visibility.
+// +kubebuilder:validation:Enum={"Private","Public"}
+type Visibility_ARM string
+
+const (
+	Visibility_ARM_Private = Visibility_ARM("Private")
+	Visibility_ARM_Public  = Visibility_ARM("Public")
+)
+
+// Mapping from string to Visibility_ARM
+var visibility_ARM_Values = map[string]Visibility_ARM{
+	"private": Visibility_ARM_Private,
+	"public":  Visibility_ARM_Public,
 }
 
 // ManagedOutboundIPs represents the desired managed outbound IPs for the cluster public load balancer.

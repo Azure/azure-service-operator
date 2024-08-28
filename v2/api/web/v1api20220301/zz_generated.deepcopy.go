@@ -210,7 +210,7 @@ func (in *AutoHealActions_ARM) DeepCopyInto(out *AutoHealActions_ARM) {
 	*out = *in
 	if in.ActionType != nil {
 		in, out := &in.ActionType, &out.ActionType
-		*out = new(AutoHealActions_ActionType)
+		*out = new(AutoHealActions_ActionType_ARM)
 		**out = **in
 	}
 	if in.CustomAction != nil {
@@ -270,7 +270,7 @@ func (in *AutoHealActions_STATUS_ARM) DeepCopyInto(out *AutoHealActions_STATUS_A
 	*out = *in
 	if in.ActionType != nil {
 		in, out := &in.ActionType, &out.ActionType
-		*out = new(AutoHealActions_ActionType_STATUS)
+		*out = new(AutoHealActions_ActionType_STATUS_ARM)
 		**out = **in
 	}
 	if in.CustomAction != nil {
@@ -764,7 +764,7 @@ func (in *AzureStorageInfoValue_ARM) DeepCopyInto(out *AzureStorageInfoValue_ARM
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(AzureStorageInfoValue_Type)
+		*out = new(AzureStorageInfoValue_Type_ARM)
 		**out = **in
 	}
 }
@@ -839,12 +839,12 @@ func (in *AzureStorageInfoValue_STATUS_ARM) DeepCopyInto(out *AzureStorageInfoVa
 	}
 	if in.State != nil {
 		in, out := &in.State, &out.State
-		*out = new(AzureStorageInfoValue_State_STATUS)
+		*out = new(AzureStorageInfoValue_State_STATUS_ARM)
 		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(AzureStorageInfoValue_Type_STATUS)
+		*out = new(AzureStorageInfoValue_Type_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1312,7 +1312,7 @@ func (in *ConnStringInfo_ARM) DeepCopyInto(out *ConnStringInfo_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ConnStringInfo_Type)
+		*out = new(ConnStringInfo_Type_ARM)
 		**out = **in
 	}
 }
@@ -1372,7 +1372,7 @@ func (in *ConnStringInfo_STATUS_ARM) DeepCopyInto(out *ConnStringInfo_STATUS_ARM
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ConnStringInfo_Type_STATUS)
+		*out = new(ConnStringInfo_Type_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1835,7 +1835,7 @@ func (in *HostNameSslState_ARM) DeepCopyInto(out *HostNameSslState_ARM) {
 	*out = *in
 	if in.HostType != nil {
 		in, out := &in.HostType, &out.HostType
-		*out = new(HostNameSslState_HostType)
+		*out = new(HostNameSslState_HostType_ARM)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -1845,7 +1845,7 @@ func (in *HostNameSslState_ARM) DeepCopyInto(out *HostNameSslState_ARM) {
 	}
 	if in.SslState != nil {
 		in, out := &in.SslState, &out.SslState
-		*out = new(HostNameSslState_SslState)
+		*out = new(HostNameSslState_SslState_ARM)
 		**out = **in
 	}
 	if in.Thumbprint != nil {
@@ -1925,7 +1925,7 @@ func (in *HostNameSslState_STATUS_ARM) DeepCopyInto(out *HostNameSslState_STATUS
 	*out = *in
 	if in.HostType != nil {
 		in, out := &in.HostType, &out.HostType
-		*out = new(HostNameSslState_HostType_STATUS)
+		*out = new(HostNameSslState_HostType_STATUS_ARM)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -1935,7 +1935,7 @@ func (in *HostNameSslState_STATUS_ARM) DeepCopyInto(out *HostNameSslState_STATUS
 	}
 	if in.SslState != nil {
 		in, out := &in.SslState, &out.SslState
-		*out = new(HostNameSslState_SslState_STATUS)
+		*out = new(HostNameSslState_SslState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Thumbprint != nil {
@@ -2202,7 +2202,7 @@ func (in *IpSecurityRestriction_ARM) DeepCopyInto(out *IpSecurityRestriction_ARM
 	}
 	if in.Tag != nil {
 		in, out := &in.Tag, &out.Tag
-		*out = new(IpSecurityRestriction_Tag)
+		*out = new(IpSecurityRestriction_Tag_ARM)
 		**out = **in
 	}
 	if in.VnetSubnetResourceId != nil {
@@ -2364,7 +2364,7 @@ func (in *IpSecurityRestriction_STATUS_ARM) DeepCopyInto(out *IpSecurityRestrict
 	}
 	if in.Tag != nil {
 		in, out := &in.Tag, &out.Tag
-		*out = new(IpSecurityRestriction_Tag_STATUS)
+		*out = new(IpSecurityRestriction_Tag_STATUS_ARM)
 		**out = **in
 	}
 	if in.VnetSubnetResourceId != nil {
@@ -2519,7 +2519,7 @@ func (in *ManagedServiceIdentity_ARM) DeepCopyInto(out *ManagedServiceIdentity_A
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentity_Type)
+		*out = new(ManagedServiceIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2593,7 +2593,7 @@ func (in *ManagedServiceIdentity_STATUS_ARM) DeepCopyInto(out *ManagedServiceIde
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedServiceIdentity_Type_STATUS)
+		*out = new(ManagedServiceIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -3394,7 +3394,7 @@ func (in *Serverfarm_Properties_STATUS_ARM) DeepCopyInto(out *Serverfarm_Propert
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(Serverfarm_Properties_ProvisioningState_STATUS)
+		*out = new(Serverfarm_Properties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.Reserved != nil {
@@ -3414,7 +3414,7 @@ func (in *Serverfarm_Properties_STATUS_ARM) DeepCopyInto(out *Serverfarm_Propert
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(Serverfarm_Properties_Status_STATUS)
+		*out = new(Serverfarm_Properties_Status_STATUS_ARM)
 		**out = **in
 	}
 	if in.Subscription != nil {
@@ -4436,7 +4436,7 @@ func (in *SiteConfig_ARM) DeepCopyInto(out *SiteConfig_ARM) {
 	}
 	if in.FtpsState != nil {
 		in, out := &in.FtpsState, &out.FtpsState
-		*out = new(SiteConfig_FtpsState)
+		*out = new(SiteConfig_FtpsState_ARM)
 		**out = **in
 	}
 	if in.FunctionAppScaleLimit != nil {
@@ -4510,7 +4510,7 @@ func (in *SiteConfig_ARM) DeepCopyInto(out *SiteConfig_ARM) {
 	}
 	if in.LoadBalancing != nil {
 		in, out := &in.LoadBalancing, &out.LoadBalancing
-		*out = new(SiteConfig_LoadBalancing)
+		*out = new(SiteConfig_LoadBalancing_ARM)
 		**out = **in
 	}
 	if in.LocalMySqlEnabled != nil {
@@ -4525,7 +4525,7 @@ func (in *SiteConfig_ARM) DeepCopyInto(out *SiteConfig_ARM) {
 	}
 	if in.ManagedPipelineMode != nil {
 		in, out := &in.ManagedPipelineMode, &out.ManagedPipelineMode
-		*out = new(SiteConfig_ManagedPipelineMode)
+		*out = new(SiteConfig_ManagedPipelineMode_ARM)
 		**out = **in
 	}
 	if in.ManagedServiceIdentityId != nil {
@@ -4535,7 +4535,7 @@ func (in *SiteConfig_ARM) DeepCopyInto(out *SiteConfig_ARM) {
 	}
 	if in.MinTlsVersion != nil {
 		in, out := &in.MinTlsVersion, &out.MinTlsVersion
-		*out = new(SiteConfig_MinTlsVersion)
+		*out = new(SiteConfig_MinTlsVersion_ARM)
 		**out = **in
 	}
 	if in.MinimumElasticInstanceCount != nil {
@@ -4627,12 +4627,12 @@ func (in *SiteConfig_ARM) DeepCopyInto(out *SiteConfig_ARM) {
 	}
 	if in.ScmMinTlsVersion != nil {
 		in, out := &in.ScmMinTlsVersion, &out.ScmMinTlsVersion
-		*out = new(SiteConfig_ScmMinTlsVersion)
+		*out = new(SiteConfig_ScmMinTlsVersion_ARM)
 		**out = **in
 	}
 	if in.ScmType != nil {
 		in, out := &in.ScmType, &out.ScmType
-		*out = new(SiteConfig_ScmType)
+		*out = new(SiteConfig_ScmType_ARM)
 		**out = **in
 	}
 	if in.TracingOptions != nil {
@@ -5159,7 +5159,7 @@ func (in *SiteConfig_STATUS_ARM) DeepCopyInto(out *SiteConfig_STATUS_ARM) {
 	}
 	if in.FtpsState != nil {
 		in, out := &in.FtpsState, &out.FtpsState
-		*out = new(SiteConfig_FtpsState_STATUS)
+		*out = new(SiteConfig_FtpsState_STATUS_ARM)
 		**out = **in
 	}
 	if in.FunctionAppScaleLimit != nil {
@@ -5233,7 +5233,7 @@ func (in *SiteConfig_STATUS_ARM) DeepCopyInto(out *SiteConfig_STATUS_ARM) {
 	}
 	if in.LoadBalancing != nil {
 		in, out := &in.LoadBalancing, &out.LoadBalancing
-		*out = new(SiteConfig_LoadBalancing_STATUS)
+		*out = new(SiteConfig_LoadBalancing_STATUS_ARM)
 		**out = **in
 	}
 	if in.LocalMySqlEnabled != nil {
@@ -5253,7 +5253,7 @@ func (in *SiteConfig_STATUS_ARM) DeepCopyInto(out *SiteConfig_STATUS_ARM) {
 	}
 	if in.ManagedPipelineMode != nil {
 		in, out := &in.ManagedPipelineMode, &out.ManagedPipelineMode
-		*out = new(SiteConfig_ManagedPipelineMode_STATUS)
+		*out = new(SiteConfig_ManagedPipelineMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.ManagedServiceIdentityId != nil {
@@ -5263,7 +5263,7 @@ func (in *SiteConfig_STATUS_ARM) DeepCopyInto(out *SiteConfig_STATUS_ARM) {
 	}
 	if in.MinTlsVersion != nil {
 		in, out := &in.MinTlsVersion, &out.MinTlsVersion
-		*out = new(SiteConfig_MinTlsVersion_STATUS)
+		*out = new(SiteConfig_MinTlsVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.MinimumElasticInstanceCount != nil {
@@ -5355,12 +5355,12 @@ func (in *SiteConfig_STATUS_ARM) DeepCopyInto(out *SiteConfig_STATUS_ARM) {
 	}
 	if in.ScmMinTlsVersion != nil {
 		in, out := &in.ScmMinTlsVersion, &out.ScmMinTlsVersion
-		*out = new(SiteConfig_ScmMinTlsVersion_STATUS)
+		*out = new(SiteConfig_ScmMinTlsVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.ScmType != nil {
 		in, out := &in.ScmType, &out.ScmType
-		*out = new(SiteConfig_ScmType_STATUS)
+		*out = new(SiteConfig_ScmType_STATUS_ARM)
 		**out = **in
 	}
 	if in.TracingOptions != nil {
@@ -5654,7 +5654,7 @@ func (in *Site_Properties_STATUS_ARM) DeepCopyInto(out *Site_Properties_STATUS_A
 	*out = *in
 	if in.AvailabilityState != nil {
 		in, out := &in.AvailabilityState, &out.AvailabilityState
-		*out = new(Site_Properties_AvailabilityState_STATUS)
+		*out = new(Site_Properties_AvailabilityState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ClientAffinityEnabled != nil {
@@ -5674,7 +5674,7 @@ func (in *Site_Properties_STATUS_ARM) DeepCopyInto(out *Site_Properties_STATUS_A
 	}
 	if in.ClientCertMode != nil {
 		in, out := &in.ClientCertMode, &out.ClientCertMode
-		*out = new(Site_Properties_ClientCertMode_STATUS)
+		*out = new(Site_Properties_ClientCertMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.CloningInfo != nil {
@@ -5791,7 +5791,7 @@ func (in *Site_Properties_STATUS_ARM) DeepCopyInto(out *Site_Properties_STATUS_A
 	}
 	if in.RedundancyMode != nil {
 		in, out := &in.RedundancyMode, &out.RedundancyMode
-		*out = new(Site_Properties_RedundancyMode_STATUS)
+		*out = new(Site_Properties_RedundancyMode_STATUS_ARM)
 		**out = **in
 	}
 	if in.RepositorySiteName != nil {
@@ -5856,7 +5856,7 @@ func (in *Site_Properties_STATUS_ARM) DeepCopyInto(out *Site_Properties_STATUS_A
 	}
 	if in.UsageState != nil {
 		in, out := &in.UsageState, &out.UsageState
-		*out = new(Site_Properties_UsageState_STATUS)
+		*out = new(Site_Properties_UsageState_STATUS_ARM)
 		**out = **in
 	}
 	if in.VirtualNetworkSubnetId != nil {
@@ -5911,7 +5911,7 @@ func (in *Site_Properties_Spec_ARM) DeepCopyInto(out *Site_Properties_Spec_ARM) 
 	}
 	if in.ClientCertMode != nil {
 		in, out := &in.ClientCertMode, &out.ClientCertMode
-		*out = new(Site_Properties_ClientCertMode_Spec)
+		*out = new(Site_Properties_ClientCertMode_Spec_ARM)
 		**out = **in
 	}
 	if in.CloningInfo != nil {
@@ -5983,7 +5983,7 @@ func (in *Site_Properties_Spec_ARM) DeepCopyInto(out *Site_Properties_Spec_ARM) 
 	}
 	if in.RedundancyMode != nil {
 		in, out := &in.RedundancyMode, &out.RedundancyMode
-		*out = new(Site_Properties_RedundancyMode_Spec)
+		*out = new(Site_Properties_RedundancyMode_Spec_ARM)
 		**out = **in
 	}
 	if in.Reserved != nil {

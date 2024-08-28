@@ -226,7 +226,7 @@ func MongoDBCollectionResource_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMongoDBCollectionResource_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMongoDBCollectionResource_ARM(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(CreateMode_Default, CreateMode_Restore))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(CreateMode_ARM_Default, CreateMode_ARM_Restore))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["ShardKey"] = gen.MapOf(
 		gen.AlphaString(),

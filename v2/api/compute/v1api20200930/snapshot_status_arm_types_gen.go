@@ -51,7 +51,7 @@ type SnapshotProperties_STATUS_ARM struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// DiskState: The state of the snapshot.
-	DiskState *DiskState_STATUS `json:"diskState,omitempty"`
+	DiskState *DiskState_STATUS_ARM `json:"diskState,omitempty"`
 
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption_STATUS_ARM `json:"encryption,omitempty"`
@@ -61,17 +61,17 @@ type SnapshotProperties_STATUS_ARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS_ARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *SnapshotProperties_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *SnapshotProperties_HyperVGeneration_STATUS_ARM `json:"hyperVGeneration,omitempty"`
 
 	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
 	// snapshots and can be diffed.
 	Incremental *bool `json:"incremental,omitempty"`
 
 	// NetworkAccessPolicy: Policy for accessing the disk via network.
-	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
+	NetworkAccessPolicy *NetworkAccessPolicy_STATUS_ARM `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-	OsType *SnapshotProperties_OsType_STATUS `json:"osType,omitempty"`
+	OsType *SnapshotProperties_OsType_STATUS_ARM `json:"osType,omitempty"`
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -90,23 +90,49 @@ type SnapshotProperties_STATUS_ARM struct {
 // snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku_STATUS_ARM struct {
 	// Name: The sku name.
-	Name *SnapshotSku_Name_STATUS `json:"name,omitempty"`
+	Name *SnapshotSku_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
 }
 
-type SnapshotSku_Name_STATUS string
+type SnapshotProperties_HyperVGeneration_STATUS_ARM string
 
 const (
-	SnapshotSku_Name_STATUS_Premium_LRS  = SnapshotSku_Name_STATUS("Premium_LRS")
-	SnapshotSku_Name_STATUS_Standard_LRS = SnapshotSku_Name_STATUS("Standard_LRS")
-	SnapshotSku_Name_STATUS_Standard_ZRS = SnapshotSku_Name_STATUS("Standard_ZRS")
+	SnapshotProperties_HyperVGeneration_STATUS_ARM_V1 = SnapshotProperties_HyperVGeneration_STATUS_ARM("V1")
+	SnapshotProperties_HyperVGeneration_STATUS_ARM_V2 = SnapshotProperties_HyperVGeneration_STATUS_ARM("V2")
 )
 
-// Mapping from string to SnapshotSku_Name_STATUS
-var snapshotSku_Name_STATUS_Values = map[string]SnapshotSku_Name_STATUS{
-	"premium_lrs":  SnapshotSku_Name_STATUS_Premium_LRS,
-	"standard_lrs": SnapshotSku_Name_STATUS_Standard_LRS,
-	"standard_zrs": SnapshotSku_Name_STATUS_Standard_ZRS,
+// Mapping from string to SnapshotProperties_HyperVGeneration_STATUS_ARM
+var snapshotProperties_HyperVGeneration_STATUS_ARM_Values = map[string]SnapshotProperties_HyperVGeneration_STATUS_ARM{
+	"v1": SnapshotProperties_HyperVGeneration_STATUS_ARM_V1,
+	"v2": SnapshotProperties_HyperVGeneration_STATUS_ARM_V2,
+}
+
+type SnapshotProperties_OsType_STATUS_ARM string
+
+const (
+	SnapshotProperties_OsType_STATUS_ARM_Linux   = SnapshotProperties_OsType_STATUS_ARM("Linux")
+	SnapshotProperties_OsType_STATUS_ARM_Windows = SnapshotProperties_OsType_STATUS_ARM("Windows")
+)
+
+// Mapping from string to SnapshotProperties_OsType_STATUS_ARM
+var snapshotProperties_OsType_STATUS_ARM_Values = map[string]SnapshotProperties_OsType_STATUS_ARM{
+	"linux":   SnapshotProperties_OsType_STATUS_ARM_Linux,
+	"windows": SnapshotProperties_OsType_STATUS_ARM_Windows,
+}
+
+type SnapshotSku_Name_STATUS_ARM string
+
+const (
+	SnapshotSku_Name_STATUS_ARM_Premium_LRS  = SnapshotSku_Name_STATUS_ARM("Premium_LRS")
+	SnapshotSku_Name_STATUS_ARM_Standard_LRS = SnapshotSku_Name_STATUS_ARM("Standard_LRS")
+	SnapshotSku_Name_STATUS_ARM_Standard_ZRS = SnapshotSku_Name_STATUS_ARM("Standard_ZRS")
+)
+
+// Mapping from string to SnapshotSku_Name_STATUS_ARM
+var snapshotSku_Name_STATUS_ARM_Values = map[string]SnapshotSku_Name_STATUS_ARM{
+	"premium_lrs":  SnapshotSku_Name_STATUS_ARM_Premium_LRS,
+	"standard_lrs": SnapshotSku_Name_STATUS_ARM_Standard_LRS,
+	"standard_zrs": SnapshotSku_Name_STATUS_ARM_Standard_ZRS,
 }

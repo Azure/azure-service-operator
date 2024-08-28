@@ -86,7 +86,7 @@ func AdditionalLocation_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAdditionalLocation_ARM(gens map[string]gopter.Gen) {
 	gens["DisableGateway"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["NatGatewayState"] = gen.PtrOf(gen.OneConstOf(AdditionalLocation_NatGatewayState_Disabled, AdditionalLocation_NatGatewayState_Enabled))
+	gens["NatGatewayState"] = gen.PtrOf(gen.OneConstOf(AdditionalLocation_NatGatewayState_ARM_Disabled, AdditionalLocation_NatGatewayState_ARM_Enabled))
 	gens["PublicIpAddressId"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -165,10 +165,10 @@ func ApiManagementServiceIdentity_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApiManagementServiceIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApiManagementServiceIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ApiManagementServiceIdentity_Type_None,
-		ApiManagementServiceIdentity_Type_SystemAssigned,
-		ApiManagementServiceIdentity_Type_SystemAssignedUserAssigned,
-		ApiManagementServiceIdentity_Type_UserAssigned))
+		ApiManagementServiceIdentity_Type_ARM_None,
+		ApiManagementServiceIdentity_Type_ARM_SystemAssigned,
+		ApiManagementServiceIdentity_Type_ARM_SystemAssignedUserAssigned,
+		ApiManagementServiceIdentity_Type_ARM_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForApiManagementServiceIdentity_ARM is a factory method for creating gopter generators
@@ -248,18 +248,18 @@ func AddIndependentPropertyGeneratorsForApiManagementServiceProperties_ARM(gens 
 	gens["CustomProperties"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-	gens["DeveloperPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_DeveloperPortalStatus_Disabled, ApiManagementServiceProperties_DeveloperPortalStatus_Enabled))
+	gens["DeveloperPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_DeveloperPortalStatus_ARM_Disabled, ApiManagementServiceProperties_DeveloperPortalStatus_ARM_Enabled))
 	gens["DisableGateway"] = gen.PtrOf(gen.Bool())
 	gens["EnableClientCertificate"] = gen.PtrOf(gen.Bool())
-	gens["LegacyPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_LegacyPortalStatus_Disabled, ApiManagementServiceProperties_LegacyPortalStatus_Enabled))
-	gens["NatGatewayState"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_NatGatewayState_Disabled, ApiManagementServiceProperties_NatGatewayState_Enabled))
+	gens["LegacyPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_LegacyPortalStatus_ARM_Disabled, ApiManagementServiceProperties_LegacyPortalStatus_ARM_Enabled))
+	gens["NatGatewayState"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_NatGatewayState_ARM_Disabled, ApiManagementServiceProperties_NatGatewayState_ARM_Enabled))
 	gens["NotificationSenderEmail"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicIpAddressId"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_PublicNetworkAccess_Disabled, ApiManagementServiceProperties_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_PublicNetworkAccess_ARM_Disabled, ApiManagementServiceProperties_PublicNetworkAccess_ARM_Enabled))
 	gens["PublisherEmail"] = gen.PtrOf(gen.AlphaString())
 	gens["PublisherName"] = gen.PtrOf(gen.AlphaString())
 	gens["Restore"] = gen.PtrOf(gen.Bool())
-	gens["VirtualNetworkType"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_VirtualNetworkType_External, ApiManagementServiceProperties_VirtualNetworkType_Internal, ApiManagementServiceProperties_VirtualNetworkType_None))
+	gens["VirtualNetworkType"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_VirtualNetworkType_ARM_External, ApiManagementServiceProperties_VirtualNetworkType_ARM_Internal, ApiManagementServiceProperties_VirtualNetworkType_ARM_None))
 }
 
 // AddRelatedPropertyGeneratorsForApiManagementServiceProperties_ARM is a factory method for creating gopter generators
@@ -332,14 +332,14 @@ func ApiManagementServiceSkuProperties_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForApiManagementServiceSkuProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		ApiManagementServiceSkuProperties_Name_Basic,
-		ApiManagementServiceSkuProperties_Name_BasicV2,
-		ApiManagementServiceSkuProperties_Name_Consumption,
-		ApiManagementServiceSkuProperties_Name_Developer,
-		ApiManagementServiceSkuProperties_Name_Isolated,
-		ApiManagementServiceSkuProperties_Name_Premium,
-		ApiManagementServiceSkuProperties_Name_Standard,
-		ApiManagementServiceSkuProperties_Name_StandardV2))
+		ApiManagementServiceSkuProperties_Name_ARM_Basic,
+		ApiManagementServiceSkuProperties_Name_ARM_BasicV2,
+		ApiManagementServiceSkuProperties_Name_ARM_Consumption,
+		ApiManagementServiceSkuProperties_Name_ARM_Developer,
+		ApiManagementServiceSkuProperties_Name_ARM_Isolated,
+		ApiManagementServiceSkuProperties_Name_ARM_Premium,
+		ApiManagementServiceSkuProperties_Name_ARM_Standard,
+		ApiManagementServiceSkuProperties_Name_ARM_StandardV2))
 }
 
 func Test_ApiVersionConstraint_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -472,7 +472,7 @@ func CertificateConfiguration_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCertificateConfiguration_ARM(gens map[string]gopter.Gen) {
 	gens["CertificatePassword"] = gen.PtrOf(gen.AlphaString())
 	gens["EncodedCertificate"] = gen.PtrOf(gen.AlphaString())
-	gens["StoreName"] = gen.PtrOf(gen.OneConstOf(CertificateConfiguration_StoreName_CertificateAuthority, CertificateConfiguration_StoreName_Root))
+	gens["StoreName"] = gen.PtrOf(gen.OneConstOf(CertificateConfiguration_StoreName_ARM_CertificateAuthority, CertificateConfiguration_StoreName_ARM_Root))
 }
 
 // AddRelatedPropertyGeneratorsForCertificateConfiguration_ARM is a factory method for creating gopter generators
@@ -601,7 +601,7 @@ func ConfigurationApi_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConfigurationApi_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationApi_ARM(gens map[string]gopter.Gen) {
-	gens["LegacyApi"] = gen.PtrOf(gen.OneConstOf(ConfigurationApi_LegacyApi_Disabled, ConfigurationApi_LegacyApi_Enabled))
+	gens["LegacyApi"] = gen.PtrOf(gen.OneConstOf(ConfigurationApi_LegacyApi_ARM_Disabled, ConfigurationApi_LegacyApi_ARM_Enabled))
 }
 
 func Test_HostnameConfiguration_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -673,11 +673,11 @@ func HostnameConfiguration_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHostnameConfiguration_ARM(gens map[string]gopter.Gen) {
 	gens["CertificatePassword"] = gen.PtrOf(gen.AlphaString())
 	gens["CertificateSource"] = gen.PtrOf(gen.OneConstOf(
-		HostnameConfiguration_CertificateSource_BuiltIn,
-		HostnameConfiguration_CertificateSource_Custom,
-		HostnameConfiguration_CertificateSource_KeyVault,
-		HostnameConfiguration_CertificateSource_Managed))
-	gens["CertificateStatus"] = gen.PtrOf(gen.OneConstOf(HostnameConfiguration_CertificateStatus_Completed, HostnameConfiguration_CertificateStatus_Failed, HostnameConfiguration_CertificateStatus_InProgress))
+		HostnameConfiguration_CertificateSource_ARM_BuiltIn,
+		HostnameConfiguration_CertificateSource_ARM_Custom,
+		HostnameConfiguration_CertificateSource_ARM_KeyVault,
+		HostnameConfiguration_CertificateSource_ARM_Managed))
+	gens["CertificateStatus"] = gen.PtrOf(gen.OneConstOf(HostnameConfiguration_CertificateStatus_ARM_Completed, HostnameConfiguration_CertificateStatus_ARM_Failed, HostnameConfiguration_CertificateStatus_ARM_InProgress))
 	gens["DefaultSslBinding"] = gen.PtrOf(gen.Bool())
 	gens["EncodedCertificate"] = gen.PtrOf(gen.AlphaString())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
@@ -685,12 +685,12 @@ func AddIndependentPropertyGeneratorsForHostnameConfiguration_ARM(gens map[strin
 	gens["KeyVaultId"] = gen.PtrOf(gen.AlphaString())
 	gens["NegotiateClientCertificate"] = gen.PtrOf(gen.Bool())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		HostnameConfiguration_Type_ConfigurationApi,
-		HostnameConfiguration_Type_DeveloperPortal,
-		HostnameConfiguration_Type_Management,
-		HostnameConfiguration_Type_Portal,
-		HostnameConfiguration_Type_Proxy,
-		HostnameConfiguration_Type_Scm))
+		HostnameConfiguration_Type_ARM_ConfigurationApi,
+		HostnameConfiguration_Type_ARM_DeveloperPortal,
+		HostnameConfiguration_Type_ARM_Management,
+		HostnameConfiguration_Type_ARM_Portal,
+		HostnameConfiguration_Type_ARM_Proxy,
+		HostnameConfiguration_Type_ARM_Scm))
 }
 
 // AddRelatedPropertyGeneratorsForHostnameConfiguration_ARM is a factory method for creating gopter generators

@@ -741,7 +741,9 @@ func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) PopulateFromARM(owner genr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := DnsresolverProvisioningState_STATUS(temp)
 			endpoint.ProvisioningState = &provisioningState
 		}
 	}

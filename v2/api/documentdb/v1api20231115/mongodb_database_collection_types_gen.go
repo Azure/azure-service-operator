@@ -979,7 +979,9 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) PopulateFromARM(
 
 	// Set property "CreateMode":
 	if typedInput.CreateMode != nil {
-		createMode := *typedInput.CreateMode
+		var temp string
+		temp = string(*typedInput.CreateMode)
+		createMode := CreateMode_STATUS(temp)
 		resource.CreateMode = &createMode
 	}
 
@@ -1225,7 +1227,9 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "CreateMode":
 	if resource.CreateMode != nil {
-		createMode := *resource.CreateMode
+		var temp string
+		temp = string(*resource.CreateMode)
+		createMode := CreateMode_ARM(temp)
 		result.CreateMode = &createMode
 	}
 
@@ -1284,7 +1288,9 @@ func (resource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "CreateMode":
 	if typedInput.CreateMode != nil {
-		createMode := *typedInput.CreateMode
+		var temp string
+		temp = string(*typedInput.CreateMode)
+		createMode := CreateMode(temp)
 		resource.CreateMode = &createMode
 	}
 

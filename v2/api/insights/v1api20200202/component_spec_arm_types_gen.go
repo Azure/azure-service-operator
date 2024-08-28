@@ -44,7 +44,7 @@ func (component *Component_Spec_ARM) GetType() string {
 // Properties that define an Application Insights component resource.
 type ApplicationInsightsComponentProperties_ARM struct {
 	// Application_Type: Type of application being monitored.
-	Application_Type *ApplicationInsightsComponentProperties_Application_Type `json:"Application_Type,omitempty"`
+	Application_Type *ApplicationInsightsComponentProperties_Application_Type_ARM `json:"Application_Type,omitempty"`
 
 	// DisableIpMasking: Disable IP masking.
 	DisableIpMasking *bool `json:"DisableIpMasking,omitempty"`
@@ -54,7 +54,7 @@ type ApplicationInsightsComponentProperties_ARM struct {
 
 	// Flow_Type: Used by the Application Insights system to determine what kind of flow this component was created by. This is
 	// to be set to 'Bluefield' when creating/updating a component via the REST API.
-	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type `json:"Flow_Type,omitempty"`
+	Flow_Type *ApplicationInsightsComponentProperties_Flow_Type_ARM `json:"Flow_Type,omitempty"`
 
 	// ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.
 	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
@@ -67,17 +67,17 @@ type ApplicationInsightsComponentProperties_ARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	// IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode `json:"IngestionMode,omitempty"`
+	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode_ARM `json:"IngestionMode,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType_ARM `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *PublicNetworkAccessType_ARM `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
 	// this to the default 'rest'.
-	Request_Source *ApplicationInsightsComponentProperties_Request_Source `json:"Request_Source,omitempty"`
+	Request_Source *ApplicationInsightsComponentProperties_Request_Source_ARM `json:"Request_Source,omitempty"`
 
 	// RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
@@ -86,4 +86,69 @@ type ApplicationInsightsComponentProperties_ARM struct {
 	// Application Insights telemetry.
 	SamplingPercentage  *float64 `json:"SamplingPercentage,omitempty"`
 	WorkspaceResourceId *string  `json:"workspaceResourceId,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"other","web"}
+type ApplicationInsightsComponentProperties_Application_Type_ARM string
+
+const (
+	ApplicationInsightsComponentProperties_Application_Type_ARM_Other = ApplicationInsightsComponentProperties_Application_Type_ARM("other")
+	ApplicationInsightsComponentProperties_Application_Type_ARM_Web   = ApplicationInsightsComponentProperties_Application_Type_ARM("web")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_Application_Type_ARM
+var applicationInsightsComponentProperties_Application_Type_ARM_Values = map[string]ApplicationInsightsComponentProperties_Application_Type_ARM{
+	"other": ApplicationInsightsComponentProperties_Application_Type_ARM_Other,
+	"web":   ApplicationInsightsComponentProperties_Application_Type_ARM_Web,
+}
+
+// +kubebuilder:validation:Enum={"Bluefield"}
+type ApplicationInsightsComponentProperties_Flow_Type_ARM string
+
+const ApplicationInsightsComponentProperties_Flow_Type_ARM_Bluefield = ApplicationInsightsComponentProperties_Flow_Type_ARM("Bluefield")
+
+// Mapping from string to ApplicationInsightsComponentProperties_Flow_Type_ARM
+var applicationInsightsComponentProperties_Flow_Type_ARM_Values = map[string]ApplicationInsightsComponentProperties_Flow_Type_ARM{
+	"bluefield": ApplicationInsightsComponentProperties_Flow_Type_ARM_Bluefield,
+}
+
+// +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
+type ApplicationInsightsComponentProperties_IngestionMode_ARM string
+
+const (
+	ApplicationInsightsComponentProperties_IngestionMode_ARM_ApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_ARM("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_ARM_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_ARM("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_ARM_LogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_ARM("LogAnalytics")
+)
+
+// Mapping from string to ApplicationInsightsComponentProperties_IngestionMode_ARM
+var applicationInsightsComponentProperties_IngestionMode_ARM_Values = map[string]ApplicationInsightsComponentProperties_IngestionMode_ARM{
+	"applicationinsights":                       ApplicationInsightsComponentProperties_IngestionMode_ARM_ApplicationInsights,
+	"applicationinsightswithdiagnosticsettings": ApplicationInsightsComponentProperties_IngestionMode_ARM_ApplicationInsightsWithDiagnosticSettings,
+	"loganalytics":                              ApplicationInsightsComponentProperties_IngestionMode_ARM_LogAnalytics,
+}
+
+// +kubebuilder:validation:Enum={"rest"}
+type ApplicationInsightsComponentProperties_Request_Source_ARM string
+
+const ApplicationInsightsComponentProperties_Request_Source_ARM_Rest = ApplicationInsightsComponentProperties_Request_Source_ARM("rest")
+
+// Mapping from string to ApplicationInsightsComponentProperties_Request_Source_ARM
+var applicationInsightsComponentProperties_Request_Source_ARM_Values = map[string]ApplicationInsightsComponentProperties_Request_Source_ARM{
+	"rest": ApplicationInsightsComponentProperties_Request_Source_ARM_Rest,
+}
+
+// The network access type for operating on the Application Insights Component. By default it is Enabled
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PublicNetworkAccessType_ARM string
+
+const (
+	PublicNetworkAccessType_ARM_Disabled = PublicNetworkAccessType_ARM("Disabled")
+	PublicNetworkAccessType_ARM_Enabled  = PublicNetworkAccessType_ARM("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccessType_ARM
+var publicNetworkAccessType_ARM_Values = map[string]PublicNetworkAccessType_ARM{
+	"disabled": PublicNetworkAccessType_ARM_Disabled,
+	"enabled":  PublicNetworkAccessType_ARM_Enabled,
 }

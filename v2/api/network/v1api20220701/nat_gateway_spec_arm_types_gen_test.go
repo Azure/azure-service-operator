@@ -150,7 +150,7 @@ func NatGatewaySku_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNatGatewaySku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNatGatewaySku_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(NatGatewaySku_Name_Standard))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(NatGatewaySku_Name_ARM_Standard))
 }
 
 func Test_NatGateway_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

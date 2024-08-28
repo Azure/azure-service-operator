@@ -75,7 +75,7 @@ func AzureMonitorAlertSettings_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureMonitorAlertSettings_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AlertsForAllJobFailures"] = gen.PtrOf(gen.OneConstOf(AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Disabled, AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Enabled))
+	gens["AlertsForAllJobFailures"] = gen.PtrOf(gen.OneConstOf(AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM_Disabled, AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_ARM_Enabled))
 }
 
 func Test_BackupVaultResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -231,22 +231,22 @@ func BackupVault_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackupVault_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["IsVaultProtectedByResourceGuard"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		BackupVault_ProvisioningState_STATUS_Failed,
-		BackupVault_ProvisioningState_STATUS_Provisioning,
-		BackupVault_ProvisioningState_STATUS_Succeeded,
-		BackupVault_ProvisioningState_STATUS_Unknown,
-		BackupVault_ProvisioningState_STATUS_Updating))
+		BackupVault_ProvisioningState_STATUS_ARM_Failed,
+		BackupVault_ProvisioningState_STATUS_ARM_Provisioning,
+		BackupVault_ProvisioningState_STATUS_ARM_Succeeded,
+		BackupVault_ProvisioningState_STATUS_ARM_Unknown,
+		BackupVault_ProvisioningState_STATUS_ARM_Updating))
 	gens["ResourceMoveState"] = gen.PtrOf(gen.OneConstOf(
-		BackupVault_ResourceMoveState_STATUS_CommitFailed,
-		BackupVault_ResourceMoveState_STATUS_CommitTimedout,
-		BackupVault_ResourceMoveState_STATUS_CriticalFailure,
-		BackupVault_ResourceMoveState_STATUS_Failed,
-		BackupVault_ResourceMoveState_STATUS_InProgress,
-		BackupVault_ResourceMoveState_STATUS_MoveSucceeded,
-		BackupVault_ResourceMoveState_STATUS_PartialSuccess,
-		BackupVault_ResourceMoveState_STATUS_PrepareFailed,
-		BackupVault_ResourceMoveState_STATUS_PrepareTimedout,
-		BackupVault_ResourceMoveState_STATUS_Unknown))
+		BackupVault_ResourceMoveState_STATUS_ARM_CommitFailed,
+		BackupVault_ResourceMoveState_STATUS_ARM_CommitTimedout,
+		BackupVault_ResourceMoveState_STATUS_ARM_CriticalFailure,
+		BackupVault_ResourceMoveState_STATUS_ARM_Failed,
+		BackupVault_ResourceMoveState_STATUS_ARM_InProgress,
+		BackupVault_ResourceMoveState_STATUS_ARM_MoveSucceeded,
+		BackupVault_ResourceMoveState_STATUS_ARM_PartialSuccess,
+		BackupVault_ResourceMoveState_STATUS_ARM_PrepareFailed,
+		BackupVault_ResourceMoveState_STATUS_ARM_PrepareTimedout,
+		BackupVault_ResourceMoveState_STATUS_ARM_Unknown))
 }
 
 // AddRelatedPropertyGeneratorsForBackupVault_STATUS_ARM is a factory method for creating gopter generators
@@ -316,7 +316,7 @@ func CrossSubscriptionRestoreSettings_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCrossSubscriptionRestoreSettings_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossSubscriptionRestoreSettings_State_STATUS_Disabled, CrossSubscriptionRestoreSettings_State_STATUS_Enabled, CrossSubscriptionRestoreSettings_State_STATUS_PermanentlyDisabled))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(CrossSubscriptionRestoreSettings_State_STATUS_ARM_Disabled, CrossSubscriptionRestoreSettings_State_STATUS_ARM_Enabled, CrossSubscriptionRestoreSettings_State_STATUS_ARM_PermanentlyDisabled))
 }
 
 func Test_DppIdentityDetails_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -501,7 +501,7 @@ func ImmutabilitySettings_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImmutabilitySettings_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImmutabilitySettings_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilitySettings_State_STATUS_Disabled, ImmutabilitySettings_State_STATUS_Locked, ImmutabilitySettings_State_STATUS_Unlocked))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilitySettings_State_STATUS_ARM_Disabled, ImmutabilitySettings_State_STATUS_ARM_Locked, ImmutabilitySettings_State_STATUS_ARM_Unlocked))
 }
 
 func Test_MonitoringSettings_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -751,7 +751,7 @@ func SoftDeleteSettings_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSoftDeleteSettings_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSoftDeleteSettings_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["RetentionDurationInDays"] = gen.PtrOf(gen.Float64())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(SoftDeleteSettings_State_STATUS_AlwaysOn, SoftDeleteSettings_State_STATUS_Off, SoftDeleteSettings_State_STATUS_On))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(SoftDeleteSettings_State_STATUS_ARM_AlwaysOn, SoftDeleteSettings_State_STATUS_ARM_Off, SoftDeleteSettings_State_STATUS_ARM_On))
 }
 
 func Test_StorageSetting_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -812,8 +812,8 @@ func StorageSetting_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageSetting_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageSetting_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DatastoreType"] = gen.PtrOf(gen.OneConstOf(StorageSetting_DatastoreType_STATUS_ArchiveStore, StorageSetting_DatastoreType_STATUS_OperationalStore, StorageSetting_DatastoreType_STATUS_VaultStore))
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(StorageSetting_Type_STATUS_GeoRedundant, StorageSetting_Type_STATUS_LocallyRedundant, StorageSetting_Type_STATUS_ZoneRedundant))
+	gens["DatastoreType"] = gen.PtrOf(gen.OneConstOf(StorageSetting_DatastoreType_STATUS_ARM_ArchiveStore, StorageSetting_DatastoreType_STATUS_ARM_OperationalStore, StorageSetting_DatastoreType_STATUS_ARM_VaultStore))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(StorageSetting_Type_STATUS_ARM_GeoRedundant, StorageSetting_Type_STATUS_ARM_LocallyRedundant, StorageSetting_Type_STATUS_ARM_ZoneRedundant))
 }
 
 func Test_SystemData_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -877,15 +877,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS_ARM(gens map[string]go
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUS_Application,
-		SystemData_CreatedByType_STATUS_Key,
-		SystemData_CreatedByType_STATUS_ManagedIdentity,
-		SystemData_CreatedByType_STATUS_User))
+		SystemData_CreatedByType_STATUS_ARM_Application,
+		SystemData_CreatedByType_STATUS_ARM_Key,
+		SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_ARM_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUS_Application,
-		SystemData_LastModifiedByType_STATUS_Key,
-		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
-		SystemData_LastModifiedByType_STATUS_User))
+		SystemData_LastModifiedByType_STATUS_ARM_Application,
+		SystemData_LastModifiedByType_STATUS_ARM_Key,
+		SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_ARM_User))
 }

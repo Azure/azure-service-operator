@@ -39,7 +39,7 @@ type ExtendedLocation_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
+	Type *ExtendedLocationType_STATUS_ARM `json:"type,omitempty"`
 }
 
 // Properties of the load balancer.
@@ -73,7 +73,7 @@ type LoadBalancerPropertiesFormat_STATUS_ARM struct {
 	Probes []Probe_STATUS_ARM `json:"probes,omitempty"`
 
 	// ProvisioningState: The provisioning state of the load balancer resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the load balancer resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -82,10 +82,10 @@ type LoadBalancerPropertiesFormat_STATUS_ARM struct {
 // SKU of a load balancer.
 type LoadBalancerSku_STATUS_ARM struct {
 	// Name: Name of a load balancer SKU.
-	Name *LoadBalancerSku_Name_STATUS `json:"name,omitempty"`
+	Name *LoadBalancerSku_Name_STATUS_ARM `json:"name,omitempty"`
 
 	// Tier: Tier of a load balancer SKU.
-	Tier *LoadBalancerSku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *LoadBalancerSku_Tier_STATUS_ARM `json:"tier,omitempty"`
 }
 
 // Pool of backend IP addresses.
@@ -108,13 +108,13 @@ type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 }
 
 // The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
-type ExtendedLocationType_STATUS string
+type ExtendedLocationType_STATUS_ARM string
 
-const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_STATUS_ARM_EdgeZone = ExtendedLocationType_STATUS_ARM("EdgeZone")
 
-// Mapping from string to ExtendedLocationType_STATUS
-var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
-	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+// Mapping from string to ExtendedLocationType_STATUS_ARM
+var extendedLocationType_STATUS_ARM_Values = map[string]ExtendedLocationType_STATUS_ARM{
+	"edgezone": ExtendedLocationType_STATUS_ARM_EdgeZone,
 }
 
 // Frontend IP address of the load balancer.
@@ -177,30 +177,30 @@ type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type LoadBalancerSku_Name_STATUS string
+type LoadBalancerSku_Name_STATUS_ARM string
 
 const (
-	LoadBalancerSku_Name_STATUS_Basic    = LoadBalancerSku_Name_STATUS("Basic")
-	LoadBalancerSku_Name_STATUS_Standard = LoadBalancerSku_Name_STATUS("Standard")
+	LoadBalancerSku_Name_STATUS_ARM_Basic    = LoadBalancerSku_Name_STATUS_ARM("Basic")
+	LoadBalancerSku_Name_STATUS_ARM_Standard = LoadBalancerSku_Name_STATUS_ARM("Standard")
 )
 
-// Mapping from string to LoadBalancerSku_Name_STATUS
-var loadBalancerSku_Name_STATUS_Values = map[string]LoadBalancerSku_Name_STATUS{
-	"basic":    LoadBalancerSku_Name_STATUS_Basic,
-	"standard": LoadBalancerSku_Name_STATUS_Standard,
+// Mapping from string to LoadBalancerSku_Name_STATUS_ARM
+var loadBalancerSku_Name_STATUS_ARM_Values = map[string]LoadBalancerSku_Name_STATUS_ARM{
+	"basic":    LoadBalancerSku_Name_STATUS_ARM_Basic,
+	"standard": LoadBalancerSku_Name_STATUS_ARM_Standard,
 }
 
-type LoadBalancerSku_Tier_STATUS string
+type LoadBalancerSku_Tier_STATUS_ARM string
 
 const (
-	LoadBalancerSku_Tier_STATUS_Global   = LoadBalancerSku_Tier_STATUS("Global")
-	LoadBalancerSku_Tier_STATUS_Regional = LoadBalancerSku_Tier_STATUS("Regional")
+	LoadBalancerSku_Tier_STATUS_ARM_Global   = LoadBalancerSku_Tier_STATUS_ARM("Global")
+	LoadBalancerSku_Tier_STATUS_ARM_Regional = LoadBalancerSku_Tier_STATUS_ARM("Regional")
 )
 
-// Mapping from string to LoadBalancerSku_Tier_STATUS
-var loadBalancerSku_Tier_STATUS_Values = map[string]LoadBalancerSku_Tier_STATUS{
-	"global":   LoadBalancerSku_Tier_STATUS_Global,
-	"regional": LoadBalancerSku_Tier_STATUS_Regional,
+// Mapping from string to LoadBalancerSku_Tier_STATUS_ARM
+var loadBalancerSku_Tier_STATUS_ARM_Values = map[string]LoadBalancerSku_Tier_STATUS_ARM{
+	"global":   LoadBalancerSku_Tier_STATUS_ARM_Global,
+	"regional": LoadBalancerSku_Tier_STATUS_ARM_Regional,
 }
 
 // A load balancing rule for a load balancer.
@@ -260,6 +260,24 @@ type Probe_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The current provisioning state.
+type ProvisioningState_STATUS_ARM string
+
+const (
+	ProvisioningState_STATUS_ARM_Deleting  = ProvisioningState_STATUS_ARM("Deleting")
+	ProvisioningState_STATUS_ARM_Failed    = ProvisioningState_STATUS_ARM("Failed")
+	ProvisioningState_STATUS_ARM_Succeeded = ProvisioningState_STATUS_ARM("Succeeded")
+	ProvisioningState_STATUS_ARM_Updating  = ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ProvisioningState_STATUS_ARM
+var provisioningState_STATUS_ARM_Values = map[string]ProvisioningState_STATUS_ARM{
+	"deleting":  ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  ProvisioningState_STATUS_ARM_Updating,
+}
+
 // Properties of the backend address pool.
 type BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// BackendIPConfigurations: An array of references to IP addresses defined in network interfaces.
@@ -278,7 +296,7 @@ type BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_
 	OutboundRules []SubResource_STATUS_ARM `json:"outboundRules,omitempty"`
 
 	// ProvisioningState: The provisioning state of the backend address pool resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
 // Properties of Frontend IP Configuration of the load balancer.
@@ -299,13 +317,13 @@ type FrontendIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
-	PrivateIPAddressVersion *IPVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *IPVersion_STATUS_ARM `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The Private IP allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_STATUS_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// ProvisioningState: The provisioning state of the frontend IP configuration resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: The reference to the Public IP resource.
 	PublicIPAddress *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`
@@ -347,10 +365,10 @@ type InboundNatPoolPropertiesFormat_STATUS_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the inbound NAT pool.
-	Protocol *TransportProtocol_STATUS `json:"protocol,omitempty"`
+	Protocol *TransportProtocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the inbound NAT pool resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
 // Properties of the inbound NAT rule.
@@ -383,10 +401,10 @@ type InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM 
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol_STATUS `json:"protocol,omitempty"`
+	Protocol *TransportProtocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the inbound NAT rule resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
 // Properties of the load balancer.
@@ -424,16 +442,16 @@ type LoadBalancingRulePropertiesFormat_STATUS_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// LoadDistribution: The load distribution policy for this rule.
-	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS `json:"loadDistribution,omitempty"`
+	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM `json:"loadDistribution,omitempty"`
 
 	// Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResource_STATUS_ARM `json:"probe,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol_STATUS `json:"protocol,omitempty"`
+	Protocol *TransportProtocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the load balancing rule resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
 // Outbound rule of the load balancer.
@@ -456,10 +474,10 @@ type OutboundRulePropertiesFormat_STATUS_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The protocol for the outbound rule in load balancer.
-	Protocol *OutboundRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
+	Protocol *OutboundRulePropertiesFormat_Protocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the outbound rule resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
 // Load balancer probe resource.
@@ -483,10 +501,10 @@ type ProbePropertiesFormat_STATUS_ARM struct {
 	// Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	// successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	// successful.
-	Protocol *ProbePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
+	Protocol *ProbePropertiesFormat_Protocol_STATUS_ARM `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the probe resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 
 	// RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
 	// Otherwise, it is not allowed. There is no default value.
@@ -502,10 +520,55 @@ type LoadBalancerBackendAddress_STATUS_ARM struct {
 	Properties *LoadBalancerBackendAddressPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
+type LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM string
+
+const (
+	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_Default          = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM("Default")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_SourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM("SourceIP")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM("SourceIPProtocol")
+)
+
+// Mapping from string to LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM
+var loadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_Values = map[string]LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM{
+	"default":          LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_Default,
+	"sourceip":         LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_SourceIP,
+	"sourceipprotocol": LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM_SourceIPProtocol,
+}
+
 // IPConfiguration in a network interface.
 type NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
+}
+
+type OutboundRulePropertiesFormat_Protocol_STATUS_ARM string
+
+const (
+	OutboundRulePropertiesFormat_Protocol_STATUS_ARM_All = OutboundRulePropertiesFormat_Protocol_STATUS_ARM("All")
+	OutboundRulePropertiesFormat_Protocol_STATUS_ARM_Tcp = OutboundRulePropertiesFormat_Protocol_STATUS_ARM("Tcp")
+	OutboundRulePropertiesFormat_Protocol_STATUS_ARM_Udp = OutboundRulePropertiesFormat_Protocol_STATUS_ARM("Udp")
+)
+
+// Mapping from string to OutboundRulePropertiesFormat_Protocol_STATUS_ARM
+var outboundRulePropertiesFormat_Protocol_STATUS_ARM_Values = map[string]OutboundRulePropertiesFormat_Protocol_STATUS_ARM{
+	"all": OutboundRulePropertiesFormat_Protocol_STATUS_ARM_All,
+	"tcp": OutboundRulePropertiesFormat_Protocol_STATUS_ARM_Tcp,
+	"udp": OutboundRulePropertiesFormat_Protocol_STATUS_ARM_Udp,
+}
+
+type ProbePropertiesFormat_Protocol_STATUS_ARM string
+
+const (
+	ProbePropertiesFormat_Protocol_STATUS_ARM_Http  = ProbePropertiesFormat_Protocol_STATUS_ARM("Http")
+	ProbePropertiesFormat_Protocol_STATUS_ARM_Https = ProbePropertiesFormat_Protocol_STATUS_ARM("Https")
+	ProbePropertiesFormat_Protocol_STATUS_ARM_Tcp   = ProbePropertiesFormat_Protocol_STATUS_ARM("Tcp")
+)
+
+// Mapping from string to ProbePropertiesFormat_Protocol_STATUS_ARM
+var probePropertiesFormat_Protocol_STATUS_ARM_Values = map[string]ProbePropertiesFormat_Protocol_STATUS_ARM{
+	"http":  ProbePropertiesFormat_Protocol_STATUS_ARM_Http,
+	"https": ProbePropertiesFormat_Protocol_STATUS_ARM_Https,
+	"tcp":   ProbePropertiesFormat_Protocol_STATUS_ARM_Tcp,
 }
 
 // Public IP address resource.

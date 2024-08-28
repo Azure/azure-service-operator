@@ -84,7 +84,7 @@ func AFDOriginGroupProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAFDOriginGroupProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAFDOriginGroupProperties_ARM(gens map[string]gopter.Gen) {
-	gens["SessionAffinityState"] = gen.PtrOf(gen.OneConstOf(AFDOriginGroupProperties_SessionAffinityState_Disabled, AFDOriginGroupProperties_SessionAffinityState_Enabled))
+	gens["SessionAffinityState"] = gen.PtrOf(gen.OneConstOf(AFDOriginGroupProperties_SessionAffinityState_ARM_Disabled, AFDOriginGroupProperties_SessionAffinityState_ARM_Enabled))
 	gens["TrafficRestorationTimeToHealedOrNewEndpointsInMinutes"] = gen.PtrOf(gen.Int())
 }
 
@@ -154,8 +154,8 @@ func HealthProbeParameters_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHealthProbeParameters_ARM(gens map[string]gopter.Gen) {
 	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeProtocol_Http, HealthProbeParameters_ProbeProtocol_Https, HealthProbeParameters_ProbeProtocol_NotSet))
-	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeRequestType_GET, HealthProbeParameters_ProbeRequestType_HEAD, HealthProbeParameters_ProbeRequestType_NotSet))
+	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeProtocol_ARM_Http, HealthProbeParameters_ProbeProtocol_ARM_Https, HealthProbeParameters_ProbeProtocol_ARM_NotSet))
+	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeRequestType_ARM_GET, HealthProbeParameters_ProbeRequestType_ARM_HEAD, HealthProbeParameters_ProbeRequestType_ARM_NotSet))
 }
 
 func Test_LoadBalancingSettingsParameters_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

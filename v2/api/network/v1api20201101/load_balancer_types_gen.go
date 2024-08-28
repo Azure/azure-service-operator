@@ -1482,7 +1482,9 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			balancer.ProvisioningState = &provisioningState
 		}
 	}
@@ -2216,7 +2218,9 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			embedded.ProvisioningState = &provisioningState
 		}
 	}
@@ -2491,7 +2495,9 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if location.Type != nil {
-		typeVar := *location.Type
+		var temp string
+		temp = string(*location.Type)
+		typeVar := ExtendedLocationType_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -2517,7 +2523,9 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType(temp)
 		location.Type = &typeVar
 	}
 
@@ -2620,7 +2628,9 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ExtendedLocationType_STATUS(temp)
 		location.Type = &typeVar
 	}
 
@@ -2731,11 +2741,15 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 		result.Properties.PrivateIPAddress = &privateIPAddress
 	}
 	if embedded.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := *embedded.PrivateIPAddressVersion
+		var temp string
+		temp = string(*embedded.PrivateIPAddressVersion)
+		privateIPAddressVersion := IPVersion_ARM(temp)
 		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
 	}
 	if embedded.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := *embedded.PrivateIPAllocationMethod
+		var temp string
+		temp = string(*embedded.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := IPAllocationMethod_ARM(temp)
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if embedded.PublicIPAddress != nil {
@@ -2801,7 +2815,9 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Popula
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
-			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAddressVersion)
+			privateIPAddressVersion := IPVersion(temp)
 			embedded.PrivateIPAddressVersion = &privateIPAddressVersion
 		}
 	}
@@ -2810,7 +2826,9 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Popula
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
-			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAllocationMethod)
+			privateIPAllocationMethod := IPAllocationMethod(temp)
 			embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
 		}
 	}
@@ -3230,7 +3248,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
-			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAddressVersion)
+			privateIPAddressVersion := IPVersion_STATUS(temp)
 			embedded.PrivateIPAddressVersion = &privateIPAddressVersion
 		}
 	}
@@ -3239,7 +3259,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
-			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAllocationMethod)
+			privateIPAllocationMethod := IPAllocationMethod_STATUS(temp)
 			embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
 		}
 	}
@@ -3248,7 +3270,9 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			embedded.ProvisioningState = &provisioningState
 		}
 	}
@@ -3736,7 +3760,9 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	if pool.Protocol != nil {
-		protocol := *pool.Protocol
+		var temp string
+		temp = string(*pool.Protocol)
+		protocol := TransportProtocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -3832,7 +3858,9 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := TransportProtocol(temp)
 			pool.Protocol = &protocol
 		}
 	}
@@ -4178,7 +4206,9 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := TransportProtocol_STATUS(temp)
 			pool.Protocol = &protocol
 		}
 	}
@@ -4187,7 +4217,9 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			pool.ProvisioningState = &provisioningState
 		}
 	}
@@ -4450,7 +4482,9 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) ConvertToARM(re
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	if embedded.Protocol != nil {
-		protocol := *embedded.Protocol
+		var temp string
+		temp = string(*embedded.Protocol)
+		protocol := TransportProtocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -4537,7 +4571,9 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := TransportProtocol(temp)
 			embedded.Protocol = &protocol
 		}
 	}
@@ -4879,7 +4915,9 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := TransportProtocol_STATUS(temp)
 			embedded.Protocol = &protocol
 		}
 	}
@@ -4888,7 +4926,9 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			embedded.ProvisioningState = &provisioningState
 		}
 	}
@@ -5102,13 +5142,17 @@ func (balancerSku *LoadBalancerSku) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Name":
 	if balancerSku.Name != nil {
-		name := *balancerSku.Name
+		var temp string
+		temp = string(*balancerSku.Name)
+		name := LoadBalancerSku_Name_ARM(temp)
 		result.Name = &name
 	}
 
 	// Set property "Tier":
 	if balancerSku.Tier != nil {
-		tier := *balancerSku.Tier
+		var temp string
+		temp = string(*balancerSku.Tier)
+		tier := LoadBalancerSku_Tier_ARM(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -5128,13 +5172,17 @@ func (balancerSku *LoadBalancerSku) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := LoadBalancerSku_Name(temp)
 		balancerSku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := LoadBalancerSku_Tier(temp)
 		balancerSku.Tier = &tier
 	}
 
@@ -5247,13 +5295,17 @@ func (balancerSku *LoadBalancerSku_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := LoadBalancerSku_Name_STATUS(temp)
 		balancerSku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := LoadBalancerSku_Tier_STATUS(temp)
 		balancerSku.Tier = &tier
 	}
 
@@ -5438,7 +5490,9 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	if rule.LoadDistribution != nil {
-		loadDistribution := *rule.LoadDistribution
+		var temp string
+		temp = string(*rule.LoadDistribution)
+		loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution_ARM(temp)
 		result.Properties.LoadDistribution = &loadDistribution
 	}
 	if rule.Probe != nil {
@@ -5450,7 +5504,9 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.Probe = &probe
 	}
 	if rule.Protocol != nil {
-		protocol := *rule.Protocol
+		var temp string
+		temp = string(*rule.Protocol)
+		protocol := TransportProtocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -5554,7 +5610,9 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LoadDistribution != nil {
-			loadDistribution := *typedInput.Properties.LoadDistribution
+			var temp string
+			temp = string(*typedInput.Properties.LoadDistribution)
+			loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution(temp)
 			rule.LoadDistribution = &loadDistribution
 		}
 	}
@@ -5583,7 +5641,9 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := TransportProtocol(temp)
 			rule.Protocol = &protocol
 		}
 	}
@@ -6060,7 +6120,9 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LoadDistribution != nil {
-			loadDistribution := *typedInput.Properties.LoadDistribution
+			var temp string
+			temp = string(*typedInput.Properties.LoadDistribution)
+			loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS(temp)
 			rule.LoadDistribution = &loadDistribution
 		}
 	}
@@ -6089,7 +6151,9 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := TransportProtocol_STATUS(temp)
 			rule.Protocol = &protocol
 		}
 	}
@@ -6098,7 +6162,9 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			rule.ProvisioningState = &provisioningState
 		}
 	}
@@ -6431,7 +6497,9 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 	if rule.Protocol != nil {
-		protocol := *rule.Protocol
+		var temp string
+		temp = string(*rule.Protocol)
+		protocol := OutboundRulePropertiesFormat_Protocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -6513,7 +6581,9 @@ func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := OutboundRulePropertiesFormat_Protocol(temp)
 			rule.Protocol = &protocol
 		}
 	}
@@ -6847,7 +6917,9 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := OutboundRulePropertiesFormat_Protocol_STATUS(temp)
 			rule.Protocol = &protocol
 		}
 	}
@@ -6856,7 +6928,9 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			rule.ProvisioningState = &provisioningState
 		}
 	}
@@ -7107,7 +7181,9 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 		result.Properties.Port = &port
 	}
 	if probe.Protocol != nil {
-		protocol := *probe.Protocol
+		var temp string
+		temp = string(*probe.Protocol)
+		protocol := ProbePropertiesFormat_Protocol_ARM(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if probe.RequestPath != nil {
@@ -7166,7 +7242,9 @@ func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := ProbePropertiesFormat_Protocol(temp)
 			probe.Protocol = &protocol
 		}
 	}
@@ -7404,7 +7482,9 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
+			var temp string
+			temp = string(*typedInput.Properties.Protocol)
+			protocol := ProbePropertiesFormat_Protocol_STATUS(temp)
 			probe.Protocol = &protocol
 		}
 	}
@@ -7413,7 +7493,9 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
 			probe.ProvisioningState = &provisioningState
 		}
 	}
@@ -7594,6 +7676,27 @@ var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
 	"failed":    ProvisioningState_STATUS_Failed,
 	"succeeded": ProvisioningState_STATUS_Succeeded,
 	"updating":  ProvisioningState_STATUS_Updating,
+}
+
+// The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
+// +kubebuilder:validation:Enum={"EdgeZone"}
+type ExtendedLocationType string
+
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
+// The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
+type ExtendedLocationType_STATUS string
+
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+
+// Mapping from string to ExtendedLocationType_STATUS
+var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
+	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
 }
 
 // Load balancer backend addresses.
@@ -8135,6 +8238,60 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_To_LoadBalanc
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Basic","Standard"}
+type LoadBalancerSku_Name string
+
+const (
+	LoadBalancerSku_Name_Basic    = LoadBalancerSku_Name("Basic")
+	LoadBalancerSku_Name_Standard = LoadBalancerSku_Name("Standard")
+)
+
+// Mapping from string to LoadBalancerSku_Name
+var loadBalancerSku_Name_Values = map[string]LoadBalancerSku_Name{
+	"basic":    LoadBalancerSku_Name_Basic,
+	"standard": LoadBalancerSku_Name_Standard,
+}
+
+type LoadBalancerSku_Name_STATUS string
+
+const (
+	LoadBalancerSku_Name_STATUS_Basic    = LoadBalancerSku_Name_STATUS("Basic")
+	LoadBalancerSku_Name_STATUS_Standard = LoadBalancerSku_Name_STATUS("Standard")
+)
+
+// Mapping from string to LoadBalancerSku_Name_STATUS
+var loadBalancerSku_Name_STATUS_Values = map[string]LoadBalancerSku_Name_STATUS{
+	"basic":    LoadBalancerSku_Name_STATUS_Basic,
+	"standard": LoadBalancerSku_Name_STATUS_Standard,
+}
+
+// +kubebuilder:validation:Enum={"Global","Regional"}
+type LoadBalancerSku_Tier string
+
+const (
+	LoadBalancerSku_Tier_Global   = LoadBalancerSku_Tier("Global")
+	LoadBalancerSku_Tier_Regional = LoadBalancerSku_Tier("Regional")
+)
+
+// Mapping from string to LoadBalancerSku_Tier
+var loadBalancerSku_Tier_Values = map[string]LoadBalancerSku_Tier{
+	"global":   LoadBalancerSku_Tier_Global,
+	"regional": LoadBalancerSku_Tier_Regional,
+}
+
+type LoadBalancerSku_Tier_STATUS string
+
+const (
+	LoadBalancerSku_Tier_STATUS_Global   = LoadBalancerSku_Tier_STATUS("Global")
+	LoadBalancerSku_Tier_STATUS_Regional = LoadBalancerSku_Tier_STATUS("Regional")
+)
+
+// Mapping from string to LoadBalancerSku_Tier_STATUS
+var loadBalancerSku_Tier_STATUS_Values = map[string]LoadBalancerSku_Tier_STATUS{
+	"global":   LoadBalancerSku_Tier_STATUS_Global,
+	"regional": LoadBalancerSku_Tier_STATUS_Regional,
 }
 
 // +kubebuilder:validation:Enum={"Default","SourceIP","SourceIPProtocol"}

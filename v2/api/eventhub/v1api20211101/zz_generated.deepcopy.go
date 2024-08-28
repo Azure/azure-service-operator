@@ -75,7 +75,7 @@ func (in *CaptureDescription_ARM) DeepCopyInto(out *CaptureDescription_ARM) {
 	}
 	if in.Encoding != nil {
 		in, out := &in.Encoding, &out.Encoding
-		*out = new(CaptureDescription_Encoding)
+		*out = new(CaptureDescription_Encoding_ARM)
 		**out = **in
 	}
 	if in.IntervalInSeconds != nil {
@@ -165,7 +165,7 @@ func (in *CaptureDescription_STATUS_ARM) DeepCopyInto(out *CaptureDescription_ST
 	}
 	if in.Encoding != nil {
 		in, out := &in.Encoding, &out.Encoding
-		*out = new(CaptureDescription_Encoding_STATUS)
+		*out = new(CaptureDescription_Encoding_STATUS_ARM)
 		**out = **in
 	}
 	if in.IntervalInSeconds != nil {
@@ -472,7 +472,7 @@ func (in *Encryption_ARM) DeepCopyInto(out *Encryption_ARM) {
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(Encryption_KeySource)
+		*out = new(Encryption_KeySource_ARM)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -536,7 +536,7 @@ func (in *Encryption_STATUS_ARM) DeepCopyInto(out *Encryption_STATUS_ARM) {
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(Encryption_KeySource_STATUS)
+		*out = new(Encryption_KeySource_STATUS_ARM)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -593,7 +593,7 @@ func (in *Identity_ARM) DeepCopyInto(out *Identity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type)
+		*out = new(Identity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -667,7 +667,7 @@ func (in *Identity_STATUS_ARM) DeepCopyInto(out *Identity_STATUS_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Identity_Type_STATUS)
+		*out = new(Identity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -1773,7 +1773,7 @@ func (in *Namespaces_AuthorizationRule_Properties_STATUS_ARM) DeepCopyInto(out *
 	*out = *in
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = make([]Namespaces_AuthorizationRule_Properties_Rights_STATUS, len(*in))
+		*out = make([]Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -1793,7 +1793,7 @@ func (in *Namespaces_AuthorizationRule_Properties_Spec_ARM) DeepCopyInto(out *Na
 	*out = *in
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = make([]Namespaces_AuthorizationRule_Properties_Rights_Spec, len(*in))
+		*out = make([]Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -1985,7 +1985,7 @@ func (in *Namespaces_Eventhub_Properties_STATUS_ARM) DeepCopyInto(out *Namespace
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(Namespaces_Eventhub_Properties_Status_STATUS)
+		*out = new(Namespaces_Eventhub_Properties_Status_STATUS_ARM)
 		**out = **in
 	}
 	if in.UpdatedAt != nil {
@@ -2222,7 +2222,7 @@ func (in *Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM) DeepCopy
 	*out = *in
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = make([]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS, len(*in))
+		*out = make([]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -2242,7 +2242,7 @@ func (in *Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM) DeepCopyIn
 	*out = *in
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = make([]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec, len(*in))
+		*out = make([]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -2686,12 +2686,12 @@ func (in *Sku_ARM) DeepCopyInto(out *Sku_ARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name)
+		*out = new(Sku_Name_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(Sku_Tier)
+		*out = new(Sku_Tier_ARM)
 		**out = **in
 	}
 }
@@ -2746,12 +2746,12 @@ func (in *Sku_STATUS_ARM) DeepCopyInto(out *Sku_STATUS_ARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name_STATUS)
+		*out = new(Sku_Name_STATUS_ARM)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(Sku_Tier_STATUS)
+		*out = new(Sku_Tier_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -2826,7 +2826,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemData_CreatedByType_STATUS)
+		*out = new(SystemData_CreatedByType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2841,7 +2841,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemData_LastModifiedByType_STATUS)
+		*out = new(SystemData_LastModifiedByType_STATUS_ARM)
 		**out = **in
 	}
 }

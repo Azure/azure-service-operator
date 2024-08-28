@@ -66,7 +66,7 @@ type ManagedClusterUpgradeSpec_ARM struct {
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
 	// Type: ManagedClusterUpgradeType is the type of upgrade to be applied.
-	Type *ManagedClusterUpgradeType `json:"type,omitempty"`
+	Type *ManagedClusterUpgradeType_ARM `json:"type,omitempty"`
 }
 
 // Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
@@ -81,6 +81,21 @@ type UpdateStage_ARM struct {
 
 	// Name: The name of the stage. Must be unique within the UpdateRun.
 	Name *string `json:"name,omitempty"`
+}
+
+// The type of upgrade to perform when targeting ManagedClusters.
+// +kubebuilder:validation:Enum={"Full","NodeImageOnly"}
+type ManagedClusterUpgradeType_ARM string
+
+const (
+	ManagedClusterUpgradeType_ARM_Full          = ManagedClusterUpgradeType_ARM("Full")
+	ManagedClusterUpgradeType_ARM_NodeImageOnly = ManagedClusterUpgradeType_ARM("NodeImageOnly")
+)
+
+// Mapping from string to ManagedClusterUpgradeType_ARM
+var managedClusterUpgradeType_ARM_Values = map[string]ManagedClusterUpgradeType_ARM{
+	"full":          ManagedClusterUpgradeType_ARM_Full,
+	"nodeimageonly": ManagedClusterUpgradeType_ARM_NodeImageOnly,
 }
 
 // A group to be updated.

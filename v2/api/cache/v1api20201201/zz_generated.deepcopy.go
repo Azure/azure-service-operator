@@ -92,12 +92,12 @@ func (in *RedisCreateProperties_ARM) DeepCopyInto(out *RedisCreateProperties_ARM
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(RedisCreateProperties_MinimumTlsVersion)
+		*out = new(RedisCreateProperties_MinimumTlsVersion_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(RedisCreateProperties_PublicNetworkAccess)
+		*out = new(RedisCreateProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.RedisConfiguration != nil {
@@ -564,7 +564,7 @@ func (in *RedisLinkedServerCreateProperties_ARM) DeepCopyInto(out *RedisLinkedSe
 	}
 	if in.ServerRole != nil {
 		in, out := &in.ServerRole, &out.ServerRole
-		*out = new(RedisLinkedServerCreateProperties_ServerRole)
+		*out = new(RedisLinkedServerCreateProperties_ServerRole_ARM)
 		**out = **in
 	}
 }
@@ -631,7 +631,7 @@ func (in *RedisLinkedServerProperties_STATUS_ARM) DeepCopyInto(out *RedisLinkedS
 	}
 	if in.ServerRole != nil {
 		in, out := &in.ServerRole, &out.ServerRole
-		*out = new(RedisLinkedServerProperties_ServerRole_STATUS)
+		*out = new(RedisLinkedServerProperties_ServerRole_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1050,7 +1050,7 @@ func (in *RedisProperties_STATUS_ARM) DeepCopyInto(out *RedisProperties_STATUS_A
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(RedisProperties_MinimumTlsVersion_STATUS)
+		*out = new(RedisProperties_MinimumTlsVersion_STATUS_ARM)
 		**out = **in
 	}
 	if in.Port != nil {
@@ -1067,12 +1067,12 @@ func (in *RedisProperties_STATUS_ARM) DeepCopyInto(out *RedisProperties_STATUS_A
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(RedisProperties_ProvisioningState_STATUS)
+		*out = new(RedisProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(RedisProperties_PublicNetworkAccess_STATUS)
+		*out = new(RedisProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.RedisConfiguration != nil {
@@ -1983,7 +1983,7 @@ func (in *ScheduleEntry_ARM) DeepCopyInto(out *ScheduleEntry_ARM) {
 	*out = *in
 	if in.DayOfWeek != nil {
 		in, out := &in.DayOfWeek, &out.DayOfWeek
-		*out = new(ScheduleEntry_DayOfWeek)
+		*out = new(ScheduleEntry_DayOfWeek_ARM)
 		**out = **in
 	}
 	if in.MaintenanceWindow != nil {
@@ -2043,7 +2043,7 @@ func (in *ScheduleEntry_STATUS_ARM) DeepCopyInto(out *ScheduleEntry_STATUS_ARM) 
 	*out = *in
 	if in.DayOfWeek != nil {
 		in, out := &in.DayOfWeek, &out.DayOfWeek
-		*out = new(ScheduleEntry_DayOfWeek_STATUS)
+		*out = new(ScheduleEntry_DayOfWeek_STATUS_ARM)
 		**out = **in
 	}
 	if in.MaintenanceWindow != nil {
@@ -2108,12 +2108,12 @@ func (in *Sku_ARM) DeepCopyInto(out *Sku_ARM) {
 	}
 	if in.Family != nil {
 		in, out := &in.Family, &out.Family
-		*out = new(Sku_Family)
+		*out = new(Sku_Family_ARM)
 		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name)
+		*out = new(Sku_Name_ARM)
 		**out = **in
 	}
 }
@@ -2168,12 +2168,12 @@ func (in *Sku_STATUS_ARM) DeepCopyInto(out *Sku_STATUS_ARM) {
 	}
 	if in.Family != nil {
 		in, out := &in.Family, &out.Family
-		*out = new(Sku_Family_STATUS)
+		*out = new(Sku_Family_STATUS_ARM)
 		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name_STATUS)
+		*out = new(Sku_Name_STATUS_ARM)
 		**out = **in
 	}
 }

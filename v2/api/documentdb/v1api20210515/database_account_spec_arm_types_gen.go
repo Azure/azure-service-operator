@@ -13,7 +13,7 @@ type DatabaseAccount_Spec_ARM struct {
 	Identity *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
-	Kind *DatabaseAccount_Kind_Spec `json:"kind,omitempty"`
+	Kind *DatabaseAccount_Kind_Spec_ARM `json:"kind,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -42,19 +42,19 @@ func (account *DatabaseAccount_Spec_ARM) GetType() string {
 }
 
 // +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
-type DatabaseAccount_Kind_Spec string
+type DatabaseAccount_Kind_Spec_ARM string
 
 const (
-	DatabaseAccount_Kind_Spec_GlobalDocumentDB = DatabaseAccount_Kind_Spec("GlobalDocumentDB")
-	DatabaseAccount_Kind_Spec_MongoDB          = DatabaseAccount_Kind_Spec("MongoDB")
-	DatabaseAccount_Kind_Spec_Parse            = DatabaseAccount_Kind_Spec("Parse")
+	DatabaseAccount_Kind_Spec_ARM_GlobalDocumentDB = DatabaseAccount_Kind_Spec_ARM("GlobalDocumentDB")
+	DatabaseAccount_Kind_Spec_ARM_MongoDB          = DatabaseAccount_Kind_Spec_ARM("MongoDB")
+	DatabaseAccount_Kind_Spec_ARM_Parse            = DatabaseAccount_Kind_Spec_ARM("Parse")
 )
 
-// Mapping from string to DatabaseAccount_Kind_Spec
-var databaseAccount_Kind_Spec_Values = map[string]DatabaseAccount_Kind_Spec{
-	"globaldocumentdb": DatabaseAccount_Kind_Spec_GlobalDocumentDB,
-	"mongodb":          DatabaseAccount_Kind_Spec_MongoDB,
-	"parse":            DatabaseAccount_Kind_Spec_Parse,
+// Mapping from string to DatabaseAccount_Kind_Spec_ARM
+var databaseAccount_Kind_Spec_ARM_Values = map[string]DatabaseAccount_Kind_Spec_ARM{
+	"globaldocumentdb": DatabaseAccount_Kind_Spec_ARM_GlobalDocumentDB,
+	"mongodb":          DatabaseAccount_Kind_Spec_ARM_MongoDB,
+	"parse":            DatabaseAccount_Kind_Spec_ARM_Parse,
 }
 
 // Properties to create and update Azure Cosmos DB database accounts.
@@ -72,7 +72,7 @@ type DatabaseAccountCreateUpdateProperties_ARM struct {
 	Capabilities []Capability_ARM `json:"capabilities,omitempty"`
 
 	// ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.
-	ConnectorOffer *ConnectorOffer `json:"connectorOffer,omitempty"`
+	ConnectorOffer *ConnectorOffer_ARM `json:"connectorOffer,omitempty"`
 
 	// ConsistencyPolicy: The consistency policy for the Cosmos DB account.
 	ConsistencyPolicy *ConsistencyPolicy_ARM `json:"consistencyPolicy,omitempty"`
@@ -81,7 +81,7 @@ type DatabaseAccountCreateUpdateProperties_ARM struct {
 	Cors []CorsPolicy_ARM `json:"cors,omitempty"`
 
 	// DatabaseAccountOfferType: The offer type for the database
-	DatabaseAccountOfferType *DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
+	DatabaseAccountOfferType *DatabaseAccountOfferType_ARM `json:"databaseAccountOfferType,omitempty"`
 
 	// DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
 	// identity needs to be explicitly set by the users. It can be "FirstPartyIdentity", "SystemAssignedIdentity" and more.
@@ -121,13 +121,13 @@ type DatabaseAccountCreateUpdateProperties_ARM struct {
 	Locations []Location_ARM `json:"locations,omitempty"`
 
 	// NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
-	NetworkAclBypass *NetworkAclBypass `json:"networkAclBypass,omitempty"`
+	NetworkAclBypass *NetworkAclBypass_ARM `json:"networkAclBypass,omitempty"`
 
 	// NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
 	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.
 	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
@@ -137,19 +137,19 @@ type DatabaseAccountCreateUpdateProperties_ARM struct {
 type ManagedServiceIdentity_ARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
-	Type                   *ManagedServiceIdentity_Type               `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentity_Type_ARM           `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Analytical storage specific properties.
 type AnalyticalStorageConfiguration_ARM struct {
 	// SchemaType: Describes the types of schema for analytical storage.
-	SchemaType *AnalyticalStorageSchemaType `json:"schemaType,omitempty"`
+	SchemaType *AnalyticalStorageSchemaType_ARM `json:"schemaType,omitempty"`
 }
 
 type ApiProperties_ARM struct {
 	// ServerVersion: Describes the ServerVersion of an a MongoDB account.
-	ServerVersion *ApiProperties_ServerVersion `json:"serverVersion,omitempty"`
+	ServerVersion *ApiProperties_ServerVersion_ARM `json:"serverVersion,omitempty"`
 }
 
 type BackupPolicy_ARM struct {
@@ -199,10 +199,21 @@ type Capability_ARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// The cassandra connector offer type for the Cosmos DB C* database account.
+// +kubebuilder:validation:Enum={"Small"}
+type ConnectorOffer_ARM string
+
+const ConnectorOffer_ARM_Small = ConnectorOffer_ARM("Small")
+
+// Mapping from string to ConnectorOffer_ARM
+var connectorOffer_ARM_Values = map[string]ConnectorOffer_ARM{
+	"small": ConnectorOffer_ARM_Small,
+}
+
 // The consistency policy for the Cosmos DB database account.
 type ConsistencyPolicy_ARM struct {
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
-	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
+	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel_ARM `json:"defaultConsistencyLevel,omitempty"`
 
 	// MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
 	// staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
@@ -234,6 +245,17 @@ type CorsPolicy_ARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
+// The offer type for the Cosmos DB database account.
+// +kubebuilder:validation:Enum={"Standard"}
+type DatabaseAccountOfferType_ARM string
+
+const DatabaseAccountOfferType_ARM_Standard = DatabaseAccountOfferType_ARM("Standard")
+
+// Mapping from string to DatabaseAccountOfferType_ARM
+var databaseAccountOfferType_ARM_Values = map[string]DatabaseAccountOfferType_ARM{
+	"standard": DatabaseAccountOfferType_ARM_Standard,
+}
+
 // IpAddressOrRange object
 type IpAddressOrRange_ARM struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
@@ -258,21 +280,51 @@ type Location_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type ManagedServiceIdentity_Type string
+type ManagedServiceIdentity_Type_ARM string
 
 const (
-	ManagedServiceIdentity_Type_None                       = ManagedServiceIdentity_Type("None")
-	ManagedServiceIdentity_Type_SystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
-	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned,UserAssigned")
-	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
+	ManagedServiceIdentity_Type_ARM_None                       = ManagedServiceIdentity_Type_ARM("None")
+	ManagedServiceIdentity_Type_ARM_SystemAssigned             = ManagedServiceIdentity_Type_ARM("SystemAssigned")
+	ManagedServiceIdentity_Type_ARM_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_ARM("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_ARM_UserAssigned               = ManagedServiceIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedServiceIdentity_Type
-var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
-	"none":                        ManagedServiceIdentity_Type_None,
-	"systemassigned":              ManagedServiceIdentity_Type_SystemAssigned,
-	"systemassigned,userassigned": ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                ManagedServiceIdentity_Type_UserAssigned,
+// Mapping from string to ManagedServiceIdentity_Type_ARM
+var managedServiceIdentity_Type_ARM_Values = map[string]ManagedServiceIdentity_Type_ARM{
+	"none":                        ManagedServiceIdentity_Type_ARM_None,
+	"systemassigned":              ManagedServiceIdentity_Type_ARM_SystemAssigned,
+	"systemassigned,userassigned": ManagedServiceIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                ManagedServiceIdentity_Type_ARM_UserAssigned,
+}
+
+// Indicates what services are allowed to bypass firewall checks.
+// +kubebuilder:validation:Enum={"AzureServices","None"}
+type NetworkAclBypass_ARM string
+
+const (
+	NetworkAclBypass_ARM_AzureServices = NetworkAclBypass_ARM("AzureServices")
+	NetworkAclBypass_ARM_None          = NetworkAclBypass_ARM("None")
+)
+
+// Mapping from string to NetworkAclBypass_ARM
+var networkAclBypass_ARM_Values = map[string]NetworkAclBypass_ARM{
+	"azureservices": NetworkAclBypass_ARM_AzureServices,
+	"none":          NetworkAclBypass_ARM_None,
+}
+
+// Whether requests from Public Network are allowed
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PublicNetworkAccess_ARM string
+
+const (
+	PublicNetworkAccess_ARM_Disabled = PublicNetworkAccess_ARM("Disabled")
+	PublicNetworkAccess_ARM_Enabled  = PublicNetworkAccess_ARM("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccess_ARM
+var publicNetworkAccess_ARM_Values = map[string]PublicNetworkAccess_ARM{
+	"disabled": PublicNetworkAccess_ARM_Disabled,
+	"enabled":  PublicNetworkAccess_ARM_Enabled,
 }
 
 // Information about the user assigned identity for the resource
@@ -287,14 +339,85 @@ type VirtualNetworkRule_ARM struct {
 	IgnoreMissingVNetServiceEndpoint *bool `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 }
 
+// Describes the types of schema for analytical storage.
+// +kubebuilder:validation:Enum={"FullFidelity","WellDefined"}
+type AnalyticalStorageSchemaType_ARM string
+
+const (
+	AnalyticalStorageSchemaType_ARM_FullFidelity = AnalyticalStorageSchemaType_ARM("FullFidelity")
+	AnalyticalStorageSchemaType_ARM_WellDefined  = AnalyticalStorageSchemaType_ARM("WellDefined")
+)
+
+// Mapping from string to AnalyticalStorageSchemaType_ARM
+var analyticalStorageSchemaType_ARM_Values = map[string]AnalyticalStorageSchemaType_ARM{
+	"fullfidelity": AnalyticalStorageSchemaType_ARM_FullFidelity,
+	"welldefined":  AnalyticalStorageSchemaType_ARM_WellDefined,
+}
+
+// +kubebuilder:validation:Enum={"3.2","3.6","4.0"}
+type ApiProperties_ServerVersion_ARM string
+
+const (
+	ApiProperties_ServerVersion_ARM_32 = ApiProperties_ServerVersion_ARM("3.2")
+	ApiProperties_ServerVersion_ARM_36 = ApiProperties_ServerVersion_ARM("3.6")
+	ApiProperties_ServerVersion_ARM_40 = ApiProperties_ServerVersion_ARM("4.0")
+)
+
+// Mapping from string to ApiProperties_ServerVersion_ARM
+var apiProperties_ServerVersion_ARM_Values = map[string]ApiProperties_ServerVersion_ARM{
+	"3.2": ApiProperties_ServerVersion_ARM_32,
+	"3.6": ApiProperties_ServerVersion_ARM_36,
+	"4.0": ApiProperties_ServerVersion_ARM_40,
+}
+
+// +kubebuilder:validation:Enum={"BoundedStaleness","ConsistentPrefix","Eventual","Session","Strong"}
+type ConsistencyPolicy_DefaultConsistencyLevel_ARM string
+
+const (
+	ConsistencyPolicy_DefaultConsistencyLevel_ARM_BoundedStaleness = ConsistencyPolicy_DefaultConsistencyLevel_ARM("BoundedStaleness")
+	ConsistencyPolicy_DefaultConsistencyLevel_ARM_ConsistentPrefix = ConsistencyPolicy_DefaultConsistencyLevel_ARM("ConsistentPrefix")
+	ConsistencyPolicy_DefaultConsistencyLevel_ARM_Eventual         = ConsistencyPolicy_DefaultConsistencyLevel_ARM("Eventual")
+	ConsistencyPolicy_DefaultConsistencyLevel_ARM_Session          = ConsistencyPolicy_DefaultConsistencyLevel_ARM("Session")
+	ConsistencyPolicy_DefaultConsistencyLevel_ARM_Strong           = ConsistencyPolicy_DefaultConsistencyLevel_ARM("Strong")
+)
+
+// Mapping from string to ConsistencyPolicy_DefaultConsistencyLevel_ARM
+var consistencyPolicy_DefaultConsistencyLevel_ARM_Values = map[string]ConsistencyPolicy_DefaultConsistencyLevel_ARM{
+	"boundedstaleness": ConsistencyPolicy_DefaultConsistencyLevel_ARM_BoundedStaleness,
+	"consistentprefix": ConsistencyPolicy_DefaultConsistencyLevel_ARM_ConsistentPrefix,
+	"eventual":         ConsistencyPolicy_DefaultConsistencyLevel_ARM_Eventual,
+	"session":          ConsistencyPolicy_DefaultConsistencyLevel_ARM_Session,
+	"strong":           ConsistencyPolicy_DefaultConsistencyLevel_ARM_Strong,
+}
+
 type ContinuousModeBackupPolicy_ARM struct {
-	Type ContinuousModeBackupPolicy_Type `json:"type,omitempty"`
+	Type ContinuousModeBackupPolicy_Type_ARM `json:"type,omitempty"`
 }
 
 type PeriodicModeBackupPolicy_ARM struct {
 	// PeriodicModeProperties: Configuration values for periodic mode backup
-	PeriodicModeProperties *PeriodicModeProperties_ARM   `json:"periodicModeProperties,omitempty"`
-	Type                   PeriodicModeBackupPolicy_Type `json:"type,omitempty"`
+	PeriodicModeProperties *PeriodicModeProperties_ARM       `json:"periodicModeProperties,omitempty"`
+	Type                   PeriodicModeBackupPolicy_Type_ARM `json:"type,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Continuous"}
+type ContinuousModeBackupPolicy_Type_ARM string
+
+const ContinuousModeBackupPolicy_Type_ARM_Continuous = ContinuousModeBackupPolicy_Type_ARM("Continuous")
+
+// Mapping from string to ContinuousModeBackupPolicy_Type_ARM
+var continuousModeBackupPolicy_Type_ARM_Values = map[string]ContinuousModeBackupPolicy_Type_ARM{
+	"continuous": ContinuousModeBackupPolicy_Type_ARM_Continuous,
+}
+
+// +kubebuilder:validation:Enum={"Periodic"}
+type PeriodicModeBackupPolicy_Type_ARM string
+
+const PeriodicModeBackupPolicy_Type_ARM_Periodic = PeriodicModeBackupPolicy_Type_ARM("Periodic")
+
+// Mapping from string to PeriodicModeBackupPolicy_Type_ARM
+var periodicModeBackupPolicy_Type_ARM_Values = map[string]PeriodicModeBackupPolicy_Type_ARM{
+	"periodic": PeriodicModeBackupPolicy_Type_ARM_Periodic,
 }
 
 // Configuration values for periodic mode backup

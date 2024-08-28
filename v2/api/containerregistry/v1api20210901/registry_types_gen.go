@@ -438,7 +438,9 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.Encryption = &encryption
 	}
 	if registry.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOptions := *registry.NetworkRuleBypassOptions
+		var temp string
+		temp = string(*registry.NetworkRuleBypassOptions)
+		networkRuleBypassOptions := RegistryProperties_NetworkRuleBypassOptions_ARM(temp)
 		result.Properties.NetworkRuleBypassOptions = &networkRuleBypassOptions
 	}
 	if registry.NetworkRuleSet != nil {
@@ -458,11 +460,15 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties.Policies = &policies
 	}
 	if registry.PublicNetworkAccess != nil {
-		publicNetworkAccess := *registry.PublicNetworkAccess
+		var temp string
+		temp = string(*registry.PublicNetworkAccess)
+		publicNetworkAccess := RegistryProperties_PublicNetworkAccess_ARM(temp)
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if registry.ZoneRedundancy != nil {
-		zoneRedundancy := *registry.ZoneRedundancy
+		var temp string
+		temp = string(*registry.ZoneRedundancy)
+		zoneRedundancy := RegistryProperties_ZoneRedundancy_ARM(temp)
 		result.Properties.ZoneRedundancy = &zoneRedundancy
 	}
 
@@ -554,7 +560,9 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkRuleBypassOptions != nil {
-			networkRuleBypassOptions := *typedInput.Properties.NetworkRuleBypassOptions
+			var temp string
+			temp = string(*typedInput.Properties.NetworkRuleBypassOptions)
+			networkRuleBypassOptions := RegistryProperties_NetworkRuleBypassOptions(temp)
 			registry.NetworkRuleBypassOptions = &networkRuleBypassOptions
 		}
 	}
@@ -597,7 +605,9 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := RegistryProperties_PublicNetworkAccess(temp)
 			registry.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -625,7 +635,9 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundancy != nil {
-			zoneRedundancy := *typedInput.Properties.ZoneRedundancy
+			var temp string
+			temp = string(*typedInput.Properties.ZoneRedundancy)
+			zoneRedundancy := RegistryProperties_ZoneRedundancy(temp)
 			registry.ZoneRedundancy = &zoneRedundancy
 		}
 	}
@@ -1297,7 +1309,9 @@ func (registry *Registry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkRuleBypassOptions != nil {
-			networkRuleBypassOptions := *typedInput.Properties.NetworkRuleBypassOptions
+			var temp string
+			temp = string(*typedInput.Properties.NetworkRuleBypassOptions)
+			networkRuleBypassOptions := RegistryProperties_NetworkRuleBypassOptions_STATUS(temp)
 			registry.NetworkRuleBypassOptions = &networkRuleBypassOptions
 		}
 	}
@@ -1347,7 +1361,9 @@ func (registry *Registry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := RegistryProperties_ProvisioningState_STATUS(temp)
 			registry.ProvisioningState = &provisioningState
 		}
 	}
@@ -1356,7 +1372,9 @@ func (registry *Registry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
-			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccess)
+			publicNetworkAccess := RegistryProperties_PublicNetworkAccess_STATUS(temp)
 			registry.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
@@ -1415,7 +1433,9 @@ func (registry *Registry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundancy != nil {
-			zoneRedundancy := *typedInput.Properties.ZoneRedundancy
+			var temp string
+			temp = string(*typedInput.Properties.ZoneRedundancy)
+			zoneRedundancy := RegistryProperties_ZoneRedundancy_STATUS(temp)
 			registry.ZoneRedundancy = &zoneRedundancy
 		}
 	}
@@ -1834,7 +1854,9 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Status":
 	if property.Status != nil {
-		status := *property.Status
+		var temp string
+		temp = string(*property.Status)
+		status := EncryptionProperty_Status_ARM(temp)
 		result.Status = &status
 	}
 	return result, nil
@@ -1865,7 +1887,9 @@ func (property *EncryptionProperty) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := EncryptionProperty_Status(temp)
 		property.Status = &status
 	}
 
@@ -1999,7 +2023,9 @@ func (property *EncryptionProperty_STATUS) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := EncryptionProperty_Status_STATUS(temp)
 		property.Status = &status
 	}
 
@@ -2112,7 +2138,9 @@ func (properties *IdentityProperties) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Type":
 	if properties.Type != nil {
-		typeVar := *properties.Type
+		var temp string
+		temp = string(*properties.Type)
+		typeVar := IdentityProperties_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 
@@ -2155,7 +2183,9 @@ func (properties *IdentityProperties) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := IdentityProperties_Type(temp)
 		properties.Type = &typeVar
 	}
 
@@ -2332,7 +2362,9 @@ func (properties *IdentityProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := IdentityProperties_Type_STATUS(temp)
 		properties.Type = &typeVar
 	}
 
@@ -2462,7 +2494,9 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "DefaultAction":
 	if ruleSet.DefaultAction != nil {
-		defaultAction := *ruleSet.DefaultAction
+		var temp string
+		temp = string(*ruleSet.DefaultAction)
+		defaultAction := NetworkRuleSet_DefaultAction_ARM(temp)
 		result.DefaultAction = &defaultAction
 	}
 
@@ -2491,7 +2525,9 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := NetworkRuleSet_DefaultAction(temp)
 		ruleSet.DefaultAction = &defaultAction
 	}
 
@@ -2643,7 +2679,9 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
-		defaultAction := *typedInput.DefaultAction
+		var temp string
+		temp = string(*typedInput.DefaultAction)
+		defaultAction := NetworkRuleSet_DefaultAction_STATUS(temp)
 		ruleSet.DefaultAction = &defaultAction
 	}
 
@@ -3412,7 +3450,9 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 	// Set property "Name":
 	if sku.Name != nil {
-		name := *sku.Name
+		var temp string
+		temp = string(*sku.Name)
+		name := Sku_Name_ARM(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -3432,7 +3472,9 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name(temp)
 		sku.Name = &name
 	}
 
@@ -3520,13 +3562,17 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property "Name":
 	if typedInput.Name != nil {
-		name := *typedInput.Name
+		var temp string
+		temp = string(*typedInput.Name)
+		name := Sku_Name_STATUS(temp)
 		sku.Name = &name
 	}
 
 	// Set property "Tier":
 	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
+		var temp string
+		temp = string(*typedInput.Tier)
+		tier := Sku_Tier_STATUS(temp)
 		sku.Tier = &tier
 	}
 
@@ -3729,7 +3775,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
+		var temp string
+		temp = string(*typedInput.CreatedByType)
+		createdByType := SystemData_CreatedByType_STATUS(temp)
 		data.CreatedByType = &createdByType
 	}
 
@@ -3747,7 +3795,9 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
+		var temp string
+		temp = string(*typedInput.LastModifiedByType)
+		lastModifiedByType := SystemData_LastModifiedByType_STATUS(temp)
 		data.LastModifiedByType = &lastModifiedByType
 	}
 
@@ -3880,7 +3930,9 @@ func (policy *ExportPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "Status":
 	if policy.Status != nil {
-		status := *policy.Status
+		var temp string
+		temp = string(*policy.Status)
+		status := ExportPolicy_Status_ARM(temp)
 		result.Status = &status
 	}
 	return result, nil
@@ -3900,7 +3952,9 @@ func (policy *ExportPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := ExportPolicy_Status(temp)
 		policy.Status = &status
 	}
 
@@ -3985,7 +4039,9 @@ func (policy *ExportPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := ExportPolicy_Status_STATUS(temp)
 		policy.Status = &status
 	}
 
@@ -4033,6 +4089,41 @@ func (policy *ExportPolicy_STATUS) AssignProperties_To_ExportPolicy_STATUS(desti
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type IdentityProperties_Type string
+
+const (
+	IdentityProperties_Type_None                       = IdentityProperties_Type("None")
+	IdentityProperties_Type_SystemAssigned             = IdentityProperties_Type("SystemAssigned")
+	IdentityProperties_Type_SystemAssignedUserAssigned = IdentityProperties_Type("SystemAssigned, UserAssigned")
+	IdentityProperties_Type_UserAssigned               = IdentityProperties_Type("UserAssigned")
+)
+
+// Mapping from string to IdentityProperties_Type
+var identityProperties_Type_Values = map[string]IdentityProperties_Type{
+	"none":                         IdentityProperties_Type_None,
+	"systemassigned":               IdentityProperties_Type_SystemAssigned,
+	"systemassigned, userassigned": IdentityProperties_Type_SystemAssignedUserAssigned,
+	"userassigned":                 IdentityProperties_Type_UserAssigned,
+}
+
+type IdentityProperties_Type_STATUS string
+
+const (
+	IdentityProperties_Type_STATUS_None                       = IdentityProperties_Type_STATUS("None")
+	IdentityProperties_Type_STATUS_SystemAssigned             = IdentityProperties_Type_STATUS("SystemAssigned")
+	IdentityProperties_Type_STATUS_SystemAssignedUserAssigned = IdentityProperties_Type_STATUS("SystemAssigned, UserAssigned")
+	IdentityProperties_Type_STATUS_UserAssigned               = IdentityProperties_Type_STATUS("UserAssigned")
+)
+
+// Mapping from string to IdentityProperties_Type_STATUS
+var identityProperties_Type_STATUS_Values = map[string]IdentityProperties_Type_STATUS{
+	"none":                         IdentityProperties_Type_STATUS_None,
+	"systemassigned":               IdentityProperties_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": IdentityProperties_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 IdentityProperties_Type_STATUS_UserAssigned,
+}
+
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
 	// Action: The action of IP ACL rule.
@@ -4054,7 +4145,9 @@ func (rule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 	// Set property "Action":
 	if rule.Action != nil {
-		action := *rule.Action
+		var temp string
+		temp = string(*rule.Action)
+		action := IPRule_Action_ARM(temp)
 		result.Action = &action
 	}
 
@@ -4080,7 +4173,9 @@ func (rule *IPRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := IPRule_Action(temp)
 		rule.Action = &action
 	}
 
@@ -4183,7 +4278,9 @@ func (rule *IPRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Action":
 	if typedInput.Action != nil {
-		action := *typedInput.Action
+		var temp string
+		temp = string(*typedInput.Action)
+		action := IPRule_Action_STATUS(temp)
 		rule.Action = &action
 	}
 
@@ -4523,7 +4620,9 @@ func (policy *QuarantinePolicy) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Status":
 	if policy.Status != nil {
-		status := *policy.Status
+		var temp string
+		temp = string(*policy.Status)
+		status := QuarantinePolicy_Status_ARM(temp)
 		result.Status = &status
 	}
 	return result, nil
@@ -4543,7 +4642,9 @@ func (policy *QuarantinePolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := QuarantinePolicy_Status(temp)
 		policy.Status = &status
 	}
 
@@ -4628,7 +4729,9 @@ func (policy *QuarantinePolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := QuarantinePolicy_Status_STATUS(temp)
 		policy.Status = &status
 	}
 
@@ -4702,7 +4805,9 @@ func (policy *RetentionPolicy) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Status":
 	if policy.Status != nil {
-		status := *policy.Status
+		var temp string
+		temp = string(*policy.Status)
+		status := RetentionPolicy_Status_ARM(temp)
 		result.Status = &status
 	}
 	return result, nil
@@ -4728,7 +4833,9 @@ func (policy *RetentionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := RetentionPolicy_Status(temp)
 		policy.Status = &status
 	}
 
@@ -4840,7 +4947,9 @@ func (policy *RetentionPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := RetentionPolicy_Status_STATUS(temp)
 		policy.Status = &status
 	}
 
@@ -4900,6 +5009,92 @@ func (policy *RetentionPolicy_STATUS) AssignProperties_To_RetentionPolicy_STATUS
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
+type Sku_Name string
+
+const (
+	Sku_Name_Basic    = Sku_Name("Basic")
+	Sku_Name_Classic  = Sku_Name("Classic")
+	Sku_Name_Premium  = Sku_Name("Premium")
+	Sku_Name_Standard = Sku_Name("Standard")
+)
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"basic":    Sku_Name_Basic,
+	"classic":  Sku_Name_Classic,
+	"premium":  Sku_Name_Premium,
+	"standard": Sku_Name_Standard,
+}
+
+type Sku_Name_STATUS string
+
+const (
+	Sku_Name_STATUS_Basic    = Sku_Name_STATUS("Basic")
+	Sku_Name_STATUS_Classic  = Sku_Name_STATUS("Classic")
+	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("Premium")
+	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
+)
+
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"basic":    Sku_Name_STATUS_Basic,
+	"classic":  Sku_Name_STATUS_Classic,
+	"premium":  Sku_Name_STATUS_Premium,
+	"standard": Sku_Name_STATUS_Standard,
+}
+
+type Sku_Tier_STATUS string
+
+const (
+	Sku_Tier_STATUS_Basic    = Sku_Tier_STATUS("Basic")
+	Sku_Tier_STATUS_Classic  = Sku_Tier_STATUS("Classic")
+	Sku_Tier_STATUS_Premium  = Sku_Tier_STATUS("Premium")
+	Sku_Tier_STATUS_Standard = Sku_Tier_STATUS("Standard")
+)
+
+// Mapping from string to Sku_Tier_STATUS
+var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
+	"basic":    Sku_Tier_STATUS_Basic,
+	"classic":  Sku_Tier_STATUS_Classic,
+	"premium":  Sku_Tier_STATUS_Premium,
+	"standard": Sku_Tier_STATUS_Standard,
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
+
 // The content trust policy for a container registry.
 type TrustPolicy struct {
 	// Status: The value that indicates whether the policy is enabled or not.
@@ -4920,13 +5115,17 @@ func (policy *TrustPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property "Status":
 	if policy.Status != nil {
-		status := *policy.Status
+		var temp string
+		temp = string(*policy.Status)
+		status := TrustPolicy_Status_ARM(temp)
 		result.Status = &status
 	}
 
 	// Set property "Type":
 	if policy.Type != nil {
-		typeVar := *policy.Type
+		var temp string
+		temp = string(*policy.Type)
+		typeVar := TrustPolicy_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -4946,13 +5145,17 @@ func (policy *TrustPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := TrustPolicy_Status(temp)
 		policy.Status = &status
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := TrustPolicy_Type(temp)
 		policy.Type = &typeVar
 	}
 
@@ -5065,13 +5268,17 @@ func (policy *TrustPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Status":
 	if typedInput.Status != nil {
-		status := *typedInput.Status
+		var temp string
+		temp = string(*typedInput.Status)
+		status := TrustPolicy_Status_STATUS(temp)
 		policy.Status = &status
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := TrustPolicy_Type_STATUS(temp)
 		policy.Type = &typeVar
 	}
 

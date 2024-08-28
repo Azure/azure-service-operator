@@ -212,7 +212,7 @@ func ExtendedLocation_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_ARM_EdgeZone))
 }
 
 func Test_FrontendIPConfigurationPropertiesFormat_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -283,8 +283,8 @@ func FrontendIPConfigurationPropertiesFormat_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_ARM(gens map[string]gopter.Gen) {
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_IPv4, IPVersion_IPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_ARM_IPv4, IPVersion_ARM_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_ARM_Dynamic, IPAllocationMethod_ARM_Static))
 }
 
 // AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_ARM is a factory method for creating gopter generators
@@ -443,7 +443,7 @@ func AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormat_ARM(gens 
 	gens["FrontendPortRangeEnd"] = gen.PtrOf(gen.Int())
 	gens["FrontendPortRangeStart"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_All, TransportProtocol_Tcp, TransportProtocol_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_ARM_All, TransportProtocol_ARM_Tcp, TransportProtocol_ARM_Udp))
 }
 
 // AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormat_ARM is a factory method for creating gopter generators
@@ -877,8 +877,8 @@ func LoadBalancerSku_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancerSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancerSku_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Name_Basic, LoadBalancerSku_Name_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Tier_Global, LoadBalancerSku_Tier_Regional))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Name_ARM_Basic, LoadBalancerSku_Name_ARM_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Tier_ARM_Global, LoadBalancerSku_Tier_ARM_Regional))
 }
 
 func Test_LoadBalancer_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1035,8 +1035,8 @@ func AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormat_ARM(ge
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_LoadDistribution_Default, LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP, LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol))
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_All, TransportProtocol_Tcp, TransportProtocol_Udp))
+	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_LoadDistribution_ARM_Default, LoadBalancingRulePropertiesFormat_LoadDistribution_ARM_SourceIP, LoadBalancingRulePropertiesFormat_LoadDistribution_ARM_SourceIPProtocol))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_ARM_All, TransportProtocol_ARM_Tcp, TransportProtocol_ARM_Udp))
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormat_ARM is a factory method for creating gopter generators
@@ -1191,7 +1191,7 @@ func AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormat_ARM(gens ma
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_Protocol_All, OutboundRulePropertiesFormat_Protocol_Tcp, OutboundRulePropertiesFormat_Protocol_Udp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_Protocol_ARM_All, OutboundRulePropertiesFormat_Protocol_ARM_Tcp, OutboundRulePropertiesFormat_Protocol_ARM_Udp))
 }
 
 // AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormat_ARM is a factory method for creating gopter generators
@@ -1335,7 +1335,7 @@ func AddIndependentPropertyGeneratorsForProbePropertiesFormat_ARM(gens map[strin
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_Protocol_Http, ProbePropertiesFormat_Protocol_Https, ProbePropertiesFormat_Protocol_Tcp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_Protocol_ARM_Http, ProbePropertiesFormat_Protocol_ARM_Https, ProbePropertiesFormat_Protocol_ARM_Tcp))
 	gens["RequestPath"] = gen.PtrOf(gen.AlphaString())
 }
 

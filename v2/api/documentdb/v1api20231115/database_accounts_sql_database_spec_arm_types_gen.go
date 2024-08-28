@@ -45,7 +45,7 @@ type SqlDatabaseCreateUpdateProperties_ARM struct {
 // Cosmos DB SQL database resource object
 type SqlDatabaseResource_ARM struct {
 	// CreateMode: Enum to indicate the mode of resource creation.
-	CreateMode *CreateMode `json:"createMode,omitempty"`
+	CreateMode *CreateMode_ARM `json:"createMode,omitempty"`
 
 	// Id: Name of the Cosmos DB SQL database
 	Id *string `json:"id,omitempty"`

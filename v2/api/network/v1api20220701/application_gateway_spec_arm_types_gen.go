@@ -163,7 +163,7 @@ type ManagedServiceIdentity_ARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual
 	// machine.
-	Type                   *ManagedServiceIdentity_Type               `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentity_Type_ARM           `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -218,7 +218,7 @@ type ApplicationGatewayCustomError_ARM struct {
 	CustomErrorPageUrl *string `json:"customErrorPageUrl,omitempty"`
 
 	// StatusCode: Status code of the application gateway customer error.
-	StatusCode *ApplicationGatewayCustomError_StatusCode `json:"statusCode,omitempty"`
+	StatusCode *ApplicationGatewayCustomError_StatusCode_ARM `json:"statusCode,omitempty"`
 }
 
 // Frontend IP configuration of an application gateway.
@@ -344,10 +344,10 @@ type ApplicationGatewaySku_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: Name of an application gateway SKU.
-	Name *ApplicationGatewaySku_Name `json:"name,omitempty"`
+	Name *ApplicationGatewaySku_Name_ARM `json:"name,omitempty"`
 
 	// Tier: Tier of an application gateway.
-	Tier *ApplicationGatewaySku_Tier `json:"tier,omitempty"`
+	Tier *ApplicationGatewaySku_Tier_ARM `json:"tier,omitempty"`
 }
 
 // SSL certificates of an application gateway.
@@ -362,19 +362,19 @@ type ApplicationGatewaySslCertificate_ARM struct {
 // Application Gateway Ssl policy.
 type ApplicationGatewaySslPolicy_ARM struct {
 	// CipherSuites: Ssl cipher suites to be enabled in the specified order to application gateway.
-	CipherSuites []CipherSuitesEnum `json:"cipherSuites,omitempty"`
+	CipherSuites []CipherSuitesEnum_ARM `json:"cipherSuites,omitempty"`
 
 	// DisabledSslProtocols: Ssl protocols to be disabled on application gateway.
-	DisabledSslProtocols []ProtocolsEnum `json:"disabledSslProtocols,omitempty"`
+	DisabledSslProtocols []ProtocolsEnum_ARM `json:"disabledSslProtocols,omitempty"`
 
 	// MinProtocolVersion: Minimum version of Ssl protocol to be supported on application gateway.
-	MinProtocolVersion *ProtocolsEnum `json:"minProtocolVersion,omitempty"`
+	MinProtocolVersion *ProtocolsEnum_ARM `json:"minProtocolVersion,omitempty"`
 
 	// PolicyName: Name of Ssl predefined policy.
-	PolicyName *PolicyNameEnum `json:"policyName,omitempty"`
+	PolicyName *PolicyNameEnum_ARM `json:"policyName,omitempty"`
 
 	// PolicyType: Type of Ssl Policy.
-	PolicyType *ApplicationGatewaySslPolicy_PolicyType `json:"policyType,omitempty"`
+	PolicyType *ApplicationGatewaySslPolicy_PolicyType_ARM `json:"policyType,omitempty"`
 }
 
 // SSL profile of an application gateway.
@@ -433,7 +433,7 @@ type ApplicationGatewayWebApplicationFirewallConfiguration_ARM struct {
 	FileUploadLimitInMb *int `json:"fileUploadLimitInMb,omitempty"`
 
 	// FirewallMode: Web application firewall mode.
-	FirewallMode *ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode `json:"firewallMode,omitempty"`
+	FirewallMode *ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM `json:"firewallMode,omitempty"`
 
 	// MaxRequestBodySize: Maximum request body size for WAF.
 	MaxRequestBodySize *int `json:"maxRequestBodySize,omitempty"`
@@ -452,21 +452,21 @@ type ApplicationGatewayWebApplicationFirewallConfiguration_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ManagedServiceIdentity_Type string
+type ManagedServiceIdentity_Type_ARM string
 
 const (
-	ManagedServiceIdentity_Type_None                       = ManagedServiceIdentity_Type("None")
-	ManagedServiceIdentity_Type_SystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
-	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned, UserAssigned")
-	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
+	ManagedServiceIdentity_Type_ARM_None                       = ManagedServiceIdentity_Type_ARM("None")
+	ManagedServiceIdentity_Type_ARM_SystemAssigned             = ManagedServiceIdentity_Type_ARM("SystemAssigned")
+	ManagedServiceIdentity_Type_ARM_SystemAssignedUserAssigned = ManagedServiceIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	ManagedServiceIdentity_Type_ARM_UserAssigned               = ManagedServiceIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to ManagedServiceIdentity_Type
-var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
-	"none":                         ManagedServiceIdentity_Type_None,
-	"systemassigned":               ManagedServiceIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 ManagedServiceIdentity_Type_UserAssigned,
+// Mapping from string to ManagedServiceIdentity_Type_ARM
+var managedServiceIdentity_Type_ARM_Values = map[string]ManagedServiceIdentity_Type_ARM{
+	"none":                         ManagedServiceIdentity_Type_ARM_None,
+	"systemassigned":               ManagedServiceIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentity_Type_ARM_UserAssigned,
 }
 
 // Information about the user assigned identity for the resource
@@ -497,7 +497,7 @@ type ApplicationGatewayBackendHttpSettingsPropertiesFormat_ARM struct {
 	ConnectionDraining *ApplicationGatewayConnectionDraining_ARM `json:"connectionDraining,omitempty"`
 
 	// CookieBasedAffinity: Cookie based affinity.
-	CookieBasedAffinity *ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity `json:"cookieBasedAffinity,omitempty"`
+	CookieBasedAffinity *ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM `json:"cookieBasedAffinity,omitempty"`
 
 	// HostName: Host header to be sent to the backend servers.
 	HostName *string `json:"hostName,omitempty"`
@@ -520,7 +520,7 @@ type ApplicationGatewayBackendHttpSettingsPropertiesFormat_ARM struct {
 	ProbeEnabled *bool `json:"probeEnabled,omitempty"`
 
 	// Protocol: The protocol used to communicate with the backend.
-	Protocol *ApplicationGatewayProtocol `json:"protocol,omitempty"`
+	Protocol *ApplicationGatewayProtocol_ARM `json:"protocol,omitempty"`
 
 	// RequestTimeout: Request timeout in seconds. Application Gateway will fail the request if response is not received within
 	// RequestTimeout. Acceptable values are from 1 second to 86400 seconds.
@@ -546,7 +546,7 @@ type ApplicationGatewayBackendSettingsPropertiesFormat_ARM struct {
 	Probe *ApplicationGatewaySubResource_ARM `json:"probe,omitempty"`
 
 	// Protocol: The protocol used to communicate with the backend.
-	Protocol *ApplicationGatewayProtocol `json:"protocol,omitempty"`
+	Protocol *ApplicationGatewayProtocol_ARM `json:"protocol,omitempty"`
 
 	// Timeout: Connection timeout in seconds. Application Gateway will fail the request if response is not received within
 	// ConnectionTimeout. Acceptable values are from 1 second to 86400 seconds.
@@ -554,6 +554,20 @@ type ApplicationGatewayBackendSettingsPropertiesFormat_ARM struct {
 
 	// TrustedRootCertificates: Array of references to application gateway trusted root certificates.
 	TrustedRootCertificates []ApplicationGatewaySubResource_ARM `json:"trustedRootCertificates,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"HttpStatus403","HttpStatus502"}
+type ApplicationGatewayCustomError_StatusCode_ARM string
+
+const (
+	ApplicationGatewayCustomError_StatusCode_ARM_HttpStatus403 = ApplicationGatewayCustomError_StatusCode_ARM("HttpStatus403")
+	ApplicationGatewayCustomError_StatusCode_ARM_HttpStatus502 = ApplicationGatewayCustomError_StatusCode_ARM("HttpStatus502")
+)
+
+// Mapping from string to ApplicationGatewayCustomError_StatusCode_ARM
+var applicationGatewayCustomError_StatusCode_ARM_Values = map[string]ApplicationGatewayCustomError_StatusCode_ARM{
+	"httpstatus403": ApplicationGatewayCustomError_StatusCode_ARM_HttpStatus403,
+	"httpstatus502": ApplicationGatewayCustomError_StatusCode_ARM_HttpStatus502,
 }
 
 // Allows to disable rules within a rule group or an entire rule group.
@@ -585,7 +599,7 @@ type ApplicationGatewayFrontendIPConfigurationPropertiesFormat_ARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_ARM `json:"privateIPAllocationMethod,omitempty"`
 
 	// PrivateLinkConfiguration: Reference to the application gateway private link configuration.
 	PrivateLinkConfiguration *ApplicationGatewaySubResource_ARM `json:"privateLinkConfiguration,omitempty"`
@@ -624,7 +638,7 @@ type ApplicationGatewayHttpListenerPropertiesFormat_ARM struct {
 	HostNames []string `json:"hostNames,omitempty"`
 
 	// Protocol: Protocol of the HTTP listener.
-	Protocol *ApplicationGatewayProtocol `json:"protocol,omitempty"`
+	Protocol *ApplicationGatewayProtocol_ARM `json:"protocol,omitempty"`
 
 	// RequireServerNameIndication: Applicable only if protocol is https. Enables SNI for multi-hosting.
 	RequireServerNameIndication *bool `json:"requireServerNameIndication,omitempty"`
@@ -651,7 +665,7 @@ type ApplicationGatewayListenerPropertiesFormat_ARM struct {
 	FrontendPort *ApplicationGatewaySubResource_ARM `json:"frontendPort,omitempty"`
 
 	// Protocol: Protocol of the listener.
-	Protocol *ApplicationGatewayProtocol `json:"protocol,omitempty"`
+	Protocol *ApplicationGatewayProtocol_ARM `json:"protocol,omitempty"`
 
 	// SslCertificate: SSL certificate resource of an application gateway.
 	SslCertificate *ApplicationGatewaySubResource_ARM `json:"sslCertificate,omitempty"`
@@ -663,7 +677,7 @@ type ApplicationGatewayListenerPropertiesFormat_ARM struct {
 // Properties of Load Distribution Policy of an application gateway.
 type ApplicationGatewayLoadDistributionPolicyPropertiesFormat_ARM struct {
 	// LoadDistributionAlgorithm: Load Distribution Targets resource of an application gateway.
-	LoadDistributionAlgorithm *ApplicationGatewayLoadDistributionAlgorithmEnum `json:"loadDistributionAlgorithm,omitempty"`
+	LoadDistributionAlgorithm *ApplicationGatewayLoadDistributionAlgorithmEnum_ARM `json:"loadDistributionAlgorithm,omitempty"`
 
 	// LoadDistributionTargets: Load Distribution Targets resource of an application gateway.
 	LoadDistributionTargets []ApplicationGatewayLoadDistributionTarget_ARM `json:"loadDistributionTargets,omitempty"`
@@ -706,7 +720,7 @@ type ApplicationGatewayProbePropertiesFormat_ARM struct {
 	Port *int `json:"port,omitempty"`
 
 	// Protocol: The protocol used for the probe.
-	Protocol *ApplicationGatewayProtocol `json:"protocol,omitempty"`
+	Protocol *ApplicationGatewayProtocol_ARM `json:"protocol,omitempty"`
 
 	// Timeout: The probe timeout in seconds. Probe marked as failed if valid response is not received with this timeout
 	// period. Acceptable values are from 1 second to 86400 seconds.
@@ -729,7 +743,7 @@ type ApplicationGatewayRedirectConfigurationPropertiesFormat_ARM struct {
 	PathRules []ApplicationGatewaySubResource_ARM `json:"pathRules,omitempty"`
 
 	// RedirectType: HTTP redirection type.
-	RedirectType *RedirectTypeEnum `json:"redirectType,omitempty"`
+	RedirectType *RedirectTypeEnum_ARM `json:"redirectType,omitempty"`
 
 	// RequestRoutingRules: Request routing specifying redirect configuration.
 	RequestRoutingRules []ApplicationGatewaySubResource_ARM `json:"requestRoutingRules,omitempty"`
@@ -768,7 +782,7 @@ type ApplicationGatewayRequestRoutingRulePropertiesFormat_ARM struct {
 	RewriteRuleSet *ApplicationGatewaySubResource_ARM `json:"rewriteRuleSet,omitempty"`
 
 	// RuleType: Rule type.
-	RuleType *ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType `json:"ruleType,omitempty"`
+	RuleType *ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM `json:"ruleType,omitempty"`
 
 	// UrlPathMap: URL path map resource of the application gateway.
 	UrlPathMap *ApplicationGatewaySubResource_ARM `json:"urlPathMap,omitempty"`
@@ -795,7 +809,49 @@ type ApplicationGatewayRoutingRulePropertiesFormat_ARM struct {
 	Priority *int `json:"priority,omitempty"`
 
 	// RuleType: Rule type.
-	RuleType *ApplicationGatewayRoutingRulePropertiesFormat_RuleType `json:"ruleType,omitempty"`
+	RuleType *ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM `json:"ruleType,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Standard_Large","Standard_Medium","Standard_Small","Standard_v2","WAF_Large","WAF_Medium","WAF_v2"}
+type ApplicationGatewaySku_Name_ARM string
+
+const (
+	ApplicationGatewaySku_Name_ARM_Standard_Large  = ApplicationGatewaySku_Name_ARM("Standard_Large")
+	ApplicationGatewaySku_Name_ARM_Standard_Medium = ApplicationGatewaySku_Name_ARM("Standard_Medium")
+	ApplicationGatewaySku_Name_ARM_Standard_Small  = ApplicationGatewaySku_Name_ARM("Standard_Small")
+	ApplicationGatewaySku_Name_ARM_Standard_V2     = ApplicationGatewaySku_Name_ARM("Standard_v2")
+	ApplicationGatewaySku_Name_ARM_WAF_Large       = ApplicationGatewaySku_Name_ARM("WAF_Large")
+	ApplicationGatewaySku_Name_ARM_WAF_Medium      = ApplicationGatewaySku_Name_ARM("WAF_Medium")
+	ApplicationGatewaySku_Name_ARM_WAF_V2          = ApplicationGatewaySku_Name_ARM("WAF_v2")
+)
+
+// Mapping from string to ApplicationGatewaySku_Name_ARM
+var applicationGatewaySku_Name_ARM_Values = map[string]ApplicationGatewaySku_Name_ARM{
+	"standard_large":  ApplicationGatewaySku_Name_ARM_Standard_Large,
+	"standard_medium": ApplicationGatewaySku_Name_ARM_Standard_Medium,
+	"standard_small":  ApplicationGatewaySku_Name_ARM_Standard_Small,
+	"standard_v2":     ApplicationGatewaySku_Name_ARM_Standard_V2,
+	"waf_large":       ApplicationGatewaySku_Name_ARM_WAF_Large,
+	"waf_medium":      ApplicationGatewaySku_Name_ARM_WAF_Medium,
+	"waf_v2":          ApplicationGatewaySku_Name_ARM_WAF_V2,
+}
+
+// +kubebuilder:validation:Enum={"Standard","Standard_v2","WAF","WAF_v2"}
+type ApplicationGatewaySku_Tier_ARM string
+
+const (
+	ApplicationGatewaySku_Tier_ARM_Standard    = ApplicationGatewaySku_Tier_ARM("Standard")
+	ApplicationGatewaySku_Tier_ARM_Standard_V2 = ApplicationGatewaySku_Tier_ARM("Standard_v2")
+	ApplicationGatewaySku_Tier_ARM_WAF         = ApplicationGatewaySku_Tier_ARM("WAF")
+	ApplicationGatewaySku_Tier_ARM_WAF_V2      = ApplicationGatewaySku_Tier_ARM("WAF_v2")
+)
+
+// Mapping from string to ApplicationGatewaySku_Tier_ARM
+var applicationGatewaySku_Tier_ARM_Values = map[string]ApplicationGatewaySku_Tier_ARM{
+	"standard":    ApplicationGatewaySku_Tier_ARM_Standard,
+	"standard_v2": ApplicationGatewaySku_Tier_ARM_Standard_V2,
+	"waf":         ApplicationGatewaySku_Tier_ARM_WAF,
+	"waf_v2":      ApplicationGatewaySku_Tier_ARM_WAF_V2,
 }
 
 // Properties of SSL certificates of an application gateway.
@@ -808,6 +864,22 @@ type ApplicationGatewaySslCertificatePropertiesFormat_ARM struct {
 
 	// Password: Password for the pfx file specified in data. Only applicable in PUT request.
 	Password *string `json:"password,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Custom","CustomV2","Predefined"}
+type ApplicationGatewaySslPolicy_PolicyType_ARM string
+
+const (
+	ApplicationGatewaySslPolicy_PolicyType_ARM_Custom     = ApplicationGatewaySslPolicy_PolicyType_ARM("Custom")
+	ApplicationGatewaySslPolicy_PolicyType_ARM_CustomV2   = ApplicationGatewaySslPolicy_PolicyType_ARM("CustomV2")
+	ApplicationGatewaySslPolicy_PolicyType_ARM_Predefined = ApplicationGatewaySslPolicy_PolicyType_ARM("Predefined")
+)
+
+// Mapping from string to ApplicationGatewaySslPolicy_PolicyType_ARM
+var applicationGatewaySslPolicy_PolicyType_ARM_Values = map[string]ApplicationGatewaySslPolicy_PolicyType_ARM{
+	"custom":     ApplicationGatewaySslPolicy_PolicyType_ARM_Custom,
+	"customv2":   ApplicationGatewaySslPolicy_PolicyType_ARM_CustomV2,
+	"predefined": ApplicationGatewaySslPolicy_PolicyType_ARM_Predefined,
 }
 
 // Properties of SSL profile of an application gateway.
@@ -858,6 +930,127 @@ type ApplicationGatewayUrlPathMapPropertiesFormat_ARM struct {
 	PathRules []ApplicationGatewayPathRule_ARM `json:"pathRules,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Detection","Prevention"}
+type ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM string
+
+const (
+	ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM_Detection  = ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM("Detection")
+	ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM_Prevention = ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM("Prevention")
+)
+
+// Mapping from string to ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM
+var applicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM_Values = map[string]ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM{
+	"detection":  ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM_Detection,
+	"prevention": ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM_Prevention,
+}
+
+// Ssl cipher suites enums.
+// +kubebuilder:validation:Enum={"TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA","TLS_DHE_DSS_WITH_AES_128_CBC_SHA","TLS_DHE_DSS_WITH_AES_128_CBC_SHA256","TLS_DHE_DSS_WITH_AES_256_CBC_SHA","TLS_DHE_DSS_WITH_AES_256_CBC_SHA256","TLS_DHE_RSA_WITH_AES_128_CBC_SHA","TLS_DHE_RSA_WITH_AES_128_GCM_SHA256","TLS_DHE_RSA_WITH_AES_256_CBC_SHA","TLS_DHE_RSA_WITH_AES_256_GCM_SHA384","TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA","TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256","TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256","TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA","TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384","TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384","TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA","TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256","TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256","TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA","TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384","TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384","TLS_RSA_WITH_3DES_EDE_CBC_SHA","TLS_RSA_WITH_AES_128_CBC_SHA","TLS_RSA_WITH_AES_128_CBC_SHA256","TLS_RSA_WITH_AES_128_GCM_SHA256","TLS_RSA_WITH_AES_256_CBC_SHA","TLS_RSA_WITH_AES_256_CBC_SHA256","TLS_RSA_WITH_AES_256_GCM_SHA384"}
+type CipherSuitesEnum_ARM string
+
+const (
+	CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA       = CipherSuitesEnum_ARM("TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA        = CipherSuitesEnum_ARM("TLS_DHE_DSS_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256     = CipherSuitesEnum_ARM("TLS_DHE_DSS_WITH_AES_128_CBC_SHA256")
+	CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA        = CipherSuitesEnum_ARM("TLS_DHE_DSS_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256     = CipherSuitesEnum_ARM("TLS_DHE_DSS_WITH_AES_256_CBC_SHA256")
+	CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_128_CBC_SHA        = CipherSuitesEnum_ARM("TLS_DHE_RSA_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256     = CipherSuitesEnum_ARM("TLS_DHE_RSA_WITH_AES_128_GCM_SHA256")
+	CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_256_CBC_SHA        = CipherSuitesEnum_ARM("TLS_DHE_RSA_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384     = CipherSuitesEnum_ARM("TLS_DHE_RSA_WITH_AES_256_GCM_SHA384")
+	CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA    = CipherSuitesEnum_ARM("TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 = CipherSuitesEnum_ARM("TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256")
+	CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 = CipherSuitesEnum_ARM("TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256")
+	CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA    = CipherSuitesEnum_ARM("TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 = CipherSuitesEnum_ARM("TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384")
+	CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 = CipherSuitesEnum_ARM("TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384")
+	CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA      = CipherSuitesEnum_ARM("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256   = CipherSuitesEnum_ARM("TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256")
+	CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256   = CipherSuitesEnum_ARM("TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256")
+	CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA      = CipherSuitesEnum_ARM("TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384   = CipherSuitesEnum_ARM("TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384")
+	CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384   = CipherSuitesEnum_ARM("TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384")
+	CipherSuitesEnum_ARM_TLS_RSA_WITH_3DES_EDE_CBC_SHA           = CipherSuitesEnum_ARM("TLS_RSA_WITH_3DES_EDE_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_128_CBC_SHA            = CipherSuitesEnum_ARM("TLS_RSA_WITH_AES_128_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_128_CBC_SHA256         = CipherSuitesEnum_ARM("TLS_RSA_WITH_AES_128_CBC_SHA256")
+	CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_128_GCM_SHA256         = CipherSuitesEnum_ARM("TLS_RSA_WITH_AES_128_GCM_SHA256")
+	CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_256_CBC_SHA            = CipherSuitesEnum_ARM("TLS_RSA_WITH_AES_256_CBC_SHA")
+	CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_256_CBC_SHA256         = CipherSuitesEnum_ARM("TLS_RSA_WITH_AES_256_CBC_SHA256")
+	CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_256_GCM_SHA384         = CipherSuitesEnum_ARM("TLS_RSA_WITH_AES_256_GCM_SHA384")
+)
+
+// Mapping from string to CipherSuitesEnum_ARM
+var cipherSuitesEnum_ARM_Values = map[string]CipherSuitesEnum_ARM{
+	"tls_dhe_dss_with_3des_ede_cbc_sha":       CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA,
+	"tls_dhe_dss_with_aes_128_cbc_sha":        CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
+	"tls_dhe_dss_with_aes_128_cbc_sha256":     CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
+	"tls_dhe_dss_with_aes_256_cbc_sha":        CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
+	"tls_dhe_dss_with_aes_256_cbc_sha256":     CipherSuitesEnum_ARM_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
+	"tls_dhe_rsa_with_aes_128_cbc_sha":        CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
+	"tls_dhe_rsa_with_aes_128_gcm_sha256":     CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_dhe_rsa_with_aes_256_cbc_sha":        CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
+	"tls_dhe_rsa_with_aes_256_gcm_sha384":     CipherSuitesEnum_ARM_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+	"tls_ecdhe_ecdsa_with_aes_128_cbc_sha":    CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+	"tls_ecdhe_ecdsa_with_aes_128_cbc_sha256": CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
+	"tls_ecdhe_ecdsa_with_aes_128_gcm_sha256": CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+	"tls_ecdhe_ecdsa_with_aes_256_cbc_sha":    CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+	"tls_ecdhe_ecdsa_with_aes_256_cbc_sha384": CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
+	"tls_ecdhe_ecdsa_with_aes_256_gcm_sha384": CipherSuitesEnum_ARM_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+	"tls_ecdhe_rsa_with_aes_128_cbc_sha":      CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+	"tls_ecdhe_rsa_with_aes_128_cbc_sha256":   CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
+	"tls_ecdhe_rsa_with_aes_128_gcm_sha256":   CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_ecdhe_rsa_with_aes_256_cbc_sha":      CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+	"tls_ecdhe_rsa_with_aes_256_cbc_sha384":   CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+	"tls_ecdhe_rsa_with_aes_256_gcm_sha384":   CipherSuitesEnum_ARM_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+	"tls_rsa_with_3des_ede_cbc_sha":           CipherSuitesEnum_ARM_TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+	"tls_rsa_with_aes_128_cbc_sha":            CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_128_CBC_SHA,
+	"tls_rsa_with_aes_128_cbc_sha256":         CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_128_CBC_SHA256,
+	"tls_rsa_with_aes_128_gcm_sha256":         CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_rsa_with_aes_256_cbc_sha":            CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_256_CBC_SHA,
+	"tls_rsa_with_aes_256_cbc_sha256":         CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_256_CBC_SHA256,
+	"tls_rsa_with_aes_256_gcm_sha384":         CipherSuitesEnum_ARM_TLS_RSA_WITH_AES_256_GCM_SHA384,
+}
+
+// Ssl predefined policy name enums.
+// +kubebuilder:validation:Enum={"AppGwSslPolicy20150501","AppGwSslPolicy20170401","AppGwSslPolicy20170401S","AppGwSslPolicy20220101","AppGwSslPolicy20220101S"}
+type PolicyNameEnum_ARM string
+
+const (
+	PolicyNameEnum_ARM_AppGwSslPolicy20150501  = PolicyNameEnum_ARM("AppGwSslPolicy20150501")
+	PolicyNameEnum_ARM_AppGwSslPolicy20170401  = PolicyNameEnum_ARM("AppGwSslPolicy20170401")
+	PolicyNameEnum_ARM_AppGwSslPolicy20170401S = PolicyNameEnum_ARM("AppGwSslPolicy20170401S")
+	PolicyNameEnum_ARM_AppGwSslPolicy20220101  = PolicyNameEnum_ARM("AppGwSslPolicy20220101")
+	PolicyNameEnum_ARM_AppGwSslPolicy20220101S = PolicyNameEnum_ARM("AppGwSslPolicy20220101S")
+)
+
+// Mapping from string to PolicyNameEnum_ARM
+var policyNameEnum_ARM_Values = map[string]PolicyNameEnum_ARM{
+	"appgwsslpolicy20150501":  PolicyNameEnum_ARM_AppGwSslPolicy20150501,
+	"appgwsslpolicy20170401":  PolicyNameEnum_ARM_AppGwSslPolicy20170401,
+	"appgwsslpolicy20170401s": PolicyNameEnum_ARM_AppGwSslPolicy20170401S,
+	"appgwsslpolicy20220101":  PolicyNameEnum_ARM_AppGwSslPolicy20220101,
+	"appgwsslpolicy20220101s": PolicyNameEnum_ARM_AppGwSslPolicy20220101S,
+}
+
+// Ssl protocol enums.
+// +kubebuilder:validation:Enum={"TLSv1_0","TLSv1_1","TLSv1_2","TLSv1_3"}
+type ProtocolsEnum_ARM string
+
+const (
+	ProtocolsEnum_ARM_TLSv1_0 = ProtocolsEnum_ARM("TLSv1_0")
+	ProtocolsEnum_ARM_TLSv1_1 = ProtocolsEnum_ARM("TLSv1_1")
+	ProtocolsEnum_ARM_TLSv1_2 = ProtocolsEnum_ARM("TLSv1_2")
+	ProtocolsEnum_ARM_TLSv1_3 = ProtocolsEnum_ARM("TLSv1_3")
+)
+
+// Mapping from string to ProtocolsEnum_ARM
+var protocolsEnum_ARM_Values = map[string]ProtocolsEnum_ARM{
+	"tlsv1_0": ProtocolsEnum_ARM_TLSv1_0,
+	"tlsv1_1": ProtocolsEnum_ARM_TLSv1_1,
+	"tlsv1_2": ProtocolsEnum_ARM_TLSv1_2,
+	"tlsv1_3": ProtocolsEnum_ARM_TLSv1_3,
+}
+
 // Backend address of an application gateway.
 type ApplicationGatewayBackendAddress_ARM struct {
 	// Fqdn: Fully qualified domain name (FQDN).
@@ -867,13 +1060,27 @@ type ApplicationGatewayBackendAddress_ARM struct {
 	IpAddress *string `json:"ipAddress,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM string
+
+const (
+	ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM_Disabled = ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM("Disabled")
+	ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM_Enabled  = ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM("Enabled")
+)
+
+// Mapping from string to ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM
+var applicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM_Values = map[string]ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM{
+	"disabled": ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM_Disabled,
+	"enabled":  ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM_Enabled,
+}
+
 // Application gateway client authentication configuration.
 type ApplicationGatewayClientAuthConfiguration_ARM struct {
 	// VerifyClientCertIssuerDN: Verify client certificate issuer name on the application gateway.
 	VerifyClientCertIssuerDN *bool `json:"verifyClientCertIssuerDN,omitempty"`
 
 	// VerifyClientRevocation: Verify client certificate revocation status.
-	VerifyClientRevocation *ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation `json:"verifyClientRevocation,omitempty"`
+	VerifyClientRevocation *ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM `json:"verifyClientRevocation,omitempty"`
 }
 
 // Connection draining allows open connections to a backend server to be active for a specified time after the backend
@@ -885,6 +1092,23 @@ type ApplicationGatewayConnectionDraining_ARM struct {
 
 	// Enabled: Whether connection draining is enabled or not.
 	Enabled *bool `json:"enabled,omitempty"`
+}
+
+// Load Distribution Algorithm enums.
+// +kubebuilder:validation:Enum={"IpHash","LeastConnections","RoundRobin"}
+type ApplicationGatewayLoadDistributionAlgorithmEnum_ARM string
+
+const (
+	ApplicationGatewayLoadDistributionAlgorithmEnum_ARM_IpHash           = ApplicationGatewayLoadDistributionAlgorithmEnum_ARM("IpHash")
+	ApplicationGatewayLoadDistributionAlgorithmEnum_ARM_LeastConnections = ApplicationGatewayLoadDistributionAlgorithmEnum_ARM("LeastConnections")
+	ApplicationGatewayLoadDistributionAlgorithmEnum_ARM_RoundRobin       = ApplicationGatewayLoadDistributionAlgorithmEnum_ARM("RoundRobin")
+)
+
+// Mapping from string to ApplicationGatewayLoadDistributionAlgorithmEnum_ARM
+var applicationGatewayLoadDistributionAlgorithmEnum_ARM_Values = map[string]ApplicationGatewayLoadDistributionAlgorithmEnum_ARM{
+	"iphash":           ApplicationGatewayLoadDistributionAlgorithmEnum_ARM_IpHash,
+	"leastconnections": ApplicationGatewayLoadDistributionAlgorithmEnum_ARM_LeastConnections,
+	"roundrobin":       ApplicationGatewayLoadDistributionAlgorithmEnum_ARM_RoundRobin,
 }
 
 // Load Distribution Target of an application gateway.
@@ -911,6 +1135,39 @@ type ApplicationGatewayProbeHealthResponseMatch_ARM struct {
 	StatusCodes []string `json:"statusCodes,omitempty"`
 }
 
+// Application Gateway protocol.
+// +kubebuilder:validation:Enum={"Http","Https","Tcp","Tls"}
+type ApplicationGatewayProtocol_ARM string
+
+const (
+	ApplicationGatewayProtocol_ARM_Http  = ApplicationGatewayProtocol_ARM("Http")
+	ApplicationGatewayProtocol_ARM_Https = ApplicationGatewayProtocol_ARM("Https")
+	ApplicationGatewayProtocol_ARM_Tcp   = ApplicationGatewayProtocol_ARM("Tcp")
+	ApplicationGatewayProtocol_ARM_Tls   = ApplicationGatewayProtocol_ARM("Tls")
+)
+
+// Mapping from string to ApplicationGatewayProtocol_ARM
+var applicationGatewayProtocol_ARM_Values = map[string]ApplicationGatewayProtocol_ARM{
+	"http":  ApplicationGatewayProtocol_ARM_Http,
+	"https": ApplicationGatewayProtocol_ARM_Https,
+	"tcp":   ApplicationGatewayProtocol_ARM_Tcp,
+	"tls":   ApplicationGatewayProtocol_ARM_Tls,
+}
+
+// +kubebuilder:validation:Enum={"Basic","PathBasedRouting"}
+type ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM string
+
+const (
+	ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM_Basic            = ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM("Basic")
+	ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM_PathBasedRouting = ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM("PathBasedRouting")
+)
+
+// Mapping from string to ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM
+var applicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM_Values = map[string]ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM{
+	"basic":            ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM_Basic,
+	"pathbasedrouting": ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM_PathBasedRouting,
+}
+
 // Rewrite rule of an application gateway.
 type ApplicationGatewayRewriteRule_ARM struct {
 	// ActionSet: Set of actions to be done as part of the rewrite Rule.
@@ -925,6 +1182,68 @@ type ApplicationGatewayRewriteRule_ARM struct {
 	// RuleSequence: Rule Sequence of the rewrite rule that determines the order of execution of a particular rule in a
 	// RewriteRuleSet.
 	RuleSequence *int `json:"ruleSequence,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Basic","PathBasedRouting"}
+type ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM string
+
+const (
+	ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM_Basic            = ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM("Basic")
+	ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM_PathBasedRouting = ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM("PathBasedRouting")
+)
+
+// Mapping from string to ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM
+var applicationGatewayRoutingRulePropertiesFormat_RuleType_ARM_Values = map[string]ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM{
+	"basic":            ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM_Basic,
+	"pathbasedrouting": ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM_PathBasedRouting,
+}
+
+// IP address allocation method.
+// +kubebuilder:validation:Enum={"Dynamic","Static"}
+type IPAllocationMethod_ARM string
+
+const (
+	IPAllocationMethod_ARM_Dynamic = IPAllocationMethod_ARM("Dynamic")
+	IPAllocationMethod_ARM_Static  = IPAllocationMethod_ARM("Static")
+)
+
+// Mapping from string to IPAllocationMethod_ARM
+var iPAllocationMethod_ARM_Values = map[string]IPAllocationMethod_ARM{
+	"dynamic": IPAllocationMethod_ARM_Dynamic,
+	"static":  IPAllocationMethod_ARM_Static,
+}
+
+// Redirect type enum.
+// +kubebuilder:validation:Enum={"Found","Permanent","SeeOther","Temporary"}
+type RedirectTypeEnum_ARM string
+
+const (
+	RedirectTypeEnum_ARM_Found     = RedirectTypeEnum_ARM("Found")
+	RedirectTypeEnum_ARM_Permanent = RedirectTypeEnum_ARM("Permanent")
+	RedirectTypeEnum_ARM_SeeOther  = RedirectTypeEnum_ARM("SeeOther")
+	RedirectTypeEnum_ARM_Temporary = RedirectTypeEnum_ARM("Temporary")
+)
+
+// Mapping from string to RedirectTypeEnum_ARM
+var redirectTypeEnum_ARM_Values = map[string]RedirectTypeEnum_ARM{
+	"found":     RedirectTypeEnum_ARM_Found,
+	"permanent": RedirectTypeEnum_ARM_Permanent,
+	"seeother":  RedirectTypeEnum_ARM_SeeOther,
+	"temporary": RedirectTypeEnum_ARM_Temporary,
+}
+
+// +kubebuilder:validation:Enum={"None","OCSP"}
+type ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM string
+
+const (
+	ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM_None = ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM("None")
+	ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM_OCSP = ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM("OCSP")
+)
+
+// Mapping from string to ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM
+var applicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM_Values = map[string]ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM{
+	"none": ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM_None,
+	"ocsp": ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM_OCSP,
 }
 
 // Set of actions in the Rewrite Rule in Application Gateway.

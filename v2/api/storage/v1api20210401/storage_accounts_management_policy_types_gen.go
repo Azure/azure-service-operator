@@ -988,7 +988,9 @@ func (rule *ManagementPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property "Type":
 	if rule.Type != nil {
-		typeVar := *rule.Type
+		var temp string
+		temp = string(*rule.Type)
+		typeVar := ManagementPolicyRule_Type_ARM(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -1031,7 +1033,9 @@ func (rule *ManagementPolicyRule) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagementPolicyRule_Type(temp)
 		rule.Type = &typeVar
 	}
 
@@ -1180,7 +1184,9 @@ func (rule *ManagementPolicyRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Type":
 	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := ManagementPolicyRule_Type_STATUS(temp)
 		rule.Type = &typeVar
 	}
 

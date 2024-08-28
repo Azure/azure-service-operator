@@ -409,7 +409,9 @@ func (pool *Servers_ElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.HighAvailabilityReplicaCount = &highAvailabilityReplicaCount
 	}
 	if pool.LicenseType != nil {
-		licenseType := *pool.LicenseType
+		var temp string
+		temp = string(*pool.LicenseType)
+		licenseType := ElasticPoolProperties_LicenseType_ARM(temp)
 		result.Properties.LicenseType = &licenseType
 	}
 	if pool.MaintenanceConfigurationId != nil {
@@ -485,7 +487,9 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LicenseType != nil {
-			licenseType := *typedInput.Properties.LicenseType
+			var temp string
+			temp = string(*typedInput.Properties.LicenseType)
+			licenseType := ElasticPoolProperties_LicenseType(temp)
 			pool.LicenseType = &licenseType
 		}
 	}
@@ -1040,7 +1044,9 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LicenseType != nil {
-			licenseType := *typedInput.Properties.LicenseType
+			var temp string
+			temp = string(*typedInput.Properties.LicenseType)
+			licenseType := ElasticPoolProperties_LicenseType_STATUS(temp)
 			pool.LicenseType = &licenseType
 		}
 	}
@@ -1113,7 +1119,9 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
+			var temp string
+			temp = string(*typedInput.Properties.State)
+			state := ElasticPoolProperties_State_STATUS(temp)
 			pool.State = &state
 		}
 	}

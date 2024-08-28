@@ -64,21 +64,21 @@ func (policy *BaseBackupPolicy_ARM) UnmarshalJSON(data []byte) error {
 
 type BackupPolicy_ARM struct {
 	// DatasourceTypes: Type of datasource for the backup management
-	DatasourceTypes []string                `json:"datasourceTypes,omitempty"`
-	ObjectType      BackupPolicy_ObjectType `json:"objectType,omitempty"`
+	DatasourceTypes []string                    `json:"datasourceTypes,omitempty"`
+	ObjectType      BackupPolicy_ObjectType_ARM `json:"objectType,omitempty"`
 
 	// PolicyRules: Policy rule dictionary that contains rules for each backuptype i.e Full/Incremental/Logs etc
 	PolicyRules []BasePolicyRule_ARM `json:"policyRules,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"BackupPolicy"}
-type BackupPolicy_ObjectType string
+type BackupPolicy_ObjectType_ARM string
 
-const BackupPolicy_ObjectType_BackupPolicy = BackupPolicy_ObjectType("BackupPolicy")
+const BackupPolicy_ObjectType_ARM_BackupPolicy = BackupPolicy_ObjectType_ARM("BackupPolicy")
 
-// Mapping from string to BackupPolicy_ObjectType
-var backupPolicy_ObjectType_Values = map[string]BackupPolicy_ObjectType{
-	"backuppolicy": BackupPolicy_ObjectType_BackupPolicy,
+// Mapping from string to BackupPolicy_ObjectType_ARM
+var backupPolicy_ObjectType_ARM_Values = map[string]BackupPolicy_ObjectType_ARM{
+	"backuppolicy": BackupPolicy_ObjectType_ARM_BackupPolicy,
 }
 
 type BasePolicyRule_ARM struct {
@@ -125,37 +125,37 @@ type AzureBackupRule_ARM struct {
 	BackupParameters *BackupParameters_ARM `json:"backupParameters,omitempty"`
 
 	// DataStore: DataStoreInfo base
-	DataStore  *DataStoreInfoBase_ARM     `json:"dataStore,omitempty"`
-	Name       *string                    `json:"name,omitempty"`
-	ObjectType AzureBackupRule_ObjectType `json:"objectType,omitempty"`
-	Trigger    *TriggerContext_ARM        `json:"trigger,omitempty"`
+	DataStore  *DataStoreInfoBase_ARM         `json:"dataStore,omitempty"`
+	Name       *string                        `json:"name,omitempty"`
+	ObjectType AzureBackupRule_ObjectType_ARM `json:"objectType,omitempty"`
+	Trigger    *TriggerContext_ARM            `json:"trigger,omitempty"`
 }
 
 type AzureRetentionRule_ARM struct {
-	IsDefault  *bool                         `json:"isDefault,omitempty"`
-	Lifecycles []SourceLifeCycle_ARM         `json:"lifecycles,omitempty"`
-	Name       *string                       `json:"name,omitempty"`
-	ObjectType AzureRetentionRule_ObjectType `json:"objectType,omitempty"`
+	IsDefault  *bool                             `json:"isDefault,omitempty"`
+	Lifecycles []SourceLifeCycle_ARM             `json:"lifecycles,omitempty"`
+	Name       *string                           `json:"name,omitempty"`
+	ObjectType AzureRetentionRule_ObjectType_ARM `json:"objectType,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"AzureBackupRule"}
-type AzureBackupRule_ObjectType string
+type AzureBackupRule_ObjectType_ARM string
 
-const AzureBackupRule_ObjectType_AzureBackupRule = AzureBackupRule_ObjectType("AzureBackupRule")
+const AzureBackupRule_ObjectType_ARM_AzureBackupRule = AzureBackupRule_ObjectType_ARM("AzureBackupRule")
 
-// Mapping from string to AzureBackupRule_ObjectType
-var azureBackupRule_ObjectType_Values = map[string]AzureBackupRule_ObjectType{
-	"azurebackuprule": AzureBackupRule_ObjectType_AzureBackupRule,
+// Mapping from string to AzureBackupRule_ObjectType_ARM
+var azureBackupRule_ObjectType_ARM_Values = map[string]AzureBackupRule_ObjectType_ARM{
+	"azurebackuprule": AzureBackupRule_ObjectType_ARM_AzureBackupRule,
 }
 
 // +kubebuilder:validation:Enum={"AzureRetentionRule"}
-type AzureRetentionRule_ObjectType string
+type AzureRetentionRule_ObjectType_ARM string
 
-const AzureRetentionRule_ObjectType_AzureRetentionRule = AzureRetentionRule_ObjectType("AzureRetentionRule")
+const AzureRetentionRule_ObjectType_ARM_AzureRetentionRule = AzureRetentionRule_ObjectType_ARM("AzureRetentionRule")
 
-// Mapping from string to AzureRetentionRule_ObjectType
-var azureRetentionRule_ObjectType_Values = map[string]AzureRetentionRule_ObjectType{
-	"azureretentionrule": AzureRetentionRule_ObjectType_AzureRetentionRule,
+// Mapping from string to AzureRetentionRule_ObjectType_ARM
+var azureRetentionRule_ObjectType_ARM_Values = map[string]AzureRetentionRule_ObjectType_ARM{
+	"azureretentionrule": AzureRetentionRule_ObjectType_ARM_AzureRetentionRule,
 }
 
 type BackupParameters_ARM struct {
@@ -191,7 +191,7 @@ func (parameters *BackupParameters_ARM) UnmarshalJSON(data []byte) error {
 // DataStoreInfo base
 type DataStoreInfoBase_ARM struct {
 	// DataStoreType: type of datastore; Operational/Vault/Archive
-	DataStoreType *DataStoreInfoBase_DataStoreType `json:"dataStoreType,omitempty"`
+	DataStoreType *DataStoreInfoBase_DataStoreType_ARM `json:"dataStoreType,omitempty"`
 
 	// ObjectType: Type of Datasource object, used to initialize the right inherited type
 	ObjectType *string `json:"objectType,omitempty"`
@@ -248,7 +248,7 @@ func (context *TriggerContext_ARM) UnmarshalJSON(data []byte) error {
 
 type AdhocBasedTriggerContext_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType AdhocBasedTriggerContext_ObjectType `json:"objectType,omitempty"`
+	ObjectType AdhocBasedTriggerContext_ObjectType_ARM `json:"objectType,omitempty"`
 
 	// TaggingCriteria: Tagging Criteria containing retention tag for adhoc backup.
 	TaggingCriteria *AdhocBasedTaggingCriteria_ARM `json:"taggingCriteria,omitempty"`
@@ -259,23 +259,23 @@ type AzureBackupParams_ARM struct {
 	BackupType *string `json:"backupType,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType AzureBackupParams_ObjectType `json:"objectType,omitempty"`
+	ObjectType AzureBackupParams_ObjectType_ARM `json:"objectType,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"ArchiveStore","OperationalStore","VaultStore"}
-type DataStoreInfoBase_DataStoreType string
+type DataStoreInfoBase_DataStoreType_ARM string
 
 const (
-	DataStoreInfoBase_DataStoreType_ArchiveStore     = DataStoreInfoBase_DataStoreType("ArchiveStore")
-	DataStoreInfoBase_DataStoreType_OperationalStore = DataStoreInfoBase_DataStoreType("OperationalStore")
-	DataStoreInfoBase_DataStoreType_VaultStore       = DataStoreInfoBase_DataStoreType("VaultStore")
+	DataStoreInfoBase_DataStoreType_ARM_ArchiveStore     = DataStoreInfoBase_DataStoreType_ARM("ArchiveStore")
+	DataStoreInfoBase_DataStoreType_ARM_OperationalStore = DataStoreInfoBase_DataStoreType_ARM("OperationalStore")
+	DataStoreInfoBase_DataStoreType_ARM_VaultStore       = DataStoreInfoBase_DataStoreType_ARM("VaultStore")
 )
 
-// Mapping from string to DataStoreInfoBase_DataStoreType
-var dataStoreInfoBase_DataStoreType_Values = map[string]DataStoreInfoBase_DataStoreType{
-	"archivestore":     DataStoreInfoBase_DataStoreType_ArchiveStore,
-	"operationalstore": DataStoreInfoBase_DataStoreType_OperationalStore,
-	"vaultstore":       DataStoreInfoBase_DataStoreType_VaultStore,
+// Mapping from string to DataStoreInfoBase_DataStoreType_ARM
+var dataStoreInfoBase_DataStoreType_ARM_Values = map[string]DataStoreInfoBase_DataStoreType_ARM{
+	"archivestore":     DataStoreInfoBase_DataStoreType_ARM_ArchiveStore,
+	"operationalstore": DataStoreInfoBase_DataStoreType_ARM_OperationalStore,
+	"vaultstore":       DataStoreInfoBase_DataStoreType_ARM_VaultStore,
 }
 
 type DeleteOption_ARM struct {
@@ -310,7 +310,7 @@ func (option *DeleteOption_ARM) UnmarshalJSON(data []byte) error {
 
 type ScheduleBasedTriggerContext_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType ScheduleBasedTriggerContext_ObjectType `json:"objectType,omitempty"`
+	ObjectType ScheduleBasedTriggerContext_ObjectType_ARM `json:"objectType,omitempty"`
 
 	// Schedule: Schedule for this backup
 	Schedule *BackupSchedule_ARM `json:"schedule,omitempty"`
@@ -333,7 +333,7 @@ type AbsoluteDeleteOption_ARM struct {
 	Duration *string `json:"duration,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType AbsoluteDeleteOption_ObjectType `json:"objectType,omitempty"`
+	ObjectType AbsoluteDeleteOption_ObjectType_ARM `json:"objectType,omitempty"`
 }
 
 // Adhoc backup tagging criteria
@@ -343,23 +343,23 @@ type AdhocBasedTaggingCriteria_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"AdhocBasedTriggerContext"}
-type AdhocBasedTriggerContext_ObjectType string
+type AdhocBasedTriggerContext_ObjectType_ARM string
 
-const AdhocBasedTriggerContext_ObjectType_AdhocBasedTriggerContext = AdhocBasedTriggerContext_ObjectType("AdhocBasedTriggerContext")
+const AdhocBasedTriggerContext_ObjectType_ARM_AdhocBasedTriggerContext = AdhocBasedTriggerContext_ObjectType_ARM("AdhocBasedTriggerContext")
 
-// Mapping from string to AdhocBasedTriggerContext_ObjectType
-var adhocBasedTriggerContext_ObjectType_Values = map[string]AdhocBasedTriggerContext_ObjectType{
-	"adhocbasedtriggercontext": AdhocBasedTriggerContext_ObjectType_AdhocBasedTriggerContext,
+// Mapping from string to AdhocBasedTriggerContext_ObjectType_ARM
+var adhocBasedTriggerContext_ObjectType_ARM_Values = map[string]AdhocBasedTriggerContext_ObjectType_ARM{
+	"adhocbasedtriggercontext": AdhocBasedTriggerContext_ObjectType_ARM_AdhocBasedTriggerContext,
 }
 
 // +kubebuilder:validation:Enum={"AzureBackupParams"}
-type AzureBackupParams_ObjectType string
+type AzureBackupParams_ObjectType_ARM string
 
-const AzureBackupParams_ObjectType_AzureBackupParams = AzureBackupParams_ObjectType("AzureBackupParams")
+const AzureBackupParams_ObjectType_ARM_AzureBackupParams = AzureBackupParams_ObjectType_ARM("AzureBackupParams")
 
-// Mapping from string to AzureBackupParams_ObjectType
-var azureBackupParams_ObjectType_Values = map[string]AzureBackupParams_ObjectType{
-	"azurebackupparams": AzureBackupParams_ObjectType_AzureBackupParams,
+// Mapping from string to AzureBackupParams_ObjectType_ARM
+var azureBackupParams_ObjectType_ARM_Values = map[string]AzureBackupParams_ObjectType_ARM{
+	"azurebackupparams": AzureBackupParams_ObjectType_ARM_AzureBackupParams,
 }
 
 // Schedule for backup
@@ -422,13 +422,13 @@ func (option *CopyOption_ARM) UnmarshalJSON(data []byte) error {
 }
 
 // +kubebuilder:validation:Enum={"ScheduleBasedTriggerContext"}
-type ScheduleBasedTriggerContext_ObjectType string
+type ScheduleBasedTriggerContext_ObjectType_ARM string
 
-const ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext = ScheduleBasedTriggerContext_ObjectType("ScheduleBasedTriggerContext")
+const ScheduleBasedTriggerContext_ObjectType_ARM_ScheduleBasedTriggerContext = ScheduleBasedTriggerContext_ObjectType_ARM("ScheduleBasedTriggerContext")
 
-// Mapping from string to ScheduleBasedTriggerContext_ObjectType
-var scheduleBasedTriggerContext_ObjectType_Values = map[string]ScheduleBasedTriggerContext_ObjectType{
-	"schedulebasedtriggercontext": ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext,
+// Mapping from string to ScheduleBasedTriggerContext_ObjectType_ARM
+var scheduleBasedTriggerContext_ObjectType_ARM_Values = map[string]ScheduleBasedTriggerContext_ObjectType_ARM{
+	"schedulebasedtriggercontext": ScheduleBasedTriggerContext_ObjectType_ARM_ScheduleBasedTriggerContext,
 }
 
 // Tagging criteria
@@ -447,13 +447,13 @@ type TaggingCriteria_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"AbsoluteDeleteOption"}
-type AbsoluteDeleteOption_ObjectType string
+type AbsoluteDeleteOption_ObjectType_ARM string
 
-const AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption = AbsoluteDeleteOption_ObjectType("AbsoluteDeleteOption")
+const AbsoluteDeleteOption_ObjectType_ARM_AbsoluteDeleteOption = AbsoluteDeleteOption_ObjectType_ARM("AbsoluteDeleteOption")
 
-// Mapping from string to AbsoluteDeleteOption_ObjectType
-var absoluteDeleteOption_ObjectType_Values = map[string]AbsoluteDeleteOption_ObjectType{
-	"absolutedeleteoption": AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption,
+// Mapping from string to AbsoluteDeleteOption_ObjectType_ARM
+var absoluteDeleteOption_ObjectType_ARM_Values = map[string]AbsoluteDeleteOption_ObjectType_ARM{
+	"absolutedeleteoption": AbsoluteDeleteOption_ObjectType_ARM_AbsoluteDeleteOption,
 }
 
 type BackupCriteria_ARM struct {
@@ -488,7 +488,7 @@ func (criteria *BackupCriteria_ARM) UnmarshalJSON(data []byte) error {
 
 type CopyOnExpiryOption_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType CopyOnExpiryOption_ObjectType `json:"objectType,omitempty"`
+	ObjectType CopyOnExpiryOption_ObjectType_ARM `json:"objectType,omitempty"`
 }
 
 type CustomCopyOption_ARM struct {
@@ -496,12 +496,12 @@ type CustomCopyOption_ARM struct {
 	Duration *string `json:"duration,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType CustomCopyOption_ObjectType `json:"objectType,omitempty"`
+	ObjectType CustomCopyOption_ObjectType_ARM `json:"objectType,omitempty"`
 }
 
 type ImmediateCopyOption_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType ImmediateCopyOption_ObjectType `json:"objectType,omitempty"`
+	ObjectType ImmediateCopyOption_ObjectType_ARM `json:"objectType,omitempty"`
 }
 
 // Retention tag
@@ -511,57 +511,57 @@ type RetentionTag_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"CopyOnExpiryOption"}
-type CopyOnExpiryOption_ObjectType string
+type CopyOnExpiryOption_ObjectType_ARM string
 
-const CopyOnExpiryOption_ObjectType_CopyOnExpiryOption = CopyOnExpiryOption_ObjectType("CopyOnExpiryOption")
+const CopyOnExpiryOption_ObjectType_ARM_CopyOnExpiryOption = CopyOnExpiryOption_ObjectType_ARM("CopyOnExpiryOption")
 
-// Mapping from string to CopyOnExpiryOption_ObjectType
-var copyOnExpiryOption_ObjectType_Values = map[string]CopyOnExpiryOption_ObjectType{
-	"copyonexpiryoption": CopyOnExpiryOption_ObjectType_CopyOnExpiryOption,
+// Mapping from string to CopyOnExpiryOption_ObjectType_ARM
+var copyOnExpiryOption_ObjectType_ARM_Values = map[string]CopyOnExpiryOption_ObjectType_ARM{
+	"copyonexpiryoption": CopyOnExpiryOption_ObjectType_ARM_CopyOnExpiryOption,
 }
 
 // +kubebuilder:validation:Enum={"CustomCopyOption"}
-type CustomCopyOption_ObjectType string
+type CustomCopyOption_ObjectType_ARM string
 
-const CustomCopyOption_ObjectType_CustomCopyOption = CustomCopyOption_ObjectType("CustomCopyOption")
+const CustomCopyOption_ObjectType_ARM_CustomCopyOption = CustomCopyOption_ObjectType_ARM("CustomCopyOption")
 
-// Mapping from string to CustomCopyOption_ObjectType
-var customCopyOption_ObjectType_Values = map[string]CustomCopyOption_ObjectType{
-	"customcopyoption": CustomCopyOption_ObjectType_CustomCopyOption,
+// Mapping from string to CustomCopyOption_ObjectType_ARM
+var customCopyOption_ObjectType_ARM_Values = map[string]CustomCopyOption_ObjectType_ARM{
+	"customcopyoption": CustomCopyOption_ObjectType_ARM_CustomCopyOption,
 }
 
 // +kubebuilder:validation:Enum={"ImmediateCopyOption"}
-type ImmediateCopyOption_ObjectType string
+type ImmediateCopyOption_ObjectType_ARM string
 
-const ImmediateCopyOption_ObjectType_ImmediateCopyOption = ImmediateCopyOption_ObjectType("ImmediateCopyOption")
+const ImmediateCopyOption_ObjectType_ARM_ImmediateCopyOption = ImmediateCopyOption_ObjectType_ARM("ImmediateCopyOption")
 
-// Mapping from string to ImmediateCopyOption_ObjectType
-var immediateCopyOption_ObjectType_Values = map[string]ImmediateCopyOption_ObjectType{
-	"immediatecopyoption": ImmediateCopyOption_ObjectType_ImmediateCopyOption,
+// Mapping from string to ImmediateCopyOption_ObjectType_ARM
+var immediateCopyOption_ObjectType_ARM_Values = map[string]ImmediateCopyOption_ObjectType_ARM{
+	"immediatecopyoption": ImmediateCopyOption_ObjectType_ARM_ImmediateCopyOption,
 }
 
 type ScheduleBasedBackupCriteria_ARM struct {
 	// AbsoluteCriteria: it contains absolute values like "AllBackup" / "FirstOfDay" / "FirstOfWeek" / "FirstOfMonth"
 	// and should be part of AbsoluteMarker enum
-	AbsoluteCriteria []ScheduleBasedBackupCriteria_AbsoluteCriteria `json:"absoluteCriteria,omitempty"`
+	AbsoluteCriteria []ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM `json:"absoluteCriteria,omitempty"`
 
 	// DaysOfMonth: This is day of the month from 1 to 28 other wise last of month
 	DaysOfMonth []Day_ARM `json:"daysOfMonth,omitempty"`
 
 	// DaysOfTheWeek: It should be Sunday/Monday/T..../Saturday
-	DaysOfTheWeek []ScheduleBasedBackupCriteria_DaysOfTheWeek `json:"daysOfTheWeek,omitempty"`
+	DaysOfTheWeek []ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM `json:"daysOfTheWeek,omitempty"`
 
 	// MonthsOfYear: It should be January/February/....../December
-	MonthsOfYear []ScheduleBasedBackupCriteria_MonthsOfYear `json:"monthsOfYear,omitempty"`
+	MonthsOfYear []ScheduleBasedBackupCriteria_MonthsOfYear_ARM `json:"monthsOfYear,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType ScheduleBasedBackupCriteria_ObjectType `json:"objectType,omitempty"`
+	ObjectType ScheduleBasedBackupCriteria_ObjectType_ARM `json:"objectType,omitempty"`
 
 	// ScheduleTimes: List of schedule times for backup
 	ScheduleTimes []string `json:"scheduleTimes,omitempty"`
 
 	// WeeksOfTheMonth: It should be First/Second/Third/Fourth/Last
-	WeeksOfTheMonth []ScheduleBasedBackupCriteria_WeeksOfTheMonth `json:"weeksOfTheMonth,omitempty"`
+	WeeksOfTheMonth []ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM `json:"weeksOfTheMonth,omitempty"`
 }
 
 // Day of the week
@@ -574,109 +574,109 @@ type Day_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"AllBackup","FirstOfDay","FirstOfMonth","FirstOfWeek","FirstOfYear"}
-type ScheduleBasedBackupCriteria_AbsoluteCriteria string
+type ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM string
 
 const (
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_AllBackup    = ScheduleBasedBackupCriteria_AbsoluteCriteria("AllBackup")
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfDay   = ScheduleBasedBackupCriteria_AbsoluteCriteria("FirstOfDay")
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfMonth = ScheduleBasedBackupCriteria_AbsoluteCriteria("FirstOfMonth")
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfWeek  = ScheduleBasedBackupCriteria_AbsoluteCriteria("FirstOfWeek")
-	ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfYear  = ScheduleBasedBackupCriteria_AbsoluteCriteria("FirstOfYear")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_AllBackup    = ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM("AllBackup")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfDay   = ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM("FirstOfDay")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfMonth = ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM("FirstOfMonth")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfWeek  = ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM("FirstOfWeek")
+	ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfYear  = ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM("FirstOfYear")
 )
 
-// Mapping from string to ScheduleBasedBackupCriteria_AbsoluteCriteria
-var scheduleBasedBackupCriteria_AbsoluteCriteria_Values = map[string]ScheduleBasedBackupCriteria_AbsoluteCriteria{
-	"allbackup":    ScheduleBasedBackupCriteria_AbsoluteCriteria_AllBackup,
-	"firstofday":   ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfDay,
-	"firstofmonth": ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfMonth,
-	"firstofweek":  ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfWeek,
-	"firstofyear":  ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfYear,
+// Mapping from string to ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM
+var scheduleBasedBackupCriteria_AbsoluteCriteria_ARM_Values = map[string]ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM{
+	"allbackup":    ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_AllBackup,
+	"firstofday":   ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfDay,
+	"firstofmonth": ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfMonth,
+	"firstofweek":  ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfWeek,
+	"firstofyear":  ScheduleBasedBackupCriteria_AbsoluteCriteria_ARM_FirstOfYear,
 }
 
 // +kubebuilder:validation:Enum={"Friday","Monday","Saturday","Sunday","Thursday","Tuesday","Wednesday"}
-type ScheduleBasedBackupCriteria_DaysOfTheWeek string
+type ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM string
 
 const (
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_Friday    = ScheduleBasedBackupCriteria_DaysOfTheWeek("Friday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_Monday    = ScheduleBasedBackupCriteria_DaysOfTheWeek("Monday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_Saturday  = ScheduleBasedBackupCriteria_DaysOfTheWeek("Saturday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_Sunday    = ScheduleBasedBackupCriteria_DaysOfTheWeek("Sunday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_Thursday  = ScheduleBasedBackupCriteria_DaysOfTheWeek("Thursday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_Tuesday   = ScheduleBasedBackupCriteria_DaysOfTheWeek("Tuesday")
-	ScheduleBasedBackupCriteria_DaysOfTheWeek_Wednesday = ScheduleBasedBackupCriteria_DaysOfTheWeek("Wednesday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Friday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM("Friday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Monday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM("Monday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Saturday  = ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM("Saturday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Sunday    = ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM("Sunday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Thursday  = ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM("Thursday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Tuesday   = ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM("Tuesday")
+	ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Wednesday = ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM("Wednesday")
 )
 
-// Mapping from string to ScheduleBasedBackupCriteria_DaysOfTheWeek
-var scheduleBasedBackupCriteria_DaysOfTheWeek_Values = map[string]ScheduleBasedBackupCriteria_DaysOfTheWeek{
-	"friday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_Friday,
-	"monday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_Monday,
-	"saturday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_Saturday,
-	"sunday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_Sunday,
-	"thursday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_Thursday,
-	"tuesday":   ScheduleBasedBackupCriteria_DaysOfTheWeek_Tuesday,
-	"wednesday": ScheduleBasedBackupCriteria_DaysOfTheWeek_Wednesday,
+// Mapping from string to ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM
+var scheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Values = map[string]ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM{
+	"friday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Friday,
+	"monday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Monday,
+	"saturday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Saturday,
+	"sunday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Sunday,
+	"thursday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Thursday,
+	"tuesday":   ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Tuesday,
+	"wednesday": ScheduleBasedBackupCriteria_DaysOfTheWeek_ARM_Wednesday,
 }
 
 // +kubebuilder:validation:Enum={"April","August","December","February","January","July","June","March","May","November","October","September"}
-type ScheduleBasedBackupCriteria_MonthsOfYear string
+type ScheduleBasedBackupCriteria_MonthsOfYear_ARM string
 
 const (
-	ScheduleBasedBackupCriteria_MonthsOfYear_April     = ScheduleBasedBackupCriteria_MonthsOfYear("April")
-	ScheduleBasedBackupCriteria_MonthsOfYear_August    = ScheduleBasedBackupCriteria_MonthsOfYear("August")
-	ScheduleBasedBackupCriteria_MonthsOfYear_December  = ScheduleBasedBackupCriteria_MonthsOfYear("December")
-	ScheduleBasedBackupCriteria_MonthsOfYear_February  = ScheduleBasedBackupCriteria_MonthsOfYear("February")
-	ScheduleBasedBackupCriteria_MonthsOfYear_January   = ScheduleBasedBackupCriteria_MonthsOfYear("January")
-	ScheduleBasedBackupCriteria_MonthsOfYear_July      = ScheduleBasedBackupCriteria_MonthsOfYear("July")
-	ScheduleBasedBackupCriteria_MonthsOfYear_June      = ScheduleBasedBackupCriteria_MonthsOfYear("June")
-	ScheduleBasedBackupCriteria_MonthsOfYear_March     = ScheduleBasedBackupCriteria_MonthsOfYear("March")
-	ScheduleBasedBackupCriteria_MonthsOfYear_May       = ScheduleBasedBackupCriteria_MonthsOfYear("May")
-	ScheduleBasedBackupCriteria_MonthsOfYear_November  = ScheduleBasedBackupCriteria_MonthsOfYear("November")
-	ScheduleBasedBackupCriteria_MonthsOfYear_October   = ScheduleBasedBackupCriteria_MonthsOfYear("October")
-	ScheduleBasedBackupCriteria_MonthsOfYear_September = ScheduleBasedBackupCriteria_MonthsOfYear("September")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_April     = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("April")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_August    = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("August")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_December  = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("December")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_February  = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("February")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_January   = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("January")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_July      = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("July")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_June      = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("June")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_March     = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("March")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_May       = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("May")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_November  = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("November")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_October   = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("October")
+	ScheduleBasedBackupCriteria_MonthsOfYear_ARM_September = ScheduleBasedBackupCriteria_MonthsOfYear_ARM("September")
 )
 
-// Mapping from string to ScheduleBasedBackupCriteria_MonthsOfYear
-var scheduleBasedBackupCriteria_MonthsOfYear_Values = map[string]ScheduleBasedBackupCriteria_MonthsOfYear{
-	"april":     ScheduleBasedBackupCriteria_MonthsOfYear_April,
-	"august":    ScheduleBasedBackupCriteria_MonthsOfYear_August,
-	"december":  ScheduleBasedBackupCriteria_MonthsOfYear_December,
-	"february":  ScheduleBasedBackupCriteria_MonthsOfYear_February,
-	"january":   ScheduleBasedBackupCriteria_MonthsOfYear_January,
-	"july":      ScheduleBasedBackupCriteria_MonthsOfYear_July,
-	"june":      ScheduleBasedBackupCriteria_MonthsOfYear_June,
-	"march":     ScheduleBasedBackupCriteria_MonthsOfYear_March,
-	"may":       ScheduleBasedBackupCriteria_MonthsOfYear_May,
-	"november":  ScheduleBasedBackupCriteria_MonthsOfYear_November,
-	"october":   ScheduleBasedBackupCriteria_MonthsOfYear_October,
-	"september": ScheduleBasedBackupCriteria_MonthsOfYear_September,
+// Mapping from string to ScheduleBasedBackupCriteria_MonthsOfYear_ARM
+var scheduleBasedBackupCriteria_MonthsOfYear_ARM_Values = map[string]ScheduleBasedBackupCriteria_MonthsOfYear_ARM{
+	"april":     ScheduleBasedBackupCriteria_MonthsOfYear_ARM_April,
+	"august":    ScheduleBasedBackupCriteria_MonthsOfYear_ARM_August,
+	"december":  ScheduleBasedBackupCriteria_MonthsOfYear_ARM_December,
+	"february":  ScheduleBasedBackupCriteria_MonthsOfYear_ARM_February,
+	"january":   ScheduleBasedBackupCriteria_MonthsOfYear_ARM_January,
+	"july":      ScheduleBasedBackupCriteria_MonthsOfYear_ARM_July,
+	"june":      ScheduleBasedBackupCriteria_MonthsOfYear_ARM_June,
+	"march":     ScheduleBasedBackupCriteria_MonthsOfYear_ARM_March,
+	"may":       ScheduleBasedBackupCriteria_MonthsOfYear_ARM_May,
+	"november":  ScheduleBasedBackupCriteria_MonthsOfYear_ARM_November,
+	"october":   ScheduleBasedBackupCriteria_MonthsOfYear_ARM_October,
+	"september": ScheduleBasedBackupCriteria_MonthsOfYear_ARM_September,
 }
 
 // +kubebuilder:validation:Enum={"ScheduleBasedBackupCriteria"}
-type ScheduleBasedBackupCriteria_ObjectType string
+type ScheduleBasedBackupCriteria_ObjectType_ARM string
 
-const ScheduleBasedBackupCriteria_ObjectType_ScheduleBasedBackupCriteria = ScheduleBasedBackupCriteria_ObjectType("ScheduleBasedBackupCriteria")
+const ScheduleBasedBackupCriteria_ObjectType_ARM_ScheduleBasedBackupCriteria = ScheduleBasedBackupCriteria_ObjectType_ARM("ScheduleBasedBackupCriteria")
 
-// Mapping from string to ScheduleBasedBackupCriteria_ObjectType
-var scheduleBasedBackupCriteria_ObjectType_Values = map[string]ScheduleBasedBackupCriteria_ObjectType{
-	"schedulebasedbackupcriteria": ScheduleBasedBackupCriteria_ObjectType_ScheduleBasedBackupCriteria,
+// Mapping from string to ScheduleBasedBackupCriteria_ObjectType_ARM
+var scheduleBasedBackupCriteria_ObjectType_ARM_Values = map[string]ScheduleBasedBackupCriteria_ObjectType_ARM{
+	"schedulebasedbackupcriteria": ScheduleBasedBackupCriteria_ObjectType_ARM_ScheduleBasedBackupCriteria,
 }
 
 // +kubebuilder:validation:Enum={"First","Fourth","Last","Second","Third"}
-type ScheduleBasedBackupCriteria_WeeksOfTheMonth string
+type ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM string
 
 const (
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_First  = ScheduleBasedBackupCriteria_WeeksOfTheMonth("First")
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Fourth = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Fourth")
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Last   = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Last")
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Second = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Second")
-	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Third  = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Third")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_First  = ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM("First")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Fourth = ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM("Fourth")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Last   = ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM("Last")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Second = ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM("Second")
+	ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Third  = ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM("Third")
 )
 
-// Mapping from string to ScheduleBasedBackupCriteria_WeeksOfTheMonth
-var scheduleBasedBackupCriteria_WeeksOfTheMonth_Values = map[string]ScheduleBasedBackupCriteria_WeeksOfTheMonth{
-	"first":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_First,
-	"fourth": ScheduleBasedBackupCriteria_WeeksOfTheMonth_Fourth,
-	"last":   ScheduleBasedBackupCriteria_WeeksOfTheMonth_Last,
-	"second": ScheduleBasedBackupCriteria_WeeksOfTheMonth_Second,
-	"third":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_Third,
+// Mapping from string to ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM
+var scheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Values = map[string]ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM{
+	"first":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_First,
+	"fourth": ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Fourth,
+	"last":   ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Last,
+	"second": ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Second,
+	"third":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_ARM_Third,
 }

@@ -75,7 +75,7 @@ func APIServerProfile_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAPIServerProfile_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAPIServerProfile_ARM(gens map[string]gopter.Gen) {
-	gens["Visibility"] = gen.PtrOf(gen.OneConstOf(Visibility_Private, Visibility_Public))
+	gens["Visibility"] = gen.PtrOf(gen.OneConstOf(Visibility_ARM_Private, Visibility_ARM_Public))
 }
 
 func Test_ClusterProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -136,7 +136,7 @@ func ClusterProfile_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForClusterProfile_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForClusterProfile_ARM(gens map[string]gopter.Gen) {
 	gens["Domain"] = gen.PtrOf(gen.AlphaString())
-	gens["FipsValidatedModules"] = gen.PtrOf(gen.OneConstOf(FipsValidatedModules_Disabled, FipsValidatedModules_Enabled))
+	gens["FipsValidatedModules"] = gen.PtrOf(gen.OneConstOf(FipsValidatedModules_ARM_Disabled, FipsValidatedModules_ARM_Enabled))
 	gens["PullSecret"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceGroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
@@ -200,7 +200,7 @@ func IngressProfile_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIngressProfile_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIngressProfile_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Visibility"] = gen.PtrOf(gen.OneConstOf(Visibility_Private, Visibility_Public))
+	gens["Visibility"] = gen.PtrOf(gen.OneConstOf(Visibility_ARM_Private, Visibility_ARM_Public))
 }
 
 func Test_LoadBalancerProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -383,7 +383,7 @@ func MasterProfile_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMasterProfile_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMasterProfile_ARM(gens map[string]gopter.Gen) {
 	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
-	gens["EncryptionAtHost"] = gen.PtrOf(gen.OneConstOf(EncryptionAtHost_Disabled, EncryptionAtHost_Enabled))
+	gens["EncryptionAtHost"] = gen.PtrOf(gen.OneConstOf(EncryptionAtHost_ARM_Disabled, EncryptionAtHost_ARM_Enabled))
 	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
@@ -454,9 +454,9 @@ func NetworkProfile_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkProfile_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkProfile_ARM(gens map[string]gopter.Gen) {
-	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(OutboundType_Loadbalancer, OutboundType_UserDefinedRouting))
+	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(OutboundType_ARM_Loadbalancer, OutboundType_ARM_UserDefinedRouting))
 	gens["PodCidr"] = gen.PtrOf(gen.AlphaString())
-	gens["PreconfiguredNSG"] = gen.PtrOf(gen.OneConstOf(PreconfiguredNSG_Disabled, PreconfiguredNSG_Enabled))
+	gens["PreconfiguredNSG"] = gen.PtrOf(gen.OneConstOf(PreconfiguredNSG_ARM_Disabled, PreconfiguredNSG_ARM_Enabled))
 	gens["ServiceCidr"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -733,7 +733,7 @@ func AddIndependentPropertyGeneratorsForWorkerProfile_ARM(gens map[string]gopter
 	gens["Count"] = gen.PtrOf(gen.Int())
 	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["EncryptionAtHost"] = gen.PtrOf(gen.OneConstOf(EncryptionAtHost_Disabled, EncryptionAtHost_Enabled))
+	gens["EncryptionAtHost"] = gen.PtrOf(gen.OneConstOf(EncryptionAtHost_ARM_Disabled, EncryptionAtHost_ARM_Enabled))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())

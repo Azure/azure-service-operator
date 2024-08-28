@@ -293,12 +293,12 @@ func (in *BigDataPoolResourceProperties_ARM) DeepCopyInto(out *BigDataPoolResour
 	}
 	if in.NodeSize != nil {
 		in, out := &in.NodeSize, &out.NodeSize
-		*out = new(BigDataPoolResourceProperties_NodeSize)
+		*out = new(BigDataPoolResourceProperties_NodeSize_ARM)
 		**out = **in
 	}
 	if in.NodeSizeFamily != nil {
 		in, out := &in.NodeSizeFamily, &out.NodeSizeFamily
-		*out = new(BigDataPoolResourceProperties_NodeSizeFamily)
+		*out = new(BigDataPoolResourceProperties_NodeSizeFamily_ARM)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -405,12 +405,12 @@ func (in *BigDataPoolResourceProperties_STATUS_ARM) DeepCopyInto(out *BigDataPoo
 	}
 	if in.NodeSize != nil {
 		in, out := &in.NodeSize, &out.NodeSize
-		*out = new(BigDataPoolResourceProperties_NodeSize_STATUS)
+		*out = new(BigDataPoolResourceProperties_NodeSize_STATUS_ARM)
 		**out = **in
 	}
 	if in.NodeSizeFamily != nil {
 		in, out := &in.NodeSizeFamily, &out.NodeSizeFamily
-		*out = new(BigDataPoolResourceProperties_NodeSizeFamily_STATUS)
+		*out = new(BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -1405,7 +1405,7 @@ func (in *ManagedIdentity_ARM) DeepCopyInto(out *ManagedIdentity_ARM) {
 	*out = *in
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedIdentity_Type)
+		*out = new(ManagedIdentity_Type_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -1479,7 +1479,7 @@ func (in *ManagedIdentity_STATUS_ARM) DeepCopyInto(out *ManagedIdentity_STATUS_A
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedIdentity_Type_STATUS)
+		*out = new(ManagedIdentity_Type_STATUS_ARM)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -1776,7 +1776,7 @@ func (in *SparkConfigProperties_ARM) DeepCopyInto(out *SparkConfigProperties_ARM
 	*out = *in
 	if in.ConfigurationType != nil {
 		in, out := &in.ConfigurationType, &out.ConfigurationType
-		*out = new(SparkConfigProperties_ConfigurationType)
+		*out = new(SparkConfigProperties_ConfigurationType_ARM)
 		**out = **in
 	}
 	if in.Content != nil {
@@ -1841,7 +1841,7 @@ func (in *SparkConfigProperties_STATUS_ARM) DeepCopyInto(out *SparkConfigPropert
 	*out = *in
 	if in.ConfigurationType != nil {
 		in, out := &in.ConfigurationType, &out.ConfigurationType
-		*out = new(SparkConfigProperties_ConfigurationType_STATUS)
+		*out = new(SparkConfigProperties_ConfigurationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.Content != nil {
@@ -2231,7 +2231,7 @@ func (in *WorkspaceProperties_ARM) DeepCopyInto(out *WorkspaceProperties_ARM) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(WorkspaceProperties_PublicNetworkAccess)
+		*out = new(WorkspaceProperties_PublicNetworkAccess_ARM)
 		**out = **in
 	}
 	if in.PurviewConfiguration != nil {
@@ -2347,7 +2347,7 @@ func (in *WorkspaceProperties_STATUS_ARM) DeepCopyInto(out *WorkspaceProperties_
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(WorkspaceProperties_PublicNetworkAccess_STATUS)
+		*out = new(WorkspaceProperties_PublicNetworkAccess_STATUS_ARM)
 		**out = **in
 	}
 	if in.PurviewConfiguration != nil {

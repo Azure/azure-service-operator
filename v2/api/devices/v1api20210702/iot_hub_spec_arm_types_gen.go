@@ -43,7 +43,7 @@ func (iotHub *IotHub_Spec_ARM) GetType() string {
 type ArmIdentity_ARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
-	Type                   *ArmIdentity_Type                          `json:"type,omitempty"`
+	Type                   *ArmIdentity_Type_ARM                      `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -82,7 +82,7 @@ type IotHubProperties_ARM struct {
 	EventHubEndpoints map[string]EventHubProperties_ARM `json:"eventHubEndpoints,omitempty"`
 
 	// Features: The capabilities and features enabled for the IoT hub.
-	Features *IotHubProperties_Features `json:"features,omitempty"`
+	Features *IotHubProperties_Features_ARM `json:"features,omitempty"`
 
 	// IpFilterRules: The IP filter rules.
 	IpFilterRules []IpFilterRule_ARM `json:"ipFilterRules,omitempty"`
@@ -98,7 +98,7 @@ type IotHubProperties_ARM struct {
 	NetworkRuleSets *NetworkRuleSetProperties_ARM `json:"networkRuleSets,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed
-	PublicNetworkAccess *IotHubProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *IotHubProperties_PublicNetworkAccess_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// RestrictOutboundNetworkAccess: If true, egress from IotHub will be restricted to only the allowed FQDNs that are
 	// configured via allowedFqdnList.
@@ -122,25 +122,25 @@ type IotHubSkuInfo_ARM struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: The name of the SKU.
-	Name *IotHubSkuInfo_Name `json:"name,omitempty"`
+	Name *IotHubSkuInfo_Name_ARM `json:"name,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ArmIdentity_Type string
+type ArmIdentity_Type_ARM string
 
 const (
-	ArmIdentity_Type_None                       = ArmIdentity_Type("None")
-	ArmIdentity_Type_SystemAssigned             = ArmIdentity_Type("SystemAssigned")
-	ArmIdentity_Type_SystemAssignedUserAssigned = ArmIdentity_Type("SystemAssigned, UserAssigned")
-	ArmIdentity_Type_UserAssigned               = ArmIdentity_Type("UserAssigned")
+	ArmIdentity_Type_ARM_None                       = ArmIdentity_Type_ARM("None")
+	ArmIdentity_Type_ARM_SystemAssigned             = ArmIdentity_Type_ARM("SystemAssigned")
+	ArmIdentity_Type_ARM_SystemAssignedUserAssigned = ArmIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	ArmIdentity_Type_ARM_UserAssigned               = ArmIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to ArmIdentity_Type
-var armIdentity_Type_Values = map[string]ArmIdentity_Type{
-	"none":                         ArmIdentity_Type_None,
-	"systemassigned":               ArmIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": ArmIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 ArmIdentity_Type_UserAssigned,
+// Mapping from string to ArmIdentity_Type_ARM
+var armIdentity_Type_ARM_Values = map[string]ArmIdentity_Type_ARM{
+	"none":                         ArmIdentity_Type_ARM_None,
+	"systemassigned":               ArmIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": ArmIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 ArmIdentity_Type_ARM_UserAssigned,
 }
 
 // The IoT hub cloud-to-device messaging properties.
@@ -169,61 +169,61 @@ type EventHubProperties_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"DeviceManagement","None"}
-type IotHubProperties_Features string
+type IotHubProperties_Features_ARM string
 
 const (
-	IotHubProperties_Features_DeviceManagement = IotHubProperties_Features("DeviceManagement")
-	IotHubProperties_Features_None             = IotHubProperties_Features("None")
+	IotHubProperties_Features_ARM_DeviceManagement = IotHubProperties_Features_ARM("DeviceManagement")
+	IotHubProperties_Features_ARM_None             = IotHubProperties_Features_ARM("None")
 )
 
-// Mapping from string to IotHubProperties_Features
-var iotHubProperties_Features_Values = map[string]IotHubProperties_Features{
-	"devicemanagement": IotHubProperties_Features_DeviceManagement,
-	"none":             IotHubProperties_Features_None,
+// Mapping from string to IotHubProperties_Features_ARM
+var iotHubProperties_Features_ARM_Values = map[string]IotHubProperties_Features_ARM{
+	"devicemanagement": IotHubProperties_Features_ARM_DeviceManagement,
+	"none":             IotHubProperties_Features_ARM_None,
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type IotHubProperties_PublicNetworkAccess string
+type IotHubProperties_PublicNetworkAccess_ARM string
 
 const (
-	IotHubProperties_PublicNetworkAccess_Disabled = IotHubProperties_PublicNetworkAccess("Disabled")
-	IotHubProperties_PublicNetworkAccess_Enabled  = IotHubProperties_PublicNetworkAccess("Enabled")
+	IotHubProperties_PublicNetworkAccess_ARM_Disabled = IotHubProperties_PublicNetworkAccess_ARM("Disabled")
+	IotHubProperties_PublicNetworkAccess_ARM_Enabled  = IotHubProperties_PublicNetworkAccess_ARM("Enabled")
 )
 
-// Mapping from string to IotHubProperties_PublicNetworkAccess
-var iotHubProperties_PublicNetworkAccess_Values = map[string]IotHubProperties_PublicNetworkAccess{
-	"disabled": IotHubProperties_PublicNetworkAccess_Disabled,
-	"enabled":  IotHubProperties_PublicNetworkAccess_Enabled,
+// Mapping from string to IotHubProperties_PublicNetworkAccess_ARM
+var iotHubProperties_PublicNetworkAccess_ARM_Values = map[string]IotHubProperties_PublicNetworkAccess_ARM{
+	"disabled": IotHubProperties_PublicNetworkAccess_ARM_Disabled,
+	"enabled":  IotHubProperties_PublicNetworkAccess_ARM_Enabled,
 }
 
 // +kubebuilder:validation:Enum={"B1","B2","B3","F1","S1","S2","S3"}
-type IotHubSkuInfo_Name string
+type IotHubSkuInfo_Name_ARM string
 
 const (
-	IotHubSkuInfo_Name_B1 = IotHubSkuInfo_Name("B1")
-	IotHubSkuInfo_Name_B2 = IotHubSkuInfo_Name("B2")
-	IotHubSkuInfo_Name_B3 = IotHubSkuInfo_Name("B3")
-	IotHubSkuInfo_Name_F1 = IotHubSkuInfo_Name("F1")
-	IotHubSkuInfo_Name_S1 = IotHubSkuInfo_Name("S1")
-	IotHubSkuInfo_Name_S2 = IotHubSkuInfo_Name("S2")
-	IotHubSkuInfo_Name_S3 = IotHubSkuInfo_Name("S3")
+	IotHubSkuInfo_Name_ARM_B1 = IotHubSkuInfo_Name_ARM("B1")
+	IotHubSkuInfo_Name_ARM_B2 = IotHubSkuInfo_Name_ARM("B2")
+	IotHubSkuInfo_Name_ARM_B3 = IotHubSkuInfo_Name_ARM("B3")
+	IotHubSkuInfo_Name_ARM_F1 = IotHubSkuInfo_Name_ARM("F1")
+	IotHubSkuInfo_Name_ARM_S1 = IotHubSkuInfo_Name_ARM("S1")
+	IotHubSkuInfo_Name_ARM_S2 = IotHubSkuInfo_Name_ARM("S2")
+	IotHubSkuInfo_Name_ARM_S3 = IotHubSkuInfo_Name_ARM("S3")
 )
 
-// Mapping from string to IotHubSkuInfo_Name
-var iotHubSkuInfo_Name_Values = map[string]IotHubSkuInfo_Name{
-	"b1": IotHubSkuInfo_Name_B1,
-	"b2": IotHubSkuInfo_Name_B2,
-	"b3": IotHubSkuInfo_Name_B3,
-	"f1": IotHubSkuInfo_Name_F1,
-	"s1": IotHubSkuInfo_Name_S1,
-	"s2": IotHubSkuInfo_Name_S2,
-	"s3": IotHubSkuInfo_Name_S3,
+// Mapping from string to IotHubSkuInfo_Name_ARM
+var iotHubSkuInfo_Name_ARM_Values = map[string]IotHubSkuInfo_Name_ARM{
+	"b1": IotHubSkuInfo_Name_ARM_B1,
+	"b2": IotHubSkuInfo_Name_ARM_B2,
+	"b3": IotHubSkuInfo_Name_ARM_B3,
+	"f1": IotHubSkuInfo_Name_ARM_F1,
+	"s1": IotHubSkuInfo_Name_ARM_S1,
+	"s2": IotHubSkuInfo_Name_ARM_S2,
+	"s3": IotHubSkuInfo_Name_ARM_S3,
 }
 
 // The IP filter rules for the IoT hub.
 type IpFilterRule_ARM struct {
 	// Action: The desired action for requests captured by this rule.
-	Action *IpFilterRule_Action `json:"action,omitempty"`
+	Action *IpFilterRule_Action_ARM `json:"action,omitempty"`
 
 	// FilterName: The name of the IP filter rule.
 	FilterName *string `json:"filterName,omitempty"`
@@ -252,7 +252,7 @@ type NetworkRuleSetProperties_ARM struct {
 	ApplyToBuiltInEventHubEndpoint *bool `json:"applyToBuiltInEventHubEndpoint,omitempty"`
 
 	// DefaultAction: Default Action for Network Rule Set
-	DefaultAction *NetworkRuleSetProperties_DefaultAction `json:"defaultAction,omitempty"`
+	DefaultAction *NetworkRuleSetProperties_DefaultAction_ARM `json:"defaultAction,omitempty"`
 
 	// IpRules: List of IP Rules
 	IpRules []NetworkRuleSetIpRule_ARM `json:"ipRules,omitempty"`
@@ -286,13 +286,13 @@ type SharedAccessSignatureAuthorizationRule_ARM struct {
 	KeyName *string `json:"keyName,omitempty"`
 
 	// Rights: The permissions assigned to the shared access policy.
-	Rights *SharedAccessSignatureAuthorizationRule_Rights `json:"rights,omitempty"`
+	Rights *SharedAccessSignatureAuthorizationRule_Rights_ARM `json:"rights,omitempty"`
 }
 
 // The properties of the Azure Storage endpoint for file upload.
 type StorageEndpointProperties_ARM struct {
 	// AuthenticationType: Specifies authentication type being used for connecting to the storage account.
-	AuthenticationType *StorageEndpointProperties_AuthenticationType `json:"authenticationType,omitempty"`
+	AuthenticationType *StorageEndpointProperties_AuthenticationType_ARM `json:"authenticationType,omitempty"`
 
 	// ConnectionString: The connection string for the Azure Storage account to which files are uploaded.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -344,7 +344,7 @@ type FallbackRouteProperties_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Source: The source to which the routing rule is to be applied to. For example, DeviceMessages
-	Source *FallbackRouteProperties_Source `json:"source,omitempty"`
+	Source *FallbackRouteProperties_Source_ARM `json:"source,omitempty"`
 }
 
 // The properties of the feedback queue for cloud-to-device messages.
@@ -363,17 +363,17 @@ type FeedbackProperties_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Accept","Reject"}
-type IpFilterRule_Action string
+type IpFilterRule_Action_ARM string
 
 const (
-	IpFilterRule_Action_Accept = IpFilterRule_Action("Accept")
-	IpFilterRule_Action_Reject = IpFilterRule_Action("Reject")
+	IpFilterRule_Action_ARM_Accept = IpFilterRule_Action_ARM("Accept")
+	IpFilterRule_Action_ARM_Reject = IpFilterRule_Action_ARM("Reject")
 )
 
-// Mapping from string to IpFilterRule_Action
-var ipFilterRule_Action_Values = map[string]IpFilterRule_Action{
-	"accept": IpFilterRule_Action_Accept,
-	"reject": IpFilterRule_Action_Reject,
+// Mapping from string to IpFilterRule_Action_ARM
+var ipFilterRule_Action_ARM_Values = map[string]IpFilterRule_Action_ARM{
+	"accept": IpFilterRule_Action_ARM_Accept,
+	"reject": IpFilterRule_Action_ARM_Reject,
 }
 
 // The properties of the Managed identity.
@@ -385,7 +385,7 @@ type ManagedIdentity_ARM struct {
 // IP Rule to be applied as part of Network Rule Set
 type NetworkRuleSetIpRule_ARM struct {
 	// Action: IP Filter Action
-	Action *NetworkRuleSetIpRule_Action `json:"action,omitempty"`
+	Action *NetworkRuleSetIpRule_Action_ARM `json:"action,omitempty"`
 
 	// FilterName: Name of the IP filter rule.
 	FilterName *string `json:"filterName,omitempty"`
@@ -395,17 +395,17 @@ type NetworkRuleSetIpRule_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"Allow","Deny"}
-type NetworkRuleSetProperties_DefaultAction string
+type NetworkRuleSetProperties_DefaultAction_ARM string
 
 const (
-	NetworkRuleSetProperties_DefaultAction_Allow = NetworkRuleSetProperties_DefaultAction("Allow")
-	NetworkRuleSetProperties_DefaultAction_Deny  = NetworkRuleSetProperties_DefaultAction("Deny")
+	NetworkRuleSetProperties_DefaultAction_ARM_Allow = NetworkRuleSetProperties_DefaultAction_ARM("Allow")
+	NetworkRuleSetProperties_DefaultAction_ARM_Deny  = NetworkRuleSetProperties_DefaultAction_ARM("Deny")
 )
 
-// Mapping from string to NetworkRuleSetProperties_DefaultAction
-var networkRuleSetProperties_DefaultAction_Values = map[string]NetworkRuleSetProperties_DefaultAction{
-	"allow": NetworkRuleSetProperties_DefaultAction_Allow,
-	"deny":  NetworkRuleSetProperties_DefaultAction_Deny,
+// Mapping from string to NetworkRuleSetProperties_DefaultAction_ARM
+var networkRuleSetProperties_DefaultAction_ARM_Values = map[string]NetworkRuleSetProperties_DefaultAction_ARM{
+	"allow": NetworkRuleSetProperties_DefaultAction_ARM_Allow,
+	"deny":  NetworkRuleSetProperties_DefaultAction_ARM_Deny,
 }
 
 // The properties of a routing rule that your IoT hub uses to route messages to endpoints.
@@ -426,7 +426,7 @@ type RouteProperties_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Source: The source that the routing rule is to be applied to, such as DeviceMessages.
-	Source *RouteProperties_Source `json:"source,omitempty"`
+	Source *RouteProperties_Source_ARM `json:"source,omitempty"`
 }
 
 // The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A
@@ -450,105 +450,105 @@ type RoutingEndpoints_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"DeviceConnect","RegistryRead","RegistryRead, DeviceConnect","RegistryRead, RegistryWrite","RegistryRead, RegistryWrite, DeviceConnect","RegistryRead, RegistryWrite, ServiceConnect","RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect","RegistryRead, ServiceConnect","RegistryRead, ServiceConnect, DeviceConnect","RegistryWrite","RegistryWrite, DeviceConnect","RegistryWrite, ServiceConnect","RegistryWrite, ServiceConnect, DeviceConnect","ServiceConnect","ServiceConnect, DeviceConnect"}
-type SharedAccessSignatureAuthorizationRule_Rights string
+type SharedAccessSignatureAuthorizationRule_Rights_ARM string
 
 const (
-	SharedAccessSignatureAuthorizationRule_Rights_DeviceConnect                                        = SharedAccessSignatureAuthorizationRule_Rights("DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryRead                                         = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadDeviceConnect                            = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWrite                            = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, RegistryWrite")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteDeviceConnect               = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, RegistryWrite, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnect              = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, RegistryWrite, ServiceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnectDeviceConnect = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnect                           = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, ServiceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnectDeviceConnect              = SharedAccessSignatureAuthorizationRule_Rights("RegistryRead, ServiceConnect, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryWrite                                        = SharedAccessSignatureAuthorizationRule_Rights("RegistryWrite")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteDeviceConnect                           = SharedAccessSignatureAuthorizationRule_Rights("RegistryWrite, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnect                          = SharedAccessSignatureAuthorizationRule_Rights("RegistryWrite, ServiceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnectDeviceConnect             = SharedAccessSignatureAuthorizationRule_Rights("RegistryWrite, ServiceConnect, DeviceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_ServiceConnect                                       = SharedAccessSignatureAuthorizationRule_Rights("ServiceConnect")
-	SharedAccessSignatureAuthorizationRule_Rights_ServiceConnectDeviceConnect                          = SharedAccessSignatureAuthorizationRule_Rights("ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_DeviceConnect                                        = SharedAccessSignatureAuthorizationRule_Rights_ARM("DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryRead                                         = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryRead")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadDeviceConnect                            = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryRead, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWrite                            = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryRead, RegistryWrite")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWriteDeviceConnect               = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryRead, RegistryWrite, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWriteServiceConnect              = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryRead, RegistryWrite, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWriteServiceConnectDeviceConnect = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadServiceConnect                           = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryRead, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadServiceConnectDeviceConnect              = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryRead, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWrite                                        = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryWrite")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWriteDeviceConnect                           = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryWrite, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWriteServiceConnect                          = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryWrite, ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWriteServiceConnectDeviceConnect             = SharedAccessSignatureAuthorizationRule_Rights_ARM("RegistryWrite, ServiceConnect, DeviceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_ServiceConnect                                       = SharedAccessSignatureAuthorizationRule_Rights_ARM("ServiceConnect")
+	SharedAccessSignatureAuthorizationRule_Rights_ARM_ServiceConnectDeviceConnect                          = SharedAccessSignatureAuthorizationRule_Rights_ARM("ServiceConnect, DeviceConnect")
 )
 
-// Mapping from string to SharedAccessSignatureAuthorizationRule_Rights
-var sharedAccessSignatureAuthorizationRule_Rights_Values = map[string]SharedAccessSignatureAuthorizationRule_Rights{
-	"deviceconnect":                                              SharedAccessSignatureAuthorizationRule_Rights_DeviceConnect,
-	"registryread":                                               SharedAccessSignatureAuthorizationRule_Rights_RegistryRead,
-	"registryread, deviceconnect":                                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadDeviceConnect,
-	"registryread, registrywrite":                                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWrite,
-	"registryread, registrywrite, deviceconnect":                 SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteDeviceConnect,
-	"registryread, registrywrite, serviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnect,
-	"registryread, registrywrite, serviceconnect, deviceconnect": SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnectDeviceConnect,
-	"registryread, serviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnect,
-	"registryread, serviceconnect, deviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnectDeviceConnect,
-	"registrywrite":                                              SharedAccessSignatureAuthorizationRule_Rights_RegistryWrite,
-	"registrywrite, deviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteDeviceConnect,
-	"registrywrite, serviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnect,
-	"registrywrite, serviceconnect, deviceconnect":               SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnectDeviceConnect,
-	"serviceconnect":                                             SharedAccessSignatureAuthorizationRule_Rights_ServiceConnect,
-	"serviceconnect, deviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_ServiceConnectDeviceConnect,
+// Mapping from string to SharedAccessSignatureAuthorizationRule_Rights_ARM
+var sharedAccessSignatureAuthorizationRule_Rights_ARM_Values = map[string]SharedAccessSignatureAuthorizationRule_Rights_ARM{
+	"deviceconnect":                                              SharedAccessSignatureAuthorizationRule_Rights_ARM_DeviceConnect,
+	"registryread":                                               SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryRead,
+	"registryread, deviceconnect":                                SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadDeviceConnect,
+	"registryread, registrywrite":                                SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWrite,
+	"registryread, registrywrite, deviceconnect":                 SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWriteDeviceConnect,
+	"registryread, registrywrite, serviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWriteServiceConnect,
+	"registryread, registrywrite, serviceconnect, deviceconnect": SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadRegistryWriteServiceConnectDeviceConnect,
+	"registryread, serviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadServiceConnect,
+	"registryread, serviceconnect, deviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryReadServiceConnectDeviceConnect,
+	"registrywrite":                                              SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWrite,
+	"registrywrite, deviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWriteDeviceConnect,
+	"registrywrite, serviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWriteServiceConnect,
+	"registrywrite, serviceconnect, deviceconnect":               SharedAccessSignatureAuthorizationRule_Rights_ARM_RegistryWriteServiceConnectDeviceConnect,
+	"serviceconnect":                                             SharedAccessSignatureAuthorizationRule_Rights_ARM_ServiceConnect,
+	"serviceconnect, deviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_ARM_ServiceConnectDeviceConnect,
 }
 
 // +kubebuilder:validation:Enum={"identityBased","keyBased"}
-type StorageEndpointProperties_AuthenticationType string
+type StorageEndpointProperties_AuthenticationType_ARM string
 
 const (
-	StorageEndpointProperties_AuthenticationType_IdentityBased = StorageEndpointProperties_AuthenticationType("identityBased")
-	StorageEndpointProperties_AuthenticationType_KeyBased      = StorageEndpointProperties_AuthenticationType("keyBased")
+	StorageEndpointProperties_AuthenticationType_ARM_IdentityBased = StorageEndpointProperties_AuthenticationType_ARM("identityBased")
+	StorageEndpointProperties_AuthenticationType_ARM_KeyBased      = StorageEndpointProperties_AuthenticationType_ARM("keyBased")
 )
 
-// Mapping from string to StorageEndpointProperties_AuthenticationType
-var storageEndpointProperties_AuthenticationType_Values = map[string]StorageEndpointProperties_AuthenticationType{
-	"identitybased": StorageEndpointProperties_AuthenticationType_IdentityBased,
-	"keybased":      StorageEndpointProperties_AuthenticationType_KeyBased,
+// Mapping from string to StorageEndpointProperties_AuthenticationType_ARM
+var storageEndpointProperties_AuthenticationType_ARM_Values = map[string]StorageEndpointProperties_AuthenticationType_ARM{
+	"identitybased": StorageEndpointProperties_AuthenticationType_ARM_IdentityBased,
+	"keybased":      StorageEndpointProperties_AuthenticationType_ARM_KeyBased,
 }
 
 // +kubebuilder:validation:Enum={"DeviceMessages"}
-type FallbackRouteProperties_Source string
+type FallbackRouteProperties_Source_ARM string
 
-const FallbackRouteProperties_Source_DeviceMessages = FallbackRouteProperties_Source("DeviceMessages")
+const FallbackRouteProperties_Source_ARM_DeviceMessages = FallbackRouteProperties_Source_ARM("DeviceMessages")
 
-// Mapping from string to FallbackRouteProperties_Source
-var fallbackRouteProperties_Source_Values = map[string]FallbackRouteProperties_Source{
-	"devicemessages": FallbackRouteProperties_Source_DeviceMessages,
+// Mapping from string to FallbackRouteProperties_Source_ARM
+var fallbackRouteProperties_Source_ARM_Values = map[string]FallbackRouteProperties_Source_ARM{
+	"devicemessages": FallbackRouteProperties_Source_ARM_DeviceMessages,
 }
 
 // +kubebuilder:validation:Enum={"Allow"}
-type NetworkRuleSetIpRule_Action string
+type NetworkRuleSetIpRule_Action_ARM string
 
-const NetworkRuleSetIpRule_Action_Allow = NetworkRuleSetIpRule_Action("Allow")
+const NetworkRuleSetIpRule_Action_ARM_Allow = NetworkRuleSetIpRule_Action_ARM("Allow")
 
-// Mapping from string to NetworkRuleSetIpRule_Action
-var networkRuleSetIpRule_Action_Values = map[string]NetworkRuleSetIpRule_Action{
-	"allow": NetworkRuleSetIpRule_Action_Allow,
+// Mapping from string to NetworkRuleSetIpRule_Action_ARM
+var networkRuleSetIpRule_Action_ARM_Values = map[string]NetworkRuleSetIpRule_Action_ARM{
+	"allow": NetworkRuleSetIpRule_Action_ARM_Allow,
 }
 
 // +kubebuilder:validation:Enum={"DeviceConnectionStateEvents","DeviceJobLifecycleEvents","DeviceLifecycleEvents","DeviceMessages","Invalid","TwinChangeEvents"}
-type RouteProperties_Source string
+type RouteProperties_Source_ARM string
 
 const (
-	RouteProperties_Source_DeviceConnectionStateEvents = RouteProperties_Source("DeviceConnectionStateEvents")
-	RouteProperties_Source_DeviceJobLifecycleEvents    = RouteProperties_Source("DeviceJobLifecycleEvents")
-	RouteProperties_Source_DeviceLifecycleEvents       = RouteProperties_Source("DeviceLifecycleEvents")
-	RouteProperties_Source_DeviceMessages              = RouteProperties_Source("DeviceMessages")
-	RouteProperties_Source_Invalid                     = RouteProperties_Source("Invalid")
-	RouteProperties_Source_TwinChangeEvents            = RouteProperties_Source("TwinChangeEvents")
+	RouteProperties_Source_ARM_DeviceConnectionStateEvents = RouteProperties_Source_ARM("DeviceConnectionStateEvents")
+	RouteProperties_Source_ARM_DeviceJobLifecycleEvents    = RouteProperties_Source_ARM("DeviceJobLifecycleEvents")
+	RouteProperties_Source_ARM_DeviceLifecycleEvents       = RouteProperties_Source_ARM("DeviceLifecycleEvents")
+	RouteProperties_Source_ARM_DeviceMessages              = RouteProperties_Source_ARM("DeviceMessages")
+	RouteProperties_Source_ARM_Invalid                     = RouteProperties_Source_ARM("Invalid")
+	RouteProperties_Source_ARM_TwinChangeEvents            = RouteProperties_Source_ARM("TwinChangeEvents")
 )
 
-// Mapping from string to RouteProperties_Source
-var routeProperties_Source_Values = map[string]RouteProperties_Source{
-	"deviceconnectionstateevents": RouteProperties_Source_DeviceConnectionStateEvents,
-	"devicejoblifecycleevents":    RouteProperties_Source_DeviceJobLifecycleEvents,
-	"devicelifecycleevents":       RouteProperties_Source_DeviceLifecycleEvents,
-	"devicemessages":              RouteProperties_Source_DeviceMessages,
-	"invalid":                     RouteProperties_Source_Invalid,
-	"twinchangeevents":            RouteProperties_Source_TwinChangeEvents,
+// Mapping from string to RouteProperties_Source_ARM
+var routeProperties_Source_ARM_Values = map[string]RouteProperties_Source_ARM{
+	"deviceconnectionstateevents": RouteProperties_Source_ARM_DeviceConnectionStateEvents,
+	"devicejoblifecycleevents":    RouteProperties_Source_ARM_DeviceJobLifecycleEvents,
+	"devicelifecycleevents":       RouteProperties_Source_ARM_DeviceLifecycleEvents,
+	"devicemessages":              RouteProperties_Source_ARM_DeviceMessages,
+	"invalid":                     RouteProperties_Source_ARM_Invalid,
+	"twinchangeevents":            RouteProperties_Source_ARM_TwinChangeEvents,
 }
 
 // The properties related to an event hub endpoint.
 type RoutingEventHubProperties_ARM struct {
 	// AuthenticationType: Method used to authenticate against the event hub endpoint
-	AuthenticationType *RoutingEventHubProperties_AuthenticationType `json:"authenticationType,omitempty"`
+	AuthenticationType *RoutingEventHubProperties_AuthenticationType_ARM `json:"authenticationType,omitempty"`
 
 	// ConnectionString: The connection string of the event hub endpoint.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -578,7 +578,7 @@ type RoutingEventHubProperties_ARM struct {
 // The properties related to service bus queue endpoint types.
 type RoutingServiceBusQueueEndpointProperties_ARM struct {
 	// AuthenticationType: Method used to authenticate against the service bus queue endpoint
-	AuthenticationType *RoutingServiceBusQueueEndpointProperties_AuthenticationType `json:"authenticationType,omitempty"`
+	AuthenticationType *RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM `json:"authenticationType,omitempty"`
 
 	// ConnectionString: The connection string of the service bus queue endpoint.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -608,7 +608,7 @@ type RoutingServiceBusQueueEndpointProperties_ARM struct {
 // The properties related to service bus topic endpoint types.
 type RoutingServiceBusTopicEndpointProperties_ARM struct {
 	// AuthenticationType: Method used to authenticate against the service bus topic endpoint
-	AuthenticationType *RoutingServiceBusTopicEndpointProperties_AuthenticationType `json:"authenticationType,omitempty"`
+	AuthenticationType *RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM `json:"authenticationType,omitempty"`
 
 	// ConnectionString: The connection string of the service bus topic endpoint.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -638,7 +638,7 @@ type RoutingServiceBusTopicEndpointProperties_ARM struct {
 // The properties related to a storage container endpoint.
 type RoutingStorageContainerProperties_ARM struct {
 	// AuthenticationType: Method used to authenticate against the storage endpoint
-	AuthenticationType *RoutingStorageContainerProperties_AuthenticationType `json:"authenticationType,omitempty"`
+	AuthenticationType *RoutingStorageContainerProperties_AuthenticationType_ARM `json:"authenticationType,omitempty"`
 
 	// BatchFrequencyInSeconds: Time interval at which blobs are written to storage. Value should be between 60 and 720
 	// seconds. Default value is 300 seconds.
@@ -652,7 +652,7 @@ type RoutingStorageContainerProperties_ARM struct {
 
 	// Encoding: Encoding that is used to serialize messages to blobs. Supported values are 'avro', 'avrodeflate', and 'JSON'.
 	// Default value is 'avro'.
-	Encoding *RoutingStorageContainerProperties_Encoding `json:"encoding,omitempty"`
+	Encoding *RoutingStorageContainerProperties_Encoding_ARM `json:"encoding,omitempty"`
 
 	// EndpointUri: The url of the storage endpoint. It must include the protocol https://
 	EndpointUri *string `json:"endpointUri,omitempty"`
@@ -682,73 +682,73 @@ type RoutingStorageContainerProperties_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"identityBased","keyBased"}
-type RoutingEventHubProperties_AuthenticationType string
+type RoutingEventHubProperties_AuthenticationType_ARM string
 
 const (
-	RoutingEventHubProperties_AuthenticationType_IdentityBased = RoutingEventHubProperties_AuthenticationType("identityBased")
-	RoutingEventHubProperties_AuthenticationType_KeyBased      = RoutingEventHubProperties_AuthenticationType("keyBased")
+	RoutingEventHubProperties_AuthenticationType_ARM_IdentityBased = RoutingEventHubProperties_AuthenticationType_ARM("identityBased")
+	RoutingEventHubProperties_AuthenticationType_ARM_KeyBased      = RoutingEventHubProperties_AuthenticationType_ARM("keyBased")
 )
 
-// Mapping from string to RoutingEventHubProperties_AuthenticationType
-var routingEventHubProperties_AuthenticationType_Values = map[string]RoutingEventHubProperties_AuthenticationType{
-	"identitybased": RoutingEventHubProperties_AuthenticationType_IdentityBased,
-	"keybased":      RoutingEventHubProperties_AuthenticationType_KeyBased,
+// Mapping from string to RoutingEventHubProperties_AuthenticationType_ARM
+var routingEventHubProperties_AuthenticationType_ARM_Values = map[string]RoutingEventHubProperties_AuthenticationType_ARM{
+	"identitybased": RoutingEventHubProperties_AuthenticationType_ARM_IdentityBased,
+	"keybased":      RoutingEventHubProperties_AuthenticationType_ARM_KeyBased,
 }
 
 // +kubebuilder:validation:Enum={"identityBased","keyBased"}
-type RoutingServiceBusQueueEndpointProperties_AuthenticationType string
+type RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM string
 
 const (
-	RoutingServiceBusQueueEndpointProperties_AuthenticationType_IdentityBased = RoutingServiceBusQueueEndpointProperties_AuthenticationType("identityBased")
-	RoutingServiceBusQueueEndpointProperties_AuthenticationType_KeyBased      = RoutingServiceBusQueueEndpointProperties_AuthenticationType("keyBased")
+	RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM_IdentityBased = RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM("identityBased")
+	RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM_KeyBased      = RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM("keyBased")
 )
 
-// Mapping from string to RoutingServiceBusQueueEndpointProperties_AuthenticationType
-var routingServiceBusQueueEndpointProperties_AuthenticationType_Values = map[string]RoutingServiceBusQueueEndpointProperties_AuthenticationType{
-	"identitybased": RoutingServiceBusQueueEndpointProperties_AuthenticationType_IdentityBased,
-	"keybased":      RoutingServiceBusQueueEndpointProperties_AuthenticationType_KeyBased,
+// Mapping from string to RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM
+var routingServiceBusQueueEndpointProperties_AuthenticationType_ARM_Values = map[string]RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM{
+	"identitybased": RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM_IdentityBased,
+	"keybased":      RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM_KeyBased,
 }
 
 // +kubebuilder:validation:Enum={"identityBased","keyBased"}
-type RoutingServiceBusTopicEndpointProperties_AuthenticationType string
+type RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM string
 
 const (
-	RoutingServiceBusTopicEndpointProperties_AuthenticationType_IdentityBased = RoutingServiceBusTopicEndpointProperties_AuthenticationType("identityBased")
-	RoutingServiceBusTopicEndpointProperties_AuthenticationType_KeyBased      = RoutingServiceBusTopicEndpointProperties_AuthenticationType("keyBased")
+	RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM_IdentityBased = RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM("identityBased")
+	RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM_KeyBased      = RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM("keyBased")
 )
 
-// Mapping from string to RoutingServiceBusTopicEndpointProperties_AuthenticationType
-var routingServiceBusTopicEndpointProperties_AuthenticationType_Values = map[string]RoutingServiceBusTopicEndpointProperties_AuthenticationType{
-	"identitybased": RoutingServiceBusTopicEndpointProperties_AuthenticationType_IdentityBased,
-	"keybased":      RoutingServiceBusTopicEndpointProperties_AuthenticationType_KeyBased,
+// Mapping from string to RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM
+var routingServiceBusTopicEndpointProperties_AuthenticationType_ARM_Values = map[string]RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM{
+	"identitybased": RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM_IdentityBased,
+	"keybased":      RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM_KeyBased,
 }
 
 // +kubebuilder:validation:Enum={"identityBased","keyBased"}
-type RoutingStorageContainerProperties_AuthenticationType string
+type RoutingStorageContainerProperties_AuthenticationType_ARM string
 
 const (
-	RoutingStorageContainerProperties_AuthenticationType_IdentityBased = RoutingStorageContainerProperties_AuthenticationType("identityBased")
-	RoutingStorageContainerProperties_AuthenticationType_KeyBased      = RoutingStorageContainerProperties_AuthenticationType("keyBased")
+	RoutingStorageContainerProperties_AuthenticationType_ARM_IdentityBased = RoutingStorageContainerProperties_AuthenticationType_ARM("identityBased")
+	RoutingStorageContainerProperties_AuthenticationType_ARM_KeyBased      = RoutingStorageContainerProperties_AuthenticationType_ARM("keyBased")
 )
 
-// Mapping from string to RoutingStorageContainerProperties_AuthenticationType
-var routingStorageContainerProperties_AuthenticationType_Values = map[string]RoutingStorageContainerProperties_AuthenticationType{
-	"identitybased": RoutingStorageContainerProperties_AuthenticationType_IdentityBased,
-	"keybased":      RoutingStorageContainerProperties_AuthenticationType_KeyBased,
+// Mapping from string to RoutingStorageContainerProperties_AuthenticationType_ARM
+var routingStorageContainerProperties_AuthenticationType_ARM_Values = map[string]RoutingStorageContainerProperties_AuthenticationType_ARM{
+	"identitybased": RoutingStorageContainerProperties_AuthenticationType_ARM_IdentityBased,
+	"keybased":      RoutingStorageContainerProperties_AuthenticationType_ARM_KeyBased,
 }
 
 // +kubebuilder:validation:Enum={"Avro","AvroDeflate","JSON"}
-type RoutingStorageContainerProperties_Encoding string
+type RoutingStorageContainerProperties_Encoding_ARM string
 
 const (
-	RoutingStorageContainerProperties_Encoding_Avro        = RoutingStorageContainerProperties_Encoding("Avro")
-	RoutingStorageContainerProperties_Encoding_AvroDeflate = RoutingStorageContainerProperties_Encoding("AvroDeflate")
-	RoutingStorageContainerProperties_Encoding_JSON        = RoutingStorageContainerProperties_Encoding("JSON")
+	RoutingStorageContainerProperties_Encoding_ARM_Avro        = RoutingStorageContainerProperties_Encoding_ARM("Avro")
+	RoutingStorageContainerProperties_Encoding_ARM_AvroDeflate = RoutingStorageContainerProperties_Encoding_ARM("AvroDeflate")
+	RoutingStorageContainerProperties_Encoding_ARM_JSON        = RoutingStorageContainerProperties_Encoding_ARM("JSON")
 )
 
-// Mapping from string to RoutingStorageContainerProperties_Encoding
-var routingStorageContainerProperties_Encoding_Values = map[string]RoutingStorageContainerProperties_Encoding{
-	"avro":        RoutingStorageContainerProperties_Encoding_Avro,
-	"avrodeflate": RoutingStorageContainerProperties_Encoding_AvroDeflate,
-	"json":        RoutingStorageContainerProperties_Encoding_JSON,
+// Mapping from string to RoutingStorageContainerProperties_Encoding_ARM
+var routingStorageContainerProperties_Encoding_ARM_Values = map[string]RoutingStorageContainerProperties_Encoding_ARM{
+	"avro":        RoutingStorageContainerProperties_Encoding_ARM_Avro,
+	"avrodeflate": RoutingStorageContainerProperties_Encoding_ARM_AvroDeflate,
+	"json":        RoutingStorageContainerProperties_Encoding_ARM_JSON,
 }

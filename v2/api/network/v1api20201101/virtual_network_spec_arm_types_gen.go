@@ -133,10 +133,10 @@ type SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	NetworkSecurityGroup *NetworkSecurityGroupSpec_VirtualNetwork_SubResourceEmbedded_ARM `json:"networkSecurityGroup,omitempty"`
 
 	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
-	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM `json:"privateEndpointNetworkPolicies,omitempty"`
 
 	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	// RouteTable: The reference to the RouteTable resource.
 	RouteTable *RouteTableSpec_VirtualNetwork_SubResourceEmbedded_ARM `json:"routeTable,omitempty"`

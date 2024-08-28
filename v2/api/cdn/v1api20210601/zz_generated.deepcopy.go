@@ -60,7 +60,7 @@ func (in *CacheConfiguration_ARM) DeepCopyInto(out *CacheConfiguration_ARM) {
 	*out = *in
 	if in.CacheBehavior != nil {
 		in, out := &in.CacheBehavior, &out.CacheBehavior
-		*out = new(CacheConfiguration_CacheBehavior)
+		*out = new(CacheConfiguration_CacheBehavior_ARM)
 		**out = **in
 	}
 	if in.CacheDuration != nil {
@@ -70,7 +70,7 @@ func (in *CacheConfiguration_ARM) DeepCopyInto(out *CacheConfiguration_ARM) {
 	}
 	if in.IsCompressionEnabled != nil {
 		in, out := &in.IsCompressionEnabled, &out.IsCompressionEnabled
-		*out = new(CacheConfiguration_IsCompressionEnabled)
+		*out = new(CacheConfiguration_IsCompressionEnabled_ARM)
 		**out = **in
 	}
 	if in.QueryParameters != nil {
@@ -80,7 +80,7 @@ func (in *CacheConfiguration_ARM) DeepCopyInto(out *CacheConfiguration_ARM) {
 	}
 	if in.QueryStringCachingBehavior != nil {
 		in, out := &in.QueryStringCachingBehavior, &out.QueryStringCachingBehavior
-		*out = new(CacheConfiguration_QueryStringCachingBehavior)
+		*out = new(CacheConfiguration_QueryStringCachingBehavior_ARM)
 		**out = **in
 	}
 }
@@ -140,7 +140,7 @@ func (in *CacheConfiguration_STATUS_ARM) DeepCopyInto(out *CacheConfiguration_ST
 	*out = *in
 	if in.CacheBehavior != nil {
 		in, out := &in.CacheBehavior, &out.CacheBehavior
-		*out = new(CacheConfiguration_CacheBehavior_STATUS)
+		*out = new(CacheConfiguration_CacheBehavior_STATUS_ARM)
 		**out = **in
 	}
 	if in.CacheDuration != nil {
@@ -150,7 +150,7 @@ func (in *CacheConfiguration_STATUS_ARM) DeepCopyInto(out *CacheConfiguration_ST
 	}
 	if in.IsCompressionEnabled != nil {
 		in, out := &in.IsCompressionEnabled, &out.IsCompressionEnabled
-		*out = new(CacheConfiguration_IsCompressionEnabled_STATUS)
+		*out = new(CacheConfiguration_IsCompressionEnabled_STATUS_ARM)
 		**out = **in
 	}
 	if in.QueryParameters != nil {
@@ -160,7 +160,7 @@ func (in *CacheConfiguration_STATUS_ARM) DeepCopyInto(out *CacheConfiguration_ST
 	}
 	if in.QueryStringCachingBehavior != nil {
 		in, out := &in.QueryStringCachingBehavior, &out.QueryStringCachingBehavior
-		*out = new(CacheConfiguration_QueryStringCachingBehavior_STATUS)
+		*out = new(CacheConfiguration_QueryStringCachingBehavior_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -215,7 +215,7 @@ func (in *CacheExpirationActionParameters_ARM) DeepCopyInto(out *CacheExpiration
 	*out = *in
 	if in.CacheBehavior != nil {
 		in, out := &in.CacheBehavior, &out.CacheBehavior
-		*out = new(CacheExpirationActionParameters_CacheBehavior)
+		*out = new(CacheExpirationActionParameters_CacheBehavior_ARM)
 		**out = **in
 	}
 	if in.CacheDuration != nil {
@@ -225,12 +225,12 @@ func (in *CacheExpirationActionParameters_ARM) DeepCopyInto(out *CacheExpiration
 	}
 	if in.CacheType != nil {
 		in, out := &in.CacheType, &out.CacheType
-		*out = new(CacheExpirationActionParameters_CacheType)
+		*out = new(CacheExpirationActionParameters_CacheType_ARM)
 		**out = **in
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(CacheExpirationActionParameters_TypeName)
+		*out = new(CacheExpirationActionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -285,7 +285,7 @@ func (in *CacheExpirationActionParameters_STATUS_ARM) DeepCopyInto(out *CacheExp
 	*out = *in
 	if in.CacheBehavior != nil {
 		in, out := &in.CacheBehavior, &out.CacheBehavior
-		*out = new(CacheExpirationActionParameters_CacheBehavior_STATUS)
+		*out = new(CacheExpirationActionParameters_CacheBehavior_STATUS_ARM)
 		**out = **in
 	}
 	if in.CacheDuration != nil {
@@ -295,12 +295,12 @@ func (in *CacheExpirationActionParameters_STATUS_ARM) DeepCopyInto(out *CacheExp
 	}
 	if in.CacheType != nil {
 		in, out := &in.CacheType, &out.CacheType
-		*out = new(CacheExpirationActionParameters_CacheType_STATUS)
+		*out = new(CacheExpirationActionParameters_CacheType_STATUS_ARM)
 		**out = **in
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(CacheExpirationActionParameters_TypeName_STATUS)
+		*out = new(CacheExpirationActionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -355,12 +355,12 @@ func (in *CacheKeyQueryStringActionParameters_ARM) DeepCopyInto(out *CacheKeyQue
 	}
 	if in.QueryStringBehavior != nil {
 		in, out := &in.QueryStringBehavior, &out.QueryStringBehavior
-		*out = new(CacheKeyQueryStringActionParameters_QueryStringBehavior)
+		*out = new(CacheKeyQueryStringActionParameters_QueryStringBehavior_ARM)
 		**out = **in
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(CacheKeyQueryStringActionParameters_TypeName)
+		*out = new(CacheKeyQueryStringActionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -415,12 +415,12 @@ func (in *CacheKeyQueryStringActionParameters_STATUS_ARM) DeepCopyInto(out *Cach
 	}
 	if in.QueryStringBehavior != nil {
 		in, out := &in.QueryStringBehavior, &out.QueryStringBehavior
-		*out = new(CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS)
+		*out = new(CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ARM)
 		**out = **in
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(CacheKeyQueryStringActionParameters_TypeName_STATUS)
+		*out = new(CacheKeyQueryStringActionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -490,17 +490,17 @@ func (in *ClientPortMatchConditionParameters_ARM) DeepCopyInto(out *ClientPortMa
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(ClientPortMatchConditionParameters_Operator)
+		*out = new(ClientPortMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(ClientPortMatchConditionParameters_TypeName)
+		*out = new(ClientPortMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -570,17 +570,17 @@ func (in *ClientPortMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Clien
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(ClientPortMatchConditionParameters_Operator_STATUS)
+		*out = new(ClientPortMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(ClientPortMatchConditionParameters_TypeName_STATUS)
+		*out = new(ClientPortMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -655,7 +655,7 @@ func (in *CookiesMatchConditionParameters_ARM) DeepCopyInto(out *CookiesMatchCon
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(CookiesMatchConditionParameters_Operator)
+		*out = new(CookiesMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -665,12 +665,12 @@ func (in *CookiesMatchConditionParameters_ARM) DeepCopyInto(out *CookiesMatchCon
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(CookiesMatchConditionParameters_TypeName)
+		*out = new(CookiesMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -745,7 +745,7 @@ func (in *CookiesMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *CookiesM
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(CookiesMatchConditionParameters_Operator_STATUS)
+		*out = new(CookiesMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -755,12 +755,12 @@ func (in *CookiesMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *CookiesM
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(CookiesMatchConditionParameters_TypeName_STATUS)
+		*out = new(CookiesMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -1243,7 +1243,7 @@ func (in *DeepCreatedOriginProperties_STATUS_ARM) DeepCopyInto(out *DeepCreatedO
 	}
 	if in.PrivateEndpointStatus != nil {
 		in, out := &in.PrivateEndpointStatus, &out.PrivateEndpointStatus
-		*out = new(PrivateEndpointStatus_STATUS)
+		*out = new(PrivateEndpointStatus_STATUS_ARM)
 		**out = **in
 	}
 	if in.PrivateLinkAlias != nil {
@@ -4451,7 +4451,7 @@ func (in *EndpointProperties_ARM) DeepCopyInto(out *EndpointProperties_ARM) {
 	}
 	if in.OptimizationType != nil {
 		in, out := &in.OptimizationType, &out.OptimizationType
-		*out = new(OptimizationType)
+		*out = new(OptimizationType_ARM)
 		**out = **in
 	}
 	if in.OriginGroups != nil {
@@ -4485,7 +4485,7 @@ func (in *EndpointProperties_ARM) DeepCopyInto(out *EndpointProperties_ARM) {
 	}
 	if in.QueryStringCachingBehavior != nil {
 		in, out := &in.QueryStringCachingBehavior, &out.QueryStringCachingBehavior
-		*out = new(QueryStringCachingBehavior)
+		*out = new(QueryStringCachingBehavior_ARM)
 		**out = **in
 	}
 	if in.UrlSigningKeys != nil {
@@ -4674,7 +4674,7 @@ func (in *EndpointProperties_STATUS_ARM) DeepCopyInto(out *EndpointProperties_ST
 	}
 	if in.OptimizationType != nil {
 		in, out := &in.OptimizationType, &out.OptimizationType
-		*out = new(OptimizationType_STATUS)
+		*out = new(OptimizationType_STATUS_ARM)
 		**out = **in
 	}
 	if in.OriginGroups != nil {
@@ -4708,17 +4708,17 @@ func (in *EndpointProperties_STATUS_ARM) DeepCopyInto(out *EndpointProperties_ST
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(EndpointProperties_ProvisioningState_STATUS)
+		*out = new(EndpointProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.QueryStringCachingBehavior != nil {
 		in, out := &in.QueryStringCachingBehavior, &out.QueryStringCachingBehavior
-		*out = new(QueryStringCachingBehavior_STATUS)
+		*out = new(QueryStringCachingBehavior_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(EndpointProperties_ResourceState_STATUS)
+		*out = new(EndpointProperties_ResourceState_STATUS_ARM)
 		**out = **in
 	}
 	if in.UrlSigningKeys != nil {
@@ -4860,7 +4860,7 @@ func (in *GeoFilter_ARM) DeepCopyInto(out *GeoFilter_ARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(GeoFilter_Action)
+		*out = new(GeoFilter_Action_ARM)
 		**out = **in
 	}
 	if in.CountryCodes != nil {
@@ -4920,7 +4920,7 @@ func (in *GeoFilter_STATUS_ARM) DeepCopyInto(out *GeoFilter_STATUS_ARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(GeoFilter_Action_STATUS)
+		*out = new(GeoFilter_Action_STATUS_ARM)
 		**out = **in
 	}
 	if in.CountryCodes != nil {
@@ -4985,7 +4985,7 @@ func (in *HeaderActionParameters_ARM) DeepCopyInto(out *HeaderActionParameters_A
 	*out = *in
 	if in.HeaderAction != nil {
 		in, out := &in.HeaderAction, &out.HeaderAction
-		*out = new(HeaderActionParameters_HeaderAction)
+		*out = new(HeaderActionParameters_HeaderAction_ARM)
 		**out = **in
 	}
 	if in.HeaderName != nil {
@@ -4995,7 +4995,7 @@ func (in *HeaderActionParameters_ARM) DeepCopyInto(out *HeaderActionParameters_A
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(HeaderActionParameters_TypeName)
+		*out = new(HeaderActionParameters_TypeName_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -5055,7 +5055,7 @@ func (in *HeaderActionParameters_STATUS_ARM) DeepCopyInto(out *HeaderActionParam
 	*out = *in
 	if in.HeaderAction != nil {
 		in, out := &in.HeaderAction, &out.HeaderAction
-		*out = new(HeaderActionParameters_HeaderAction_STATUS)
+		*out = new(HeaderActionParameters_HeaderAction_STATUS_ARM)
 		**out = **in
 	}
 	if in.HeaderName != nil {
@@ -5065,7 +5065,7 @@ func (in *HeaderActionParameters_STATUS_ARM) DeepCopyInto(out *HeaderActionParam
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(HeaderActionParameters_TypeName_STATUS)
+		*out = new(HeaderActionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -5135,12 +5135,12 @@ func (in *HealthProbeParameters_ARM) DeepCopyInto(out *HealthProbeParameters_ARM
 	}
 	if in.ProbeProtocol != nil {
 		in, out := &in.ProbeProtocol, &out.ProbeProtocol
-		*out = new(HealthProbeParameters_ProbeProtocol)
+		*out = new(HealthProbeParameters_ProbeProtocol_ARM)
 		**out = **in
 	}
 	if in.ProbeRequestType != nil {
 		in, out := &in.ProbeRequestType, &out.ProbeRequestType
-		*out = new(HealthProbeParameters_ProbeRequestType)
+		*out = new(HealthProbeParameters_ProbeRequestType_ARM)
 		**out = **in
 	}
 }
@@ -5205,12 +5205,12 @@ func (in *HealthProbeParameters_STATUS_ARM) DeepCopyInto(out *HealthProbeParamet
 	}
 	if in.ProbeProtocol != nil {
 		in, out := &in.ProbeProtocol, &out.ProbeProtocol
-		*out = new(HealthProbeParameters_ProbeProtocol_STATUS)
+		*out = new(HealthProbeParameters_ProbeProtocol_STATUS_ARM)
 		**out = **in
 	}
 	if in.ProbeRequestType != nil {
 		in, out := &in.ProbeRequestType, &out.ProbeRequestType
-		*out = new(HealthProbeParameters_ProbeRequestType_STATUS)
+		*out = new(HealthProbeParameters_ProbeRequestType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -5280,17 +5280,17 @@ func (in *HostNameMatchConditionParameters_ARM) DeepCopyInto(out *HostNameMatchC
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(HostNameMatchConditionParameters_Operator)
+		*out = new(HostNameMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(HostNameMatchConditionParameters_TypeName)
+		*out = new(HostNameMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -5360,17 +5360,17 @@ func (in *HostNameMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *HostNam
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(HostNameMatchConditionParameters_Operator_STATUS)
+		*out = new(HostNameMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(HostNameMatchConditionParameters_TypeName_STATUS)
+		*out = new(HostNameMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -5540,17 +5540,17 @@ func (in *HttpVersionMatchConditionParameters_ARM) DeepCopyInto(out *HttpVersion
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(HttpVersionMatchConditionParameters_Operator)
+		*out = new(HttpVersionMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(HttpVersionMatchConditionParameters_TypeName)
+		*out = new(HttpVersionMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -5620,17 +5620,17 @@ func (in *HttpVersionMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Http
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(HttpVersionMatchConditionParameters_Operator_STATUS)
+		*out = new(HttpVersionMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(HttpVersionMatchConditionParameters_TypeName_STATUS)
+		*out = new(HttpVersionMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -5690,7 +5690,7 @@ func (in *IsDeviceMatchConditionParameters_ARM) DeepCopyInto(out *IsDeviceMatchC
 	*out = *in
 	if in.MatchValues != nil {
 		in, out := &in.MatchValues, &out.MatchValues
-		*out = make([]IsDeviceMatchConditionParameters_MatchValues, len(*in))
+		*out = make([]IsDeviceMatchConditionParameters_MatchValues_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.NegateCondition != nil {
@@ -5700,17 +5700,17 @@ func (in *IsDeviceMatchConditionParameters_ARM) DeepCopyInto(out *IsDeviceMatchC
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(IsDeviceMatchConditionParameters_Operator)
+		*out = new(IsDeviceMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(IsDeviceMatchConditionParameters_TypeName)
+		*out = new(IsDeviceMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -5770,7 +5770,7 @@ func (in *IsDeviceMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *IsDevic
 	*out = *in
 	if in.MatchValues != nil {
 		in, out := &in.MatchValues, &out.MatchValues
-		*out = make([]IsDeviceMatchConditionParameters_MatchValues_STATUS, len(*in))
+		*out = make([]IsDeviceMatchConditionParameters_MatchValues_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.NegateCondition != nil {
@@ -5780,17 +5780,17 @@ func (in *IsDeviceMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *IsDevic
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(IsDeviceMatchConditionParameters_Operator_STATUS)
+		*out = new(IsDeviceMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(IsDeviceMatchConditionParameters_TypeName_STATUS)
+		*out = new(IsDeviceMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -5875,7 +5875,7 @@ func (in *KeyVaultSigningKeyParameters_ARM) DeepCopyInto(out *KeyVaultSigningKey
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(KeyVaultSigningKeyParameters_TypeName)
+		*out = new(KeyVaultSigningKeyParameters_TypeName_ARM)
 		**out = **in
 	}
 	if in.VaultName != nil {
@@ -5965,7 +5965,7 @@ func (in *KeyVaultSigningKeyParameters_STATUS_ARM) DeepCopyInto(out *KeyVaultSig
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(KeyVaultSigningKeyParameters_TypeName_STATUS)
+		*out = new(KeyVaultSigningKeyParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 	if in.VaultName != nil {
@@ -6070,7 +6070,7 @@ func (in *OriginGroupOverrideActionParameters_ARM) DeepCopyInto(out *OriginGroup
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(OriginGroupOverrideActionParameters_TypeName)
+		*out = new(OriginGroupOverrideActionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -6120,7 +6120,7 @@ func (in *OriginGroupOverrideActionParameters_STATUS_ARM) DeepCopyInto(out *Orig
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(OriginGroupOverrideActionParameters_TypeName_STATUS)
+		*out = new(OriginGroupOverrideActionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -6205,7 +6205,7 @@ func (in *OriginGroupOverride_ARM) DeepCopyInto(out *OriginGroupOverride_ARM) {
 	*out = *in
 	if in.ForwardingProtocol != nil {
 		in, out := &in.ForwardingProtocol, &out.ForwardingProtocol
-		*out = new(OriginGroupOverride_ForwardingProtocol)
+		*out = new(OriginGroupOverride_ForwardingProtocol_ARM)
 		**out = **in
 	}
 	if in.OriginGroup != nil {
@@ -6255,7 +6255,7 @@ func (in *OriginGroupOverride_STATUS_ARM) DeepCopyInto(out *OriginGroupOverride_
 	*out = *in
 	if in.ForwardingProtocol != nil {
 		in, out := &in.ForwardingProtocol, &out.ForwardingProtocol
-		*out = new(OriginGroupOverride_ForwardingProtocol_STATUS)
+		*out = new(OriginGroupOverride_ForwardingProtocol_STATUS_ARM)
 		**out = **in
 	}
 	if in.OriginGroup != nil {
@@ -6335,7 +6335,7 @@ func (in *PostArgsMatchConditionParameters_ARM) DeepCopyInto(out *PostArgsMatchC
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(PostArgsMatchConditionParameters_Operator)
+		*out = new(PostArgsMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -6345,12 +6345,12 @@ func (in *PostArgsMatchConditionParameters_ARM) DeepCopyInto(out *PostArgsMatchC
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(PostArgsMatchConditionParameters_TypeName)
+		*out = new(PostArgsMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -6425,7 +6425,7 @@ func (in *PostArgsMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *PostArg
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(PostArgsMatchConditionParameters_Operator_STATUS)
+		*out = new(PostArgsMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -6435,12 +6435,12 @@ func (in *PostArgsMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *PostArg
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(PostArgsMatchConditionParameters_TypeName_STATUS)
+		*out = new(PostArgsMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -6549,12 +6549,12 @@ func (in *ProfileProperties_STATUS_ARM) DeepCopyInto(out *ProfileProperties_STAT
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProfileProperties_ProvisioningState_STATUS)
+		*out = new(ProfileProperties_ProvisioningState_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(ProfileProperties_ResourceState_STATUS)
+		*out = new(ProfileProperties_ResourceState_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -7276,17 +7276,17 @@ func (in *QueryStringMatchConditionParameters_ARM) DeepCopyInto(out *QueryString
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(QueryStringMatchConditionParameters_Operator)
+		*out = new(QueryStringMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(QueryStringMatchConditionParameters_TypeName)
+		*out = new(QueryStringMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -7356,17 +7356,17 @@ func (in *QueryStringMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Quer
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(QueryStringMatchConditionParameters_Operator_STATUS)
+		*out = new(QueryStringMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(QueryStringMatchConditionParameters_TypeName_STATUS)
+		*out = new(QueryStringMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -7436,17 +7436,17 @@ func (in *RemoteAddressMatchConditionParameters_ARM) DeepCopyInto(out *RemoteAdd
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RemoteAddressMatchConditionParameters_Operator)
+		*out = new(RemoteAddressMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RemoteAddressMatchConditionParameters_TypeName)
+		*out = new(RemoteAddressMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -7516,17 +7516,17 @@ func (in *RemoteAddressMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Re
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RemoteAddressMatchConditionParameters_Operator_STATUS)
+		*out = new(RemoteAddressMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RemoteAddressMatchConditionParameters_TypeName_STATUS)
+		*out = new(RemoteAddressMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -7596,17 +7596,17 @@ func (in *RequestBodyMatchConditionParameters_ARM) DeepCopyInto(out *RequestBody
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestBodyMatchConditionParameters_Operator)
+		*out = new(RequestBodyMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestBodyMatchConditionParameters_TypeName)
+		*out = new(RequestBodyMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -7676,17 +7676,17 @@ func (in *RequestBodyMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Requ
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestBodyMatchConditionParameters_Operator_STATUS)
+		*out = new(RequestBodyMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestBodyMatchConditionParameters_TypeName_STATUS)
+		*out = new(RequestBodyMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -7761,7 +7761,7 @@ func (in *RequestHeaderMatchConditionParameters_ARM) DeepCopyInto(out *RequestHe
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestHeaderMatchConditionParameters_Operator)
+		*out = new(RequestHeaderMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -7771,12 +7771,12 @@ func (in *RequestHeaderMatchConditionParameters_ARM) DeepCopyInto(out *RequestHe
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestHeaderMatchConditionParameters_TypeName)
+		*out = new(RequestHeaderMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -7851,7 +7851,7 @@ func (in *RequestHeaderMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Re
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestHeaderMatchConditionParameters_Operator_STATUS)
+		*out = new(RequestHeaderMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Selector != nil {
@@ -7861,12 +7861,12 @@ func (in *RequestHeaderMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Re
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestHeaderMatchConditionParameters_TypeName_STATUS)
+		*out = new(RequestHeaderMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -7926,7 +7926,7 @@ func (in *RequestMethodMatchConditionParameters_ARM) DeepCopyInto(out *RequestMe
 	*out = *in
 	if in.MatchValues != nil {
 		in, out := &in.MatchValues, &out.MatchValues
-		*out = make([]RequestMethodMatchConditionParameters_MatchValues, len(*in))
+		*out = make([]RequestMethodMatchConditionParameters_MatchValues_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.NegateCondition != nil {
@@ -7936,17 +7936,17 @@ func (in *RequestMethodMatchConditionParameters_ARM) DeepCopyInto(out *RequestMe
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestMethodMatchConditionParameters_Operator)
+		*out = new(RequestMethodMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestMethodMatchConditionParameters_TypeName)
+		*out = new(RequestMethodMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -8006,7 +8006,7 @@ func (in *RequestMethodMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Re
 	*out = *in
 	if in.MatchValues != nil {
 		in, out := &in.MatchValues, &out.MatchValues
-		*out = make([]RequestMethodMatchConditionParameters_MatchValues_STATUS, len(*in))
+		*out = make([]RequestMethodMatchConditionParameters_MatchValues_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.NegateCondition != nil {
@@ -8016,17 +8016,17 @@ func (in *RequestMethodMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Re
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestMethodMatchConditionParameters_Operator_STATUS)
+		*out = new(RequestMethodMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestMethodMatchConditionParameters_TypeName_STATUS)
+		*out = new(RequestMethodMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8086,7 +8086,7 @@ func (in *RequestSchemeMatchConditionParameters_ARM) DeepCopyInto(out *RequestSc
 	*out = *in
 	if in.MatchValues != nil {
 		in, out := &in.MatchValues, &out.MatchValues
-		*out = make([]RequestSchemeMatchConditionParameters_MatchValues, len(*in))
+		*out = make([]RequestSchemeMatchConditionParameters_MatchValues_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.NegateCondition != nil {
@@ -8096,17 +8096,17 @@ func (in *RequestSchemeMatchConditionParameters_ARM) DeepCopyInto(out *RequestSc
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestSchemeMatchConditionParameters_Operator)
+		*out = new(RequestSchemeMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestSchemeMatchConditionParameters_TypeName)
+		*out = new(RequestSchemeMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -8166,7 +8166,7 @@ func (in *RequestSchemeMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Re
 	*out = *in
 	if in.MatchValues != nil {
 		in, out := &in.MatchValues, &out.MatchValues
-		*out = make([]RequestSchemeMatchConditionParameters_MatchValues_STATUS, len(*in))
+		*out = make([]RequestSchemeMatchConditionParameters_MatchValues_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.NegateCondition != nil {
@@ -8176,17 +8176,17 @@ func (in *RequestSchemeMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Re
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestSchemeMatchConditionParameters_Operator_STATUS)
+		*out = new(RequestSchemeMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestSchemeMatchConditionParameters_TypeName_STATUS)
+		*out = new(RequestSchemeMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8256,17 +8256,17 @@ func (in *RequestUriMatchConditionParameters_ARM) DeepCopyInto(out *RequestUriMa
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestUriMatchConditionParameters_Operator)
+		*out = new(RequestUriMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestUriMatchConditionParameters_TypeName)
+		*out = new(RequestUriMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -8336,17 +8336,17 @@ func (in *RequestUriMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Reque
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(RequestUriMatchConditionParameters_Operator_STATUS)
+		*out = new(RequestUriMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RequestUriMatchConditionParameters_TypeName_STATUS)
+		*out = new(RequestUriMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8485,7 +8485,7 @@ func (in *ResponseBasedOriginErrorDetectionParameters_ARM) DeepCopyInto(out *Res
 	}
 	if in.ResponseBasedDetectedErrorTypes != nil {
 		in, out := &in.ResponseBasedDetectedErrorTypes, &out.ResponseBasedDetectedErrorTypes
-		*out = new(ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes)
+		*out = new(ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_ARM)
 		**out = **in
 	}
 	if in.ResponseBasedFailoverThresholdPercentage != nil {
@@ -8549,7 +8549,7 @@ func (in *ResponseBasedOriginErrorDetectionParameters_STATUS_ARM) DeepCopyInto(o
 	}
 	if in.ResponseBasedDetectedErrorTypes != nil {
 		in, out := &in.ResponseBasedDetectedErrorTypes, &out.ResponseBasedDetectedErrorTypes
-		*out = new(ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS)
+		*out = new(ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_ARM)
 		**out = **in
 	}
 	if in.ResponseBasedFailoverThresholdPercentage != nil {
@@ -8614,7 +8614,7 @@ func (in *RouteConfigurationOverrideActionParameters_ARM) DeepCopyInto(out *Rout
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RouteConfigurationOverrideActionParameters_TypeName)
+		*out = new(RouteConfigurationOverrideActionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -8674,7 +8674,7 @@ func (in *RouteConfigurationOverrideActionParameters_STATUS_ARM) DeepCopyInto(ou
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(RouteConfigurationOverrideActionParameters_TypeName_STATUS)
+		*out = new(RouteConfigurationOverrideActionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8744,17 +8744,17 @@ func (in *ServerPortMatchConditionParameters_ARM) DeepCopyInto(out *ServerPortMa
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(ServerPortMatchConditionParameters_Operator)
+		*out = new(ServerPortMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(ServerPortMatchConditionParameters_TypeName)
+		*out = new(ServerPortMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -8824,17 +8824,17 @@ func (in *ServerPortMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Serve
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(ServerPortMatchConditionParameters_Operator_STATUS)
+		*out = new(ServerPortMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(ServerPortMatchConditionParameters_TypeName_STATUS)
+		*out = new(ServerPortMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8874,7 +8874,7 @@ func (in *Sku_ARM) DeepCopyInto(out *Sku_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name)
+		*out = new(Sku_Name_ARM)
 		**out = **in
 	}
 }
@@ -8914,7 +8914,7 @@ func (in *Sku_STATUS_ARM) DeepCopyInto(out *Sku_STATUS_ARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(Sku_Name_STATUS)
+		*out = new(Sku_Name_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -8984,17 +8984,17 @@ func (in *SocketAddrMatchConditionParameters_ARM) DeepCopyInto(out *SocketAddrMa
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(SocketAddrMatchConditionParameters_Operator)
+		*out = new(SocketAddrMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(SocketAddrMatchConditionParameters_TypeName)
+		*out = new(SocketAddrMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -9064,17 +9064,17 @@ func (in *SocketAddrMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *Socke
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(SocketAddrMatchConditionParameters_Operator_STATUS)
+		*out = new(SocketAddrMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(SocketAddrMatchConditionParameters_TypeName_STATUS)
+		*out = new(SocketAddrMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -9134,7 +9134,7 @@ func (in *SslProtocolMatchConditionParameters_ARM) DeepCopyInto(out *SslProtocol
 	*out = *in
 	if in.MatchValues != nil {
 		in, out := &in.MatchValues, &out.MatchValues
-		*out = make([]SslProtocol, len(*in))
+		*out = make([]SslProtocol_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.NegateCondition != nil {
@@ -9144,17 +9144,17 @@ func (in *SslProtocolMatchConditionParameters_ARM) DeepCopyInto(out *SslProtocol
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(SslProtocolMatchConditionParameters_Operator)
+		*out = new(SslProtocolMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(SslProtocolMatchConditionParameters_TypeName)
+		*out = new(SslProtocolMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -9214,7 +9214,7 @@ func (in *SslProtocolMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *SslP
 	*out = *in
 	if in.MatchValues != nil {
 		in, out := &in.MatchValues, &out.MatchValues
-		*out = make([]SslProtocol_STATUS, len(*in))
+		*out = make([]SslProtocol_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.NegateCondition != nil {
@@ -9224,17 +9224,17 @@ func (in *SslProtocolMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *SslP
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(SslProtocolMatchConditionParameters_Operator_STATUS)
+		*out = new(SslProtocolMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(SslProtocolMatchConditionParameters_TypeName_STATUS)
+		*out = new(SslProtocolMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -9309,7 +9309,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(IdentityType_STATUS)
+		*out = new(IdentityType_STATUS_ARM)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -9324,7 +9324,7 @@ func (in *SystemData_STATUS_ARM) DeepCopyInto(out *SystemData_STATUS_ARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(IdentityType_STATUS)
+		*out = new(IdentityType_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -9394,17 +9394,17 @@ func (in *UrlFileExtensionMatchConditionParameters_ARM) DeepCopyInto(out *UrlFil
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(UrlFileExtensionMatchConditionParameters_Operator)
+		*out = new(UrlFileExtensionMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlFileExtensionMatchConditionParameters_TypeName)
+		*out = new(UrlFileExtensionMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -9474,17 +9474,17 @@ func (in *UrlFileExtensionMatchConditionParameters_STATUS_ARM) DeepCopyInto(out 
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(UrlFileExtensionMatchConditionParameters_Operator_STATUS)
+		*out = new(UrlFileExtensionMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlFileExtensionMatchConditionParameters_TypeName_STATUS)
+		*out = new(UrlFileExtensionMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -9554,17 +9554,17 @@ func (in *UrlFileNameMatchConditionParameters_ARM) DeepCopyInto(out *UrlFileName
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(UrlFileNameMatchConditionParameters_Operator)
+		*out = new(UrlFileNameMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlFileNameMatchConditionParameters_TypeName)
+		*out = new(UrlFileNameMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -9634,17 +9634,17 @@ func (in *UrlFileNameMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *UrlF
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(UrlFileNameMatchConditionParameters_Operator_STATUS)
+		*out = new(UrlFileNameMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlFileNameMatchConditionParameters_TypeName_STATUS)
+		*out = new(UrlFileNameMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -9714,17 +9714,17 @@ func (in *UrlPathMatchConditionParameters_ARM) DeepCopyInto(out *UrlPathMatchCon
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(UrlPathMatchConditionParameters_Operator)
+		*out = new(UrlPathMatchConditionParameters_Operator_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform, len(*in))
+		*out = make([]Transform_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlPathMatchConditionParameters_TypeName)
+		*out = new(UrlPathMatchConditionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -9794,17 +9794,17 @@ func (in *UrlPathMatchConditionParameters_STATUS_ARM) DeepCopyInto(out *UrlPathM
 	}
 	if in.Operator != nil {
 		in, out := &in.Operator, &out.Operator
-		*out = new(UrlPathMatchConditionParameters_Operator_STATUS)
+		*out = new(UrlPathMatchConditionParameters_Operator_STATUS_ARM)
 		**out = **in
 	}
 	if in.Transforms != nil {
 		in, out := &in.Transforms, &out.Transforms
-		*out = make([]Transform_STATUS, len(*in))
+		*out = make([]Transform_STATUS_ARM, len(*in))
 		copy(*out, *in)
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlPathMatchConditionParameters_TypeName_STATUS)
+		*out = new(UrlPathMatchConditionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -9919,17 +9919,17 @@ func (in *UrlRedirectActionParameters_ARM) DeepCopyInto(out *UrlRedirectActionPa
 	}
 	if in.DestinationProtocol != nil {
 		in, out := &in.DestinationProtocol, &out.DestinationProtocol
-		*out = new(UrlRedirectActionParameters_DestinationProtocol)
+		*out = new(UrlRedirectActionParameters_DestinationProtocol_ARM)
 		**out = **in
 	}
 	if in.RedirectType != nil {
 		in, out := &in.RedirectType, &out.RedirectType
-		*out = new(UrlRedirectActionParameters_RedirectType)
+		*out = new(UrlRedirectActionParameters_RedirectType_ARM)
 		**out = **in
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlRedirectActionParameters_TypeName)
+		*out = new(UrlRedirectActionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -10019,17 +10019,17 @@ func (in *UrlRedirectActionParameters_STATUS_ARM) DeepCopyInto(out *UrlRedirectA
 	}
 	if in.DestinationProtocol != nil {
 		in, out := &in.DestinationProtocol, &out.DestinationProtocol
-		*out = new(UrlRedirectActionParameters_DestinationProtocol_STATUS)
+		*out = new(UrlRedirectActionParameters_DestinationProtocol_STATUS_ARM)
 		**out = **in
 	}
 	if in.RedirectType != nil {
 		in, out := &in.RedirectType, &out.RedirectType
-		*out = new(UrlRedirectActionParameters_RedirectType_STATUS)
+		*out = new(UrlRedirectActionParameters_RedirectType_STATUS_ARM)
 		**out = **in
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlRedirectActionParameters_TypeName_STATUS)
+		*out = new(UrlRedirectActionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -10189,7 +10189,7 @@ func (in *UrlRewriteActionParameters_ARM) DeepCopyInto(out *UrlRewriteActionPara
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlRewriteActionParameters_TypeName)
+		*out = new(UrlRewriteActionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -10259,7 +10259,7 @@ func (in *UrlRewriteActionParameters_STATUS_ARM) DeepCopyInto(out *UrlRewriteAct
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlRewriteActionParameters_TypeName_STATUS)
+		*out = new(UrlRewriteActionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -10401,7 +10401,7 @@ func (in *UrlSigningActionParameters_ARM) DeepCopyInto(out *UrlSigningActionPara
 	*out = *in
 	if in.Algorithm != nil {
 		in, out := &in.Algorithm, &out.Algorithm
-		*out = new(UrlSigningActionParameters_Algorithm)
+		*out = new(UrlSigningActionParameters_Algorithm_ARM)
 		**out = **in
 	}
 	if in.ParameterNameOverride != nil {
@@ -10413,7 +10413,7 @@ func (in *UrlSigningActionParameters_ARM) DeepCopyInto(out *UrlSigningActionPara
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlSigningActionParameters_TypeName)
+		*out = new(UrlSigningActionParameters_TypeName_ARM)
 		**out = **in
 	}
 }
@@ -10465,7 +10465,7 @@ func (in *UrlSigningActionParameters_STATUS_ARM) DeepCopyInto(out *UrlSigningAct
 	*out = *in
 	if in.Algorithm != nil {
 		in, out := &in.Algorithm, &out.Algorithm
-		*out = new(UrlSigningActionParameters_Algorithm_STATUS)
+		*out = new(UrlSigningActionParameters_Algorithm_STATUS_ARM)
 		**out = **in
 	}
 	if in.ParameterNameOverride != nil {
@@ -10477,7 +10477,7 @@ func (in *UrlSigningActionParameters_STATUS_ARM) DeepCopyInto(out *UrlSigningAct
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(UrlSigningActionParameters_TypeName_STATUS)
+		*out = new(UrlSigningActionParameters_TypeName_STATUS_ARM)
 		**out = **in
 	}
 }
@@ -10687,7 +10687,7 @@ func (in *UrlSigningParamIdentifier_ARM) DeepCopyInto(out *UrlSigningParamIdenti
 	*out = *in
 	if in.ParamIndicator != nil {
 		in, out := &in.ParamIndicator, &out.ParamIndicator
-		*out = new(UrlSigningParamIdentifier_ParamIndicator)
+		*out = new(UrlSigningParamIdentifier_ParamIndicator_ARM)
 		**out = **in
 	}
 	if in.ParamName != nil {
@@ -10737,7 +10737,7 @@ func (in *UrlSigningParamIdentifier_STATUS_ARM) DeepCopyInto(out *UrlSigningPara
 	*out = *in
 	if in.ParamIndicator != nil {
 		in, out := &in.ParamIndicator, &out.ParamIndicator
-		*out = new(UrlSigningParamIdentifier_ParamIndicator_STATUS)
+		*out = new(UrlSigningParamIdentifier_ParamIndicator_STATUS_ARM)
 		**out = **in
 	}
 	if in.ParamName != nil {

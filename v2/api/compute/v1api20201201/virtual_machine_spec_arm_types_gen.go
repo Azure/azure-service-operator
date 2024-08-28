@@ -54,7 +54,7 @@ type VirtualMachineIdentity_ARM struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
-	Type                   *VirtualMachineIdentity_Type               `json:"type,omitempty"`
+	Type                   *VirtualMachineIdentity_Type_ARM           `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -87,7 +87,7 @@ type VirtualMachineProperties_ARM struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *EvictionPolicy_ARM `json:"evictionPolicy,omitempty"`
 
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
@@ -139,7 +139,7 @@ type VirtualMachineProperties_ARM struct {
 
 	// Priority: Specifies the priority for the virtual machine.
 	// Minimum api-version: 2019-03-01
-	Priority *Priority `json:"priority,omitempty"`
+	Priority *Priority_ARM `json:"priority,omitempty"`
 
 	// ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine should be
 	// assigned to.
@@ -187,6 +187,21 @@ type DiagnosticsProfile_ARM struct {
 	// You can easily view the output of your console log.
 	// Azure also enables you to see a screenshot of the VM from the hypervisor.
 	BootDiagnostics *BootDiagnostics_ARM `json:"bootDiagnostics,omitempty"`
+}
+
+// Specifies the eviction policy for the Azure Spot VM/VMSS
+// +kubebuilder:validation:Enum={"Deallocate","Delete"}
+type EvictionPolicy_ARM string
+
+const (
+	EvictionPolicy_ARM_Deallocate = EvictionPolicy_ARM("Deallocate")
+	EvictionPolicy_ARM_Delete     = EvictionPolicy_ARM("Delete")
+)
+
+// Mapping from string to EvictionPolicy_ARM
+var evictionPolicy_ARM_Values = map[string]EvictionPolicy_ARM{
+	"deallocate": EvictionPolicy_ARM_Deallocate,
+	"delete":     EvictionPolicy_ARM_Delete,
 }
 
 // Specifies the hardware settings for the virtual machine.
@@ -288,6 +303,25 @@ type OSProfile_ARM struct {
 	WindowsConfiguration *WindowsConfiguration_ARM `json:"windowsConfiguration,omitempty"`
 }
 
+// Specifies the priority for a standalone virtual machine or the virtual machines in the scale set.
+// 'Low' enum
+// will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS.
+// +kubebuilder:validation:Enum={"Low","Regular","Spot"}
+type Priority_ARM string
+
+const (
+	Priority_ARM_Low     = Priority_ARM("Low")
+	Priority_ARM_Regular = Priority_ARM("Regular")
+	Priority_ARM_Spot    = Priority_ARM("Spot")
+)
+
+// Mapping from string to Priority_ARM
+var priority_ARM_Values = map[string]Priority_ARM{
+	"low":     Priority_ARM_Low,
+	"regular": Priority_ARM_Regular,
+	"spot":    Priority_ARM_Spot,
+}
+
 // Specifies the Security profile settings for the virtual machine or virtual machine scale set.
 type SecurityProfile_ARM struct {
 	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
@@ -298,7 +332,7 @@ type SecurityProfile_ARM struct {
 
 	// SecurityType: Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings.
 	// Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.
-	SecurityType *SecurityProfile_SecurityType `json:"securityType,omitempty"`
+	SecurityType *SecurityProfile_SecurityType_ARM `json:"securityType,omitempty"`
 
 	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -324,21 +358,21 @@ type StorageProfile_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type VirtualMachineIdentity_Type string
+type VirtualMachineIdentity_Type_ARM string
 
 const (
-	VirtualMachineIdentity_Type_None                       = VirtualMachineIdentity_Type("None")
-	VirtualMachineIdentity_Type_SystemAssigned             = VirtualMachineIdentity_Type("SystemAssigned")
-	VirtualMachineIdentity_Type_SystemAssignedUserAssigned = VirtualMachineIdentity_Type("SystemAssigned, UserAssigned")
-	VirtualMachineIdentity_Type_UserAssigned               = VirtualMachineIdentity_Type("UserAssigned")
+	VirtualMachineIdentity_Type_ARM_None                       = VirtualMachineIdentity_Type_ARM("None")
+	VirtualMachineIdentity_Type_ARM_SystemAssigned             = VirtualMachineIdentity_Type_ARM("SystemAssigned")
+	VirtualMachineIdentity_Type_ARM_SystemAssignedUserAssigned = VirtualMachineIdentity_Type_ARM("SystemAssigned, UserAssigned")
+	VirtualMachineIdentity_Type_ARM_UserAssigned               = VirtualMachineIdentity_Type_ARM("UserAssigned")
 )
 
-// Mapping from string to VirtualMachineIdentity_Type
-var virtualMachineIdentity_Type_Values = map[string]VirtualMachineIdentity_Type{
-	"none":                         VirtualMachineIdentity_Type_None,
-	"systemassigned":               VirtualMachineIdentity_Type_SystemAssigned,
-	"systemassigned, userassigned": VirtualMachineIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 VirtualMachineIdentity_Type_UserAssigned,
+// Mapping from string to VirtualMachineIdentity_Type_ARM
+var virtualMachineIdentity_Type_ARM_Values = map[string]VirtualMachineIdentity_Type_ARM{
+	"none":                         VirtualMachineIdentity_Type_ARM_None,
+	"systemassigned":               VirtualMachineIdentity_Type_ARM_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineIdentity_Type_ARM_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineIdentity_Type_ARM_UserAssigned,
 }
 
 // Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
@@ -362,7 +396,7 @@ type DataDisk_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching `json:"caching,omitempty"`
+	Caching *Caching_ARM `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -370,7 +404,7 @@ type DataDisk_ARM struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreateOption_ARM `json:"createOption,omitempty"`
 
 	// DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
 	// detachment from the virtual machine. Supported values: ForceDetach.
@@ -380,7 +414,7 @@ type DataDisk_ARM struct {
 	// when using this detach behavior.
 	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk
 	// update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
-	DetachOption *DetachOption `json:"detachOption,omitempty"`
+	DetachOption *DetachOption_ARM `json:"detachOption,omitempty"`
 
 	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
 	// disk in a virtual machine image.
@@ -475,7 +509,7 @@ type OSDisk_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage.
-	Caching *Caching `json:"caching,omitempty"`
+	Caching *Caching_ARM `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -483,7 +517,7 @@ type OSDisk_ARM struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreateOption_ARM `json:"createOption,omitempty"`
 
 	// DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
 	DiffDiskSettings *DiffDiskSettings_ARM `json:"diffDiskSettings,omitempty"`
@@ -512,13 +546,23 @@ type OSDisk_ARM struct {
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *OSDisk_OsType `json:"osType,omitempty"`
+	OsType *OSDisk_OsType_ARM `json:"osType,omitempty"`
 
 	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_ARM `json:"vhd,omitempty"`
 
 	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"TrustedLaunch"}
+type SecurityProfile_SecurityType_ARM string
+
+const SecurityProfile_SecurityType_ARM_TrustedLaunch = SecurityProfile_SecurityType_ARM("TrustedLaunch")
+
+// Mapping from string to SecurityProfile_SecurityType_ARM
+var securityProfile_SecurityType_ARM_Values = map[string]SecurityProfile_SecurityType_ARM{
+	"trustedlaunch": SecurityProfile_SecurityType_ARM_TrustedLaunch,
 }
 
 // Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
@@ -577,7 +621,7 @@ type WindowsConfiguration_ARM struct {
 // Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent_ARM struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-	ComponentName *AdditionalUnattendContent_ComponentName `json:"componentName,omitempty"`
+	ComponentName *AdditionalUnattendContent_ComponentName_ARM `json:"componentName,omitempty"`
 
 	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
 	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
@@ -585,11 +629,76 @@ type AdditionalUnattendContent_ARM struct {
 	Content *string `json:"content,omitempty"`
 
 	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *AdditionalUnattendContent_PassName `json:"passName,omitempty"`
+	PassName *AdditionalUnattendContent_PassName_ARM `json:"passName,omitempty"`
 
 	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
 	// AutoLogon.
-	SettingName *AdditionalUnattendContent_SettingName `json:"settingName,omitempty"`
+	SettingName *AdditionalUnattendContent_SettingName_ARM `json:"settingName,omitempty"`
+}
+
+// Specifies the caching requirements.
+// Possible values are:
+// None
+// ReadOnly
+// ReadWrite
+// Default: None for Standard storage. ReadOnly for Premium storage
+// +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
+type Caching_ARM string
+
+const (
+	Caching_ARM_None      = Caching_ARM("None")
+	Caching_ARM_ReadOnly  = Caching_ARM("ReadOnly")
+	Caching_ARM_ReadWrite = Caching_ARM("ReadWrite")
+)
+
+// Mapping from string to Caching_ARM
+var caching_ARM_Values = map[string]Caching_ARM{
+	"none":      Caching_ARM_None,
+	"readonly":  Caching_ARM_ReadOnly,
+	"readwrite": Caching_ARM_ReadWrite,
+}
+
+// Specifies how the virtual machine should be created.
+// Possible values are:
+// Attach \u2013 This value
+// is used when you are using a specialized disk to create the virtual machine.
+// FromImage \u2013 This value is
+// used when you are using an image to create the virtual machine. If you are using a platform image, you also use the
+// imageReference element described above. If you are using a marketplace image, you  also use the plan element previously
+// described.
+// +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
+type CreateOption_ARM string
+
+const (
+	CreateOption_ARM_Attach    = CreateOption_ARM("Attach")
+	CreateOption_ARM_Empty     = CreateOption_ARM("Empty")
+	CreateOption_ARM_FromImage = CreateOption_ARM("FromImage")
+)
+
+// Mapping from string to CreateOption_ARM
+var createOption_ARM_Values = map[string]CreateOption_ARM{
+	"attach":    CreateOption_ARM_Attach,
+	"empty":     CreateOption_ARM_Empty,
+	"fromimage": CreateOption_ARM_FromImage,
+}
+
+// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from
+// the virtual machine. Supported values: ForceDetach.
+// detachOption: ForceDetach is applicable only for
+// managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from
+// the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk
+// forcibly from the VM. All writes might not have been flushed when using this detach behavior.
+// This feature is
+// still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached
+// to 'true' along with setting detachOption: 'ForceDetach'.
+// +kubebuilder:validation:Enum={"ForceDetach"}
+type DetachOption_ARM string
+
+const DetachOption_ARM_ForceDetach = DetachOption_ARM("ForceDetach")
+
+// Mapping from string to DetachOption_ARM
+var detachOption_ARM_Values = map[string]DetachOption_ARM{
+	"forcedetach": DetachOption_ARM_ForceDetach,
 }
 
 // Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
@@ -597,7 +706,7 @@ type AdditionalUnattendContent_ARM struct {
 // ephemeral disk settings can only be specified for managed disk.
 type DiffDiskSettings_ARM struct {
 	// Option: Specifies the ephemeral disk settings for operating system disk.
-	Option *DiffDiskOption `json:"option,omitempty"`
+	Option *DiffDiskOption_ARM `json:"option,omitempty"`
 
 	// Placement: Specifies the ephemeral disk placement for operating system disk.
 	// Possible values are:
@@ -607,7 +716,7 @@ type DiffDiskSettings_ARM struct {
 	// Refer to VM size documentation for Windows VM at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes
 	// and Linux VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to check which VM sizes exposes a
 	// cache disk.
-	Placement *DiffDiskPlacement `json:"placement,omitempty"`
+	Placement *DiffDiskPlacement_ARM `json:"placement,omitempty"`
 }
 
 // Describes a Encryption Settings for a Disk
@@ -629,7 +738,7 @@ type LinuxPatchSettings_ARM struct {
 	// ImageDefault - The virtual machine's default patching configuration is used.
 	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
 	// must be true
-	PatchMode *LinuxPatchSettings_PatchMode `json:"patchMode,omitempty"`
+	PatchMode *LinuxPatchSettings_PatchMode_ARM `json:"patchMode,omitempty"`
 }
 
 // The parameters of a managed disk.
@@ -641,13 +750,27 @@ type ManagedDiskParameters_ARM struct {
 	// StorageAccountType: Specifies the storage account type for the managed disk. Managed OS disk storage account type can
 	// only be set when you create the scale set. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with
 	// OS Disk.
-	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
+	StorageAccountType *StorageAccountType_ARM `json:"storageAccountType,omitempty"`
 }
 
 // Describes a network interface reference properties.
 type NetworkInterfaceReferenceProperties_ARM struct {
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type OSDisk_OsType_ARM string
+
+const (
+	OSDisk_OsType_ARM_Linux   = OSDisk_OsType_ARM("Linux")
+	OSDisk_OsType_ARM_Windows = OSDisk_OsType_ARM("Windows")
+)
+
+// Mapping from string to OSDisk_OsType_ARM
+var oSDisk_OsType_ARM_Values = map[string]OSDisk_OsType_ARM{
+	"linux":   OSDisk_OsType_ARM_Linux,
+	"windows": OSDisk_OsType_ARM_Windows,
 }
 
 // Specifies settings related to VM Guest Patching on Windows.
@@ -665,7 +788,7 @@ type PatchSettings_ARM struct {
 	// WindowsConfiguration.enableAutomaticUpdates must be true.
 	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
 	// and WindowsConfiguration.enableAutomaticUpdates must be true
-	PatchMode *PatchSettings_PatchMode `json:"patchMode,omitempty"`
+	PatchMode *PatchSettings_PatchMode_ARM `json:"patchMode,omitempty"`
 }
 
 // SSH configuration for Linux based VMs running on Azure
@@ -707,6 +830,70 @@ type WinRMConfiguration_ARM struct {
 	Listeners []WinRMListener_ARM `json:"listeners,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"Microsoft-Windows-Shell-Setup"}
+type AdditionalUnattendContent_ComponentName_ARM string
+
+const AdditionalUnattendContent_ComponentName_ARM_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName_ARM("Microsoft-Windows-Shell-Setup")
+
+// Mapping from string to AdditionalUnattendContent_ComponentName_ARM
+var additionalUnattendContent_ComponentName_ARM_Values = map[string]AdditionalUnattendContent_ComponentName_ARM{
+	"microsoft-windows-shell-setup": AdditionalUnattendContent_ComponentName_ARM_MicrosoftWindowsShellSetup,
+}
+
+// +kubebuilder:validation:Enum={"OobeSystem"}
+type AdditionalUnattendContent_PassName_ARM string
+
+const AdditionalUnattendContent_PassName_ARM_OobeSystem = AdditionalUnattendContent_PassName_ARM("OobeSystem")
+
+// Mapping from string to AdditionalUnattendContent_PassName_ARM
+var additionalUnattendContent_PassName_ARM_Values = map[string]AdditionalUnattendContent_PassName_ARM{
+	"oobesystem": AdditionalUnattendContent_PassName_ARM_OobeSystem,
+}
+
+// +kubebuilder:validation:Enum={"AutoLogon","FirstLogonCommands"}
+type AdditionalUnattendContent_SettingName_ARM string
+
+const (
+	AdditionalUnattendContent_SettingName_ARM_AutoLogon          = AdditionalUnattendContent_SettingName_ARM("AutoLogon")
+	AdditionalUnattendContent_SettingName_ARM_FirstLogonCommands = AdditionalUnattendContent_SettingName_ARM("FirstLogonCommands")
+)
+
+// Mapping from string to AdditionalUnattendContent_SettingName_ARM
+var additionalUnattendContent_SettingName_ARM_Values = map[string]AdditionalUnattendContent_SettingName_ARM{
+	"autologon":          AdditionalUnattendContent_SettingName_ARM_AutoLogon,
+	"firstlogoncommands": AdditionalUnattendContent_SettingName_ARM_FirstLogonCommands,
+}
+
+// Specifies the ephemeral disk option for operating system disk.
+// +kubebuilder:validation:Enum={"Local"}
+type DiffDiskOption_ARM string
+
+const DiffDiskOption_ARM_Local = DiffDiskOption_ARM("Local")
+
+// Mapping from string to DiffDiskOption_ARM
+var diffDiskOption_ARM_Values = map[string]DiffDiskOption_ARM{
+	"local": DiffDiskOption_ARM_Local,
+}
+
+// Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to
+// choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on
+// Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at
+// https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at
+// https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
+// +kubebuilder:validation:Enum={"CacheDisk","ResourceDisk"}
+type DiffDiskPlacement_ARM string
+
+const (
+	DiffDiskPlacement_ARM_CacheDisk    = DiffDiskPlacement_ARM("CacheDisk")
+	DiffDiskPlacement_ARM_ResourceDisk = DiffDiskPlacement_ARM("ResourceDisk")
+)
+
+// Mapping from string to DiffDiskPlacement_ARM
+var diffDiskPlacement_ARM_Values = map[string]DiffDiskPlacement_ARM{
+	"cachedisk":    DiffDiskPlacement_ARM_CacheDisk,
+	"resourcedisk": DiffDiskPlacement_ARM_ResourceDisk,
+}
+
 // Describes a reference to Key Vault Key
 type KeyVaultKeyReference_ARM struct {
 	// KeyUrl: The URL referencing a key encryption key in Key Vault.
@@ -725,6 +912,36 @@ type KeyVaultSecretReference_ARM struct {
 	SourceVault *SubResource_ARM `json:"sourceVault,omitempty"`
 }
 
+// +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
+type LinuxPatchSettings_PatchMode_ARM string
+
+const (
+	LinuxPatchSettings_PatchMode_ARM_AutomaticByPlatform = LinuxPatchSettings_PatchMode_ARM("AutomaticByPlatform")
+	LinuxPatchSettings_PatchMode_ARM_ImageDefault        = LinuxPatchSettings_PatchMode_ARM("ImageDefault")
+)
+
+// Mapping from string to LinuxPatchSettings_PatchMode_ARM
+var linuxPatchSettings_PatchMode_ARM_Values = map[string]LinuxPatchSettings_PatchMode_ARM{
+	"automaticbyplatform": LinuxPatchSettings_PatchMode_ARM_AutomaticByPlatform,
+	"imagedefault":        LinuxPatchSettings_PatchMode_ARM_ImageDefault,
+}
+
+// +kubebuilder:validation:Enum={"AutomaticByOS","AutomaticByPlatform","Manual"}
+type PatchSettings_PatchMode_ARM string
+
+const (
+	PatchSettings_PatchMode_ARM_AutomaticByOS       = PatchSettings_PatchMode_ARM("AutomaticByOS")
+	PatchSettings_PatchMode_ARM_AutomaticByPlatform = PatchSettings_PatchMode_ARM("AutomaticByPlatform")
+	PatchSettings_PatchMode_ARM_Manual              = PatchSettings_PatchMode_ARM("Manual")
+)
+
+// Mapping from string to PatchSettings_PatchMode_ARM
+var patchSettings_PatchMode_ARM_Values = map[string]PatchSettings_PatchMode_ARM{
+	"automaticbyos":       PatchSettings_PatchMode_ARM_AutomaticByOS,
+	"automaticbyplatform": PatchSettings_PatchMode_ARM_AutomaticByPlatform,
+	"manual":              PatchSettings_PatchMode_ARM_Manual,
+}
+
 // Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
 type SshPublicKeySpec_ARM struct {
 	// KeyData: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit
@@ -736,6 +953,34 @@ type SshPublicKeySpec_ARM struct {
 	// Path: Specifies the full path on the created VM where ssh public key is stored. If the file already exists, the
 	// specified key is appended to the file. Example: /home/user/.ssh/authorized_keys
 	Path *string `json:"path,omitempty"`
+}
+
+// Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks. It cannot
+// be used with OS Disk. Standard_LRS uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD.
+// UltraSSD_LRS uses Ultra disk. Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD
+// zone redundant storage. For more information regarding disks supported for Windows Virtual Machines, refer to
+// https://docs.microsoft.com/en-us/azure/virtual-machines/windows/disks-types and, for Linux Virtual Machines, refer to
+// https://docs.microsoft.com/en-us/azure/virtual-machines/linux/disks-types
+// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
+type StorageAccountType_ARM string
+
+const (
+	StorageAccountType_ARM_Premium_LRS     = StorageAccountType_ARM("Premium_LRS")
+	StorageAccountType_ARM_Premium_ZRS     = StorageAccountType_ARM("Premium_ZRS")
+	StorageAccountType_ARM_StandardSSD_LRS = StorageAccountType_ARM("StandardSSD_LRS")
+	StorageAccountType_ARM_StandardSSD_ZRS = StorageAccountType_ARM("StandardSSD_ZRS")
+	StorageAccountType_ARM_Standard_LRS    = StorageAccountType_ARM("Standard_LRS")
+	StorageAccountType_ARM_UltraSSD_LRS    = StorageAccountType_ARM("UltraSSD_LRS")
+)
+
+// Mapping from string to StorageAccountType_ARM
+var storageAccountType_ARM_Values = map[string]StorageAccountType_ARM{
+	"premium_lrs":     StorageAccountType_ARM_Premium_LRS,
+	"premium_zrs":     StorageAccountType_ARM_Premium_ZRS,
+	"standardssd_lrs": StorageAccountType_ARM_StandardSSD_LRS,
+	"standardssd_zrs": StorageAccountType_ARM_StandardSSD_ZRS,
+	"standard_lrs":    StorageAccountType_ARM_Standard_LRS,
+	"ultrassd_lrs":    StorageAccountType_ARM_UltraSSD_LRS,
 }
 
 // Describes Protocol and thumbprint of Windows Remote Management listener
@@ -755,5 +1000,19 @@ type WinRMListener_ARM struct {
 	// Possible values are:
 	// http
 	// https
-	Protocol *WinRMListener_Protocol `json:"protocol,omitempty"`
+	Protocol *WinRMListener_Protocol_ARM `json:"protocol,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Http","Https"}
+type WinRMListener_Protocol_ARM string
+
+const (
+	WinRMListener_Protocol_ARM_Http  = WinRMListener_Protocol_ARM("Http")
+	WinRMListener_Protocol_ARM_Https = WinRMListener_Protocol_ARM("Https")
+)
+
+// Mapping from string to WinRMListener_Protocol_ARM
+var winRMListener_Protocol_ARM_Values = map[string]WinRMListener_Protocol_ARM{
+	"http":  WinRMListener_Protocol_ARM_Http,
+	"https": WinRMListener_Protocol_ARM_Https,
 }

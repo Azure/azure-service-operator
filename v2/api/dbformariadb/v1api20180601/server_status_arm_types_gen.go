@@ -44,14 +44,14 @@ type ServerProperties_STATUS_ARM struct {
 	MasterServerId *string `json:"masterServerId,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion_STATUS `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion_STATUS_ARM `json:"minimalTlsVersion,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections on a server
 	PrivateEndpointConnections []ServerPrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess_STATUS_ARM `json:"publicNetworkAccess,omitempty"`
 
 	// ReplicaCapacity: The maximum number of replicas that a master server can have.
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
@@ -60,16 +60,16 @@ type ServerProperties_STATUS_ARM struct {
 	ReplicationRole *string `json:"replicationRole,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement_STATUS `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement_STATUS_ARM `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile_STATUS_ARM `json:"storageProfile,omitempty"`
 
 	// UserVisibleState: A state of a server that is visible to user.
-	UserVisibleState *ServerProperties_UserVisibleState_STATUS `json:"userVisibleState,omitempty"`
+	UserVisibleState *ServerProperties_UserVisibleState_STATUS_ARM `json:"userVisibleState,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
+	Version *ServerVersion_STATUS_ARM `json:"version,omitempty"`
 }
 
 // Billing information related properties of a server.
@@ -87,7 +87,40 @@ type Sku_STATUS_ARM struct {
 	Size *string `json:"size,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Basic.
-	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
+	Tier *Sku_Tier_STATUS_ARM `json:"tier,omitempty"`
+}
+
+// Enforce a minimal Tls version for the server.
+type MinimalTlsVersion_STATUS_ARM string
+
+const (
+	MinimalTlsVersion_STATUS_ARM_TLS1_0                 = MinimalTlsVersion_STATUS_ARM("TLS1_0")
+	MinimalTlsVersion_STATUS_ARM_TLS1_1                 = MinimalTlsVersion_STATUS_ARM("TLS1_1")
+	MinimalTlsVersion_STATUS_ARM_TLS1_2                 = MinimalTlsVersion_STATUS_ARM("TLS1_2")
+	MinimalTlsVersion_STATUS_ARM_TLSEnforcementDisabled = MinimalTlsVersion_STATUS_ARM("TLSEnforcementDisabled")
+)
+
+// Mapping from string to MinimalTlsVersion_STATUS_ARM
+var minimalTlsVersion_STATUS_ARM_Values = map[string]MinimalTlsVersion_STATUS_ARM{
+	"tls1_0":                 MinimalTlsVersion_STATUS_ARM_TLS1_0,
+	"tls1_1":                 MinimalTlsVersion_STATUS_ARM_TLS1_1,
+	"tls1_2":                 MinimalTlsVersion_STATUS_ARM_TLS1_2,
+	"tlsenforcementdisabled": MinimalTlsVersion_STATUS_ARM_TLSEnforcementDisabled,
+}
+
+// Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
+// or 'Disabled'
+type PublicNetworkAccess_STATUS_ARM string
+
+const (
+	PublicNetworkAccess_STATUS_ARM_Disabled = PublicNetworkAccess_STATUS_ARM("Disabled")
+	PublicNetworkAccess_STATUS_ARM_Enabled  = PublicNetworkAccess_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccess_STATUS_ARM
+var publicNetworkAccess_STATUS_ARM_Values = map[string]PublicNetworkAccess_STATUS_ARM{
+	"disabled": PublicNetworkAccess_STATUS_ARM_Disabled,
+	"enabled":  PublicNetworkAccess_STATUS_ARM_Enabled,
 }
 
 // A private endpoint connection under a server
@@ -99,19 +132,62 @@ type ServerPrivateEndpointConnection_STATUS_ARM struct {
 	Properties *ServerPrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-type Sku_Tier_STATUS string
+type ServerProperties_UserVisibleState_STATUS_ARM string
 
 const (
-	Sku_Tier_STATUS_Basic           = Sku_Tier_STATUS("Basic")
-	Sku_Tier_STATUS_GeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
-	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
+	ServerProperties_UserVisibleState_STATUS_ARM_Disabled = ServerProperties_UserVisibleState_STATUS_ARM("Disabled")
+	ServerProperties_UserVisibleState_STATUS_ARM_Dropping = ServerProperties_UserVisibleState_STATUS_ARM("Dropping")
+	ServerProperties_UserVisibleState_STATUS_ARM_Ready    = ServerProperties_UserVisibleState_STATUS_ARM("Ready")
 )
 
-// Mapping from string to Sku_Tier_STATUS
-var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
-	"basic":           Sku_Tier_STATUS_Basic,
-	"generalpurpose":  Sku_Tier_STATUS_GeneralPurpose,
-	"memoryoptimized": Sku_Tier_STATUS_MemoryOptimized,
+// Mapping from string to ServerProperties_UserVisibleState_STATUS_ARM
+var serverProperties_UserVisibleState_STATUS_ARM_Values = map[string]ServerProperties_UserVisibleState_STATUS_ARM{
+	"disabled": ServerProperties_UserVisibleState_STATUS_ARM_Disabled,
+	"dropping": ServerProperties_UserVisibleState_STATUS_ARM_Dropping,
+	"ready":    ServerProperties_UserVisibleState_STATUS_ARM_Ready,
+}
+
+// The version of a server.
+type ServerVersion_STATUS_ARM string
+
+const (
+	ServerVersion_STATUS_ARM_102 = ServerVersion_STATUS_ARM("10.2")
+	ServerVersion_STATUS_ARM_103 = ServerVersion_STATUS_ARM("10.3")
+)
+
+// Mapping from string to ServerVersion_STATUS_ARM
+var serverVersion_STATUS_ARM_Values = map[string]ServerVersion_STATUS_ARM{
+	"10.2": ServerVersion_STATUS_ARM_102,
+	"10.3": ServerVersion_STATUS_ARM_103,
+}
+
+type Sku_Tier_STATUS_ARM string
+
+const (
+	Sku_Tier_STATUS_ARM_Basic           = Sku_Tier_STATUS_ARM("Basic")
+	Sku_Tier_STATUS_ARM_GeneralPurpose  = Sku_Tier_STATUS_ARM("GeneralPurpose")
+	Sku_Tier_STATUS_ARM_MemoryOptimized = Sku_Tier_STATUS_ARM("MemoryOptimized")
+)
+
+// Mapping from string to Sku_Tier_STATUS_ARM
+var sku_Tier_STATUS_ARM_Values = map[string]Sku_Tier_STATUS_ARM{
+	"basic":           Sku_Tier_STATUS_ARM_Basic,
+	"generalpurpose":  Sku_Tier_STATUS_ARM_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_STATUS_ARM_MemoryOptimized,
+}
+
+// Enable ssl enforcement or not when connect to server.
+type SslEnforcement_STATUS_ARM string
+
+const (
+	SslEnforcement_STATUS_ARM_Disabled = SslEnforcement_STATUS_ARM("Disabled")
+	SslEnforcement_STATUS_ARM_Enabled  = SslEnforcement_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to SslEnforcement_STATUS_ARM
+var sslEnforcement_STATUS_ARM_Values = map[string]SslEnforcement_STATUS_ARM{
+	"disabled": SslEnforcement_STATUS_ARM_Disabled,
+	"enabled":  SslEnforcement_STATUS_ARM_Enabled,
 }
 
 // Storage Profile properties of a server
@@ -120,10 +196,10 @@ type StorageProfile_STATUS_ARM struct {
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfile_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *StorageProfile_GeoRedundantBackup_STATUS_ARM `json:"geoRedundantBackup,omitempty"`
 
 	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfile_StorageAutogrow_STATUS `json:"storageAutogrow,omitempty"`
+	StorageAutogrow *StorageProfile_StorageAutogrow_STATUS_ARM `json:"storageAutogrow,omitempty"`
 
 	// StorageMB: Max storage allowed for a server.
 	StorageMB *int `json:"storageMB,omitempty"`
@@ -138,7 +214,33 @@ type ServerPrivateEndpointConnectionProperties_STATUS_ARM struct {
 	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: State of the private endpoint connection.
-	ProvisioningState *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
+}
+
+type StorageProfile_GeoRedundantBackup_STATUS_ARM string
+
+const (
+	StorageProfile_GeoRedundantBackup_STATUS_ARM_Disabled = StorageProfile_GeoRedundantBackup_STATUS_ARM("Disabled")
+	StorageProfile_GeoRedundantBackup_STATUS_ARM_Enabled  = StorageProfile_GeoRedundantBackup_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to StorageProfile_GeoRedundantBackup_STATUS_ARM
+var storageProfile_GeoRedundantBackup_STATUS_ARM_Values = map[string]StorageProfile_GeoRedundantBackup_STATUS_ARM{
+	"disabled": StorageProfile_GeoRedundantBackup_STATUS_ARM_Disabled,
+	"enabled":  StorageProfile_GeoRedundantBackup_STATUS_ARM_Enabled,
+}
+
+type StorageProfile_StorageAutogrow_STATUS_ARM string
+
+const (
+	StorageProfile_StorageAutogrow_STATUS_ARM_Disabled = StorageProfile_StorageAutogrow_STATUS_ARM("Disabled")
+	StorageProfile_StorageAutogrow_STATUS_ARM_Enabled  = StorageProfile_StorageAutogrow_STATUS_ARM("Enabled")
+)
+
+// Mapping from string to StorageProfile_StorageAutogrow_STATUS_ARM
+var storageProfile_StorageAutogrow_STATUS_ARM_Values = map[string]StorageProfile_StorageAutogrow_STATUS_ARM{
+	"disabled": StorageProfile_StorageAutogrow_STATUS_ARM_Disabled,
+	"enabled":  StorageProfile_StorageAutogrow_STATUS_ARM_Enabled,
 }
 
 type PrivateEndpointProperty_STATUS_ARM struct {
@@ -146,13 +248,58 @@ type PrivateEndpointProperty_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+type ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM string
+
+const (
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Approving = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Approving")
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Dropping  = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Dropping")
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Failed    = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Failed")
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Ready     = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Ready")
+	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Rejecting = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM("Rejecting")
+)
+
+// Mapping from string to ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM
+var serverPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Values = map[string]ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM{
+	"approving": ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Approving,
+	"dropping":  ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Dropping,
+	"failed":    ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Failed,
+	"ready":     ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Ready,
+	"rejecting": ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM_Rejecting,
+}
+
 type ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM struct {
 	// ActionsRequired: The actions required for private link service connection.
-	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
+	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM `json:"actionsRequired,omitempty"`
 
 	// Description: The private link service connection description.
 	Description *string `json:"description,omitempty"`
 
 	// Status: The private link service connection status.
-	Status *ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS `json:"status,omitempty"`
+	Status *ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM `json:"status,omitempty"`
+}
+
+type ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM string
+
+const ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM_None = ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM("None")
+
+// Mapping from string to ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM
+var serverPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM_Values = map[string]ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM{
+	"none": ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM_None,
+}
+
+type ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM string
+
+const (
+	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Approved     = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM("Approved")
+	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Disconnected = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM("Disconnected")
+	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Pending      = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM("Pending")
+	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Rejected     = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM("Rejected")
+)
+
+// Mapping from string to ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM
+var serverPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Values = map[string]ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM{
+	"approved":     ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Approved,
+	"disconnected": ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Disconnected,
+	"pending":      ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Pending,
+	"rejected":     ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM_Rejected,
 }

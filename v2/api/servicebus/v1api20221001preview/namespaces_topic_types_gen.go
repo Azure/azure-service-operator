@@ -1065,7 +1065,9 @@ func (topic *Namespaces_Topic_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
+			var temp string
+			temp = string(*typedInput.Properties.Status)
+			status := EntityStatus_STATUS(temp)
 			topic.Status = &status
 		}
 	}

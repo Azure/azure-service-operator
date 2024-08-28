@@ -379,7 +379,9 @@ func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.LinkedRedisCacheId = &linkedRedisCacheId
 	}
 	if server.ServerRole != nil {
-		serverRole := *server.ServerRole
+		var temp string
+		temp = string(*server.ServerRole)
+		serverRole := RedisLinkedServerCreateProperties_ServerRole_ARM(temp)
 		result.Properties.ServerRole = &serverRole
 	}
 	return result, nil
@@ -421,7 +423,9 @@ func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServerRole != nil {
-			serverRole := *typedInput.Properties.ServerRole
+			var temp string
+			temp = string(*typedInput.Properties.ServerRole)
+			serverRole := RedisLinkedServerCreateProperties_ServerRole(temp)
 			server.ServerRole = &serverRole
 		}
 	}
@@ -763,7 +767,9 @@ func (server *Redis_LinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServerRole != nil {
-			serverRole := *typedInput.Properties.ServerRole
+			var temp string
+			temp = string(*typedInput.Properties.ServerRole)
+			serverRole := RedisLinkedServerProperties_ServerRole_STATUS(temp)
 			server.ServerRole = &serverRole
 		}
 	}

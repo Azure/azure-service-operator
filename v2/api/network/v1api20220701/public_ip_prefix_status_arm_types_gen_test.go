@@ -209,11 +209,11 @@ func AddIndependentPropertyGeneratorsForPublicIPPrefixPropertiesFormat_STATUS_AR
 	gens["IpPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["PrefixLength"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PublicIpPrefixProvisioningState_STATUS_Deleting,
-		PublicIpPrefixProvisioningState_STATUS_Failed,
-		PublicIpPrefixProvisioningState_STATUS_Succeeded,
-		PublicIpPrefixProvisioningState_STATUS_Updating))
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_IPv4, IPVersion_STATUS_IPv6))
+		PublicIpPrefixProvisioningState_STATUS_ARM_Deleting,
+		PublicIpPrefixProvisioningState_STATUS_ARM_Failed,
+		PublicIpPrefixProvisioningState_STATUS_ARM_Succeeded,
+		PublicIpPrefixProvisioningState_STATUS_ARM_Updating))
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_ARM_IPv4, IPVersion_STATUS_ARM_IPv6))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -284,8 +284,8 @@ func PublicIPPrefixSku_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPPrefixSku_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPPrefixSku_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPPrefixSku_Name_STATUS_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPPrefixSku_Tier_STATUS_Global, PublicIPPrefixSku_Tier_STATUS_Regional))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPPrefixSku_Name_STATUS_ARM_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPPrefixSku_Tier_STATUS_ARM_Global, PublicIPPrefixSku_Tier_STATUS_ARM_Regional))
 }
 
 func Test_PublicIPPrefix_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

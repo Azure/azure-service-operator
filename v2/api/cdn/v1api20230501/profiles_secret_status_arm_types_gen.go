@@ -24,7 +24,7 @@ type Profiles_Secret_STATUS_ARM struct {
 
 // The JSON object that contains the properties of the Secret to create.
 type SecretProperties_STATUS_ARM struct {
-	DeploymentStatus *SecretProperties_DeploymentStatus_STATUS `json:"deploymentStatus,omitempty"`
+	DeploymentStatus *SecretProperties_DeploymentStatus_STATUS_ARM `json:"deploymentStatus,omitempty"`
 
 	// Parameters: object which contains secret parameters
 	Parameters *SecretParameters_STATUS_ARM `json:"parameters,omitempty"`
@@ -33,7 +33,7 @@ type SecretProperties_STATUS_ARM struct {
 	ProfileName *string `json:"profileName,omitempty"`
 
 	// ProvisioningState: Provisioning status
-	ProvisioningState *SecretProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *SecretProperties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
 }
 
 type SecretParameters_STATUS_ARM struct {
@@ -96,40 +96,40 @@ func (parameters *SecretParameters_STATUS_ARM) UnmarshalJSON(data []byte) error 
 	return nil
 }
 
-type SecretProperties_DeploymentStatus_STATUS string
+type SecretProperties_DeploymentStatus_STATUS_ARM string
 
 const (
-	SecretProperties_DeploymentStatus_STATUS_Failed     = SecretProperties_DeploymentStatus_STATUS("Failed")
-	SecretProperties_DeploymentStatus_STATUS_InProgress = SecretProperties_DeploymentStatus_STATUS("InProgress")
-	SecretProperties_DeploymentStatus_STATUS_NotStarted = SecretProperties_DeploymentStatus_STATUS("NotStarted")
-	SecretProperties_DeploymentStatus_STATUS_Succeeded  = SecretProperties_DeploymentStatus_STATUS("Succeeded")
+	SecretProperties_DeploymentStatus_STATUS_ARM_Failed     = SecretProperties_DeploymentStatus_STATUS_ARM("Failed")
+	SecretProperties_DeploymentStatus_STATUS_ARM_InProgress = SecretProperties_DeploymentStatus_STATUS_ARM("InProgress")
+	SecretProperties_DeploymentStatus_STATUS_ARM_NotStarted = SecretProperties_DeploymentStatus_STATUS_ARM("NotStarted")
+	SecretProperties_DeploymentStatus_STATUS_ARM_Succeeded  = SecretProperties_DeploymentStatus_STATUS_ARM("Succeeded")
 )
 
-// Mapping from string to SecretProperties_DeploymentStatus_STATUS
-var secretProperties_DeploymentStatus_STATUS_Values = map[string]SecretProperties_DeploymentStatus_STATUS{
-	"failed":     SecretProperties_DeploymentStatus_STATUS_Failed,
-	"inprogress": SecretProperties_DeploymentStatus_STATUS_InProgress,
-	"notstarted": SecretProperties_DeploymentStatus_STATUS_NotStarted,
-	"succeeded":  SecretProperties_DeploymentStatus_STATUS_Succeeded,
+// Mapping from string to SecretProperties_DeploymentStatus_STATUS_ARM
+var secretProperties_DeploymentStatus_STATUS_ARM_Values = map[string]SecretProperties_DeploymentStatus_STATUS_ARM{
+	"failed":     SecretProperties_DeploymentStatus_STATUS_ARM_Failed,
+	"inprogress": SecretProperties_DeploymentStatus_STATUS_ARM_InProgress,
+	"notstarted": SecretProperties_DeploymentStatus_STATUS_ARM_NotStarted,
+	"succeeded":  SecretProperties_DeploymentStatus_STATUS_ARM_Succeeded,
 }
 
-type SecretProperties_ProvisioningState_STATUS string
+type SecretProperties_ProvisioningState_STATUS_ARM string
 
 const (
-	SecretProperties_ProvisioningState_STATUS_Creating  = SecretProperties_ProvisioningState_STATUS("Creating")
-	SecretProperties_ProvisioningState_STATUS_Deleting  = SecretProperties_ProvisioningState_STATUS("Deleting")
-	SecretProperties_ProvisioningState_STATUS_Failed    = SecretProperties_ProvisioningState_STATUS("Failed")
-	SecretProperties_ProvisioningState_STATUS_Succeeded = SecretProperties_ProvisioningState_STATUS("Succeeded")
-	SecretProperties_ProvisioningState_STATUS_Updating  = SecretProperties_ProvisioningState_STATUS("Updating")
+	SecretProperties_ProvisioningState_STATUS_ARM_Creating  = SecretProperties_ProvisioningState_STATUS_ARM("Creating")
+	SecretProperties_ProvisioningState_STATUS_ARM_Deleting  = SecretProperties_ProvisioningState_STATUS_ARM("Deleting")
+	SecretProperties_ProvisioningState_STATUS_ARM_Failed    = SecretProperties_ProvisioningState_STATUS_ARM("Failed")
+	SecretProperties_ProvisioningState_STATUS_ARM_Succeeded = SecretProperties_ProvisioningState_STATUS_ARM("Succeeded")
+	SecretProperties_ProvisioningState_STATUS_ARM_Updating  = SecretProperties_ProvisioningState_STATUS_ARM("Updating")
 )
 
-// Mapping from string to SecretProperties_ProvisioningState_STATUS
-var secretProperties_ProvisioningState_STATUS_Values = map[string]SecretProperties_ProvisioningState_STATUS{
-	"creating":  SecretProperties_ProvisioningState_STATUS_Creating,
-	"deleting":  SecretProperties_ProvisioningState_STATUS_Deleting,
-	"failed":    SecretProperties_ProvisioningState_STATUS_Failed,
-	"succeeded": SecretProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":  SecretProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to SecretProperties_ProvisioningState_STATUS_ARM
+var secretProperties_ProvisioningState_STATUS_ARM_Values = map[string]SecretProperties_ProvisioningState_STATUS_ARM{
+	"creating":  SecretProperties_ProvisioningState_STATUS_ARM_Creating,
+	"deleting":  SecretProperties_ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    SecretProperties_ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": SecretProperties_ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  SecretProperties_ProvisioningState_STATUS_ARM_Updating,
 }
 
 type AzureFirstPartyManagedCertificateParameters_STATUS_ARM struct {
@@ -150,8 +150,8 @@ type AzureFirstPartyManagedCertificateParameters_STATUS_ARM struct {
 	SubjectAlternativeNames []string `json:"subjectAlternativeNames,omitempty"`
 
 	// Thumbprint: Certificate thumbprint.
-	Thumbprint *string                                                 `json:"thumbprint,omitempty"`
-	Type       AzureFirstPartyManagedCertificateParameters_Type_STATUS `json:"type,omitempty"`
+	Thumbprint *string                                                     `json:"thumbprint,omitempty"`
+	Type       AzureFirstPartyManagedCertificateParameters_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 type CustomerCertificateParameters_STATUS_ARM struct {
@@ -175,8 +175,8 @@ type CustomerCertificateParameters_STATUS_ARM struct {
 	SubjectAlternativeNames []string `json:"subjectAlternativeNames,omitempty"`
 
 	// Thumbprint: Certificate thumbprint.
-	Thumbprint *string                                   `json:"thumbprint,omitempty"`
-	Type       CustomerCertificateParameters_Type_STATUS `json:"type,omitempty"`
+	Thumbprint *string                                       `json:"thumbprint,omitempty"`
+	Type       CustomerCertificateParameters_Type_STATUS_ARM `json:"type,omitempty"`
 
 	// UseLatestVersion: Whether to use the latest version for the certificate
 	UseLatestVersion *bool `json:"useLatestVersion,omitempty"`
@@ -187,8 +187,8 @@ type ManagedCertificateParameters_STATUS_ARM struct {
 	ExpirationDate *string `json:"expirationDate,omitempty"`
 
 	// Subject: Subject name in the certificate.
-	Subject *string                                  `json:"subject,omitempty"`
-	Type    ManagedCertificateParameters_Type_STATUS `json:"type,omitempty"`
+	Subject *string                                      `json:"subject,omitempty"`
+	Type    ManagedCertificateParameters_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
 type UrlSigningKeyParameters_STATUS_ARM struct {
@@ -201,42 +201,42 @@ type UrlSigningKeyParameters_STATUS_ARM struct {
 	SecretSource *ResourceReference_STATUS_ARM `json:"secretSource,omitempty"`
 
 	// SecretVersion: Version of the secret to be used
-	SecretVersion *string                             `json:"secretVersion,omitempty"`
-	Type          UrlSigningKeyParameters_Type_STATUS `json:"type,omitempty"`
+	SecretVersion *string                                 `json:"secretVersion,omitempty"`
+	Type          UrlSigningKeyParameters_Type_STATUS_ARM `json:"type,omitempty"`
 }
 
-type AzureFirstPartyManagedCertificateParameters_Type_STATUS string
+type AzureFirstPartyManagedCertificateParameters_Type_STATUS_ARM string
 
-const AzureFirstPartyManagedCertificateParameters_Type_STATUS_AzureFirstPartyManagedCertificate = AzureFirstPartyManagedCertificateParameters_Type_STATUS("AzureFirstPartyManagedCertificate")
+const AzureFirstPartyManagedCertificateParameters_Type_STATUS_ARM_AzureFirstPartyManagedCertificate = AzureFirstPartyManagedCertificateParameters_Type_STATUS_ARM("AzureFirstPartyManagedCertificate")
 
-// Mapping from string to AzureFirstPartyManagedCertificateParameters_Type_STATUS
-var azureFirstPartyManagedCertificateParameters_Type_STATUS_Values = map[string]AzureFirstPartyManagedCertificateParameters_Type_STATUS{
-	"azurefirstpartymanagedcertificate": AzureFirstPartyManagedCertificateParameters_Type_STATUS_AzureFirstPartyManagedCertificate,
+// Mapping from string to AzureFirstPartyManagedCertificateParameters_Type_STATUS_ARM
+var azureFirstPartyManagedCertificateParameters_Type_STATUS_ARM_Values = map[string]AzureFirstPartyManagedCertificateParameters_Type_STATUS_ARM{
+	"azurefirstpartymanagedcertificate": AzureFirstPartyManagedCertificateParameters_Type_STATUS_ARM_AzureFirstPartyManagedCertificate,
 }
 
-type CustomerCertificateParameters_Type_STATUS string
+type CustomerCertificateParameters_Type_STATUS_ARM string
 
-const CustomerCertificateParameters_Type_STATUS_CustomerCertificate = CustomerCertificateParameters_Type_STATUS("CustomerCertificate")
+const CustomerCertificateParameters_Type_STATUS_ARM_CustomerCertificate = CustomerCertificateParameters_Type_STATUS_ARM("CustomerCertificate")
 
-// Mapping from string to CustomerCertificateParameters_Type_STATUS
-var customerCertificateParameters_Type_STATUS_Values = map[string]CustomerCertificateParameters_Type_STATUS{
-	"customercertificate": CustomerCertificateParameters_Type_STATUS_CustomerCertificate,
+// Mapping from string to CustomerCertificateParameters_Type_STATUS_ARM
+var customerCertificateParameters_Type_STATUS_ARM_Values = map[string]CustomerCertificateParameters_Type_STATUS_ARM{
+	"customercertificate": CustomerCertificateParameters_Type_STATUS_ARM_CustomerCertificate,
 }
 
-type ManagedCertificateParameters_Type_STATUS string
+type ManagedCertificateParameters_Type_STATUS_ARM string
 
-const ManagedCertificateParameters_Type_STATUS_ManagedCertificate = ManagedCertificateParameters_Type_STATUS("ManagedCertificate")
+const ManagedCertificateParameters_Type_STATUS_ARM_ManagedCertificate = ManagedCertificateParameters_Type_STATUS_ARM("ManagedCertificate")
 
-// Mapping from string to ManagedCertificateParameters_Type_STATUS
-var managedCertificateParameters_Type_STATUS_Values = map[string]ManagedCertificateParameters_Type_STATUS{
-	"managedcertificate": ManagedCertificateParameters_Type_STATUS_ManagedCertificate,
+// Mapping from string to ManagedCertificateParameters_Type_STATUS_ARM
+var managedCertificateParameters_Type_STATUS_ARM_Values = map[string]ManagedCertificateParameters_Type_STATUS_ARM{
+	"managedcertificate": ManagedCertificateParameters_Type_STATUS_ARM_ManagedCertificate,
 }
 
-type UrlSigningKeyParameters_Type_STATUS string
+type UrlSigningKeyParameters_Type_STATUS_ARM string
 
-const UrlSigningKeyParameters_Type_STATUS_UrlSigningKey = UrlSigningKeyParameters_Type_STATUS("UrlSigningKey")
+const UrlSigningKeyParameters_Type_STATUS_ARM_UrlSigningKey = UrlSigningKeyParameters_Type_STATUS_ARM("UrlSigningKey")
 
-// Mapping from string to UrlSigningKeyParameters_Type_STATUS
-var urlSigningKeyParameters_Type_STATUS_Values = map[string]UrlSigningKeyParameters_Type_STATUS{
-	"urlsigningkey": UrlSigningKeyParameters_Type_STATUS_UrlSigningKey,
+// Mapping from string to UrlSigningKeyParameters_Type_STATUS_ARM
+var urlSigningKeyParameters_Type_STATUS_ARM_Values = map[string]UrlSigningKeyParameters_Type_STATUS_ARM{
+	"urlsigningkey": UrlSigningKeyParameters_Type_STATUS_ARM_UrlSigningKey,
 }

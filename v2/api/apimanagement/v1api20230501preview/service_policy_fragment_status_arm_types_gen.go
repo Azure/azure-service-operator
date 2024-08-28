@@ -24,11 +24,24 @@ type PolicyFragmentContractProperties_STATUS_ARM struct {
 	Description *string `json:"description,omitempty"`
 
 	// Format: Format of the policy fragment content.
-	Format *PolicyFragmentContractProperties_Format_STATUS `json:"format,omitempty"`
+	Format *PolicyFragmentContractProperties_Format_STATUS_ARM `json:"format,omitempty"`
 
 	// ProvisioningState: The provisioning state
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Value: Contents of the policy fragment.
 	Value *string `json:"value,omitempty"`
+}
+
+type PolicyFragmentContractProperties_Format_STATUS_ARM string
+
+const (
+	PolicyFragmentContractProperties_Format_STATUS_ARM_Rawxml = PolicyFragmentContractProperties_Format_STATUS_ARM("rawxml")
+	PolicyFragmentContractProperties_Format_STATUS_ARM_Xml    = PolicyFragmentContractProperties_Format_STATUS_ARM("xml")
+)
+
+// Mapping from string to PolicyFragmentContractProperties_Format_STATUS_ARM
+var policyFragmentContractProperties_Format_STATUS_ARM_Values = map[string]PolicyFragmentContractProperties_Format_STATUS_ARM{
+	"rawxml": PolicyFragmentContractProperties_Format_STATUS_ARM_Rawxml,
+	"xml":    PolicyFragmentContractProperties_Format_STATUS_ARM_Xml,
 }

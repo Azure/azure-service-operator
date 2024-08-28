@@ -501,7 +501,9 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties = &ApplicationInsightsComponentProperties_ARM{}
 	}
 	if component.Application_Type != nil {
-		applicationType := *component.Application_Type
+		var temp string
+		temp = string(*component.Application_Type)
+		applicationType := ApplicationInsightsComponentProperties_Application_Type_ARM(temp)
 		result.Properties.Application_Type = &applicationType
 	}
 	if component.DisableIpMasking != nil {
@@ -513,7 +515,9 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.DisableLocalAuth = &disableLocalAuth
 	}
 	if component.Flow_Type != nil {
-		flowType := *component.Flow_Type
+		var temp string
+		temp = string(*component.Flow_Type)
+		flowType := ApplicationInsightsComponentProperties_Flow_Type_ARM(temp)
 		result.Properties.Flow_Type = &flowType
 	}
 	if component.ForceCustomerStorageForProfiler != nil {
@@ -529,19 +533,27 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
 	}
 	if component.IngestionMode != nil {
-		ingestionMode := *component.IngestionMode
+		var temp string
+		temp = string(*component.IngestionMode)
+		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_ARM(temp)
 		result.Properties.IngestionMode = &ingestionMode
 	}
 	if component.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := *component.PublicNetworkAccessForIngestion
+		var temp string
+		temp = string(*component.PublicNetworkAccessForIngestion)
+		publicNetworkAccessForIngestion := PublicNetworkAccessType_ARM(temp)
 		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	}
 	if component.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := *component.PublicNetworkAccessForQuery
+		var temp string
+		temp = string(*component.PublicNetworkAccessForQuery)
+		publicNetworkAccessForQuery := PublicNetworkAccessType_ARM(temp)
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
 	if component.Request_Source != nil {
-		requestSource := *component.Request_Source
+		var temp string
+		temp = string(*component.Request_Source)
+		requestSource := ApplicationInsightsComponentProperties_Request_Source_ARM(temp)
 		result.Properties.Request_Source = &requestSource
 	}
 	if component.RetentionInDays != nil {
@@ -587,7 +599,9 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
-			applicationType := *typedInput.Properties.Application_Type
+			var temp string
+			temp = string(*typedInput.Properties.Application_Type)
+			applicationType := ApplicationInsightsComponentProperties_Application_Type(temp)
 			component.Application_Type = &applicationType
 		}
 	}
@@ -623,7 +637,9 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
-			flowType := *typedInput.Properties.Flow_Type
+			var temp string
+			temp = string(*typedInput.Properties.Flow_Type)
+			flowType := ApplicationInsightsComponentProperties_Flow_Type(temp)
 			component.Flow_Type = &flowType
 		}
 	}
@@ -659,7 +675,9 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IngestionMode != nil {
-			ingestionMode := *typedInput.Properties.IngestionMode
+			var temp string
+			temp = string(*typedInput.Properties.IngestionMode)
+			ingestionMode := ApplicationInsightsComponentProperties_IngestionMode(temp)
 			component.IngestionMode = &ingestionMode
 		}
 	}
@@ -688,7 +706,9 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
-			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccessForIngestion)
+			publicNetworkAccessForIngestion := PublicNetworkAccessType(temp)
 			component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 		}
 	}
@@ -697,7 +717,9 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
-			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccessForQuery)
+			publicNetworkAccessForQuery := PublicNetworkAccessType(temp)
 			component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 		}
 	}
@@ -706,7 +728,9 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
-			requestSource := *typedInput.Properties.Request_Source
+			var temp string
+			temp = string(*typedInput.Properties.Request_Source)
+			requestSource := ApplicationInsightsComponentProperties_Request_Source(temp)
 			component.Request_Source = &requestSource
 		}
 	}
@@ -1425,7 +1449,9 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
-			applicationType := *typedInput.Properties.Application_Type
+			var temp string
+			temp = string(*typedInput.Properties.Application_Type)
+			applicationType := ApplicationInsightsComponentProperties_Application_Type_STATUS(temp)
 			component.Application_Type = &applicationType
 		}
 	}
@@ -1478,7 +1504,9 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
-			flowType := *typedInput.Properties.Flow_Type
+			var temp string
+			temp = string(*typedInput.Properties.Flow_Type)
+			flowType := ApplicationInsightsComponentProperties_Flow_Type_STATUS(temp)
 			component.Flow_Type = &flowType
 		}
 	}
@@ -1529,7 +1557,9 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IngestionMode != nil {
-			ingestionMode := *typedInput.Properties.IngestionMode
+			var temp string
+			temp = string(*typedInput.Properties.IngestionMode)
+			ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_STATUS(temp)
 			component.IngestionMode = &ingestionMode
 		}
 	}
@@ -1605,7 +1635,9 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
-			publicNetworkAccessForIngestion := *typedInput.Properties.PublicNetworkAccessForIngestion
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccessForIngestion)
+			publicNetworkAccessForIngestion := PublicNetworkAccessType_STATUS(temp)
 			component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 		}
 	}
@@ -1614,7 +1646,9 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
-			publicNetworkAccessForQuery := *typedInput.Properties.PublicNetworkAccessForQuery
+			var temp string
+			temp = string(*typedInput.Properties.PublicNetworkAccessForQuery)
+			publicNetworkAccessForQuery := PublicNetworkAccessType_STATUS(temp)
 			component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 		}
 	}
@@ -1623,7 +1657,9 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
-			requestSource := *typedInput.Properties.Request_Source
+			var temp string
+			temp = string(*typedInput.Properties.Request_Source)
+			requestSource := ApplicationInsightsComponentProperties_Request_Source_STATUS(temp)
 			component.Request_Source = &requestSource
 		}
 	}

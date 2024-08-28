@@ -38,12 +38,26 @@ type AFDOriginGroupProperties_ARM struct {
 	LoadBalancingSettings *LoadBalancingSettingsParameters_ARM `json:"loadBalancingSettings,omitempty"`
 
 	// SessionAffinityState: Whether to allow session affinity on this host. Valid options are 'Enabled' or 'Disabled'
-	SessionAffinityState *AFDOriginGroupProperties_SessionAffinityState `json:"sessionAffinityState,omitempty"`
+	SessionAffinityState *AFDOriginGroupProperties_SessionAffinityState_ARM `json:"sessionAffinityState,omitempty"`
 
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
 	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
 	// supported.
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type AFDOriginGroupProperties_SessionAffinityState_ARM string
+
+const (
+	AFDOriginGroupProperties_SessionAffinityState_ARM_Disabled = AFDOriginGroupProperties_SessionAffinityState_ARM("Disabled")
+	AFDOriginGroupProperties_SessionAffinityState_ARM_Enabled  = AFDOriginGroupProperties_SessionAffinityState_ARM("Enabled")
+)
+
+// Mapping from string to AFDOriginGroupProperties_SessionAffinityState_ARM
+var aFDOriginGroupProperties_SessionAffinityState_ARM_Values = map[string]AFDOriginGroupProperties_SessionAffinityState_ARM{
+	"disabled": AFDOriginGroupProperties_SessionAffinityState_ARM_Disabled,
+	"enabled":  AFDOriginGroupProperties_SessionAffinityState_ARM_Enabled,
 }
 
 // The JSON object that contains the properties to send health probes to origin.
@@ -55,10 +69,10 @@ type HealthProbeParameters_ARM struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParameters_ProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *HealthProbeParameters_ProbeProtocol_ARM `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParameters_ProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *HealthProbeParameters_ProbeRequestType_ARM `json:"probeRequestType,omitempty"`
 }
 
 // Round-Robin load balancing settings for a backend pool
@@ -71,4 +85,36 @@ type LoadBalancingSettingsParameters_ARM struct {
 
 	// SuccessfulSamplesRequired: The number of samples within the sample period that must succeed
 	SuccessfulSamplesRequired *int `json:"successfulSamplesRequired,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"Http","Https","NotSet"}
+type HealthProbeParameters_ProbeProtocol_ARM string
+
+const (
+	HealthProbeParameters_ProbeProtocol_ARM_Http   = HealthProbeParameters_ProbeProtocol_ARM("Http")
+	HealthProbeParameters_ProbeProtocol_ARM_Https  = HealthProbeParameters_ProbeProtocol_ARM("Https")
+	HealthProbeParameters_ProbeProtocol_ARM_NotSet = HealthProbeParameters_ProbeProtocol_ARM("NotSet")
+)
+
+// Mapping from string to HealthProbeParameters_ProbeProtocol_ARM
+var healthProbeParameters_ProbeProtocol_ARM_Values = map[string]HealthProbeParameters_ProbeProtocol_ARM{
+	"http":   HealthProbeParameters_ProbeProtocol_ARM_Http,
+	"https":  HealthProbeParameters_ProbeProtocol_ARM_Https,
+	"notset": HealthProbeParameters_ProbeProtocol_ARM_NotSet,
+}
+
+// +kubebuilder:validation:Enum={"GET","HEAD","NotSet"}
+type HealthProbeParameters_ProbeRequestType_ARM string
+
+const (
+	HealthProbeParameters_ProbeRequestType_ARM_GET    = HealthProbeParameters_ProbeRequestType_ARM("GET")
+	HealthProbeParameters_ProbeRequestType_ARM_HEAD   = HealthProbeParameters_ProbeRequestType_ARM("HEAD")
+	HealthProbeParameters_ProbeRequestType_ARM_NotSet = HealthProbeParameters_ProbeRequestType_ARM("NotSet")
+)
+
+// Mapping from string to HealthProbeParameters_ProbeRequestType_ARM
+var healthProbeParameters_ProbeRequestType_ARM_Values = map[string]HealthProbeParameters_ProbeRequestType_ARM{
+	"get":    HealthProbeParameters_ProbeRequestType_ARM_GET,
+	"head":   HealthProbeParameters_ProbeRequestType_ARM_HEAD,
+	"notset": HealthProbeParameters_ProbeRequestType_ARM_NotSet,
 }

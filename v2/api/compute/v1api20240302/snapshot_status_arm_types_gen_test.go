@@ -75,7 +75,7 @@ func CopyCompletionError_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCopyCompletionError_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCopyCompletionError_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionError_ErrorCode_STATUS_CopySourceNotFound))
+	gens["ErrorCode"] = gen.PtrOf(gen.OneConstOf(CopyCompletionError_ErrorCode_STATUS_ARM_CopySourceNotFound))
 	gens["ErrorMessage"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -147,26 +147,26 @@ func SnapshotProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSnapshotProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CompletionPercent"] = gen.PtrOf(gen.Float64())
-	gens["DataAccessAuthMode"] = gen.PtrOf(gen.OneConstOf(DataAccessAuthMode_STATUS_AzureActiveDirectory, DataAccessAuthMode_STATUS_None))
+	gens["DataAccessAuthMode"] = gen.PtrOf(gen.OneConstOf(DataAccessAuthMode_STATUS_ARM_AzureActiveDirectory, DataAccessAuthMode_STATUS_ARM_None))
 	gens["DiskAccessId"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-		DiskState_STATUS_ActiveSAS,
-		DiskState_STATUS_ActiveSASFrozen,
-		DiskState_STATUS_ActiveUpload,
-		DiskState_STATUS_Attached,
-		DiskState_STATUS_Frozen,
-		DiskState_STATUS_ReadyToUpload,
-		DiskState_STATUS_Reserved,
-		DiskState_STATUS_Unattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_STATUS_V1, SnapshotProperties_HyperVGeneration_STATUS_V2))
+		DiskState_STATUS_ARM_ActiveSAS,
+		DiskState_STATUS_ARM_ActiveSASFrozen,
+		DiskState_STATUS_ARM_ActiveUpload,
+		DiskState_STATUS_ARM_Attached,
+		DiskState_STATUS_ARM_Frozen,
+		DiskState_STATUS_ARM_ReadyToUpload,
+		DiskState_STATUS_ARM_Reserved,
+		DiskState_STATUS_ARM_Unattached))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_STATUS_ARM_V1, SnapshotProperties_HyperVGeneration_STATUS_ARM_V2))
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["IncrementalSnapshotFamilyId"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_STATUS_AllowAll, NetworkAccessPolicy_STATUS_AllowPrivate, NetworkAccessPolicy_STATUS_DenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_STATUS_Linux, SnapshotProperties_OsType_STATUS_Windows))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_STATUS_ARM_AllowAll, NetworkAccessPolicy_STATUS_ARM_AllowPrivate, NetworkAccessPolicy_STATUS_ARM_DenyAll))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_STATUS_ARM_Linux, SnapshotProperties_OsType_STATUS_ARM_Windows))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_Disabled, PublicNetworkAccess_STATUS_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_ARM_Disabled, PublicNetworkAccess_STATUS_ARM_Enabled))
 	gens["SupportsHibernation"] = gen.PtrOf(gen.Bool())
 	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
 	gens["UniqueId"] = gen.PtrOf(gen.AlphaString())
@@ -241,7 +241,7 @@ func SnapshotSku_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotSku_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSku_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_STATUS_Premium_LRS, SnapshotSku_Name_STATUS_Standard_LRS, SnapshotSku_Name_STATUS_Standard_ZRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_STATUS_ARM_Premium_LRS, SnapshotSku_Name_STATUS_ARM_Standard_LRS, SnapshotSku_Name_STATUS_ARM_Standard_ZRS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
