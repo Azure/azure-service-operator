@@ -42,8 +42,11 @@ func setup() error {
 
 	// If you need to debug envtest setup/teardown,
 	// set a global logger for controller-runtime:
+	//
 	// import (ctrl "sigs.k8s.io/controller-runtime")
-	// ctrl.SetLogger(klogr.New())
+	// cfg := textlogger.NewConfig(textlogger.Verbosity(3)) // Use verbose logging in tests
+	// log := textlogger.NewLogger(cfg)
+	// ctrl.SetLogger(log)
 
 	nameConfig := testcommon.NewResourceNameConfig(
 		testcommon.ResourcePrefix,
