@@ -3001,6 +3001,9 @@ objectModelConfiguration:
           - SecondaryKey
           - SecondaryConnectionString
   sql:
+    v1: # Handcrafted 
+      User:
+        $supportedFrom: v2.0.0
     2021-11-01:
       # Note that there are a few commented out resources which we are not exporting for sql. They're commented out as
       # they seem of questionable value to users, but if we get an ask for them we can add them in.
