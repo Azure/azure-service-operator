@@ -16,7 +16,7 @@ import (
 	"github.com/sebdah/goldie/v2"
 )
 
-// assertStmtExpected asserts the given statement generates the expected code, comparing it to a golden file
+// assertStmtsExpected asserts the given statement generates the expected code, comparing it to a golden file
 func assertStmtsExpected(t *testing.T, stmts []dst.Stmt) {
 	t.Helper()
 	g := NewGomegaWithT(t)
