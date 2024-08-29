@@ -294,6 +294,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/reconcile-interface/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/</loc>
@@ -339,8 +341,6 @@
     <loc>https://azure.github.io/azure-service-operator/guide/authentication/multitenant-deployment/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/mysql/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/</loc>
   </url><url>
