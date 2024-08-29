@@ -13,6 +13,6 @@ roleRef:
   name: azureserviceoperator-manager-role
 subjects:
 - kind: ServiceAccount
-  name: azureserviceoperator-default
+  name: {{ include "azure-service-operator.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}
