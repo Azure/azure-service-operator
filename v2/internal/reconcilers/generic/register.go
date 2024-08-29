@@ -131,6 +131,7 @@ func register(
 	builder := ctrl.NewControllerManagedBy(mgr).
 		For(info.Obj, ctrlbuilder.WithPredicates(info.Predicate)).
 		WithOptions(options.Options)
+	builder.Named(info.Name)
 
 	for _, watch := range info.Watches {
 		builder = builder.Watches(watch.Type, watch.MakeEventHandler(kubeClient, options.LogConstructor(nil).WithName(info.Name)))
