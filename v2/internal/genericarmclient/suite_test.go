@@ -17,6 +17,7 @@ import (
 
 	ctrl "sigs.k8s.io/controller-runtime"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
@@ -32,7 +33,7 @@ func setup() error {
 	format.TruncateThreshold = 4000 // Force a longer truncate threshold
 
 	// setup global logger for controller-runtime:
-	cfg := textlogger.NewConfig(textlogger.Verbosity(3)) // Use verbose logging in tests
+	cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
 	log := textlogger.NewLogger(cfg)
 	ctrl.SetLogger(log)
 

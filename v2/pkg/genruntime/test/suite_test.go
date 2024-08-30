@@ -43,7 +43,7 @@ func setup() error {
 	// set a global logger for controller-runtime:
 	//
 	// import (ctrl "sigs.k8s.io/controller-runtime")
-	// cfg := textlogger.NewConfig(textlogger.Verbosity(3)) // Use verbose logging in tests
+	// cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
 	// log := textlogger.NewLogger(cfg)
 	// ctrl.SetLogger(log)
 

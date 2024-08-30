@@ -52,7 +52,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) manager.Manager {
+func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Flags) manager.Manager {
 	scheme := controllers.CreateScheme()
 	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs
 
@@ -78,13 +78,13 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
 		Scheme:                 scheme,
 		NewCache:               cacheFunc,
-		LeaderElection:         *flgs.EnableLeaderElection,
+		LeaderElection:         flgs.EnableLeaderElection,
 		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
-		HealthProbeBindAddress: *flgs.HealthAddr,
+		HealthProbeBindAddress: flgs.HealthAddr,
 		Metrics:                getMetricsOpts(flgs),
 		WebhookServer: webhook.NewServer(webhook.Options{
-			Port:    *flgs.WebhookPort,
-			CertDir: *flgs.WebhookCertDir,
+			Port:    flgs.WebhookPort,
+			CertDir: flgs.WebhookCertDir,
 		}),
 	})
 	if err != nil {
@@ -110,7 +110,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		os.Exit(1)
 	}
 
-	switch *flgs.CRDManagementMode {
+	switch flgs.CRDManagementMode {
 	case "auto":
 		var goalCRDs []apiextensions.CustomResourceDefinition
 		goalCRDs, err = crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
@@ -122,7 +122,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		// We only apply CRDs if we're in webhooks mode. No other mode will have CRD CRUD permissions
 		if cfg.OperatorMode.IncludesWebhooks() {
 			var installationInstructions []*crdmanagement.CRDInstallationInstruction
-			installationInstructions, err = crdManager.DetermineCRDsToInstallOrUpgrade(goalCRDs, existingCRDs, *flgs.CRDPatterns)
+			installationInstructions, err = crdManager.DetermineCRDsToInstallOrUpgrade(goalCRDs, existingCRDs, flgs.CRDPatterns)
 			if err != nil {
 				setupLog.Error(err, "failed to determine CRDs to apply")
 				os.Exit(1)
@@ -145,7 +145,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	case "none":
 		setupLog.Info("CRD management mode was set to 'none', the operator will not manage CRDs and assumes they are already installed and matching the operator version")
 	default:
-		setupLog.Error(fmt.Errorf("invalid CRD management mode: %s", *flgs.CRDManagementMode), "failed to initialize CRD client")
+		setupLog.Error(fmt.Errorf("invalid CRD management mode: %s", flgs.CRDManagementMode), "failed to initialize CRD client")
 		os.Exit(1)
 	}
 
@@ -211,17 +211,17 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	return mgr
 }
 
-func getMetricsOpts(flags Flags) server.Options {
+func getMetricsOpts(flags *Flags) server.Options {
 	var metricsOptions server.Options
 
-	if *flags.SecureMetrics {
+	if flags.SecureMetrics {
 		metricsOptions = server.Options{
-			BindAddress:    *flags.MetricsAddr,
+			BindAddress:    flags.MetricsAddr,
 			SecureServing:  true,
 			FilterProvider: filters.WithAuthenticationAndAuthorization,
 		}
 		// Note that pprof endpoints are meant to be sensitive and shouldn't be exposed publicly.
-		if *flags.ProfilingMetrics {
+		if flags.ProfilingMetrics {
 			metricsOptions.ExtraHandlers = map[string]http.Handler{
 				"/debug/pprof/":        http.HandlerFunc(pprof.Index),
 				"/debug/pprof/cmdline": http.HandlerFunc(pprof.Cmdline),
@@ -232,7 +232,7 @@ func getMetricsOpts(flags Flags) server.Options {
 		}
 	} else {
 		metricsOptions = server.Options{
-			BindAddress: *flags.MetricsAddr,
+			BindAddress: flags.MetricsAddr,
 		}
 	}
 

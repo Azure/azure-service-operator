@@ -15,53 +15,62 @@ import (
 	"k8s.io/klog/v2/textlogger"
 )
 
-var (
-	// verbose indicates whether we should use verbose logging.
-	// Default is no
-	verbose *bool
+type Config struct {
+	// verbose indicates the level of logging.
+	// Higher values indicate more logging.
+	verbose int
 
-	// useJson indicates whether we should output logs in JSON format.
+	// useJSON indicates whether we should output logs in JSON format.
 	// Default is no
-	useJson *bool
-)
+	useJSON bool
+}
 
 // Create returns a new logger, ready for use.
 // This can be called multiple times if required.
-func Create() logr.Logger {
-	if useJson != nil && *useJson {
-		log, err := createJSONLogger()
+func Create(cfg *Config) logr.Logger {
+	if cfg != nil && cfg.useJSON {
+		log, err := createJSONLogger(cfg)
 		if err != nil {
-			log = createTextLogger()
+			log = createTextLogger(cfg)
 			log.Error(err, "failed to create JSON logger, falling back to text")
 		}
 
 		return log
 	}
 
-	return createTextLogger()
+	return createTextLogger(cfg)
 }
 
-func createTextLogger() logr.Logger {
+func createTextLogger(cfg *Config) logr.Logger {
 	opts := []textlogger.ConfigOption{}
-	if verbose != nil && *verbose {
-		opts = append(opts, textlogger.Verbosity(3))
+	if cfg != nil {
+		opts = append(opts, textlogger.Verbosity(cfg.verbose))
 	}
 
-	cfg := textlogger.NewConfig(opts...)
-	return textlogger.NewLogger(cfg)
+	c := textlogger.NewConfig(opts...)
+	return textlogger.NewLogger(c)
 }
 
-func createJSONLogger() (logr.Logger, error) {
-	level := zap.NewAtomicLevelAt(zap.InfoLevel)
-	if verbose != nil && *verbose {
-		level = zap.NewAtomicLevelAt(zap.DebugLevel)
+func createJSONLogger(cfg *Config) (logr.Logger, error) {
+	level := zap.InfoLevel
+	if cfg != nil {
+		switch cfg.verbose {
+		case 0:
+			level = zap.ErrorLevel
+		case 1:
+			level = zap.WarnLevel
+		case 2:
+			level = zap.InfoLevel
+		case 3:
+			level = zap.DebugLevel
+		}
 	}
 
 	encoder := zap.NewProductionEncoderConfig()
 	encoder.EncodeTime = zapcore.ISO8601TimeEncoder
 
-	cfg := zap.Config{
-		Level:            level,
+	c := zap.Config{
+		Level:            zap.NewAtomicLevelAt(level),
 		Development:      false,
 		Encoding:         "json",
 		EncoderConfig:    encoder,
@@ -69,7 +78,7 @@ func createJSONLogger() (logr.Logger, error) {
 		ErrorOutputPaths: []string{"stderr"},
 	}
 
-	logger, err := cfg.Build()
+	logger, err := c.Build()
 	if err != nil {
 		return logr.Logger{}, err
 	}
@@ -78,9 +87,13 @@ func createJSONLogger() (logr.Logger, error) {
 }
 
 // InitFlags initializes the flags for the logging package
-func InitFlags(fs *flag.FlagSet) {
-	verbose = fs.Bool("verbose", false, "Enable verbose logging")
-	fs.BoolVar(verbose, "v", false, "Enable verbose logging")
+func InitFlags(fs *flag.FlagSet) *Config {
+	result := &Config{}
 
-	useJson = fs.Bool("json-logging", false, "Enable JSON logging")
+	fs.IntVar(&result.verbose, "verbose", 2, "Enable verbose logging")
+	fs.IntVar(&result.verbose, "v", 2, "Enable verbose logging")
+
+	fs.BoolVar(&result.useJSON, "json-logging", false, "Enable JSON logging")
+
+	return result
 }

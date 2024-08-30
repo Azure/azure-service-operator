@@ -23,13 +23,13 @@ func main() {
 	flagSet := flag.NewFlagSet(exeName, flag.ExitOnError)
 
 	// Create a temporary logger for while we get set up
-	log := logging.Create()
+	log := logging.Create(&logging.Config{})
 
 	ctx := ctrl.SetupSignalHandler()
 
 	// Add application and logging flags
-	flgs := app.InitFlags(flagSet)
-	logging.InitFlags(flagSet)
+	appFlags := app.InitFlags(flagSet)
+	logFlags := logging.InitFlags(flagSet)
 	err := flagSet.Parse(os.Args[1:])
 	if err != nil {
 		log.Error(err, "failed to parse cmdline flags")
@@ -37,11 +37,11 @@ func main() {
 	}
 
 	// Replace the logger with a configured one
-	log = logging.Create()
+	log = logging.Create(logFlags)
 	ctrl.SetLogger(log)
-	log.Info("Launching with flags", "flags", flgs.String())
+	log.Info("Launching with flags", "flags", appFlags.String())
 
-	mgr := app.SetupControllerManager(ctx, log, flgs)
+	mgr := app.SetupControllerManager(ctx, log, appFlags)
 	log.Info("starting manager")
 	if err = mgr.Start(ctx); err != nil {
 		log.Error(err, "failed to start manager")
