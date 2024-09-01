@@ -13,12 +13,14 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"k8s.io/klog/v2/textlogger"
+
+	"github.com/Azure/azure-service-operator/v2/internal/logging"
 )
 
 type Config struct {
-	// verbose indicates the level of logging.
+	// verbosity indicates the level of logging.
 	// Higher values indicate more logging.
-	verbose int
+	verbosity int
 
 	// useJSON indicates whether we should output logs in JSON format.
 	// Default is no
@@ -44,7 +46,7 @@ func Create(cfg *Config) logr.Logger {
 func createTextLogger(cfg *Config) logr.Logger {
 	opts := []textlogger.ConfigOption{}
 	if cfg != nil {
-		opts = append(opts, textlogger.Verbosity(cfg.verbose))
+		opts = append(opts, textlogger.Verbosity(cfg.verbosity))
 	}
 
 	c := textlogger.NewConfig(opts...)
@@ -54,14 +56,14 @@ func createTextLogger(cfg *Config) logr.Logger {
 func createJSONLogger(cfg *Config) (logr.Logger, error) {
 	level := zap.InfoLevel
 	if cfg != nil {
-		switch cfg.verbose {
+		switch cfg.verbosity {
 		case 0:
 			level = zap.ErrorLevel
 		case 1:
 			level = zap.WarnLevel
 		case 2:
 			level = zap.InfoLevel
-		case 3:
+		default: // 3 or above
 			level = zap.DebugLevel
 		}
 	}
@@ -90,8 +92,8 @@ func createJSONLogger(cfg *Config) (logr.Logger, error) {
 func InitFlags(fs *flag.FlagSet) *Config {
 	result := &Config{}
 
-	fs.IntVar(&result.verbose, "verbose", 2, "Enable verbose logging")
-	fs.IntVar(&result.verbose, "v", 2, "Enable verbose logging")
+	fs.IntVar(&result.verbosity, "verbose", logging.Verbose, "Enable verbose logging")
+	fs.IntVar(&result.verbosity, "v", logging.Verbose, "Enable verbose logging")
 
 	fs.BoolVar(&result.useJSON, "json-logging", false, "Enable JSON logging")
 
