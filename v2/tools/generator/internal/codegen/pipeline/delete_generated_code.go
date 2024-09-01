@@ -9,7 +9,6 @@ import (
 	"bufio"
 	"context"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sort"
@@ -200,7 +199,7 @@ func deleteEmptyDirectories(ctx context.Context, path string) error {
 			return ctx.Err()
 		}
 
-		files, err := ioutil.ReadDir(dir)
+		files, err := os.ReadDir(dir)
 		if err != nil {
 			errs = append(errs, errors.Wrapf(err, "error reading directory %q", dir))
 		}

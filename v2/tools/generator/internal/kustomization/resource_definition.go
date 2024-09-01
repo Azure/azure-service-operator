@@ -6,7 +6,7 @@
 package kustomization
 
 import (
-	"io/ioutil"
+	"os"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
@@ -17,7 +17,7 @@ type ResourceDefinition struct {
 }
 
 func LoadResourceDefinition(filePath string) (*ResourceDefinition, error) {
-	fileBytes, err := ioutil.ReadFile(filePath)
+	fileBytes, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, errors.Wrapf(err, "reading resource definition from %s", filePath)
 	}

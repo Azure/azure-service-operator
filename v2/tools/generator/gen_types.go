@@ -6,7 +6,7 @@
 package main
 
 import (
-	"io/ioutil"
+	"os"
 	"strings"
 	"unicode"
 
@@ -41,7 +41,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 
 			if debugMode != nil && *debugMode != "" {
 				var tmpDir string
-				tmpDir, err = ioutil.TempDir("", createDebugPrefix(*debugMode))
+				tmpDir, err = os.MkdirTemp("", createDebugPrefix(*debugMode))
 				if err != nil {
 					log.Error(err, "Error creating temporary directory")
 					return err
