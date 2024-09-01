@@ -187,11 +187,57 @@ func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resources []cli
 }
 
 func getTestName(group string, version string) string {
-	return strings.Join(
-		[]string{
-			"Test",
-			strings.Title(group),
-			version,
-			"CreationAndDeletion",
-		}, "_")
+	var result strings.Builder
+
+	// Common Prefix
+	result.WriteString("Test_")
+
+	// Titlecase for each part of the group
+	for _, part := range strings.Split(group, ".") {
+		result.WriteString(strings.Title(part))
+	}
+	result.WriteString("_")
+
+	// Append the version
+	result.WriteString(version)
+
+	// Common Suffix
+	result.WriteString("_CreationAndDeletion")
+
+	return result.String()
+}
+
+func TestGetTestName(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		group    string
+		version  string
+		expected string
+	}{
+		"simple": {
+			group:    "group",
+			version:  "version",
+			expected: "Test_Group_version_CreationAndDeletion",
+		},
+		"Network": {
+			group:    "network",
+			version:  "v1api",
+			expected: "Test_Network_v1api_CreationAndDeletion",
+		},
+		"Frontdoor": {
+			group:    "network.frontdoor",
+			version:  "v1api",
+			expected: "Test_NetworkFrontdoor_v1api_CreationAndDeletion",
+		},
+	}
+
+	for name, c := range cases {
+		c := c
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			g.Expect(getTestName(c.group, c.version)).To(Equal(c.expected))
+		})
+	}
 }
