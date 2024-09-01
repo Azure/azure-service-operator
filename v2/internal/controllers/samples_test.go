@@ -14,6 +14,8 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -193,8 +195,9 @@ func getTestName(group string, version string) string {
 	result.WriteString("Test_")
 
 	// Titlecase for each part of the group
+	title := cases.Title(language.English)
 	for _, part := range strings.Split(group, ".") {
-		result.WriteString(strings.Title(part))
+		result.WriteString(title.String(part))
 	}
 	result.WriteString("_")
 
