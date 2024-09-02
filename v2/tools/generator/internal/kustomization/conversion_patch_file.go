@@ -6,7 +6,7 @@
 package kustomization
 
 import (
-	"io/ioutil"
+	"os"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
@@ -85,7 +85,7 @@ func (p *ConversionPatchFile) Save(destination string) error {
 		return errors.Wrap(err, "serializing to yaml")
 	}
 
-	err = ioutil.WriteFile(destination, data, 0o644) // #nosec G306
+	err = os.WriteFile(destination, data, 0o644) // #nosec G306
 	if err != nil {
 		return errors.Wrapf(err, "writing to %s", destination)
 	}
