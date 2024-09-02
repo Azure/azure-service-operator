@@ -52,7 +52,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) manager.Manager {
+func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Flags) manager.Manager {
 	scheme := controllers.CreateScheme()
 	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs
 
@@ -211,7 +211,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	return mgr
 }
 
-func getMetricsOpts(flags Flags) server.Options {
+func getMetricsOpts(flags *Flags) server.Options {
 	var metricsOptions server.Options
 
 	if flags.SecureMetrics {

@@ -30,7 +30,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
-	ctrllog "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
@@ -89,10 +88,13 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		Scheme: scheme,
 	}
 
-	// TODO: Switch to klogr.New() below the below if we want controller-runtime logs in the tests.
+	// Switch logger below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	// ctrl.SetLogger(klogr.New())
-	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
+	// import (ctrl "sigs.k8s.io/controller-runtime")
+	// cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
+	// log := textlogger.NewLogger(cfg)
+	// ctrl.SetLogger(log)
+	ctrl.SetLogger(logr.Discard())
 
 	log.Println("Starting envtest")
 	kubeConfig, err := environment.Start()
@@ -160,8 +162,12 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	// ctrl.SetLogger(klogr.New())
-	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
+	//
+	// import (ctrl "sigs.k8s.io/controller-runtime")
+	// cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
+	// log := textlogger.NewLogger(cfg)
+	// ctrl.SetLogger(log)
+	ctrl.SetLogger(logr.Discard())
 
 	loggerFactory := func(obj metav1.Object) logr.Logger {
 		result := namespaceResources.Lookup(obj.GetNamespace())

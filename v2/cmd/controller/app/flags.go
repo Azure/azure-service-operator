@@ -8,10 +8,6 @@ package app
 import (
 	"flag"
 	"fmt"
-
-	"k8s.io/klog/v2"
-
-	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
 
 type Flags struct {
@@ -40,45 +36,21 @@ func (f Flags) String() string {
 		f.CRDPatterns)
 }
 
-func ParseFlags(args []string) (Flags, error) {
-	exeName := args[0] + " " + version.BuildVersion
-	flagSet := flag.NewFlagSet(exeName, flag.ExitOnError)
-	klog.InitFlags(flagSet)
-
-	var metricsAddr string
-	var profilingMetrics bool
-	var secureMetrics bool
-	var healthAddr string
-	var webhookPort int
-	var webhookCertDir string
-	var enableLeaderElection bool
-	var crdManagementMode string
-	var crdPatterns string
+func InitFlags(flagSet *flag.FlagSet) *Flags {
+	result := &Flags{}
 
 	// default here for 'MetricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
-	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
-	flagSet.BoolVar(&secureMetrics, "secure-metrics", true, "Enable secure metrics. This secures the pprof and metrics endpoints via Kubernetes RBAC and HTTPS")
-	flagSet.BoolVar(&profilingMetrics, "profiling-metrics", false, "Enable pprof metrics, only enabled in conjunction with secure-metrics. This will enable serving pprof metrics endpoints")
+	flagSet.StringVar(&result.MetricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
+	flagSet.BoolVar(&result.SecureMetrics, "secure-metrics", true, "Enable secure metrics. This secures the pprof and metrics endpoints via Kubernetes RBAC and HTTPS")
+	flagSet.BoolVar(&result.ProfilingMetrics, "profiling-metrics", false, "Enable pprof metrics, only enabled in conjunction with secure-metrics. This will enable serving pprof metrics endpoints")
+	flagSet.StringVar(&result.HealthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
+	flagSet.IntVar(&result.WebhookPort, "webhook-port", 9443, "The port the webhook endpoint binds to.")
+	flagSet.StringVar(&result.WebhookCertDir, "webhook-cert-dir", "", "The directory the webhook server's certs are stored.")
+	flagSet.BoolVar(&result.EnableLeaderElection, "enable-leader-election", false, "Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
 
-	flagSet.StringVar(&healthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
-	flagSet.IntVar(&webhookPort, "webhook-port", 9443, "The port the webhook endpoint binds to.")
-	flagSet.StringVar(&webhookCertDir, "webhook-cert-dir", "", "The directory the webhook server's certs are stored.")
-	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
-		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
-	flagSet.StringVar(&crdManagementMode, "crd-management", "auto",
+	flagSet.StringVar(&result.CRDManagementMode, "crd-management", "auto",
 		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")
-	flagSet.StringVar(&crdPatterns, "crd-pattern", "", "Install these CRDs. CRDs already in the cluster will also always be upgraded.")
+	flagSet.StringVar(&result.CRDPatterns, "crd-pattern", "", "Install these CRDs. CRDs already in the cluster will also always be upgraded.")
 
-	flagSet.Parse(args[1:]) //nolint:errcheck
-
-	return Flags{
-		MetricsAddr:          metricsAddr,
-		SecureMetrics:        secureMetrics,
-		HealthAddr:           healthAddr,
-		WebhookPort:          webhookPort,
-		WebhookCertDir:       webhookCertDir,
-		EnableLeaderElection: enableLeaderElection,
-		CRDManagementMode:    crdManagementMode,
-		CRDPatterns:          crdPatterns,
-	}, nil
+	return result
 }
