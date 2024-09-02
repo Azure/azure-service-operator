@@ -16,14 +16,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// If recording this test, might need to manually purge the old KeyVault and Workspace:
-// az keyvault purge --name asotest-kv-qpxtvz
+// If recording this test, might need to manually purge the Workspace:
 // you need to do this for the workspace too (see https://aka.ms/wsoftdelete). As far as I can tell there's no way to do this via the az cli you have to do it via the portal.
 
 func Test_MachineLearning_Workspaces_20240401_CRUD(t *testing.T) {
 	t.Parallel()
 
-	// TODO: We can include this once we support AutoPurge or CreateOrRecover mode for MachineLearningServices/Workspaces.
+	// TODO: We can include this once AML supports purge through SDK, for now they only allow it via portal.
 	if *isLive {
 		t.Skip("can't run in live mode, as this test is creates a AML/Workspace which reserves the name unless manually purged")
 	}
