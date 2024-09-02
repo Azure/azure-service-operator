@@ -50,22 +50,36 @@ var _ conversion.Convertible = &Workspace{}
 
 // ConvertFrom populates our Workspace from the provided hub Workspace
 func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Workspace)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1api20210701/storage/Workspace but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Workspace
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return workspace.AssignProperties_From_Workspace(source)
+	err = workspace.AssignProperties_From_Workspace(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to workspace")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Workspace from our Workspace
 func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Workspace)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1api20210701/storage/Workspace but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Workspace
+	err := workspace.AssignProperties_To_Workspace(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from workspace")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return workspace.AssignProperties_To_Workspace(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1api20210701-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspaces,verbs=create;update,versions=v1api20210701,name=default.v1api20210701.workspaces.machinelearningservices.azure.com,admissionReviewVersions=v1
@@ -90,17 +104,6 @@ func (workspace *Workspace) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Workspace resource
 func (workspace *Workspace) defaultImpl() { workspace.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &Workspace{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (workspace *Workspace) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Workspace_STATUS); ok {
-		return workspace.Spec.Initialize_From_Workspace_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Workspace_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &Workspace{}
 
@@ -1236,133 +1239,6 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 	return nil
 }
 
-// Initialize_From_Workspace_STATUS populates our Workspace_Spec from the provided source Workspace_STATUS
-func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Workspace_STATUS) error {
-
-	// AllowPublicAccessWhenBehindVnet
-	if source.AllowPublicAccessWhenBehindVnet != nil {
-		allowPublicAccessWhenBehindVnet := *source.AllowPublicAccessWhenBehindVnet
-		workspace.AllowPublicAccessWhenBehindVnet = &allowPublicAccessWhenBehindVnet
-	} else {
-		workspace.AllowPublicAccessWhenBehindVnet = nil
-	}
-
-	// Description
-	workspace.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DiscoveryUrl
-	workspace.DiscoveryUrl = genruntime.ClonePointerToString(source.DiscoveryUrl)
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption EncryptionProperty
-		err := encryption.Initialize_From_EncryptionProperty_STATUS(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionProperty_STATUS() to populate field Encryption")
-		}
-		workspace.Encryption = &encryption
-	} else {
-		workspace.Encryption = nil
-	}
-
-	// FriendlyName
-	workspace.FriendlyName = genruntime.ClonePointerToString(source.FriendlyName)
-
-	// HbiWorkspace
-	if source.HbiWorkspace != nil {
-		hbiWorkspace := *source.HbiWorkspace
-		workspace.HbiWorkspace = &hbiWorkspace
-	} else {
-		workspace.HbiWorkspace = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity
-		err := identity.Initialize_From_Identity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
-		}
-		workspace.Identity = &identity
-	} else {
-		workspace.Identity = nil
-	}
-
-	// ImageBuildCompute
-	workspace.ImageBuildCompute = genruntime.ClonePointerToString(source.ImageBuildCompute)
-
-	// Location
-	workspace.Location = genruntime.ClonePointerToString(source.Location)
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), workspaceProperties_PublicNetworkAccess_Values)
-		workspace.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		workspace.PublicNetworkAccess = nil
-	}
-
-	// ServiceManagedResourcesSettings
-	if source.ServiceManagedResourcesSettings != nil {
-		var serviceManagedResourcesSetting ServiceManagedResourcesSettings
-		err := serviceManagedResourcesSetting.Initialize_From_ServiceManagedResourcesSettings_STATUS(source.ServiceManagedResourcesSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ServiceManagedResourcesSettings_STATUS() to populate field ServiceManagedResourcesSettings")
-		}
-		workspace.ServiceManagedResourcesSettings = &serviceManagedResourcesSetting
-	} else {
-		workspace.ServiceManagedResourcesSettings = nil
-	}
-
-	// SharedPrivateLinkResources
-	if source.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource, len(source.SharedPrivateLinkResources))
-		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource SharedPrivateLinkResource
-			err := sharedPrivateLinkResource.Initialize_From_SharedPrivateLinkResource_STATUS(&sharedPrivateLinkResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
-			}
-			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
-		}
-		workspace.SharedPrivateLinkResources = sharedPrivateLinkResourceList
-	} else {
-		workspace.SharedPrivateLinkResources = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		workspace.Sku = &sku
-	} else {
-		workspace.Sku = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.Initialize_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
-		}
-		workspace.SystemData = &systemDatum
-	} else {
-		workspace.SystemData = nil
-	}
-
-	// Tags
-	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (workspace *Workspace_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -2485,45 +2361,6 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 	return nil
 }
 
-// Initialize_From_EncryptionProperty_STATUS populates our EncryptionProperty from the provided source EncryptionProperty_STATUS
-func (property *EncryptionProperty) Initialize_From_EncryptionProperty_STATUS(source *EncryptionProperty_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity IdentityForCmk
-		err := identity.Initialize_From_IdentityForCmk_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IdentityForCmk_STATUS() to populate field Identity")
-		}
-		property.Identity = &identity
-	} else {
-		property.Identity = nil
-	}
-
-	// KeyVaultProperties
-	if source.KeyVaultProperties != nil {
-		var keyVaultProperty KeyVaultProperties
-		err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-		}
-		property.KeyVaultProperties = &keyVaultProperty
-	} else {
-		property.KeyVaultProperties = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := genruntime.ToEnum(string(*source.Status), encryptionProperty_Status_Values)
-		property.Status = &status
-	} else {
-		property.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
 type EncryptionProperty_STATUS struct {
 	// Identity: The identity that will be used to access the key vault for encryption at rest.
 	Identity *IdentityForCmk_STATUS `json:"identity,omitempty"`
@@ -2806,33 +2643,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *storage.Iden
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Identity_STATUS populates our Identity from the provided source Identity_STATUS
-func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), identity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -3263,25 +3073,6 @@ func (settings *ServiceManagedResourcesSettings) AssignProperties_To_ServiceMana
 	return nil
 }
 
-// Initialize_From_ServiceManagedResourcesSettings_STATUS populates our ServiceManagedResourcesSettings from the provided source ServiceManagedResourcesSettings_STATUS
-func (settings *ServiceManagedResourcesSettings) Initialize_From_ServiceManagedResourcesSettings_STATUS(source *ServiceManagedResourcesSettings_STATUS) error {
-
-	// CosmosDb
-	if source.CosmosDb != nil {
-		var cosmosDb CosmosDbSettings
-		err := cosmosDb.Initialize_From_CosmosDbSettings_STATUS(source.CosmosDb)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CosmosDbSettings_STATUS() to populate field CosmosDb")
-		}
-		settings.CosmosDb = &cosmosDb
-	} else {
-		settings.CosmosDb = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ServiceManagedResourcesSettings_STATUS struct {
 	// CosmosDb: The settings for the service managed cosmosdb account.
 	CosmosDb *CosmosDbSettings_STATUS `json:"cosmosDb,omitempty"`
@@ -3554,38 +3345,6 @@ func (resource *SharedPrivateLinkResource) AssignProperties_To_SharedPrivateLink
 	return nil
 }
 
-// Initialize_From_SharedPrivateLinkResource_STATUS populates our SharedPrivateLinkResource from the provided source SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource) Initialize_From_SharedPrivateLinkResource_STATUS(source *SharedPrivateLinkResource_STATUS) error {
-
-	// GroupId
-	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
-
-	// Name
-	resource.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateLinkResourceReference
-	if source.PrivateLinkResourceId != nil {
-		privateLinkResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.PrivateLinkResourceId)
-		resource.PrivateLinkResourceReference = &privateLinkResourceReference
-	} else {
-		resource.PrivateLinkResourceReference = nil
-	}
-
-	// RequestMessage
-	resource.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
-
-	// Status
-	if source.Status != nil {
-		status := genruntime.ToEnum(string(*source.Status), privateEndpointServiceConnectionStatus_Values)
-		resource.Status = &status
-	} else {
-		resource.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
 type SharedPrivateLinkResource_STATUS struct {
 	// GroupId: The private link resource group id.
 	GroupId *string `json:"groupId,omitempty"`
@@ -3819,19 +3578,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Name
-	sku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	sku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -4114,41 +3860,6 @@ func (data *SystemData) AssignProperties_To_SystemData(destination *storage.Syst
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SystemData_STATUS populates our SystemData from the provided source SystemData_STATUS
-func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STATUS) error {
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := genruntime.ToEnum(string(*source.CreatedByType), systemData_CreatedByType_Values)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := genruntime.ToEnum(string(*source.LastModifiedByType), systemData_LastModifiedByType_Values)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
 	}
 
 	// No error
@@ -4491,16 +4202,6 @@ func (settings *CosmosDbSettings) AssignProperties_To_CosmosDbSettings(destinati
 	return nil
 }
 
-// Initialize_From_CosmosDbSettings_STATUS populates our CosmosDbSettings from the provided source CosmosDbSettings_STATUS
-func (settings *CosmosDbSettings) Initialize_From_CosmosDbSettings_STATUS(source *CosmosDbSettings_STATUS) error {
-
-	// CollectionsThroughput
-	settings.CollectionsThroughput = genruntime.ClonePointerToInt(source.CollectionsThroughput)
-
-	// No error
-	return nil
-}
-
 type CosmosDbSettings_STATUS struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
@@ -4695,16 +4396,6 @@ func (forCmk *IdentityForCmk) AssignProperties_To_IdentityForCmk(destination *st
 	return nil
 }
 
-// Initialize_From_IdentityForCmk_STATUS populates our IdentityForCmk from the provided source IdentityForCmk_STATUS
-func (forCmk *IdentityForCmk) Initialize_From_IdentityForCmk_STATUS(source *IdentityForCmk_STATUS) error {
-
-	// UserAssignedIdentity
-	forCmk.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
-
-	// No error
-	return nil
-}
-
 // Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk_STATUS struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
@@ -4876,22 +4567,6 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KeyVaultProperties_STATUS populates our KeyVaultProperties from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(source *KeyVaultProperties_STATUS) error {
-
-	// IdentityClientId
-	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
-
-	// KeyIdentifier
-	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
-
-	// KeyVaultArmId
-	properties.KeyVaultArmId = genruntime.ClonePointerToString(source.KeyVaultArmId)
 
 	// No error
 	return nil

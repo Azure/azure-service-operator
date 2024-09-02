@@ -1,9 +1,10 @@
-apiVersion: storage.azure.com/v1api20210401
+apiVersion: storage.azure.com/v1api20230101
 kind: StorageAccount
 metadata:
   name: asoworkspacestorageacct1
   namespace: default
 spec:
+  allowBlobPublicAccess: false
   location: westus3
   kind: BlobStorage
   sku:

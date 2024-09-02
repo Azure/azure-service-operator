@@ -4,19 +4,18 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=machinelearningservices.azure.com,resources=workspacesconnections,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=machinelearningservices.azure.com,resources={workspacesconnections/status,workspacesconnections/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -42,6 +41,28 @@ func (connection *WorkspacesConnection) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (connection *WorkspacesConnection) SetConditions(conditions conditions.Conditions) {
 	connection.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &WorkspacesConnection{}
+
+// ConvertFrom populates our WorkspacesConnection from the provided hub WorkspacesConnection
+func (connection *WorkspacesConnection) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.WorkspacesConnection)
+	if !ok {
+		return fmt.Errorf("expected machinelearningservices/v1api20240401/storage/WorkspacesConnection but received %T instead", hub)
+	}
+
+	return connection.AssignProperties_From_WorkspacesConnection(source)
+}
+
+// ConvertTo populates the provided hub WorkspacesConnection from our WorkspacesConnection
+func (connection *WorkspacesConnection) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.WorkspacesConnection)
+	if !ok {
+		return fmt.Errorf("expected machinelearningservices/v1api20240401/storage/WorkspacesConnection but received %T instead", hub)
+	}
+
+	return connection.AssignProperties_To_WorkspacesConnection(destination)
 }
 
 var _ genruntime.KubernetesResource = &WorkspacesConnection{}
@@ -115,8 +136,75 @@ func (connection *WorkspacesConnection) SetStatus(status genruntime.ConvertibleS
 	return nil
 }
 
-// Hub marks that this WorkspacesConnection is the hub type for conversion
-func (connection *WorkspacesConnection) Hub() {}
+// AssignProperties_From_WorkspacesConnection populates our WorkspacesConnection from the provided source WorkspacesConnection
+func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnection(source *storage.WorkspacesConnection) error {
+
+	// ObjectMeta
+	connection.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec Workspaces_Connection_Spec
+	err := spec.AssignProperties_From_Workspaces_Connection_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Connection_Spec() to populate field Spec")
+	}
+	connection.Spec = spec
+
+	// Status
+	var status Workspaces_Connection_STATUS
+	err = status.AssignProperties_From_Workspaces_Connection_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Connection_STATUS() to populate field Status")
+	}
+	connection.Status = status
+
+	// Invoke the augmentConversionForWorkspacesConnection interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspacesConnection); ok {
+		err := augmentedConnection.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WorkspacesConnection populates the provided destination WorkspacesConnection from our WorkspacesConnection
+func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection(destination *storage.WorkspacesConnection) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *connection.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.Workspaces_Connection_Spec
+	err := connection.Spec.AssignProperties_To_Workspaces_Connection_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Connection_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.Workspaces_Connection_STATUS
+	err = connection.Status.AssignProperties_To_Workspaces_Connection_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Connection_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForWorkspacesConnection interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspacesConnection); ok {
+		err := augmentedConnection.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (connection *WorkspacesConnection) OriginalGVK() *schema.GroupVersionKind {
@@ -136,6 +224,11 @@ type WorkspacesConnectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []WorkspacesConnection `json:"items"`
+}
+
+type augmentConversionForWorkspacesConnection interface {
+	AssignPropertiesFrom(src *storage.WorkspacesConnection) error
+	AssignPropertiesTo(dst *storage.WorkspacesConnection) error
 }
 
 // Storage version of v1api20210701.Workspaces_Connection_Spec
@@ -163,20 +256,248 @@ var _ genruntime.ConvertibleSpec = &Workspaces_Connection_Spec{}
 
 // ConvertSpecFrom populates our Workspaces_Connection_Spec from the provided source
 func (connection *Workspaces_Connection_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.Workspaces_Connection_Spec)
+	if ok {
+		// Populate our instance from source
+		return connection.AssignProperties_From_Workspaces_Connection_Spec(src)
 	}
 
-	return source.ConvertSpecTo(connection)
+	// Convert to an intermediate form
+	src = &storage.Workspaces_Connection_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = connection.AssignProperties_From_Workspaces_Connection_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Workspaces_Connection_Spec
 func (connection *Workspaces_Connection_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.Workspaces_Connection_Spec)
+	if ok {
+		// Populate destination from our instance
+		return connection.AssignProperties_To_Workspaces_Connection_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(connection)
+	// Convert to an intermediate form
+	dst = &storage.Workspaces_Connection_Spec{}
+	err := connection.AssignProperties_To_Workspaces_Connection_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Workspaces_Connection_Spec populates our Workspaces_Connection_Spec from the provided source Workspaces_Connection_Spec
+func (connection *Workspaces_Connection_Spec) AssignProperties_From_Workspaces_Connection_Spec(source *storage.Workspaces_Connection_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthType
+	if propertyBag.Contains("AuthType") {
+		var authType string
+		err := propertyBag.Pull("AuthType", &authType)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'AuthType' from propertyBag")
+		}
+
+		connection.AuthType = &authType
+	} else {
+		connection.AuthType = nil
+	}
+
+	// AzureName
+	connection.AzureName = source.AzureName
+
+	// Category
+	if propertyBag.Contains("Category") {
+		var category string
+		err := propertyBag.Pull("Category", &category)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Category' from propertyBag")
+		}
+
+		connection.Category = &category
+	} else {
+		connection.Category = nil
+	}
+
+	// OriginalVersion
+	connection.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		connection.Owner = &owner
+	} else {
+		connection.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		propertyBag.Add("Properties", *source.Properties)
+	} else {
+		propertyBag.Remove("Properties")
+	}
+
+	// Target
+	if propertyBag.Contains("Target") {
+		var target string
+		err := propertyBag.Pull("Target", &target)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Target' from propertyBag")
+		}
+
+		connection.Target = &target
+	} else {
+		connection.Target = nil
+	}
+
+	// Value
+	if propertyBag.Contains("Value") {
+		var value string
+		err := propertyBag.Pull("Value", &value)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Value' from propertyBag")
+		}
+
+		connection.Value = &value
+	} else {
+		connection.Value = nil
+	}
+
+	// ValueFormat
+	if propertyBag.Contains("ValueFormat") {
+		var valueFormat string
+		err := propertyBag.Pull("ValueFormat", &valueFormat)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ValueFormat' from propertyBag")
+		}
+
+		connection.ValueFormat = &valueFormat
+	} else {
+		connection.ValueFormat = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		connection.PropertyBag = propertyBag
+	} else {
+		connection.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWorkspaces_Connection_Spec interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspaces_Connection_Spec); ok {
+		err := augmentedConnection.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Workspaces_Connection_Spec populates the provided destination Workspaces_Connection_Spec from our Workspaces_Connection_Spec
+func (connection *Workspaces_Connection_Spec) AssignProperties_To_Workspaces_Connection_Spec(destination *storage.Workspaces_Connection_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
+
+	// AuthType
+	if connection.AuthType != nil {
+		propertyBag.Add("AuthType", *connection.AuthType)
+	} else {
+		propertyBag.Remove("AuthType")
+	}
+
+	// AzureName
+	destination.AzureName = connection.AzureName
+
+	// Category
+	if connection.Category != nil {
+		propertyBag.Add("Category", *connection.Category)
+	} else {
+		propertyBag.Remove("Category")
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = connection.OriginalVersion
+
+	// Owner
+	if connection.Owner != nil {
+		owner := connection.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if propertyBag.Contains("Properties") {
+		var property storage.WorkspaceConnectionPropertiesV2
+		err := propertyBag.Pull("Properties", &property)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Properties' from propertyBag")
+		}
+
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Target
+	if connection.Target != nil {
+		propertyBag.Add("Target", *connection.Target)
+	} else {
+		propertyBag.Remove("Target")
+	}
+
+	// Value
+	if connection.Value != nil {
+		propertyBag.Add("Value", *connection.Value)
+	} else {
+		propertyBag.Remove("Value")
+	}
+
+	// ValueFormat
+	if connection.ValueFormat != nil {
+		propertyBag.Add("ValueFormat", *connection.ValueFormat)
+	} else {
+		propertyBag.Remove("ValueFormat")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWorkspaces_Connection_Spec interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspaces_Connection_Spec); ok {
+		err := augmentedConnection.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210701.Workspaces_Connection_STATUS
@@ -197,20 +518,274 @@ var _ genruntime.ConvertibleStatus = &Workspaces_Connection_STATUS{}
 
 // ConvertStatusFrom populates our Workspaces_Connection_STATUS from the provided source
 func (connection *Workspaces_Connection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.Workspaces_Connection_STATUS)
+	if ok {
+		// Populate our instance from source
+		return connection.AssignProperties_From_Workspaces_Connection_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(connection)
+	// Convert to an intermediate form
+	src = &storage.Workspaces_Connection_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = connection.AssignProperties_From_Workspaces_Connection_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Workspaces_Connection_STATUS
 func (connection *Workspaces_Connection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == connection {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.Workspaces_Connection_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return connection.AssignProperties_To_Workspaces_Connection_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(connection)
+	// Convert to an intermediate form
+	dst = &storage.Workspaces_Connection_STATUS{}
+	err := connection.AssignProperties_To_Workspaces_Connection_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Workspaces_Connection_STATUS populates our Workspaces_Connection_STATUS from the provided source Workspaces_Connection_STATUS
+func (connection *Workspaces_Connection_STATUS) AssignProperties_From_Workspaces_Connection_STATUS(source *storage.Workspaces_Connection_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthType
+	if propertyBag.Contains("AuthType") {
+		var authType string
+		err := propertyBag.Pull("AuthType", &authType)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'AuthType' from propertyBag")
+		}
+
+		connection.AuthType = &authType
+	} else {
+		connection.AuthType = nil
+	}
+
+	// Category
+	if propertyBag.Contains("Category") {
+		var category string
+		err := propertyBag.Pull("Category", &category)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Category' from propertyBag")
+		}
+
+		connection.Category = &category
+	} else {
+		connection.Category = nil
+	}
+
+	// Conditions
+	connection.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	connection.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	connection.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		propertyBag.Add("Properties", *source.Properties)
+	} else {
+		propertyBag.Remove("Properties")
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
+	// Target
+	if propertyBag.Contains("Target") {
+		var target string
+		err := propertyBag.Pull("Target", &target)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Target' from propertyBag")
+		}
+
+		connection.Target = &target
+	} else {
+		connection.Target = nil
+	}
+
+	// Type
+	connection.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Value
+	if propertyBag.Contains("Value") {
+		var value string
+		err := propertyBag.Pull("Value", &value)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Value' from propertyBag")
+		}
+
+		connection.Value = &value
+	} else {
+		connection.Value = nil
+	}
+
+	// ValueFormat
+	if propertyBag.Contains("ValueFormat") {
+		var valueFormat string
+		err := propertyBag.Pull("ValueFormat", &valueFormat)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ValueFormat' from propertyBag")
+		}
+
+		connection.ValueFormat = &valueFormat
+	} else {
+		connection.ValueFormat = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		connection.PropertyBag = propertyBag
+	} else {
+		connection.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWorkspaces_Connection_STATUS interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspaces_Connection_STATUS); ok {
+		err := augmentedConnection.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Workspaces_Connection_STATUS populates the provided destination Workspaces_Connection_STATUS from our Workspaces_Connection_STATUS
+func (connection *Workspaces_Connection_STATUS) AssignProperties_To_Workspaces_Connection_STATUS(destination *storage.Workspaces_Connection_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
+
+	// AuthType
+	if connection.AuthType != nil {
+		propertyBag.Add("AuthType", *connection.AuthType)
+	} else {
+		propertyBag.Remove("AuthType")
+	}
+
+	// Category
+	if connection.Category != nil {
+		propertyBag.Add("Category", *connection.Category)
+	} else {
+		propertyBag.Remove("Category")
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(connection.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(connection.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(connection.Name)
+
+	// Properties
+	if propertyBag.Contains("Properties") {
+		var property storage.WorkspaceConnectionPropertiesV2_STATUS
+		err := propertyBag.Pull("Properties", &property)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Properties' from propertyBag")
+		}
+
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Target
+	if connection.Target != nil {
+		propertyBag.Add("Target", *connection.Target)
+	} else {
+		propertyBag.Remove("Target")
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(connection.Type)
+
+	// Value
+	if connection.Value != nil {
+		propertyBag.Add("Value", *connection.Value)
+	} else {
+		propertyBag.Remove("Value")
+	}
+
+	// ValueFormat
+	if connection.ValueFormat != nil {
+		propertyBag.Add("ValueFormat", *connection.ValueFormat)
+	} else {
+		propertyBag.Remove("ValueFormat")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWorkspaces_Connection_STATUS interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForWorkspaces_Connection_STATUS); ok {
+		err := augmentedConnection.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForWorkspaces_Connection_Spec interface {
+	AssignPropertiesFrom(src *storage.Workspaces_Connection_Spec) error
+	AssignPropertiesTo(dst *storage.Workspaces_Connection_Spec) error
+}
+
+type augmentConversionForWorkspaces_Connection_STATUS interface {
+	AssignPropertiesFrom(src *storage.Workspaces_Connection_STATUS) error
+	AssignPropertiesTo(dst *storage.Workspaces_Connection_STATUS) error
 }
 
 func init() {

@@ -2885,9 +2885,7 @@ func SslConfiguration_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSslConfiguration_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSslConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Cert"] = gen.PtrOf(gen.AlphaString())
 	gens["Cname"] = gen.PtrOf(gen.AlphaString())
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["LeafDomainLabel"] = gen.PtrOf(gen.AlphaString())
 	gens["OverwriteExistingDomain"] = gen.PtrOf(gen.Bool())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(SslConfiguration_Status_STATUS_ARM_Auto, SslConfiguration_Status_STATUS_ARM_Disabled, SslConfiguration_Status_STATUS_ARM_Enabled))
@@ -3310,8 +3308,6 @@ func VirtualMachineSshCredentials_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["PrivateKeyData"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicKeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
 

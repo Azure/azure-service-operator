@@ -1403,14 +1403,8 @@ type SetupScripts_STATUS_ARM struct {
 
 // The ssl configuration for scoring
 type SslConfiguration_STATUS_ARM struct {
-	// Cert: Cert data
-	Cert *string `json:"cert,omitempty"`
-
 	// Cname: CNAME of the cert
 	Cname *string `json:"cname,omitempty"`
-
-	// Key: Key data
-	Key *string `json:"key,omitempty"`
 
 	// LeafDomainLabel: Leaf domain label of public endpoint
 	LeafDomainLabel *string `json:"leafDomainLabel,omitempty"`
@@ -1448,12 +1442,6 @@ type VirtualMachineImage_STATUS_ARM struct {
 
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS_ARM struct {
-	// PrivateKeyData: Private key data
-	PrivateKeyData *string `json:"privateKeyData,omitempty"`
-
-	// PublicKeyData: Public key data
-	PublicKeyData *string `json:"publicKeyData,omitempty"`
-
 	// Username: Username of admin account
 	Username *string `json:"username,omitempty"`
 }
