@@ -2838,6 +2838,11 @@ objectModelConfiguration:
       PrivateDnsZonePropertiesFormat:
         PrivateDnsZoneId:
           $armReference: true
+    2024-01-01:
+      # TODO: Add other networking resources here too?
+      ApplicationGatewayWebApplicationFirewallPolicy:
+        $exportAs: WebApplicationFirewallPolicy
+        $supportedFrom: v2.10.0
   network.frontdoor:
     2022-05-01:
       FrontDoorWebApplicationFirewallPolicy:

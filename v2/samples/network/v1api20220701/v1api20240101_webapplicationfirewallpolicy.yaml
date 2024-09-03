@@ -1,0 +1,31 @@
+apiVersion: network.azure.com/v1api20240101
+kind: WebApplicationFirewallPolicy
+metadata:
+  name: aso-sample-appgateway-waf
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  customRules:
+  - action: Block
+    matchConditions:
+    - matchValues:
+      - 10.10.10.0/24
+      matchVariables:
+      - variableName: RemoteAddr
+      negationConditon: true
+      operator: IPMatch
+    name: rule1
+    priority: 100
+    ruleType: MatchRule
+  managedRules:
+    managedRuleSets:
+    - ruleSetType: OWASP
+      ruleSetVersion: "3.2"
+  policySettings:
+    fileUploadLimitInMb: 100
+    maxRequestBodySizeInKb: 128
+    mode: Prevention
+    requestBodyCheck: true
+    state: Enabled
