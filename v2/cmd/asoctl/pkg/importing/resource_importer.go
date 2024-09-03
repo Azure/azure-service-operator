@@ -74,7 +74,7 @@ func (ri *ResourceImporter) Import(
 	ctx context.Context,
 	done chan struct{},
 ) (*ResourceImportResult, error) {
-	workers := 1
+	workers := 4
 	candidates := make(chan ImportableResource)  // candidates that need to be deduped
 	pending := make(chan ImportableResource)     // importers that are pending import
 	completed := make(chan ImportResourceResult) // importers that have been executed successfully
