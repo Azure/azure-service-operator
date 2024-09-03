@@ -21,14 +21,14 @@
 <title>Credential Format | Azure Service Operator</title>
 <meta name="description" content="Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
-Azure Workload Identity See Azure Workload Identity for details about the workload identity project.
-Workload identity (with Managed Identity) is the recommended authentication mode for production use-cases.
+Managed Identity (via workload identity) See Azure Workload Identity for details about the workload identity project.
+Managed Identity (via workload identity) is the recommended authentication mode for production use-cases.
 Prerequisites  An existing Azure Service Principal or Managed Identity.">
 <meta property="og:title" content="Credential Format" />
 <meta property="og:description" content="Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
-Azure Workload Identity See Azure Workload Identity for details about the workload identity project.
-Workload identity (with Managed Identity) is the recommended authentication mode for production use-cases.
+Managed Identity (via workload identity) See Azure Workload Identity for details about the workload identity project.
+Managed Identity (via workload identity) is the recommended authentication mode for production use-cases.
 Prerequisites  An existing Azure Service Principal or Managed Identity." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/authentication/credential-format/" /><meta property="article:section" content="guide" />
@@ -38,17 +38,17 @@ Prerequisites  An existing Azure Service Principal or Managed Identity." />
 <meta itemprop="name" content="Credential Format">
 <meta itemprop="description" content="Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
-Azure Workload Identity See Azure Workload Identity for details about the workload identity project.
-Workload identity (with Managed Identity) is the recommended authentication mode for production use-cases.
+Managed Identity (via workload identity) See Azure Workload Identity for details about the workload identity project.
+Managed Identity (via workload identity) is the recommended authentication mode for production use-cases.
 Prerequisites  An existing Azure Service Principal or Managed Identity.">
 
-<meta itemprop="wordCount" content="1942">
+<meta itemprop="wordCount" content="2284">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Credential Format"/>
 <meta name="twitter:description" content="Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
-Azure Workload Identity See Azure Workload Identity for details about the workload identity project.
-Workload identity (with Managed Identity) is the recommended authentication mode for production use-cases.
+Managed Identity (via workload identity) See Azure Workload Identity for details about the workload identity project.
+Managed Identity (via workload identity) is the recommended authentication mode for production use-cases.
 Prerequisites  An existing Azure Service Principal or Managed Identity."/>
 
 
@@ -725,7 +725,7 @@ Prerequisites  An existing Azure Service Principal or Managed Identity."/>
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#azure-workload-identity">Azure Workload Identity</a>
+    <li><a href="#managed-identity-via-workload-identity">Managed Identity (via workload identity)</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#configure-trust">Configure trust</a></li>
@@ -744,10 +744,16 @@ Prerequisites  An existing Azure Service Principal or Managed Identity."/>
         <li><a href="#create-the-secret-2">Create the secret</a></li>
       </ul>
     </li>
-    <li><a href="#deprecated-managed-identity-aad-pod-identity">[Deprecated] Managed Identity (aad-pod-identity)</a>
+    <li><a href="#managed-identity-via-imds-on-azure-infrastructure">Managed Identity (via IMDS on Azure infrastructure)</a>
       <ul>
         <li><a href="#prerequisites-3">Prerequisites</a></li>
         <li><a href="#create-the-secret-3">Create the secret</a></li>
+      </ul>
+    </li>
+    <li><a href="#deprecated-managed-identity-aad-pod-identity">[Deprecated] Managed Identity (aad-pod-identity)</a>
+      <ul>
+        <li><a href="#prerequisites-4">Prerequisites</a></li>
+        <li><a href="#create-the-secret-4">Create the secret</a></li>
       </ul>
     </li>
   </ul>
@@ -814,9 +820,9 @@ Prerequisites  An existing Azure Service Principal or Managed Identity."/>
 	<p>Azure Service Operator supports four different styles of authentication today.</p>
 <p>Each section below dives into one of these authentication options, including examples for how to set it up and
 use it at the different <a href="/azure-service-operator/guide/authentication/credential-scope/">credential scopes</a>.</p>
-<h2 id="azure-workload-identity">Azure Workload Identity</h2>
+<h2 id="managed-identity-via-workload-identity">Managed Identity (via workload identity)</h2>
 <p>See <a href="https://github.com/Azure/azure-workload-identity">Azure Workload Identity</a> for details about the workload identity project.</p>
-<p><strong>Workload identity (with Managed Identity) is the recommended authentication mode for production use-cases</strong>.</p>
+<p><strong>Managed Identity (via workload identity) is the recommended authentication mode for production use-cases</strong>.</p>
 <h3 id="prerequisites">Prerequisites</h3>
 <ol>
 <li>An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.</li>
@@ -1275,15 +1281,11 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
     </div>
 </div>
 
-<h2 id="deprecated-managed-identity-aad-pod-identity">[Deprecated] Managed Identity (aad-pod-identity)</h2>
-<blockquote>
-<p><strong>This authentication mechanism still works but is deprecated. See <a href="#azure-workload-identity">Azure Workload Identity</a> for the new way</strong></p>
-</blockquote>
+<h2 id="managed-identity-via-imds-on-azure-infrastructure">Managed Identity (via IMDS on Azure infrastructure)</h2>
 <h3 id="prerequisites-3">Prerequisites</h3>
 <ol>
 <li>An existing Azure Managed Identity.</li>
-<li><a href="https://github.com/Azure/aad-pod-identity">aad-pod-identity</a> installed into your cluster. If you are running ASO on an Azure Kubernetes Service (AKS) cluster, you can instead use the
-<a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity">integrated aad-pod-identity</a>.</li>
+<li>ASO running on Azure infrastructure (such as an AKS cluster) with the Managed Identity assigned to that infrastructure.</li>
 </ol>
 <p>First, set the following environment variables:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export IDENTITY_RESOURCE_GROUP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myrg&#34;</span>                              <span style="color:#75715e"># The resource group containing the managed identity.</span>
@@ -1339,6 +1341,138 @@ export IDENTITY_RESOURCE_ID<span style="color:#f92672">=</span><span style="colo
 </span><span style="color:#ae81ff"></span>     --create-namespace <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --set azureClientID<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>IDENTITY_CLIENT_ID<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --set crdPattern<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#39;</span>
+</code></pre></div><p>See <a href="/azure-service-operator/guide/crd-management/">CRD management</a> for more details about <code>crdPattern</code>.</p>
+<p>Create or update the <code>aso-controller-settings</code> secret:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-controller-settings
+</span><span style="color:#e6db74"> namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$IDENTITY_CLIENT_ID&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p><strong>Note:</strong> The <code>aso-controller-settings</code> secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the <code>aso-controller-settings</code> secret, ensure that
+<a href="/azure-service-operator/guide/aso-controller-settings-options/">other values</a> in that secret are not being overwritten.</p>
+
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-05-02" role="tabpanel" aria-labelled-by="tabs-05-02-tab">
+        <p>Create the <code>aso-credential</code> secret in your namespace:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-credential
+</span><span style="color:#e6db74"> namespace: my-namespace
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID:       &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID:       &#34;$IDENTITY_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AUTH_MODE:             &#34;podidentity&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-05-03" role="tabpanel" aria-labelled-by="tabs-05-03-tab">
+        <p>Create a per-resource secret. We&rsquo;ll use <code>my-resource-secret</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: my-resource-secret
+</span><span style="color:#e6db74"> namespace: my-namespace
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID:       &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID:       &#34;$IDENTITY_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AUTH_MODE:             &#34;podidentity&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>Create the ASO resource referring to <code>my-resource-secret</code>. We show a <code>ResourceGroup</code> here, but any ASO resource will work.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: resources.azure.com/v1api20200601
+</span><span style="color:#e6db74">kind: ResourceGroup
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: aso-sample-rg
+</span><span style="color:#e6db74">  namespace: default
+</span><span style="color:#e6db74">  annotations:
+</span><span style="color:#e6db74">    serviceoperator.azure.com/credential-from: my-resource-secret
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">  location: westcentralus
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div>
+    </div>
+</div>
+
+<h2 id="deprecated-managed-identity-aad-pod-identity">[Deprecated] Managed Identity (aad-pod-identity)</h2>
+<blockquote>
+<p><strong>This authentication mechanism still works but is deprecated. See <a href="#managed-identity-via-workload-identity">Managed Identity (via workload identity)</a> for the new way</strong></p>
+</blockquote>
+<h3 id="prerequisites-4">Prerequisites</h3>
+<ol>
+<li>An existing Azure Managed Identity.</li>
+<li><a href="https://github.com/Azure/aad-pod-identity">aad-pod-identity</a> installed into your cluster. If you are running ASO on an Azure Kubernetes Service (AKS) cluster, you can instead use the
+<a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity">integrated aad-pod-identity</a>.</li>
+</ol>
+<p>First, set the following environment variables:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export IDENTITY_RESOURCE_GROUP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myrg&#34;</span>                              <span style="color:#75715e"># The resource group containing the managed identity.</span>
+export IDENTITY_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myidentity&#34;</span>                                  <span style="color:#75715e"># The name of the identity.</span>
+export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span> <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
+export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
+</code></pre></div><p>Use the <code>az cli</code> to get some more details about the identity to use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export IDENTITY_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>az identity show -g <span style="color:#e6db74">${</span>IDENTITY_RESOURCE_GROUP<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>IDENTITY_NAME<span style="color:#e6db74">}</span> --query clientId -otsv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+export IDENTITY_RESOURCE_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>az identity show -g <span style="color:#e6db74">${</span>IDENTITY_RESOURCE_GROUP<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>IDENTITY_NAME<span style="color:#e6db74">}</span> --query id -otsv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><h3 id="create-the-secret-4">Create the secret</h3>
+
+
+
+
+
+<ul class="nav nav-tabs" id="tabs-6" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link disabled"
+          id="tabs-06-00-tab" data-toggle="tab" href="#tabs-06-00" role="tab"
+          aria-controls="tabs-06-00" aria-selected="false">
+        <strong>Scope</strong>:
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link active"
+          id="tabs-06-01-tab" data-toggle="tab" href="#tabs-06-01" role="tab"
+          aria-controls="tabs-06-01" aria-selected="false">
+        Global
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-06-02-tab" data-toggle="tab" href="#tabs-06-02" role="tab"
+          aria-controls="tabs-06-02" aria-selected="false">
+        Namespace
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-06-03-tab" data-toggle="tab" href="#tabs-06-03" role="tab"
+          aria-controls="tabs-06-03" aria-selected="false">
+        Resource
+      </a>
+    </li>
+</ul>
+
+<div class="tab-content" id="tabs-6-content">
+    <div class="tab-body tab-pane fade"
+        id="tabs-06-00" role="tabpanel" aria-labelled-by="tabs-06-00-tab">
+        
+    </div>
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-06-01" role="tabpanel" aria-labelled-by="tabs-06-01-tab">
+        <p>If installing ASO for the first time, you can pass these values via Helm arguments:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --create-namespace <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --set aadPodIdentity.enable<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --set aadPodIdentity.azureManagedIdentityResourceId<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>IDENTITY_RESOURCE_ID<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --set azureClientID<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>IDENTITY_CLIENT_ID<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
@@ -1386,7 +1520,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-05-02" role="tabpanel" aria-labelled-by="tabs-05-02-tab">
+        id="tabs-06-02" role="tabpanel" aria-labelled-by="tabs-06-02-tab">
         <p>Deploy an <code>AzureIdentity</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span><span style="color:#e6db74">apiVersion: &#34;aadpodidentity.k8s.io/v1&#34;
@@ -1426,7 +1560,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 </code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
-        id="tabs-05-03" role="tabpanel" aria-labelled-by="tabs-05-03-tab">
+        id="tabs-06-03" role="tabpanel" aria-labelled-by="tabs-06-03-tab">
         <p>Deploy an <code>AzureIdentity</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span><span style="color:#e6db74">apiVersion: &#34;aadpodidentity.k8s.io/v1&#34;
