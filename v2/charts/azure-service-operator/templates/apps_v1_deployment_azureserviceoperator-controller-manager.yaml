@@ -1,6 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     app.kubernetes.io/name: azure-service-operator
     app.kubernetes.io/version: v2.9.0
@@ -9,23 +13,27 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
       control-plane: controller-manager
   template:
     metadata:
       annotations:
-        {{- if .Values.podAnnotations }}
-        {{ toYaml .Values.podAnnotations }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8}}
         {{- end }}
         kubectl.kubernetes.io/default-container: manager
       labels:
-        {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "watchers") }}
+        {{- if .Values.aadPodIdentity.enable }}
         aadpodidbinding: aso-manager-binding
         {{- end }}
         app.kubernetes.io/name: azure-service-operator
         app.kubernetes.io/version: v2.9.0
         control-plane: controller-manager
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.tolerations }}
       tolerations:
@@ -191,16 +199,14 @@ spec:
             path: /readyz
             port: 8081
           initialDelaySeconds: 60
+        {{- with .Values.resources }}
         resources:
-          limits:
-            cpu: 500m
-            memory: 512Mi
-          requests:
-            cpu: 200m
-            memory: 256Mi
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.securityContext }}
         securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         volumeMounts:
         - mountPath: /var/run/secrets/tokens
           name: azure-identity
@@ -210,8 +216,17 @@ spec:
           name: cert
           readOnly: true
         {{- end }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-        kubernetes.io/os: linux
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.priorityClassName }}
+      priorityClassName: "{{ . }}"
+      {{- end }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "azure-service-operator.serviceAccountName" . }}
       terminationGracePeriodSeconds: 10
       volumes:
