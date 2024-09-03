@@ -2863,6 +2863,7 @@ objectModelConfiguration:
       VirtualNetworkRule:
         Id:
           $referenceType: arm
+          
   kubernetesconfiguration:
     2023-05-01:
       Extension:
@@ -2904,6 +2905,23 @@ objectModelConfiguration:
       GitRepositoryDefinition:
         HttpsCACert:
           $isSecret: true
+
+  kusto:
+    2023-08-15:
+      Cluster:
+        $export: true
+        $supportedFrom: v2.10.0
+      VirtualNetworkConfiguration:
+        DataManagementPublicIpId:
+          $referenceType: arm
+        SubnetId:
+          $referenceType: arm
+        EnginePublicIpId:
+          $referenceType: arm
+      KeyVaultProperties:
+        UserIdentity:
+          $referenceType: arm
+
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:
