@@ -20,10 +20,10 @@ import (
 // Different implementations of this interface will be used for different types of resources.
 type ImportableResource interface {
 	// GroupKind returns the GroupKind of the resource being imported.
-	// (may be empty if the GK can't be determined)
+	// (empty if the GK can't be determined)
 	GroupKind() schema.GroupKind
 
-	// Name is a human readable identifier for this resource
+	// Name is a human-readable identifier for this resource
 	Name() string
 
 	// ID is a unique identifier for this resource.
