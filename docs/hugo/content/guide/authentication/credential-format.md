@@ -8,11 +8,11 @@ Azure Service Operator supports four different styles of authentication today.
 Each section below dives into one of these authentication options, including examples for how to set it up and
 use it at the different [credential scopes]( {{< relref "credential-scope" >}} ).
 
-## Azure Workload Identity
+## Managed Identity (via workload identity)
 
 See [Azure Workload Identity](https://github.com/Azure/azure-workload-identity) for details about the workload identity project.
 
-**Workload identity (with Managed Identity) is the recommended authentication mode for production use-cases**.
+**Managed Identity (via workload identity) is the recommended authentication mode for production use-cases**.
 
 ### Prerequisites
 
@@ -426,9 +426,130 @@ EOF
 {{% /tab %}}
 {{< /tabpane >}}
 
+## Managed Identity (via IMDS on Azure infrastructure)
+
+### Prerequisites
+
+1. An existing Azure Managed Identity.
+2. ASO running on Azure infrastructure (such as an AKS cluster) with the Managed Identity assigned to that infrastructure.
+
+First, set the following environment variables:
+
+```bash
+export IDENTITY_RESOURCE_GROUP="myrg"                              # The resource group containing the managed identity.
+export IDENTITY_NAME="myidentity"                                  # The name of the identity.
+export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000" # The Azure Subscription ID the identity is in.
+export AZURE_TENANT_ID="00000000-0000-0000-0000-00000000000"       # The Azure AAD Tenant the identity/subscription is associated with.
+```
+
+Use the `az cli` to get some more details about the identity to use:
+
+```bash
+export IDENTITY_CLIENT_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query clientId -otsv)"
+export IDENTITY_RESOURCE_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query id -otsv)"
+```
+
+### Create the secret
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**Scope**:" disabled=true /%}}
+{{% tab header="Global" %}}
+
+If installing ASO for the first time, you can pass these values via Helm arguments:
+
+```bash
+helm upgrade --install --devel aso2 aso2/azure-service-operator \
+     --create-namespace \
+     --namespace=azureserviceoperator-system \
+     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+     --set azureClientID=${IDENTITY_CLIENT_ID} \
+     --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
+```
+
+See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
+
+Create or update the `aso-controller-settings` secret:
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-controller-settings
+ namespace: azureserviceoperator-system
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$IDENTITY_CLIENT_ID"
+EOF
+```
+
+**Note:** The `aso-controller-settings` secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the `aso-controller-settings` secret, ensure that
+[other values]( {{< relref "aso-controller-settings-options" >}} ) in that secret are not being overwritten.
+
+{{% /tab %}}
+{{% tab header="Namespace" %}}
+
+Create the `aso-credential` secret in your namespace:
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-credential
+ namespace: my-namespace
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID:       "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID:       "$IDENTITY_CLIENT_ID"
+ AUTH_MODE:             "podidentity"
+EOF
+```
+
+{{% /tab %}}
+{{% tab header="Resource" %}}
+
+Create a per-resource secret. We'll use `my-resource-secret`:
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: my-resource-secret
+ namespace: my-namespace
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID:       "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID:       "$IDENTITY_CLIENT_ID"
+ AUTH_MODE:             "podidentity"
+EOF
+```
+
+Create the ASO resource referring to `my-resource-secret`. We show a `ResourceGroup` here, but any ASO resource will work.
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: aso-sample-rg
+  namespace: default
+  annotations:
+    serviceoperator.azure.com/credential-from: my-resource-secret
+spec:
+  location: westcentralus
+EOF
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
+
 ## [Deprecated] Managed Identity (aad-pod-identity)
 
-> **This authentication mechanism still works but is deprecated. See [Azure Workload Identity](#azure-workload-identity) for the new way**
+> **This authentication mechanism still works but is deprecated. See [Managed Identity (via workload identity)](#managed-identity-via-workload-identity) for the new way**
 
 ### Prerequisites
 
