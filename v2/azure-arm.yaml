@@ -2840,6 +2840,21 @@ objectModelConfiguration:
         HttpsCACert:
           $isSecret: true
 
+  kusto:
+    2023-08-15:
+      Cluster:
+        $export: true
+        $supportedFrom: v2.10.0
+      VirtualNetworkConfiguration:
+        DataManagementPublicIpId:
+          $armReference: true
+        SubnetId:
+          $armReference: true
+        EnginePublicIpId:
+          $armReference: true
+      KeyVaultProperties:
+        UserIdentity:
+          $armReference: true
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:

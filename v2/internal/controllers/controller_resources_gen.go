@@ -150,6 +150,9 @@ import (
 	kubernetesconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/customizations"
 	kubernetesconfiguration_v20230501 "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	kubernetesconfiguration_v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
+	kusto_customizations "github.com/Azure/azure-service-operator/v2/api/kusto/customizations"
+	kusto_v20230815 "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815"
+	kusto_v20230815s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
@@ -2957,6 +2960,8 @@ func createScheme() *runtime.Scheme {
 	_ = keyvault_v20230701s.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501s.AddToScheme(scheme)
+	_ = kusto_v20230815.AddToScheme(scheme)
+	_ = kusto_v20230815s.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701s.AddToScheme(scheme)
 	_ = machinelearningservices_v20240401.AddToScheme(scheme)
