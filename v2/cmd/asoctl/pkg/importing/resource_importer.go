@@ -163,20 +163,20 @@ func (ri *ResourceImporter) queueUniqueImporters(
 			if !ok {
 				// Channel closed
 				running = false
-			} else if seen.Contains(rsrc.Id()) {
+			} else if seen.Contains(rsrc.ID()) {
 				// We've already seen this resource (we've already queued it for import)
 				// So remove it from our count of work to be done
-				ri.log.V(2).Info("Skipping duplicate import", "resource", rsrc.Id())
 				progress <- progressDelta{total: -1}
+				ri.log.V(2).Info("Skipping duplicate import", "resource", rsrc.ID())
 			} else {
 				// Remember we've seen this, and add it to our queue
 				seen.Add(rsrc.Id())
 				queue = append(queue, rsrc)
-				ri.log.V(2).Info("Buffering import", "resource", rsrc.Id())
+				ri.log.V(2).Info("Buffering import", "resource", rsrc.ID())
 			}
 		case upstream <- current:
 			// We've sent the current importable, so clear it
-			ri.log.V(2).Info("Queued import", "resource", current.Id())
+			ri.log.V(2).Info("Queued import", "resource", current.ID())
 			current = nil
 		}
 	}
@@ -196,7 +196,7 @@ func (ri *ResourceImporter) importWorker(
 		}
 
 		// We have a resource to import
-		ri.log.V(1).Info("Importing", "resource", rsrc.Id())
+		ri.log.V(1).Info("Importing", "resource", rsrc.ID())
 		result := ri.ImportResource(ctx, rsrc, progress)
 		completed <- result
 	}
