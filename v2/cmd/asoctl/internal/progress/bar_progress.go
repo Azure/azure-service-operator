@@ -19,7 +19,8 @@ type barProgress struct {
 
 var _ importing.Progress = &barProgress{}
 
-func New(
+// NewProgressBar creates a new progress reporter using an on-screen progress bar on the console.
+func NewProgressBar(
 	name string,
 	progress *mpb.Progress,
 	done chan struct{},
