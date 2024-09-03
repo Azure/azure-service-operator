@@ -25,10 +25,10 @@ spec:
     matchLabels:
       control-plane: controller-manager
   replicas: 1
+  revisionHistoryLimit: 10
   template:
     metadata:
       labels:
-        aadpodidbinding: aso-manager-binding
         control-plane: controller-manager
         app.kubernetes.io/name: azure-service-operator
         app.kubernetes.io/version: ${VERSION}
@@ -72,6 +72,12 @@ spec:
             cpu: 200m
             memory: 256Mi
         securityContext:
-          readOnlyRootFilesystem: true
+          runAsUser: 65532 # nonroot user from gcr.io/distroless/static:nonroot image
+          runAsGroup: 65532 # nonroot group from gcr.io/distroless/static:nonroot image
+          runAsNonRoot: true
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
       terminationGracePeriodSeconds: 10

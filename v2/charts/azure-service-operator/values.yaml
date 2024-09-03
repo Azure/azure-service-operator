@@ -189,12 +189,18 @@ revisionHistoryLimit: 10
 
 # Specify security settings for a Container
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
-# It is not recommended to reduce the restrictions in this list, but additional restrictions outside of the default set 
+# It is not recommended to reduce the restrictions in this list, but additional restrictions outside the default set
 # can be applied. If you believe additional securityContext configuration should be specified by default
 # please raise an issue.
 securityContext:
+  runAsUser: 65532 # nonroot user from gcr.io/distroless/static:nonroot image
+  runAsGroup: 65532 # nonroot group from gcr.io/distroless/static:nonroot image
+  runAsNonRoot: true
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
 
 # Tolerations are applied to pods. Tolerations allow the scheduler to schedule pods with matching taints. Tolerations allow scheduling but don't guarantee scheduling
 # For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration.
