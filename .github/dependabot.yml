@@ -8,7 +8,11 @@ updates:
   # ASO v2 controller 
   - package-ecosystem: "gomod"
     directories:
-      - "/v2/**/*"
+      # These are not recursive, need to list each directory individually.
+      # We don't use wildcard/globbing because it times out w/ our large repo.
+      - "/v2"
+      - "/v2/cmd/asoctl"
+      - "/v2/tools/generator"
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
