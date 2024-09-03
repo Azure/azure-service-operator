@@ -26,10 +26,10 @@ type ImportableResource interface {
 	// Name is a human readable identifier for this resource
 	Name() string
 
-	// Id is a unique identifier for this resource.
-	// The Id of a resource unique within the import operation; the easiest way to achive this is
+	// ID is a unique identifier for this resource.
+	// The ID of a resource must unique within the import operation; the easiest way to achieve this is
 	// to make it globally unique.
-	Id() string
+	ID() string
 
 	// Resource returns the actual resource that has been imported.
 	// Only available after the import is complete (nil otherwise).

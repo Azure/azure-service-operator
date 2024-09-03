@@ -78,8 +78,8 @@ func (i *importableARMResource) Name() string {
 	return i.armID.Name
 }
 
-// Id returns the full ARM ID of the resource we're importing
-func (i *importableARMResource) Id() string {
+// ID returns the full ARM ID of the resource we're importing
+func (i *importableARMResource) ID() string {
 	return i.armID.String()
 }
 
