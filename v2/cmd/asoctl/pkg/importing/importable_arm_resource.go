@@ -126,7 +126,7 @@ func (i *importableARMResource) Import(
 // Partial success is allowed, but the caller should be notified of any errors.
 func (i *importableARMResource) FindChildren(
 	ctx context.Context,
-	progress chan<- progressDelta,
+	progress Progress,
 ) ([]ImportableResource, error) {
 	if i.resource == nil {
 		// Nothing to do
@@ -157,7 +157,7 @@ func (i *importableARMResource) FindChildren(
 		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeResourceGroup)...)
 	}
 
-	progress <- progressDelta{total: len(childTypes)} // all children pending
+	progress.AddPending(len(childTypes)) // all children pending
 
 	// While we're looking for subresources, we need to treat any errors that occur as independent.
 	// Some potential subresource types can have limited accessibility (e.g. the subscriber may not
@@ -178,7 +178,7 @@ func (i *importableARMResource) FindChildren(
 			result = append(result, subResources...)
 		}
 
-		progress <- progressDelta{complete: 1} // One child type done
+		progress.Completed(1) // One child type done
 	}
 
 	return result,

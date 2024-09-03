@@ -49,7 +49,7 @@ type ImportableResource interface {
 	// Partial success is allowed, but the caller should be notified of any errors.
 	FindChildren(
 		ctx context.Context,
-		progress chan<- progressDelta,
+		progress Progress,
 	) ([]ImportableResource, error)
 }
 
