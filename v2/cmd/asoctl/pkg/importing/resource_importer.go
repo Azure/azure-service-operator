@@ -78,6 +78,7 @@ func (ri *ResourceImporter) Import(
 	candidates := make(chan ImportableResource)  // candidates that need to be deduped
 	pending := make(chan ImportableResource)     // importers that are pending import
 	completed := make(chan ImportResourceResult) // importers that have been executed successfully
+	report := make(chan *resourceImportReport)   // summary report of the import
 
 	// Dedupe candidates so we import each distinct resource only once
 	go ri.queueUniqueImporters(candidates, pending, ri.progress)
@@ -88,7 +89,7 @@ func (ri *ResourceImporter) Import(
 	}
 
 	// Collate the results
-	go ri.collateResults(completed, candidates, ri.progress)
+	go ri.collateResults(completed, candidates, ri.progress, report)
 
 	// Set up by adding our initial resources; these will be completed when we collate their results
 	for _, rsrc := range ri.resources {
@@ -109,6 +110,10 @@ func (ri *ResourceImporter) Import(
 	close(candidates)
 	close(pending)
 	close(completed)
+
+	// Get the summary report and write it
+	rpt := <-report
+	rpt.WriteToLog(ri.log)
 
 	// Now we've imported everything, return the resources
 	// We do this even if there's an error so that we can return partial results
@@ -197,6 +202,7 @@ func (ri *ResourceImporter) collateResults(
 	completed <-chan ImportResourceResult, // completed imports for us to collate
 	candidates chan<- ImportableResource,  // additional candidates for importing
 	progress Progress,                     // progress tracking
+	publish chan<- *resourceImportReport,  // publishing our final summary
 ) {
 	report := newResourceImportReport()
 	for importResult := range completed {
@@ -241,7 +247,7 @@ func (ri *ResourceImporter) collateResults(
 		progress.Completed(1)
 	}
 
-	report.WriteToLog(ri.log)
+	publish <- report
 }
 
 func (ri *ResourceImporter) ImportResource(
