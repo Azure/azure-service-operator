@@ -31,7 +31,7 @@ func newTemplateCommand() *cobra.Command {
 	var options templateOptions
 
 	cmd := &cobra.Command{
-		Use:   "template [--source <string> |--version <string>] [--crd-pattern <string>|--raw]",
+		Use:   "template [--source <string> | --version <string>] [--crd-pattern <string> | --raw]",
 		Short: "Template creates a YAML file from the specified ASO yaml template",
 		Example: `asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*" --crd-pattern "containerservice.azure.com/*"
 
