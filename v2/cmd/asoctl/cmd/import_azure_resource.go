@@ -18,8 +18,8 @@ import (
 	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
 
 	"github.com/Azure/azure-service-operator/v2/api"
-	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/progress"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importing"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/progress"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
