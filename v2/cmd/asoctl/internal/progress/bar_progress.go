@@ -58,13 +58,7 @@ func newBarProgress(
 			bar.SetTotal(total, false)
 			bar.SetCurrent(completed)
 
-			if parent == nil {
-				// We're the root progress bar, so we need to handle the done channel once all the work is complete
-				if total > 0 && completed >= total {
-					close(done)
-					break
-				}
-			} else {
+			if parent != nil {
 				// Pass updates to our parent bar (if any)
 				if parent != nil {
 					if delta.pending > 0 {
@@ -75,6 +69,11 @@ func newBarProgress(
 					}
 				}
 			}
+
+			if total > 0 && completed >= total {
+				// Yay, we're finished!
+				break
+			}
 		}
 
 		if total == 0 {
@@ -83,6 +82,11 @@ func newBarProgress(
 
 		bar.SetCurrent(total)
 		bar.SetTotal(total, true)
+
+		if parent == nil {
+			// We're the root progress bar, so we need to handle the done channel once all the work is complete
+			close(done)
+		}
 	}()
 
 	return result
