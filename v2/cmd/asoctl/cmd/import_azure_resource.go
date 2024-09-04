@@ -110,6 +110,9 @@ func importAzureResource(
 ) error {
 	log, progressBar := CreateLoggerAndProgressBar()
 
+	// Make sure all output is written when we're done
+	defer progressBar.Wait()
+
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return errors.Wrap(err, "unable to get default Azure credential")
@@ -197,9 +200,6 @@ func importAzureResource(
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	}
-
-	// No error, wait for progress bar to finish & flush
-	progressBar.Wait()
 
 	return nil
 }
