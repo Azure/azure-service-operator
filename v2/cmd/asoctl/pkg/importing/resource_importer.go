@@ -90,7 +90,7 @@ func (ri *ResourceImporter) Import(
 	// Collate the results
 	go ri.collateResults(completed, candidates, ri.progress)
 
-	// Set up by adding our initial resources
+	// Set up by adding our initial resources; these will be completed when we collate their results
 	for _, rsrc := range ri.resources {
 		candidates <- rsrc
 		ri.progress.AddPending(1)
@@ -181,7 +181,7 @@ func (ri *ResourceImporter) importWorker(
 ) {
 	for rsrc := range pending {
 		if ctx.Err() != nil {
-			// If we're aborting, just discard everything until it's all gone
+			// If we're aborting, just remove everything from the queue until it's all gone
 			progress.AddPending(-1)
 			continue
 		}
@@ -194,17 +194,16 @@ func (ri *ResourceImporter) importWorker(
 }
 
 func (ri *ResourceImporter) collateResults(
-	completed <-chan ImportResourceResult,
-	candidates chan<- ImportableResource,
-	progress Progress,
+	completed <-chan ImportResourceResult, // completed imports for us to collate
+	candidates chan<- ImportableResource,  // additional candidates for importing
+	progress Progress,                     // progress tracking
 ) {
 	report := newResourceImportReport()
-
 	for importResult := range completed {
 		rsrc := importResult.resource
 		gk := rsrc.GroupKind()
 
-		// Enqueue any child resources we found
+		// Enqueue any child resources we found; these will be marked as completed when we collate their results
 		progress.AddPending(len(importResult.pending))
 		for _, p := range importResult.pending {
 			candidates <- p
@@ -254,7 +253,7 @@ func (ri *ResourceImporter) ImportResource(
 	gk := rsrc.GroupKind()
 	name := fmt.Sprintf("%s %s", gk, rsrc.Name())
 
-	// Create our progress indicator and ensure it's closed when we're done
+	// Create our progress indicator
 	progress := parent.Create(name)
 
 	// Prepare our result for when we're done

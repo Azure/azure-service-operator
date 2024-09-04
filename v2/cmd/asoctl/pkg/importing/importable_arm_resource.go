@@ -157,7 +157,8 @@ func (i *importableARMResource) FindChildren(
 		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeResourceGroup)...)
 	}
 
-	progress.AddPending(len(childTypes)) // all children pending
+	// all child types are pending; these are completed one by one in the loop
+	progress.AddPending(len(childTypes))
 
 	// While we're looking for subresources, we need to treat any errors that occur as independent.
 	// Some potential subresource types can have limited accessibility (e.g. the subscriber may not
