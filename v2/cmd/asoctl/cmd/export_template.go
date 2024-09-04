@@ -6,12 +6,15 @@
 package cmd
 
 import (
+	"github.com/go-logr/logr"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/template"
 )
@@ -63,6 +66,10 @@ asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;con
 
 				uri = template.URIFromVersion(options.version)
 			}
+
+			log := CreateLogger()
+			log.V(Status).Info("Export ASO Template", "version", options.version)
+			log.V(Status).Info("Downloading template", "uri", uri)
 
 			result, err := template.Get(ctx, uri)
 			if err != nil {
