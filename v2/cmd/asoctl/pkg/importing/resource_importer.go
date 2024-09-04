@@ -200,9 +200,9 @@ func (ri *ResourceImporter) importWorker(
 
 func (ri *ResourceImporter) collateResults(
 	completed <-chan ImportResourceResult, // completed imports for us to collate
-	candidates chan<- ImportableResource,  // additional candidates for importing
-	progress Progress,                     // progress tracking
-	publish chan<- *resourceImportReport,  // publishing our final summary
+	candidates chan<- ImportableResource, // additional candidates for importing
+	progress Progress, // progress tracking
+	publish chan<- *resourceImportReport, // publishing our final summary
 ) {
 	report := newResourceImportReport()
 	for importResult := range completed {

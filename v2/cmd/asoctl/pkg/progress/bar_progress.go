@@ -34,7 +34,6 @@ func newBarProgress(
 	done chan struct{},
 	parent importing.Progress,
 ) *barProgress {
-
 	bar := progress.AddBar(
 		0, // zero total because we don't know how much work will be needed
 		mpb.PrependDecorators(

@@ -33,7 +33,6 @@ func newLogProgress(
 	done chan struct{},
 	parent importing.Progress,
 ) *logProgress {
-
 	result := &logProgress{
 		updates: make(chan progressDelta),
 		log:     log,
@@ -65,10 +64,6 @@ func newLogProgress(
 					parent.Completed(delta.complete)
 				}
 			}
-		}
-
-		if total == 0 {
-			total = 1
 		}
 
 		// Final step, log that we're done.
