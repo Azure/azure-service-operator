@@ -39,8 +39,7 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 
 	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, tc.AzureRegion)
 
-	tc.CreateResourceAndWait(sa) // For some reason sometimes workspace won't provision if the storage account doesn't already exist. Its' an RP issue though...
-	tc.CreateResourcesAndWait(workspace, kv)
+	tc.CreateResourcesAndWait(workspace, sa, kv)
 
 	tc.RunSubtests(
 		testcommon.Subtest{
