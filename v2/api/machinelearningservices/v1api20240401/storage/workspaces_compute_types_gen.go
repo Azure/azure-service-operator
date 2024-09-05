@@ -699,15 +699,16 @@ type HDInsightProperties_STATUS struct {
 // Storage version of v1api20240401.KubernetesProperties
 // Kubernetes properties
 type KubernetesProperties struct {
-	DefaultInstanceType           *string                       `json:"defaultInstanceType,omitempty"`
-	ExtensionInstanceReleaseTrain *string                       `json:"extensionInstanceReleaseTrain,omitempty"`
-	ExtensionPrincipalId          *string                       `json:"extensionPrincipalId,omitempty"`
-	InstanceTypes                 map[string]InstanceTypeSchema `json:"instanceTypes,omitempty"`
-	Namespace                     *string                       `json:"namespace,omitempty"`
-	PropertyBag                   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	RelayConnectionString         *genruntime.SecretReference   `json:"relayConnectionString,omitempty"`
-	ServiceBusConnectionString    *genruntime.SecretReference   `json:"serviceBusConnectionString,omitempty"`
-	VcName                        *string                       `json:"vcName,omitempty"`
+	DefaultInstanceType            *string                        `json:"defaultInstanceType,omitempty"`
+	ExtensionInstanceReleaseTrain  *string                        `json:"extensionInstanceReleaseTrain,omitempty"`
+	ExtensionPrincipalId           *string                        `json:"extensionPrincipalId,omitempty" optionalConfigMapPair:"ExtensionPrincipalId"`
+	ExtensionPrincipalIdFromConfig *genruntime.ConfigMapReference `json:"extensionPrincipalIdFromConfig,omitempty" optionalConfigMapPair:"ExtensionPrincipalId"`
+	InstanceTypes                  map[string]InstanceTypeSchema  `json:"instanceTypes,omitempty"`
+	Namespace                      *string                        `json:"namespace,omitempty"`
+	PropertyBag                    genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	RelayConnectionString          *genruntime.SecretReference    `json:"relayConnectionString,omitempty"`
+	ServiceBusConnectionString     *genruntime.SecretReference    `json:"serviceBusConnectionString,omitempty"`
+	VcName                         *string                        `json:"vcName,omitempty"`
 }
 
 // Storage version of v1api20240401.KubernetesProperties_STATUS
@@ -1160,9 +1161,11 @@ type VirtualMachineSshCredentials_STATUS struct {
 // Storage version of v1api20240401.AssignedUser
 // A user that can be assigned to a compute instance.
 type AssignedUser struct {
-	ObjectId    *string                `json:"objectId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
+	ObjectId           *string                        `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	TenantId           *string                        `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 // Storage version of v1api20240401.AssignedUser_STATUS

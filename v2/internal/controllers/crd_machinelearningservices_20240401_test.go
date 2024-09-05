@@ -34,13 +34,13 @@ func Test_MachineLearning_Workspaces_20240401_CRUD(t *testing.T) {
 
 	sa := newStorageAccount(tc, rg)
 	sa.Spec.AllowBlobPublicAccess = to.Ptr(false)
+
 	kv := newVault20210401preview("kv", tc, rg)
-	kv.Spec.Properties.CreateMode = to.Ptr(keyvault.VaultProperties_CreateMode_PurgeThenCreate)
+	kv.Spec.Properties.CreateMode = to.Ptr(keyvault.VaultProperties_CreateMode_CreateOrRecover)
 
 	workspace := newWorkspace_20240401(tc, testcommon.AsOwner(rg), sa, kv, tc.AzureRegion)
 
-	tc.CreateResourceAndWait(sa) // For some reason sometimes workspace won't provision if the storage account doesn't already exist. Its' an RP issue though...
-	tc.CreateResourcesAndWait(workspace, kv)
+	tc.CreateResourcesAndWait(sa, kv, workspace)
 
 	tc.RunSubtests(
 		testcommon.Subtest{
@@ -64,8 +64,6 @@ func Test_MachineLearning_Workspaces_20240401_CRUD(t *testing.T) {
 			},
 		},
 	)
-
-	tc.DeleteResourceAndWait(rg)
 }
 
 func Workspaces_WriteSecrets_20240401(tc *testcommon.KubePerTestContext, workspace *machinelearningservices.Workspace) {

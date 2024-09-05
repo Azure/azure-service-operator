@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -208,7 +209,7 @@ func (connection *WorkspacesConnection) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (connection *WorkspacesConnection) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){connection.validateResourceReferences, connection.validateOwnerReference}
+	return []func() (admission.Warnings, error){connection.validateResourceReferences, connection.validateOwnerReference, connection.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +227,19 @@ func (connection *WorkspacesConnection) updateValidations() []func(old runtime.O
 		func(old runtime.Object) (admission.Warnings, error) {
 			return connection.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return connection.validateOptionalConfigMapReferences()
+		},
 	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (connection *WorkspacesConnection) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&connection.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -11772,8 +11785,9 @@ func (apiKey *WorkspaceConnectionApiKey_STATUS) AssignProperties_To_WorkspaceCon
 }
 
 type WorkspaceConnectionManagedIdentity struct {
-	ClientId          *string                       `json:"clientId,omitempty"`
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	ClientId           *string                        `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
+	ResourceReference  *genruntime.ResourceReference  `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WorkspaceConnectionManagedIdentity{}
@@ -11788,6 +11802,14 @@ func (identity *WorkspaceConnectionManagedIdentity) ConvertToARM(resolved genrun
 	// Set property "ClientId":
 	if identity.ClientId != nil {
 		clientId := *identity.ClientId
+		result.ClientId = &clientId
+	}
+	if identity.ClientIdFromConfig != nil {
+		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*identity.ClientIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+		}
+		clientId := clientIdValue
 		result.ClientId = &clientId
 	}
 
@@ -11821,6 +11843,8 @@ func (identity *WorkspaceConnectionManagedIdentity) PopulateFromARM(owner genrun
 		identity.ClientId = &clientId
 	}
 
+	// no assignment for property "ClientIdFromConfig"
+
 	// no assignment for property "ResourceReference"
 
 	// No error
@@ -11832,6 +11856,14 @@ func (identity *WorkspaceConnectionManagedIdentity) AssignProperties_From_Worksp
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// ClientIdFromConfig
+	if source.ClientIdFromConfig != nil {
+		clientIdFromConfig := source.ClientIdFromConfig.Copy()
+		identity.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		identity.ClientIdFromConfig = nil
+	}
 
 	// ResourceReference
 	if source.ResourceReference != nil {
@@ -11852,6 +11884,14 @@ func (identity *WorkspaceConnectionManagedIdentity) AssignProperties_To_Workspac
 
 	// ClientId
 	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
+
+	// ClientIdFromConfig
+	if identity.ClientIdFromConfig != nil {
+		clientIdFromConfig := identity.ClientIdFromConfig.Copy()
+		destination.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		destination.ClientIdFromConfig = nil
+	}
 
 	// ResourceReference
 	if identity.ResourceReference != nil {
@@ -12364,7 +12404,7 @@ func (auth2 *WorkspaceConnectionOAuth2_STATUS) AssignProperties_To_WorkspaceConn
 }
 
 type WorkspaceConnectionPersonalAccessToken struct {
-	Pat *string `json:"pat,omitempty"`
+	Pat *genruntime.SecretReference `json:"pat,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WorkspaceConnectionPersonalAccessToken{}
@@ -12378,7 +12418,11 @@ func (token *WorkspaceConnectionPersonalAccessToken) ConvertToARM(resolved genru
 
 	// Set property "Pat":
 	if token.Pat != nil {
-		pat := *token.Pat
+		patSecret, err := resolved.ResolvedSecrets.Lookup(*token.Pat)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Pat")
+		}
+		pat := patSecret
 		result.Pat = &pat
 	}
 	return result, nil
@@ -12391,16 +12435,12 @@ func (token *WorkspaceConnectionPersonalAccessToken) NewEmptyARMValue() genrunti
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (token *WorkspaceConnectionPersonalAccessToken) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionPersonalAccessToken_ARM)
+	_, ok := armInput.(WorkspaceConnectionPersonalAccessToken_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionPersonalAccessToken_ARM, got %T", armInput)
 	}
 
-	// Set property "Pat":
-	if typedInput.Pat != nil {
-		pat := *typedInput.Pat
-		token.Pat = &pat
-	}
+	// no assignment for property "Pat"
 
 	// No error
 	return nil
@@ -12410,7 +12450,12 @@ func (token *WorkspaceConnectionPersonalAccessToken) PopulateFromARM(owner genru
 func (token *WorkspaceConnectionPersonalAccessToken) AssignProperties_From_WorkspaceConnectionPersonalAccessToken(source *storage.WorkspaceConnectionPersonalAccessToken) error {
 
 	// Pat
-	token.Pat = genruntime.ClonePointerToString(source.Pat)
+	if source.Pat != nil {
+		pat := source.Pat.Copy()
+		token.Pat = &pat
+	} else {
+		token.Pat = nil
+	}
 
 	// No error
 	return nil
@@ -12422,7 +12467,12 @@ func (token *WorkspaceConnectionPersonalAccessToken) AssignProperties_To_Workspa
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Pat
-	destination.Pat = genruntime.ClonePointerToString(token.Pat)
+	if token.Pat != nil {
+		pat := token.Pat.Copy()
+		destination.Pat = &pat
+	} else {
+		destination.Pat = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -12438,15 +12488,11 @@ func (token *WorkspaceConnectionPersonalAccessToken) AssignProperties_To_Workspa
 // Initialize_From_WorkspaceConnectionPersonalAccessToken_STATUS populates our WorkspaceConnectionPersonalAccessToken from the provided source WorkspaceConnectionPersonalAccessToken_STATUS
 func (token *WorkspaceConnectionPersonalAccessToken) Initialize_From_WorkspaceConnectionPersonalAccessToken_STATUS(source *WorkspaceConnectionPersonalAccessToken_STATUS) error {
 
-	// Pat
-	token.Pat = genruntime.ClonePointerToString(source.Pat)
-
 	// No error
 	return nil
 }
 
 type WorkspaceConnectionPersonalAccessToken_STATUS struct {
-	Pat *string `json:"pat,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceConnectionPersonalAccessToken_STATUS{}
@@ -12458,15 +12504,9 @@ func (token *WorkspaceConnectionPersonalAccessToken_STATUS) NewEmptyARMValue() g
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (token *WorkspaceConnectionPersonalAccessToken_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionPersonalAccessToken_STATUS_ARM)
+	_, ok := armInput.(WorkspaceConnectionPersonalAccessToken_STATUS_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionPersonalAccessToken_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property "Pat":
-	if typedInput.Pat != nil {
-		pat := *typedInput.Pat
-		token.Pat = &pat
 	}
 
 	// No error
@@ -12476,9 +12516,6 @@ func (token *WorkspaceConnectionPersonalAccessToken_STATUS) PopulateFromARM(owne
 // AssignProperties_From_WorkspaceConnectionPersonalAccessToken_STATUS populates our WorkspaceConnectionPersonalAccessToken_STATUS from the provided source WorkspaceConnectionPersonalAccessToken_STATUS
 func (token *WorkspaceConnectionPersonalAccessToken_STATUS) AssignProperties_From_WorkspaceConnectionPersonalAccessToken_STATUS(source *storage.WorkspaceConnectionPersonalAccessToken_STATUS) error {
 
-	// Pat
-	token.Pat = genruntime.ClonePointerToString(source.Pat)
-
 	// No error
 	return nil
 }
@@ -12487,9 +12524,6 @@ func (token *WorkspaceConnectionPersonalAccessToken_STATUS) AssignProperties_Fro
 func (token *WorkspaceConnectionPersonalAccessToken_STATUS) AssignProperties_To_WorkspaceConnectionPersonalAccessToken_STATUS(destination *storage.WorkspaceConnectionPersonalAccessToken_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// Pat
-	destination.Pat = genruntime.ClonePointerToString(token.Pat)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

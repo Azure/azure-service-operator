@@ -12,7 +12,7 @@ Workspace: Resource
 │   ├── ContainerRegistryReference: *genruntime.ResourceReference
 │   ├── Description: *string
 │   ├── DiscoveryUrl: *string
-│   ├── Encryption: *Object (4 properties)
+│   ├── Encryption: *Object (3 properties)
 │   │   ├── Identity: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UserAssignedIdentity: *string
@@ -21,8 +21,7 @@ Workspace: Resource
 │   │   │   ├── KeyIdentifier: *string
 │   │   │   ├── KeyVaultArmId: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Status: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── FriendlyName: *string
 │   ├── HbiWorkspace: *bool
 │   ├── Identity: *Object (3 properties)

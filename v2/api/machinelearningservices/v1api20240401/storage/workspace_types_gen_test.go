@@ -427,30 +427,16 @@ func RunJSONSerializationTestForEncryptionProperty(subject EncryptionProperty) s
 var encryptionPropertyGenerator gopter.Gen
 
 // EncryptionPropertyGenerator returns a generator of EncryptionProperty instances for property testing.
-// We first initialize encryptionPropertyGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func EncryptionPropertyGenerator() gopter.Gen {
 	if encryptionPropertyGenerator != nil {
 		return encryptionPropertyGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionProperty(generators)
-	encryptionPropertyGenerator = gen.Struct(reflect.TypeOf(EncryptionProperty{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionProperty(generators)
 	AddRelatedPropertyGeneratorsForEncryptionProperty(generators)
 	encryptionPropertyGenerator = gen.Struct(reflect.TypeOf(EncryptionProperty{}), generators)
 
 	return encryptionPropertyGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEncryptionProperty is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEncryptionProperty(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperty is a factory method for creating gopter generators

@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -209,7 +210,7 @@ func (workspace *Workspace) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (workspace *Workspace) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){workspace.validateResourceReferences, workspace.validateOwnerReference, workspace.validateSecretDestinations}
+	return []func() (admission.Warnings, error){workspace.validateResourceReferences, workspace.validateOwnerReference, workspace.validateSecretDestinations, workspace.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +231,19 @@ func (workspace *Workspace) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return workspace.validateSecretDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return workspace.validateOptionalConfigMapReferences()
+		},
 	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (workspace *Workspace) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&workspace.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -2913,10 +2926,6 @@ type EncryptionProperty struct {
 	// +kubebuilder:validation:Required
 	// KeyVaultProperties: Customer Key vault properties.
 	KeyVaultProperties *EncryptionKeyVaultProperties `json:"keyVaultProperties,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Status: Indicates whether or not the encryption is enabled for the workspace.
-	Status *EncryptionProperty_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EncryptionProperty{}
@@ -2946,14 +2955,6 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 		}
 		keyVaultProperties := *keyVaultProperties_ARM.(*EncryptionKeyVaultProperties_ARM)
 		result.KeyVaultProperties = &keyVaultProperties
-	}
-
-	// Set property "Status":
-	if property.Status != nil {
-		var temp string
-		temp = string(*property.Status)
-		status := EncryptionProperty_Status_ARM(temp)
-		result.Status = &status
 	}
 	return result, nil
 }
@@ -2992,14 +2993,6 @@ func (property *EncryptionProperty) PopulateFromARM(owner genruntime.ArbitraryOw
 		property.KeyVaultProperties = &keyVaultProperties
 	}
 
-	// Set property "Status":
-	if typedInput.Status != nil {
-		var temp string
-		temp = string(*typedInput.Status)
-		status := EncryptionProperty_Status(temp)
-		property.Status = &status
-	}
-
 	// No error
 	return nil
 }
@@ -3029,15 +3022,6 @@ func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(sou
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
 		property.KeyVaultProperties = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := *source.Status
-		statusTemp := genruntime.ToEnum(status, encryptionProperty_Status_Values)
-		property.Status = &statusTemp
-	} else {
-		property.Status = nil
 	}
 
 	// No error
@@ -3071,14 +3055,6 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
 		destination.KeyVaultProperties = nil
-	}
-
-	// Status
-	if property.Status != nil {
-		status := string(*property.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
 	}
 
 	// Update the property bag
@@ -3117,14 +3093,6 @@ func (property *EncryptionProperty) Initialize_From_EncryptionProperty_STATUS(so
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
 		property.KeyVaultProperties = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := genruntime.ToEnum(string(*source.Status), encryptionProperty_Status_Values)
-		property.Status = &status
-	} else {
-		property.Status = nil
 	}
 
 	// No error
@@ -6299,7 +6267,10 @@ func (settings *CosmosDbSettings_STATUS) AssignProperties_To_CosmosDbSettings_ST
 
 type EncryptionKeyVaultProperties struct {
 	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
-	IdentityClientId *string `json:"identityClientId,omitempty"`
+	IdentityClientId *string `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
+
+	// IdentityClientIdFromConfig: For future use - The client id of the identity which will be used to access key vault.
+	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
 
 	// +kubebuilder:validation:Required
 	// KeyIdentifier: Key vault uri to access the encryption key.
@@ -6322,6 +6293,14 @@ func (properties *EncryptionKeyVaultProperties) ConvertToARM(resolved genruntime
 	// Set property "IdentityClientId":
 	if properties.IdentityClientId != nil {
 		identityClientId := *properties.IdentityClientId
+		result.IdentityClientId = &identityClientId
+	}
+	if properties.IdentityClientIdFromConfig != nil {
+		identityClientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.IdentityClientIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property IdentityClientId")
+		}
+		identityClientId := identityClientIdValue
 		result.IdentityClientId = &identityClientId
 	}
 
@@ -6361,6 +6340,8 @@ func (properties *EncryptionKeyVaultProperties) PopulateFromARM(owner genruntime
 		properties.IdentityClientId = &identityClientId
 	}
 
+	// no assignment for property "IdentityClientIdFromConfig"
+
 	// Set property "KeyIdentifier":
 	if typedInput.KeyIdentifier != nil {
 		keyIdentifier := *typedInput.KeyIdentifier
@@ -6378,6 +6359,14 @@ func (properties *EncryptionKeyVaultProperties) AssignProperties_From_Encryption
 
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
+
+	// IdentityClientIdFromConfig
+	if source.IdentityClientIdFromConfig != nil {
+		identityClientIdFromConfig := source.IdentityClientIdFromConfig.Copy()
+		properties.IdentityClientIdFromConfig = &identityClientIdFromConfig
+	} else {
+		properties.IdentityClientIdFromConfig = nil
+	}
 
 	// KeyIdentifier
 	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
@@ -6401,6 +6390,14 @@ func (properties *EncryptionKeyVaultProperties) AssignProperties_To_EncryptionKe
 
 	// IdentityClientId
 	destination.IdentityClientId = genruntime.ClonePointerToString(properties.IdentityClientId)
+
+	// IdentityClientIdFromConfig
+	if properties.IdentityClientIdFromConfig != nil {
+		identityClientIdFromConfig := properties.IdentityClientIdFromConfig.Copy()
+		destination.IdentityClientIdFromConfig = &identityClientIdFromConfig
+	} else {
+		destination.IdentityClientIdFromConfig = nil
+	}
 
 	// KeyIdentifier
 	destination.KeyIdentifier = genruntime.ClonePointerToString(properties.KeyIdentifier)
@@ -6531,20 +6528,6 @@ func (properties *EncryptionKeyVaultProperties_STATUS) AssignProperties_To_Encry
 
 	// No error
 	return nil
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type EncryptionProperty_Status string
-
-const (
-	EncryptionProperty_Status_Disabled = EncryptionProperty_Status("Disabled")
-	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("Enabled")
-)
-
-// Mapping from string to EncryptionProperty_Status
-var encryptionProperty_Status_Values = map[string]EncryptionProperty_Status{
-	"disabled": EncryptionProperty_Status_Disabled,
-	"enabled":  EncryptionProperty_Status_Enabled,
 }
 
 type EncryptionProperty_Status_STATUS string

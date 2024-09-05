@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -209,7 +210,7 @@ func (compute *WorkspacesCompute) ValidateUpdate(old runtime.Object) (admission.
 
 // createValidations validates the creation of the resource
 func (compute *WorkspacesCompute) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){compute.validateResourceReferences, compute.validateOwnerReference}
+	return []func() (admission.Warnings, error){compute.validateResourceReferences, compute.validateOwnerReference, compute.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +228,19 @@ func (compute *WorkspacesCompute) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) (admission.Warnings, error) {
 			return compute.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return compute.validateOptionalConfigMapReferences()
+		},
 	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (compute *WorkspacesCompute) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&compute.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -12349,7 +12362,10 @@ type KubernetesProperties struct {
 	ExtensionInstanceReleaseTrain *string `json:"extensionInstanceReleaseTrain,omitempty"`
 
 	// ExtensionPrincipalId: Extension principal-id.
-	ExtensionPrincipalId *string `json:"extensionPrincipalId,omitempty"`
+	ExtensionPrincipalId *string `json:"extensionPrincipalId,omitempty" optionalConfigMapPair:"ExtensionPrincipalId"`
+
+	// ExtensionPrincipalIdFromConfig: Extension principal-id.
+	ExtensionPrincipalIdFromConfig *genruntime.ConfigMapReference `json:"extensionPrincipalIdFromConfig,omitempty" optionalConfigMapPair:"ExtensionPrincipalId"`
 
 	// InstanceTypes: Instance Type Schema
 	InstanceTypes map[string]InstanceTypeSchema `json:"instanceTypes,omitempty"`
@@ -12391,6 +12407,14 @@ func (properties *KubernetesProperties) ConvertToARM(resolved genruntime.Convert
 	// Set property "ExtensionPrincipalId":
 	if properties.ExtensionPrincipalId != nil {
 		extensionPrincipalId := *properties.ExtensionPrincipalId
+		result.ExtensionPrincipalId = &extensionPrincipalId
+	}
+	if properties.ExtensionPrincipalIdFromConfig != nil {
+		extensionPrincipalIdValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.ExtensionPrincipalIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property ExtensionPrincipalId")
+		}
+		extensionPrincipalId := extensionPrincipalIdValue
 		result.ExtensionPrincipalId = &extensionPrincipalId
 	}
 
@@ -12470,6 +12494,8 @@ func (properties *KubernetesProperties) PopulateFromARM(owner genruntime.Arbitra
 		properties.ExtensionPrincipalId = &extensionPrincipalId
 	}
 
+	// no assignment for property "ExtensionPrincipalIdFromConfig"
+
 	// Set property "InstanceTypes":
 	if typedInput.InstanceTypes != nil {
 		properties.InstanceTypes = make(map[string]InstanceTypeSchema, len(typedInput.InstanceTypes))
@@ -12514,6 +12540,14 @@ func (properties *KubernetesProperties) AssignProperties_From_KubernetesProperti
 
 	// ExtensionPrincipalId
 	properties.ExtensionPrincipalId = genruntime.ClonePointerToString(source.ExtensionPrincipalId)
+
+	// ExtensionPrincipalIdFromConfig
+	if source.ExtensionPrincipalIdFromConfig != nil {
+		extensionPrincipalIdFromConfig := source.ExtensionPrincipalIdFromConfig.Copy()
+		properties.ExtensionPrincipalIdFromConfig = &extensionPrincipalIdFromConfig
+	} else {
+		properties.ExtensionPrincipalIdFromConfig = nil
+	}
 
 	// InstanceTypes
 	if source.InstanceTypes != nil {
@@ -12572,6 +12606,14 @@ func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties
 
 	// ExtensionPrincipalId
 	destination.ExtensionPrincipalId = genruntime.ClonePointerToString(properties.ExtensionPrincipalId)
+
+	// ExtensionPrincipalIdFromConfig
+	if properties.ExtensionPrincipalIdFromConfig != nil {
+		extensionPrincipalIdFromConfig := properties.ExtensionPrincipalIdFromConfig.Copy()
+		destination.ExtensionPrincipalIdFromConfig = &extensionPrincipalIdFromConfig
+	} else {
+		destination.ExtensionPrincipalIdFromConfig = nil
+	}
 
 	// InstanceTypes
 	if properties.InstanceTypes != nil {
@@ -19700,13 +19742,17 @@ func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_To_Virt
 
 // A user that can be assigned to a compute instance.
 type AssignedUser struct {
-	// +kubebuilder:validation:Required
 	// ObjectId: User’s AAD Object Id.
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
 
-	// +kubebuilder:validation:Required
+	// ObjectIdFromConfig: User’s AAD Object Id.
+	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
+
 	// TenantId: User’s AAD Tenant Id.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+
+	// TenantIdFromConfig: User’s AAD Tenant Id.
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 var _ genruntime.ARMTransformer = &AssignedUser{}
@@ -19723,10 +19769,26 @@ func (user *AssignedUser) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		objectId := *user.ObjectId
 		result.ObjectId = &objectId
 	}
+	if user.ObjectIdFromConfig != nil {
+		objectIdValue, err := resolved.ResolvedConfigMaps.Lookup(*user.ObjectIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property ObjectId")
+		}
+		objectId := objectIdValue
+		result.ObjectId = &objectId
+	}
 
 	// Set property "TenantId":
 	if user.TenantId != nil {
 		tenantId := *user.TenantId
+		result.TenantId = &tenantId
+	}
+	if user.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*user.TenantIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
 		result.TenantId = &tenantId
 	}
 	return result, nil
@@ -19750,11 +19812,15 @@ func (user *AssignedUser) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		user.ObjectId = &objectId
 	}
 
+	// no assignment for property "ObjectIdFromConfig"
+
 	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		user.TenantId = &tenantId
 	}
+
+	// no assignment for property "TenantIdFromConfig"
 
 	// No error
 	return nil
@@ -19766,8 +19832,24 @@ func (user *AssignedUser) AssignProperties_From_AssignedUser(source *storage.Ass
 	// ObjectId
 	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
 
+	// ObjectIdFromConfig
+	if source.ObjectIdFromConfig != nil {
+		objectIdFromConfig := source.ObjectIdFromConfig.Copy()
+		user.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		user.ObjectIdFromConfig = nil
+	}
+
 	// TenantId
 	user.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		user.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		user.TenantIdFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -19781,8 +19863,24 @@ func (user *AssignedUser) AssignProperties_To_AssignedUser(destination *storage.
 	// ObjectId
 	destination.ObjectId = genruntime.ClonePointerToString(user.ObjectId)
 
+	// ObjectIdFromConfig
+	if user.ObjectIdFromConfig != nil {
+		objectIdFromConfig := user.ObjectIdFromConfig.Copy()
+		destination.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		destination.ObjectIdFromConfig = nil
+	}
+
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(user.TenantId)
+
+	// TenantIdFromConfig
+	if user.TenantIdFromConfig != nil {
+		tenantIdFromConfig := user.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

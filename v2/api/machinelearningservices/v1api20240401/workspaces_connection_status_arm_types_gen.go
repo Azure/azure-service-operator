@@ -974,7 +974,6 @@ type WorkspaceConnectionOAuth2_STATUS_ARM struct {
 }
 
 type WorkspaceConnectionPersonalAccessToken_STATUS_ARM struct {
-	Pat *string `json:"pat,omitempty"`
 }
 
 type WorkspaceConnectionServicePrincipal_STATUS_ARM struct {

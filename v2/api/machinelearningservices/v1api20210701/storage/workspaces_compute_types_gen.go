@@ -6973,6 +6973,13 @@ func (properties *KubernetesProperties) AssignProperties_From_KubernetesProperti
 	// ExtensionPrincipalId
 	properties.ExtensionPrincipalId = genruntime.ClonePointerToString(source.ExtensionPrincipalId)
 
+	// ExtensionPrincipalIdFromConfig
+	if source.ExtensionPrincipalIdFromConfig != nil {
+		propertyBag.Add("ExtensionPrincipalIdFromConfig", *source.ExtensionPrincipalIdFromConfig)
+	} else {
+		propertyBag.Remove("ExtensionPrincipalIdFromConfig")
+	}
+
 	// InstanceTypes
 	if source.InstanceTypes != nil {
 		instanceTypeMap := make(map[string]InstanceTypeSchema, len(source.InstanceTypes))
@@ -7046,6 +7053,19 @@ func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties
 
 	// ExtensionPrincipalId
 	destination.ExtensionPrincipalId = genruntime.ClonePointerToString(properties.ExtensionPrincipalId)
+
+	// ExtensionPrincipalIdFromConfig
+	if propertyBag.Contains("ExtensionPrincipalIdFromConfig") {
+		var extensionPrincipalIdFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("ExtensionPrincipalIdFromConfig", &extensionPrincipalIdFromConfig)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ExtensionPrincipalIdFromConfig' from propertyBag")
+		}
+
+		destination.ExtensionPrincipalIdFromConfig = &extensionPrincipalIdFromConfig
+	} else {
+		destination.ExtensionPrincipalIdFromConfig = nil
+	}
 
 	// InstanceTypes
 	if properties.InstanceTypes != nil {
@@ -10743,8 +10763,22 @@ func (user *AssignedUser) AssignProperties_From_AssignedUser(source *storage.Ass
 	// ObjectId
 	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
 
+	// ObjectIdFromConfig
+	if source.ObjectIdFromConfig != nil {
+		propertyBag.Add("ObjectIdFromConfig", *source.ObjectIdFromConfig)
+	} else {
+		propertyBag.Remove("ObjectIdFromConfig")
+	}
+
 	// TenantId
 	user.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		propertyBag.Add("TenantIdFromConfig", *source.TenantIdFromConfig)
+	} else {
+		propertyBag.Remove("TenantIdFromConfig")
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -10774,8 +10808,34 @@ func (user *AssignedUser) AssignProperties_To_AssignedUser(destination *storage.
 	// ObjectId
 	destination.ObjectId = genruntime.ClonePointerToString(user.ObjectId)
 
+	// ObjectIdFromConfig
+	if propertyBag.Contains("ObjectIdFromConfig") {
+		var objectIdFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("ObjectIdFromConfig", &objectIdFromConfig)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ObjectIdFromConfig' from propertyBag")
+		}
+
+		destination.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		destination.ObjectIdFromConfig = nil
+	}
+
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(user.TenantId)
+
+	// TenantIdFromConfig
+	if propertyBag.Contains("TenantIdFromConfig") {
+		var tenantIdFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("TenantIdFromConfig", &tenantIdFromConfig)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'TenantIdFromConfig' from propertyBag")
+		}
+
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

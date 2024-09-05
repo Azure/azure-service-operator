@@ -914,7 +914,7 @@ type WorkspaceConnectionApiKey_ARM struct {
 }
 
 type WorkspaceConnectionManagedIdentity_ARM struct {
-	ClientId   *string `json:"clientId,omitempty"`
+	ClientId   *string `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 

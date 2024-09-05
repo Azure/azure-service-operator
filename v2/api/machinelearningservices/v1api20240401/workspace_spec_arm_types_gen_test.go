@@ -246,30 +246,16 @@ func RunJSONSerializationTestForEncryptionProperty_ARM(subject EncryptionPropert
 var encryptionProperty_ARMGenerator gopter.Gen
 
 // EncryptionProperty_ARMGenerator returns a generator of EncryptionProperty_ARM instances for property testing.
-// We first initialize encryptionProperty_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func EncryptionProperty_ARMGenerator() gopter.Gen {
 	if encryptionProperty_ARMGenerator != nil {
 		return encryptionProperty_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionProperty_ARM(generators)
-	encryptionProperty_ARMGenerator = gen.Struct(reflect.TypeOf(EncryptionProperty_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEncryptionProperty_ARM(generators)
 	AddRelatedPropertyGeneratorsForEncryptionProperty_ARM(generators)
 	encryptionProperty_ARMGenerator = gen.Struct(reflect.TypeOf(EncryptionProperty_ARM{}), generators)
 
 	return encryptionProperty_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEncryptionProperty_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEncryptionProperty_ARM(gens map[string]gopter.Gen) {
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(EncryptionProperty_Status_ARM_Disabled, EncryptionProperty_Status_ARM_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperty_ARM is a factory method for creating gopter generators

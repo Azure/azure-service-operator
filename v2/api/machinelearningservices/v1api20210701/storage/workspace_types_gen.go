@@ -1656,7 +1656,6 @@ type EncryptionProperty struct {
 	Identity           *IdentityForCmk        `json:"identity,omitempty"`
 	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status             *string                `json:"status,omitempty"`
 }
 
 // AssignProperties_From_EncryptionProperty populates our EncryptionProperty from the provided source EncryptionProperty
@@ -1687,9 +1686,6 @@ func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(sou
 	} else {
 		property.KeyVaultProperties = nil
 	}
-
-	// Status
-	property.Status = genruntime.ClonePointerToString(source.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1739,9 +1735,6 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 	} else {
 		destination.KeyVaultProperties = nil
 	}
-
-	// Status
-	destination.Status = genruntime.ClonePointerToString(property.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3419,6 +3412,13 @@ func (properties *KeyVaultProperties) AssignProperties_From_EncryptionKeyVaultPr
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
 
+	// IdentityClientIdFromConfig
+	if source.IdentityClientIdFromConfig != nil {
+		propertyBag.Add("IdentityClientIdFromConfig", *source.IdentityClientIdFromConfig)
+	} else {
+		propertyBag.Remove("IdentityClientIdFromConfig")
+	}
+
 	// KeyIdentifier
 	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
 
@@ -3469,6 +3469,19 @@ func (properties *KeyVaultProperties) AssignProperties_To_EncryptionKeyVaultProp
 
 	// IdentityClientId
 	destination.IdentityClientId = genruntime.ClonePointerToString(properties.IdentityClientId)
+
+	// IdentityClientIdFromConfig
+	if propertyBag.Contains("IdentityClientIdFromConfig") {
+		var identityClientIdFromConfig genruntime.ConfigMapReference
+		err := propertyBag.Pull("IdentityClientIdFromConfig", &identityClientIdFromConfig)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'IdentityClientIdFromConfig' from propertyBag")
+		}
+
+		destination.IdentityClientIdFromConfig = &identityClientIdFromConfig
+	} else {
+		destination.IdentityClientIdFromConfig = nil
+	}
 
 	// KeyIdentifier
 	destination.KeyIdentifier = genruntime.ClonePointerToString(properties.KeyIdentifier)

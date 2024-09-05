@@ -2806,15 +2806,9 @@ func WorkspaceConnectionPersonalAccessTokenGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionPersonalAccessToken(generators)
 	workspaceConnectionPersonalAccessTokenGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionPersonalAccessToken{}), generators)
 
 	return workspaceConnectionPersonalAccessTokenGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionPersonalAccessToken is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionPersonalAccessToken(gens map[string]gopter.Gen) {
-	gens["Pat"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionPersonalAccessToken_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2867,15 +2861,9 @@ func WorkspaceConnectionPersonalAccessToken_STATUSGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionPersonalAccessToken_STATUS(generators)
 	workspaceConnectionPersonalAccessToken_STATUSGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionPersonalAccessToken_STATUS{}), generators)
 
 	return workspaceConnectionPersonalAccessToken_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionPersonalAccessToken_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionPersonalAccessToken_STATUS(gens map[string]gopter.Gen) {
-	gens["Pat"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionPropertiesV2_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

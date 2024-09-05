@@ -359,6 +359,12 @@ typeTransformers:
     remove: true
     because: These properties should be marked readonly
 
+  - group: machinelearningservices
+    name: EncryptionProperty
+    property: Status
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
   - group: network
     name: RouteTables_Route_Spec
     property: Type
@@ -2556,6 +2562,9 @@ objectModelConfiguration:
       WorkspaceConnectionUsernamePassword:
         Password:
           $isSecret: true
+      WorkspaceConnectionPersonalAccessToken:
+        Pat:
+          $isSecret: true
       WorkspaceProperties:
         HubResourceId:
           $armReference: true
@@ -2572,12 +2581,16 @@ objectModelConfiguration:
       WorkspaceConnectionManagedIdentity:
         ResourceId:
           $armReference: true
+        ClientId:
+          $importConfigMapMode: optional
       ScheduleBase:
         Id:
           $armReference: true
       EncryptionKeyVaultProperties:
         KeyVaultArmId:
           $armReference: true
+        IdentityClientId:
+          $importConfigMapMode: optional
       SharedPrivateLinkResourceProperty:
         PrivateLinkResourceId:
           $armReference: true
@@ -2629,6 +2642,14 @@ objectModelConfiguration:
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
         $supportedFrom: v2.10.0
+      AssignedUser:
+        ObjectId:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      KubernetesProperties:
+        ExtensionPrincipalId:
+          $importConfigMapMode: optional
   monitor:
     2023-04-03:
       Account:

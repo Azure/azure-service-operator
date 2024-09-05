@@ -674,9 +674,10 @@ type WorkspaceConnectionApiKey_STATUS struct {
 
 // Storage version of v1api20240401.WorkspaceConnectionManagedIdentity
 type WorkspaceConnectionManagedIdentity struct {
-	ClientId          *string                       `json:"clientId,omitempty"`
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	ClientId           *string                        `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ResourceReference  *genruntime.ResourceReference  `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceConnectionManagedIdentity_STATUS
@@ -716,13 +717,12 @@ type WorkspaceConnectionOAuth2_STATUS struct {
 
 // Storage version of v1api20240401.WorkspaceConnectionPersonalAccessToken
 type WorkspaceConnectionPersonalAccessToken struct {
-	Pat         *string                `json:"pat,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Pat         *genruntime.SecretReference `json:"pat,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceConnectionPersonalAccessToken_STATUS
 type WorkspaceConnectionPersonalAccessToken_STATUS struct {
-	Pat         *string                `json:"pat,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 

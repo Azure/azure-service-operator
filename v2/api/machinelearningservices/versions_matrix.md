@@ -156,7 +156,6 @@
 | EncryptionKeyVaultProperties_STATUS                                      |               | v1api20240401 |
 | EncryptionProperty                                                       | v1api20210701 | v1api20240401 |
 | EncryptionProperty_STATUS                                                | v1api20210701 | v1api20240401 |
-| EncryptionProperty_Status                                                | v1api20210701 | v1api20240401 |
 | EncryptionProperty_Status_STATUS                                         | v1api20210701 | v1api20240401 |
 | Endpoint                                                                 |               | v1api20240401 |
 | Endpoint_Protocol                                                        |               | v1api20240401 |

@@ -2182,10 +2182,6 @@ type EncryptionProperty struct {
 	// +kubebuilder:validation:Required
 	// KeyVaultProperties: Customer Key vault properties.
 	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Status: Indicates whether or not the encryption is enabled for the workspace.
-	Status *EncryptionProperty_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EncryptionProperty{}
@@ -2215,14 +2211,6 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 		}
 		keyVaultProperties := *keyVaultProperties_ARM.(*KeyVaultProperties_ARM)
 		result.KeyVaultProperties = &keyVaultProperties
-	}
-
-	// Set property "Status":
-	if property.Status != nil {
-		var temp string
-		temp = string(*property.Status)
-		status := EncryptionProperty_Status_ARM(temp)
-		result.Status = &status
 	}
 	return result, nil
 }
@@ -2261,14 +2249,6 @@ func (property *EncryptionProperty) PopulateFromARM(owner genruntime.ArbitraryOw
 		property.KeyVaultProperties = &keyVaultProperties
 	}
 
-	// Set property "Status":
-	if typedInput.Status != nil {
-		var temp string
-		temp = string(*typedInput.Status)
-		status := EncryptionProperty_Status(temp)
-		property.Status = &status
-	}
-
 	// No error
 	return nil
 }
@@ -2298,15 +2278,6 @@ func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(sou
 		property.KeyVaultProperties = &keyVaultProperty
 	} else {
 		property.KeyVaultProperties = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := *source.Status
-		statusTemp := genruntime.ToEnum(status, encryptionProperty_Status_Values)
-		property.Status = &statusTemp
-	} else {
-		property.Status = nil
 	}
 
 	// No error
@@ -2340,14 +2311,6 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
 		destination.KeyVaultProperties = nil
-	}
-
-	// Status
-	if property.Status != nil {
-		status := string(*property.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
 	}
 
 	// Update the property bag
@@ -4258,20 +4221,6 @@ func (settings *CosmosDbSettings_STATUS) AssignProperties_To_CosmosDbSettings_ST
 
 	// No error
 	return nil
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type EncryptionProperty_Status string
-
-const (
-	EncryptionProperty_Status_Disabled = EncryptionProperty_Status("Disabled")
-	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("Enabled")
-)
-
-// Mapping from string to EncryptionProperty_Status
-var encryptionProperty_Status_Values = map[string]EncryptionProperty_Status{
-	"disabled": EncryptionProperty_Status_Disabled,
-	"enabled":  EncryptionProperty_Status_Enabled,
 }
 
 type EncryptionProperty_Status_STATUS string

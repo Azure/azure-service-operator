@@ -12,16 +12,13 @@ Workspace: Resource
 │   ├── ContainerRegistryReference: *genruntime.ResourceReference
 │   ├── Description: *string
 │   ├── DiscoveryUrl: *string
-│   ├── Encryption: *Object (3 properties)
+│   ├── Encryption: *Object (2 properties)
 │   │   ├── Identity: *Object (1 property)
 │   │   │   └── UserAssignedIdentity: *string
-│   │   ├── KeyVaultProperties: *Object (3 properties)
-│   │   │   ├── IdentityClientId: *string
-│   │   │   ├── KeyIdentifier: *string
-│   │   │   └── KeyVaultArmId: *string
-│   │   └── Status: *Enum (2 values)
-│   │       ├── "Disabled"
-│   │       └── "Enabled"
+│   │   └── KeyVaultProperties: *Object (3 properties)
+│   │       ├── IdentityClientId: *string
+│   │       ├── KeyIdentifier: *string
+│   │       └── KeyVaultArmId: *string
 │   ├── FriendlyName: *string
 │   ├── HbiWorkspace: *bool
 │   ├── Identity: *Object (2 properties)
@@ -294,16 +291,13 @@ Workspace_Spec_ARM: Object (7 properties)
 │   ├── ContainerRegistry: *string
 │   ├── Description: *string
 │   ├── DiscoveryUrl: *string
-│   ├── Encryption: *Object (3 properties)
+│   ├── Encryption: *Object (2 properties)
 │   │   ├── Identity: *Object (1 property)
 │   │   │   └── UserAssignedIdentity: *string
-│   │   ├── KeyVaultProperties: *Object (3 properties)
-│   │   │   ├── IdentityClientId: *string
-│   │   │   ├── KeyIdentifier: *string
-│   │   │   └── KeyVaultArmId: *string
-│   │   └── Status: *Enum (2 values)
-│   │       ├── "Disabled"
-│   │       └── "Enabled"
+│   │   └── KeyVaultProperties: *Object (3 properties)
+│   │       ├── IdentityClientId: *string
+│   │       ├── KeyIdentifier: *string
+│   │       └── KeyVaultArmId: *string
 │   ├── FriendlyName: *string
 │   ├── HbiWorkspace: *bool
 │   ├── ImageBuildCompute: *string

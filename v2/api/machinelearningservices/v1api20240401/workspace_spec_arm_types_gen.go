@@ -134,9 +134,6 @@ type EncryptionProperty_ARM struct {
 
 	// KeyVaultProperties: Customer Key vault properties.
 	KeyVaultProperties *EncryptionKeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
-
-	// Status: Indicates whether or not the encryption is enabled for the workspace.
-	Status *EncryptionProperty_Status_ARM `json:"status,omitempty"`
 }
 
 // Settings for feature store type workspace.
@@ -253,25 +250,11 @@ type CosmosDbSettings_ARM struct {
 
 type EncryptionKeyVaultProperties_ARM struct {
 	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
-	IdentityClientId *string `json:"identityClientId,omitempty"`
+	IdentityClientId *string `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
 
 	// KeyIdentifier: Key vault uri to access the encryption key.
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type EncryptionProperty_Status_ARM string
-
-const (
-	EncryptionProperty_Status_ARM_Disabled = EncryptionProperty_Status_ARM("Disabled")
-	EncryptionProperty_Status_ARM_Enabled  = EncryptionProperty_Status_ARM("Enabled")
-)
-
-// Mapping from string to EncryptionProperty_Status_ARM
-var encryptionProperty_Status_ARM_Values = map[string]EncryptionProperty_Status_ARM{
-	"disabled": EncryptionProperty_Status_ARM_Disabled,
-	"enabled":  EncryptionProperty_Status_ARM_Enabled,
 }
 
 // Identity that will be used to access key vault for encryption at rest

@@ -565,7 +565,7 @@ type KubernetesProperties_ARM struct {
 	ExtensionInstanceReleaseTrain *string `json:"extensionInstanceReleaseTrain,omitempty"`
 
 	// ExtensionPrincipalId: Extension principal-id.
-	ExtensionPrincipalId *string `json:"extensionPrincipalId,omitempty"`
+	ExtensionPrincipalId *string `json:"extensionPrincipalId,omitempty" optionalConfigMapPair:"ExtensionPrincipalId"`
 
 	// InstanceTypes: Instance Type Schema
 	InstanceTypes map[string]InstanceTypeSchema_ARM `json:"instanceTypes,omitempty"`
@@ -915,10 +915,10 @@ type VirtualMachineSshCredentials_ARM struct {
 // A user that can be assigned to a compute instance.
 type AssignedUser_ARM struct {
 	// ObjectId: User’s AAD Object Id.
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
 
 	// TenantId: User’s AAD Tenant Id.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}

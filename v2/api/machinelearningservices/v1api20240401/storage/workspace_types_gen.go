@@ -294,7 +294,6 @@ type EncryptionProperty struct {
 	Identity           *IdentityForCmk               `json:"identity,omitempty"`
 	KeyVaultProperties *EncryptionKeyVaultProperties `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Status             *string                       `json:"status,omitempty"`
 }
 
 // Storage version of v1api20240401.EncryptionProperty_STATUS
@@ -511,8 +510,9 @@ type CosmosDbSettings_STATUS struct {
 
 // Storage version of v1api20240401.EncryptionKeyVaultProperties
 type EncryptionKeyVaultProperties struct {
-	IdentityClientId *string `json:"identityClientId,omitempty"`
-	KeyIdentifier    *string `json:"keyIdentifier,omitempty"`
+	IdentityClientId           *string                        `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
+	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
+	KeyIdentifier              *string                        `json:"keyIdentifier,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// KeyVaultArmReference: The ArmId of the keyVault where the customer owned encryption key is present.

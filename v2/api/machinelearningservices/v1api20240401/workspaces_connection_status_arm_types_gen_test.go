@@ -2758,15 +2758,9 @@ func WorkspaceConnectionPersonalAccessToken_STATUS_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionPersonalAccessToken_STATUS_ARM(generators)
 	workspaceConnectionPersonalAccessToken_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionPersonalAccessToken_STATUS_ARM{}), generators)
 
 	return workspaceConnectionPersonalAccessToken_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionPersonalAccessToken_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionPersonalAccessToken_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Pat"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionPropertiesV2_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
