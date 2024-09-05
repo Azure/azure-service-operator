@@ -837,6 +837,7 @@
     </li>
     <li><a href="#network">Network</a>
       <ul>
+        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#released-26">Released</a></li>
       </ul>
     </li>
@@ -2685,6 +2686,28 @@ grouped by the originating ARM service.
 </table>
 <h2 id="network">Network</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>network.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WebApplicationFirewallPolicy</td>
+<td>2024-01-01</td>
+<td>v1api20240101</td>
+<td>v2.10.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20240101_webapplicationfirewallpolicy.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h3 id="released-26">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
