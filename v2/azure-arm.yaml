@@ -2921,7 +2921,58 @@ objectModelConfiguration:
       KeyVaultProperties:
         UserIdentity:
           $referenceType: arm
-
+      Clusters_Database:
+        $export: true
+        $supportedFrom: v2.10.0
+      ReadOnlyFollowingDatabase:
+        $resourceEmbeddedInParent: Clusters_Database
+      ReadOnlyFollowingDatabase_STATUS:
+        $resourceEmbeddedInParent: Clusters_Database
+      ReadWriteDatabase:
+        $resourceEmbeddedInParent: Clusters_Database
+      ReadWriteDatabase_STATUS:
+        $resourceEmbeddedInParent: Clusters_Database
+#      Clusters_Databases_DataConnection:
+#        $exportAs: DataConnection
+#        $supportedFrom: v2.10.0
+#      CosmosDbDataConnection:
+#        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+#      CosmosDbDataConnection_STATUS:
+#        $resourceEmbeddedInParent: Clusters_Databases_DataConnection_STATUS
+#      CosmosDbDataConnectionProperties:
+#        ManagedIdentityResourceId:
+#          $referenceType: arm
+#        CosmosDbAccountResourceId:
+#          $referenceType: arm
+#      IotHubDataConnection:
+#        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+#      IotHubDataConnection_STATUS:
+#        $resourceEmbeddedInParent: Clusters_Databases_DataConnection_STATUS
+#      IotHubConnectionProperties:
+#        IotHubResourceId:
+#          $referenceType: arm
+#      EventGridDataConnection:
+#        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+#      EventGridDataConnection_STATUS:
+#        $resourceEmbeddedInParent: Clusters_Databases_DataConnection_STATUS
+#      EventGridConnectionProperties:
+#        EventGridResourceId:
+#          $referenceType: arm
+#        ManagedIdentityResourceId:
+#          $referenceType: arm
+#        EventHubResourceId:
+#          $referenceType: arm
+#        StorageAccountResourceId:
+#          $referenceType: arm
+#      EventHubDataConnection:
+#        $resourceEmbeddedInParent: Clusters_Databases_DataConnection
+#      EventHubDataConnection_STATUS:
+#        $resourceEmbeddedInParent: Clusters_Databases_DataConnection_STATUS
+#      EventHubConnectionProperties:
+#        EventHubResourceId:
+#          $referenceType: arm
+#        ManagedIdentityResourceId:
+#          $referenceType: arm
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:
