@@ -30,7 +30,7 @@
 <meta itemprop="name" content="asoctl">
 <meta itemprop="description" content="Azure Service Operator Controller">
 
-<meta itemprop="wordCount" content="1465">
+<meta itemprop="wordCount" content="1523">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="asoctl"/>
 <meta name="twitter:description" content="Azure Service Operator Controller"/>
@@ -710,7 +710,11 @@
         <nav id="TableOfContents">
   <ul>
     <li><a href="#installation">Installation</a></li>
-    <li><a href="#export-template">Export template</a></li>
+    <li><a href="#export-template">Export template</a>
+      <ul>
+        <li><a href="#--crd-pattern">&ndash;crd-pattern</a></li>
+      </ul>
+    </li>
     <li><a href="#clean-crds">Clean CRDs</a>
       <ul>
         <li><a href="#steps-for-migration-using-asoctl-clean-crds">Steps for migration using <code>asoctl clean crds</code>:</a></li>
@@ -910,7 +914,10 @@ Flags:
 Global Flags:
       --quiet     Silence most logging
       --verbose   Enable verbose logging
-</code></pre></div><h2 id="clean-crds">Clean CRDs</h2>
+</code></pre></div><h3 id="--crd-pattern">&ndash;crd-pattern</h3>
+<p>From v2.10, <code>asoctl</code> does proactive checking of the <code>--crd-pattern</code> parameter to see how many CRDs are selected.</p>
+<p>A warning is displayed if a pattern does not match any CRDs. This is nonfatal - the export of the template will proceed - as it&rsquo;s possible the pattern will match a CRD included in a newer version of ASO.</p>
+<h2 id="clean-crds">Clean CRDs</h2>
 <p>This command can be used to prepare ASOv2 <code>v1alpha1api</code>(deprecated in v2.0.0) CustomResources and CustomResourceDefinitions for ASO <code>v2.0.0</code> release.
 It ensures that any ASOv2 <code>v1alpha1api</code> deprecated version resources that may have been stored in etcd get migrated to <code>v1beta</code> version before upgrading ASO to <code>v2.0.0</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl clean crds --help
