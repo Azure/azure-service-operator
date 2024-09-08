@@ -6,14 +6,22 @@
 package cmd
 
 import (
+	"fmt"
+	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"os"
+	"reflect"
 	"regexp"
 	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
+	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/template"
+	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 )
 
 type templateOptions struct {
@@ -24,14 +32,14 @@ type templateOptions struct {
 	crdPattern []string
 }
 
-var expectedVersionRegex = regexp.MustCompile(`^v\d\.\d\.\d$`)
+var expectedVersionRegex = regexp.MustCompile(`^v\d\.\d+\.\d+$`)
 
 // newTemplateCommand creates a new cobra Command when invoked from the command line
 func newTemplateCommand() *cobra.Command {
 	var options templateOptions
 
 	cmd := &cobra.Command{
-		Use:   "template [--source <string> |--version <string>] [--crd-pattern <string>|--raw]",
+		Use:   "template [--source <string> | --version <string>] [--crd-pattern <string> | --raw]",
 		Short: "Template creates a YAML file from the specified ASO yaml template",
 		Example: `asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*" --crd-pattern "containerservice.azure.com/*"
 
@@ -64,13 +72,20 @@ asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;con
 				uri = template.URIFromVersion(options.version)
 			}
 
+			log := CreateLogger()
+			log.V(Status).Info("Export ASO Template", "version", options.version)
+			log.V(Status).Info("Downloading template", "uri", uri)
+
 			result, err := template.Get(ctx, uri)
 			if err != nil {
 				return err
 			}
 
 			if !options.raw {
-				// Render the CRDPattern w/ `;` separating them
+				// Check to see if the CRD patterns are valid
+				validateCRDPatternsForTemplate(options.crdPattern, log)
+
+				// Render the CRDPattern w/ `;` separating them and inject into the template
 				crdPattern := strings.Join(options.crdPattern, ";")
 				result, err = template.Apply(result, crdPattern)
 				if err != nil {
@@ -121,4 +136,46 @@ asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;con
 	cmd.MarkFlagsMutuallyExclusive("crd-pattern", "raw")
 
 	return cmd
+}
+
+func validateCRDPatternsForTemplate(
+	crdPatterns []string,
+	log logr.Logger,
+) {
+	scheme := api.CreateScheme()
+	knownCRDs := scheme.AllKnownTypes()
+	warnings := 0
+	for _, p := range crdPatterns {
+		// We split patterns by `;` so we can check them individually and provide more fine-grained feedback
+		for _, pattern := range strings.Split(p, ";") {
+			count := countCRDsMatchingPattern(knownCRDs, pattern)
+			if count == 0 {
+				log.V(Status).Info("No CRDs matched pattern", "pattern", pattern)
+				warnings++
+			} else {
+				log.V(Info).Info("Pattern matched CRDs", "pattern", pattern, "count", count)
+			}
+		}
+	}
+
+	if warnings > 0 {
+		log.V(Status).Info("Possibly ineffective CRD patterns detected")
+		log.V(Status).Info("Please check the CRDs supported by the installed version of ASO")
+	}
+}
+
+func countCRDsMatchingPattern(
+	knownCRDs map[schema.GroupVersionKind]reflect.Type,
+	pattern string,
+) int {
+	result := 0
+	matcher := match.NewStringMatcher(pattern)
+	for gvk := range knownCRDs {
+		key := fmt.Sprintf("%s/%s", gvk.Group, gvk.Kind)
+		if matcher.Matches(key).Matched {
+			result++
+		}
+	}
+
+	return result
 }
