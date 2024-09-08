@@ -574,27 +574,32 @@ func safeResourceName(name string) string {
 	buffer := make([]rune, 0, len(name))
 
 	for _, r := range name {
-		if unicode.IsLetter(r) || unicode.IsNumber(r) {
+
+		mapped, isMapped := safeResourceNameMappings[r]
+
+		switch {
+		case unicode.IsLetter(r):
+			// Transform letters to lowercase
 			buffer = append(buffer, unicode.ToLower(r))
-			continue
-		}
 
-		// Discard leading special characters so that the result always starts with a letter or number
-		if len(buffer) == 0 {
-			continue
-		}
+		case unicode.IsNumber(r):
+			// Keep numbers as they are
+			buffer = append(buffer, r)
 
-		if c, ok := safeResourceNameMappings[r]; ok {
-			buffer = append(buffer, c)
-			continue
-		}
+		case len(buffer) == 0:
+			// Discard leading special characters so that the result always starts with a letter or number
 
-		if unicode.IsSpace(r) {
+		case isMapped:
+			// Convert special characters
+			buffer = append(buffer, mapped)
+
+		case unicode.IsSpace(r):
+			// Convert all kinds of spaces to hyphens
 			buffer = append(buffer, '-')
-			continue
-		}
 
-		// Otherwise skip
+		default:
+			// Skip other characters
+		}
 	}
 
 	result := string(buffer)
