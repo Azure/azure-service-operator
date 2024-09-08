@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package importing
+package importresources
 
 import (
 	"context"
@@ -15,6 +15,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
@@ -24,10 +25,9 @@ type ResourceImporter struct {
 	scheme    *runtime.Scheme                 // a reference to the scheme used by asoctl
 	client    *genericarmclient.GenericClient // Client to use when talking to ARM
 	resources []ImportableResource            // A slice of resources to be imported
-
-	imported map[string]ImportableResource // A set of importers that have been successfully imported
-	log      logr.Logger                   // Logger to use for logging
-	progress Progress                      // Progress bar to use for showing progress
+	imported  map[string]ImportableResource   // A set of importers that have been successfully imported
+	log       logr.Logger                     // Logger to use for logging
+	reporter  importreporter.Interface        // Reporter to use for reporter updates
 }
 
 type ImportResourceResult struct {
@@ -41,14 +41,14 @@ func NewResourceImporter(
 	scheme *runtime.Scheme,
 	client *genericarmclient.GenericClient,
 	log logr.Logger,
-	progress Progress,
+	reporter importreporter.Interface,
 ) *ResourceImporter {
 	return &ResourceImporter{
 		scheme:   scheme,
 		client:   client,
 		imported: make(map[string]ImportableResource),
 		log:      log,
-		progress: progress,
+		reporter: reporter,
 	}
 }
 
@@ -73,7 +73,7 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 func (ri *ResourceImporter) Import(
 	ctx context.Context,
 	done chan struct{},
-) (*ResourceImportResult, error) {
+) (*Result, error) {
 	workers := 4
 	candidates := make(chan ImportableResource)  // candidates that need to be deduped
 	pending := make(chan ImportableResource)     // importers that are pending import
@@ -81,20 +81,20 @@ func (ri *ResourceImporter) Import(
 	report := make(chan *resourceImportReport)   // summary report of the import
 
 	// Dedupe candidates so we import each distinct resource only once
-	go ri.queueUniqueImporters(candidates, pending, ri.progress)
+	go ri.queueUniqueImporters(candidates, pending, ri.reporter)
 
 	// Create workers to run the import
 	for i := 0; i < workers; i++ {
-		go ri.importWorker(ctx, pending, completed, ri.progress)
+		go ri.importWorker(ctx, pending, completed, ri.reporter)
 	}
 
 	// Collate the results
-	go ri.collateResults(completed, candidates, ri.progress, report)
+	go ri.collateResults(completed, candidates, ri.reporter, report)
 
 	// Set up by adding our initial resources; these will be completed when we collate their results
 	for _, rsrc := range ri.resources {
 		candidates <- rsrc
-		ri.progress.AddPending(1)
+		ri.reporter.AddPending(1)
 	}
 
 	// Wait while everything runs
@@ -122,7 +122,7 @@ func (ri *ResourceImporter) Import(
 		resources = append(resources, importer.Resource())
 	}
 
-	return &ResourceImportResult{
+	return &Result{
 		resources: resources,
 	}, nil
 }
@@ -134,7 +134,7 @@ func (ri *ResourceImporter) Import(
 func (ri *ResourceImporter) queueUniqueImporters(
 	candidates <-chan ImportableResource,
 	pending chan<- ImportableResource,
-	progress Progress,
+	progress importreporter.Interface,
 ) {
 	seen := set.Make[string]()
 	var queue []ImportableResource
@@ -182,7 +182,7 @@ func (ri *ResourceImporter) importWorker(
 	ctx context.Context,
 	pending <-chan ImportableResource,
 	completed chan<- ImportResourceResult,
-	progress Progress,
+	progress importreporter.Interface,
 ) {
 	for rsrc := range pending {
 		if ctx.Err() != nil {
@@ -201,7 +201,7 @@ func (ri *ResourceImporter) importWorker(
 func (ri *ResourceImporter) collateResults(
 	completed <-chan ImportResourceResult, // completed imports for us to collate
 	candidates chan<- ImportableResource, // additional candidates for importing
-	progress Progress, // progress tracking
+	progress importreporter.Interface, // importreporter tracking
 	publish chan<- *resourceImportReport, // publishing our final summary
 ) {
 	report := newResourceImportReport()
@@ -216,7 +216,7 @@ func (ri *ResourceImporter) collateResults(
 		}
 
 		if importResult.err != nil {
-			var skipped *ImportSkippedError
+			var skipped *SkippedError
 			if errors.As(importResult.err, &skipped) {
 				ri.log.V(1).Info(
 					"Skipped",
@@ -253,13 +253,13 @@ func (ri *ResourceImporter) collateResults(
 func (ri *ResourceImporter) ImportResource(
 	ctx context.Context,
 	rsrc ImportableResource,
-	parent Progress,
+	parent importreporter.Interface,
 ) ImportResourceResult {
 	// Import it
 	gk := rsrc.GroupKind()
 	name := fmt.Sprintf("%s %s", gk, rsrc.Name())
 
-	// Create our progress indicator
+	// Create our importreporter indicator
 	progress := parent.Create(name)
 
 	// Prepare our result for when we're done

@@ -3,11 +3,12 @@
  * Licensed under the MIT license.
  */
 
-package importing
+package importresources
 
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"net/http"
 	"reflect"
 	"strings"
@@ -112,7 +113,7 @@ func (i *importableARMResource) Import(
 
 	if because, skipped := result.Skipped(); skipped {
 		gk := importable.GetObjectKind().GroupVersionKind().GroupKind()
-		return NewImportSkippedError(gk, i.armID.Name, because, i)
+		return NewSkippedError(gk, i.armID.Name, because, i)
 	}
 
 	i.resource = importable
@@ -126,7 +127,7 @@ func (i *importableARMResource) Import(
 // Partial success is allowed, but the caller should be notified of any errors.
 func (i *importableARMResource) FindChildren(
 	ctx context.Context,
-	progress Progress,
+	progress importreporter.Interface,
 ) ([]ImportableResource, error) {
 	if i.resource == nil {
 		// Nothing to do

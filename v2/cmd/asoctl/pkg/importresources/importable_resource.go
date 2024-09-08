@@ -3,10 +3,11 @@
  * Licensed under the MIT license.
  */
 
-package importing
+package importresources
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -37,7 +38,7 @@ type ImportableResource interface {
 
 	// Import does the actual import, updating the Spec on the wrapped resource.
 	// ctx allows for cancellation of the import.
-	// progress is a channel that can be used to report progress back to the caller.
+	// log allows information about progress to be reported
 	Import(
 		ctx context.Context,
 		log logr.Logger,
@@ -49,7 +50,7 @@ type ImportableResource interface {
 	// Partial success is allowed, but the caller should be notified of any errors.
 	FindChildren(
 		ctx context.Context,
-		progress Progress,
+		reporter importreporter.Interface,
 	) ([]ImportableResource, error)
 }
 

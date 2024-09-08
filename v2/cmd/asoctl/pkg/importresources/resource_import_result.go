@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package importing
+package importresources
 
 import (
 	"bufio"
@@ -22,26 +22,26 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// ResourceImportResult represents the result of an import operation
-type ResourceImportResult struct {
+// Result represents the result of an import operation
+type Result struct {
 	resources []genruntime.MetaObject
 }
 
 // Count returns the number of successfully imported resources.
-func (r *ResourceImportResult) Count() int {
+func (r *Result) Count() int {
 	return len(r.resources)
 }
 
-func (r *ResourceImportResult) SaveToWriter(destination io.Writer) error {
+func (r *Result) SaveToWriter(destination io.Writer) error {
 	return r.writeTo(r.resources, destination)
 }
 
-func (r *ResourceImportResult) SaveToSingleFile(filepath string) error {
+func (r *Result) SaveToSingleFile(filepath string) error {
 	return r.saveTo(r.resources, filepath)
 }
 
 // AddAnnotations adds the given annotations to all the resources
-func (r *ResourceImportResult) AddAnnotations(toAdd []string) error {
+func (r *Result) AddAnnotations(toAdd []string) error {
 	// pre-parse the annotations
 	parsed, err := annotations.ParseAll(toAdd)
 	if err != nil {
@@ -63,7 +63,7 @@ func (r *ResourceImportResult) AddAnnotations(toAdd []string) error {
 }
 
 // AddLabels adds the given labels to all the resources
-func (r *ResourceImportResult) AddLabels(toAdd []string) error {
+func (r *Result) AddLabels(toAdd []string) error {
 	// pre-parse the labels
 	parsed, err := labels.ParseAll(toAdd)
 	if err != nil {
@@ -85,13 +85,13 @@ func (r *ResourceImportResult) AddLabels(toAdd []string) error {
 }
 
 // SetNamespace sets the namespace for all the resources
-func (r *ResourceImportResult) SetNamespace(namespace string) {
+func (r *Result) SetNamespace(namespace string) {
 	for _, resource := range r.resources {
 		resource.SetNamespace(namespace)
 	}
 }
 
-func (r *ResourceImportResult) SaveToIndividualFilesInFolder(folder string) error {
+func (r *Result) SaveToIndividualFilesInFolder(folder string) error {
 	// We name the files after the resource type and name
 	// We allocate resources to files using a map, just in case we have a naming collision
 	// (If that happens, all the similarly named resources will be in the same file, which is not ideal,
@@ -115,7 +115,7 @@ func (r *ResourceImportResult) SaveToIndividualFilesInFolder(folder string) erro
 	return nil
 }
 
-func (r *ResourceImportResult) saveTo(resources []genruntime.MetaObject, path string) error {
+func (r *Result) saveTo(resources []genruntime.MetaObject, path string) error {
 	file, err := os.Create(path)
 	if err != nil {
 		return errors.Wrapf(err, "unable to create file %s", path)
@@ -142,7 +142,7 @@ func (r *ResourceImportResult) saveTo(resources []genruntime.MetaObject, path st
 	return errors.Wrapf(err, "unable to save to file %s", path)
 }
 
-func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destination io.Writer) error {
+func (*Result) writeTo(resources []genruntime.MetaObject, destination io.Writer) error {
 	buf := bufio.NewWriter(destination)
 	defer func(buf *bufio.Writer) {
 		_ = buf.Flush()
