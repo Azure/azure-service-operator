@@ -168,3 +168,51 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 		})
 	}
 }
+
+func Test_safeResourceName_GivenName_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		name     string
+		expected string
+	}{
+		"simple": {
+			name:     "simple",
+			expected: "simple",
+		},
+		"with spaces": {
+			name:     "with spaces",
+			expected: "with-spaces",
+		},
+		"with special characters": {
+			name:     "with!@#$%^&*()_+special characters",
+			expected: "with-special-characters",
+		},
+		"with underscores": {
+			name:     "with_underscores",
+			expected: "with-underscores",
+		},
+		"with multiple spaces": {
+			name:     "with    multiple    spaces",
+			expected: "with-multiple-spaces",
+		},
+		"with linux style paths": {
+			name:     "/path/to/resource",
+			expected: "path-to-resource",
+		},
+		"with windows style paths": {
+			name:     "\\path\\to\\resource",
+			expected: "path-to-resource",
+		},
+	}
+
+	for name, c := range cases {
+		c := c
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
+			g := NewGomegaWithT(t)
+			g.Expect(safeResourceName(c.name)).To(Equal(c.expected))
+		})
+	}
+}

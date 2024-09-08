@@ -10,8 +10,10 @@ import (
 	"fmt"
 	"net/http"
 	"reflect"
+	"regexp"
 	"strings"
 	"sync"
+	"unicode"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
@@ -505,7 +507,9 @@ func (i *importableARMResource) SetName(
 		n = fmt.Sprintf("%s-%s", owner.Name, name)
 	}
 
-	importable.SetName(n)
+	// Sanitise the name so it's a valid Kubernetes name
+	safeName := safeResourceName(n)
+	importable.SetName(safeName)
 
 	// AzureName needs to be exactly as specified in the ARM URL.
 	// Use reflection to set it as we don't have convenient access.
@@ -554,6 +558,53 @@ func (i *importableARMResource) SetOwner(
 		ownerField.Set(reflect.ValueOf(&krr))
 		return
 	}
+}
+
+var safeResourceNameMappings = map[rune]rune{
+	'_':  '-', // underscores are replaced with hyphens
+	'/':  '-', // slashes are replaced with hyphens
+	'\\': '-', // backslashes are replaced with hyphens
+	'%':  '-', // percent signs are replaced with hyphens
+}
+
+var safeResourceNameRegex = regexp.MustCompile("-+")
+
+// safeResourceName ensures the name is a valid Kubernetes name
+func safeResourceName(name string) string {
+	buffer := make([]rune, 0, len(name))
+
+	for _, r := range name {
+
+		mapped, isMapped := safeResourceNameMappings[r]
+
+		switch {
+		case unicode.IsLetter(r):
+			// Transform letters to lowercase
+			buffer = append(buffer, unicode.ToLower(r))
+
+		case unicode.IsNumber(r):
+			// Keep numbers as they are
+			buffer = append(buffer, r)
+
+		case len(buffer) == 0:
+			// Discard leading special characters so that the result always starts with a letter or number
+
+		case isMapped:
+			// Convert special characters
+			buffer = append(buffer, mapped)
+
+		case unicode.IsSpace(r):
+			// Convert all kinds of spaces to hyphens
+			buffer = append(buffer, '-')
+
+		default:
+			// Skip other characters
+		}
+	}
+
+	result := string(buffer)
+	result = safeResourceNameRegex.ReplaceAllString(result, "-")
+	return result
 }
 
 type childReference struct {
