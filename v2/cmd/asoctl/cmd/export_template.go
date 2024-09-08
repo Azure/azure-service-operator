@@ -32,7 +32,7 @@ type templateOptions struct {
 	crdPattern []string
 }
 
-var expectedVersionRegex = regexp.MustCompile(`^v\d\.\d?\d\.\d$`)
+var expectedVersionRegex = regexp.MustCompile(`^v\d\.\d+\.\d+$`)
 
 // newTemplateCommand creates a new cobra Command when invoked from the command line
 func newTemplateCommand() *cobra.Command {
