@@ -3,27 +3,26 @@
  * Licensed under the MIT license.
  */
 
-package progress
+package importreporter
 
 import (
-	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importing"
 	"github.com/go-logr/logr"
 )
 
-type logProgress struct {
-	updates chan progressDelta // Channel for receiving updates (avoids concurrent access to progress)
-	log     logr.Logger        // Logger for updating progress
+type logReporter struct {
+	updates chan progressDelta // Channel for receiving updates (avoids concurrent access to importreporter)
+	log     logr.Logger        // Logger for updating importreporter
 	done    chan struct{}      // Channel for knowing when we're done
 }
 
-var _ importing.Progress = &logProgress{}
+var _ Interface = &logReporter{}
 
-// NewLog creates a new progress reporter using a log to report progress.
+// NewLog creates a new import reporter using a log to report progress.
 func NewLog(
 	name string,
 	log logr.Logger,
 	done chan struct{},
-) importing.Progress {
+) Interface {
 	return newLogProgress(name, log, done, nil)
 }
 
@@ -31,15 +30,15 @@ func newLogProgress(
 	name string,
 	log logr.Logger,
 	done chan struct{},
-	parent importing.Progress,
-) *logProgress {
-	result := &logProgress{
+	parent Interface,
+) *logReporter {
+	result := &logReporter{
 		updates: make(chan progressDelta),
 		log:     log,
 		done:    done,
 	}
 
-	// Monitor for progress updates
+	// Monitor for importreporter updates
 	go func() {
 		var completed int64
 		var total int64
@@ -49,7 +48,7 @@ func newLogProgress(
 
 			// If we're done, finish up
 			if parent == nil && total > 0 && completed >= total {
-				// We're the root progress log, so we also need to handle the done channel
+				// We're the root importreporter log, so we also need to handle the done channel
 				close(done)
 				break
 			}
@@ -75,20 +74,20 @@ func newLogProgress(
 	return result
 }
 
-func (lp *logProgress) AddPending(pending int) {
+func (lp *logReporter) AddPending(pending int) {
 	lp.updates <- progressDelta{
 		complete: 0,
 		pending:  pending,
 	}
 }
 
-func (lp *logProgress) Completed(completed int) {
+func (lp *logReporter) Completed(completed int) {
 	lp.updates <- progressDelta{
 		complete: completed,
 		pending:  0,
 	}
 }
 
-func (lp *logProgress) Create(name string) importing.Progress {
+func (lp *logReporter) Create(name string) Interface {
 	return newLogProgress(name, lp.log, lp.done, lp)
 }

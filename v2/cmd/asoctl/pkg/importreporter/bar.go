@@ -3,28 +3,27 @@
  * Licensed under the MIT license.
  */
 
-package progress
+package importreporter
 
 import (
-	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importing"
 	"github.com/vbauerster/mpb/v8"
 	"github.com/vbauerster/mpb/v8/decor"
 )
 
-type barProgress struct {
+type barReporter struct {
 	progress *mpb.Progress      // MultiProgressBar for displaying progress
 	updates  chan progressDelta // Channel for receiving updates (avoids concurrent access to progress)
 	done     chan struct{}      // Channel for knowing when we're done
 }
 
-var _ importing.Progress = &barProgress{}
+var _ Interface = &barReporter{}
 
-// NewProgressBar creates a new progress reporter using an on-screen progress bar on the console.
-func NewProgressBar(
+// NewBar creates a new import reporter that displays an on-screen progress bar on the console.
+func NewBar(
 	name string,
 	progress *mpb.Progress,
 	done chan struct{},
-) importing.Progress {
+) Interface {
 	return newBarProgress(name, progress, done, nil)
 }
 
@@ -32,8 +31,8 @@ func newBarProgress(
 	name string,
 	progress *mpb.Progress,
 	done chan struct{},
-	parent importing.Progress,
-) *barProgress {
+	parent Interface,
+) *barReporter {
 	bar := progress.AddBar(
 		0, // zero total because we don't know how much work will be needed
 		mpb.PrependDecorators(
@@ -41,13 +40,13 @@ func newBarProgress(
 		mpb.AppendDecorators(
 			decor.CountersNoUnit("%d/%d", decor.WCSyncSpaceR)))
 
-	result := &barProgress{
+	result := &barReporter{
 		updates:  make(chan progressDelta),
 		progress: progress,
 		done:     done,
 	}
 
-	// Monitor for progress updates
+	// Monitor for importreporter updates
 	go func() {
 		var completed int64
 		var total int64
@@ -83,7 +82,7 @@ func newBarProgress(
 		bar.SetTotal(total, true)
 
 		if parent == nil {
-			// We're the root progress bar, so we need to handle the done channel once all the work is complete
+			// We're the root importreporter bar, so we need to handle the done channel once all the work is complete
 			close(done)
 		}
 	}()
@@ -91,21 +90,21 @@ func newBarProgress(
 	return result
 }
 
-func (bp *barProgress) AddPending(pending int) {
+func (bp *barReporter) AddPending(pending int) {
 	bp.updates <- progressDelta{
 		complete: 0,
 		pending:  pending,
 	}
 }
 
-func (bp *barProgress) Completed(completed int) {
+func (bp *barReporter) Completed(completed int) {
 	bp.updates <- progressDelta{
 		complete: completed,
 		pending:  0,
 	}
 }
 
-func (bp *barProgress) Create(name string) importing.Progress {
+func (bp *barReporter) Create(name string) Interface {
 	return newBarProgress(name, bp.progress, bp.done, bp)
 }
 

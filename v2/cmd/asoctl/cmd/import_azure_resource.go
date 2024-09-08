@@ -18,8 +18,8 @@ import (
 	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
 
 	"github.com/Azure/azure-service-operator/v2/api"
-	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importing"
-	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/progress"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importresources"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
@@ -129,9 +129,9 @@ func importAzureResource(
 	}
 
 	done := make(chan struct{}) // signal that we're done
-	pb := progress.NewProgressBar("Import Azure Resources", progressBar, done)
+	pb := importreporter.NewBar("Import Azure Resources", progressBar, done)
 
-	importer := importing.NewResourceImporter(api.CreateScheme(), client, log, pb)
+	importer := importresources.NewResourceImporter(api.CreateScheme(), client, log, pb)
 	for _, armID := range armIDs {
 		err = importer.AddARMID(armID)
 		if err != nil {
