@@ -35,8 +35,8 @@ type ImportResourceResult struct {
 	err      error
 }
 
-// NewResourceImporter creates a new factory with the scheme baked in
-func NewResourceImporter(
+// New creates a new factory with the scheme baked in
+func New(
 	scheme *runtime.Scheme,
 	client *genericarmclient.GenericClient,
 	log logr.Logger,
