@@ -192,7 +192,7 @@ func (ri *ResourceImporter) importWorker(
 
 		// We have a resource to import
 		ri.log.V(1).Info("Importing", "resource", rsrc.ID())
-		result := ri.ImportResource(ctx, rsrc, progress)
+		result := ri.importResource(ctx, rsrc, progress)
 		completed <- result
 	}
 }
@@ -249,7 +249,7 @@ func (ri *ResourceImporter) collateResults(
 	publish <- report
 }
 
-func (ri *ResourceImporter) ImportResource(
+func (ri *ResourceImporter) importResource(
 	ctx context.Context,
 	rsrc ImportableResource,
 	parent importreporter.Interface,
