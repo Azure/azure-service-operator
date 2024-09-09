@@ -76,12 +76,16 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 
 	k8sConfig := ctrl.GetConfigOrDie()
 	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
-		Scheme:                 scheme,
-		NewCache:               cacheFunc,
-		LeaderElection:         flgs.EnableLeaderElection,
-		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
-		HealthProbeBindAddress: flgs.HealthAddr,
-		Metrics:                getMetricsOpts(flgs),
+		Scheme:           scheme,
+		NewCache:         cacheFunc,
+		LeaderElection:   flgs.EnableLeaderElection,
+		LeaderElectionID: "controllers-leader-election-azinfra-generated",
+		// It's only safe to set LeaderElectionReleaseOnCancel to true if the manager binary ends
+		// when the manager exits. This is the case with us today, so we set this to true whenever
+		// flgs.EnableLeaderElection is true.
+		LeaderElectionReleaseOnCancel: flgs.EnableLeaderElection,
+		HealthProbeBindAddress:        flgs.HealthAddr,
+		Metrics:                       getMetricsOpts(flgs),
 		WebhookServer: webhook.NewServer(webhook.Options{
 			Port:    flgs.WebhookPort,
 			CertDir: flgs.WebhookCertDir,
