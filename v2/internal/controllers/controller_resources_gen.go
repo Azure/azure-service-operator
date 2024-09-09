@@ -160,6 +160,8 @@ import (
 	network_v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	network_v20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	network_v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
+	network_v20240101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101"
+	network_v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	operationalinsights_customizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
 	operationalinsights_v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	operationalinsights_v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
@@ -905,6 +907,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateLinkService)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PublicIPPrefix)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.StorageType{
@@ -1782,6 +1785,8 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup),
 		new(network_v20220701s.PrivateLinkService),
 		new(network_v20220701s.PublicIPPrefix))
+	result = append(result, new(network_v20240101.WebApplicationFirewallPolicy))
+	result = append(result, new(network_v20240101s.WebApplicationFirewallPolicy))
 	result = append(result, new(networkfrontdoor_v20220501.WebApplicationFirewallPolicy))
 	result = append(result, new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
@@ -2105,6 +2110,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20220401s.AddToScheme(scheme)
 	_ = network_v20220701.AddToScheme(scheme)
 	_ = network_v20220701s.AddToScheme(scheme)
+	_ = network_v20240101.AddToScheme(scheme)
+	_ = network_v20240101s.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
@@ -2296,6 +2303,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.VirtualNetworkGatewayExtension{})
 	result = append(result, &network_customizations.VirtualNetworksSubnetExtension{})
 	result = append(result, &network_customizations.VirtualNetworksVirtualNetworkPeeringExtension{})
+	result = append(result, &network_customizations.WebApplicationFirewallPolicyExtension{})
 	result = append(result, &networkfrontdoor_customizations.WebApplicationFirewallPolicyExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
 	result = append(result, &redhatopenshift_customizations.OpenShiftClusterExtension{})
