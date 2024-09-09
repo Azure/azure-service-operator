@@ -47,10 +47,10 @@ func newResourceImportReport() *resourceImportReport {
 }
 
 // AddSuccessfulImport adds a successful import to the report
-func (r *resourceImportReport) AddSuccessfulImport(importer ImportableResource) {
+func (r *resourceImportReport) AddSuccessfulImport(imported ImportedResource) {
 	key := resourceImportReportKey{
-		group:  importer.GroupKind().Group,
-		kind:   importer.GroupKind().Kind,
+		group:  imported.GroupKind().Group,
+		kind:   imported.GroupKind().Kind,
 		status: Imported,
 	}
 
@@ -58,10 +58,10 @@ func (r *resourceImportReport) AddSuccessfulImport(importer ImportableResource) 
 }
 
 // AddSkippedImport adds a skipped import to the report
-func (r *resourceImportReport) AddSkippedImport(importer ImportableResource, reason string) {
+func (r *resourceImportReport) AddSkippedImport(imported ImportedResource, reason string) {
 	key := resourceImportReportKey{
-		group:  importer.GroupKind().Group,
-		kind:   importer.GroupKind().Kind,
+		group:  imported.GroupKind().Group,
+		kind:   imported.GroupKind().Kind,
 		status: Skipped,
 		reason: reason,
 	}
@@ -70,10 +70,10 @@ func (r *resourceImportReport) AddSkippedImport(importer ImportableResource, rea
 }
 
 // AddFailedImport adds a failed import to the report
-func (r *resourceImportReport) AddFailedImport(importer ImportableResource, reason string) {
+func (r *resourceImportReport) AddFailedImport(imported ImportedResource, reason string) {
 	key := resourceImportReportKey{
-		group:  importer.GroupKind().Group,
-		kind:   importer.GroupKind().Kind,
+		group:  imported.GroupKind().Group,
+		kind:   imported.GroupKind().Kind,
 		status: Failed,
 		reason: reason,
 	}

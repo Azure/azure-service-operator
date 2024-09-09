@@ -32,17 +32,13 @@ type ImportableResource interface {
 	// to make it globally unique.
 	ID() string
 
-	// Resource returns the actual resource that has been imported.
-	// Only available after the import is complete (nil otherwise).
-	Resource() genruntime.MetaObject
-
 	// Import does the actual import, updating the Spec on the wrapped resource.
 	// ctx allows for cancellation of the import.
 	// log allows information about progress to be reported
 	Import(
 		ctx context.Context,
 		log logr.Logger,
-	) error
+	) (ImportedResource, error)
 
 	// FindChildren returns any child resources that need to be imported.
 	// ctx allows for cancellation of the import.

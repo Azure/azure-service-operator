@@ -19,25 +19,24 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/annotations"
 	"github.com/Azure/azure-service-operator/v2/internal/labels"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // Result represents the result of an import operation
 type Result struct {
-	resources []genruntime.MetaObject
+	imported []ImportedResource
 }
 
 // Count returns the number of successfully imported resources.
 func (r *Result) Count() int {
-	return len(r.resources)
+	return len(r.imported)
 }
 
 func (r *Result) SaveToWriter(destination io.Writer) error {
-	return r.writeTo(r.resources, destination)
+	return r.writeTo(r.imported, destination)
 }
 
 func (r *Result) SaveToSingleFile(filepath string) error {
-	return r.saveTo(r.resources, filepath)
+	return r.saveTo(r.imported, filepath)
 }
 
 // AddAnnotations adds the given annotations to all the resources
@@ -48,15 +47,16 @@ func (r *Result) AddAnnotations(toAdd []string) error {
 		return err
 	}
 
-	for _, resource := range r.resources {
-		anntns := resource.GetAnnotations()
-		if anntns == nil {
-			anntns = make(map[string]string, len(toAdd))
+	for _, imported := range r.imported {
+		resource := imported.Resource()
+		resourceAnnotations := resource.GetAnnotations()
+		if resourceAnnotations == nil {
+			resourceAnnotations = make(map[string]string, len(toAdd))
 		}
 		for _, annotation := range parsed {
-			anntns[annotation.Key] = annotation.Value
+			resourceAnnotations[annotation.Key] = annotation.Value
 		}
-		resource.SetAnnotations(anntns)
+		resource.SetAnnotations(resourceAnnotations)
 	}
 
 	return nil
@@ -70,15 +70,16 @@ func (r *Result) AddLabels(toAdd []string) error {
 		return err
 	}
 
-	for _, resource := range r.resources {
-		lbls := resource.GetLabels()
-		if lbls == nil {
-			lbls = make(map[string]string, len(toAdd))
+	for _, imported := range r.imported {
+		resource := imported.Resource()
+		resourceLabels := resource.GetLabels()
+		if resourceLabels == nil {
+			resourceLabels = make(map[string]string, len(toAdd))
 		}
 		for _, label := range parsed {
-			lbls[label.Key] = label.Value
+			resourceLabels[label.Key] = label.Value
 		}
-		resource.SetLabels(lbls)
+		resource.SetLabels(resourceLabels)
 	}
 
 	return nil
@@ -86,7 +87,8 @@ func (r *Result) AddLabels(toAdd []string) error {
 
 // SetNamespace sets the namespace for all the resources
 func (r *Result) SetNamespace(namespace string) {
-	for _, resource := range r.resources {
+	for _, imported := range r.imported {
+		resource := imported.Resource()
 		resource.SetNamespace(namespace)
 	}
 }
@@ -96,12 +98,13 @@ func (r *Result) SaveToIndividualFilesInFolder(folder string) error {
 	// We allocate resources to files using a map, just in case we have a naming collision
 	// (If that happens, all the similarly named resources will be in the same file, which is not ideal,
 	// but better than dropping one or more)
-	fileMap := make(map[string][]genruntime.MetaObject, len(r.resources))
-	for _, resource := range r.resources {
+	fileMap := make(map[string][]ImportedResource, len(r.imported))
+	for _, imported := range r.imported {
+		resource := imported.Resource()
 		resourceName := resource.GetName()
 		typeName := resource.GetObjectKind().GroupVersionKind().Kind
 		fileName := fmt.Sprintf("%s-%s.yaml", typeName, resourceName)
-		fileMap[fileName] = append(fileMap[fileName], resource)
+		fileMap[fileName] = append(fileMap[fileName], imported)
 	}
 
 	for fileName, resources := range fileMap {
@@ -115,7 +118,7 @@ func (r *Result) SaveToIndividualFilesInFolder(folder string) error {
 	return nil
 }
 
-func (r *Result) saveTo(resources []genruntime.MetaObject, path string) error {
+func (r *Result) saveTo(resources []ImportedResource, path string) error {
 	file, err := os.Create(path)
 	if err != nil {
 		return errors.Wrapf(err, "unable to create file %s", path)
@@ -142,7 +145,7 @@ func (r *Result) saveTo(resources []genruntime.MetaObject, path string) error {
 	return errors.Wrapf(err, "unable to save to file %s", path)
 }
 
-func (*Result) writeTo(resources []genruntime.MetaObject, destination io.Writer) error {
+func (*Result) writeTo(resources []ImportedResource, destination io.Writer) error {
 	buf := bufio.NewWriter(destination)
 	defer func(buf *bufio.Writer) {
 		_ = buf.Flush()
@@ -156,9 +159,9 @@ func (*Result) writeTo(resources []genruntime.MetaObject, destination io.Writer)
 	// Sort objects into a deterministic order
 	slices.SortFunc(
 		resources,
-		func(left genruntime.MetaObject, right genruntime.MetaObject) int {
-			leftGVK := left.GetObjectKind().GroupVersionKind()
-			rightGVK := right.GetObjectKind().GroupVersionKind()
+		func(left ImportedResource, right ImportedResource) int {
+			leftGVK := left.Resource().GetObjectKind().GroupVersionKind()
+			rightGVK := right.Resource().GetObjectKind().GroupVersionKind()
 
 			if leftGVK.Group < rightGVK.Group {
 				return -1
@@ -178,17 +181,11 @@ func (*Result) writeTo(resources []genruntime.MetaObject, destination io.Writer)
 				return 1
 			}
 
-			if left.GetName() < right.GetName() {
-				return -1
-			} else if left.GetName() > right.GetName() {
-				return 1
-			}
-
-			return 0
+			return strings.Compare(left.Name(), right.Name())
 		})
 
 	for _, resource := range resources {
-		data, err := yaml.Marshal(resource)
+		data, err := yaml.Marshal(resource.Resource())
 		if err != nil {
 			return errors.Wrap(err, "unable to save to writer")
 		}

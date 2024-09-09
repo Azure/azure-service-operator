@@ -10,7 +10,6 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -25,13 +24,13 @@ type ResourceImporter struct {
 	scheme    *runtime.Scheme                 // a reference to the scheme used by asoctl
 	client    *genericarmclient.GenericClient // Client to use when talking to ARM
 	resources []ImportableResource            // A slice of resources to be imported
-	imported  map[string]ImportableResource   // A set of importers that have been successfully imported
+	imported  map[string]ImportedResource     // A set of importers that have been successfully imported
 	log       logr.Logger                     // Logger to use for logging
 	reporter  importreporter.Interface        // Reporter to use for reporter updates
 }
 
 type ImportResourceResult struct {
-	resource ImportableResource
+	resource ImportedResource
 	pending  []ImportableResource
 	err      error
 }
@@ -46,7 +45,7 @@ func NewResourceImporter(
 	return &ResourceImporter{
 		scheme:   scheme,
 		client:   client,
-		imported: make(map[string]ImportableResource),
+		imported: make(map[string]ImportedResource),
 		log:      log,
 		reporter: reporter,
 	}
@@ -117,13 +116,13 @@ func (ri *ResourceImporter) Import(
 
 	// Now we've imported everything, return the resources
 	// We do this even if there's an error so that we can return partial results
-	resources := make([]genruntime.MetaObject, 0, len(ri.imported))
-	for _, importer := range ri.imported {
-		resources = append(resources, importer.Resource())
+	resources := make([]ImportedResource, 0, len(ri.imported))
+	for _, imported := range ri.imported {
+		resources = append(resources, imported)
 	}
 
 	return &Result{
-		resources: resources,
+		imported: resources,
 	}, nil
 }
 
@@ -262,16 +261,15 @@ func (ri *ResourceImporter) ImportResource(
 	// Create our importreporter indicator
 	progress := parent.Create(name)
 
-	// Prepare our result for when we're done
-	result := ImportResourceResult{
-		resource: rsrc,
-	}
-
 	// Our main resource is pending
 	progress.AddPending(1)
 
 	// Import the resource itself
-	result.err = rsrc.Import(ctx, ri.log)
+	imported, err := rsrc.Import(ctx, ri.log)
+	result := ImportResourceResult{
+		resource: imported,
+		err:      err,
+	}
 
 	// If the main resource was imported ok, look for any children
 	if result.err == nil {
