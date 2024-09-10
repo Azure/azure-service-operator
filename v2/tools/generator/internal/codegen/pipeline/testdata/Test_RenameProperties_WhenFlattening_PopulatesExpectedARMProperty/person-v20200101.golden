@@ -91,9 +91,9 @@
  
  var _ genruntime.ARMResourceSpec = &Person_Spec_ARM{}
  
- // GetAPIVersion returns the ARM API version of the resource. This is always 2020-06-01
+ // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
  func (person Person_Spec_ARM) GetAPIVersion() string {
- 	return string(APIVersion_apiVersion)
+ 	return "2020-06-01"
  }
  
  // GetName returns the Name of the resource
@@ -131,19 +131,19 @@
  	FullAddress string `json:"fullAddress,omitempty"`
  }
  
- // +kubebuilder:validation:Enum={2020-06-01}
+ // +kubebuilder:validation:Enum={"2020-06-01"}
  type APIVersion string
  
- const APIVersion_apiVersion = APIVersion(2020-06-01)
+ const APIVersion_apiVersion = APIVersion("2020-06-01")
  
- // +kubebuilder:validation:Enum={2020-06-01}
+ // +kubebuilder:validation:Enum={"2020-06-01"}
  type APIVersion_ARM string
  
- const APIVersion_ARM_apiVersion = APIVersion_ARM(2020-06-01)
+ const APIVersion_ARM_apiVersion = APIVersion_ARM("2020-06-01")
  
  // Mapping from string to APIVersion_ARM
  var aPIVersion_ARM_Values = map[string]APIVersion_ARM{
- 	2020-06-01: APIVersion_ARM_apiVersion,
+ 	"2020-06-01": APIVersion_ARM_apiVersion,
  }
  
  type Person_Spec struct {
