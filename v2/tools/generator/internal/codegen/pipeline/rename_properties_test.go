@@ -58,7 +58,7 @@ func Test_RenameProperties_PopulatesExpectedARMProperty(t *testing.T) {
 
 	// Arrange API Version
 
-	apiVersionValue := astmodel.MakeEnumValue("apiVersion", "\"2020-06-01\"")
+	apiVersionValue := astmodel.MakeEnumValue("apiVersion", `"2020-06-01"`)
 	apiVersion := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "APIVersion"),
 		astmodel.NewEnumType(astmodel.StringType, apiVersionValue))
@@ -137,7 +137,7 @@ func Test_RenameProperties_WhenFlattening_PopulatesExpectedARMProperty(t *testin
 
 	// Arrange API Version
 
-	apiVersionValue := astmodel.MakeEnumValue("apiVersion", "\"2020-06-01\"")
+	apiVersionValue := astmodel.MakeEnumValue("apiVersion", `"2020-06-01"`)
 	apiVersion := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "APIVersion"),
 		astmodel.NewEnumType(astmodel.StringType, apiVersionValue))
