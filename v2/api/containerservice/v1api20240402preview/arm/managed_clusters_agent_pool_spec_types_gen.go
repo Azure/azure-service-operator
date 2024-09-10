@@ -15,7 +15,7 @@ type ManagedClusters_AgentPool_Spec struct {
 var _ genruntime.ARMResourceSpec = &ManagedClusters_AgentPool_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-04-02-preview"
-func (pool ManagedClusters_AgentPool_Spec) GetAPIVersion() string {
+func (pool ManagedClusters_AgentPool_Spec_ARM) GetAPIVersion() string {
 	return "2024-04-02-preview"
 }
 
