@@ -53,7 +53,7 @@ func (record *PrivateDnsZonesTXTRecord) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (record PrivateDnsZonesTXTRecord) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-06-01"
 }
 
 // GetResourceScope returns the scope of the resource

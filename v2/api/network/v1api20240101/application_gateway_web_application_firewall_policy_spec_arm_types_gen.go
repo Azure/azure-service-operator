@@ -21,7 +21,7 @@ var _ genruntime.ARMResourceSpec = &ApplicationGatewayWebApplicationFirewallPoli
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-01-01"
 func (policy ApplicationGatewayWebApplicationFirewallPolicy_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2024-01-01"
 }
 
 // GetName returns the Name of the resource

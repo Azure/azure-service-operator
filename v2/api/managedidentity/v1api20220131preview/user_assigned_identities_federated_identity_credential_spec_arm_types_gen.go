@@ -16,7 +16,7 @@ var _ genruntime.ARMResourceSpec = &UserAssignedIdentities_FederatedIdentityCred
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-01-31-preview"
 func (credential UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2022-01-31-preview"
 }
 
 // GetName returns the Name of the resource

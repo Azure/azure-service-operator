@@ -21,7 +21,7 @@ var _ genruntime.ARMResourceSpec = &Vault_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01-preview"
 func (vault Vault_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2021-04-01-preview"
 }
 
 // GetName returns the Name of the resource

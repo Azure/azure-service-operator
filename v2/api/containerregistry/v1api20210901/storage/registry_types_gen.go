@@ -53,7 +53,7 @@ func (registry *Registry) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registry Registry) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2021-09-01"
 }
 
 // GetResourceScope returns the scope of the resource

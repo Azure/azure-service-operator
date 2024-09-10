@@ -19,7 +19,7 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_ThroughputSett
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-11-15"
 func (setting DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-11-15"
 }
 
 // GetName returns the Name of the resource

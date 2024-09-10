@@ -16,7 +16,7 @@ var _ genruntime.ARMResourceSpec = &ManagedClusters_TrustedAccessRoleBinding_Spe
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-04-02-preview"
 func (binding ManagedClusters_TrustedAccessRoleBinding_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2024-04-02-preview"
 }
 
 // GetName returns the Name of the resource

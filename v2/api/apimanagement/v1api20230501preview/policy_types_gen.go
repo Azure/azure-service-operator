@@ -106,7 +106,7 @@ func (policy *Policy) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-05-01-preview"
 func (policy Policy) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-05-01-preview"
 }
 
 // GetResourceScope returns the scope of the resource

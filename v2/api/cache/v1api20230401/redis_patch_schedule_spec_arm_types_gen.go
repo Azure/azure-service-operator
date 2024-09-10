@@ -16,7 +16,7 @@ var _ genruntime.ARMResourceSpec = &Redis_PatchSchedule_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-04-01"
 func (schedule Redis_PatchSchedule_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-04-01"
 }
 
 // GetName returns the Name of the resource
