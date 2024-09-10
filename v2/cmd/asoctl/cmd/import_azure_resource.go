@@ -15,9 +15,11 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/Azure/azure-service-operator/v2/api"
-	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/importing"
 	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
+
+	"github.com/Azure/azure-service-operator/v2/api"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importresources"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
@@ -101,8 +103,15 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 }
 
 // importAzureResource imports an ARM resource and writes the YAML to stdout or a file
-func importAzureResource(ctx context.Context, armIDs []string, options *importAzureResourceOptions) error {
-	log, progress := CreateLoggerAndProgressBar()
+func importAzureResource(
+	ctx context.Context,
+	armIDs []string,
+	options *importAzureResourceOptions,
+) error {
+	log, progressBar := CreateLoggerAndProgressBar()
+
+	// Make sure all output is written when we're done
+	defer progressBar.Wait()
 
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
@@ -119,7 +128,10 @@ func importAzureResource(ctx context.Context, armIDs []string, options *importAz
 		return errors.Wrapf(err, "failed to create ARM client")
 	}
 
-	importer := importing.NewResourceImporter(api.CreateScheme(), client, log, progress)
+	done := make(chan struct{}) // signal that we're done
+	pb := importreporter.NewBar("Import Azure Resources", progressBar, done)
+
+	importer := importresources.New(api.CreateScheme(), client, log, pb)
 	for _, armID := range armIDs {
 		err = importer.AddARMID(armID)
 		if err != nil {
@@ -127,7 +139,7 @@ func importAzureResource(ctx context.Context, armIDs []string, options *importAz
 		}
 	}
 
-	result, err := importer.Import(ctx)
+	result, err := importer.Import(ctx, done)
 
 	if ctx.Err() != nil {
 		return ctx.Err()
@@ -183,14 +195,11 @@ func importAzureResource(ctx context.Context, armIDs []string, options *importAz
 			return errors.Wrapf(err, "failed to write into folder %s", folder)
 		}
 	} else {
-		err := result.SaveToWriter(progress)
+		err := result.SaveToWriter(progressBar)
 		if err != nil {
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	}
-
-	// No error, wait for progress bar to finish & flush
-	progress.Wait()
 
 	return nil
 }

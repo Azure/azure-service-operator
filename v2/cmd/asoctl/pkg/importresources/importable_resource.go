@@ -3,10 +3,11 @@
  * Licensed under the MIT license.
  */
 
-package importing
+package importresources
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -20,28 +21,24 @@ import (
 // Different implementations of this interface will be used for different types of resources.
 type ImportableResource interface {
 	// GroupKind returns the GroupKind of the resource being imported.
-	// (may be empty if the GK can't be determined)
+	// (empty if the GK can't be determined)
 	GroupKind() schema.GroupKind
 
-	// Name is a human readable identifier for this resource
+	// Name is a human-readable identifier for this resource
 	Name() string
 
-	// Id is a unique identifier for this resource.
-	// The Id of a resource unique within the import operation; the easiest way to achive this is
+	// ID is a unique identifier for this resource.
+	// The ID of a resource must unique within the import operation; the easiest way to achieve this is
 	// to make it globally unique.
-	Id() string
-
-	// Resource returns the actual resource that has been imported.
-	// Only available after the import is complete (nil otherwise).
-	Resource() genruntime.MetaObject
+	ID() string
 
 	// Import does the actual import, updating the Spec on the wrapped resource.
 	// ctx allows for cancellation of the import.
-	// progress is a channel that can be used to report progress back to the caller.
+	// log allows information about progress to be reported
 	Import(
 		ctx context.Context,
 		log logr.Logger,
-	) error
+	) (ImportedResource, error)
 
 	// FindChildren returns any child resources that need to be imported.
 	// ctx allows for cancellation of the import.
@@ -49,7 +46,7 @@ type ImportableResource interface {
 	// Partial success is allowed, but the caller should be notified of any errors.
 	FindChildren(
 		ctx context.Context,
-		progress chan<- progressDelta,
+		reporter importreporter.Interface,
 	) ([]ImportableResource, error)
 }
 
