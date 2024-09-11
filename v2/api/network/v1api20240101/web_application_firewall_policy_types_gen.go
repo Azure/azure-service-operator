@@ -110,7 +110,7 @@ func (policy *WebApplicationFirewallPolicy) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-01-01"
 func (policy WebApplicationFirewallPolicy) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2024-01-01"
 }
 
 // GetResourceScope returns the scope of the resource

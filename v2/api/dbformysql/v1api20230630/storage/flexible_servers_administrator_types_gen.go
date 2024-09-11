@@ -53,7 +53,7 @@ func (administrator *FlexibleServersAdministrator) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-06-30"
 func (administrator FlexibleServersAdministrator) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-06-30"
 }
 
 // GetResourceScope returns the scope of the resource

@@ -17,7 +17,7 @@ var _ genruntime.ARMResourceSpec = &Servers_Ipv6FirewallRule_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (rule Servers_Ipv6FirewallRule_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource

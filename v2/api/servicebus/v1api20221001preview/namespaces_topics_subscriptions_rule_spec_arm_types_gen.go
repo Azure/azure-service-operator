@@ -16,7 +16,7 @@ var _ genruntime.ARMResourceSpec = &Namespaces_Topics_Subscriptions_Rule_Spec_AR
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-10-01-preview"
 func (rule Namespaces_Topics_Subscriptions_Rule_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2022-10-01-preview"
 }
 
 // GetName returns the Name of the resource

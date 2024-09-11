@@ -28,7 +28,7 @@ var _ genruntime.ARMResourceSpec = &Snapshot_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (snapshot Snapshot_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-09-30"
 }
 
 // GetName returns the Name of the resource

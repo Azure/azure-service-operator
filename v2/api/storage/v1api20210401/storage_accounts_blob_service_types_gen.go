@@ -106,7 +106,7 @@ func (service *StorageAccountsBlobService) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (service StorageAccountsBlobService) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2021-04-01"
 }
 
 // GetResourceScope returns the scope of the resource

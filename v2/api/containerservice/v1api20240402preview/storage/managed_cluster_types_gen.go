@@ -111,7 +111,7 @@ func (cluster *ManagedCluster) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-04-02-preview"
 func (cluster ManagedCluster) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2024-04-02-preview"
 }
 
 // GetResourceScope returns the scope of the resource

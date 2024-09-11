@@ -21,7 +21,7 @@ var _ genruntime.ARMResourceSpec = &Fleet_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-03-15-preview"
 func (fleet Fleet_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-03-15-preview"
 }
 
 // GetName returns the Name of the resource

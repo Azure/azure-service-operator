@@ -95,7 +95,7 @@ func (resource *AResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (resource AResource) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -272,7 +272,7 @@ var _ genruntime.ARMResourceSpec = &AResource_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (resource AResource_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource

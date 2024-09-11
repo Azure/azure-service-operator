@@ -93,7 +93,7 @@ func (a *A) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (a A) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -270,7 +270,7 @@ var _ genruntime.ARMResourceSpec = &A_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (a A_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource
@@ -359,7 +359,7 @@ func (b *B) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (b B) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -536,7 +536,7 @@ var _ genruntime.ARMResourceSpec = &B_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (b B_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource
@@ -625,7 +625,7 @@ func (c *C) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (c C) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -802,7 +802,7 @@ var _ genruntime.ARMResourceSpec = &C_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (c C_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource
@@ -891,7 +891,7 @@ func (d *D) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (d D) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -1068,7 +1068,7 @@ var _ genruntime.ARMResourceSpec = &D_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (d D_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource

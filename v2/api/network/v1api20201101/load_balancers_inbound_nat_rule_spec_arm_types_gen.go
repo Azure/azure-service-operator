@@ -18,7 +18,7 @@ var _ genruntime.ARMResourceSpec = &LoadBalancers_InboundNatRule_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (rule LoadBalancers_InboundNatRule_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource

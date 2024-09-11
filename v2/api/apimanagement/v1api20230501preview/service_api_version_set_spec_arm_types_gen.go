@@ -16,7 +16,7 @@ var _ genruntime.ARMResourceSpec = &Service_ApiVersionSet_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-05-01-preview"
 func (versionSet Service_ApiVersionSet_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-05-01-preview"
 }
 
 // GetName returns the Name of the resource

@@ -99,7 +99,7 @@ var (
 		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/cub")))
 	APIVersionTypeEnumDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "APIVersion"),
-		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("apiVersion", "2020-06-01")))
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("apiVersion", `"2020-06-01"`)))
 
 	LionPropertiesDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionProperties"),
