@@ -17,6 +17,7 @@ title: Creating a new release
 8. Ensure that the action associated with your release finishes successfully.
 9. [Update our documentation](#update-resource-documentation) to move resources listed under "Next Release" to the heading "Released".
 10. [Update the ROADMAP](#update-roadmap) to reflect the new release.
+11. [Update Breaking Changes](#update-breaking-changes) if there are any.
 
 ## Catalog breaking changes
 
@@ -152,6 +153,10 @@ Modify the `ROADMAP.md` file in the repo root.
 
 Then commit the changes and send a PR.
 
+## Update Breaking Changes
+
+If you earlier [catalogued breaking changes](/#catalog-breaking-changes), or if there are any PRs for this release with the tag [**breaking**](https://github.com/Azure/azure-service-operator/pulls?q=is%3Apr+label%3Abreaking+is%3Aclosed), create a new page under our [breaking changes]( {{< relref "breaking-changes" >}} ) page with details of the breaking changes and how to mitigate them.
+  
 ## Fixing an incorrect release
 
 If there was an issue publishing a new release, we may want to delete the existing release and try again. 
