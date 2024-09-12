@@ -135,7 +135,10 @@ func importAzureResource(
 	done := make(chan struct{}) // signal that we're done
 	pb := importreporter.NewBar("Import Azure Resources", progressBar, done)
 
-	importer := importresources.New(api.CreateScheme(), client, log, pb)
+	importerOptions := importresources.ResourceImporterOptions{
+	}
+
+	importer := importresources.New(api.CreateScheme(), client, log, pb, importerOptions)
 	for _, armID := range armIDs {
 		err = importer.AddARMID(armID)
 		if err != nil {

@@ -27,6 +27,13 @@ type ResourceImporter struct {
 	imported  map[string]ImportedResource     // A set of importers that have been successfully imported
 	log       logr.Logger                     // Logger to use for logging
 	reporter  importreporter.Interface        // Reporter to use for reporter updates
+	options   ResourceImporterOptions         // Options for the importer
+}
+
+// ResourceImporterOptions are optional configuration items for the importer
+type ResourceImporterOptions struct {
+	// Workers is the number of concurrent imports to run at the same time. If not specified, a default of 4 is used.
+	Workers int
 }
 
 type ImportResourceResult struct {
@@ -41,6 +48,7 @@ func New(
 	client *genericarmclient.GenericClient,
 	log logr.Logger,
 	reporter importreporter.Interface,
+	options ResourceImporterOptions,
 ) *ResourceImporter {
 	return &ResourceImporter{
 		scheme:   scheme,
@@ -48,6 +56,7 @@ func New(
 		imported: make(map[string]ImportedResource),
 		log:      log,
 		reporter: reporter,
+		options:  options,
 	}
 }
 
