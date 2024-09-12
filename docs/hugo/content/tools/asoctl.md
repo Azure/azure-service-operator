@@ -252,7 +252,8 @@ Flags:
   -n, --namespace string       Write the imported resources to the specified namespace
   -o, --output string          Write ARM resource CRDs to a single file
   -f, --output-folder string   Write ARM resource CRDs to individual files in a folder
-
+  -w, --workers int            Specify the number of parallel workers to use when importing resources (default 4)
+  
 Global Flags:
       --quiet     Silence most logging
       --verbose   Enable verbose logging
