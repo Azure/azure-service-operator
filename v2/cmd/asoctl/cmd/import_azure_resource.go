@@ -66,13 +66,15 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		},
 	}
 
-	options.outputPath = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&options.outputPath,
 		"output",
 		"o",
 		"",
 		"Write ARM resource CRDs to a single file")
 
-	options.outputFolder = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&options.outputFolder,
 		"output-folder",
 		"f",
 		"",
@@ -86,12 +88,14 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		"n",
 		"",
 		"Write the imported resources to the specified namespace")
+
 	cmd.Flags().StringSliceVarP(
 		&options.labels,
 		"label",
 		"l",
 		nil,
 		"Add the specified labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
+
 	cmd.Flags().StringSliceVarP(
 		&options.annotations,
 		"annotation",
@@ -205,8 +209,8 @@ func importAzureResource(
 }
 
 type importAzureResourceOptions struct {
-	outputPath   *string
-	outputFolder *string
+	outputPath   string
+	outputFolder string
 	namespace    string
 	annotations  []string
 	labels       []string
@@ -218,16 +222,16 @@ type importAzureResourceOptions struct {
 }
 
 func (option *importAzureResourceOptions) writeToFile() (string, bool) {
-	if option.outputPath != nil && *option.outputPath != "" {
-		return *option.outputPath, true
+	if option.outputPath != "" {
+		return option.outputPath, true
 	}
 
 	return "", false
 }
 
 func (option *importAzureResourceOptions) writeToFolder() (string, bool) {
-	if option.outputFolder != nil && *option.outputFolder != "" {
-		return *option.outputFolder, true
+	if option.outputFolder != "" {
+		return option.outputFolder, true
 	}
 
 	return "", false
