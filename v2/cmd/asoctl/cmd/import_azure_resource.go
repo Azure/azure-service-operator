@@ -103,6 +103,13 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		nil,
 		"Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
 
+	cmd.Flags().IntVarP(
+		&options.workers,
+		"workers",
+		"w",
+		4,
+		"Specify the number of parallel workers to use when importing resources")
+
 	return cmd
 }
 
@@ -136,6 +143,7 @@ func importAzureResource(
 	pb := importreporter.NewBar("Import Azure Resources", progressBar, done)
 
 	importerOptions := importresources.ResourceImporterOptions{
+		Workers: options.workers,
 	}
 
 	importer := importresources.New(api.CreateScheme(), client, log, pb, importerOptions)
@@ -217,6 +225,7 @@ type importAzureResourceOptions struct {
 	namespace    string
 	annotations  []string
 	labels       []string
+	workers      int
 
 	readCloud               sync.Once
 	azureAuthorityHost      string
