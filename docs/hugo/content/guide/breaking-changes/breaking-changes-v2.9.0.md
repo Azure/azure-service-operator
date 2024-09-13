@@ -6,7 +6,7 @@ weight: -25  # This should be 5 lower than the previous breaking change document
 
 # DelegatedManagedIdentityResourceId is now a secret
 
-The RoleAssignment property `.spec.DelegatedManagedIdentityResourceId` has been changed from a string to a SecretReference and renamed to `.spec.DelegatedManagedIdentityResourceReference`.
+The RoleAssignment property `.spec.delegatedManagedIdentityResourceId` has been changed from a string to a SecretReference and renamed to `.spec.delegatedManagedIdentityResourceReference`.
 
 We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security 
 problem and as such we've decided to make a break to correct this issue.
