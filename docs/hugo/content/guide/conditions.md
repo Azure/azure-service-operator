@@ -12,7 +12,7 @@ aso-sample-rg   False     Info       Reconciling     The resource is in the proc
 ```
 
 If the condition's `status` is `True` (visible in the `READY` column via `kubectl get`) the resource is in
-the goal state. No more reconciliations will be performed until a change is detected.
+the goal state. Another reconciliation will be performed after [AZURE_SYNC_PERIOD]( {{< relref "aso-controller-settings-options" }}/#azure_sync_period) or when a change is made to the cluster resource.
 
 ## Severity
 
