@@ -371,7 +371,8 @@ func (*importableARMResource) classifyError(err error) (string, bool) {
 
 		if responseError.StatusCode == http.StatusBadRequest {
 			if strings.Contains(responseError.Error(), "RequestUrlInvalid") ||
-				strings.Contains(responseError.Error(), "ValidationFailed") {
+				strings.Contains(responseError.Error(), "ValidationFailed") ||
+				strings.Contains(responseError.Error(), "NoRegisteredProviderFound") {
 				// We constructed an invalid URL
 				// (Seems that some extension resources aren't permitted on some resource types)
 				// An empty error is special cased as a silent skip, so we don't alarm casual users
