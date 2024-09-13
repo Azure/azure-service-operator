@@ -240,6 +240,8 @@ jobs:
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          KIND_OIDC_STORAGE_ACCOUNT_RG: ${{ secrets.KIND_OIDC_STORAGE_ACCOUNT_RG }}
+          KIND_OIDC_STORAGE_ACCOUNT: ${{ secrets.KIND_OIDC_STORAGE_ACCOUNT }}
         if: 
           steps.check-changes.outputs.code-changed == 'true' 
 
