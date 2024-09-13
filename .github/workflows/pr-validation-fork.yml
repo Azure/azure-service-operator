@@ -107,7 +107,7 @@ jobs:
       - name: Run integration tests
         run: |
           container_id=${{ env.container_id }}
-          docker exec -e HOSTROOT=$GITHUB_WORKSPACE -e GITHUB_ACTIONS -e AZURE_TENANT_ID -e AZURE_SUBSCRIPTION_ID "$container_id" task controller:ci-integration-tests
+          docker exec -e HOSTROOT=$GITHUB_WORKSPACE -e GITHUB_ACTIONS -e AZURE_TENANT_ID -e AZURE_SUBSCRIPTION_ID -e KIND_OIDC_STORAGE_ACCOUNT_RG -e KIND_OIDC_STORAGE_ACCOUNT "$container_id" task controller:ci-integration-tests
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
