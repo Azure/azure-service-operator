@@ -40,10 +40,12 @@ jobs:
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          KIND_OIDC_STORAGE_ACCOUNT_RG: ${{ secrets.KIND_OIDC_STORAGE_ACCOUNT_RG }}
+          KIND_OIDC_STORAGE_ACCOUNT: ${{ secrets.KIND_OIDC_STORAGE_ACCOUNT }}
 
       - name: Cleanup test resources
         if: always()
-        run: docker exec -e GITHUB_ACTIONS -e AZURE_TENANT_ID -e AZURE_SUBSCRIPTION_ID -e KIND_OIDC_STORAGE_ACCOUNT_RG -e KIND_OIDC_STORAGE_ACCOUNT "${{ env.container_id }}" task cleanup-azure-resources
+        run: docker exec -e GITHUB_ACTIONS -e AZURE_TENANT_ID -e AZURE_SUBSCRIPTION_ID "${{ env.container_id }}" task cleanup-azure-resources
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
