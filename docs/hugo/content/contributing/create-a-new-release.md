@@ -155,7 +155,7 @@ Then commit the changes and send a PR.
 
 ## Update Breaking Changes
 
-If you earlier [catalogued breaking changes](/#catalog-breaking-changes), or if there are any PRs for this release with the tag [**breaking**](https://github.com/Azure/azure-service-operator/pulls?q=is%3Apr+label%3Abreaking+is%3Aclosed), create a new page under our [breaking changes]( {{< relref "breaking-changes" >}} ) page with details of the breaking changes and how to mitigate them.
+If you earlier [catalogued breaking changes](#catalog-breaking-changes), or if there are any PRs for this release with the tag [**breaking**](https://github.com/Azure/azure-service-operator/pulls?q=is%3Apr+label%3Abreaking+is%3Aclosed), create a new page under our [breaking changes]( {{< relref "breaking-changes" >}} ) page with details of the breaking changes and how to mitigate them.
   
 ## Fixing an incorrect release
 
