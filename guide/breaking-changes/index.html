@@ -137,6 +137,8 @@
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.8.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="">v2.8.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
@@ -707,11 +709,15 @@
   <ul>
     <li><a href="#upcoming-breaking-changes">Upcoming Breaking Changes</a>
       <ul>
-        <li><a href="#no-earlier-than-v230">No earlier than v2.3.0</a></li>
+        <li><a href="#scheduled-for-v2100">Scheduled for v2.10.0</a></li>
       </ul>
     </li>
     <li><a href="#released-breaking-changes">Released Breaking Changes</a>
       <ul>
+        <li><a href="#290">2.9.0</a></li>
+        <li><a href="#v280">v2.8.0</a></li>
+        <li><a href="#v260">v2.6.0</a></li>
+        <li><a href="#v240">v2.4.0</a></li>
         <li><a href="#v220">v2.2.0</a></li>
         <li><a href="#v210">v2.1.0</a></li>
         <li><a href="#v200">v2.0.0</a></li>
@@ -783,11 +789,38 @@
 	</header>
 	<p>We go to great lengths to avoid breaking changes as much as possible, as we&rsquo;re well aware that they can cause issues for our users. However, they do occasionally occur, so we&rsquo;ve committed to providing good documentation each time this occurs.</p>
 <h2 id="upcoming-breaking-changes">Upcoming Breaking Changes</h2>
-<h3 id="no-earlier-than-v230">No earlier than v2.3.0</h3>
-<p>Beta CRD versions (any version with <code>v1beta</code> prefix) will be deprecated and removed.
-We recommend you start using <code>v1api</code> prefixed versions now.</p>
-<p>You can easily swap from a <code>v1beta</code> version to a <code>v1api</code> version by just replacing <code>v1beta</code> with <code>v1api</code> in your CRD YAML, the resource shapes are the same.</p>
+<h3 id="scheduled-for-v2100">Scheduled for v2.10.0</h3>
+<ul>
+<li>The following properties on <code>machinelearningservices.WorkspacesCompute</code> will be marked as secrets: <code>SslConfiguration.Key</code>, <code>SslConfiguration.Cert</code>, <code>VirtualMachineSshCredentials.PrivateKeyData</code>, and <code>VirtualMachineSshCredentials.PublicKeyData</code>.<br>
+We try to avoid breaking changes, but in this case, allowing raw keys in the spec is a security problem and as such we&rsquo;ve decided to make a break to correct this issue.</li>
+</ul>
 <h2 id="released-breaking-changes">Released Breaking Changes</h2>
+<h3 id="290">2.9.0</h3>
+<p>Breaking changes are:</p>
+<ul>
+<li>DelegatedManagedIdentityResourceId is now a secret</li>
+<li>ContainerService version v1api20230202preview has been deleted</li>
+</ul>
+<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/">v2.9.0 Breaking Changes</a>.</p>
+<h3 id="v280">v2.8.0</h3>
+<p>Breaking changes are:</p>
+<ul>
+<li>ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string</li>
+<li>Use &ldquo;never&rdquo; rather than &quot;&quot; to prevent syncing for AZURE_SYNC_PERIOD</li>
+</ul>
+<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/">v2.8.0 Breaking Changes</a>.</p>
+<h3 id="v260">v2.6.0</h3>
+<p>Breaking changes are:</p>
+<ul>
+<li>VirtualMachineScaleSet ProtectedSettings now a SecretReference</li>
+</ul>
+<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/">v2.6.0 Breaking Changes</a>.</p>
+<h3 id="v240">v2.4.0</h3>
+<p>Breaking changes are:</p>
+<ul>
+<li>Beta CRD versions have been removed</li>
+</ul>
+<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/">v2.4.0 Breaking Changes</a>.</p>
 <h3 id="v220">v2.2.0</h3>
 <p>Breaking changes are:</p>
 <ul>
@@ -827,10 +860,12 @@ We recommend you start using <code>v1api</code> prefixed versions now.</p>
 </ul>
 <p>For detailed information, including an exhaustive list of all affected resource properties, see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/">v2.0.0-beta.4 Breaking Changes</a>.</p>
 <h2 id="policies">Policies</h2>
-<p>We know that breaking changes are a problem for many of our users, so we&rsquo;re making the following commitments.</p>
+<p>We know that breaking changes are a problem for many of our users, so we&rsquo;re making the following commitments to keep such things to a minimum.</p>
 <p><strong>No breaking changes to existing resource versions</strong></p>
 <p>We will not introduce a breaking change in an existing version of a resource such as <code>v1api20230101</code>.</p>
-<p>In the unlikely event of such a change being forced upon us by an upstream team, we will take all reasonable steps to reduce the impact as far as possible. (We consider this to be extremely unlikely because of the stringent API change criteria used by Azure.)</p>
+<p>In the case of such a change being forced upon us, we will take all reasonable steps to reduce the impact as far as possible.</p>
+<p>The most likely cause of this will be a security issue that requires action - such as if we discover a password field that hasn&rsquo;t been correctly flagged as a secret.
+There&rsquo;s also a possibilty of a change ocurring upstream, but we consider this to be extremely unlikely because of the stringent API change criteria used by Azure.</p>
 <p><strong>Minimal breaking changes in new resource versions</strong></p>
 <p>We <em>may</em> introduce breaking changes between versions of resources, such as between <code>v1api20230101</code> and <code>v1api20230201</code>. These two versions correspond to two different Azure API versions (that is, <code>2023-01-01</code> and <code>2023-02-01</code>), and if the upstream Azure service introduces a breaking change in the newer of these two API versions we may pass that breaking change along.</p>
 <h3 id="mitigation-techniques">Mitigation techniques</h3>
@@ -865,6 +900,14 @@ We recommend you start using <code>v1api</code> prefixed versions now.</p>
             <div class="entry">
                 <h5>
                     <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/">v2.6.0 Breaking Changes</a>
+                </h5>
+                <p></p>
+            </div>
+        
+            
+            <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/">v2.8.0 Breaking Changes</a>
                 </h5>
                 <p></p>
             </div>

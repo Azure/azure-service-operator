@@ -39,7 +39,7 @@
   Go to the releases page and draft a new release.
   In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default).">
 
-<meta itemprop="wordCount" content="815">
+<meta itemprop="wordCount" content="864">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Creating a new release"/>
 <meta name="twitter:description" content="Ensure that the controller CVE scan action is green.
@@ -153,6 +153,8 @@
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.8.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="">v2.8.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
@@ -731,6 +733,7 @@
     </li>
     <li><a href="#update-resource-documentation">Update Resource Documentation</a></li>
     <li><a href="#update-roadmap">Update ROADMAP</a></li>
+    <li><a href="#update-breaking-changes">Update Breaking Changes</a></li>
     <li><a href="#fixing-an-incorrect-release">Fixing an incorrect release</a></li>
   </ul>
 </nav>
@@ -821,6 +824,9 @@
 </li>
 <li>
 <p><a href="#update-roadmap">Update the ROADMAP</a> to reflect the new release.</p>
+</li>
+<li>
+<p><a href="#update-breaking-changes">Update Breaking Changes</a> if there are any.</p>
 </li>
 </ol>
 <h2 id="catalog-breaking-changes">Catalog breaking changes</h2>
@@ -942,6 +948,8 @@ k apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
 <li>Check that future versions are linked to the relevant GitHub milestone where possible.</li>
 </ul>
 <p>Then commit the changes and send a PR.</p>
+<h2 id="update-breaking-changes">Update Breaking Changes</h2>
+<p>If you earlier <a href="#catalog-breaking-changes">catalogued breaking changes</a>, or if there are any PRs for this release with the tag <a href="https://github.com/Azure/azure-service-operator/pulls?q=is%3Apr+label%3Abreaking+is%3Aclosed"><strong>breaking</strong></a>, create a new page under our <a href="/azure-service-operator/guide/breaking-changes/">breaking changes</a> page with details of the breaking changes and how to mitigate them.</p>
 <h2 id="fixing-an-incorrect-release">Fixing an incorrect release</h2>
 <p>If there was an issue publishing a new release, we may want to delete the existing release and try again.
 Only do this if you&rsquo;ve just published the release and there is something wrong with it. We shouldn&rsquo;t be deleting releases people are actually using.</p>

@@ -20,10 +20,10 @@
 
 <title>Conditions | Azure Service Operator</title>
 <meta name="description" content="Each resource reports a Ready condition in .status.conditions. It is also visible when you examine the resource with kubectl get, for example:
-$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&amp;rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state. No more reconciliations will be performed until a change is detected.">
+$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&amp;rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state. Another reconciliation will be performed after AZURE_SYNC_PERIOD or when a change is made to the cluster resource.">
 <meta property="og:title" content="Conditions" />
 <meta property="og:description" content="Each resource reports a Ready condition in .status.conditions. It is also visible when you examine the resource with kubectl get, for example:
-$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state. No more reconciliations will be performed until a change is detected." />
+$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state. Another reconciliation will be performed after AZURE_SYNC_PERIOD or when a change is made to the cluster resource." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/conditions/" /><meta property="article:section" content="guide" />
 
@@ -31,13 +31,13 @@ $ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESS
 
 <meta itemprop="name" content="Conditions">
 <meta itemprop="description" content="Each resource reports a Ready condition in .status.conditions. It is also visible when you examine the resource with kubectl get, for example:
-$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state. No more reconciliations will be performed until a change is detected.">
+$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state. Another reconciliation will be performed after AZURE_SYNC_PERIOD or when a change is made to the cluster resource.">
 
-<meta itemprop="wordCount" content="208">
+<meta itemprop="wordCount" content="214">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Conditions"/>
 <meta name="twitter:description" content="Each resource reports a Ready condition in .status.conditions. It is also visible when you examine the resource with kubectl get, for example:
-$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state. No more reconciliations will be performed until a change is detected."/>
+$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state. Another reconciliation will be performed after AZURE_SYNC_PERIOD or when a change is made to the cluster resource."/>
 
 
 
@@ -145,6 +145,8 @@ $ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESS
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.8.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="">v2.8.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
@@ -778,7 +780,7 @@ the resource with <code>kubectl get</code>, for example:</p>
 NAME            READY     SEVERITY   REASON          MESSAGE
 aso-sample-rg   False     Info       Reconciling     The resource is in the process of being reconciled by the operator   
 </code></pre><p>If the condition&rsquo;s <code>status</code> is <code>True</code> (visible in the <code>READY</code> column via <code>kubectl get</code>) the resource is in
-the goal state. No more reconciliations will be performed until a change is detected.</p>
+the goal state. Another reconciliation will be performed after <a href="/azure-service-operator/guide/aso-controller-settings-options//#azure_sync_period">AZURE_SYNC_PERIOD</a> or when a change is made to the cluster resource.</p>
 <h2 id="severity">Severity</h2>
 <p>When a conditions <code>status</code> is not <code>True</code>, it will include a <code>severity</code> and <code>message</code> detailing the problem (if any).
 The possible severities are:</p>

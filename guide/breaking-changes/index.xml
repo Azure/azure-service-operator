@@ -109,6 +109,27 @@ decided to make a break to correct this issue.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Guide: v2.8.0 Breaking Changes</title>
+      <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;delegatedmanagedidentityresourceid-is-now-a-secret&#34;&gt;DelegatedManagedIdentityResourceId is now a secret&lt;/h1&gt;
+&lt;p&gt;The RoleAssignment property &lt;code&gt;.spec.delegatedManagedIdentityResourceId&lt;/code&gt; has been changed from a string to a SecretReference and renamed to &lt;code&gt;.spec.delegatedManagedIdentityResourceReference&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security
+problem and as such we&amp;rsquo;ve decided to make a break to correct this issue.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; If the &lt;code&gt;authorization.azure.com/RoleAssignment&lt;/code&gt; resource is used in your cluster, and if you are using the &lt;code&gt;DelegatedManagedIdentityResourceId&lt;/code&gt; property, you&amp;rsquo;ll need to change your resource to use the new &lt;code&gt;DelegatedManagedIdentityResourceReference&lt;/code&gt; property, pulling the value from a secret.&lt;/p&gt;
+&lt;h1 id=&#34;containerservice-version-v1api20230202preview-has-been-deleted&#34;&gt;ContainerService version v1api20230202preview has been deleted&lt;/h1&gt;
+&lt;p&gt;The AKS preview version &lt;code&gt;2023-02-02-preview&lt;/code&gt; has been deprecated by AKS and is no longer supported. We&amp;rsquo;ve removed it from the operator to prevent unrecoverable errors from occurring.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; If you are using this specific version, change your resources to use a different version &lt;em&gt;before&lt;/em&gt; you upgrade to v2.9.0.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Guide: v2.4.0 Breaking Changes</title>
       <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
