@@ -28,6 +28,9 @@ func (extension *RoleDefinitionExtension) Import(
 		return extensions.ImportResult{}, err
 	}
 
+	// If this cast doesn't compile, update the `api` import to reference the now latest
+	// stable version of the authorization group (this will happen when we import a new
+	// API version in the generator.)
 	if definition, ok := rsrc.(*api.RoleDefinition); ok {
 		// If this role definition is built in, we don't need to export it
 		if definition.Spec.Type != nil {
