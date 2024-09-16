@@ -7,13 +7,12 @@ package cmd
 
 import (
 	"context"
-	"os"
-	"sync"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+	"os"
+	"sync"
 
 	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
 
@@ -108,11 +107,6 @@ func importAzureResource(
 	armIDs []string,
 	options *importAzureResourceOptions,
 ) error {
-	log, progressBar := CreateLoggerAndProgressBar()
-
-	// Make sure all output is written when we're done
-	defer progressBar.Wait()
-
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return errors.Wrap(err, "unable to get default Azure credential")
@@ -128,6 +122,9 @@ func importAzureResource(
 		return errors.Wrapf(err, "failed to create ARM client")
 	}
 
+	//
+	log, progressBar := CreateLoggerAndProgressBar()
+
 	done := make(chan struct{}) // signal that we're done
 	pb := importreporter.NewBar("Import Azure Resources", progressBar, done)
 
@@ -138,6 +135,9 @@ func importAzureResource(
 			return errors.Wrapf(err, "failed to add %q to import list", armID)
 		}
 	}
+
+	// Make sure all output is written when we're done
+	defer progressBar.Wait()
 
 	result, err := importer.Import(ctx, done)
 
