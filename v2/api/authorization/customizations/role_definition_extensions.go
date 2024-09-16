@@ -1,22 +1,23 @@
 /*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT license.
- */
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
 
 package customizations
 
 import (
 	"context"
+	"strings"
 
-	api "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
+	api "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
+
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.Importer = &FlexibleServersConfigurationExtension{}
+var _ extensions.Importer = &RoleDefinitionExtension{}
 
-// Import skips databases that can't be managed by ARM
-func (extension *FlexibleServersConfigurationExtension) Import(
+func (extension *RoleDefinitionExtension) Import(
 	ctx context.Context,
 	rsrc genruntime.ImportableResource,
 	owner *genruntime.ResourceReference,
@@ -30,10 +31,12 @@ func (extension *FlexibleServersConfigurationExtension) Import(
 	// If this cast doesn't compile, update the `api` import to reference the now latest
 	// stable version of the authorization group (this will happen when we import a new
 	// API version in the generator.)
-	if config, ok := rsrc.(*api.FlexibleServersConfiguration); ok {
-		// Skip system defaults
-		if config.Spec.Source != nil && *config.Spec.Source == "system-default" {
-			return extensions.ImportSkipped("system-defaults don't need to be imported"), nil
+	if definition, ok := rsrc.(*api.RoleDefinition); ok {
+		// If this role definition is built in, we don't need to export it
+		if definition.Spec.Type != nil {
+			if strings.EqualFold(*definition.Spec.Type, "BuiltInRole") {
+				return extensions.ImportSkipped("role definition is built-in"), nil
+			}
 		}
 	}
 
