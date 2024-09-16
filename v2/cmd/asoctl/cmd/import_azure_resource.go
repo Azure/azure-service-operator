@@ -66,13 +66,15 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		},
 	}
 
-	options.outputPath = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&options.outputPath,
 		"output",
 		"o",
 		"",
 		"Write ARM resource CRDs to a single file")
 
-	options.outputFolder = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&options.outputFolder,
 		"output-folder",
 		"f",
 		"",
@@ -85,19 +87,28 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		"namespace",
 		"n",
 		"",
-		"Write the imported resources to the specified namespace")
+		"Set the namespace of the the imported resources")
+
 	cmd.Flags().StringSliceVarP(
 		&options.labels,
 		"label",
 		"l",
 		nil,
-		"Add the specified labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
+		"Add labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
+
 	cmd.Flags().StringSliceVarP(
 		&options.annotations,
 		"annotation",
 		"a",
 		nil,
-		"Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
+		"Add annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
+
+	cmd.Flags().IntVarP(
+		&options.workers,
+		"workers",
+		"w",
+		4,
+		"The number of parallel workers to use when importing resources")
 
 	return cmd
 }
@@ -131,7 +142,11 @@ func importAzureResource(
 	done := make(chan struct{}) // signal that we're done
 	pb := importreporter.NewBar("Import Azure Resources", progressBar, done)
 
-	importer := importresources.New(api.CreateScheme(), client, log, pb)
+	importerOptions := importresources.ResourceImporterOptions{
+		Workers: options.workers,
+	}
+
+	importer := importresources.New(api.CreateScheme(), client, log, pb, importerOptions)
 	for _, armID := range armIDs {
 		err = importer.AddARMID(armID)
 		if err != nil {
@@ -205,11 +220,12 @@ func importAzureResource(
 }
 
 type importAzureResourceOptions struct {
-	outputPath   *string
-	outputFolder *string
+	outputPath   string
+	outputFolder string
 	namespace    string
 	annotations  []string
 	labels       []string
+	workers      int
 
 	readCloud               sync.Once
 	azureAuthorityHost      string
@@ -218,16 +234,16 @@ type importAzureResourceOptions struct {
 }
 
 func (option *importAzureResourceOptions) writeToFile() (string, bool) {
-	if option.outputPath != nil && *option.outputPath != "" {
-		return *option.outputPath, true
+	if option.outputPath != "" {
+		return option.outputPath, true
 	}
 
 	return "", false
 }
 
 func (option *importAzureResourceOptions) writeToFolder() (string, bool) {
-	if option.outputFolder != nil && *option.outputFolder != "" {
-		return *option.outputFolder, true
+	if option.outputFolder != "" {
+		return option.outputFolder, true
 	}
 
 	return "", false
