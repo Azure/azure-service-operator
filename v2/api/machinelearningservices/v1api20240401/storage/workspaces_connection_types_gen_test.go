@@ -726,17 +726,9 @@ func CustomKeysGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomKeys(generators)
 	customKeysGenerator = gen.Struct(reflect.TypeOf(CustomKeys{}), generators)
 
 	return customKeysGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomKeys is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomKeys(gens map[string]gopter.Gen) {
-	gens["Keys"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
 }
 
 func Test_CustomKeysWorkspaceConnectionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2208,7 +2200,6 @@ func WorkspaceConnectionAccessKeyGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceConnectionAccessKey is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceConnectionAccessKey(gens map[string]gopter.Gen) {
 	gens["AccessKeyId"] = gen.PtrOf(gen.AlphaString())
-	gens["SecretAccessKey"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionAccessKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2270,7 +2261,6 @@ func WorkspaceConnectionAccessKey_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceConnectionAccessKey_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceConnectionAccessKey_STATUS(gens map[string]gopter.Gen) {
 	gens["AccessKeyId"] = gen.PtrOf(gen.AlphaString())
-	gens["SecretAccessKey"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionAccountKey_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2433,15 +2423,9 @@ func WorkspaceConnectionApiKeyGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionApiKey(generators)
 	workspaceConnectionApiKeyGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionApiKey{}), generators)
 
 	return workspaceConnectionApiKeyGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionApiKey is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionApiKey(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionApiKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2494,15 +2478,9 @@ func WorkspaceConnectionApiKey_STATUSGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionApiKey_STATUS(generators)
 	workspaceConnectionApiKey_STATUSGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionApiKey_STATUS{}), generators)
 
 	return workspaceConnectionApiKey_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionApiKey_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionApiKey_STATUS(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionManagedIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3244,15 +3222,9 @@ func WorkspaceConnectionSharedAccessSignatureGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionSharedAccessSignature(generators)
 	workspaceConnectionSharedAccessSignatureGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionSharedAccessSignature{}), generators)
 
 	return workspaceConnectionSharedAccessSignatureGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionSharedAccessSignature is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionSharedAccessSignature(gens map[string]gopter.Gen) {
-	gens["Sas"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionSharedAccessSignature_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3305,15 +3277,9 @@ func WorkspaceConnectionSharedAccessSignature_STATUSGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionSharedAccessSignature_STATUS(generators)
 	workspaceConnectionSharedAccessSignature_STATUSGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionSharedAccessSignature_STATUS{}), generators)
 
 	return workspaceConnectionSharedAccessSignature_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionSharedAccessSignature_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionSharedAccessSignature_STATUS(gens map[string]gopter.Gen) {
-	gens["Sas"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionUsernamePassword_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

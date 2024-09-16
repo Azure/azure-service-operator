@@ -9090,8 +9090,8 @@ type PrivateEndpointDestination struct {
 	SparkEnabled             *bool                         `json:"sparkEnabled,omitempty"`
 
 	// SparkStatus: Type of a managed network Outbound Rule of a machine learning workspace.
-	SparkStatus       *RuleStatus `json:"sparkStatus,omitempty"`
-	SubresourceTarget *string     `json:"subresourceTarget,omitempty"`
+	SparkStatus                *RuleStatus                   `json:"sparkStatus,omitempty"`
+	SubresourceTargetReference *genruntime.ResourceReference `armReference:"SubresourceTarget" json:"subresourceTargetReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PrivateEndpointDestination{}
@@ -9128,9 +9128,13 @@ func (destination *PrivateEndpointDestination) ConvertToARM(resolved genruntime.
 	}
 
 	// Set property "SubresourceTarget":
-	if destination.SubresourceTarget != nil {
-		subresourceTarget := *destination.SubresourceTarget
-		result.SubresourceTarget = &subresourceTarget
+	if destination.SubresourceTargetReference != nil {
+		subresourceTargetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*destination.SubresourceTargetReference)
+		if err != nil {
+			return nil, err
+		}
+		subresourceTargetReference := subresourceTargetReferenceARMID
+		result.SubresourceTarget = &subresourceTargetReference
 	}
 	return result, nil
 }
@@ -9163,11 +9167,7 @@ func (destination *PrivateEndpointDestination) PopulateFromARM(owner genruntime.
 		destination.SparkStatus = &sparkStatus
 	}
 
-	// Set property "SubresourceTarget":
-	if typedInput.SubresourceTarget != nil {
-		subresourceTarget := *typedInput.SubresourceTarget
-		destination.SubresourceTarget = &subresourceTarget
-	}
+	// no assignment for property "SubresourceTargetReference"
 
 	// No error
 	return nil
@@ -9201,8 +9201,13 @@ func (destination *PrivateEndpointDestination) AssignProperties_From_PrivateEndp
 		destination.SparkStatus = nil
 	}
 
-	// SubresourceTarget
-	destination.SubresourceTarget = genruntime.ClonePointerToString(source.SubresourceTarget)
+	// SubresourceTargetReference
+	if source.SubresourceTargetReference != nil {
+		subresourceTargetReference := source.SubresourceTargetReference.Copy()
+		destination.SubresourceTargetReference = &subresourceTargetReference
+	} else {
+		destination.SubresourceTargetReference = nil
+	}
 
 	// No error
 	return nil
@@ -9237,8 +9242,13 @@ func (destination *PrivateEndpointDestination) AssignProperties_To_PrivateEndpoi
 		target.SparkStatus = nil
 	}
 
-	// SubresourceTarget
-	target.SubresourceTarget = genruntime.ClonePointerToString(destination.SubresourceTarget)
+	// SubresourceTargetReference
+	if destination.SubresourceTargetReference != nil {
+		subresourceTargetReference := destination.SubresourceTargetReference.Copy()
+		target.SubresourceTargetReference = &subresourceTargetReference
+	} else {
+		target.SubresourceTargetReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9277,9 +9287,6 @@ func (destination *PrivateEndpointDestination) Initialize_From_PrivateEndpointDe
 	} else {
 		destination.SparkStatus = nil
 	}
-
-	// SubresourceTarget
-	destination.SubresourceTarget = genruntime.ClonePointerToString(source.SubresourceTarget)
 
 	// No error
 	return nil

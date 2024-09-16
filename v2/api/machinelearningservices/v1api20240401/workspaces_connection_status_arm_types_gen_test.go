@@ -2463,7 +2463,6 @@ func WorkspaceConnectionAccessKey_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceConnectionAccessKey_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceConnectionAccessKey_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AccessKeyId"] = gen.PtrOf(gen.AlphaString())
-	gens["SecretAccessKey"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionAccountKey_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2571,15 +2570,9 @@ func WorkspaceConnectionApiKey_STATUS_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionApiKey_STATUS_ARM(generators)
 	workspaceConnectionApiKey_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionApiKey_STATUS_ARM{}), generators)
 
 	return workspaceConnectionApiKey_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionApiKey_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionApiKey_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionManagedIdentity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2977,15 +2970,9 @@ func WorkspaceConnectionSharedAccessSignature_STATUS_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaceConnectionSharedAccessSignature_STATUS_ARM(generators)
 	workspaceConnectionSharedAccessSignature_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WorkspaceConnectionSharedAccessSignature_STATUS_ARM{}), generators)
 
 	return workspaceConnectionSharedAccessSignature_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWorkspaceConnectionSharedAccessSignature_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaceConnectionSharedAccessSignature_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Sas"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceConnectionUsernamePassword_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

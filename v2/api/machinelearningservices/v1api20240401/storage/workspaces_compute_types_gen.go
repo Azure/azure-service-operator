@@ -539,10 +539,12 @@ type AKS_Properties struct {
 	AksNetworkingConfiguration *AksNetworkingConfiguration `json:"aksNetworkingConfiguration,omitempty"`
 	ClusterFqdn                *string                     `json:"clusterFqdn,omitempty"`
 	ClusterPurpose             *string                     `json:"clusterPurpose,omitempty"`
-	LoadBalancerSubnet         *string                     `json:"loadBalancerSubnet,omitempty"`
-	LoadBalancerType           *string                     `json:"loadBalancerType,omitempty"`
-	PropertyBag                genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	SslConfiguration           *SslConfiguration           `json:"sslConfiguration,omitempty"`
+
+	// LoadBalancerSubnetReference: Load Balancer Subnet
+	LoadBalancerSubnetReference *genruntime.ResourceReference `armReference:"LoadBalancerSubnet" json:"loadBalancerSubnetReference,omitempty"`
+	LoadBalancerType            *string                       `json:"loadBalancerType,omitempty"`
+	PropertyBag                 genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SslConfiguration            *SslConfiguration             `json:"sslConfiguration,omitempty"`
 }
 
 // Storage version of v1api20240401.AKS_Properties_STATUS
@@ -645,17 +647,16 @@ type ComputeInstanceProperties_STATUS struct {
 // Storage version of v1api20240401.DatabricksProperties
 // Properties of Databricks
 type DatabricksProperties struct {
-	DatabricksAccessToken *string                `json:"databricksAccessToken,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	WorkspaceUrl          *string                `json:"workspaceUrl,omitempty"`
+	DatabricksAccessToken *genruntime.SecretReference `json:"databricksAccessToken,omitempty"`
+	PropertyBag           genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	WorkspaceUrl          *string                     `json:"workspaceUrl,omitempty"`
 }
 
 // Storage version of v1api20240401.DatabricksProperties_STATUS
 // Properties of Databricks
 type DatabricksProperties_STATUS struct {
-	DatabricksAccessToken *string                `json:"databricksAccessToken,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	WorkspaceUrl          *string                `json:"workspaceUrl,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	WorkspaceUrl *string                `json:"workspaceUrl,omitempty"`
 }
 
 // Storage version of v1api20240401.DataLakeAnalytics_Properties

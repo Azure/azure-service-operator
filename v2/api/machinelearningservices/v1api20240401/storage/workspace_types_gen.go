@@ -669,11 +669,11 @@ type ServiceTagOutboundRule_STATUS struct {
 // Private Endpoint destination for a Private Endpoint Outbound Rule for the managed network of a machine learning
 // workspace.
 type PrivateEndpointDestination struct {
-	PropertyBag              genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ServiceResourceReference *genruntime.ResourceReference `armReference:"ServiceResourceId" json:"serviceResourceReference,omitempty"`
-	SparkEnabled             *bool                         `json:"sparkEnabled,omitempty"`
-	SparkStatus              *string                       `json:"sparkStatus,omitempty"`
-	SubresourceTarget        *string                       `json:"subresourceTarget,omitempty"`
+	PropertyBag                genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	ServiceResourceReference   *genruntime.ResourceReference `armReference:"ServiceResourceId" json:"serviceResourceReference,omitempty"`
+	SparkEnabled               *bool                         `json:"sparkEnabled,omitempty"`
+	SparkStatus                *string                       `json:"sparkStatus,omitempty"`
+	SubresourceTargetReference *genruntime.ResourceReference `armReference:"SubresourceTarget" json:"subresourceTargetReference,omitempty"`
 }
 
 // Storage version of v1api20240401.PrivateEndpointDestination_STATUS

@@ -622,8 +622,8 @@ type UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS struct {
 // Storage version of v1api20240401.CustomKeys
 // Custom Keys credential object
 type CustomKeys struct {
-	Keys        map[string]string      `json:"keys,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Keys        *genruntime.SecretMapReference `json:"keys,omitempty"`
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240401.CustomKeys_STATUS
@@ -635,16 +635,15 @@ type CustomKeys_STATUS struct {
 
 // Storage version of v1api20240401.WorkspaceConnectionAccessKey
 type WorkspaceConnectionAccessKey struct {
-	AccessKeyId     *string                `json:"accessKeyId,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecretAccessKey *string                `json:"secretAccessKey,omitempty"`
+	AccessKeyId     *string                     `json:"accessKeyId,omitempty"`
+	PropertyBag     genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	SecretAccessKey *genruntime.SecretReference `json:"secretAccessKey,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceConnectionAccessKey_STATUS
 type WorkspaceConnectionAccessKey_STATUS struct {
-	AccessKeyId     *string                `json:"accessKeyId,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecretAccessKey *string                `json:"secretAccessKey,omitempty"`
+	AccessKeyId *string                `json:"accessKeyId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceConnectionAccountKey
@@ -661,14 +660,13 @@ type WorkspaceConnectionAccountKey_STATUS struct {
 // Storage version of v1api20240401.WorkspaceConnectionApiKey
 // Api key object for workspace connection credential.
 type WorkspaceConnectionApiKey struct {
-	Key         *string                `json:"key,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Key         *genruntime.SecretReference `json:"key,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceConnectionApiKey_STATUS
 // Api key object for workspace connection credential.
 type WorkspaceConnectionApiKey_STATUS struct {
-	Key         *string                `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
@@ -692,15 +690,17 @@ type WorkspaceConnectionManagedIdentity_STATUS struct {
 // depending on each OAuth2 provider's
 // implementation.
 type WorkspaceConnectionOAuth2 struct {
-	AuthUrl        *string                     `json:"authUrl,omitempty"`
-	ClientId       *string                     `json:"clientId,omitempty"`
-	ClientSecret   *genruntime.SecretReference `json:"clientSecret,omitempty"`
-	DeveloperToken *genruntime.SecretReference `json:"developerToken,omitempty"`
-	Password       *genruntime.SecretReference `json:"password,omitempty"`
-	PropertyBag    genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	RefreshToken   *genruntime.SecretReference `json:"refreshToken,omitempty"`
-	TenantId       *string                     `json:"tenantId,omitempty"`
-	Username       *string                     `json:"username,omitempty"`
+	AuthUrl            *string                        `json:"authUrl,omitempty"`
+	ClientId           *string                        `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientSecret       *genruntime.SecretReference    `json:"clientSecret,omitempty"`
+	DeveloperToken     *genruntime.SecretReference    `json:"developerToken,omitempty"`
+	Password           *genruntime.SecretReference    `json:"password,omitempty"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	RefreshToken       *genruntime.SecretReference    `json:"refreshToken,omitempty"`
+	TenantId           *string                        `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
+	Username           *string                        `json:"username,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceConnectionOAuth2_STATUS
@@ -728,10 +728,12 @@ type WorkspaceConnectionPersonalAccessToken_STATUS struct {
 
 // Storage version of v1api20240401.WorkspaceConnectionServicePrincipal
 type WorkspaceConnectionServicePrincipal struct {
-	ClientId     *string                     `json:"clientId,omitempty"`
-	ClientSecret *genruntime.SecretReference `json:"clientSecret,omitempty"`
-	PropertyBag  genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	TenantId     *string                     `json:"tenantId,omitempty"`
+	ClientId           *string                        `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientSecret       *genruntime.SecretReference    `json:"clientSecret,omitempty"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	TenantId           *string                        `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 // Storage version of v1api20240401.WorkspaceConnectionServicePrincipal_STATUS
@@ -743,14 +745,13 @@ type WorkspaceConnectionServicePrincipal_STATUS struct {
 
 // Storage version of v1api20240401.WorkspaceConnectionSharedAccessSignature
 type WorkspaceConnectionSharedAccessSignature struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Sas         *string                `json:"sas,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Sas         *genruntime.SecretReference `json:"sas,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceConnectionSharedAccessSignature_STATUS
 type WorkspaceConnectionSharedAccessSignature_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Sas         *string                `json:"sas,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceConnectionUsernamePassword

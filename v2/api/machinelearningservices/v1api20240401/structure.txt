@@ -73,7 +73,7 @@ Workspace: Resource
 │   │   │   │   │   ├── SparkStatus: *Enum (2 values)
 │   │   │   │   │   │   ├── "Active"
 │   │   │   │   │   │   └── "Inactive"
-│   │   │   │   │   └── SubresourceTarget: *string
+│   │   │   │   │   └── SubresourceTargetReference: *genruntime.ResourceReference
 │   │   │   │   ├── Status: *Enum (2 values)
 │   │   │   │   │   ├── "Active"
 │   │   │   │   │   └── "Inactive"
@@ -681,7 +681,7 @@ WorkspacesCompute: Resource
 │   │   │   │   │   ├── "DenseProd"
 │   │   │   │   │   ├── "DevTest"
 │   │   │   │   │   └── "FastProd"
-│   │   │   │   ├── LoadBalancerSubnet: *string
+│   │   │   │   ├── LoadBalancerSubnetReference: *genruntime.ResourceReference
 │   │   │   │   ├── LoadBalancerType: *Enum (2 values)
 │   │   │   │   │   ├── "InternalLoadBalancer"
 │   │   │   │   │   └── "PublicIp"
@@ -879,7 +879,7 @@ WorkspacesCompute: Resource
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── Properties: *Object (2 properties)
-│   │   │   │   ├── DatabricksAccessToken: *string
+│   │   │   │   ├── DatabricksAccessToken: *genruntime.SecretReference
 │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── HDInsight: *Object (6 properties)
@@ -1483,8 +1483,7 @@ WorkspacesCompute: Resource
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── IsAttachedCompute: *bool
     │   │   ├── ModifiedOn: *string
-    │   │   ├── Properties: *Object (2 properties)
-    │   │   │   ├── DatabricksAccessToken: *string
+    │   │   ├── Properties: *Object (1 property)
     │   │   │   └── WorkspaceUrl: *string
     │   │   ├── ProvisioningErrors: Object (1 property)[]
     │   │   │   └── Error: *Object (5 properties)
@@ -1938,7 +1937,7 @@ WorkspacesConnection: Resource
 │       │   │   └── "Zoho"
 │       │   ├── Credentials: *Object (2 properties)
 │       │   │   ├── AccessKeyId: *string
-│       │   │   └── SecretAccessKey: *string
+│       │   │   └── SecretAccessKey: *genruntime.SecretReference
 │       │   ├── ExpiryTime: *string
 │       │   ├── IsSharedToAll: *bool
 │       │   ├── Metadata: map[string]string
@@ -2170,7 +2169,7 @@ WorkspacesConnection: Resource
 │       │   │   ├── "Xero"
 │       │   │   └── "Zoho"
 │       │   ├── Credentials: *Object (1 property)
-│       │   │   └── Key: *string
+│       │   │   └── Key: *genruntime.SecretReference
 │       │   ├── ExpiryTime: *string
 │       │   ├── IsSharedToAll: *bool
 │       │   ├── Metadata: map[string]string
@@ -2286,7 +2285,7 @@ WorkspacesConnection: Resource
 │       │   │   ├── "Xero"
 │       │   │   └── "Zoho"
 │       │   ├── Credentials: *Object (1 property)
-│       │   │   └── Keys: map[string]string
+│       │   │   └── Keys: *genruntime.SecretMapReference
 │       │   ├── ExpiryTime: *string
 │       │   ├── IsSharedToAll: *bool
 │       │   ├── Metadata: map[string]string
@@ -2633,15 +2632,17 @@ WorkspacesConnection: Resource
 │       │   │   ├── "WebTable"
 │       │   │   ├── "Xero"
 │       │   │   └── "Zoho"
-│       │   ├── Credentials: *Object (8 properties)
+│       │   ├── Credentials: *Object (10 properties)
 │       │   │   ├── AuthUrl: *string
 │       │   │   ├── ClientId: Validated<*string> (1 rule)
 │       │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│       │   │   ├── ClientIdFromConfig: *genruntime.ConfigMapReference
 │       │   │   ├── ClientSecret: *genruntime.SecretReference
 │       │   │   ├── DeveloperToken: *genruntime.SecretReference
 │       │   │   ├── Password: *genruntime.SecretReference
 │       │   │   ├── RefreshToken: *genruntime.SecretReference
 │       │   │   ├── TenantId: *string
+│       │   │   ├── TenantIdFromConfig: *genruntime.ConfigMapReference
 │       │   │   └── Username: *string
 │       │   ├── ExpiryTime: *string
 │       │   ├── IsSharedToAll: *bool
@@ -2874,7 +2875,7 @@ WorkspacesConnection: Resource
 │       │   │   ├── "Xero"
 │       │   │   └── "Zoho"
 │       │   ├── Credentials: *Object (1 property)
-│       │   │   └── Sas: *string
+│       │   │   └── Sas: *genruntime.SecretReference
 │       │   ├── ExpiryTime: *string
 │       │   ├── IsSharedToAll: *bool
 │       │   ├── Metadata: map[string]string
@@ -2989,10 +2990,12 @@ WorkspacesConnection: Resource
 │       │   │   ├── "WebTable"
 │       │   │   ├── "Xero"
 │       │   │   └── "Zoho"
-│       │   ├── Credentials: *Object (3 properties)
+│       │   ├── Credentials: *Object (5 properties)
 │       │   │   ├── ClientId: *string
+│       │   │   ├── ClientIdFromConfig: *genruntime.ConfigMapReference
 │       │   │   ├── ClientSecret: *genruntime.SecretReference
-│       │   │   └── TenantId: *string
+│       │   │   ├── TenantId: *string
+│       │   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
 │       │   ├── ExpiryTime: *string
 │       │   ├── IsSharedToAll: *bool
 │       │   ├── Metadata: map[string]string
@@ -3354,9 +3357,8 @@ WorkspacesConnection: Resource
     │   │   │   ├── "Xero"
     │   │   │   └── "Zoho"
     │   │   ├── CreatedByWorkspaceArmId: *string
-    │   │   ├── Credentials: *Object (2 properties)
-    │   │   │   ├── AccessKeyId: *string
-    │   │   │   └── SecretAccessKey: *string
+    │   │   ├── Credentials: *Object (1 property)
+    │   │   │   └── AccessKeyId: *string
     │   │   ├── ExpiryTime: *string
     │   │   ├── Group: *Enum (7 values)
     │   │   │   ├── "Azure"
@@ -3604,8 +3606,7 @@ WorkspacesConnection: Resource
     │   │   │   ├── "Xero"
     │   │   │   └── "Zoho"
     │   │   ├── CreatedByWorkspaceArmId: *string
-    │   │   ├── Credentials: *Object (1 property)
-    │   │   │   └── Key: *string
+    │   │   ├── Credentials: *Object (0 properties)
     │   │   ├── ExpiryTime: *string
     │   │   ├── Group: *Enum (7 values)
     │   │   │   ├── "Azure"
@@ -4355,8 +4356,7 @@ WorkspacesConnection: Resource
     │   │   │   ├── "Xero"
     │   │   │   └── "Zoho"
     │   │   ├── CreatedByWorkspaceArmId: *string
-    │   │   ├── Credentials: *Object (1 property)
-    │   │   │   └── Sas: *string
+    │   │   ├── Credentials: *Object (0 properties)
     │   │   ├── ExpiryTime: *string
     │   │   ├── Group: *Enum (7 values)
     │   │   │   ├── "Azure"
@@ -5152,8 +5152,7 @@ Workspaces_Compute_STATUS_ARM: Object (9 properties)
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── IsAttachedCompute: *bool
 │   │   ├── ModifiedOn: *string
-│   │   ├── Properties: *Object (2 properties)
-│   │   │   ├── DatabricksAccessToken: *string
+│   │   ├── Properties: *Object (1 property)
 │   │   │   └── WorkspaceUrl: *string
 │   │   ├── ProvisioningErrors: Object (1 property)[]
 │   │   │   └── Error: *Object (5 properties)
@@ -5928,9 +5927,8 @@ Workspaces_Connection_STATUS_ARM: Object (5 properties)
 │   │   │   ├── "Xero"
 │   │   │   └── "Zoho"
 │   │   ├── CreatedByWorkspaceArmId: *string
-│   │   ├── Credentials: *Object (2 properties)
-│   │   │   ├── AccessKeyId: *string
-│   │   │   └── SecretAccessKey: *string
+│   │   ├── Credentials: *Object (1 property)
+│   │   │   └── AccessKeyId: *string
 │   │   ├── ExpiryTime: *string
 │   │   ├── Group: *Enum (7 values)
 │   │   │   ├── "Azure"
@@ -6178,8 +6176,7 @@ Workspaces_Connection_STATUS_ARM: Object (5 properties)
 │   │   │   ├── "Xero"
 │   │   │   └── "Zoho"
 │   │   ├── CreatedByWorkspaceArmId: *string
-│   │   ├── Credentials: *Object (1 property)
-│   │   │   └── Key: *string
+│   │   ├── Credentials: *Object (0 properties)
 │   │   ├── ExpiryTime: *string
 │   │   ├── Group: *Enum (7 values)
 │   │   │   ├── "Azure"
@@ -6929,8 +6926,7 @@ Workspaces_Connection_STATUS_ARM: Object (5 properties)
 │   │   │   ├── "Xero"
 │   │   │   └── "Zoho"
 │   │   ├── CreatedByWorkspaceArmId: *string
-│   │   ├── Credentials: *Object (1 property)
-│   │   │   └── Sas: *string
+│   │   ├── Credentials: *Object (0 properties)
 │   │   ├── ExpiryTime: *string
 │   │   ├── Group: *Enum (7 values)
 │   │   │   ├── "Azure"

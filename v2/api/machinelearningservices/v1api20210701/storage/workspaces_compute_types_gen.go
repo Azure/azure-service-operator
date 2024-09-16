@@ -4725,7 +4725,24 @@ func (properties *AKS_Properties) AssignProperties_From_AKS_Properties(source *s
 	properties.ClusterPurpose = genruntime.ClonePointerToString(source.ClusterPurpose)
 
 	// LoadBalancerSubnet
-	properties.LoadBalancerSubnet = genruntime.ClonePointerToString(source.LoadBalancerSubnet)
+	if propertyBag.Contains("LoadBalancerSubnet") {
+		var loadBalancerSubnet string
+		err := propertyBag.Pull("LoadBalancerSubnet", &loadBalancerSubnet)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'LoadBalancerSubnet' from propertyBag")
+		}
+
+		properties.LoadBalancerSubnet = &loadBalancerSubnet
+	} else {
+		properties.LoadBalancerSubnet = nil
+	}
+
+	// LoadBalancerSubnetReference
+	if source.LoadBalancerSubnetReference != nil {
+		propertyBag.Add("LoadBalancerSubnetReference", *source.LoadBalancerSubnetReference)
+	} else {
+		propertyBag.Remove("LoadBalancerSubnetReference")
+	}
 
 	// LoadBalancerType
 	properties.LoadBalancerType = genruntime.ClonePointerToString(source.LoadBalancerType)
@@ -4792,7 +4809,24 @@ func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination
 	destination.ClusterPurpose = genruntime.ClonePointerToString(properties.ClusterPurpose)
 
 	// LoadBalancerSubnet
-	destination.LoadBalancerSubnet = genruntime.ClonePointerToString(properties.LoadBalancerSubnet)
+	if properties.LoadBalancerSubnet != nil {
+		propertyBag.Add("LoadBalancerSubnet", *properties.LoadBalancerSubnet)
+	} else {
+		propertyBag.Remove("LoadBalancerSubnet")
+	}
+
+	// LoadBalancerSubnetReference
+	if propertyBag.Contains("LoadBalancerSubnetReference") {
+		var loadBalancerSubnetReference genruntime.ResourceReference
+		err := propertyBag.Pull("LoadBalancerSubnetReference", &loadBalancerSubnetReference)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'LoadBalancerSubnetReference' from propertyBag")
+		}
+
+		destination.LoadBalancerSubnetReference = &loadBalancerSubnetReference
+	} else {
+		destination.LoadBalancerSubnetReference = nil
+	}
 
 	// LoadBalancerType
 	destination.LoadBalancerType = genruntime.ClonePointerToString(properties.LoadBalancerType)
@@ -6412,9 +6446,9 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 // Storage version of v1api20210701.DatabricksProperties
 // Properties of Databricks
 type DatabricksProperties struct {
-	DatabricksAccessToken *string                `json:"databricksAccessToken,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	WorkspaceUrl          *string                `json:"workspaceUrl,omitempty"`
+	DatabricksAccessToken *genruntime.SecretReference `json:"databricksAccessToken,omitempty"`
+	PropertyBag           genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	WorkspaceUrl          *string                     `json:"workspaceUrl,omitempty"`
 }
 
 // AssignProperties_From_DatabricksProperties populates our DatabricksProperties from the provided source DatabricksProperties
@@ -6423,7 +6457,12 @@ func (properties *DatabricksProperties) AssignProperties_From_DatabricksProperti
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// DatabricksAccessToken
-	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
+	if source.DatabricksAccessToken != nil {
+		databricksAccessToken := source.DatabricksAccessToken.Copy()
+		properties.DatabricksAccessToken = &databricksAccessToken
+	} else {
+		properties.DatabricksAccessToken = nil
+	}
 
 	// WorkspaceUrl
 	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
@@ -6454,7 +6493,12 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
 	// DatabricksAccessToken
-	destination.DatabricksAccessToken = genruntime.ClonePointerToString(properties.DatabricksAccessToken)
+	if properties.DatabricksAccessToken != nil {
+		databricksAccessToken := properties.DatabricksAccessToken.Copy()
+		destination.DatabricksAccessToken = &databricksAccessToken
+	} else {
+		destination.DatabricksAccessToken = nil
+	}
 
 	// WorkspaceUrl
 	destination.WorkspaceUrl = genruntime.ClonePointerToString(properties.WorkspaceUrl)
@@ -6482,18 +6526,14 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 // Storage version of v1api20210701.DatabricksProperties_STATUS
 // Properties of Databricks
 type DatabricksProperties_STATUS struct {
-	DatabricksAccessToken *string                `json:"databricksAccessToken,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	WorkspaceUrl          *string                `json:"workspaceUrl,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	WorkspaceUrl *string                `json:"workspaceUrl,omitempty"`
 }
 
 // AssignProperties_From_DatabricksProperties_STATUS populates our DatabricksProperties_STATUS from the provided source DatabricksProperties_STATUS
 func (properties *DatabricksProperties_STATUS) AssignProperties_From_DatabricksProperties_STATUS(source *storage.DatabricksProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// DatabricksAccessToken
-	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
 
 	// WorkspaceUrl
 	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
@@ -6522,9 +6562,6 @@ func (properties *DatabricksProperties_STATUS) AssignProperties_From_DatabricksP
 func (properties *DatabricksProperties_STATUS) AssignProperties_To_DatabricksProperties_STATUS(destination *storage.DatabricksProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// DatabricksAccessToken
-	destination.DatabricksAccessToken = genruntime.ClonePointerToString(properties.DatabricksAccessToken)
 
 	// WorkspaceUrl
 	destination.WorkspaceUrl = genruntime.ClonePointerToString(properties.WorkspaceUrl)

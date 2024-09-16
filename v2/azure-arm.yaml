@@ -2524,6 +2524,9 @@ objectModelConfiguration:
           $isSecret: true
         PublicKeyData:
           $isSecret: true
+      DatabricksProperties:
+        DatabricksAccessToken:
+          $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
         $supportedFrom: v2.0.0-beta.2
@@ -2649,6 +2652,37 @@ objectModelConfiguration:
           $importConfigMapMode: optional
       KubernetesProperties:
         ExtensionPrincipalId:
+          $importConfigMapMode: optional
+      PrivateEndpointDestination:
+        SubresourceTarget:
+          $armReference: true
+      AKS_Properties:
+        LoadBalancerSubnet:
+          $armReference: true
+      DatabricksProperties:
+        DatabricksAccessToken:
+          $isSecret: true
+      WorkspaceConnectionAccessKey:
+        SecretAccessKey:
+          $isSecret: true
+      WorkspaceConnectionApiKey:
+        Key:
+          $isSecret: true
+      CustomKeys:
+        Keys:
+          $isSecret: true
+      WorkspaceConnectionSharedAccessSignature:
+        Sas:
+          $isSecret: true
+      WorkspaceConnectionOAuth2:
+        ClientId:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      WorkspaceConnectionServicePrincipal:
+        ClientId:
+          $importConfigMapMode: optional
+        TenantId:
           $importConfigMapMode: optional
   monitor:
     2023-04-03:

@@ -61,7 +61,7 @@ Workspace: Resource
 │   │   │   │   │   ├── ServiceResourceReference: *genruntime.ResourceReference
 │   │   │   │   │   ├── SparkEnabled: *bool
 │   │   │   │   │   ├── SparkStatus: *string
-│   │   │   │   │   └── SubresourceTarget: *string
+│   │   │   │   │   └── SubresourceTargetReference: *genruntime.ResourceReference
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── Status: *string
 │   │   │   │   └── Type: *string
@@ -302,7 +302,7 @@ WorkspacesCompute: Resource
 │   │   │   │   │   └── SubnetReference: *genruntime.ResourceReference
 │   │   │   │   ├── ClusterFqdn: *string
 │   │   │   │   ├── ClusterPurpose: *string
-│   │   │   │   ├── LoadBalancerSubnet: *string
+│   │   │   │   ├── LoadBalancerSubnetReference: *genruntime.ResourceReference
 │   │   │   │   ├── LoadBalancerType: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── SslConfiguration: *Object (7 properties)
@@ -482,7 +482,7 @@ WorkspacesCompute: Resource
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── Properties: *Object (3 properties)
-│   │   │   │   ├── DatabricksAccessToken: *string
+│   │   │   │   ├── DatabricksAccessToken: *genruntime.SecretReference
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -1028,8 +1028,7 @@ WorkspacesCompute: Resource
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── IsAttachedCompute: *bool
     │   │   ├── ModifiedOn: *string
-    │   │   ├── Properties: *Object (3 properties)
-    │   │   │   ├── DatabricksAccessToken: *string
+    │   │   ├── Properties: *Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── WorkspaceUrl: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -1272,7 +1271,7 @@ WorkspacesConnection: Resource
 │   │   │   ├── Credentials: *Object (3 properties)
 │   │   │   │   ├── AccessKeyId: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── SecretAccessKey: *string
+│   │   │   │   └── SecretAccessKey: *genruntime.SecretReference
 │   │   │   ├── ExpiryTime: *string
 │   │   │   ├── IsSharedToAll: *bool
 │   │   │   ├── Metadata: map[string]string
@@ -1299,7 +1298,7 @@ WorkspacesConnection: Resource
 │   │   │   ├── AuthType: *string
 │   │   │   ├── Category: *string
 │   │   │   ├── Credentials: *Object (2 properties)
-│   │   │   │   ├── Key: *string
+│   │   │   │   ├── Key: *genruntime.SecretReference
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── ExpiryTime: *string
 │   │   │   ├── IsSharedToAll: *bool
@@ -1313,7 +1312,7 @@ WorkspacesConnection: Resource
 │   │   │   ├── AuthType: *string
 │   │   │   ├── Category: *string
 │   │   │   ├── Credentials: *Object (2 properties)
-│   │   │   │   ├── Keys: map[string]string
+│   │   │   │   ├── Keys: *genruntime.SecretMapReference
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── ExpiryTime: *string
 │   │   │   ├── IsSharedToAll: *bool
@@ -1353,15 +1352,17 @@ WorkspacesConnection: Resource
 │   │   ├── OAuth2: *Object (11 properties)
 │   │   │   ├── AuthType: *string
 │   │   │   ├── Category: *string
-│   │   │   ├── Credentials: *Object (9 properties)
+│   │   │   ├── Credentials: *Object (11 properties)
 │   │   │   │   ├── AuthUrl: *string
 │   │   │   │   ├── ClientId: *string
+│   │   │   │   ├── ClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   ├── ClientSecret: *genruntime.SecretReference
 │   │   │   │   ├── DeveloperToken: *genruntime.SecretReference
 │   │   │   │   ├── Password: *genruntime.SecretReference
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── RefreshToken: *genruntime.SecretReference
 │   │   │   │   ├── TenantId: *string
+│   │   │   │   ├── TenantIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   └── Username: *string
 │   │   │   ├── ExpiryTime: *string
 │   │   │   ├── IsSharedToAll: *bool
@@ -1391,7 +1392,7 @@ WorkspacesConnection: Resource
 │   │   │   ├── Category: *string
 │   │   │   ├── Credentials: *Object (2 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── Sas: *string
+│   │   │   │   └── Sas: *genruntime.SecretReference
 │   │   │   ├── ExpiryTime: *string
 │   │   │   ├── IsSharedToAll: *bool
 │   │   │   ├── Metadata: map[string]string
@@ -1403,11 +1404,13 @@ WorkspacesConnection: Resource
 │   │   ├── ServicePrincipal: *Object (11 properties)
 │   │   │   ├── AuthType: *string
 │   │   │   ├── Category: *string
-│   │   │   ├── Credentials: *Object (4 properties)
+│   │   │   ├── Credentials: *Object (6 properties)
 │   │   │   │   ├── ClientId: *string
+│   │   │   │   ├── ClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   ├── ClientSecret: *genruntime.SecretReference
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── TenantId: *string
+│   │   │   │   ├── TenantId: *string
+│   │   │   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── ExpiryTime: *string
 │   │   │   ├── IsSharedToAll: *bool
 │   │   │   ├── Metadata: map[string]string
@@ -1455,10 +1458,9 @@ WorkspacesConnection: Resource
     │   │   ├── AuthType: *string
     │   │   ├── Category: *string
     │   │   ├── CreatedByWorkspaceArmId: *string
-    │   │   ├── Credentials: *Object (3 properties)
+    │   │   ├── Credentials: *Object (2 properties)
     │   │   │   ├── AccessKeyId: *string
-    │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── SecretAccessKey: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── ExpiryTime: *string
     │   │   ├── Group: *string
     │   │   ├── IsSharedToAll: *bool
@@ -1487,8 +1489,7 @@ WorkspacesConnection: Resource
     │   │   ├── AuthType: *string
     │   │   ├── Category: *string
     │   │   ├── CreatedByWorkspaceArmId: *string
-    │   │   ├── Credentials: *Object (2 properties)
-    │   │   │   ├── Key: *string
+    │   │   ├── Credentials: *Object (1 property)
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── ExpiryTime: *string
     │   │   ├── Group: *string
@@ -1584,9 +1585,8 @@ WorkspacesConnection: Resource
     │   │   ├── AuthType: *string
     │   │   ├── Category: *string
     │   │   ├── CreatedByWorkspaceArmId: *string
-    │   │   ├── Credentials: *Object (2 properties)
-    │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── Sas: *string
+    │   │   ├── Credentials: *Object (1 property)
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── ExpiryTime: *string
     │   │   ├── Group: *string
     │   │   ├── IsSharedToAll: *bool

@@ -823,9 +823,6 @@ var databricks_ProvisioningState_STATUS_ARM_Values = map[string]Databricks_Provi
 
 // Properties of Databricks
 type DatabricksProperties_STATUS_ARM struct {
-	// DatabricksAccessToken: Databricks access token
-	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
-
 	// WorkspaceUrl: Workspace Url
 	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
 }

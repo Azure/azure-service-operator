@@ -487,7 +487,7 @@ WorkspacesCompute: Resource
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── Properties: *Object (2 properties)
-│   │   │   │   ├── DatabricksAccessToken: *string
+│   │   │   │   ├── DatabricksAccessToken: *genruntime.SecretReference
 │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── HDInsight: *Object (6 properties)
@@ -950,8 +950,7 @@ WorkspacesCompute: Resource
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── IsAttachedCompute: *bool
     │   │   ├── ModifiedOn: *string
-    │   │   ├── Properties: *Object (2 properties)
-    │   │   │   ├── DatabricksAccessToken: *string
+    │   │   ├── Properties: *Object (1 property)
     │   │   │   └── WorkspaceUrl: *string
     │   │   ├── ProvisioningErrors: Object (1 property)[]
     │   │   │   └── Error: *Object (5 properties)
@@ -1555,8 +1554,7 @@ Workspaces_Compute_STATUS_ARM: Object (9 properties)
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── IsAttachedCompute: *bool
 │   │   ├── ModifiedOn: *string
-│   │   ├── Properties: *Object (2 properties)
-│   │   │   ├── DatabricksAccessToken: *string
+│   │   ├── Properties: *Object (1 property)
 │   │   │   └── WorkspaceUrl: *string
 │   │   ├── ProvisioningErrors: Object (1 property)[]
 │   │   │   └── Error: *Object (5 properties)

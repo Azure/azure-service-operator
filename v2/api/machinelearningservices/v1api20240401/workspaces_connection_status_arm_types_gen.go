@@ -938,8 +938,7 @@ var usernamePasswordAuthTypeWorkspaceConnectionProperties_ValueFormat_STATUS_ARM
 }
 
 type WorkspaceConnectionAccessKey_STATUS_ARM struct {
-	AccessKeyId     *string `json:"accessKeyId,omitempty"`
-	SecretAccessKey *string `json:"secretAccessKey,omitempty"`
+	AccessKeyId *string `json:"accessKeyId,omitempty"`
 }
 
 type WorkspaceConnectionAccountKey_STATUS_ARM struct {
@@ -947,7 +946,6 @@ type WorkspaceConnectionAccountKey_STATUS_ARM struct {
 
 // Api key object for workspace connection credential.
 type WorkspaceConnectionApiKey_STATUS_ARM struct {
-	Key *string `json:"key,omitempty"`
 }
 
 type WorkspaceConnectionManagedIdentity_STATUS_ARM struct {
@@ -982,7 +980,6 @@ type WorkspaceConnectionServicePrincipal_STATUS_ARM struct {
 }
 
 type WorkspaceConnectionSharedAccessSignature_STATUS_ARM struct {
-	Sas *string `json:"sas,omitempty"`
 }
 
 type WorkspaceConnectionUsernamePassword_STATUS_ARM struct {

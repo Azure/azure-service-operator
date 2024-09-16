@@ -369,10 +369,8 @@ type AKS_Properties_ARM struct {
 	ClusterFqdn *string `json:"clusterFqdn,omitempty"`
 
 	// ClusterPurpose: Intended usage of the cluster
-	ClusterPurpose *AKS_Properties_ClusterPurpose_ARM `json:"clusterPurpose,omitempty"`
-
-	// LoadBalancerSubnet: Load Balancer Subnet
-	LoadBalancerSubnet *string `json:"loadBalancerSubnet,omitempty"`
+	ClusterPurpose     *AKS_Properties_ClusterPurpose_ARM `json:"clusterPurpose,omitempty"`
+	LoadBalancerSubnet *string                            `json:"loadBalancerSubnet,omitempty"`
 
 	// LoadBalancerType: Load Balancer Type
 	LoadBalancerType *AKS_Properties_LoadBalancerType_ARM `json:"loadBalancerType,omitempty"`

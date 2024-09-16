@@ -10041,7 +10041,7 @@ var databricks_ProvisioningState_STATUS_Values = map[string]Databricks_Provision
 // Properties of Databricks
 type DatabricksProperties struct {
 	// DatabricksAccessToken: Databricks access token
-	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
+	DatabricksAccessToken *genruntime.SecretReference `json:"databricksAccessToken,omitempty"`
 
 	// WorkspaceUrl: Workspace Url
 	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
@@ -10058,7 +10058,11 @@ func (properties *DatabricksProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "DatabricksAccessToken":
 	if properties.DatabricksAccessToken != nil {
-		databricksAccessToken := *properties.DatabricksAccessToken
+		databricksAccessTokenSecret, err := resolved.ResolvedSecrets.Lookup(*properties.DatabricksAccessToken)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property DatabricksAccessToken")
+		}
+		databricksAccessToken := databricksAccessTokenSecret
 		result.DatabricksAccessToken = &databricksAccessToken
 	}
 
@@ -10082,11 +10086,7 @@ func (properties *DatabricksProperties) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabricksProperties_ARM, got %T", armInput)
 	}
 
-	// Set property "DatabricksAccessToken":
-	if typedInput.DatabricksAccessToken != nil {
-		databricksAccessToken := *typedInput.DatabricksAccessToken
-		properties.DatabricksAccessToken = &databricksAccessToken
-	}
+	// no assignment for property "DatabricksAccessToken"
 
 	// Set property "WorkspaceUrl":
 	if typedInput.WorkspaceUrl != nil {
@@ -10102,7 +10102,12 @@ func (properties *DatabricksProperties) PopulateFromARM(owner genruntime.Arbitra
 func (properties *DatabricksProperties) AssignProperties_From_DatabricksProperties(source *storage.DatabricksProperties) error {
 
 	// DatabricksAccessToken
-	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
+	if source.DatabricksAccessToken != nil {
+		databricksAccessToken := source.DatabricksAccessToken.Copy()
+		properties.DatabricksAccessToken = &databricksAccessToken
+	} else {
+		properties.DatabricksAccessToken = nil
+	}
 
 	// WorkspaceUrl
 	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
@@ -10117,7 +10122,12 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DatabricksAccessToken
-	destination.DatabricksAccessToken = genruntime.ClonePointerToString(properties.DatabricksAccessToken)
+	if properties.DatabricksAccessToken != nil {
+		databricksAccessToken := properties.DatabricksAccessToken.Copy()
+		destination.DatabricksAccessToken = &databricksAccessToken
+	} else {
+		destination.DatabricksAccessToken = nil
+	}
 
 	// WorkspaceUrl
 	destination.WorkspaceUrl = genruntime.ClonePointerToString(properties.WorkspaceUrl)
@@ -10135,9 +10145,6 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 
 // Properties of Databricks
 type DatabricksProperties_STATUS struct {
-	// DatabricksAccessToken: Databricks access token
-	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
-
 	// WorkspaceUrl: Workspace Url
 	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
 }
@@ -10156,12 +10163,6 @@ func (properties *DatabricksProperties_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabricksProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property "DatabricksAccessToken":
-	if typedInput.DatabricksAccessToken != nil {
-		databricksAccessToken := *typedInput.DatabricksAccessToken
-		properties.DatabricksAccessToken = &databricksAccessToken
-	}
-
 	// Set property "WorkspaceUrl":
 	if typedInput.WorkspaceUrl != nil {
 		workspaceUrl := *typedInput.WorkspaceUrl
@@ -10175,9 +10176,6 @@ func (properties *DatabricksProperties_STATUS) PopulateFromARM(owner genruntime.
 // AssignProperties_From_DatabricksProperties_STATUS populates our DatabricksProperties_STATUS from the provided source DatabricksProperties_STATUS
 func (properties *DatabricksProperties_STATUS) AssignProperties_From_DatabricksProperties_STATUS(source *storage.DatabricksProperties_STATUS) error {
 
-	// DatabricksAccessToken
-	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
-
 	// WorkspaceUrl
 	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
 
@@ -10189,9 +10187,6 @@ func (properties *DatabricksProperties_STATUS) AssignProperties_From_DatabricksP
 func (properties *DatabricksProperties_STATUS) AssignProperties_To_DatabricksProperties_STATUS(destination *storage.DatabricksProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// DatabricksAccessToken
-	destination.DatabricksAccessToken = genruntime.ClonePointerToString(properties.DatabricksAccessToken)
 
 	// WorkspaceUrl
 	destination.WorkspaceUrl = genruntime.ClonePointerToString(properties.WorkspaceUrl)

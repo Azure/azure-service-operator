@@ -2867,7 +2867,6 @@ func PrivateEndpointDestinationGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateEndpointDestination(gens map[string]gopter.Gen) {
 	gens["SparkEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SparkStatus"] = gen.PtrOf(gen.OneConstOf(RuleStatus_Active, RuleStatus_Inactive))
-	gens["SubresourceTarget"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateEndpointDestination_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

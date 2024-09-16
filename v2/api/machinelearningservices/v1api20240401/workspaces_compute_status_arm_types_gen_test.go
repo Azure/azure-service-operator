@@ -2303,7 +2303,6 @@ func DatabricksProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabricksProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabricksProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DatabricksAccessToken"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceUrl"] = gen.PtrOf(gen.AlphaString())
 }
 

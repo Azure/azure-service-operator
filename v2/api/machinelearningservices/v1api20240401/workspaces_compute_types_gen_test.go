@@ -249,7 +249,6 @@ func AddIndependentPropertyGeneratorsForAKS_Properties(gens map[string]gopter.Ge
 	gens["AgentVmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusterFqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusterPurpose"] = gen.PtrOf(gen.OneConstOf(AKS_Properties_ClusterPurpose_DenseProd, AKS_Properties_ClusterPurpose_DevTest, AKS_Properties_ClusterPurpose_FastProd))
-	gens["LoadBalancerSubnet"] = gen.PtrOf(gen.AlphaString())
 	gens["LoadBalancerType"] = gen.PtrOf(gen.OneConstOf(AKS_Properties_LoadBalancerType_InternalLoadBalancer, AKS_Properties_LoadBalancerType_PublicIp))
 }
 
@@ -6102,7 +6101,6 @@ func DatabricksPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabricksProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabricksProperties(gens map[string]gopter.Gen) {
-	gens["DatabricksAccessToken"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -6206,7 +6204,6 @@ func DatabricksProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabricksProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabricksProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DatabricksAccessToken"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceUrl"] = gen.PtrOf(gen.AlphaString())
 }
 

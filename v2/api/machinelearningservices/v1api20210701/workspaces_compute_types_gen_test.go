@@ -4205,7 +4205,6 @@ func DatabricksPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabricksProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabricksProperties(gens map[string]gopter.Gen) {
-	gens["DatabricksAccessToken"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -4309,7 +4308,6 @@ func DatabricksProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabricksProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabricksProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DatabricksAccessToken"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceUrl"] = gen.PtrOf(gen.AlphaString())
 }
 

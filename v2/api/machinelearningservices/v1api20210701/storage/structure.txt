@@ -296,7 +296,7 @@ WorkspacesCompute: Resource
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── Properties: *Object (3 properties)
-│   │   │   │   ├── DatabricksAccessToken: *string
+│   │   │   │   ├── DatabricksAccessToken: *genruntime.SecretReference
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -737,8 +737,7 @@ WorkspacesCompute: Resource
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── IsAttachedCompute: *bool
     │   │   ├── ModifiedOn: *string
-    │   │   ├── Properties: *Object (3 properties)
-    │   │   │   ├── DatabricksAccessToken: *string
+    │   │   ├── Properties: *Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── WorkspaceUrl: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag

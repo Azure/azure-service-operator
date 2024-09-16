@@ -13,4 +13,3 @@ spec:
       target: www.microsoft.com
       value: '{"foo":"bar", "baz":"bee"}'
       valueFormat: JSON
-status: {}

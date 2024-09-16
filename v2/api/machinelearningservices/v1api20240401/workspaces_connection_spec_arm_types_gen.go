@@ -926,7 +926,7 @@ type WorkspaceConnectionOAuth2_ARM struct {
 	AuthUrl *string `json:"authUrl,omitempty"`
 
 	// ClientId: Client id in the format of UUID
-	ClientId     *string `json:"clientId,omitempty"`
+	ClientId     *string `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
 	ClientSecret *string `json:"clientSecret,omitempty"`
 
 	// DeveloperToken: Required by GoogleAdWords connection category
@@ -938,7 +938,7 @@ type WorkspaceConnectionOAuth2_ARM struct {
 	RefreshToken *string `json:"refreshToken,omitempty"`
 
 	// TenantId: Required by QuickBooks and Xero connection categories
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 
 	// Username: Concur, ServiceNow auth server AccessToken grant type is 'Password'
 	// which requires UsernamePassword
@@ -950,9 +950,9 @@ type WorkspaceConnectionPersonalAccessToken_ARM struct {
 }
 
 type WorkspaceConnectionServicePrincipal_ARM struct {
-	ClientId     *string `json:"clientId,omitempty"`
+	ClientId     *string `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
 	ClientSecret *string `json:"clientSecret,omitempty"`
-	TenantId     *string `json:"tenantId,omitempty"`
+	TenantId     *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 type WorkspaceConnectionSharedAccessSignature_ARM struct {

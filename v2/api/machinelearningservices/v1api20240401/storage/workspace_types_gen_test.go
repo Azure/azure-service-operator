@@ -1758,7 +1758,6 @@ func PrivateEndpointDestinationGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateEndpointDestination(gens map[string]gopter.Gen) {
 	gens["SparkEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SparkStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["SubresourceTarget"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateEndpointDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

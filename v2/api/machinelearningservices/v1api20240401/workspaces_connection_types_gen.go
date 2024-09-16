@@ -10887,7 +10887,7 @@ var connectionGroup_STATUS_Values = map[string]ConnectionGroup_STATUS{
 
 // Custom Keys credential object
 type CustomKeys struct {
-	Keys map[string]string `json:"keys,omitempty"`
+	Keys *genruntime.SecretMapReference `json:"keys,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CustomKeys{}
@@ -10901,10 +10901,13 @@ func (keys *CustomKeys) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 	// Set property "Keys":
 	if keys.Keys != nil {
-		result.Keys = make(map[string]string, len(keys.Keys))
-		for key, value := range keys.Keys {
-			result.Keys[key] = value
+		var temp map[string]string
+		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*keys.Keys)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property temp")
 		}
+		temp = tempSecret
+		result.Keys = temp
 	}
 	return result, nil
 }
@@ -10916,18 +10919,12 @@ func (keys *CustomKeys) NewEmptyARMValue() genruntime.ARMResourceStatus {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (keys *CustomKeys) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomKeys_ARM)
+	_, ok := armInput.(CustomKeys_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomKeys_ARM, got %T", armInput)
 	}
 
-	// Set property "Keys":
-	if typedInput.Keys != nil {
-		keys.Keys = make(map[string]string, len(typedInput.Keys))
-		for key, value := range typedInput.Keys {
-			keys.Keys[key] = value
-		}
-	}
+	// no assignment for property "Keys"
 
 	// No error
 	return nil
@@ -10937,7 +10934,12 @@ func (keys *CustomKeys) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 func (keys *CustomKeys) AssignProperties_From_CustomKeys(source *storage.CustomKeys) error {
 
 	// Keys
-	keys.Keys = genruntime.CloneMapOfStringToString(source.Keys)
+	if source.Keys != nil {
+		key := source.Keys.Copy()
+		keys.Keys = &key
+	} else {
+		keys.Keys = nil
+	}
 
 	// No error
 	return nil
@@ -10949,7 +10951,12 @@ func (keys *CustomKeys) AssignProperties_To_CustomKeys(destination *storage.Cust
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Keys
-	destination.Keys = genruntime.CloneMapOfStringToString(keys.Keys)
+	if keys.Keys != nil {
+		key := keys.Keys.Copy()
+		destination.Keys = &key
+	} else {
+		destination.Keys = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -10964,9 +10971,6 @@ func (keys *CustomKeys) AssignProperties_To_CustomKeys(destination *storage.Cust
 
 // Initialize_From_CustomKeys_STATUS populates our CustomKeys from the provided source CustomKeys_STATUS
 func (keys *CustomKeys) Initialize_From_CustomKeys_STATUS(source *CustomKeys_STATUS) error {
-
-	// Keys
-	keys.Keys = genruntime.CloneMapOfStringToString(source.Keys)
 
 	// No error
 	return nil
@@ -11337,8 +11341,8 @@ var usernamePasswordAuthTypeWorkspaceConnectionProperties_ValueFormat_STATUS_Val
 }
 
 type WorkspaceConnectionAccessKey struct {
-	AccessKeyId     *string `json:"accessKeyId,omitempty"`
-	SecretAccessKey *string `json:"secretAccessKey,omitempty"`
+	AccessKeyId     *string                     `json:"accessKeyId,omitempty"`
+	SecretAccessKey *genruntime.SecretReference `json:"secretAccessKey,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WorkspaceConnectionAccessKey{}
@@ -11358,7 +11362,11 @@ func (accessKey *WorkspaceConnectionAccessKey) ConvertToARM(resolved genruntime.
 
 	// Set property "SecretAccessKey":
 	if accessKey.SecretAccessKey != nil {
-		secretAccessKey := *accessKey.SecretAccessKey
+		secretAccessKeySecret, err := resolved.ResolvedSecrets.Lookup(*accessKey.SecretAccessKey)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property SecretAccessKey")
+		}
+		secretAccessKey := secretAccessKeySecret
 		result.SecretAccessKey = &secretAccessKey
 	}
 	return result, nil
@@ -11382,11 +11390,7 @@ func (accessKey *WorkspaceConnectionAccessKey) PopulateFromARM(owner genruntime.
 		accessKey.AccessKeyId = &accessKeyId
 	}
 
-	// Set property "SecretAccessKey":
-	if typedInput.SecretAccessKey != nil {
-		secretAccessKey := *typedInput.SecretAccessKey
-		accessKey.SecretAccessKey = &secretAccessKey
-	}
+	// no assignment for property "SecretAccessKey"
 
 	// No error
 	return nil
@@ -11399,7 +11403,12 @@ func (accessKey *WorkspaceConnectionAccessKey) AssignProperties_From_WorkspaceCo
 	accessKey.AccessKeyId = genruntime.ClonePointerToString(source.AccessKeyId)
 
 	// SecretAccessKey
-	accessKey.SecretAccessKey = genruntime.ClonePointerToString(source.SecretAccessKey)
+	if source.SecretAccessKey != nil {
+		secretAccessKey := source.SecretAccessKey.Copy()
+		accessKey.SecretAccessKey = &secretAccessKey
+	} else {
+		accessKey.SecretAccessKey = nil
+	}
 
 	// No error
 	return nil
@@ -11414,7 +11423,12 @@ func (accessKey *WorkspaceConnectionAccessKey) AssignProperties_To_WorkspaceConn
 	destination.AccessKeyId = genruntime.ClonePointerToString(accessKey.AccessKeyId)
 
 	// SecretAccessKey
-	destination.SecretAccessKey = genruntime.ClonePointerToString(accessKey.SecretAccessKey)
+	if accessKey.SecretAccessKey != nil {
+		secretAccessKey := accessKey.SecretAccessKey.Copy()
+		destination.SecretAccessKey = &secretAccessKey
+	} else {
+		destination.SecretAccessKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11433,16 +11447,12 @@ func (accessKey *WorkspaceConnectionAccessKey) Initialize_From_WorkspaceConnecti
 	// AccessKeyId
 	accessKey.AccessKeyId = genruntime.ClonePointerToString(source.AccessKeyId)
 
-	// SecretAccessKey
-	accessKey.SecretAccessKey = genruntime.ClonePointerToString(source.SecretAccessKey)
-
 	// No error
 	return nil
 }
 
 type WorkspaceConnectionAccessKey_STATUS struct {
-	AccessKeyId     *string `json:"accessKeyId,omitempty"`
-	SecretAccessKey *string `json:"secretAccessKey,omitempty"`
+	AccessKeyId *string `json:"accessKeyId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceConnectionAccessKey_STATUS{}
@@ -11465,12 +11475,6 @@ func (accessKey *WorkspaceConnectionAccessKey_STATUS) PopulateFromARM(owner genr
 		accessKey.AccessKeyId = &accessKeyId
 	}
 
-	// Set property "SecretAccessKey":
-	if typedInput.SecretAccessKey != nil {
-		secretAccessKey := *typedInput.SecretAccessKey
-		accessKey.SecretAccessKey = &secretAccessKey
-	}
-
 	// No error
 	return nil
 }
@@ -11480,9 +11484,6 @@ func (accessKey *WorkspaceConnectionAccessKey_STATUS) AssignProperties_From_Work
 
 	// AccessKeyId
 	accessKey.AccessKeyId = genruntime.ClonePointerToString(source.AccessKeyId)
-
-	// SecretAccessKey
-	accessKey.SecretAccessKey = genruntime.ClonePointerToString(source.SecretAccessKey)
 
 	// No error
 	return nil
@@ -11495,9 +11496,6 @@ func (accessKey *WorkspaceConnectionAccessKey_STATUS) AssignProperties_To_Worksp
 
 	// AccessKeyId
 	destination.AccessKeyId = genruntime.ClonePointerToString(accessKey.AccessKeyId)
-
-	// SecretAccessKey
-	destination.SecretAccessKey = genruntime.ClonePointerToString(accessKey.SecretAccessKey)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11645,7 +11643,7 @@ func (accountKey *WorkspaceConnectionAccountKey_STATUS) AssignProperties_To_Work
 
 // Api key object for workspace connection credential.
 type WorkspaceConnectionApiKey struct {
-	Key *string `json:"key,omitempty"`
+	Key *genruntime.SecretReference `json:"key,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WorkspaceConnectionApiKey{}
@@ -11659,7 +11657,11 @@ func (apiKey *WorkspaceConnectionApiKey) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "Key":
 	if apiKey.Key != nil {
-		key := *apiKey.Key
+		keySecret, err := resolved.ResolvedSecrets.Lookup(*apiKey.Key)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Key")
+		}
+		key := keySecret
 		result.Key = &key
 	}
 	return result, nil
@@ -11672,16 +11674,12 @@ func (apiKey *WorkspaceConnectionApiKey) NewEmptyARMValue() genruntime.ARMResour
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (apiKey *WorkspaceConnectionApiKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionApiKey_ARM)
+	_, ok := armInput.(WorkspaceConnectionApiKey_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionApiKey_ARM, got %T", armInput)
 	}
 
-	// Set property "Key":
-	if typedInput.Key != nil {
-		key := *typedInput.Key
-		apiKey.Key = &key
-	}
+	// no assignment for property "Key"
 
 	// No error
 	return nil
@@ -11691,7 +11689,12 @@ func (apiKey *WorkspaceConnectionApiKey) PopulateFromARM(owner genruntime.Arbitr
 func (apiKey *WorkspaceConnectionApiKey) AssignProperties_From_WorkspaceConnectionApiKey(source *storage.WorkspaceConnectionApiKey) error {
 
 	// Key
-	apiKey.Key = genruntime.ClonePointerToString(source.Key)
+	if source.Key != nil {
+		key := source.Key.Copy()
+		apiKey.Key = &key
+	} else {
+		apiKey.Key = nil
+	}
 
 	// No error
 	return nil
@@ -11703,7 +11706,12 @@ func (apiKey *WorkspaceConnectionApiKey) AssignProperties_To_WorkspaceConnection
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Key
-	destination.Key = genruntime.ClonePointerToString(apiKey.Key)
+	if apiKey.Key != nil {
+		key := apiKey.Key.Copy()
+		destination.Key = &key
+	} else {
+		destination.Key = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11719,16 +11727,12 @@ func (apiKey *WorkspaceConnectionApiKey) AssignProperties_To_WorkspaceConnection
 // Initialize_From_WorkspaceConnectionApiKey_STATUS populates our WorkspaceConnectionApiKey from the provided source WorkspaceConnectionApiKey_STATUS
 func (apiKey *WorkspaceConnectionApiKey) Initialize_From_WorkspaceConnectionApiKey_STATUS(source *WorkspaceConnectionApiKey_STATUS) error {
 
-	// Key
-	apiKey.Key = genruntime.ClonePointerToString(source.Key)
-
 	// No error
 	return nil
 }
 
 // Api key object for workspace connection credential.
 type WorkspaceConnectionApiKey_STATUS struct {
-	Key *string `json:"key,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceConnectionApiKey_STATUS{}
@@ -11740,15 +11744,9 @@ func (apiKey *WorkspaceConnectionApiKey_STATUS) NewEmptyARMValue() genruntime.AR
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (apiKey *WorkspaceConnectionApiKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionApiKey_STATUS_ARM)
+	_, ok := armInput.(WorkspaceConnectionApiKey_STATUS_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionApiKey_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property "Key":
-	if typedInput.Key != nil {
-		key := *typedInput.Key
-		apiKey.Key = &key
 	}
 
 	// No error
@@ -11758,9 +11756,6 @@ func (apiKey *WorkspaceConnectionApiKey_STATUS) PopulateFromARM(owner genruntime
 // AssignProperties_From_WorkspaceConnectionApiKey_STATUS populates our WorkspaceConnectionApiKey_STATUS from the provided source WorkspaceConnectionApiKey_STATUS
 func (apiKey *WorkspaceConnectionApiKey_STATUS) AssignProperties_From_WorkspaceConnectionApiKey_STATUS(source *storage.WorkspaceConnectionApiKey_STATUS) error {
 
-	// Key
-	apiKey.Key = genruntime.ClonePointerToString(source.Key)
-
 	// No error
 	return nil
 }
@@ -11769,9 +11764,6 @@ func (apiKey *WorkspaceConnectionApiKey_STATUS) AssignProperties_From_WorkspaceC
 func (apiKey *WorkspaceConnectionApiKey_STATUS) AssignProperties_To_WorkspaceConnectionApiKey_STATUS(destination *storage.WorkspaceConnectionApiKey_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(apiKey.Key)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -12009,8 +12001,11 @@ type WorkspaceConnectionOAuth2 struct {
 
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 	// ClientId: Client id in the format of UUID
-	ClientId     *string                     `json:"clientId,omitempty"`
-	ClientSecret *genruntime.SecretReference `json:"clientSecret,omitempty"`
+	ClientId *string `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+
+	// ClientIdFromConfig: Client id in the format of UUID
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientSecret       *genruntime.SecretReference    `json:"clientSecret,omitempty"`
 
 	// DeveloperToken: Required by GoogleAdWords connection category
 	DeveloperToken *genruntime.SecretReference `json:"developerToken,omitempty"`
@@ -12021,7 +12016,10 @@ type WorkspaceConnectionOAuth2 struct {
 	RefreshToken *genruntime.SecretReference `json:"refreshToken,omitempty"`
 
 	// TenantId: Required by QuickBooks and Xero connection categories
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+
+	// TenantIdFromConfig: Required by QuickBooks and Xero connection categories
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 
 	// Username: Concur, ServiceNow auth server AccessToken grant type is 'Password'
 	// which requires UsernamePassword
@@ -12046,6 +12044,14 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 	// Set property "ClientId":
 	if auth2.ClientId != nil {
 		clientId := *auth2.ClientId
+		result.ClientId = &clientId
+	}
+	if auth2.ClientIdFromConfig != nil {
+		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*auth2.ClientIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+		}
+		clientId := clientIdValue
 		result.ClientId = &clientId
 	}
 
@@ -12094,6 +12100,14 @@ func (auth2 *WorkspaceConnectionOAuth2) ConvertToARM(resolved genruntime.Convert
 		tenantId := *auth2.TenantId
 		result.TenantId = &tenantId
 	}
+	if auth2.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*auth2.TenantIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
+		result.TenantId = &tenantId
+	}
 
 	// Set property "Username":
 	if auth2.Username != nil {
@@ -12127,6 +12141,8 @@ func (auth2 *WorkspaceConnectionOAuth2) PopulateFromARM(owner genruntime.Arbitra
 		auth2.ClientId = &clientId
 	}
 
+	// no assignment for property "ClientIdFromConfig"
+
 	// no assignment for property "ClientSecret"
 
 	// no assignment for property "DeveloperToken"
@@ -12140,6 +12156,8 @@ func (auth2 *WorkspaceConnectionOAuth2) PopulateFromARM(owner genruntime.Arbitra
 		tenantId := *typedInput.TenantId
 		auth2.TenantId = &tenantId
 	}
+
+	// no assignment for property "TenantIdFromConfig"
 
 	// Set property "Username":
 	if typedInput.Username != nil {
@@ -12163,6 +12181,14 @@ func (auth2 *WorkspaceConnectionOAuth2) AssignProperties_From_WorkspaceConnectio
 		auth2.ClientId = &clientId
 	} else {
 		auth2.ClientId = nil
+	}
+
+	// ClientIdFromConfig
+	if source.ClientIdFromConfig != nil {
+		clientIdFromConfig := source.ClientIdFromConfig.Copy()
+		auth2.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		auth2.ClientIdFromConfig = nil
 	}
 
 	// ClientSecret
@@ -12200,6 +12226,14 @@ func (auth2 *WorkspaceConnectionOAuth2) AssignProperties_From_WorkspaceConnectio
 	// TenantId
 	auth2.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		auth2.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		auth2.TenantIdFromConfig = nil
+	}
+
 	// Username
 	auth2.Username = genruntime.ClonePointerToString(source.Username)
 
@@ -12221,6 +12255,14 @@ func (auth2 *WorkspaceConnectionOAuth2) AssignProperties_To_WorkspaceConnectionO
 		destination.ClientId = &clientId
 	} else {
 		destination.ClientId = nil
+	}
+
+	// ClientIdFromConfig
+	if auth2.ClientIdFromConfig != nil {
+		clientIdFromConfig := auth2.ClientIdFromConfig.Copy()
+		destination.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		destination.ClientIdFromConfig = nil
 	}
 
 	// ClientSecret
@@ -12257,6 +12299,14 @@ func (auth2 *WorkspaceConnectionOAuth2) AssignProperties_To_WorkspaceConnectionO
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(auth2.TenantId)
+
+	// TenantIdFromConfig
+	if auth2.TenantIdFromConfig != nil {
+		tenantIdFromConfig := auth2.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
 
 	// Username
 	destination.Username = genruntime.ClonePointerToString(auth2.Username)
@@ -12537,9 +12587,11 @@ func (token *WorkspaceConnectionPersonalAccessToken_STATUS) AssignProperties_To_
 }
 
 type WorkspaceConnectionServicePrincipal struct {
-	ClientId     *string                     `json:"clientId,omitempty"`
-	ClientSecret *genruntime.SecretReference `json:"clientSecret,omitempty"`
-	TenantId     *string                     `json:"tenantId,omitempty"`
+	ClientId           *string                        `json:"clientId,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientIdFromConfig *genruntime.ConfigMapReference `json:"clientIdFromConfig,omitempty" optionalConfigMapPair:"ClientId"`
+	ClientSecret       *genruntime.SecretReference    `json:"clientSecret,omitempty"`
+	TenantId           *string                        `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 var _ genruntime.ARMTransformer = &WorkspaceConnectionServicePrincipal{}
@@ -12556,6 +12608,14 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 		clientId := *principal.ClientId
 		result.ClientId = &clientId
 	}
+	if principal.ClientIdFromConfig != nil {
+		clientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*principal.ClientIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property ClientId")
+		}
+		clientId := clientIdValue
+		result.ClientId = &clientId
+	}
 
 	// Set property "ClientSecret":
 	if principal.ClientSecret != nil {
@@ -12570,6 +12630,14 @@ func (principal *WorkspaceConnectionServicePrincipal) ConvertToARM(resolved genr
 	// Set property "TenantId":
 	if principal.TenantId != nil {
 		tenantId := *principal.TenantId
+		result.TenantId = &tenantId
+	}
+	if principal.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*principal.TenantIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
 		result.TenantId = &tenantId
 	}
 	return result, nil
@@ -12593,6 +12661,8 @@ func (principal *WorkspaceConnectionServicePrincipal) PopulateFromARM(owner genr
 		principal.ClientId = &clientId
 	}
 
+	// no assignment for property "ClientIdFromConfig"
+
 	// no assignment for property "ClientSecret"
 
 	// Set property "TenantId":
@@ -12600,6 +12670,8 @@ func (principal *WorkspaceConnectionServicePrincipal) PopulateFromARM(owner genr
 		tenantId := *typedInput.TenantId
 		principal.TenantId = &tenantId
 	}
+
+	// no assignment for property "TenantIdFromConfig"
 
 	// No error
 	return nil
@@ -12611,6 +12683,14 @@ func (principal *WorkspaceConnectionServicePrincipal) AssignProperties_From_Work
 	// ClientId
 	principal.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
+	// ClientIdFromConfig
+	if source.ClientIdFromConfig != nil {
+		clientIdFromConfig := source.ClientIdFromConfig.Copy()
+		principal.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		principal.ClientIdFromConfig = nil
+	}
+
 	// ClientSecret
 	if source.ClientSecret != nil {
 		clientSecret := source.ClientSecret.Copy()
@@ -12621,6 +12701,14 @@ func (principal *WorkspaceConnectionServicePrincipal) AssignProperties_From_Work
 
 	// TenantId
 	principal.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		principal.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		principal.TenantIdFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -12634,6 +12722,14 @@ func (principal *WorkspaceConnectionServicePrincipal) AssignProperties_To_Worksp
 	// ClientId
 	destination.ClientId = genruntime.ClonePointerToString(principal.ClientId)
 
+	// ClientIdFromConfig
+	if principal.ClientIdFromConfig != nil {
+		clientIdFromConfig := principal.ClientIdFromConfig.Copy()
+		destination.ClientIdFromConfig = &clientIdFromConfig
+	} else {
+		destination.ClientIdFromConfig = nil
+	}
+
 	// ClientSecret
 	if principal.ClientSecret != nil {
 		clientSecret := principal.ClientSecret.Copy()
@@ -12644,6 +12740,14 @@ func (principal *WorkspaceConnectionServicePrincipal) AssignProperties_To_Worksp
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(principal.TenantId)
+
+	// TenantIdFromConfig
+	if principal.TenantIdFromConfig != nil {
+		tenantIdFromConfig := principal.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -12740,7 +12844,7 @@ func (principal *WorkspaceConnectionServicePrincipal_STATUS) AssignProperties_To
 }
 
 type WorkspaceConnectionSharedAccessSignature struct {
-	Sas *string `json:"sas,omitempty"`
+	Sas *genruntime.SecretReference `json:"sas,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WorkspaceConnectionSharedAccessSignature{}
@@ -12754,7 +12858,11 @@ func (signature *WorkspaceConnectionSharedAccessSignature) ConvertToARM(resolved
 
 	// Set property "Sas":
 	if signature.Sas != nil {
-		sas := *signature.Sas
+		sasSecret, err := resolved.ResolvedSecrets.Lookup(*signature.Sas)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Sas")
+		}
+		sas := sasSecret
 		result.Sas = &sas
 	}
 	return result, nil
@@ -12767,16 +12875,12 @@ func (signature *WorkspaceConnectionSharedAccessSignature) NewEmptyARMValue() ge
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (signature *WorkspaceConnectionSharedAccessSignature) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionSharedAccessSignature_ARM)
+	_, ok := armInput.(WorkspaceConnectionSharedAccessSignature_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionSharedAccessSignature_ARM, got %T", armInput)
 	}
 
-	// Set property "Sas":
-	if typedInput.Sas != nil {
-		sas := *typedInput.Sas
-		signature.Sas = &sas
-	}
+	// no assignment for property "Sas"
 
 	// No error
 	return nil
@@ -12786,7 +12890,12 @@ func (signature *WorkspaceConnectionSharedAccessSignature) PopulateFromARM(owner
 func (signature *WorkspaceConnectionSharedAccessSignature) AssignProperties_From_WorkspaceConnectionSharedAccessSignature(source *storage.WorkspaceConnectionSharedAccessSignature) error {
 
 	// Sas
-	signature.Sas = genruntime.ClonePointerToString(source.Sas)
+	if source.Sas != nil {
+		sa := source.Sas.Copy()
+		signature.Sas = &sa
+	} else {
+		signature.Sas = nil
+	}
 
 	// No error
 	return nil
@@ -12798,7 +12907,12 @@ func (signature *WorkspaceConnectionSharedAccessSignature) AssignProperties_To_W
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Sas
-	destination.Sas = genruntime.ClonePointerToString(signature.Sas)
+	if signature.Sas != nil {
+		sa := signature.Sas.Copy()
+		destination.Sas = &sa
+	} else {
+		destination.Sas = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -12814,15 +12928,11 @@ func (signature *WorkspaceConnectionSharedAccessSignature) AssignProperties_To_W
 // Initialize_From_WorkspaceConnectionSharedAccessSignature_STATUS populates our WorkspaceConnectionSharedAccessSignature from the provided source WorkspaceConnectionSharedAccessSignature_STATUS
 func (signature *WorkspaceConnectionSharedAccessSignature) Initialize_From_WorkspaceConnectionSharedAccessSignature_STATUS(source *WorkspaceConnectionSharedAccessSignature_STATUS) error {
 
-	// Sas
-	signature.Sas = genruntime.ClonePointerToString(source.Sas)
-
 	// No error
 	return nil
 }
 
 type WorkspaceConnectionSharedAccessSignature_STATUS struct {
-	Sas *string `json:"sas,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceConnectionSharedAccessSignature_STATUS{}
@@ -12834,15 +12944,9 @@ func (signature *WorkspaceConnectionSharedAccessSignature_STATUS) NewEmptyARMVal
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (signature *WorkspaceConnectionSharedAccessSignature_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceConnectionSharedAccessSignature_STATUS_ARM)
+	_, ok := armInput.(WorkspaceConnectionSharedAccessSignature_STATUS_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceConnectionSharedAccessSignature_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property "Sas":
-	if typedInput.Sas != nil {
-		sas := *typedInput.Sas
-		signature.Sas = &sas
 	}
 
 	// No error
@@ -12852,9 +12956,6 @@ func (signature *WorkspaceConnectionSharedAccessSignature_STATUS) PopulateFromAR
 // AssignProperties_From_WorkspaceConnectionSharedAccessSignature_STATUS populates our WorkspaceConnectionSharedAccessSignature_STATUS from the provided source WorkspaceConnectionSharedAccessSignature_STATUS
 func (signature *WorkspaceConnectionSharedAccessSignature_STATUS) AssignProperties_From_WorkspaceConnectionSharedAccessSignature_STATUS(source *storage.WorkspaceConnectionSharedAccessSignature_STATUS) error {
 
-	// Sas
-	signature.Sas = genruntime.ClonePointerToString(source.Sas)
-
 	// No error
 	return nil
 }
@@ -12863,9 +12964,6 @@ func (signature *WorkspaceConnectionSharedAccessSignature_STATUS) AssignProperti
 func (signature *WorkspaceConnectionSharedAccessSignature_STATUS) AssignProperties_To_WorkspaceConnectionSharedAccessSignature_STATUS(destination *storage.WorkspaceConnectionSharedAccessSignature_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// Sas
-	destination.Sas = genruntime.ClonePointerToString(signature.Sas)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
