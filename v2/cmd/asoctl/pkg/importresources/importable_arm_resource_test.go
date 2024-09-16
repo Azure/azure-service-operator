@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/api"
