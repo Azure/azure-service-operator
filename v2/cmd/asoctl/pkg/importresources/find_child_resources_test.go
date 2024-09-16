@@ -6,6 +6,7 @@
 package importresources
 
 import (
+	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -34,6 +35,10 @@ func Test_FindChildResources_GivenParentResource_ReturnsExpectedChildResources(t
 		"CDN rulesets have rules": {
 			parentResourceType:        ruleset.GetType(),
 			expectedChildResourceType: rule.GetType(),
+		},
+		"Can find PostgreSQL configurations when parent is lowercase": {
+			parentResourceType:        strings.ToLower(postgreSQLServer.GetType()),
+			expectedChildResourceType: postgreSQLConfiguration.GetType(),
 		},
 	}
 
