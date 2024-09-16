@@ -87,28 +87,28 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		"namespace",
 		"n",
 		"",
-		"Write the imported resources to the specified namespace")
+		"Set the namespace of the the imported resources")
 
 	cmd.Flags().StringSliceVarP(
 		&options.labels,
 		"label",
 		"l",
 		nil,
-		"Add the specified labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
+		"Add labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
 
 	cmd.Flags().StringSliceVarP(
 		&options.annotations,
 		"annotation",
 		"a",
 		nil,
-		"Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
+		"Add annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
 
 	cmd.Flags().IntVarP(
 		&options.workers,
 		"workers",
 		"w",
 		4,
-		"Specify the number of parallel workers to use when importing resources")
+		"The number of parallel workers to use when importing resources")
 
 	return cmd
 }
