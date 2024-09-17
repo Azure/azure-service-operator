@@ -274,10 +274,8 @@ tasks:
   controller:ci-integration-tests:
     cmds:
       - task: cleanup-old-live-azure-resources
-      # TODO: These two test suites have been commented out temporarily
-      # TODO: due to https://github.com/Azure/azure-service-operator/issues/4166
-      # - task: controller:test-integration-kind-ci
-      # - task: controller:test-multitenant-integration-kind-ci
+      - task: controller:test-integration-kind-ci
+      - task: controller:test-multitenant-integration-kind-ci
       - task: cleanup-old-live-azure-resources  # Run this on both sides of the test pass to do our best to avoid leaking something
 
   controller:ci-live:
@@ -963,9 +961,10 @@ tasks:
     desc: Creates a workload identity secret for testing purposes
     cmds:
       - "{{.SCRIPTS_ROOT}}/deploy-testing-secret.sh workloadidentity"
+    vars:
+      DIR: "{{.DIR | default .KIND_WORKLOAD_IDENTITY_PATH}}"
     env:
       # Override the AZURE_CLIENT_ID env variable here
-      DIR: "{{.DIR | default .KIND_WORKLOAD_IDENTITY_PATH}}"
       AZURE_MI_CLIENT_ID:  # TODO: Ideally would override AZURE_CLIENT_ID here but we can't because of https://github.com/go-task/task/issues/1038
         sh: "cat {{.DIR}}/azure/miclientid.txt"
 
@@ -1278,3 +1277,13 @@ tasks:
     dir: v2/tools/mangle-test-json
     cmds:
       - go build
+
+  provision-oidc-storage-acct:
+    desc: Creates a storage account for use in OIDC federation with a random name in resource group "aso-wi-storage"
+    dir: "v2/"
+    cmds:
+      - '{{.SCRIPTS_ROOT}}/workloadidentitystorage/deploy.sh'
+    env:
+      KIND_OIDC_STORAGE_ACCOUNT_RG: aso-wi-storage
+      KIND_OIDC_STORAGE_ACCOUNT:
+          sh: echo "asowi$(openssl rand -hex 6)"
