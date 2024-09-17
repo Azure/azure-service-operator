@@ -36,7 +36,7 @@ ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on*
 Toggling the metrics By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:
 ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the below settings.">
 
-<meta itemprop="wordCount" content="533">
+<meta itemprop="wordCount" content="1021">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Metrics"/>
 <meta name="twitter:description" content="Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
@@ -866,18 +866,18 @@ containers:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-name: default-metrics
+  name: default-metrics
 rules:
 - nonResourceURLs:
-    - &quot;/metrics&quot;
-    - &quot;/debug/pprof/*&quot;
-      verbs:
-    - get
+  - &quot;/metrics&quot;
+  - &quot;/debug/pprof/*&quot;
+  verbs:
+  - get
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-name: default-metrics
+  name: default-metrics
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -886,7 +886,7 @@ subjects:
 - kind: ServiceAccount
   name: default
   namespace: default
-  EOT
+EOT
 </code></pre><p>Test locally:</p>
 <ul>
 <li>
@@ -900,11 +900,16 @@ curl https://localhost:8443/metrics --header &quot;Authorization: Bearer $TOKEN&
 </code></pre></li>
 </ul>
 <h2 id="understanding-the-asov2-metrics">Understanding the ASOv2 Metrics</h2>
+<p>See <a href="https://book-v1.book.kubebuilder.io/beyond_basics/controller_metrics">controller-runtime metrics</a> for more details
+about specific controller-runtime metrics.</p>
+<p>See <a href="https://github.com/kubernetes-sigs/controller-runtime/blob/main/pkg/metrics/workqueue.go">workqueue</a> for more details
+about the workqueue metrics from controller-runtime.</p>
 <table>
 <thead>
 <tr>
 <th>Metric</th>
 <th>Description</th>
+<th>Metric Type</th>
 <th>Label 1</th>
 <th>Label 2</th>
 <th>Label 3</th>
@@ -912,72 +917,402 @@ curl https://localhost:8443/metrics --header &quot;Authorization: Bearer $TOKEN&
 </thead>
 <tbody>
 <tr>
+<td><code>azure_successful_requests_total</code></td>
+<td>Total number of requests to Azure we received responses for. responseCode may be a failure such as 4xx or 5xx.</td>
+<td>counter</td>
+<td>resource</td>
+<td>requestType</td>
+<td>responseCode</td>
+</tr>
+<tr>
+<td><code>azure_failed_requests_total</code></td>
+<td>Total number of requests which we didn&rsquo;t receive a response from Azure for.</td>
+<td>counter</td>
+<td>resource</td>
+<td>requestType</td>
+<td></td>
+</tr>
+<tr>
+<td><code>azure_requests_time_seconds</code></td>
+<td>Tracks the duration of round-trip time taken by request to Azure.</td>
+<td>histogram</td>
+<td>resource</td>
+<td>requestType</td>
+<td></td>
+</tr>
+<tr>
 <td><code>controller_runtime_reconcile_total</code></td>
-<td>A prometheus counter metric with total number of reconcilations per controller.</td>
-<td>Controller</td>
-<td>Result</td>
+<td>Total number of reconciliations per controller.</td>
+<td>counter</td>
+<td>controller</td>
+<td>result</td>
 <td></td>
 </tr>
 <tr>
 <td><code>controller_runtime_errors_total</code></td>
-<td>A prometheus counter metric with total number of errors from reconciler</td>
-<td>Controller</td>
+<td>Total number of errors per controller.</td>
+<td>counter</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>controller_runtime_reconcile_panics_total</code></td>
+<td>Total number of panics per controller.</td>
+<td>counter</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>controller_runtime_terminal_reconcile_errors_total</code></td>
+<td>Total number of terminal reconciliation errors per controller.</td>
+<td>counter</td>
+<td>controller</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td><code>controller_runtime_reconcile_time_seconds</code></td>
-<td>A prometheus histogram metric which keeps track of the duration of reconcilations</td>
-<td>Controller</td>
+<td>Tracks the duration of reconciliations.</td>
+<td>histogram</td>
+<td>controller</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td><code>controller_runtime_max_concurrent_reconciles</code></td>
-<td>A prometheus gauge metric with number of concurrent reconciles per controller</td>
-<td>Controller</td>
+<td>Number of concurrent reconciles per controller.</td>
+<td>gauge</td>
+<td>controller</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td><code>controller_runtime_active_workers</code></td>
-<td>A prometheus gauge metric with number of active workers per controller</td>
-<td>Controller</td>
+<td>Number of active workers per controller.</td>
+<td>gauge</td>
+<td>controller</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td><code>azure_successful_requests_total</code></td>
-<td>A prometheus counter metric with total number of successful requests to Azure</td>
-<td>ResourceName</td>
-<td>RequestType</td>
-<td>ResponseCode</td>
-</tr>
-<tr>
-<td><code>azure_failed_requests_total</code></td>
-<td>A prometheus counter metric with total number of failed requests to Azure</td>
-<td>ResourceName</td>
-<td>RequestType</td>
+<td><code>controller_runtime_webhook_panics_total</code></td>
+<td>Total number of webhook panics.</td>
+<td>counter</td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td><code>azure_requests_time_seconds</code></td>
-<td>A prometheus histogram metric which keeps track of the duration of round-trip time taken by request to Azure</td>
-<td>ResourceName</td>
-<td>RequestType</td>
+<td><code>controller_runtime_webhook_requests_in_flight</code></td>
+<td>Total number of webhook requests in flight.</td>
+<td>gauge</td>
+<td>webhook</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>controller_runtime_webhook_requests_total</code></td>
+<td>Total number of webhook requests by HTTP status code.</td>
+<td>gauge</td>
+<td>webhook</td>
+<td>code</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workqueue_depth</code></td>
+<td>Total depth of the work queue per controller.</td>
+<td>gauge</td>
+<td>controller</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workqueue_adds_total</code></td>
+<td>Total adds handled by the work queue per controller.</td>
+<td>counter</td>
+<td>controller</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workqueue_queue_duration_seconds</code></td>
+<td>How long items stay in workqueue before being acted upon.</td>
+<td>histogram</td>
+<td>controller</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workqueue_work_duration_seconds</code></td>
+<td>How long processing an item from the workqueue takes.</td>
+<td>histogram</td>
+<td>controller</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workqueue_unfinished_work_seconds</code></td>
+<td>How many seconds of work have been done not observed by work_duration. Related to stuck threads.</td>
+<td>gauge</td>
+<td>controller</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workqueue_longest_running_processor_seconds</code></td>
+<td>How many seconds has the longest running processor been running.</td>
+<td>gauge</td>
+<td>controller</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workqueue_retries_total</code></td>
+<td>Total number of retries handled by workqueue.</td>
+<td>counter</td>
+<td>controller</td>
+<td>name</td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_gc_duration_seconds</code></td>
+<td>Wall-time pause duration in garbage collection cycles</td>
+<td>summary</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_gc_gogc_percent</code></td>
+<td>Heap size target percentage configured by the user</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_gc_gomemlimit_bytes</code></td>
+<td>Runtime memory limit configured by the user</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_goroutines</code></td>
+<td>Number of goroutines that currently exist</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_info</code></td>
+<td>Information about the Go environment</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_alloc_bytes</code></td>
+<td>Number of bytes allocated in heap and currently in use</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_alloc_bytes_total</code></td>
+<td>Total number of bytes allocated in heap until now</td>
+<td>counter</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_buck_hash_sys_bytes</code></td>
+<td>Number of bytes used by the profiling bucket hash table</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_frees_total</code></td>
+<td>Total number of heap objects frees</td>
+<td>counter</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_gc_sys_bytes</code></td>
+<td>Number of bytes used for garbage collection system metadata</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_heap_alloc_bytes</code></td>
+<td>Number of heap bytes allocated and currently in use</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_heap_idle_bytes</code></td>
+<td>Number of heap bytes waiting to be used</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_heap_inuse_bytes</code></td>
+<td>Number of heap bytes that are in use</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_heap_objects</code></td>
+<td>Number of currently allocated objects</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_heap_released_bytes</code></td>
+<td>Number of heap bytes released to OS</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_heap_sys_bytes</code></td>
+<td>Number of heap bytes obtained from system</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_last_gc_time_seconds</code></td>
+<td>Number of seconds since 1970 of last garbage collection</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_mallocs_total</code></td>
+<td>Total number of heap objects allocated</td>
+<td>counter</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_mcache_inuse_bytes</code></td>
+<td>Number of bytes in use by mcache structures</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_mcache_sys_bytes</code></td>
+<td>Number of bytes used for mcache structures obtained from system</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_mspan_inuse_bytes</code></td>
+<td>Number of bytes in use by mspan structures</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_mspan_sys_bytes</code></td>
+<td>Number of bytes used for mspan structures obtained from system</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_next_gc_bytes</code></td>
+<td>Number of heap bytes when next garbage collection will take place</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_other_sys_bytes</code></td>
+<td>Number of bytes used for other system allocations</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_stack_inuse_bytes</code></td>
+<td>Number of bytes obtained from system for stack allocator in non-CGO environments</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_stack_sys_bytes</code></td>
+<td>Number of bytes obtained from system for stack allocator</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_memstats_sys_bytes</code></td>
+<td>Number of bytes obtained from system</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>go_sched_gomaxprocs_threads</code></td>
+<td>Current runtime.GOMAXPROCS setting</td>
+<td>gauge</td>
+<td>controller</td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
+<p>The above table is not comprehensive. For a full set of metrics reported from the pod, query the <code>/metrics</code> API via the
+<code>curl</code> command documented above.</p>
 <h3 id="labels">Labels</h3>
 <p>Labels are used to differentiate the characteristics of the metric that is being measured. Each metric with distinct labels
 is an independent metric. Below are the labels used in ASOv2 metrics:</p>
 <ul>
-<li><strong>Controller</strong>: Each resource being reconciled against Azure ARM has a separate dedicated controller</li>
-<li><strong>Result</strong>: Reconcile result returned by controller ( error | requeue | requeue_after | success )</li>
-<li><strong>ResourceName</strong>: Resource name for which the request is sent</li>
-<li><strong>RequestType</strong>: Http request method ( GET | PUT | DELETE )</li>
-<li><strong>ResponseCode</strong>: Http code in response from Azure</li>
+<li><strong>controller</strong>: Each resource being reconciled against Azure ARM has a separate dedicated controller.</li>
+<li><strong>result</strong>: Reconcile result returned by controller ( error | requeue | requeue_after | success ).</li>
+<li><strong>resource</strong>: Resource type for which the request is sent, such as <code>Microsoft.Resources/resourceGroups</code>.</li>
+<li><strong>requestType</strong>: HTTP request method ( GET | PUT | DELETE ).</li>
+<li><strong>responseCode</strong>: HTTP status code in response from Azure.</li>
 </ul>
 
 	
