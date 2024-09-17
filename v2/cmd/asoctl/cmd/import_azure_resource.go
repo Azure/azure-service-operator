@@ -7,6 +7,8 @@ package cmd
 
 import (
 	"context"
+	"github.com/go-logr/logr"
+	"io"
 	"os"
 	"sync"
 
@@ -119,27 +121,22 @@ func importAzureResource(
 	armIDs []string,
 	options *importAzureResourceOptions,
 ) error {
-	log, progressBar := CreateLoggerAndProgressBar()
-
-	// Make sure all output is written when we're done
-	defer progressBar.Wait()
-
-	creds, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return errors.Wrap(err, "unable to get default Azure credential")
+	// Check we're being asked to do something ... anything ...
+	if len(armIDs) == 0 {
+		return errors.New("no ARM IDs provided")
 	}
 
-	clientOptions := &genericarmclient.GenericClientOptions{
-		UserAgent: "asoctl/" + version.BuildVersion,
-	}
-
-	activeCloud := options.cloud()
-	client, err := genericarmclient.NewGenericClient(activeCloud, creds, clientOptions)
+	// Create an ARM client for requesting resources
+	client, err := createARMClient(options)
 	if err != nil {
 		return errors.Wrapf(err, "failed to create ARM client")
 	}
 
-	done := make(chan struct{}) // signal that we're done
+	// Caution: the progress bar can deadlock if no bar is ever created, so make sure the gap between
+	// this and the call to importer.Import() is as small as possible.
+	log, progressBar := CreateLoggerAndProgressBar()
+
+	done := make(chan struct{}) // signal for when we're done
 	pb := importreporter.NewBar("Import Azure Resources", progressBar, done)
 
 	importerOptions := importresources.ResourceImporterOptions{
@@ -153,6 +150,11 @@ func importAzureResource(
 			return errors.Wrapf(err, "failed to add %q to import list", armID)
 		}
 	}
+
+	// Make sure all output is written when we're done.
+	// This defer has to be immediately before the call the importer.Import();
+	// if you move it earlier, any `return err` between there and here will cause a deadlock.
+	defer progressBar.Wait()
 
 	result, err := importer.Import(ctx, done)
 
@@ -174,25 +176,70 @@ func importAzureResource(
 		return nil
 	}
 
-	// Apply additional configuration to imported resources.
+	err = configureImportedResources(options, result)
+	if err != nil {
+		return errors.Wrap(err, "failed to apply options to imported resources")
+	}
+
+	err = writeResources(result, options, log, progressBar)
+	if err != nil {
+		return errors.Wrap(err, "failed to write resources")
+	}
+
+	return nil
+}
+
+// createARMClient creates our client for talking to ARM
+func createARMClient(options *importAzureResourceOptions) (*genericarmclient.GenericClient, error) {
+	creds, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to get default Azure credential")
+	}
+
+	clientOptions := &genericarmclient.GenericClientOptions{
+		UserAgent: "asoctl/" + version.BuildVersion,
+	}
+
+	activeCloud := options.cloud()
+	return genericarmclient.NewGenericClient(activeCloud, creds, clientOptions)
+}
+
+// configureImportedResources applies additional configuration to imported resources
+func configureImportedResources(
+	options *importAzureResourceOptions,
+	result *importresources.Result,
+) error {
+	// Set the namespace on all resources
 	if options.namespace != "" {
 		result.SetNamespace(options.namespace)
 	}
 
+	// Apply labels
 	if len(options.labels) > 0 {
-		err = result.AddLabels(options.labels)
+		err := result.AddLabels(options.labels)
 		if err != nil {
 			return errors.Wrap(err, "failed to add labels")
 		}
 	}
 
+	// Apply annotations
 	if len(options.annotations) > 0 {
-		err = result.AddAnnotations(options.annotations)
+		err := result.AddAnnotations(options.annotations)
 		if err != nil {
 			return errors.Wrap(err, "failed to add annotations")
 		}
 	}
 
+	return nil
+}
+
+func writeResources(
+	result *importresources.Result,
+	options *importAzureResourceOptions,
+	log logr.Logger,
+	out io.Writer,
+) error {
+	// Write all the resources to a single file
 	if file, ok := options.writeToFile(); ok {
 		log.Info(
 			"Writing to a single file",
@@ -201,7 +248,12 @@ func importAzureResource(
 		if err != nil {
 			return errors.Wrapf(err, "failed to write to file %s", file)
 		}
-	} else if folder, ok := options.writeToFolder(); ok {
+
+		return nil
+	}
+
+	// Write each resource to an individual file in a folder
+	if folder, ok := options.writeToFolder(); ok {
 		log.Info(
 			"Writing to individual files in folder",
 			"folder", folder)
@@ -209,11 +261,14 @@ func importAzureResource(
 		if err != nil {
 			return errors.Wrapf(err, "failed to write into folder %s", folder)
 		}
-	} else {
-		err := result.SaveToWriter(progressBar)
-		if err != nil {
-			return errors.Wrapf(err, "failed to write to stdout")
-		}
+
+		return nil
+	}
+
+	// Write all the resources to stdout
+	err := result.SaveToWriter(out)
+	if err != nil {
+		return errors.Wrapf(err, "failed to write to stdout")
 	}
 
 	return nil
