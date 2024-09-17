@@ -19,25 +19,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Testing | Azure Service Operator</title>
-<meta name="description" content="Running integration tests Basic use: run task controller:test-integration-envtest.
-Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No   REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login &amp;ndash;name {name}) Yes No   REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn&amp;rsquo;t used) No No   REGISTRY_PUBLIC The path to the container release registry, used in &amp;ndash;tag &amp;ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&amp;rdquo; No No    Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources.">
+<meta name="description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
+These are sometimes also called envtest tests, because they use envtest.
+Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.">
 <meta property="og:title" content="Testing" />
-<meta property="og:description" content="Running integration tests Basic use: run task controller:test-integration-envtest.
-Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No   REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login &ndash;name {name}) Yes No   REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn&rsquo;t used) No No   REGISTRY_PUBLIC The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo; No No    Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources." />
+<meta property="og:description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
+These are sometimes also called envtest tests, because they use envtest.
+Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/testing/" /><meta property="article:section" content="contributing" />
 
 
 
 <meta itemprop="name" content="Testing">
-<meta itemprop="description" content="Running integration tests Basic use: run task controller:test-integration-envtest.
-Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No   REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login &ndash;name {name}) Yes No   REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn&rsquo;t used) No No   REGISTRY_PUBLIC The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo; No No    Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources.">
+<meta itemprop="description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
+These are sometimes also called envtest tests, because they use envtest.
+Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.">
 
-<meta itemprop="wordCount" content="470">
+<meta itemprop="wordCount" content="717">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Testing"/>
-<meta name="twitter:description" content="Running integration tests Basic use: run task controller:test-integration-envtest.
-Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app.codecov.io/gh/Azure/azure-service-operator Yes No   REGISTRY_LOGIN The Azure Container Registry to log in to (for az acr login &ndash;name {name}) Yes No   REGISTRY_PRERELEASE The path to the container prerelease registry (right now this isn&rsquo;t used) No No   REGISTRY_PUBLIC The path to the container release registry, used in &ndash;tag &ldquo;{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}&rdquo; No No    Record/replay The task controller:test-integration-envtest runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources."/>
+<meta name="twitter:description" content="Running envtest integration tests Basic use: task controller:test-integration-envtest.
+These are sometimes also called envtest tests, because they use envtest.
+Required variables    Environment Variable Value Needed for CI (Github Actions) Needed for local testing     AZURE_SUBSCRIPTION_ID The Azure Subscription ID Yes Yes (when recording)   AZURE_TENANT_ID The Azure Tenant ID Yes Yes (when recording)   TEST_BILLING_ID The Azure billing ID No Yes (when recording SubscriptionAlias tests)   CODECOV_TOKEN The token to https://app."/>
 
 
 
@@ -715,7 +719,7 @@ Required variables    Environment Variable Value Needed for CI (Github Actions) 
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#running-integration-tests">Running integration tests</a>
+    <li><a href="#running-envtest-integration-tests">Running envtest integration tests</a>
       <ul>
         <li><a href="#required-variables">Required variables</a></li>
         <li><a href="#recordreplay">Record/replay</a></li>
@@ -723,6 +727,7 @@ Required variables    Environment Variable Value Needed for CI (Github Actions) 
         <li><a href="#running-a-single-test">Running a single test</a></li>
       </ul>
     </li>
+    <li><a href="#running-integration-tests-in-a-kind-cluster">Running integration tests in a KIND cluster</a></li>
   </ul>
 </nav>
       </div>
@@ -781,8 +786,10 @@ Required variables    Environment Variable Value Needed for CI (Github Actions) 
 
 		
 	</header>    
-	<h2 id="running-integration-tests">Running integration tests</h2>
-<p>Basic use: run <code>task controller:test-integration-envtest</code>.</p>
+	<h2 id="running-envtest-integration-tests">Running envtest integration tests</h2>
+<p><strong>Basic use:</strong> <code>task controller:test-integration-envtest</code>.</p>
+<p>These are sometimes also called <code>envtest</code> tests, because they use
+<a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest">envtest</a>.</p>
 <h3 id="required-variables">Required variables</h3>
 <table>
 <thead>
@@ -865,7 +872,51 @@ as you may just be working on a single feature or test. In order to run a subset
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">TEST_FILTER<span style="color:#f92672">=</span>&lt;test_name_regex&gt; task controller:test-integration-envtest
 </code></pre></div><p>or, with a timeout:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">TIMEOUT<span style="color:#f92672">=</span>10m TEST_FILTER<span style="color:#f92672">=</span>&lt;test_name_regex&gt; task controller:test-integration-envtest
-</code></pre></div>
+</code></pre></div><h2 id="running-integration-tests-in-a-kind-cluster">Running integration tests in a KIND cluster</h2>
+<table>
+<thead>
+<tr>
+<th>Environment Variable</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AZURE_SUBSCRIPTION_ID</td>
+<td>The Azure Subscription ID</td>
+</tr>
+<tr>
+<td>AZURE_TENANT_ID</td>
+<td>The Azure Tenant ID</td>
+</tr>
+<tr>
+<td>KIND_OIDC_STORAGE_ACCOUNT_RG</td>
+<td>The resource group containing the Azure storage account for OIDC federation</td>
+</tr>
+<tr>
+<td>KIND_OIDC_STORAGE_ACCOUNT</td>
+<td>The Azure storage account name. Storage account names must be globally unique.</td>
+</tr>
+</tbody>
+</table>
+<p>ASO CI uses:</p>
+<pre tabindex="0"><code>KIND_OIDC_STORAGE_ACCOUNT_RG=asov2-ci
+KIND_OIDC_STORAGE_ACCOUNT=asowistorage
+</code></pre><p><strong>Pre-requisite:</strong> Provision a storage account for OIDC federated token exchange with Azure for your KIND clusters.
+This can be done by running <code>task provision-oidc-storage-acct</code>, which will create a storage account with a random
+name in the <code>aso-wi-storage</code> resource group.</p>
+<p>Note: If you want to run the tests in a different subscription than the one containing the OIDC storage account,
+set the <code>KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION</code> variable to the subscription ID of the storage account, after
+which you can run tests in a different subscription if you like.</p>
+<p><strong>Basic use (create KIND + run tests):</strong> <code>task controller:test-integration-kind</code></p>
+<p><strong>Basic use (create KIND cluster only):</strong> <code>task controller:kind-create-helm-workload-identity</code></p>
+<p>There are a <em>few</em> tests that can&rsquo;t be run in envtest, because envtest doesn&rsquo;t offer a full Kubernetes environment.
+For these tests we have a separate suite of tests that should be run in a real Kubernetes environment, located at
+<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/test">v2/test</a>.</p>
+<p>It&rsquo;s easiest, fastest, and cheapest to run these tests in a KIND cluster, although they can also be run in
+a full Kubernetes cluster (such as an AKS cluster). It can sometimes be useful to have a KIND cluster for local
+testing as well.</p>
+
 	
 	
 	
