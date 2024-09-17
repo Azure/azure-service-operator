@@ -6,16 +6,17 @@ Licensed under the MIT license.
 package multitenant_test
 
 import (
-	"log"
 	"os"
 	"testing"
 	"time"
 
 	"github.com/onsi/gomega"
 	"github.com/onsi/gomega/format"
-	"k8s.io/klog/v2/klogr"
+	"k8s.io/klog/v2/textlogger"
+
 	ctrl "sigs.k8s.io/controller-runtime"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
@@ -26,8 +27,6 @@ const (
 var globalTestContext testcommon.KubeGlobalContext
 
 func setup() error {
-	log.Println("Running test setup")
-
 	// Note: These are set just so we have somewhat reasonable defaults. Almost all
 	// usage of Eventually is done through the testContext wrapper which manages its
 	// own timeouts.
@@ -37,7 +36,11 @@ func setup() error {
 	format.TruncateThreshold = 4000 // Force a longer truncate threshold
 
 	// setup global logger for controller-runtime:
-	ctrl.SetLogger(klogr.New()) //nolint: staticcheck
+	cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
+	log := textlogger.NewLogger(cfg)
+	ctrl.SetLogger(log)
+
+	log.Info("Running test setup")
 
 	nameConfig := testcommon.NewResourceNameConfig(
 		testcommon.LiveResourcePrefix,
@@ -55,7 +58,7 @@ func setup() error {
 		return err
 	}
 
-	log.Print("Done with test setup")
+	log.Info("Done with test setup")
 	globalTestContext = newGlobalTestContext
 	return nil
 }

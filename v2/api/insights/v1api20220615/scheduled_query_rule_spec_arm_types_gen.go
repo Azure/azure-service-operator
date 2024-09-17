@@ -24,7 +24,7 @@ var _ genruntime.ARMResourceSpec = &ScheduledQueryRule_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-06-15"
 func (rule ScheduledQueryRule_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2022-06-15"
 }
 
 // GetName returns the Name of the resource

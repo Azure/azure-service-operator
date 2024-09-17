@@ -53,7 +53,7 @@ func (encryptionSet *DiskEncryptionSet) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-03-02"
 func (encryptionSet DiskEncryptionSet) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2024-03-02"
 }
 
 // GetResourceScope returns the scope of the resource

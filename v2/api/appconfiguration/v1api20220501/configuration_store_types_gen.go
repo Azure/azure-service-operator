@@ -111,7 +111,7 @@ func (store *ConfigurationStore) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-05-01"
 func (store ConfigurationStore) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2022-05-01"
 }
 
 // GetResourceScope returns the scope of the resource

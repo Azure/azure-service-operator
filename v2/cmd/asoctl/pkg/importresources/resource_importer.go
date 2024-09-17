@@ -3,20 +3,18 @@
  * Licensed under the MIT license.
  */
 
-package importing
+package importresources
 
 import (
 	"context"
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"github.com/vbauerster/mpb/v8"
-	"github.com/vbauerster/mpb/v8/decor"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
@@ -26,36 +24,39 @@ type ResourceImporter struct {
 	scheme    *runtime.Scheme                 // a reference to the scheme used by asoctl
 	client    *genericarmclient.GenericClient // Client to use when talking to ARM
 	resources []ImportableResource            // A slice of resources to be imported
+	imported  map[string]ImportedResource     // A set of importers that have been successfully imported
+	log       logr.Logger                     // Logger to use for logging
+	reporter  importreporter.Interface        // Reporter to use for reporter updates
+	options   ResourceImporterOptions         // Options for the importer
+}
 
-	imported map[string]ImportableResource // A set of importers that have been successfully imported
-	log      logr.Logger                   // Logger to use for logging
-	progress *mpb.Progress                 // Progress bar to use for showing progress
+// ResourceImporterOptions are optional configuration items for the importer
+type ResourceImporterOptions struct {
+	// Workers is the number of concurrent imports to run at the same time. If not specified, a default of 4 is used.
+	Workers int
 }
 
 type ImportResourceResult struct {
-	resource ImportableResource
+	resource ImportedResource
 	pending  []ImportableResource
 	err      error
 }
 
-type progressDelta struct {
-	complete int
-	total    int
-}
-
-// NewResourceImporter creates a new factory with the scheme baked in
-func NewResourceImporter(
+// New creates a new factory with the scheme baked in
+func New(
 	scheme *runtime.Scheme,
 	client *genericarmclient.GenericClient,
 	log logr.Logger,
-	progress *mpb.Progress,
+	reporter importreporter.Interface,
+	options ResourceImporterOptions,
 ) *ResourceImporter {
 	return &ResourceImporter{
 		scheme:   scheme,
 		client:   client,
-		imported: make(map[string]ImportableResource),
+		imported: make(map[string]ImportedResource),
 		log:      log,
-		progress: progress,
+		reporter: reporter,
+		options:  options,
 	}
 }
 
@@ -79,30 +80,29 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 // Partial results are returned even in the case of an error.
 func (ri *ResourceImporter) Import(
 	ctx context.Context,
-) (*ResourceImportResult, error) {
-	workers := 1
+	done chan struct{},
+) (*Result, error) {
+	workersRequired := ri.desiredWorkers()
 	candidates := make(chan ImportableResource)  // candidates that need to be deduped
 	pending := make(chan ImportableResource)     // importers that are pending import
 	completed := make(chan ImportResourceResult) // importers that have been executed successfully
-	done := make(chan struct{})                  // signal that we're done
-
-	progress := ri.createProgressBar("Import Azure Resources", done)
+	report := make(chan *resourceImportReport)   // summary report of the import
 
 	// Dedupe candidates so we import each distinct resource only once
-	go ri.queueUniqueImporters(candidates, pending, progress)
+	go ri.queueUniqueImporters(candidates, pending, ri.reporter)
 
 	// Create workers to run the import
-	for i := 0; i < workers; i++ {
-		go ri.importWorker(ctx, pending, completed, progress)
+	for i := 0; i < workersRequired; i++ {
+		go ri.importWorker(ctx, pending, completed, ri.reporter)
 	}
 
 	// Collate the results
-	go ri.collateResults(completed, candidates, progress)
+	go ri.collateResults(completed, candidates, ri.reporter, report)
 
-	// Set up by adding our initial resources
+	// Set up by adding our initial resources; these will be completed when we collate their results
 	for _, rsrc := range ri.resources {
 		candidates <- rsrc
-		progress <- progressDelta{total: 1}
+		ri.reporter.AddPending(1)
 	}
 
 	// Wait while everything runs
@@ -119,15 +119,19 @@ func (ri *ResourceImporter) Import(
 	close(pending)
 	close(completed)
 
+	// Get the summary report and write it
+	rpt := <-report
+	rpt.WriteToLog(ri.log)
+
 	// Now we've imported everything, return the resources
 	// We do this even if there's an error so that we can return partial results
-	resources := make([]genruntime.MetaObject, 0, len(ri.imported))
-	for _, importer := range ri.imported {
-		resources = append(resources, importer.Resource())
+	resources := make([]ImportedResource, 0, len(ri.imported))
+	for _, imported := range ri.imported {
+		resources = append(resources, imported)
 	}
 
-	return &ResourceImportResult{
-		resources: resources,
+	return &Result{
+		imported: resources,
 	}, nil
 }
 
@@ -138,7 +142,7 @@ func (ri *ResourceImporter) Import(
 func (ri *ResourceImporter) queueUniqueImporters(
 	candidates <-chan ImportableResource,
 	pending chan<- ImportableResource,
-	progress chan<- progressDelta,
+	progress importreporter.Interface,
 ) {
 	seen := set.Make[string]()
 	var queue []ImportableResource
@@ -163,20 +167,20 @@ func (ri *ResourceImporter) queueUniqueImporters(
 			if !ok {
 				// Channel closed
 				running = false
-			} else if seen.Contains(rsrc.Id()) {
+			} else if seen.Contains(rsrc.ID()) {
 				// We've already seen this resource (we've already queued it for import)
 				// So remove it from our count of work to be done
-				ri.log.V(2).Info("Skipping duplicate import", "resource", rsrc.Id())
-				progress <- progressDelta{total: -1}
+				ri.log.V(2).Info("Skipping duplicate import", "resource", rsrc.ID())
+				progress.AddPending(-1)
 			} else {
 				// Remember we've seen this, and add it to our queue
-				seen.Add(rsrc.Id())
+				seen.Add(rsrc.ID())
 				queue = append(queue, rsrc)
-				ri.log.V(2).Info("Buffering import", "resource", rsrc.Id())
+				ri.log.V(2).Info("Buffering import", "resource", rsrc.ID())
 			}
 		case upstream <- current:
 			// We've sent the current importable, so clear it
-			ri.log.V(2).Info("Queued import", "resource", current.Id())
+			ri.log.V(2).Info("Queued import", "resource", current.ID())
 			current = nil
 		}
 	}
@@ -186,41 +190,41 @@ func (ri *ResourceImporter) importWorker(
 	ctx context.Context,
 	pending <-chan ImportableResource,
 	completed chan<- ImportResourceResult,
-	progress chan<- progressDelta,
+	progress importreporter.Interface,
 ) {
 	for rsrc := range pending {
 		if ctx.Err() != nil {
-			// If we're aborting, just discard everything until it's all gone
-			progress <- progressDelta{total: -1}
+			// If we're aborting, just remove everything from the queue until it's all gone
+			progress.AddPending(-1)
 			continue
 		}
 
 		// We have a resource to import
-		ri.log.V(1).Info("Importing", "resource", rsrc.Id())
-		result := ri.ImportResource(ctx, rsrc, progress)
+		ri.log.V(1).Info("Importing", "resource", rsrc.ID())
+		result := ri.importResource(ctx, rsrc, progress)
 		completed <- result
 	}
 }
 
 func (ri *ResourceImporter) collateResults(
-	completed <-chan ImportResourceResult,
-	candidates chan<- ImportableResource,
-	progress chan<- progressDelta,
+	completed <-chan ImportResourceResult, // completed imports for us to collate
+	candidates chan<- ImportableResource, // additional candidates for importing
+	progress importreporter.Interface, // importreporter tracking
+	publish chan<- *resourceImportReport, // publishing our final summary
 ) {
 	report := newResourceImportReport()
-
 	for importResult := range completed {
 		rsrc := importResult.resource
 		gk := rsrc.GroupKind()
 
-		// Enqueue any child resources we found
-		progress <- progressDelta{total: len(importResult.pending)}
+		// Enqueue any child resources we found; these will be marked as completed when we collate their results
+		progress.AddPending(len(importResult.pending))
 		for _, p := range importResult.pending {
 			candidates <- p
 		}
 
 		if importResult.err != nil {
-			var skipped *ImportSkippedError
+			var skipped *SkippedError
 			if errors.As(importResult.err, &skipped) {
 				ri.log.V(1).Info(
 					"Skipped",
@@ -243,42 +247,38 @@ func (ri *ResourceImporter) collateResults(
 				"name", rsrc.Name())
 
 			report.AddSuccessfulImport(rsrc)
-			ri.imported[rsrc.Id()] = rsrc
+			ri.imported[rsrc.ID()] = rsrc
 		}
 
 		// Flag the main resource as complete
 		// We do this after everything else because it might indicate we're finished
-		progress <- progressDelta{complete: 1}
+		progress.Completed(1)
 	}
 
-	report.WriteToLog(ri.log)
+	publish <- report
 }
 
-func (ri *ResourceImporter) ImportResource(
+func (ri *ResourceImporter) importResource(
 	ctx context.Context,
 	rsrc ImportableResource,
-	parent chan<- progressDelta,
+	parent importreporter.Interface,
 ) ImportResourceResult {
 	// Import it
 	gk := rsrc.GroupKind()
 	name := fmt.Sprintf("%s %s", gk, rsrc.Name())
 
-	// Create our progress indicator and ensure it's closed when we're done
-	progress := ri.createSubProgressBar(name, parent)
-	defer func() {
-		close(progress)
-	}()
-
-	// Prepare our result for when we're done
-	result := ImportResourceResult{
-		resource: rsrc,
-	}
+	// Create our importreporter indicator
+	progress := parent.Create(name)
 
 	// Our main resource is pending
-	progress <- progressDelta{total: 1}
+	progress.AddPending(1)
 
 	// Import the resource itself
-	result.err = rsrc.Import(ctx, ri.log)
+	imported, err := rsrc.Import(ctx, ri.log)
+	result := ImportResourceResult{
+		resource: imported,
+		err:      err,
+	}
 
 	// If the main resource was imported ok, look for any children
 	if result.err == nil {
@@ -287,86 +287,16 @@ func (ri *ResourceImporter) ImportResource(
 
 	// Indicate the main resource is complete
 	// (we must only do this after checking for children, to ensure we don't appear complete too early)
-	progress <- progressDelta{complete: 1}
+	progress.Completed(1)
 
 	return result
 }
 
-func (ri *ResourceImporter) createProgressBar(
-	name string,
-	done chan struct{},
-) chan progressDelta {
-	result := make(chan progressDelta)
+// desiredWorkers returns the number of workers to use for importing resources.
+func (ri *ResourceImporter) desiredWorkers() int {
+	if ri.options.Workers > 0 {
+		return ri.options.Workers
+	}
 
-	// Create a new progress bar
-	bar := ri.progress.AddBar(
-		0, // zero total because we don't know how much work will be needed
-		mpb.PrependDecorators(
-			decor.Name(name, decor.WCSyncSpaceR)),
-		mpb.AppendDecorators(
-			decor.CountersNoUnit("%d/%d", decor.WCSyncSpaceR)))
-
-	// Monitor for progress updates
-	go func() {
-		var complete int64
-		var total int64
-		for delta := range result {
-			complete += int64(delta.complete)
-			total += int64(delta.total)
-			bar.SetTotal(total, false)
-			bar.SetCurrent(complete)
-
-			if total > 0 && complete >= total {
-				close(done)
-				break
-			}
-		}
-
-		if total == 0 {
-			total = 1
-		}
-
-		bar.SetCurrent(total)
-		bar.SetTotal(total, true)
-	}()
-
-	return result
-}
-
-func (ri *ResourceImporter) createSubProgressBar(
-	name string,
-	parent chan<- progressDelta,
-) chan progressDelta {
-	result := make(chan progressDelta)
-
-	// Create a new progress bar
-	bar := ri.progress.AddBar(
-		0, // zero total because we don't know how much work will be needed
-		mpb.BarRemoveOnComplete(),
-		mpb.PrependDecorators(
-			decor.Name(name, decor.WCSyncSpaceR)),
-		mpb.AppendDecorators(
-			decor.CountersNoUnit("%d/%d", decor.WCSyncSpaceR)))
-
-	// Monitor for progress updates
-	go func() {
-		var complete int64
-		var total int64
-		for delta := range result {
-			complete += int64(delta.complete)
-			total += int64(delta.total)
-			bar.SetTotal(total, false)
-			bar.SetCurrent(complete)
-			parent <- delta
-		}
-
-		if total == 0 {
-			total = 1
-		}
-
-		bar.SetCurrent(total)
-		bar.SetTotal(total, true)
-	}()
-
-	return result
+	return 4
 }

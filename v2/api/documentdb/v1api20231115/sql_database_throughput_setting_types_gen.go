@@ -103,7 +103,7 @@ func (setting *SqlDatabaseThroughputSetting) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-11-15"
 func (setting SqlDatabaseThroughputSetting) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-11-15"
 }
 
 // GetResourceScope returns the scope of the resource

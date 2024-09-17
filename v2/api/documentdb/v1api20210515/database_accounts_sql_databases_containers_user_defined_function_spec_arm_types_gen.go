@@ -19,7 +19,7 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Containers_Use
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (function DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource

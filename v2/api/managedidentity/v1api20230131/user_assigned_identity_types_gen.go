@@ -143,7 +143,7 @@ func (identity *UserAssignedIdentity) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-01-31"
 func (identity UserAssignedIdentity) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-01-31"
 }
 
 // GetResourceScope returns the scope of the resource

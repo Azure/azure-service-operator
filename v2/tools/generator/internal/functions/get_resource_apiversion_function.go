@@ -8,33 +8,24 @@ package functions
 import (
 	"fmt"
 
-	"github.com/dave/dst"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 var GetAPIVersionFunctionName = "Get" + astmodel.APIVersionProperty
 
-// NewGetAPIVersionFunction returns a function that returns a static API Version enum value ('APIVersion_Value')
+// NewGetAPIVersionFunction returns a function that returns a hard coded API Version enum value, e.g. "2024-09-01"
 func NewGetAPIVersionFunction(
-	apiVersionTypeName astmodel.TypeName,
 	apiVersionEnumValue astmodel.EnumValue,
 	idFactory astmodel.IdentifierFactory,
 ) astmodel.Function {
 	comment := fmt.Sprintf("returns the ARM API version of the resource. This is always %s", apiVersionEnumValue.Value)
-	value := dst.NewIdent(
-		astmodel.GetEnumValueId(apiVersionTypeName.Name(), apiVersionEnumValue))
-
 	result := NewObjectFunction(GetAPIVersionFunctionName, idFactory,
 		createBodyReturningValue(
-			astbuilder.CallFunc("string", value),
+			astbuilder.TextLiteral(apiVersionEnumValue.Value),
 			astmodel.StringType,
 			comment,
 			ReceiverTypeStruct))
-
-	result.AddPackageReference(astmodel.GenRuntimeReference)
-	result.AddReferencedTypes(apiVersionTypeName)
 
 	return result
 }

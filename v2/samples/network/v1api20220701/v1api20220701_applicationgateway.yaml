@@ -72,8 +72,8 @@ spec:
   sku:
     name: WAF_v2
     tier: WAF_v2
-  webApplicationFirewallConfiguration:
-    enabled: true
-    firewallMode: Detection
-    ruleSetType: OWASP
-    ruleSetVersion: "3.2"
+  firewallPolicy:
+    reference:
+      group: network.azure.com
+      kind: WebApplicationFirewallPolicy
+      name: aso-sample-appgateway-waf

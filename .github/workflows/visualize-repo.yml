@@ -22,19 +22,19 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
           
       - name: Checkout code
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
         with:
           ref: main
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@v2.4.0 # Pinned to v2.4.0
+        uses: peterjgrainger/action-create-branch@10c7d268152480ae859347db45dc69086cef1d9c # pinned to v3.0.0
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           branch: "bot/update-diagrams"
 
       - name: Checkout code
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
         with:
           ref: bot/update-diagrams
 

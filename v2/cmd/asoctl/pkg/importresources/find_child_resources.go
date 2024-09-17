@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package importing
+package importresources
 
 import (
 	"strings"
@@ -24,7 +24,8 @@ func FindChildResourcesForResourceType(resourceType string) []string {
 		childResourceTypes = createChildResourceTypesMap()
 	})
 
-	s, ok := childResourceTypes[resourceType]
+	rt := strings.ToLower(resourceType)
+	s, ok := childResourceTypes[rt]
 	if !ok {
 		return nil
 	}
@@ -55,6 +56,8 @@ func createChildResourceTypesMap() map[string]set.Set[string] {
 		}
 
 		// If the type name has more than one slash, then it's a subtype, and we want to add it to the map
+		// We use strictly lowercase for the keys, so that future lookups are case-insensitive,
+		// but maintain the letter case for the values
 		t := rsrc.GetType()
 		firstSlash := strings.Index(t, "/")
 		lastSlash := strings.LastIndex(t, "/")
@@ -63,7 +66,7 @@ func createChildResourceTypesMap() map[string]set.Set[string] {
 		}
 
 		// Get the parent type name
-		parentType := t[:lastSlash]
+		parentType := strings.ToLower(t[:lastSlash])
 
 		// Add to the set in the map
 		if s, ok := result[parentType]; ok {

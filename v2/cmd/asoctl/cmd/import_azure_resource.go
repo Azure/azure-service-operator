@@ -15,9 +15,11 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/Azure/azure-service-operator/v2/api"
-	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/importing"
 	internalconfig "github.com/Azure/azure-service-operator/v2/internal/config"
+
+	"github.com/Azure/azure-service-operator/v2/api"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importresources"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
@@ -64,13 +66,15 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		},
 	}
 
-	options.outputPath = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&options.outputPath,
 		"output",
 		"o",
 		"",
 		"Write ARM resource CRDs to a single file")
 
-	options.outputFolder = cmd.Flags().StringP(
+	cmd.Flags().StringVarP(
+		&options.outputFolder,
 		"output-folder",
 		"f",
 		"",
@@ -83,26 +87,42 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		"namespace",
 		"n",
 		"",
-		"Write the imported resources to the specified namespace")
+		"Set the namespace of the the imported resources")
+
 	cmd.Flags().StringSliceVarP(
 		&options.labels,
 		"label",
 		"l",
 		nil,
-		"Add the specified labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
+		"Add labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
+
 	cmd.Flags().StringSliceVarP(
 		&options.annotations,
 		"annotation",
 		"a",
 		nil,
-		"Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
+		"Add annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
+
+	cmd.Flags().IntVarP(
+		&options.workers,
+		"workers",
+		"w",
+		4,
+		"The number of parallel workers to use when importing resources")
 
 	return cmd
 }
 
 // importAzureResource imports an ARM resource and writes the YAML to stdout or a file
-func importAzureResource(ctx context.Context, armIDs []string, options *importAzureResourceOptions) error {
-	log, progress := CreateLoggerAndProgressBar()
+func importAzureResource(
+	ctx context.Context,
+	armIDs []string,
+	options *importAzureResourceOptions,
+) error {
+	log, progressBar := CreateLoggerAndProgressBar()
+
+	// Make sure all output is written when we're done
+	defer progressBar.Wait()
 
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
@@ -119,7 +139,14 @@ func importAzureResource(ctx context.Context, armIDs []string, options *importAz
 		return errors.Wrapf(err, "failed to create ARM client")
 	}
 
-	importer := importing.NewResourceImporter(api.CreateScheme(), client, log, progress)
+	done := make(chan struct{}) // signal that we're done
+	pb := importreporter.NewBar("Import Azure Resources", progressBar, done)
+
+	importerOptions := importresources.ResourceImporterOptions{
+		Workers: options.workers,
+	}
+
+	importer := importresources.New(api.CreateScheme(), client, log, pb, importerOptions)
 	for _, armID := range armIDs {
 		err = importer.AddARMID(armID)
 		if err != nil {
@@ -127,7 +154,7 @@ func importAzureResource(ctx context.Context, armIDs []string, options *importAz
 		}
 	}
 
-	result, err := importer.Import(ctx)
+	result, err := importer.Import(ctx, done)
 
 	if ctx.Err() != nil {
 		return ctx.Err()
@@ -183,24 +210,22 @@ func importAzureResource(ctx context.Context, armIDs []string, options *importAz
 			return errors.Wrapf(err, "failed to write into folder %s", folder)
 		}
 	} else {
-		err := result.SaveToWriter(progress)
+		err := result.SaveToWriter(progressBar)
 		if err != nil {
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	}
 
-	// No error, wait for progress bar to finish & flush
-	progress.Wait()
-
 	return nil
 }
 
 type importAzureResourceOptions struct {
-	outputPath   *string
-	outputFolder *string
+	outputPath   string
+	outputFolder string
 	namespace    string
 	annotations  []string
 	labels       []string
+	workers      int
 
 	readCloud               sync.Once
 	azureAuthorityHost      string
@@ -209,16 +234,16 @@ type importAzureResourceOptions struct {
 }
 
 func (option *importAzureResourceOptions) writeToFile() (string, bool) {
-	if option.outputPath != nil && *option.outputPath != "" {
-		return *option.outputPath, true
+	if option.outputPath != "" {
+		return option.outputPath, true
 	}
 
 	return "", false
 }
 
 func (option *importAzureResourceOptions) writeToFolder() (string, bool) {
-	if option.outputFolder != nil && *option.outputFolder != "" {
-		return *option.outputFolder, true
+	if option.outputFolder != "" {
+		return option.outputFolder, true
 	}
 
 	return "", false

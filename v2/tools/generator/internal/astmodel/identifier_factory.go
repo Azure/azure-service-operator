@@ -12,6 +12,8 @@ import (
 	"unicode"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // \W is all non-word characters (https://golang.org/pkg/regexp/syntax/)
@@ -176,18 +178,13 @@ func (factory *identifierFactory) cleanPart(part string, visibility Visibility) 
 	clean := filterRegex.ReplaceAllLiteralString(part, " ")
 	cleanWords := sliceIntoWords(clean)
 	caseCorrectedWords := make([]string, 0, len(cleanWords))
+	title := cases.Title(language.English, cases.NoLower)
 	for ix, word := range cleanWords {
 		var w string
 		if ix == 0 && visibility == NotExported {
 			w = strings.ToLower(word)
 		} else {
-			// Disable lint: the suggested "replacement" for this in /x/cases has fundamental
-			// differences in how it works (e.g. 'JSON' becomes 'Json'; we don’t want that).
-			// Furthermore, the cases (ha) that it "fixes" are not relevant to us
-			// (something about better handling of various punctuation characters;
-			// our words are punctuation-free).
-			//nolint:staticcheck
-			w = strings.Title(word)
+			w = title.String(word)
 		}
 
 		caseCorrectedWords = append(caseCorrectedWords, w)

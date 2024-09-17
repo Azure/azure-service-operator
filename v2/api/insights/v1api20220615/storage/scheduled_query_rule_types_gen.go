@@ -54,7 +54,7 @@ func (rule *ScheduledQueryRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-06-15"
 func (rule ScheduledQueryRule) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2022-06-15"
 }
 
 // GetResourceScope returns the scope of the resource

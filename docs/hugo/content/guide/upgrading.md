@@ -5,7 +5,7 @@ weight: -3
 
 ## Before you upgrade
 
-Ensure that you have carefully reviewed the upgrade instructions included in the [release notes](https://github.com/Azure/azure-service-operator/releases) for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version. 
+Ensure that you have carefully reviewed the upgrade instructions included in the [release notes](https://github.com/Azure/azure-service-operator/releases) for the release you are upgrading to. If you are upgrading through multiple versions, check the release notes for each version. 
 
 ### Caution
 

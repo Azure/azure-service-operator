@@ -9,6 +9,8 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"regexp"
+	"strings"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -74,7 +76,7 @@ func GetKnownStorageTypes(
 		knownStorageTypes,
 		&registration.StorageType{
 			Obj:  &mysqlv1.User{},
-			Name: "UserController",
+			Name: "mysql_user",
 			Reconciler: mysqlreconciler.NewMySQLUserReconciler(
 				kubeClient,
 				resourceResolver,
@@ -99,7 +101,7 @@ func GetKnownStorageTypes(
 		knownStorageTypes,
 		&registration.StorageType{
 			Obj:  &postgresqlv1.User{},
-			Name: "UserController",
+			Name: "postgresql_user",
 			Reconciler: postgresqlreconciler.NewPostgreSQLUserReconciler(
 				kubeClient,
 				resourceResolver,
@@ -124,7 +126,7 @@ func GetKnownStorageTypes(
 		knownStorageTypes,
 		&registration.StorageType{
 			Obj:  &azuresqlv1.User{},
-			Name: "UserController",
+			Name: "sql_user",
 			Reconciler: azuresqlreconciler.NewAzureSQLUserReconciler(
 				kubeClient,
 				resourceResolver,
@@ -234,6 +236,8 @@ func augmentWithControllerName(t *registration.StorageType) error {
 	return nil
 }
 
+var groupRegex = regexp.MustCompile(`.*/v2/api/([a-zA-Z0-9.]+)/`)
+
 func getControllerName(obj client.Object) (string, error) {
 	v, err := conversion.EnforcePtr(obj)
 	if err != nil {
@@ -241,7 +245,14 @@ func getControllerName(obj client.Object) (string, error) {
 	}
 
 	typ := v.Type()
-	return fmt.Sprintf("%sController", typ.Name()), nil
+	pkgPath := typ.PkgPath()
+	matches := groupRegex.FindStringSubmatch(pkgPath)
+	if len(matches) == 0 {
+		return "", errors.Errorf("couldn't parse package path %s", pkgPath)
+	}
+	group := strings.Replace(matches[1], ".", "", -1) // elide . for groups like network.frontdoor
+	name := fmt.Sprintf("%s_%s", group, strings.ToLower(typ.Name()))
+	return name, nil
 }
 
 func GetKnownTypes() []client.Object {

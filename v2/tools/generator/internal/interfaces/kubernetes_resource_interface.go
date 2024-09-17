@@ -87,7 +87,7 @@ func AddKubernetesResourceInterfaceImpls(
 		getSupportedOperationsFunction,
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
 
-	getAPIVersionFunc := functions.NewGetAPIVersionFunction(r.APIVersionTypeName(), r.APIVersionEnumValue(), idFactory)
+	getAPIVersionFunc := functions.NewGetAPIVersionFunction(r.APIVersionEnumValue(), idFactory)
 
 	fns := []astmodel.Function{
 		getAzureNameProperty,

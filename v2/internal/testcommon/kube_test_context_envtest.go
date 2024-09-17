@@ -30,7 +30,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
-	ctrllog "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
@@ -44,6 +43,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -88,10 +88,13 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		Scheme: scheme,
 	}
 
-	// TODO: Switch to klogr.New() below the below if we want controller-runtime logs in the tests.
+	// Switch logger below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	// ctrl.SetLogger(klogr.New())
-	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
+	// import (ctrl "sigs.k8s.io/controller-runtime")
+	// cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
+	// log := textlogger.NewLogger(cfg)
+	// ctrl.SetLogger(log)
+	ctrl.SetLogger(logr.Discard())
 
 	log.Println("Starting envtest")
 	kubeConfig, err := environment.Start()
@@ -159,8 +162,12 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	// ctrl.SetLogger(klogr.New())
-	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
+	//
+	// import (ctrl "sigs.k8s.io/controller-runtime")
+	// cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
+	// log := textlogger.NewLogger(cfg)
+	// ctrl.SetLogger(log)
+	ctrl.SetLogger(logr.Discard())
 
 	loggerFactory := func(obj metav1.Object) logr.Logger {
 		result := namespaceResources.Lookup(obj.GetNamespace())
@@ -202,6 +209,12 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		LoggerFactory: loggerFactory,
 		Config:        cfg.Values,
 		Options: controller.Options{
+			// Skip name validation because it uses a package global cache which results in mistakenly
+			// classifying two controllers with the same name in different EnvTest environments as conflicting
+			// when in reality they are running in separate apiservers (simulating separate operators).
+			// In a real Kubernetes deployment that might be a problem, but not in EnvTest.
+			SkipNameValidation: to.Ptr(true),
+
 			// Allow concurrent reconciliation in tests
 			MaxConcurrentReconciles: 5,
 

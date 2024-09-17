@@ -52,7 +52,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) manager.Manager {
+func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Flags) manager.Manager {
 	scheme := controllers.CreateScheme()
 	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs
 
@@ -76,12 +76,16 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 
 	k8sConfig := ctrl.GetConfigOrDie()
 	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
-		Scheme:                 scheme,
-		NewCache:               cacheFunc,
-		LeaderElection:         flgs.EnableLeaderElection,
-		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
-		HealthProbeBindAddress: flgs.HealthAddr,
-		Metrics:                getMetricsOpts(flgs),
+		Scheme:           scheme,
+		NewCache:         cacheFunc,
+		LeaderElection:   flgs.EnableLeaderElection,
+		LeaderElectionID: "controllers-leader-election-azinfra-generated",
+		// It's only safe to set LeaderElectionReleaseOnCancel to true if the manager binary ends
+		// when the manager exits. This is the case with us today, so we set this to true whenever
+		// flgs.EnableLeaderElection is true.
+		LeaderElectionReleaseOnCancel: flgs.EnableLeaderElection,
+		HealthProbeBindAddress:        flgs.HealthAddr,
+		Metrics:                       getMetricsOpts(flgs),
 		WebhookServer: webhook.NewServer(webhook.Options{
 			Port:    flgs.WebhookPort,
 			CertDir: flgs.WebhookCertDir,
@@ -211,7 +215,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	return mgr
 }
 
-func getMetricsOpts(flags Flags) server.Options {
+func getMetricsOpts(flags *Flags) server.Options {
 	var metricsOptions server.Options
 
 	if flags.SecureMetrics {
@@ -377,11 +381,11 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 }
 
 func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
-	var additionalRateLimiters []workqueue.RateLimiter
+	var additionalRateLimiters []workqueue.TypedRateLimiter[reconcile.Request]
 	if cfg.RateLimit.Mode == config.RateLimitModeBucket {
 		additionalRateLimiters = append(
 			additionalRateLimiters,
-			&workqueue.BucketRateLimiter{
+			&workqueue.TypedBucketRateLimiter[reconcile.Request]{
 				Limiter: rate.NewLimiter(rate.Limit(cfg.RateLimit.QPS), cfg.RateLimit.BucketSize),
 			})
 	}

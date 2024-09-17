@@ -111,7 +111,7 @@ func (machine *VirtualMachine) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-03-01"
 func (machine VirtualMachine) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2022-03-01"
 }
 
 // GetResourceScope returns the scope of the resource

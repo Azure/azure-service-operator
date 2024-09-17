@@ -7,14 +7,46 @@ We go to great lengths to avoid breaking changes as much as possible, as we're w
 
 ## Upcoming Breaking Changes
 
-### No earlier than v2.3.0
+### Scheduled for v2.10.0
 
-Beta CRD versions (any version with `v1beta` prefix) will be deprecated and removed.
-We recommend you start using `v1api` prefixed versions now. 
-
-You can easily swap from a `v1beta` version to a `v1api` version by just replacing `v1beta` with `v1api` in your CRD YAML, the resource shapes are the same.
+* The following properties on `machinelearningservices.WorkspacesCompute` will be marked as secrets: `SslConfiguration.Key`, `SslConfiguration.Cert`, `VirtualMachineSshCredentials.PrivateKeyData`, and `VirtualMachineSshCredentials.PublicKeyData`.  
+  We try to avoid breaking changes, but in this case, allowing raw keys in the spec is a security problem and as such we've decided to make a break to correct this issue.
 
 ## Released Breaking Changes
+
+### 2.9.0
+
+Breaking changes are:
+
+* DelegatedManagedIdentityResourceId is now a secret
+* ContainerService version v1api20230202preview has been deleted
+
+For more information see [v2.9.0 Breaking Changes]( {{< relref "breaking-changes-v2.9.0.md" >}} ).
+
+### v2.8.0
+
+Breaking changes are:
+
+* ManagedCluster property .spec.properties.windowsProfile.adminPassword is now a SecretReference rather than a string
+* Use "never" rather than "" to prevent syncing for AZURE_SYNC_PERIOD
+
+For more information see [v2.8.0 Breaking Changes]( {{< relref "breaking-changes-v2.8.0.md" >}} ).
+
+### v2.6.0
+
+Breaking changes are:
+
+* VirtualMachineScaleSet ProtectedSettings now a SecretReference
+
+For more information see [v2.6.0 Breaking Changes]( {{< relref "breaking-changes-v2.6.0.md" >}} ).
+
+### v2.4.0
+
+Breaking changes are:
+
+* Beta CRD versions have been removed
+
+For more information see [v2.4.0 Breaking Changes]( {{< relref "breaking-changes-v2.4.0.md" >}} ).
 
 ### v2.2.0
 
@@ -66,13 +98,16 @@ For detailed information, including an exhaustive list of all affected resource 
 
 ## Policies
 
-We know that breaking changes are a problem for many of our users, so we're making the following commitments.
+We know that breaking changes are a problem for many of our users, so we're making the following commitments to keep such things to a minimum.
 
 **No breaking changes to existing resource versions**
 
-We will not introduce a breaking change in an existing version of a resource such as `v1api20230101`.
+We will not introduce a breaking change in an existing version of a resource such as `v1api20230101`. 
 
-In the unlikely event of such a change being forced upon us by an upstream team, we will take all reasonable steps to reduce the impact as far as possible. (We consider this to be extremely unlikely because of the stringent API change criteria used by Azure.)
+In the case of such a change being forced upon us, we will take all reasonable steps to reduce the impact as far as possible.
+
+The most likely cause of this will be a security issue that requires action - such as if we discover a password field that hasn't been correctly flagged as a secret. 
+There's also a possibilty of a change ocurring upstream, but we consider this to be extremely unlikely because of the stringent API change criteria used by Azure.
 
 **Minimal breaking changes in new resource versions**
 

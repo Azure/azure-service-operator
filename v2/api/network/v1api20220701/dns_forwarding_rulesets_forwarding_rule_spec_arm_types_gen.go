@@ -16,7 +16,7 @@ var _ genruntime.ARMResourceSpec = &DnsForwardingRulesets_ForwardingRule_Spec_AR
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-07-01"
 func (rule DnsForwardingRulesets_ForwardingRule_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2022-07-01"
 }
 
 // GetName returns the Name of the resource

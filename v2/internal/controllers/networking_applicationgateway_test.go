@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
+	network2024 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -43,9 +44,7 @@ func Test_Networking_ApplicationGateway_CRUD(t *testing.T) {
 	appGtwFEPorts, appGtwFePortsID := defineApplicationGatewayFrontendPort(tc, rg, appGatewayName)
 	appGtwBackendPools, appGtwBackendPoolsID := defineApplicationGatewayBackendAddressPool(tc, rg, appGatewayName)
 	appGtwBackendHttpSettings, appGtwBackendHttpSettingsID := defineApplicationGatewayBackendHttpSettings(tc, rg, appGatewayName)
-	appGtwWafConfig, appGtwWafConfigID := defineApplicationGatewayWebApplicationFirewallConfiguration(tc, rg, appGatewayName)
-
-	tc.T.Log("Firewall ARM ID", appGtwWafConfigID)
+	appGtwWaf := defineApplicationGatewayWebApplicationFirewallPolicy(tc, rg)
 
 	applicationGateway := &network.ApplicationGateway{
 		ObjectMeta: tc.MakeObjectMetaWithName(appGatewayName),
@@ -61,10 +60,12 @@ func Test_Networking_ApplicationGateway_CRUD(t *testing.T) {
 				Name: to.Ptr(network.ApplicationGatewaySku_Name(network.ApplicationGatewaySku_Name_STATUS_WAF_V2)),
 				Tier: to.Ptr(network.ApplicationGatewaySku_Tier(network.ApplicationGatewaySku_Tier_STATUS_WAF_V2)),
 			},
-			GatewayIPConfigurations:             appGtwFIPConfig,
-			FrontendIPConfigurations:            appGtwFeIpConfig,
-			FrontendPorts:                       appGtwFEPorts,
-			WebApplicationFirewallConfiguration: appGtwWafConfig,
+			GatewayIPConfigurations:  appGtwFIPConfig,
+			FrontendIPConfigurations: appGtwFeIpConfig,
+			FrontendPorts:            appGtwFEPorts,
+			FirewallPolicy: &network.ApplicationGatewaySubResource{
+				Reference: tc.MakeReferenceFromResource(appGtwWaf),
+			},
 			HttpListeners: []network.ApplicationGatewayHttpListener{
 				{
 					Name: to.Ptr(appGtsListenerName),
@@ -108,7 +109,8 @@ func Test_Networking_ApplicationGateway_CRUD(t *testing.T) {
 			},
 		},
 	}
-	tc.CreateResourceAndWait(applicationGateway)
+	tc.ExportAsSample(appGtwWaf)
+	tc.CreateResourcesAndWait(applicationGateway, appGtwWaf)
 	tc.Expect(applicationGateway.Status.Id).ToNot(BeNil())
 	tc.Expect(applicationGateway.Status.Sku).ToNot(BeNil())
 	tc.Expect(applicationGateway.Status.Sku.Tier).ToNot(BeNil())
@@ -137,17 +139,55 @@ func defineApplicationGatewayIPConfiguration(subnet *genruntime.ResourceReferenc
 	return appGtwFeIpConfig
 }
 
-func defineApplicationGatewayWebApplicationFirewallConfiguration(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGatewayName string) (*network.ApplicationGatewayWebApplicationFirewallConfiguration, string) {
-	subResname := "app-gw-waf-config-1"
-	subRes := to.Ptr(network.ApplicationGatewayWebApplicationFirewallConfiguration{
-		Enabled:        to.Ptr(true),
-		FirewallMode:   to.Ptr(network.ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_Detection),
-		RuleSetType:    to.Ptr("OWASP"),
-		RuleSetVersion: to.Ptr("3.2"),
-	})
-	subResARMID, err := getFrontendPortsARMID(tc, rg, appGatewayName, "applicationGatewayWebApplicationFirewallConfiguration", subResname)
-	tc.Expect(err).To(BeNil())
-	return subRes, subResARMID
+// See https://learn.microsoft.com/en-us/azure/web-application-firewall/ag/quick-create-template
+func defineApplicationGatewayWebApplicationFirewallPolicy(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *network2024.WebApplicationFirewallPolicy {
+	firewallName := "app-gw-waf"
+	firewall := &network2024.WebApplicationFirewallPolicy{
+		ObjectMeta: tc.MakeObjectMeta(firewallName),
+		Spec: network2024.ApplicationGatewayWebApplicationFirewallPolicy_Spec{
+			Owner:    testcommon.AsOwner(rg),
+			Location: tc.AzureRegion,
+			CustomRules: []network2024.WebApplicationFirewallCustomRule{
+				{
+					Name:     to.Ptr("rule1"),
+					Priority: to.Ptr(100),
+					RuleType: to.Ptr(network2024.WebApplicationFirewallCustomRule_RuleType_MatchRule),
+					Action:   to.Ptr(network2024.WebApplicationFirewallCustomRule_Action_Block),
+					MatchConditions: []network2024.MatchCondition{
+						{
+							MatchVariables: []network2024.MatchVariable{
+								{
+									VariableName: to.Ptr(network2024.MatchVariable_VariableName_RemoteAddr),
+								},
+							},
+							Operator:         to.Ptr(network2024.MatchCondition_Operator_IPMatch),
+							NegationConditon: to.Ptr(true),
+							MatchValues: []string{
+								"10.10.10.0/24",
+							},
+						},
+					},
+				},
+			},
+			PolicySettings: &network2024.PolicySettings{
+				RequestBodyCheck:       to.Ptr(true),
+				MaxRequestBodySizeInKb: to.Ptr(128),
+				FileUploadLimitInMb:    to.Ptr(100),
+				State:                  to.Ptr(network2024.PolicySettings_State_Enabled),
+				Mode:                   to.Ptr(network2024.PolicySettings_Mode_Prevention),
+			},
+			ManagedRules: &network2024.ManagedRulesDefinition{
+				ManagedRuleSets: []network2024.ManagedRuleSet{
+					{
+						RuleSetType:    to.Ptr("OWASP"),
+						RuleSetVersion: to.Ptr("3.2"),
+					},
+				},
+			},
+		},
+	}
+
+	return firewall
 }
 
 func defineApplicationGatewayFrontendIPConfiguration(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGatewayName string, subnet *genruntime.ResourceReference, publicIP *genruntime.ResourceReference) ([]network.ApplicationGatewayFrontendIPConfiguration, string) {

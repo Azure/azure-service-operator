@@ -30,7 +30,7 @@ var _ genruntime.ARMResourceSpec = &ContainerGroup_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (group ContainerGroup_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2021-10-01"
 }
 
 // GetName returns the Name of the resource

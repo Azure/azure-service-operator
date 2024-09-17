@@ -7,7 +7,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-
 print_usage() {
   echo "Usage: create-kind-wi-storage.sh -d <DIRECTORY> -p <PREFIX>"
 }
@@ -29,35 +28,48 @@ if [[ -z "$DIR" ]] || [[ -z "$PREFIX" ]]; then
   exit 1
 fi
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source ${SCRIPT_DIR}/workloadidentitystorage/vars.sh
+
 # Generate names and save in files
 mkdir -p "${DIR}/azure"
+
+# Note that this resource group isn't used by this script anymore but is still used by make-mi-fic.py
+# to produce a new MI + FIC.
 RESOURCE_GROUP="${PREFIX}-rg-wi$(openssl rand -hex 6)"
-AZURE_STORAGE_ACCOUNT="asowi$(openssl rand -hex 6)"
-# This $web container is a special container that serves static web content without requiring public access enablement.
-# See https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website
-AZURE_STORAGE_CONTAINER="\$web"
 
 # If somehow the files already exist then the resource also already exists and we shouldn't do anything
-if [ -f "$DIR/azure/rg.txt" ]; then
+if [ -f "$DIR/azure/oidcid.txt" ]; then
   # Nothing to do, no existing rg
+  echo "Using existing OIDC key $(cat ${DIR}/azure/oidcid.txt)"
+  exit 0
+fi
+
+if [ -f "$DIR/azure/rg.txt" ]; then
+   # Nothing to do, no existing rg
   echo "Using existing RG $(cat ${DIR}/azure/rg.txt)"
   exit 0
 fi
 
+# This is just an identifier to differentiate different blobs from one another so that we can support
+# multiple OIDC issuers in a single storage account. It's not actually involved in the authentication flow anywhere
+# it's purely ASO bookkeeping.
+OIDC_IDENTIFIER="asowi$(openssl rand -hex 6)"
+echo ${OIDC_IDENTIFIER} > "${DIR}/azure/oidcid.txt"
+
+# Save the RG we're using too
 echo ${RESOURCE_GROUP} > "${DIR}/azure/rg.txt"
 
 # Generate the OIDC keys
 openssl genrsa -out "$DIR/sa.key" 2048
 openssl rsa -in "$DIR/sa.key" -pubout -out "$DIR/sa.pub"
 
-az group create -l westus -n "${RESOURCE_GROUP}" --tags "CreatedAt=$(date --utc +"%Y-%m-%dT%H:%M:%SZ")"
+if [ -z "${KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION-}" ]; then
+  KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION=$(az account show --output tsv --query id)
+fi
 
-az storage account create --resource-group "${RESOURCE_GROUP}" --name "${AZURE_STORAGE_ACCOUNT}" --allow-blob-public-access false
-# Enable static website serving
-az storage blob service-properties update --account-name "${AZURE_STORAGE_ACCOUNT}" --static-website
-az storage container create --account-name "${AZURE_STORAGE_ACCOUNT}" --name "${AZURE_STORAGE_CONTAINER}"
-
-ISSUER_URL=$(az storage account show --name "${AZURE_STORAGE_ACCOUNT}" -o json | jq -r .primaryEndpoints.web)
+# There's already a trailing / so we don't need to add one between the web endpoint and the OIDC Identifier
+ISSUER_URL="$(az storage account show --subscription ${KIND_OIDC_STORAGE_ACCOUNT_SUBSCRIPTION} --name "${KIND_OIDC_STORAGE_ACCOUNT}" -o json | jq -r .primaryEndpoints.web)${OIDC_IDENTIFIER}"
 echo "${ISSUER_URL}" > "${DIR}/azure/saissuer.txt"
 
 cat <<EOF > "${DIR}/openid-configuration.json"
@@ -76,16 +88,24 @@ cat <<EOF > "${DIR}/openid-configuration.json"
 }
 EOF
 
+CREATION_TIME="$(date --utc +"%Y-%m-%dT%H:%M:%SZ")"
+
+az group create -l westus -n "${RESOURCE_GROUP}" --tags "CreatedAt=${CREATION_TIME}"
+
 az storage blob upload \
-  --account-name "${AZURE_STORAGE_ACCOUNT}" \
-  --container-name "${AZURE_STORAGE_CONTAINER}" \
+  --account-name "${KIND_OIDC_STORAGE_ACCOUNT}" \
+  --container-name "${KIND_OIDC_STORAGE_CONTAINER}" \
   --file "${DIR}/openid-configuration.json" \
-  --name .well-known/openid-configuration
+  --tags "CreatedAt=${CREATION_TIME}" \
+  --name "${OIDC_IDENTIFIER}/.well-known/openid-configuration" \
+  --auth-mode login
 
 azwi jwks --public-keys "${DIR}/sa.pub" --output-file "${DIR}/jwks.json"
 
 az storage blob upload \
-  --account-name "${AZURE_STORAGE_ACCOUNT}" \
-  --container-name "${AZURE_STORAGE_CONTAINER}" \
+  --account-name "${KIND_OIDC_STORAGE_ACCOUNT}" \
+  --container-name "${KIND_OIDC_STORAGE_CONTAINER}" \
   --file "${DIR}/jwks.json" \
-  --name openid/v1/jwks
+  --tags "CreatedAt=${CREATION_TIME}" \
+  --name "${OIDC_IDENTIFIER}/openid/v1/jwks" \
+  --auth-mode login

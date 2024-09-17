@@ -142,6 +142,12 @@ Global Flags:
       --verbose   Enable verbose logging
 ```
 
+### --crd-pattern
+
+From v2.10, `asoctl` does proactive checking of the `--crd-pattern` parameter to see how many CRDs are selected.
+
+A warning is displayed if a pattern does not match any CRDs. This is nonfatal - the export of the template will proceed - as it's possible the pattern will match a CRD included in a newer version of ASO.
+
 ## Clean CRDs
 
 This command can be used to prepare ASOv2 `v1alpha1api`(deprecated in v2.0.0) CustomResources and CustomResourceDefinitions for ASO `v2.0.0` release. 
@@ -246,7 +252,8 @@ Flags:
   -n, --namespace string       Write the imported resources to the specified namespace
   -o, --output string          Write ARM resource CRDs to a single file
   -f, --output-folder string   Write ARM resource CRDs to individual files in a folder
-
+  -w, --workers int            Specify the number of parallel workers to use when importing resources (default 4)
+  
 Global Flags:
       --quiet     Silence most logging
       --verbose   Enable verbose logging

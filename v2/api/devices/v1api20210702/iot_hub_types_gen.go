@@ -111,7 +111,7 @@ func (iotHub *IotHub) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-02"
 func (iotHub IotHub) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2021-07-02"
 }
 
 // GetResourceScope returns the scope of the resource

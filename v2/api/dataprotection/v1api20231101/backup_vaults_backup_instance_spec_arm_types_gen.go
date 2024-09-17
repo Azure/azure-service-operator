@@ -22,7 +22,7 @@ var _ genruntime.ARMResourceSpec = &BackupVaults_BackupInstance_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-11-01"
 func (instance BackupVaults_BackupInstance_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2023-11-01"
 }
 
 // GetName returns the Name of the resource

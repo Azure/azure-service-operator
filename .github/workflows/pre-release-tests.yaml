@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -36,10 +36,12 @@ jobs:
           echo "container_id=$container_id" >> $GITHUB_ENV
 
       - name: Run Pre Release Tests
-        run: docker exec -e HOSTROOT=$GITHUB_WORKSPACE -e GITHUB_ACTIONS -e AZURE_TENANT_ID -e AZURE_SUBSCRIPTION_ID "${{ env.container_id }}" task controller:test-upgrade
+        run: docker exec -e HOSTROOT=$GITHUB_WORKSPACE -e GITHUB_ACTIONS -e AZURE_TENANT_ID -e AZURE_SUBSCRIPTION_ID -e KIND_OIDC_STORAGE_ACCOUNT_RG -e KIND_OIDC_STORAGE_ACCOUNT "${{ env.container_id }}" task controller:test-upgrade
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          KIND_OIDC_STORAGE_ACCOUNT_RG: ${{ secrets.KIND_OIDC_STORAGE_ACCOUNT_RG }}
+          KIND_OIDC_STORAGE_ACCOUNT: ${{ secrets.KIND_OIDC_STORAGE_ACCOUNT }}
 
       - name: Cleanup test resources
         if: always()
