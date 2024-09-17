@@ -2394,6 +2394,21 @@ objectModelConfiguration:
         $supportedFrom: v2.4.0
         $generatedConfigs:
           PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
+      FluxConfiguration:
+        $export: true
+        $supportedFrom: v2.10.0
+      ServicePrincipalDefinition:
+        ClientId:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      BucketDefinition:
+        AccessKey:
+          $isSecret: true
+      GitRepositoryDefinition:
+        HttpsCACert:
+          $isSecret: true
+
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:
