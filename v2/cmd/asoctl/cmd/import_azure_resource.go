@@ -138,7 +138,7 @@ func importAzureResource(
 
 	// Make sure all output is written when we're done.
 	// This defer has to be immediately before the call the importer.Import();
-	// if you move it earler, any `return err` between there and here will cause a deadlock.
+	// if you move it earlier, any `return err` between there and here will cause a deadlock.
 	defer progressBar.Wait()
 
 	result, err := importer.Import(ctx, done)
@@ -201,7 +201,7 @@ func configureImportedResources(
 
 	// Apply labels
 	if len(options.labels) > 0 {
-		err = result.AddLabels(options.labels)
+		err := result.AddLabels(options.labels)
 		if err != nil {
 			return errors.Wrap(err, "failed to add labels")
 		}
@@ -209,7 +209,7 @@ func configureImportedResources(
 
 	// Apply annotations
 	if len(options.annotations) > 0 {
-		err = result.AddAnnotations(options.annotations)
+		err := result.AddAnnotations(options.annotations)
 		if err != nil {
 			return errors.Wrap(err, "failed to add annotations")
 		}
