@@ -112,7 +112,7 @@ func (workspace *Workspace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-04-01"
 func (workspace Workspace) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2024-04-01"
 }
 
 // GetResourceScope returns the scope of the resource

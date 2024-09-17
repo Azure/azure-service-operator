@@ -17,7 +17,7 @@ var _ genruntime.ARMResourceSpec = &Workspaces_Connection_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-04-01"
 func (connection Workspaces_Connection_Spec_ARM) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2024-04-01"
 }
 
 // GetName returns the Name of the resource
