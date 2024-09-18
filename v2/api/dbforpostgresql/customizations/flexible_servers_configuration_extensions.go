@@ -42,6 +42,13 @@ func (extension *FlexibleServersConfigurationExtension) Import(
 			*config.Status.IsReadOnly {
 			return extensions.ImportSkipped("readonly configuration can't be set"), nil
 		}
+
+		// Skip default values
+		if config.Status.DefaultValue != nil &&
+			config.Status.Value != nil &&
+			*config.Status.DefaultValue == *config.Status.Value {
+			return extensions.ImportSkipped("default value is the same as the current value"), nil
+		}
 	}
 
 	return result, nil
