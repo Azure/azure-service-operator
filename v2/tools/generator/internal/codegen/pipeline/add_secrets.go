@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"regexp"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -139,10 +140,10 @@ func mightBeSecretProperty(
 		return false
 	}
 
-	// If the property name contains any of the secret words, it might be a secret
-	n := strings.ToLower(string(prop.PropertyName()))
-	for _, secretWord := range secretWords {
-		if strings.Contains(n, secretWord) {
+	// If the property name matches any of our detectors, it might be a secret
+	propertyName := string(prop.PropertyName())
+	for _, detector := range secretDetectors {
+		if detector.MatchString(propertyName) {
 			return true
 		}
 	}
@@ -150,10 +151,11 @@ func mightBeSecretProperty(
 	return false
 }
 
-// A list of secret words to scan for.
+// A list of regexes for detecting potentially secret properties
 // Lowercase only, please.
-var secretWords = []string{
-	"password",
+var secretDetectors = []regexp.Regexp{
+	// Look for the word `password` in any position
+	*regexp.MustCompile(`(?i)password`),
 }
 
 func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
