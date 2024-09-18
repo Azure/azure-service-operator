@@ -36,6 +36,12 @@ func (extension *FlexibleServersConfigurationExtension) Import(
 			*config.Spec.Source == "system-default" {
 			return extensions.ImportSkipped("system-defaults don't need to be imported"), nil
 		}
+
+		// Skip readonly configuration
+		if config.Status.IsReadOnly != nil &&
+			*config.Status.IsReadOnly == api.ConfigurationProperties_IsReadOnly_STATUS_True {
+			return extensions.ImportSkipped("readonly configuration can't be set"), nil
+		}
 	}
 
 	return result, nil
