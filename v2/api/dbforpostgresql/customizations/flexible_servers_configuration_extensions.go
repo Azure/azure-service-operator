@@ -32,7 +32,8 @@ func (extension *FlexibleServersConfigurationExtension) Import(
 	// API version in the generator.)
 	if config, ok := rsrc.(*api.FlexibleServersConfiguration); ok {
 		// Skip system defaults
-		if config.Spec.Source != nil && *config.Spec.Source == "system-default" {
+		if config.Spec.Source != nil &&
+			*config.Spec.Source == "system-default" {
 			return extensions.ImportSkipped("system-defaults don't need to be imported"), nil
 		}
 	}
