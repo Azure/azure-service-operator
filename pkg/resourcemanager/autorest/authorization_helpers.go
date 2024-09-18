@@ -55,7 +55,13 @@ const HeaderRange = "Range"
 // StorageEmulatorAccountName is the Storage Account Name for the Azure Storage Emulator
 const StorageEmulatorAccountName = "devstoreaccount1"
 
-// StorageEmulatorAccountKey is the Storage Account Key for the Azure Storage Emulator
+// StorageEmulatorAccountKey is the Storage Account Key for the Azure Storage Emulator.
+// 
+// The emulator supports a single fixed account and a well-known authentication key for 
+// Shared Key authentication. This account and key are the only Shared Key credentials 
+// permitted for use with the emulator. 
+//
+// See https://learn.microsoft.com/en-us/azure/storage/common/storage-use-emulator#authorize-with-shared-key-credentials
 const StorageEmulatorAccountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
 
 // buildCanonicalizedHeader builds the Canonicalized Header required to sign Storage Requests
