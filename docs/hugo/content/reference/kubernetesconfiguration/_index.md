@@ -9,9 +9,9 @@ To install the CRDs for these resources, your ASO configuration must include `ku
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                                                                                                                                                                               | ARM Version | CRD Version   | Supported From | Sample |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------|
-| [FluxConfiguration](https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/#kubernetesconfiguration.azure.com/v1api20230501.FluxConfiguration) | 2023-05-01  | v1api20230501 | v2.10.0        | -      |
+| Resource                                                                                                                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                          |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| [FluxConfiguration](https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/#kubernetesconfiguration.azure.com/v1api20230501.FluxConfiguration) | 2023-05-01  | v1api20230501 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api/v1api20230501_fluxconfiguration.yaml) |
 
 ### Released
 
