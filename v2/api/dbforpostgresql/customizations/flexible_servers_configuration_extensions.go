@@ -32,8 +32,22 @@ func (extension *FlexibleServersConfigurationExtension) Import(
 	// API version in the generator.)
 	if config, ok := rsrc.(*api.FlexibleServersConfiguration); ok {
 		// Skip system defaults
-		if config.Spec.Source != nil && *config.Spec.Source == "system-default" {
+		if config.Spec.Source != nil &&
+			*config.Spec.Source == "system-default" {
 			return extensions.ImportSkipped("system-defaults don't need to be imported"), nil
+		}
+
+		// Skip readonly configuration
+		if config.Status.IsReadOnly != nil &&
+			*config.Status.IsReadOnly {
+			return extensions.ImportSkipped("readonly configuration can't be set"), nil
+		}
+
+		// Skip default values
+		if config.Status.DefaultValue != nil &&
+			config.Status.Value != nil &&
+			*config.Status.DefaultValue == *config.Status.Value {
+			return extensions.ImportSkipped("default value is the same as the current value"), nil
 		}
 	}
 
