@@ -156,6 +156,8 @@ func mightBeSecretProperty(
 var secretDetectors = []regexp.Regexp{
 	// Look for the word `password` in any position
 	*regexp.MustCompile(`(?i)password`),
+	// Look for the word `token` in any position
+	*regexp.MustCompile(`(?i)token`),
 }
 
 func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
