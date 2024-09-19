@@ -154,6 +154,9 @@ networkPolicies:
   mysqlCIDR: 0.0.0.0/0
   # Destination CIDR for talking to PostgreSQL servers
   postgresqlCIDR: 0.0.0.0/0
+  # Destination CIDR for talking to Sql servers
+  sqlCIDR: 0.0.0.0/0
+
 
 # Node labels for pod assignment
 # Ref: https://kubernetes.io/docs/user-guide/node-selection/
