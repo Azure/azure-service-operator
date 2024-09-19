@@ -59,7 +59,7 @@ func (extension *FlexibleServersDatabaseExtension) Import(
 	next extensions.ImporterFunc,
 ) (extensions.ImportResult, error) {
 	// If this cast doesn't compile, update the `api` import to reference the now latest
-	// stable version of the authorization group (this will happen when we import a new
+	// stable version of the dbforpostgresql group (this will happen when we import a new
 	// API version in the generator.)
 	if server, ok := rsrc.(*api.FlexibleServersDatabase); ok {
 		if server.Spec.AzureName == "azure_maintenance" {

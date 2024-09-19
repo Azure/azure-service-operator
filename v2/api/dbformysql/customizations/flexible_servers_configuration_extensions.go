@@ -8,7 +8,7 @@ package customizations
 import (
 	"context"
 
-	api "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
+	api "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
@@ -28,7 +28,7 @@ func (extension *FlexibleServersConfigurationExtension) Import(
 	}
 
 	// If this cast doesn't compile, update the `api` import to reference the now latest
-	// stable version of the dbforpostgresql group (this will happen when we import a new
+	// stable version of the dbformysql group (this will happen when we import a new
 	// API version in the generator.)
 	if config, ok := rsrc.(*api.FlexibleServersConfiguration); ok {
 		// Skip system defaults
@@ -39,7 +39,7 @@ func (extension *FlexibleServersConfigurationExtension) Import(
 
 		// Skip readonly configuration
 		if config.Status.IsReadOnly != nil &&
-			*config.Status.IsReadOnly {
+			*config.Status.IsReadOnly == api.ConfigurationProperties_IsReadOnly_STATUS_True {
 			return extensions.ImportSkipped("readonly configuration can't be set"), nil
 		}
 
