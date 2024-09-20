@@ -16,7 +16,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	redis "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
+	redis "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
