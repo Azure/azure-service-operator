@@ -1333,6 +1333,9 @@ objectModelConfiguration:
         $isResource: false
       DeepCreatedOriginProperties_STATUS:
         $isResource: false
+      DomainValidationProperties:
+        ValidationToken:
+          $isSecret: false # This might be a secret, @theunrepentantgeek is not sure
       Profile:
         $export: true
         $supportedFrom: v2.6.0
