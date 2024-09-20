@@ -2554,6 +2554,9 @@ objectModelConfiguration:
       Databricks:
         ResourceId:
           $armReference: true
+      DatabricksProperties:
+        DatabricksAccessToken:
+          $isSecret: true
       AKS:
         ResourceId:
           $armReference: true
@@ -2586,6 +2589,9 @@ objectModelConfiguration:
           $isSecret: true
       DatabricksProperties:
         DatabricksAccessToken:
+          $isSecret: true
+      VirtualMachineSshCredentials_STATUS:
+        PrivateKeyData:
           $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection

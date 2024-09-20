@@ -9111,6 +9111,7 @@ func VirtualMachineSshCredentialsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials(gens map[string]gopter.Gen) {
+	gens["PublicKeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -9214,6 +9215,7 @@ func VirtualMachineSshCredentials_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials_STATUS(gens map[string]gopter.Gen) {
+	gens["PublicKeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
 

@@ -1439,6 +1439,9 @@ type VirtualMachineImage_STATUS_ARM struct {
 
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS_ARM struct {
+	// PublicKeyData: Public key data
+	PublicKeyData *string `json:"publicKeyData,omitempty"`
+
 	// Username: Username of admin account
 	Username *string `json:"username,omitempty"`
 }

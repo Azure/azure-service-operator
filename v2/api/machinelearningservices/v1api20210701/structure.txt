@@ -501,7 +501,7 @@ WorkspacesCompute: Resource
 │   │   │   │   ├── AdministratorAccount: *Object (4 properties)
 │   │   │   │   │   ├── Password: *genruntime.SecretReference
 │   │   │   │   │   ├── PrivateKeyData: *genruntime.SecretReference
-│   │   │   │   │   ├── PublicKeyData: *genruntime.SecretReference
+│   │   │   │   │   ├── PublicKeyData: *string
 │   │   │   │   │   └── Username: *string
 │   │   │   │   └── SshPort: *int
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
@@ -559,7 +559,7 @@ WorkspacesCompute: Resource
 │   │       │   ├── AdministratorAccount: *Object (4 properties)
 │   │       │   │   ├── Password: *genruntime.SecretReference
 │   │       │   │   ├── PrivateKeyData: *genruntime.SecretReference
-│   │       │   │   ├── PublicKeyData: *genruntime.SecretReference
+│   │       │   │   ├── PublicKeyData: *string
 │   │       │   │   └── Username: *string
 │   │       │   ├── IsNotebookInstanceCompute: *bool
 │   │       │   ├── SshPort: *int
@@ -987,7 +987,8 @@ WorkspacesCompute: Resource
     │   │   ├── ModifiedOn: *string
     │   │   ├── Properties: *Object (3 properties)
     │   │   │   ├── Address: *string
-    │   │   │   ├── AdministratorAccount: *Object (1 property)
+    │   │   │   ├── AdministratorAccount: *Object (2 properties)
+    │   │   │   │   ├── PublicKeyData: *string
     │   │   │   │   └── Username: *string
     │   │   │   └── SshPort: *int
     │   │   ├── ProvisioningErrors: Object (1 property)[]
@@ -1118,7 +1119,8 @@ WorkspacesCompute: Resource
     │       ├── ModifiedOn: *string
     │       ├── Properties: *Object (5 properties)
     │       │   ├── Address: *string
-    │       │   ├── AdministratorAccount: *Object (1 property)
+    │       │   ├── AdministratorAccount: *Object (2 properties)
+    │       │   │   ├── PublicKeyData: *string
     │       │   │   └── Username: *string
     │       │   ├── IsNotebookInstanceCompute: *bool
     │       │   ├── SshPort: *int
@@ -1591,7 +1593,8 @@ Workspaces_Compute_STATUS_ARM: Object (9 properties)
 │   │   ├── ModifiedOn: *string
 │   │   ├── Properties: *Object (3 properties)
 │   │   │   ├── Address: *string
-│   │   │   ├── AdministratorAccount: *Object (1 property)
+│   │   │   ├── AdministratorAccount: *Object (2 properties)
+│   │   │   │   ├── PublicKeyData: *string
 │   │   │   │   └── Username: *string
 │   │   │   └── SshPort: *int
 │   │   ├── ProvisioningErrors: Object (1 property)[]
@@ -1722,7 +1725,8 @@ Workspaces_Compute_STATUS_ARM: Object (9 properties)
 │       ├── ModifiedOn: *string
 │       ├── Properties: *Object (5 properties)
 │       │   ├── Address: *string
-│       │   ├── AdministratorAccount: *Object (1 property)
+│       │   ├── AdministratorAccount: *Object (2 properties)
+│       │   │   ├── PublicKeyData: *string
 │       │   │   └── Username: *string
 │       │   ├── IsNotebookInstanceCompute: *bool
 │       │   ├── SshPort: *int
