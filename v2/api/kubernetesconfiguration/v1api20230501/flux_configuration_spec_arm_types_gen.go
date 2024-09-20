@@ -10,10 +10,6 @@ type FluxConfiguration_Spec_ARM struct {
 
 	// Properties: Properties to create a Flux Configuration resource
 	Properties *FluxConfiguration_Properties_Spec_ARM `json:"properties,omitempty"`
-
-	// SystemData: Top level metadata
-	// https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
-	SystemData *SystemData_ARM `json:"systemData,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FluxConfiguration_Spec_ARM{}

@@ -466,7 +466,6 @@ func AddRelatedPropertyGeneratorsForFluxConfiguration_STATUS(gens map[string]gop
 		gen.AlphaString(),
 		KustomizationDefinition_STATUSGenerator())
 	gens["Statuses"] = gen.SliceOf(ObjectStatusDefinition_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_FluxConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -554,7 +553,6 @@ func AddRelatedPropertyGeneratorsForFluxConfiguration_Spec(gens map[string]gopte
 	gens["Kustomizations"] = gen.MapOf(
 		gen.AlphaString(),
 		KustomizationDefinitionGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_GitRepositoryDefinition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

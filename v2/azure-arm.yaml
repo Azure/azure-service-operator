@@ -359,6 +359,12 @@ typeTransformers:
     remove: true
     because: These properties should be marked readonly
 
+  - group: kubernetesconfiguration
+    name: FluxConfiguration_Spec;FluxConfiguration_STATUS
+    property: SystemData
+    remove: true
+    because: These properties should be marked readonly
+
   - group: network
     name: RouteTables_Route_Spec
     property: Type

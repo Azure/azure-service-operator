@@ -125,7 +125,7 @@ Extension: Resource
     ├── Type: *string
     └── Version: *string
 FluxConfiguration: Resource
-├── Spec: Object (16 properties)
+├── Spec: Object (15 properties)
 │   ├── AzureBlob: *Object (10 properties)
 │   │   ├── AccountKey: *genruntime.SecretReference
 │   │   ├── ContainerName: *string
@@ -200,16 +200,8 @@ FluxConfiguration: Resource
 │   ├── Scope: *string
 │   ├── SourceKind: *string
 │   ├── Suspend: *bool
-│   ├── SystemData: *Object (7 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: *string
-│   │   ├── LastModifiedAt: *string
-│   │   ├── LastModifiedBy: *string
-│   │   ├── LastModifiedByType: *string
-│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── WaitForReconciliation: *bool
-└── Status: Object (25 properties)
+└── Status: Object (24 properties)
     ├── AzureBlob: *Object (8 properties)
     │   ├── ContainerName: *string
     │   ├── LocalAuthRef: *string
@@ -310,13 +302,5 @@ FluxConfiguration: Resource
     │       ├── Status: *string
     │       └── Type: *string
     ├── Suspend: *bool
-    ├── SystemData: *Object (7 properties)
-    │   ├── CreatedAt: *string
-    │   ├── CreatedBy: *string
-    │   ├── CreatedByType: *string
-    │   ├── LastModifiedAt: *string
-    │   ├── LastModifiedBy: *string
-    │   ├── LastModifiedByType: *string
-    │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     └── WaitForReconciliation: *bool

@@ -15,10 +15,6 @@ type FluxConfiguration_STATUS_ARM struct {
 	// Properties: Properties to create a Flux Configuration resource
 	Properties *FluxConfiguration_Properties_STATUS_ARM `json:"properties,omitempty"`
 
-	// SystemData: Top level metadata
-	// https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
