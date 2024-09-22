@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -90,6 +91,7 @@ func applyConfigSecretOverrides(
 		VisitObjectType: applyConfigSecrets,
 	}.Build()
 
+	var errs []error
 	for _, def := range definitions {
 		if def.Name().IsARMType() {
 			// No need to process ARM types
@@ -98,10 +100,17 @@ func applyConfigSecretOverrides(
 
 		updatedDef, err := visitor.VisitDefinition(def, def.Name())
 		if err != nil {
-			return nil, errors.Wrapf(err, "visiting type %q", def.Name())
+			errs = append(errs, errors.Wrapf(err, "visiting type %q", def.Name()))
+			continue
 		}
 
 		result.Add(updatedDef)
+	}
+
+	if len(errs) > 0 {
+		return nil, errors.Wrap(
+			kerrors.NewAggregate(errs),
+			"encountered errors while applying config secrets")
 	}
 
 	// Verify that all 'isSecret' modifiers are consumed before returning the result
@@ -140,24 +149,55 @@ func mightBeSecretProperty(
 		return false
 	}
 
-	// If the property name matches any of our detectors, it might be a secret
+	// If the property name matches a detector, that tells us
+	// whether to expect it's a secret or not
 	propertyName := string(prop.PropertyName())
 	for _, detector := range secretDetectors {
-		if detector.MatchString(propertyName) {
-			return true
+		if detector.regex.MatchString(propertyName) {
+			return detector.isSecret
 		}
 	}
 
 	return false
 }
 
-// A list of regexes for detecting potentially secret properties
-// Lowercase only, please.
-var secretDetectors = []regexp.Regexp{
-	// Look for the word `password` in any position
-	*regexp.MustCompile(`(?i)password`),
-	// Look for the word `token` in any position
-	*regexp.MustCompile(`(?i)token`),
+// Rules for detecting potentially secret properties.
+// These are processed in order, with the first matching rule being used.
+var secretDetectors = []struct {
+	regex    regexp.Regexp // Regular expression to match
+	isSecret bool          // Whether to treat the property as a secret
+}{
+	{
+		// Look for the word `password` in any position
+		regex:    *regexp.MustCompile(`(?i)password`),
+		isSecret: true,
+	},
+	{
+		// Look for the word `token` in any position
+		regex:    *regexp.MustCompile(`(?i)token`),
+		isSecret: true,
+	},
+	{
+		// a PublicKey is not a secret
+		regex:    *regexp.MustCompile(`(?i)publickey`),
+		isSecret: false,
+	},
+	{
+		// KeyData is always a secret
+		regex:    *regexp.MustCompile(`(?i)keydata`),
+		isSecret: true,
+	},
+	{
+		// URLs and URIs are not secrets
+		regex:    *regexp.MustCompile(`(?i)url|uri`),
+		isSecret: false,
+	},
+	{
+		// IDs, Identifiers, and Names are not secrets, they're used to look them up
+		// (must match at the end)
+		regex:    *regexp.MustCompile(`(?i)(id|identifier|Identity|name)$`),
+		isSecret: false,
+	},
 }
 
 func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
