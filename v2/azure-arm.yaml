@@ -1429,6 +1429,12 @@ objectModelConfiguration:
         $isResource: false
       NetworkInterfaceReference_STATUS:
         $isResource: false
+      SshPublicKeySpec:
+        KeyData:
+          $isSecret: false
+      SshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -1492,6 +1498,12 @@ objectModelConfiguration:
         $isResource: false
       NetworkProfile_STATUS:
         $isResource: false
+      SshPublicKeySpec:
+        KeyData:
+          $isSecret: false
+      SshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       VMGalleryApplication:
         PackageReferenceId:
           $armReference: true
