@@ -19,7 +19,7 @@ require (
 	github.com/go-logr/zerologr v1.2.3
 	github.com/go-openapi/jsonpointer v0.21.0
 	github.com/go-openapi/spec v0.21.0
-	github.com/gobuffalo/flect v1.0.2
+	github.com/gobuffalo/flect v1.0.3
 	github.com/google/go-cmp v0.6.0
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
