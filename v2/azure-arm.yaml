@@ -2410,7 +2410,7 @@ objectModelConfiguration:
         UserIdentity:
           $armReference: true
       Clusters_Database:
-        $export: true
+        $exportAs: Database
         $supportedFrom: v2.10.0
       ReadOnlyFollowingDatabase:
         $resourceEmbeddedInParent: Clusters_Database
