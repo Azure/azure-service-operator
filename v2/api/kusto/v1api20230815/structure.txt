@@ -655,3 +655,193 @@ Cluster_Spec_ARM: Object (7 properties)
 │       └── "Standard"
 ├── Tags: map[string]string
 └── Zones: string[]
+Clusters_Database_Spec_ARM: Object (3 properties)
+├── Name: string
+├── ReadOnlyFollowing: *Object (3 properties)
+│   ├── Kind: *Enum (1 value)
+│   │   └── "ReadOnlyFollowing"
+│   ├── Location: *string
+│   └── Properties: *Object (2 properties)
+│       ├── DatabaseShareOrigin: *Enum (3 values)
+│       │   ├── "DataShare"
+│       │   ├── "Direct"
+│       │   └── "Other"
+│       └── HotCachePeriod: *string
+└── ReadWrite: *Object (3 properties)
+    ├── Kind: *Enum (1 value)
+    │   └── "ReadWrite"
+    ├── Location: *string
+    └── Properties: *Object (3 properties)
+        ├── HotCachePeriod: *string
+        ├── KeyVaultProperties: *Object (4 properties)
+        │   ├── KeyName: *string
+        │   ├── KeyVaultUri: *string
+        │   ├── KeyVersion: *string
+        │   └── UserIdentity: *string
+        └── SoftDeletePeriod: *string
+Database: Resource
+├── Owner: Cluster
+├── Spec: Object (4 properties)
+│   ├── AzureName: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── ReadOnlyFollowing: *Object (4 properties)
+│   │   ├── DatabaseShareOrigin: *Enum (3 values)
+│   │   │   ├── "DataShare"
+│   │   │   ├── "Direct"
+│   │   │   └── "Other"
+│   │   ├── HotCachePeriod: *string
+│   │   ├── Kind: *Enum (1 value)
+│   │   │   └── "ReadOnlyFollowing"
+│   │   └── Location: *string
+│   └── ReadWrite: *Object (5 properties)
+│       ├── HotCachePeriod: *string
+│       ├── KeyVaultProperties: *Object (4 properties)
+│       │   ├── KeyName: *string
+│       │   ├── KeyVaultUri: *string
+│       │   ├── KeyVersion: *string
+│       │   └── UserIdentityReference: *genruntime.ResourceReference
+│       ├── Kind: *Enum (1 value)
+│       │   └── "ReadWrite"
+│       ├── Location: *string
+│       └── SoftDeletePeriod: *string
+└── Status: Object (3 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── ReadOnlyFollowing: *Object (16 properties)
+    │   ├── AttachedDatabaseConfigurationName: *string
+    │   ├── DatabaseShareOrigin: *Enum (3 values)
+    │   │   ├── "DataShare"
+    │   │   ├── "Direct"
+    │   │   └── "Other"
+    │   ├── HotCachePeriod: *string
+    │   ├── Id: *string
+    │   ├── Kind: *Enum (1 value)
+    │   │   └── "ReadOnlyFollowing"
+    │   ├── LeaderClusterResourceId: *string
+    │   ├── Location: *string
+    │   ├── Name: *string
+    │   ├── OriginalDatabaseName: *string
+    │   ├── PrincipalsModificationKind: *Enum (3 values)
+    │   │   ├── "None"
+    │   │   ├── "Replace"
+    │   │   └── "Union"
+    │   ├── ProvisioningState: *Enum (7 values)
+    │   │   ├── "Canceled"
+    │   │   ├── "Creating"
+    │   │   ├── "Deleting"
+    │   │   ├── "Failed"
+    │   │   ├── "Moving"
+    │   │   ├── "Running"
+    │   │   └── "Succeeded"
+    │   ├── SoftDeletePeriod: *string
+    │   ├── Statistics: *Object (1 property)
+    │   │   └── Size: *float64
+    │   ├── SuspensionDetails: *Object (1 property)
+    │   │   └── SuspensionStartDate: *string
+    │   ├── TableLevelSharingProperties: *Object (8 properties)
+    │   │   ├── ExternalTablesToExclude: string[]
+    │   │   ├── ExternalTablesToInclude: string[]
+    │   │   ├── FunctionsToExclude: string[]
+    │   │   ├── FunctionsToInclude: string[]
+    │   │   ├── MaterializedViewsToExclude: string[]
+    │   │   ├── MaterializedViewsToInclude: string[]
+    │   │   ├── TablesToExclude: string[]
+    │   │   └── TablesToInclude: string[]
+    │   └── Type: *string
+    └── ReadWrite: *Object (12 properties)
+        ├── HotCachePeriod: *string
+        ├── Id: *string
+        ├── IsFollowed: *bool
+        ├── KeyVaultProperties: *Object (4 properties)
+        │   ├── KeyName: *string
+        │   ├── KeyVaultUri: *string
+        │   ├── KeyVersion: *string
+        │   └── UserIdentity: *string
+        ├── Kind: *Enum (1 value)
+        │   └── "ReadWrite"
+        ├── Location: *string
+        ├── Name: *string
+        ├── ProvisioningState: *Enum (7 values)
+        │   ├── "Canceled"
+        │   ├── "Creating"
+        │   ├── "Deleting"
+        │   ├── "Failed"
+        │   ├── "Moving"
+        │   ├── "Running"
+        │   └── "Succeeded"
+        ├── SoftDeletePeriod: *string
+        ├── Statistics: *Object (1 property)
+        │   └── Size: *float64
+        ├── SuspensionDetails: *Object (1 property)
+        │   └── SuspensionStartDate: *string
+        └── Type: *string
+Database_STATUS_ARM: Object (2 properties)
+├── ReadOnlyFollowing: *Object (6 properties)
+│   ├── Id: *string
+│   ├── Kind: Enum (1 value)
+│   │   └── "ReadOnlyFollowing"
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (11 properties)
+│   │   ├── AttachedDatabaseConfigurationName: *string
+│   │   ├── DatabaseShareOrigin: *Enum (3 values)
+│   │   │   ├── "DataShare"
+│   │   │   ├── "Direct"
+│   │   │   └── "Other"
+│   │   ├── HotCachePeriod: *string
+│   │   ├── LeaderClusterResourceId: *string
+│   │   ├── OriginalDatabaseName: *string
+│   │   ├── PrincipalsModificationKind: *Enum (3 values)
+│   │   │   ├── "None"
+│   │   │   ├── "Replace"
+│   │   │   └── "Union"
+│   │   ├── ProvisioningState: *Enum (7 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Moving"
+│   │   │   ├── "Running"
+│   │   │   └── "Succeeded"
+│   │   ├── SoftDeletePeriod: *string
+│   │   ├── Statistics: *Object (1 property)
+│   │   │   └── Size: *float64
+│   │   ├── SuspensionDetails: *Object (1 property)
+│   │   │   └── SuspensionStartDate: *string
+│   │   └── TableLevelSharingProperties: *Object (8 properties)
+│   │       ├── ExternalTablesToExclude: string[]
+│   │       ├── ExternalTablesToInclude: string[]
+│   │       ├── FunctionsToExclude: string[]
+│   │       ├── FunctionsToInclude: string[]
+│   │       ├── MaterializedViewsToExclude: string[]
+│   │       ├── MaterializedViewsToInclude: string[]
+│   │       ├── TablesToExclude: string[]
+│   │       └── TablesToInclude: string[]
+│   └── Type: *string
+└── ReadWrite: *Object (6 properties)
+    ├── Id: *string
+    ├── Kind: Enum (1 value)
+    │   └── "ReadWrite"
+    ├── Location: *string
+    ├── Name: *string
+    ├── Properties: *Object (7 properties)
+    │   ├── HotCachePeriod: *string
+    │   ├── IsFollowed: *bool
+    │   ├── KeyVaultProperties: *Object (4 properties)
+    │   │   ├── KeyName: *string
+    │   │   ├── KeyVaultUri: *string
+    │   │   ├── KeyVersion: *string
+    │   │   └── UserIdentity: *string
+    │   ├── ProvisioningState: *Enum (7 values)
+    │   │   ├── "Canceled"
+    │   │   ├── "Creating"
+    │   │   ├── "Deleting"
+    │   │   ├── "Failed"
+    │   │   ├── "Moving"
+    │   │   ├── "Running"
+    │   │   └── "Succeeded"
+    │   ├── SoftDeletePeriod: *string
+    │   ├── Statistics: *Object (1 property)
+    │   │   └── Size: *float64
+    │   └── SuspensionDetails: *Object (1 property)
+    │       └── SuspensionStartDate: *string
+    └── Type: *string

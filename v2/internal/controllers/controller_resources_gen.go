@@ -774,6 +774,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(kusto_v20230815s.Database)})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.Workspace)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
@@ -1662,8 +1663,14 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(keyvault_v20230701s.Vault))
 	result = append(result, new(kubernetesconfiguration_v20230501.Extension))
 	result = append(result, new(kubernetesconfiguration_v20230501s.Extension))
-	result = append(result, new(kusto_v20230815.Cluster))
-	result = append(result, new(kusto_v20230815s.Cluster))
+	result = append(
+		result,
+		new(kusto_v20230815.Cluster),
+		new(kusto_v20230815.Database))
+	result = append(
+		result,
+		new(kusto_v20230815s.Cluster),
+		new(kusto_v20230815s.Database))
 	result = append(
 		result,
 		new(machinelearningservices_v20210701.Workspace),
@@ -2266,6 +2273,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kusto_customizations.ClusterExtension{})
+	result = append(result, &kusto_customizations.DatabaseExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})

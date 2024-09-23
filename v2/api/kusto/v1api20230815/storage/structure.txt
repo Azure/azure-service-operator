@@ -155,3 +155,85 @@ Cluster: Resource
     │   ├── State: *string
     │   └── SubnetId: *string
     └── Zones: string[]
+Database: Resource
+├── Owner: kusto/v1api20230815.Cluster
+├── Spec: Object (6 properties)
+│   ├── AzureName: string
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── ReadOnlyFollowing: *Object (5 properties)
+│   │   ├── DatabaseShareOrigin: *string
+│   │   ├── HotCachePeriod: *string
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── ReadWrite: *Object (6 properties)
+│       ├── HotCachePeriod: *string
+│       ├── KeyVaultProperties: *Object (5 properties)
+│       │   ├── KeyName: *string
+│       │   ├── KeyVaultUri: *string
+│       │   ├── KeyVersion: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── UserIdentityReference: *genruntime.ResourceReference
+│       ├── Kind: *string
+│       ├── Location: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       └── SoftDeletePeriod: *string
+└── Status: Object (4 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ReadOnlyFollowing: *Object (17 properties)
+    │   ├── AttachedDatabaseConfigurationName: *string
+    │   ├── DatabaseShareOrigin: *string
+    │   ├── HotCachePeriod: *string
+    │   ├── Id: *string
+    │   ├── Kind: *string
+    │   ├── LeaderClusterResourceId: *string
+    │   ├── Location: *string
+    │   ├── Name: *string
+    │   ├── OriginalDatabaseName: *string
+    │   ├── PrincipalsModificationKind: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProvisioningState: *string
+    │   ├── SoftDeletePeriod: *string
+    │   ├── Statistics: *Object (2 properties)
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Size: *float64
+    │   ├── SuspensionDetails: *Object (2 properties)
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── SuspensionStartDate: *string
+    │   ├── TableLevelSharingProperties: *Object (9 properties)
+    │   │   ├── ExternalTablesToExclude: string[]
+    │   │   ├── ExternalTablesToInclude: string[]
+    │   │   ├── FunctionsToExclude: string[]
+    │   │   ├── FunctionsToInclude: string[]
+    │   │   ├── MaterializedViewsToExclude: string[]
+    │   │   ├── MaterializedViewsToInclude: string[]
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── TablesToExclude: string[]
+    │   │   └── TablesToInclude: string[]
+    │   └── Type: *string
+    └── ReadWrite: *Object (13 properties)
+        ├── HotCachePeriod: *string
+        ├── Id: *string
+        ├── IsFollowed: *bool
+        ├── KeyVaultProperties: *Object (5 properties)
+        │   ├── KeyName: *string
+        │   ├── KeyVaultUri: *string
+        │   ├── KeyVersion: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── UserIdentity: *string
+        ├── Kind: *string
+        ├── Location: *string
+        ├── Name: *string
+        ├── PropertyBag: genruntime.PropertyBag
+        ├── ProvisioningState: *string
+        ├── SoftDeletePeriod: *string
+        ├── Statistics: *Object (2 properties)
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Size: *float64
+        ├── SuspensionDetails: *Object (2 properties)
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── SuspensionStartDate: *string
+        └── Type: *string
