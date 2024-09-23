@@ -180,9 +180,22 @@ func generateStatusTypes(
 			continue // nothing to do
 		}
 
-		targetType, err := otherTypes.FullyResolve(statusTypeName)
+		targetDef, err := otherTypes.FullyResolveDefinition(resourceDef)
 		if err != nil {
 			panic("didn't find type in set after renaming; shouldn't be possible")
+		}
+
+		targetType := targetDef.Type()
+
+		// Normally we want to avoid any aliases (where a typename points to another typename), but if we have a
+		// OneOf reference that type definition instead to ensure we can "see" the results of the oneof assembly stage
+		// This problem only affects resources that use OneOf polymorphism at the root of the resource shape; our
+		// first example of this was Kusto/Database.
+		if oneOf, ok := astmodel.AsOneOfType(targetDef.Type()); ok {
+			if oneOf.HasDiscriminatorProperty() {
+				// we need to reference the OneOf instead of copying it
+				targetType = targetDef.Name()
+			}
 		}
 
 		err = otherTypes.AddAllowDuplicates(astmodel.MakeTypeDefinition(desiredStatusName, targetType))
