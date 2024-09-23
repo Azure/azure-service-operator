@@ -9,7 +9,8 @@ To install the CRDs for these resources, your ASO configuration must include `ku
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource | ARM Version | CRD Version   | Supported From | Sample |
-|----------|-------------|---------------|----------------|--------|
-| Cluster  | 2023-08-15  | v1api20230815 | v2.10.0        | -      |
+| Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                                      |
+|----------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------|
+| Cluster  | 2023-08-15  | v1api20230815 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v1api20230815/v1api20230815_cluster.yaml) |
+| Database | 2023-08-15  | v1api20230815 | v2.10.0        | -                                                                                                                           |
 
