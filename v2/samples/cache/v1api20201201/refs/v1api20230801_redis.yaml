@@ -1,4 +1,4 @@
-apiVersion: cache.azure.com/v1api20201201
+apiVersion: cache.azure.com/v1api20230801
 kind: Redis
 metadata:
   name: linked-sample-redis
