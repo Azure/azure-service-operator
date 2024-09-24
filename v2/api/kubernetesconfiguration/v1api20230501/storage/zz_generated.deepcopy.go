@@ -1015,11 +1015,6 @@ func (in *FluxConfiguration_STATUS) DeepCopyInto(out *FluxConfiguration_STATUS) 
 		*out = new(bool)
 		**out = **in
 	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData_STATUS)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
@@ -1108,11 +1103,6 @@ func (in *FluxConfiguration_Spec) DeepCopyInto(out *FluxConfiguration_Spec) {
 		in, out := &in.Suspend, &out.Suspend
 		*out = new(bool)
 		**out = **in
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.WaitForReconciliation != nil {
 		in, out := &in.WaitForReconciliation, &out.WaitForReconciliation

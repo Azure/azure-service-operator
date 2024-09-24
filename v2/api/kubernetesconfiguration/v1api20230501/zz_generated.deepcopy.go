@@ -1745,11 +1745,6 @@ func (in *FluxConfiguration_STATUS) DeepCopyInto(out *FluxConfiguration_STATUS) 
 		*out = new(bool)
 		**out = **in
 	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData_STATUS)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
@@ -1788,11 +1783,6 @@ func (in *FluxConfiguration_STATUS_ARM) DeepCopyInto(out *FluxConfiguration_STAT
 	if in.Properties != nil {
 		in, out := &in.Properties, &out.Properties
 		*out = new(FluxConfiguration_Properties_STATUS_ARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData_STATUS_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
@@ -1872,11 +1862,6 @@ func (in *FluxConfiguration_Spec) DeepCopyInto(out *FluxConfiguration_Spec) {
 		*out = new(bool)
 		**out = **in
 	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.WaitForReconciliation != nil {
 		in, out := &in.WaitForReconciliation, &out.WaitForReconciliation
 		*out = new(bool)
@@ -1900,11 +1885,6 @@ func (in *FluxConfiguration_Spec_ARM) DeepCopyInto(out *FluxConfiguration_Spec_A
 	if in.Properties != nil {
 		in, out := &in.Properties, &out.Properties
 		*out = new(FluxConfiguration_Properties_Spec_ARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 }
