@@ -59,7 +59,8 @@ func AddKubernetesResourceInterfaceImpls(
 	if nameFns.removeAzureNameProperty {
 		// remove the AzureName property from the spec of the resource
 		remover := astmodel.NewPropertyRemover()
-		updated, err := remover.Remove(resolved.SpecDef, astmodel.AzureNameProperty)
+		var updated astmodel.TypeDefinition
+		updated, err = remover.Remove(resolved.SpecDef, astmodel.AzureNameProperty)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to remove AzureName property from resource %s", resourceDef.Name())
 		}

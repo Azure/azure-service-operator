@@ -159,7 +159,7 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 	if !ok {
 		return astmodel.TypeDefinition{},
 			errors.Errorf(
-				"expected resource %n to be a resource type, but got %s",
+				"expected resource %s to be a resource type, but got %s",
 				rsrcDef.Name(),
 				astmodel.DebugDescription(rsrcDef.Type(), rsrcDef.Name().InternalPackageReference()))
 	}
