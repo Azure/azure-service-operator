@@ -24,6 +24,8 @@ linters-settings:
     check-shadowing: true
   unused:
     generated-is-used: true
+  exhaustive:
+    default-signifies-exhaustive: true
   gosimple:
     # See https://golangci-lint.run/usage/linters#gosimple for a breakdown of what's checked by this linter
     checks:
