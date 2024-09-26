@@ -378,10 +378,10 @@ type ResourceSpecAndStatusResult struct {
 	ResourceType *ResourceType
 
 	SpecDef  TypeDefinition
-	SpecType *ObjectType
+	SpecType ReadonlyObjectType
 
 	StatusDef  TypeDefinition
-	StatusType *ObjectType
+	StatusType ReadonlyObjectType
 }
 
 // ResolveResourceSpecAndStatus takes a TypeDefinition that is a ResourceType and looks up its Spec and Status (as well as
