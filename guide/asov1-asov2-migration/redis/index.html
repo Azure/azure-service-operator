@@ -22,12 +22,12 @@
 <meta name="description" content="Secrets ASOv1 RedisCaches save a Kubernetes secret:
 kubectl get secrets -n ns1 rediscache-rediscache-sample-1 Opaque 2 9s This secret has the following 2 keys:
    Key Source ASOv2 equivalent     primaryKey Azure .spec.operatorSpec.secrets.primaryKey   secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey    Example ASOv2 YAML snippet:
-spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-asov2 key: primarykey key1: name: rediscache-rediscache-sample-1-asov2 key: secondaryKey Once you&amp;rsquo;ve applied the above, make sure to update your applications to depend on the new secret written by ASOv2.">
+spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-asov2 key: primaryKey secondaryKey: name: rediscache-rediscache-sample-1-asov2 key: secondaryKey Once you&amp;rsquo;ve applied the above, make sure to update your applications to depend on the new secret written by ASOv2.">
 <meta property="og:title" content="Redis" />
 <meta property="og:description" content="Secrets ASOv1 RedisCaches save a Kubernetes secret:
 kubectl get secrets -n ns1 rediscache-rediscache-sample-1 Opaque 2 9s This secret has the following 2 keys:
    Key Source ASOv2 equivalent     primaryKey Azure .spec.operatorSpec.secrets.primaryKey   secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey    Example ASOv2 YAML snippet:
-spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-asov2 key: primarykey key1: name: rediscache-rediscache-sample-1-asov2 key: secondaryKey Once you&rsquo;ve applied the above, make sure to update your applications to depend on the new secret written by ASOv2." />
+spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-asov2 key: primaryKey secondaryKey: name: rediscache-rediscache-sample-1-asov2 key: secondaryKey Once you&rsquo;ve applied the above, make sure to update your applications to depend on the new secret written by ASOv2." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/redis/" /><meta property="article:section" content="guide" />
 
@@ -37,7 +37,7 @@ spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-as
 <meta itemprop="description" content="Secrets ASOv1 RedisCaches save a Kubernetes secret:
 kubectl get secrets -n ns1 rediscache-rediscache-sample-1 Opaque 2 9s This secret has the following 2 keys:
    Key Source ASOv2 equivalent     primaryKey Azure .spec.operatorSpec.secrets.primaryKey   secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey    Example ASOv2 YAML snippet:
-spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-asov2 key: primarykey key1: name: rediscache-rediscache-sample-1-asov2 key: secondaryKey Once you&rsquo;ve applied the above, make sure to update your applications to depend on the new secret written by ASOv2.">
+spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-asov2 key: primaryKey secondaryKey: name: rediscache-rediscache-sample-1-asov2 key: secondaryKey Once you&rsquo;ve applied the above, make sure to update your applications to depend on the new secret written by ASOv2.">
 
 <meta itemprop="wordCount" content="70">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
@@ -45,7 +45,7 @@ spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-as
 <meta name="twitter:description" content="Secrets ASOv1 RedisCaches save a Kubernetes secret:
 kubectl get secrets -n ns1 rediscache-rediscache-sample-1 Opaque 2 9s This secret has the following 2 keys:
    Key Source ASOv2 equivalent     primaryKey Azure .spec.operatorSpec.secrets.primaryKey   secondaryKey Azure .spec.operatorSpec.secrets.secondaryKey    Example ASOv2 YAML snippet:
-spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-asov2 key: primarykey key1: name: rediscache-rediscache-sample-1-asov2 key: secondaryKey Once you&rsquo;ve applied the above, make sure to update your applications to depend on the new secret written by ASOv2."/>
+spec: operatorSpec: secrets: primaryKey: name: rediscache-rediscache-sample-1-asov2 key: primaryKey secondaryKey: name: rediscache-rediscache-sample-1-asov2 key: secondaryKey Once you&rsquo;ve applied the above, make sure to update your applications to depend on the new secret written by ASOv2."/>
 
 
 
@@ -818,8 +818,8 @@ rediscache-rediscache-sample-1               Opaque   2      9s
     <span style="color:#f92672">secrets</span>:
       <span style="color:#f92672">primaryKey</span>:
         <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rediscache-rediscache-sample-1-asov2</span>
-        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">primarykey</span>
-      <span style="color:#f92672">key1</span>:
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">primaryKey</span>
+      <span style="color:#f92672">secondaryKey</span>:
         <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rediscache-rediscache-sample-1-asov2</span>
         <span style="color:#f92672">key</span>: <span style="color:#ae81ff">secondaryKey</span>
 </code></pre></div><p>Once you&rsquo;ve applied the above, make sure to update your applications to depend on the new secret

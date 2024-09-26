@@ -336,8 +336,8 @@ rediscache-rediscache-sample-1               Opaque   2      9s
     &lt;span style=&#34;color:#f92672&#34;&gt;secrets&lt;/span&gt;:
       &lt;span style=&#34;color:#f92672&#34;&gt;primaryKey&lt;/span&gt;:
         &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;rediscache-rediscache-sample-1-asov2&lt;/span&gt;
-        &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;primarykey&lt;/span&gt;
-      &lt;span style=&#34;color:#f92672&#34;&gt;key1&lt;/span&gt;:
+        &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;primaryKey&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;secondaryKey&lt;/span&gt;:
         &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;rediscache-rediscache-sample-1-asov2&lt;/span&gt;
         &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;secondaryKey&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once you&amp;rsquo;ve applied the above, make sure to update your applications to depend on the new secret
