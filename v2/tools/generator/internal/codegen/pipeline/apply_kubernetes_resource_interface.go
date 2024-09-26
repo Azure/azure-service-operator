@@ -29,8 +29,7 @@ func ApplyKubernetesResourceInterface(
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 
 			for typeName, typeDef := range astmodel.FindResourceDefinitions(state.Definitions()) {
-				resource := typeDef.Type().(*astmodel.ResourceType)
-				newResource, err := interfaces.AddKubernetesResourceInterfaceImpls(
+				newDefs, err := interfaces.AddKubernetesResourceInterfaceImpls(
 					typeDef,
 					idFactory,
 					state.Definitions(),
@@ -39,17 +38,7 @@ func ApplyKubernetesResourceInterface(
 					return nil, errors.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
 				}
 
-				// this is really very ugly; a better way?
-				if _, ok := newResource.SpecType().(astmodel.TypeName); !ok {
-					// the resource Spec was replaced with a new definition; update it
-					// by replacing the named definition:
-					specName := resource.SpecType().(astmodel.InternalTypeName)
-					updatedDefs.Add(astmodel.MakeTypeDefinition(specName, newResource.SpecType()))
-					newResource = newResource.WithSpec(specName)
-				}
-
-				newDef := typeDef.WithType(newResource)
-				updatedDefs.Add(newDef)
+				updatedDefs.AddTypes(newDefs)
 			}
 
 			return state.WithOverlaidDefinitions(updatedDefs), nil
