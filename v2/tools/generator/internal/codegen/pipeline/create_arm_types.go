@@ -114,7 +114,7 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 
 		resourceSpecDefs.Add(resolved.SpecDef)
 
-		armSpecDef, err := c.createARMResourceSpecDefinition(resolved.ResourceType, resolved.SpecDef)
+		armSpecDef, err := c.createARMResourceSpecDefinition(resolved.ResourceDef, resolved.SpecDef)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to create arm resource spec definition for resource %s", def.Name())
 		}
@@ -152,14 +152,23 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 }
 
 func (c *armTypeCreator) createARMResourceSpecDefinition(
-	resource *astmodel.ResourceType,
-	resourceSpecDef astmodel.TypeDefinition,
+	rsrcDef astmodel.TypeDefinition,
+	specDef astmodel.TypeDefinition,
 ) (astmodel.TypeDefinition, error) {
+	resource, ok := astmodel.AsResourceType(rsrcDef.Type())
+	if !ok {
+		return astmodel.TypeDefinition{},
+			errors.Errorf(
+				"expected resource %n to be a resource type, but got %s",
+				rsrcDef.Name(),
+				astmodel.DebugDescription(rsrcDef.Type(), rsrcDef.Name().InternalPackageReference()))
+	}
+
 	emptyDef := astmodel.TypeDefinition{}
 
-	convContext := c.createSpecConversionContext(resourceSpecDef.Name())
+	convContext := c.createSpecConversionContext(specDef.Name())
 
-	armTypeDef, err := c.createARMTypeDefinition(resourceSpecDef, convContext)
+	armTypeDef, err := c.createARMTypeDefinition(specDef, convContext)
 	if err != nil {
 		return emptyDef, err
 	}
