@@ -25,8 +25,8 @@ spec:
     secrets:
       primaryKey:
         name: rediscache-rediscache-sample-1-asov2
-        key: primarykey
-      key1:
+        key: primaryKey
+      secondaryKey:
         name: rediscache-rediscache-sample-1-asov2
         key: secondaryKey
 ```
