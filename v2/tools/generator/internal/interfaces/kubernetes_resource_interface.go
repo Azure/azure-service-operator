@@ -157,8 +157,6 @@ func AddKubernetesResourceInterfaceImpls(
 	return result, nil
 }
 
-// note that this can, as a side effect, update the resource type
-// it is a bit ugly!
 func createAzureNameFunctionHandlersForType(
 	t astmodel.Type,
 	definitions astmodel.TypeDefinitionSet,
