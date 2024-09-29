@@ -20,8 +20,9 @@ FlexibleServer: Resource
 │   │   ├── GeoRedundantBackup: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── CreateMode: *string
-│   ├── DataEncryption: *Object (4 properties)
+│   ├── DataEncryption: *Object (5 properties)
 │   │   ├── PrimaryKeyURI: *string
+│   │   ├── PrimaryKeyURIFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Type: *string

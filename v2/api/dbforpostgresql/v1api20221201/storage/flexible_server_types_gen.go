@@ -315,7 +315,8 @@ type Backup_STATUS struct {
 // Storage version of v1api20221201.DataEncryption
 // Data encryption properties of a server
 type DataEncryption struct {
-	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyURI           *string                        `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
+	PrimaryKeyURIFromConfig *genruntime.ConfigMapReference `json:"primaryKeyURIFromConfig,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 
 	// PrimaryUserAssignedIdentityReference: Resource Id for the User assigned identity to be used for data encryption for
 	// primary server.

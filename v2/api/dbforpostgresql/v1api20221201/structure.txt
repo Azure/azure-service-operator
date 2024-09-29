@@ -33,8 +33,9 @@ FlexibleServer: Resource
 │   │   ├── "PointInTimeRestore"
 │   │   ├── "Replica"
 │   │   └── "Update"
-│   ├── DataEncryption: *Object (3 properties)
+│   ├── DataEncryption: *Object (4 properties)
 │   │   ├── PrimaryKeyURI: *string
+│   │   ├── PrimaryKeyURIFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   └── Type: *Enum (2 values)
 │   │       ├── "AzureKeyVault"

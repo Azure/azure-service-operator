@@ -166,6 +166,11 @@ func (in *DataEncryption) DeepCopyInto(out *DataEncryption) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrimaryKeyURIFromConfig != nil {
+		in, out := &in.PrimaryKeyURIFromConfig, &out.PrimaryKeyURIFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PrimaryUserAssignedIdentityReference != nil {
 		in, out := &in.PrimaryUserAssignedIdentityReference, &out.PrimaryUserAssignedIdentityReference
 		*out = new(genruntime.ResourceReference)
