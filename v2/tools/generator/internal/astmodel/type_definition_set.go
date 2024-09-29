@@ -373,20 +373,20 @@ func (set TypeDefinitionSet) AsSlice() []TypeDefinition {
 	return result
 }
 
-type ResolvedResourceDefinition struct {
+type ResourceSpecAndStatusResult struct {
 	ResourceDef  TypeDefinition
 	ResourceType *ResourceType
 
 	SpecDef  TypeDefinition
-	SpecType *ObjectType
+	SpecType ReadonlyObjectType
 
 	StatusDef  TypeDefinition
-	StatusType *ObjectType
+	StatusType ReadonlyObjectType
 }
 
 // ResolveResourceSpecAndStatus takes a TypeDefinition that is a ResourceType and looks up its Spec and Status (as well as
-// the TypeDefinition's corresponding to them) and returns a ResolvedResourceDefinition
-func (set TypeDefinitionSet) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
+// the TypeDefinition's corresponding to them) and returns a ResourceSpecAndStatusResult
+func (set TypeDefinitionSet) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*ResourceSpecAndStatusResult, error) {
 	return ResolveResourceSpecAndStatus(set, resourceDef)
 }
 
@@ -442,8 +442,8 @@ func ResolveResourceStatusDefinition(defs ReadonlyTypeDefinitions, resourceType 
 }
 
 // ResolveResourceSpecAndStatus takes a TypeDefinition that is a ResourceType and looks up its Spec and Status (as well as
-// the TypeDefinition's corresponding to them) and returns a ResolvedResourceDefinition
-func ResolveResourceSpecAndStatus(defs ReadonlyTypeDefinitions, resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
+// the TypeDefinition's corresponding to them) and returns a ResourceSpecAndStatusResult
+func ResolveResourceSpecAndStatus(defs ReadonlyTypeDefinitions, resourceDef TypeDefinition) (*ResourceSpecAndStatusResult, error) {
 	resource, ok := AsResourceType(resourceDef.Type())
 	if !ok {
 		return nil, errors.Errorf("expected %q to be a Resource but instead it was a %T", resourceDef.Name(), resourceDef.Type())
@@ -474,7 +474,7 @@ func ResolveResourceSpecAndStatus(defs ReadonlyTypeDefinitions, resourceDef Type
 		}
 	}
 
-	return &ResolvedResourceDefinition{
+	return &ResourceSpecAndStatusResult{
 		ResourceDef:  resourceDef,
 		ResourceType: resource,
 		SpecDef:      specDef,

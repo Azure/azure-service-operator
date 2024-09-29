@@ -96,8 +96,19 @@ func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
 
 		// Remove the resources property from the owning resource spec
 		// TODO: Can delete this once we drop JSON schema golden files
-		newDef := resolved.SpecDef.WithType(resolved.SpecType.WithoutProperty(resourcesPropertyName))
-		updatedDefs[resolved.SpecDef.Name()] = newDef
+		if _, ok := resolved.SpecType.Property(resourcesPropertyName); ok {
+			// Remove the property from the Spec while preserving the structure of the original type
+			remover := astmodel.NewPropertyRemover()
+			newDef, err := remover.Remove(resolved.SpecDef, resourcesPropertyName)
+			if err != nil {
+				errs = append(
+					errs,
+					errors.Wrapf(err, "failed to remove resources property from resource %s", def.Name()))
+				continue
+			}
+
+			updatedDefs[resolved.SpecDef.Name()] = newDef
+		}
 	}
 
 	if len(errs) > 0 {

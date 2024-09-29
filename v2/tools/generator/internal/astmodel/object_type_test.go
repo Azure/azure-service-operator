@@ -19,6 +19,7 @@ var (
 	fullName             = NewPropertyDefinition("FullName", "full-name", StringType)
 	familyName           = NewPropertyDefinition("FamilyName", "family-name", StringType)
 	knownAs              = NewPropertyDefinition("KnownAs", "known-as", StringType)
+	legalName            = NewPropertyDefinition("LegalName", "legalName", StringType)
 	gender               = NewPropertyDefinition("Gender", "gender", StringType)
 	embeddedProp         = NewPropertyDefinition("", "-", MakeExternalTypeName(GenRuntimeReference, "DummyType"))
 	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeExternalTypeName(GenRuntimeReference, "DummyType")).MakeTypeOptional()
