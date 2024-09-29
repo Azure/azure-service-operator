@@ -15,6 +15,8 @@ import (
 	"sync"
 	"unicode"
 
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/go-logr/logr"
