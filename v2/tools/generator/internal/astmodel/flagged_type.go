@@ -55,6 +55,11 @@ func (ft *FlaggedType) HasFlag(flag TypeFlag) bool {
 	return ft.flags.Contains(flag)
 }
 
+// Flags returns all the flags present on this type
+func (ft *FlaggedType) Flags() []TypeFlag {
+	return set.AsSortedSlice(ft.flags)
+}
+
 // WithFlag returns a new FlaggedType with the specified flag added
 func (ft *FlaggedType) WithFlag(flag TypeFlag) *FlaggedType {
 	return NewFlaggedType(ft, flag)
