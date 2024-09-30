@@ -4,10 +4,16 @@ about: Create a report to help us improve
 title: 'Bug: <Brief description of bug>'
 labels: "bug \U0001FAB2"
 assignees: ''
-
 ---
 
-**Version of Azure Service Operator**
+## Describe the bug
+
+_Please give a clear description of what you see and why you think it is a bug._
+
+### Azure Service Operator Version
+
+_What version of ASO are you using?_
+
 <!--- 
 The version of the operator pod. 
 Assuming your ASO is deployed in the default namespace, you can get this version from the container image which the controller is running.
@@ -16,18 +22,18 @@ ASO V1: `kubectl get deployment -n azureoperator-system azureoperator-controller
 ASO V2: `kubectl get deployment -n azureserviceoperator-system azureserviceoperator-controller-manager -o wide` and share the image being used by the manager container.   
 -->
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## To Reproduce
 
-**To Reproduce**
-Steps to reproduce the behavior:
-<Fill in the steps>
+_Describe the steps to recreate the issue._
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+## Expected behavior
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+_A concise description of what you expected to happen._
 
-**Additional context**
-Add any other context about the problem here.
+## Screenshots
+
+_If applicable, add screenshots to help explain your problem._
+
+## Additional context
+
+_Add any other context about the problem here._
