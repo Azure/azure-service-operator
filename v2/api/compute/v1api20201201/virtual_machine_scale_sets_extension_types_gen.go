@@ -5,6 +5,7 @@ package v1api20201201
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -379,7 +380,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertToARM(resolved g
 	if extension == nil {
 		return nil, nil
 	}
-	result := &VirtualMachineScaleSets_Extension_Spec_ARM{}
+	result := &arm.VirtualMachineScaleSets_Extension_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -394,7 +395,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertToARM(resolved g
 		extension.Settings != nil ||
 		extension.Type != nil ||
 		extension.TypeHandlerVersion != nil {
-		result.Properties = &VirtualMachineScaleSetExtensionProperties_ARM{}
+		result.Properties = &arm.VirtualMachineScaleSetExtensionProperties{}
 	}
 	if extension.AutoUpgradeMinorVersion != nil {
 		autoUpgradeMinorVersion := *extension.AutoUpgradeMinorVersion
@@ -443,14 +444,14 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (extension *VirtualMachineScaleSets_Extension_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineScaleSets_Extension_Spec_ARM{}
+	return &arm.VirtualMachineScaleSets_Extension_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (extension *VirtualMachineScaleSets_Extension_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineScaleSets_Extension_Spec_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachineScaleSets_Extension_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Extension_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineScaleSets_Extension_Spec, got %T", armInput)
 	}
 
 	// Set property "AutoUpgradeMinorVersion":
@@ -852,14 +853,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineScaleSets_Extension_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (extension *VirtualMachineScaleSets_Extension_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineScaleSets_Extension_STATUS_ARM{}
+	return &arm.VirtualMachineScaleSets_Extension_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (extension *VirtualMachineScaleSets_Extension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineScaleSets_Extension_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachineScaleSets_Extension_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Extension_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineScaleSets_Extension_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutoUpgradeMinorVersion":

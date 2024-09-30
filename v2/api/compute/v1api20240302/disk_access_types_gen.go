@@ -5,6 +5,7 @@ package v1api20240302
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -353,7 +354,7 @@ func (access *DiskAccess_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if access == nil {
 		return nil, nil
 	}
-	result := &DiskAccess_Spec_ARM{}
+	result := &arm.DiskAccess_Spec{}
 
 	// Set property "ExtendedLocation":
 	if access.ExtendedLocation != nil {
@@ -361,7 +362,7 @@ func (access *DiskAccess_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
+		extendedLocation := *extendedLocation_ARM.(*arm.ExtendedLocation)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -386,14 +387,14 @@ func (access *DiskAccess_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (access *DiskAccess_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiskAccess_Spec_ARM{}
+	return &arm.DiskAccess_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (access *DiskAccess_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiskAccess_Spec_ARM)
+	typedInput, ok := armInput.(arm.DiskAccess_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskAccess_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DiskAccess_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -689,14 +690,14 @@ var _ genruntime.FromARMConverter = &DiskAccess_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (access *DiskAccess_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiskAccess_STATUS_ARM{}
+	return &arm.DiskAccess_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (access *DiskAccess_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiskAccess_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DiskAccess_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskAccess_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DiskAccess_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -920,14 +921,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_ARM{}
+	return &arm.PrivateEndpointConnection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointConnection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointConnection_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":

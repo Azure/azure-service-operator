@@ -5,6 +5,7 @@ package v1api20200930
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -398,7 +399,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if snapshot == nil {
 		return nil, nil
 	}
-	result := &Snapshot_Spec_ARM{}
+	result := &arm.Snapshot_Spec{}
 
 	// Set property "ExtendedLocation":
 	if snapshot.ExtendedLocation != nil {
@@ -406,7 +407,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
+		extendedLocation := *extendedLocation_ARM.(*arm.ExtendedLocation)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -431,14 +432,14 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		snapshot.NetworkAccessPolicy != nil ||
 		snapshot.OsType != nil ||
 		snapshot.PurchasePlan != nil {
-		result.Properties = &SnapshotProperties_ARM{}
+		result.Properties = &arm.SnapshotProperties{}
 	}
 	if snapshot.CreationData != nil {
 		creationData_ARM, err := (*snapshot.CreationData).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		creationData := *creationData_ARM.(*CreationData_ARM)
+		creationData := *creationData_ARM.(*arm.CreationData)
 		result.Properties.CreationData = &creationData
 	}
 	if snapshot.DiskAccessReference != nil {
@@ -456,7 +457,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if snapshot.DiskState != nil {
 		var temp string
 		temp = string(*snapshot.DiskState)
-		diskState := DiskState_ARM(temp)
+		diskState := arm.DiskState(temp)
 		result.Properties.DiskState = &diskState
 	}
 	if snapshot.Encryption != nil {
@@ -464,7 +465,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		encryption := *encryption_ARM.(*Encryption_ARM)
+		encryption := *encryption_ARM.(*arm.Encryption)
 		result.Properties.Encryption = &encryption
 	}
 	if snapshot.EncryptionSettingsCollection != nil {
@@ -472,13 +473,13 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		encryptionSettingsCollection := *encryptionSettingsCollection_ARM.(*EncryptionSettingsCollection_ARM)
+		encryptionSettingsCollection := *encryptionSettingsCollection_ARM.(*arm.EncryptionSettingsCollection)
 		result.Properties.EncryptionSettingsCollection = &encryptionSettingsCollection
 	}
 	if snapshot.HyperVGeneration != nil {
 		var temp string
 		temp = string(*snapshot.HyperVGeneration)
-		hyperVGeneration := SnapshotProperties_HyperVGeneration_ARM(temp)
+		hyperVGeneration := arm.SnapshotProperties_HyperVGeneration(temp)
 		result.Properties.HyperVGeneration = &hyperVGeneration
 	}
 	if snapshot.Incremental != nil {
@@ -488,13 +489,13 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if snapshot.NetworkAccessPolicy != nil {
 		var temp string
 		temp = string(*snapshot.NetworkAccessPolicy)
-		networkAccessPolicy := NetworkAccessPolicy_ARM(temp)
+		networkAccessPolicy := arm.NetworkAccessPolicy(temp)
 		result.Properties.NetworkAccessPolicy = &networkAccessPolicy
 	}
 	if snapshot.OsType != nil {
 		var temp string
 		temp = string(*snapshot.OsType)
-		osType := SnapshotProperties_OsType_ARM(temp)
+		osType := arm.SnapshotProperties_OsType(temp)
 		result.Properties.OsType = &osType
 	}
 	if snapshot.PurchasePlan != nil {
@@ -502,7 +503,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		purchasePlan := *purchasePlan_ARM.(*PurchasePlan_ARM)
+		purchasePlan := *purchasePlan_ARM.(*arm.PurchasePlan)
 		result.Properties.PurchasePlan = &purchasePlan
 	}
 
@@ -512,7 +513,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*SnapshotSku_ARM)
+		sku := *sku_ARM.(*arm.SnapshotSku)
 		result.Sku = &sku
 	}
 
@@ -528,14 +529,14 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (snapshot *Snapshot_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Snapshot_Spec_ARM{}
+	return &arm.Snapshot_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Snapshot_Spec_ARM)
+	typedInput, ok := armInput.(arm.Snapshot_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Snapshot_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Snapshot_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -1209,14 +1210,14 @@ var _ genruntime.FromARMConverter = &Snapshot_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (snapshot *Snapshot_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Snapshot_STATUS_ARM{}
+	return &arm.Snapshot_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (snapshot *Snapshot_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Snapshot_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Snapshot_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Snapshot_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Snapshot_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1868,13 +1869,13 @@ func (snapshotSku *SnapshotSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if snapshotSku == nil {
 		return nil, nil
 	}
-	result := &SnapshotSku_ARM{}
+	result := &arm.SnapshotSku{}
 
 	// Set property "Name":
 	if snapshotSku.Name != nil {
 		var temp string
 		temp = string(*snapshotSku.Name)
-		name := SnapshotSku_Name_ARM(temp)
+		name := arm.SnapshotSku_Name(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -1882,14 +1883,14 @@ func (snapshotSku *SnapshotSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (snapshotSku *SnapshotSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SnapshotSku_ARM{}
+	return &arm.SnapshotSku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (snapshotSku *SnapshotSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SnapshotSku_ARM)
+	typedInput, ok := armInput.(arm.SnapshotSku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SnapshotSku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SnapshotSku, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -1958,14 +1959,14 @@ var _ genruntime.FromARMConverter = &SnapshotSku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (snapshotSku *SnapshotSku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SnapshotSku_STATUS_ARM{}
+	return &arm.SnapshotSku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (snapshotSku *SnapshotSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SnapshotSku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SnapshotSku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SnapshotSku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SnapshotSku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
