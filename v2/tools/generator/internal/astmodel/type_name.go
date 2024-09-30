@@ -46,6 +46,7 @@ var armPackageDenyList = set.Make(
 	"insights",
 	"keyvault",
 	"kubernetesconfiguration",
+	"kusto",
 	"machinelearningservices",
 	"managedidentity",
 	"monitor",
