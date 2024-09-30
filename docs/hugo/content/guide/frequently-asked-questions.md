@@ -240,3 +240,35 @@ There are a few options for importing resources into your cluster:
 * If you're looking to import a small number of resources, you can also manually create the resources in your cluster 
   yourself and apply them. As long as the resource name, type and subscription are the same as the existing Azure 
   resource, ASO will automatically adopt the resource. Make sure to use the `reconcile-policy` you want.
+
+### How do I get ArgoCD to show accurate health colours for ASO resources?
+
+By default ArgoCD will show _green_ for all ASO resources regardless of their actual health. In [#4258](https://github.com/Azure/azure-service-operator/issues/4258), [@neil-199](https://github.com/neil-119) reported [this sample script](https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#way-1-define-a-custom-health-check-in-argocd-cm-configmap) worked to show accurate health information based on the [Conditions]( {{< relref "conditions" >}}) already published by ASO.
+
+``` yaml
+data:
+  resource.customizations: |
+    "*.azure.com/*":
+      health.lua: |
+        hs = {}
+        if obj.status ~= nil then
+          if obj.status.conditions ~= nil then
+            for i, condition in ipairs(obj.status.conditions) do
+              if condition.type == "Ready" and condition.status == "False" then
+                hs.status = "Degraded"
+                hs.message = condition.message
+                return hs
+              end
+              if condition.type == "Ready" and condition.status == "True" then
+                hs.status = "Healthy"
+                hs.message = condition.message
+                return hs
+              end
+            end
+          end
+        end
+
+        hs.status = "Progressing"
+        hs.message = "Waiting for certificate"
+        return hs
+```
