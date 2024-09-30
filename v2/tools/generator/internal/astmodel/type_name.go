@@ -32,7 +32,6 @@ var armPackageDenyList = set.Make(
 	"batch",
 	"cache",
 	"cdn",
-	"compute",
 	"containerinstance",
 	"containerregistry",
 	"datafactory",
