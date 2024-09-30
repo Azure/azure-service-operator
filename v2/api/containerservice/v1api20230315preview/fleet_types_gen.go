@@ -5,6 +5,7 @@ package v1api20230315preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -383,7 +384,7 @@ func (fleet *Fleet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if fleet == nil {
 		return nil, nil
 	}
-	result := &Fleet_Spec_ARM{}
+	result := &arm.Fleet_Spec{}
 
 	// Set property "Location":
 	if fleet.Location != nil {
@@ -396,14 +397,14 @@ func (fleet *Fleet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property "Properties":
 	if fleet.HubProfile != nil {
-		result.Properties = &FleetProperties_ARM{}
+		result.Properties = &arm.FleetProperties{}
 	}
 	if fleet.HubProfile != nil {
 		hubProfile_ARM, err := (*fleet.HubProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		hubProfile := *hubProfile_ARM.(*FleetHubProfile_ARM)
+		hubProfile := *hubProfile_ARM.(*arm.FleetHubProfile)
 		result.Properties.HubProfile = &hubProfile
 	}
 
@@ -419,14 +420,14 @@ func (fleet *Fleet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (fleet *Fleet_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Fleet_Spec_ARM{}
+	return &arm.Fleet_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (fleet *Fleet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Fleet_Spec_ARM)
+	typedInput, ok := armInput.(arm.Fleet_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Fleet_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Fleet_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -754,14 +755,14 @@ var _ genruntime.FromARMConverter = &Fleet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (fleet *Fleet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Fleet_STATUS_ARM{}
+	return &arm.Fleet_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (fleet *Fleet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Fleet_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Fleet_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Fleet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Fleet_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -990,7 +991,7 @@ func (profile *FleetHubProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if profile == nil {
 		return nil, nil
 	}
-	result := &FleetHubProfile_ARM{}
+	result := &arm.FleetHubProfile{}
 
 	// Set property "DnsPrefix":
 	if profile.DnsPrefix != nil {
@@ -1002,14 +1003,14 @@ func (profile *FleetHubProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *FleetHubProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FleetHubProfile_ARM{}
+	return &arm.FleetHubProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *FleetHubProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FleetHubProfile_ARM)
+	typedInput, ok := armInput.(arm.FleetHubProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FleetHubProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FleetHubProfile, got %T", armInput)
 	}
 
 	// Set property "DnsPrefix":
@@ -1092,14 +1093,14 @@ var _ genruntime.FromARMConverter = &FleetHubProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *FleetHubProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FleetHubProfile_STATUS_ARM{}
+	return &arm.FleetHubProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *FleetHubProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FleetHubProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FleetHubProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FleetHubProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FleetHubProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "DnsPrefix":
@@ -1265,14 +1266,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":

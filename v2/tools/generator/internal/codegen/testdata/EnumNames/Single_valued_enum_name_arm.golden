@@ -3,22 +3,19 @@
 // Licensed under the MIT license.
 package arm
 
-import (
-	v20200101 "github.com/Azure/azure-service-operator/testing/test/v1api20200101"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type AResource_Spec struct {
-	APIVersion v20200101.AResource_APIVersion_Spec `json:"apiVersion,omitempty"`
-	Name       string                              `json:"name,omitempty"`
-	Type       v20200101.AResource_Type_Spec       `json:"type,omitempty"`
+	APIVersion AResource_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string                    `json:"name,omitempty"`
+	Type       AResource_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &AResource_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (resource AResource_Spec) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource
@@ -29,4 +26,24 @@ func (resource *AResource_Spec) GetName() string {
 // GetType returns the ARM Type of the resource. This is always ""
 func (resource *AResource_Spec) GetType() string {
 	return ""
+}
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type AResource_APIVersion_Spec string
+
+const AResource_APIVersion_Spec_20200601 = AResource_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to AResource_APIVersion_Spec
+var aResource_APIVersion_Spec_Values = map[string]AResource_APIVersion_Spec{
+	"2020-06-01": AResource_APIVersion_Spec_20200601,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/AResource"}
+type AResource_Type_Spec string
+
+const AResource_Type_Spec_MicrosoftAzureAResource = AResource_Type_Spec("Microsoft.Azure/AResource")
+
+// Mapping from string to AResource_Type_Spec
+var aResource_Type_Spec_Values = map[string]AResource_Type_Spec{
+	"microsoft.azure/aresource": AResource_Type_Spec_MicrosoftAzureAResource,
 }

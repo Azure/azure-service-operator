@@ -5,6 +5,7 @@ package v1api20240402preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -358,14 +359,14 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertToARM(resol
 	if binding == nil {
 		return nil, nil
 	}
-	result := &ManagedClusters_TrustedAccessRoleBinding_Spec_ARM{}
+	result := &arm.ManagedClusters_TrustedAccessRoleBinding_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if binding.Roles != nil || binding.SourceResourceReference != nil {
-		result.Properties = &TrustedAccessRoleBindingProperties_ARM{}
+		result.Properties = &arm.TrustedAccessRoleBindingProperties{}
 	}
 	for _, item := range binding.Roles {
 		result.Properties.Roles = append(result.Properties.Roles, item)
@@ -383,14 +384,14 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertToARM(resol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedClusters_TrustedAccessRoleBinding_Spec_ARM{}
+	return &arm.ManagedClusters_TrustedAccessRoleBinding_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedClusters_TrustedAccessRoleBinding_Spec_ARM)
+	typedInput, ok := armInput.(arm.ManagedClusters_TrustedAccessRoleBinding_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_TrustedAccessRoleBinding_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedClusters_TrustedAccessRoleBinding_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -628,14 +629,14 @@ var _ genruntime.FromARMConverter = &ManagedClusters_TrustedAccessRoleBinding_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM{}
+	return &arm.ManagedClusters_TrustedAccessRoleBinding_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedClusters_TrustedAccessRoleBinding_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedClusters_TrustedAccessRoleBinding_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

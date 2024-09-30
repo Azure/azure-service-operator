@@ -119,7 +119,7 @@ func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error)
 
 	decl := astbuilder.ShortDeclaration(
 		builder.resultIdent,
-		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(dst.NewIdent(builder.destinationTypeIdent())).Build()))
+		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(builder.destinationTypeIdent()).Build()))
 
 	// Each ARM object property needs to be filled out
 	conversions, err := generateTypeConversionAssignments(

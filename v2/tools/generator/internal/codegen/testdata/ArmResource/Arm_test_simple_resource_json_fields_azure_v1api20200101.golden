@@ -5,8 +5,8 @@ package v1api20200101
 
 import (
 	"fmt"
-	v20200101a "github.com/Azure/azure-service-operator/testing/test/v1api20200101/arm"
-	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
+	arm "github.com/Azure/azure-service-operator/testing/test/v1api20200101/arm"
+	storage "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -47,7 +47,7 @@ var _ conversion.Convertible = &FakeResource{}
 
 // ConvertFrom populates our FakeResource from the provided hub FakeResource
 func (resource *FakeResource) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200101s.FakeResource)
+	source, ok := hub.(*storage.FakeResource)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/FakeResource but received %T instead", hub)
 	}
@@ -57,7 +57,7 @@ func (resource *FakeResource) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub FakeResource from our FakeResource
 func (resource *FakeResource) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200101s.FakeResource)
+	destination, ok := hub.(*storage.FakeResource)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/FakeResource but received %T instead", hub)
 	}
@@ -97,7 +97,7 @@ func (resource *FakeResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (resource FakeResource) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -212,7 +212,7 @@ func (resource *FakeResource) validateWriteOnceProperties(old runtime.Object) (a
 }
 
 // AssignProperties_From_FakeResource populates our FakeResource from the provided source FakeResource
-func (resource *FakeResource) AssignProperties_From_FakeResource(source *v20200101s.FakeResource) error {
+func (resource *FakeResource) AssignProperties_From_FakeResource(source *storage.FakeResource) error {
 
 	// ObjectMeta
 	resource.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -230,13 +230,13 @@ func (resource *FakeResource) AssignProperties_From_FakeResource(source *v202001
 }
 
 // AssignProperties_To_FakeResource populates the provided destination FakeResource from our FakeResource
-func (resource *FakeResource) AssignProperties_To_FakeResource(destination *v20200101s.FakeResource) error {
+func (resource *FakeResource) AssignProperties_To_FakeResource(destination *storage.FakeResource) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *resource.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200101s.FakeResource_Spec
+	var spec storage.FakeResource_Spec
 	err := resource.Spec.AssignProperties_To_FakeResource_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
@@ -301,10 +301,12 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	result := &FakeResource_Spec{}
+	result := &arm.FakeResource_Spec{}
 
 	// Set property "APIVersion":
-	result.APIVersion = resource.APIVersion
+	var temp string
+	temp = string(resource.APIVersion)
+	result.APIVersion = arm.FakeResource_APIVersion_Spec(temp)
 
 	// Set property "JsonObject":
 	if resource.JsonObject != nil {
@@ -330,24 +332,28 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property "Type":
-	result.Type = resource.Type
+	var typeTemp string
+	typeTemp = string(resource.Type)
+	result.Type = arm.FakeResource_Type_Spec(typeTemp)
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &v20200101a.FakeResource_Spec{}
+	return &arm.FakeResource_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FakeResource_Spec)
+	typedInput, ok := armInput.(arm.FakeResource_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FakeResource_Spec, got %T", armInput)
 	}
 
 	// Set property "APIVersion":
-	resource.APIVersion = typedInput.APIVersion
+	var temp string
+	temp = string(typedInput.APIVersion)
+	resource.APIVersion = FakeResource_APIVersion_Spec(temp)
 
 	// Set property "AzureName":
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -379,7 +385,9 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property "Type":
-	resource.Type = typedInput.Type
+	var typeTemp string
+	typeTemp = string(typedInput.Type)
+	resource.Type = FakeResource_Type_Spec(typeTemp)
 
 	// No error
 	return nil
@@ -389,14 +397,14 @@ var _ genruntime.ConvertibleSpec = &FakeResource_Spec{}
 
 // ConvertSpecFrom populates our FakeResource_Spec from the provided source
 func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200101s.FakeResource_Spec)
+	src, ok := source.(*storage.FakeResource_Spec)
 	if ok {
 		// Populate our instance from source
 		return resource.AssignProperties_From_FakeResource_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200101s.FakeResource_Spec{}
+	src = &storage.FakeResource_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -413,14 +421,14 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 
 // ConvertSpecTo populates the provided destination from our FakeResource_Spec
 func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200101s.FakeResource_Spec)
+	dst, ok := destination.(*storage.FakeResource_Spec)
 	if ok {
 		// Populate destination from our instance
 		return resource.AssignProperties_To_FakeResource_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200101s.FakeResource_Spec{}
+	dst = &storage.FakeResource_Spec{}
 	err := resource.AssignProperties_To_FakeResource_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -436,11 +444,12 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 }
 
 // AssignProperties_From_FakeResource_Spec populates our FakeResource_Spec from the provided source FakeResource_Spec
-func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(source *v20200101s.FakeResource_Spec) error {
+func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(source *storage.FakeResource_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		resource.APIVersion = FakeResource_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		resource.APIVersion = genruntime.ToEnum(apiVersion, fakeResource_APIVersion_Spec_Values)
 	} else {
 		resource.APIVersion = ""
 	}
@@ -487,7 +496,8 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// Type
 	if source.Type != nil {
-		resource.Type = FakeResource_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		resource.Type = genruntime.ToEnum(typeVar, fakeResource_Type_Spec_Values)
 	} else {
 		resource.Type = ""
 	}
@@ -497,7 +507,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 }
 
 // AssignProperties_To_FakeResource_Spec populates the provided destination FakeResource_Spec from our FakeResource_Spec
-func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destination *v20200101s.FakeResource_Spec) error {
+func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destination *storage.FakeResource_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -576,10 +586,20 @@ type FakeResource_APIVersion_Spec string
 
 const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
 
+// Mapping from string to FakeResource_APIVersion_Spec
+var fakeResource_APIVersion_Spec_Values = map[string]FakeResource_APIVersion_Spec{
+	"2020-06-01": FakeResource_APIVersion_Spec_20200601,
+}
+
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
 type FakeResource_Type_Spec string
 
 const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
+
+// Mapping from string to FakeResource_Type_Spec
+var fakeResource_Type_Spec_Values = map[string]FakeResource_Type_Spec{
+	"microsoft.azure/fakeresource": FakeResource_Type_Spec_MicrosoftAzureFakeResource,
+}
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})
