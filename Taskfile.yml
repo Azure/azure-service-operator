@@ -82,6 +82,7 @@ tasks:
       - task: controller:ci
       - task: crossplane:ci
       - task: asoctl:ci
+      - task: format-code
       - task: verify-no-changes
 
   ci-live:
