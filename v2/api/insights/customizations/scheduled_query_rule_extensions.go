@@ -6,6 +6,8 @@ Licensed under the MIT license.
 package customizations
 
 import (
+	"strings"
+
 	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -16,8 +18,8 @@ import (
 var _ extensions.ErrorClassifier = &ScheduledQueryRuleExtension{}
 
 // ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
-// A conflict error (409) is normally fatal, but ScheduledQueryRule resources may return 400 whilst a dependency is
-// being created, so we override for that case.
+// A badrequest (400) is normally fatal, but ScheduledQueryRule resources may return 400 whilst
+// a dependency is being created, so we override for that case.
 // cloudError is the error returned from ARM.
 // apiVersion is the ARM API version used for the request.
 // log is a logger than can be used for telemetry.
@@ -34,20 +36,25 @@ func (e *ScheduledQueryRuleExtension) ClassifyError(
 	}
 
 	// Override is to treat BadRequests as retryable for ScheduledQueryRules
-	if isRetryableBadRequest(cloudError) {
+	if isRetryableError(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
 
 	return details, nil
 }
 
-// isRetryableBadRequest checks the passed error to see if it is a retryable bad request, returning true if it is.
-func isRetryableBadRequest(err *genericarmclient.CloudError) bool {
+// isRetryableError checks the passed error to see if it is a retryable bad request, returning true if it is.
+func isRetryableError(err *genericarmclient.CloudError) bool {
 	if err == nil {
+		// No error, so no need for a retry
 		return false
 	}
 
-	if err.Code() == "BadRequest" {
+	// When any of the scopes to which a ScheduledQueryRule is suposed to apply are missing,
+	// we get a BadRequest error with a messaage like:
+	// "Scope 'target-law' does not exist"
+	// These should be retried to allow the rule to be created once the target scope resource exists.
+	if err.Code() == "BadRequest" && strings.Contains(err.Message(), "does not exist") {
 		return true
 	}
 
