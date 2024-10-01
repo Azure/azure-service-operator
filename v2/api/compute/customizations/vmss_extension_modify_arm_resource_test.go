@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
+	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
@@ -18,9 +18,9 @@ func Test_FuzzySetExtensions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	vmss := &compute.VirtualMachineScaleSet_Spec_ARM{
+	vmss := &arm.VirtualMachineScaleSet_Spec{
 		Location: to.Ptr("westus"),
-		Properties: &compute.VirtualMachineScaleSetProperties_ARM{
+		Properties: &arm.VirtualMachineScaleSetProperties{
 			ZoneBalance: to.Ptr(false),
 		},
 	}
@@ -82,16 +82,16 @@ func Test_FuzzySetVMSS_ExtensionsMerged(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	vmss := &compute.VirtualMachineScaleSet_Spec_ARM{
+	vmss := &arm.VirtualMachineScaleSet_Spec{
 		Name:     "asotest-vmss-idossk",
 		Location: to.Ptr("westus"),
-		Properties: &compute.VirtualMachineScaleSetProperties_ARM{
-			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile_ARM{
-				ExtensionProfile: &compute.VirtualMachineScaleSetExtensionProfile_ARM{
-					Extensions: []compute.VirtualMachineScaleSetExtension_ARM{
+		Properties: &arm.VirtualMachineScaleSetProperties{
+			VirtualMachineProfile: &arm.VirtualMachineScaleSetVMProfile{
+				ExtensionProfile: &arm.VirtualMachineScaleSetExtensionProfile{
+					Extensions: []arm.VirtualMachineScaleSetExtension{
 						{
 							Name: to.Ptr("mycustomextension"),
-							Properties: &compute.VirtualMachineScaleSetExtensionProperties_ARM{
+							Properties: &arm.VirtualMachineScaleSetExtensionProperties{
 								Publisher:          to.Ptr("Microsoft.Azure.Extensions"),
 								Type:               to.Ptr("CustomScript"),
 								TypeHandlerVersion: to.Ptr("2.0"),
@@ -99,7 +99,7 @@ func Test_FuzzySetVMSS_ExtensionsMerged(t *testing.T) {
 						},
 						{
 							Name: to.Ptr("mycustomextension1"),
-							Properties: &compute.VirtualMachineScaleSetExtensionProperties_ARM{
+							Properties: &arm.VirtualMachineScaleSetExtensionProperties{
 								Publisher:          to.Ptr("Microsoft.ManagedServices"),
 								Type:               to.Ptr("ApplicationHealthLinux"),
 								TypeHandlerVersion: to.Ptr("1.0"),

@@ -5,6 +5,7 @@ package v1api20220301
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -384,7 +385,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertToARM(resolved g
 	if extension == nil {
 		return nil, nil
 	}
-	result := &VirtualMachineScaleSets_Extension_Spec_ARM{}
+	result := &arm.VirtualMachineScaleSets_Extension_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -401,7 +402,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertToARM(resolved g
 		extension.SuppressFailures != nil ||
 		extension.Type != nil ||
 		extension.TypeHandlerVersion != nil {
-		result.Properties = &VirtualMachineScaleSetExtensionProperties_ARM{}
+		result.Properties = &arm.VirtualMachineScaleSetExtensionProperties{}
 	}
 	if extension.AutoUpgradeMinorVersion != nil {
 		autoUpgradeMinorVersion := *extension.AutoUpgradeMinorVersion
@@ -429,7 +430,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertToARM(resolved g
 		if err != nil {
 			return nil, err
 		}
-		protectedSettingsFromKeyVault := *protectedSettingsFromKeyVault_ARM.(*KeyVaultSecretReference_ARM)
+		protectedSettingsFromKeyVault := *protectedSettingsFromKeyVault_ARM.(*arm.KeyVaultSecretReference)
 		result.Properties.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 	}
 	for _, item := range extension.ProvisionAfterExtensions {
@@ -462,14 +463,14 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (extension *VirtualMachineScaleSets_Extension_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineScaleSets_Extension_Spec_ARM{}
+	return &arm.VirtualMachineScaleSets_Extension_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (extension *VirtualMachineScaleSets_Extension_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineScaleSets_Extension_Spec_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachineScaleSets_Extension_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Extension_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineScaleSets_Extension_Spec, got %T", armInput)
 	}
 
 	// Set property "AutoUpgradeMinorVersion":
@@ -1013,14 +1014,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineScaleSets_Extension_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (extension *VirtualMachineScaleSets_Extension_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineScaleSets_Extension_STATUS_ARM{}
+	return &arm.VirtualMachineScaleSets_Extension_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (extension *VirtualMachineScaleSets_Extension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineScaleSets_Extension_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachineScaleSets_Extension_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Extension_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineScaleSets_Extension_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutoUpgradeMinorVersion":
@@ -1351,7 +1352,7 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 	if reference == nil {
 		return nil, nil
 	}
-	result := &KeyVaultSecretReference_ARM{}
+	result := &arm.KeyVaultSecretReference{}
 
 	// Set property "SecretUrl":
 	if reference.SecretUrl != nil {
@@ -1365,7 +1366,7 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		sourceVault := *sourceVault_ARM.(*SubResource_ARM)
+		sourceVault := *sourceVault_ARM.(*arm.SubResource)
 		result.SourceVault = &sourceVault
 	}
 	return result, nil
@@ -1373,14 +1374,14 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *KeyVaultSecretReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultSecretReference_ARM{}
+	return &arm.KeyVaultSecretReference{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *KeyVaultSecretReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultSecretReference_ARM)
+	typedInput, ok := armInput.(arm.KeyVaultSecretReference)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSecretReference_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KeyVaultSecretReference, got %T", armInput)
 	}
 
 	// Set property "SecretUrl":
@@ -1492,14 +1493,14 @@ var _ genruntime.FromARMConverter = &KeyVaultSecretReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *KeyVaultSecretReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultSecretReference_STATUS_ARM{}
+	return &arm.KeyVaultSecretReference_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *KeyVaultSecretReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultSecretReference_STATUS_ARM)
+	typedInput, ok := armInput.(arm.KeyVaultSecretReference_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSecretReference_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KeyVaultSecretReference_STATUS, got %T", armInput)
 	}
 
 	// Set property "SecretUrl":

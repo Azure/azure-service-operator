@@ -5,6 +5,7 @@ package v1api20201201
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -385,7 +386,7 @@ func (extension *VirtualMachines_Extension_Spec) ConvertToARM(resolved genruntim
 	if extension == nil {
 		return nil, nil
 	}
-	result := &VirtualMachines_Extension_Spec_ARM{}
+	result := &arm.VirtualMachines_Extension_Spec{}
 
 	// Set property "Location":
 	if extension.Location != nil {
@@ -406,7 +407,7 @@ func (extension *VirtualMachines_Extension_Spec) ConvertToARM(resolved genruntim
 		extension.Settings != nil ||
 		extension.Type != nil ||
 		extension.TypeHandlerVersion != nil {
-		result.Properties = &VirtualMachineExtensionProperties_ARM{}
+		result.Properties = &arm.VirtualMachineExtensionProperties{}
 	}
 	if extension.AutoUpgradeMinorVersion != nil {
 		autoUpgradeMinorVersion := *extension.AutoUpgradeMinorVersion
@@ -425,7 +426,7 @@ func (extension *VirtualMachines_Extension_Spec) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		instanceView := *instanceView_ARM.(*VirtualMachineExtensionInstanceView_ARM)
+		instanceView := *instanceView_ARM.(*arm.VirtualMachineExtensionInstanceView)
 		result.Properties.InstanceView = &instanceView
 	}
 	if extension.ProtectedSettings != nil {
@@ -468,14 +469,14 @@ func (extension *VirtualMachines_Extension_Spec) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (extension *VirtualMachines_Extension_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Extension_Spec_ARM{}
+	return &arm.VirtualMachines_Extension_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (extension *VirtualMachines_Extension_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Extension_Spec_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachines_Extension_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Extension_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachines_Extension_Spec, got %T", armInput)
 	}
 
 	// Set property "AutoUpgradeMinorVersion":
@@ -932,14 +933,14 @@ var _ genruntime.FromARMConverter = &VirtualMachines_Extension_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (extension *VirtualMachines_Extension_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachines_Extension_STATUS_ARM{}
+	return &arm.VirtualMachines_Extension_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (extension *VirtualMachines_Extension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachines_Extension_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachines_Extension_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachines_Extension_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachines_Extension_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutoUpgradeMinorVersion":
@@ -1264,7 +1265,7 @@ func (view *VirtualMachineExtensionInstanceView) ConvertToARM(resolved genruntim
 	if view == nil {
 		return nil, nil
 	}
-	result := &VirtualMachineExtensionInstanceView_ARM{}
+	result := &arm.VirtualMachineExtensionInstanceView{}
 
 	// Set property "Name":
 	if view.Name != nil {
@@ -1278,7 +1279,7 @@ func (view *VirtualMachineExtensionInstanceView) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		result.Statuses = append(result.Statuses, *item_ARM.(*InstanceViewStatus_ARM))
+		result.Statuses = append(result.Statuses, *item_ARM.(*arm.InstanceViewStatus))
 	}
 
 	// Set property "Substatuses":
@@ -1287,7 +1288,7 @@ func (view *VirtualMachineExtensionInstanceView) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		result.Substatuses = append(result.Substatuses, *item_ARM.(*InstanceViewStatus_ARM))
+		result.Substatuses = append(result.Substatuses, *item_ARM.(*arm.InstanceViewStatus))
 	}
 
 	// Set property "Type":
@@ -1306,14 +1307,14 @@ func (view *VirtualMachineExtensionInstanceView) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (view *VirtualMachineExtensionInstanceView) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineExtensionInstanceView_ARM{}
+	return &arm.VirtualMachineExtensionInstanceView{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (view *VirtualMachineExtensionInstanceView) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineExtensionInstanceView_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachineExtensionInstanceView)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtensionInstanceView_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineExtensionInstanceView, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -1493,14 +1494,14 @@ var _ genruntime.FromARMConverter = &VirtualMachineExtensionInstanceView_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (view *VirtualMachineExtensionInstanceView_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineExtensionInstanceView_STATUS_ARM{}
+	return &arm.VirtualMachineExtensionInstanceView_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (view *VirtualMachineExtensionInstanceView_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineExtensionInstanceView_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualMachineExtensionInstanceView_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtensionInstanceView_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualMachineExtensionInstanceView_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -1683,7 +1684,7 @@ func (status *InstanceViewStatus) ConvertToARM(resolved genruntime.ConvertToARMR
 	if status == nil {
 		return nil, nil
 	}
-	result := &InstanceViewStatus_ARM{}
+	result := &arm.InstanceViewStatus{}
 
 	// Set property "Code":
 	if status.Code != nil {
@@ -1701,7 +1702,7 @@ func (status *InstanceViewStatus) ConvertToARM(resolved genruntime.ConvertToARMR
 	if status.Level != nil {
 		var temp string
 		temp = string(*status.Level)
-		level := InstanceViewStatus_Level_ARM(temp)
+		level := arm.InstanceViewStatus_Level(temp)
 		result.Level = &level
 	}
 
@@ -1721,14 +1722,14 @@ func (status *InstanceViewStatus) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (status *InstanceViewStatus) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InstanceViewStatus_ARM{}
+	return &arm.InstanceViewStatus{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (status *InstanceViewStatus) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InstanceViewStatus_ARM)
+	typedInput, ok := armInput.(arm.InstanceViewStatus)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InstanceViewStatus_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.InstanceViewStatus, got %T", armInput)
 	}
 
 	// Set property "Code":
