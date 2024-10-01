@@ -33,7 +33,7 @@ How are CVEs dealt with?" />
 <meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
 How are CVEs dealt with?">
 
-<meta itemprop="wordCount" content="1990">
+<meta itemprop="wordCount" content="2112">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
 <meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
@@ -735,6 +735,7 @@ How are CVEs dealt with?"/>
         <li><a href="#how-can-i-feed-the-output-of-one-resource-into-a-parameter-for-the-next">How can I feed the output of one resource into a parameter for the next?</a></li>
         <li><a href="#what-should-i-know-about-roleassignment-naming-in-aso">What should I know about RoleAssignment naming in ASO?</a></li>
         <li><a href="#how-can-i-import-existing-azure-resources-into-aso">How can I import existing Azure resources into ASO?</a></li>
+        <li><a href="#how-do-i-get-argocd-to-show-accurate-health-colours-for-aso-resources">How do I get ArgoCD to show accurate health colours for ASO resources?</a></li>
       </ul>
     </li>
   </ul>
@@ -993,7 +994,34 @@ details about how to control whether the operator modifies Azure resources or ju
 yourself and apply them. As long as the resource name, type and subscription are the same as the existing Azure
 resource, ASO will automatically adopt the resource. Make sure to use the <code>reconcile-policy</code> you want.</li>
 </ul>
-
+<h3 id="how-do-i-get-argocd-to-show-accurate-health-colours-for-aso-resources">How do I get ArgoCD to show accurate health colours for ASO resources?</h3>
+<p>By default ArgoCD will show <em>green</em> for all ASO resources regardless of their actual health. In <a href="https://github.com/Azure/azure-service-operator/issues/4258">#4258</a>, <a href="https://github.com/neil-119">@neil-199</a> reported <a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#way-1-define-a-custom-health-check-in-argocd-cm-configmap">this sample script</a> worked to show accurate health information based on the <a href="/azure-service-operator/guide/conditions/">Conditions</a> already published by ASO.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">data</span>:
+  <span style="color:#f92672">resource.customizations</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">    &#34;*.azure.com/*&#34;:
+</span><span style="color:#e6db74">      health.lua: |
+</span><span style="color:#e6db74">        hs = {}
+</span><span style="color:#e6db74">        if obj.status ~= nil then
+</span><span style="color:#e6db74">          if obj.status.conditions ~= nil then
+</span><span style="color:#e6db74">            for i, condition in ipairs(obj.status.conditions) do
+</span><span style="color:#e6db74">              if condition.type == &#34;Ready&#34; and condition.status == &#34;False&#34; then
+</span><span style="color:#e6db74">                hs.status = &#34;Degraded&#34;
+</span><span style="color:#e6db74">                hs.message = condition.message
+</span><span style="color:#e6db74">                return hs
+</span><span style="color:#e6db74">              end
+</span><span style="color:#e6db74">              if condition.type == &#34;Ready&#34; and condition.status == &#34;True&#34; then
+</span><span style="color:#e6db74">                hs.status = &#34;Healthy&#34;
+</span><span style="color:#e6db74">                hs.message = condition.message
+</span><span style="color:#e6db74">                return hs
+</span><span style="color:#e6db74">              end
+</span><span style="color:#e6db74">            end
+</span><span style="color:#e6db74">          end
+</span><span style="color:#e6db74">        end
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        hs.status = &#34;Progressing&#34;
+</span><span style="color:#e6db74">        hs.message = &#34;Waiting for certificate&#34;
+</span><span style="color:#e6db74">        return hs</span>    
+</code></pre></div>
 	
 	
 	
