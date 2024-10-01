@@ -4204,7 +4204,6 @@ func DatabricksPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabricksProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabricksProperties(gens map[string]gopter.Gen) {
-	gens["DatabricksAccessToken"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -4308,7 +4307,6 @@ func DatabricksProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabricksProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabricksProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["DatabricksAccessToken"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -9116,7 +9114,6 @@ func VirtualMachineSshCredentialsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials(gens map[string]gopter.Gen) {
-	gens["PrivateKeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicKeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
@@ -9221,7 +9218,6 @@ func VirtualMachineSshCredentials_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials_STATUS(gens map[string]gopter.Gen) {
-	gens["PrivateKeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicKeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }

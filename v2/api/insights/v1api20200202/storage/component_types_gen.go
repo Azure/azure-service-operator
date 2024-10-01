@@ -292,6 +292,7 @@ func (component *Component_STATUS) ConvertStatusTo(destination genruntime.Conver
 type ComponentOperatorSpec struct {
 	ConfigMaps  *ComponentOperatorConfigMaps `json:"configMaps,omitempty"`
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Secrets     *ComponentOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20200202.PrivateLinkScopedResource_STATUS
@@ -307,6 +308,12 @@ type ComponentOperatorConfigMaps struct {
 	ConnectionString   *genruntime.ConfigMapDestination `json:"connectionString,omitempty"`
 	InstrumentationKey *genruntime.ConfigMapDestination `json:"instrumentationKey,omitempty"`
 	PropertyBag        genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20200202.ComponentOperatorSecrets
+type ComponentOperatorSecrets struct {
+	HockeyAppToken *genruntime.SecretDestination `json:"hockeyAppToken,omitempty"`
+	PropertyBag    genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
 func init() {

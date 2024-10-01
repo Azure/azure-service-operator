@@ -633,17 +633,16 @@ type ComputeInstanceProperties_STATUS struct {
 // Storage version of v1api20210701.DatabricksProperties
 // Properties of Databricks
 type DatabricksProperties struct {
-	DatabricksAccessToken *string                `json:"databricksAccessToken,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	WorkspaceUrl          *string                `json:"workspaceUrl,omitempty"`
+	DatabricksAccessToken *genruntime.SecretReference `json:"databricksAccessToken,omitempty"`
+	PropertyBag           genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	WorkspaceUrl          *string                     `json:"workspaceUrl,omitempty"`
 }
 
 // Storage version of v1api20210701.DatabricksProperties_STATUS
 // Properties of Databricks
 type DatabricksProperties_STATUS struct {
-	DatabricksAccessToken *string                `json:"databricksAccessToken,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	WorkspaceUrl          *string                `json:"workspaceUrl,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	WorkspaceUrl *string                `json:"workspaceUrl,omitempty"`
 }
 
 // Storage version of v1api20210701.DataLakeAnalytics_Properties
@@ -1040,7 +1039,7 @@ type VirtualMachineImage_STATUS struct {
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials struct {
 	Password       *genruntime.SecretReference `json:"password,omitempty"`
-	PrivateKeyData *string                     `json:"privateKeyData,omitempty"`
+	PrivateKeyData *genruntime.SecretReference `json:"privateKeyData,omitempty"`
 	PropertyBag    genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	PublicKeyData  *string                     `json:"publicKeyData,omitempty"`
 	Username       *string                     `json:"username,omitempty"`
@@ -1049,10 +1048,9 @@ type VirtualMachineSshCredentials struct {
 // Storage version of v1api20210701.VirtualMachineSshCredentials_STATUS
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS struct {
-	PrivateKeyData *string                `json:"privateKeyData,omitempty"`
-	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicKeyData  *string                `json:"publicKeyData,omitempty"`
-	Username       *string                `json:"username,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicKeyData *string                `json:"publicKeyData,omitempty"`
+	Username      *string                `json:"username,omitempty"`
 }
 
 // Storage version of v1api20210701.AssignedUser

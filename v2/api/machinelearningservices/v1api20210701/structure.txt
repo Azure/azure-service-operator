@@ -493,7 +493,7 @@ WorkspacesCompute: Resource
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── Properties: *Object (2 properties)
-│   │   │   │   ├── DatabricksAccessToken: *string
+│   │   │   │   ├── DatabricksAccessToken: *genruntime.SecretReference
 │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── HDInsight: *Object (6 properties)
@@ -506,7 +506,7 @@ WorkspacesCompute: Resource
 │   │   │   │   ├── Address: *string
 │   │   │   │   ├── AdministratorAccount: *Object (4 properties)
 │   │   │   │   │   ├── Password: *genruntime.SecretReference
-│   │   │   │   │   ├── PrivateKeyData: *string
+│   │   │   │   │   ├── PrivateKeyData: *genruntime.SecretReference
 │   │   │   │   │   ├── PublicKeyData: *string
 │   │   │   │   │   └── Username: *string
 │   │   │   │   └── SshPort: *int
@@ -564,7 +564,7 @@ WorkspacesCompute: Resource
 │   │       │   ├── Address: *string
 │   │       │   ├── AdministratorAccount: *Object (4 properties)
 │   │       │   │   ├── Password: *genruntime.SecretReference
-│   │       │   │   ├── PrivateKeyData: *string
+│   │       │   │   ├── PrivateKeyData: *genruntime.SecretReference
 │   │       │   │   ├── PublicKeyData: *string
 │   │       │   │   └── Username: *string
 │   │       │   ├── IsNotebookInstanceCompute: *bool
@@ -958,8 +958,7 @@ WorkspacesCompute: Resource
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── IsAttachedCompute: *bool
     │   │   ├── ModifiedOn: *string
-    │   │   ├── Properties: *Object (2 properties)
-    │   │   │   ├── DatabricksAccessToken: *string
+    │   │   ├── Properties: *Object (1 property)
     │   │   │   └── WorkspaceUrl: *string
     │   │   ├── ProvisioningErrors: Object (1 property)[]
     │   │   │   └── Error: *Object (5 properties)
@@ -996,8 +995,7 @@ WorkspacesCompute: Resource
     │   │   ├── ModifiedOn: *string
     │   │   ├── Properties: *Object (3 properties)
     │   │   │   ├── Address: *string
-    │   │   │   ├── AdministratorAccount: *Object (3 properties)
-    │   │   │   │   ├── PrivateKeyData: *string
+    │   │   │   ├── AdministratorAccount: *Object (2 properties)
     │   │   │   │   ├── PublicKeyData: *string
     │   │   │   │   └── Username: *string
     │   │   │   └── SshPort: *int
@@ -1129,8 +1127,7 @@ WorkspacesCompute: Resource
     │       ├── ModifiedOn: *string
     │       ├── Properties: *Object (5 properties)
     │       │   ├── Address: *string
-    │       │   ├── AdministratorAccount: *Object (3 properties)
-    │       │   │   ├── PrivateKeyData: *string
+    │       │   ├── AdministratorAccount: *Object (2 properties)
     │       │   │   ├── PublicKeyData: *string
     │       │   │   └── Username: *string
     │       │   ├── IsNotebookInstanceCompute: *bool
@@ -1569,8 +1566,7 @@ Workspaces_Compute_STATUS_ARM: Object (9 properties)
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── IsAttachedCompute: *bool
 │   │   ├── ModifiedOn: *string
-│   │   ├── Properties: *Object (2 properties)
-│   │   │   ├── DatabricksAccessToken: *string
+│   │   ├── Properties: *Object (1 property)
 │   │   │   └── WorkspaceUrl: *string
 │   │   ├── ProvisioningErrors: Object (1 property)[]
 │   │   │   └── Error: *Object (5 properties)
@@ -1607,8 +1603,7 @@ Workspaces_Compute_STATUS_ARM: Object (9 properties)
 │   │   ├── ModifiedOn: *string
 │   │   ├── Properties: *Object (3 properties)
 │   │   │   ├── Address: *string
-│   │   │   ├── AdministratorAccount: *Object (3 properties)
-│   │   │   │   ├── PrivateKeyData: *string
+│   │   │   ├── AdministratorAccount: *Object (2 properties)
 │   │   │   │   ├── PublicKeyData: *string
 │   │   │   │   └── Username: *string
 │   │   │   └── SshPort: *int
@@ -1740,8 +1735,7 @@ Workspaces_Compute_STATUS_ARM: Object (9 properties)
 │       ├── ModifiedOn: *string
 │       ├── Properties: *Object (5 properties)
 │       │   ├── Address: *string
-│       │   ├── AdministratorAccount: *Object (3 properties)
-│       │   │   ├── PrivateKeyData: *string
+│       │   ├── AdministratorAccount: *Object (2 properties)
 │       │   │   ├── PublicKeyData: *string
 │       │   │   └── Username: *string
 │       │   ├── IsNotebookInstanceCompute: *bool

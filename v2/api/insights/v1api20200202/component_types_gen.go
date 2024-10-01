@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -235,7 +236,7 @@ func (component *Component) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (component *Component) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){component.validateResourceReferences, component.validateOwnerReference, component.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){component.validateResourceReferences, component.validateOwnerReference, component.validateSecretDestinations, component.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -252,6 +253,9 @@ func (component *Component) updateValidations() []func(old runtime.Object) (admi
 		component.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
 			return component.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return component.validateSecretDestinations()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
 			return component.validateConfigMapDestinations()
@@ -286,6 +290,20 @@ func (component *Component) validateResourceReferences() (admission.Warnings, er
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (component *Component) validateSecretDestinations() (admission.Warnings, error) {
+	if component.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if component.Spec.OperatorSpec.Secrets == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		component.Spec.OperatorSpec.Secrets.HockeyAppToken,
+	}
+	return secrets.ValidateDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -2185,6 +2203,9 @@ var applicationInsightsComponentProperties_Request_Source_STATUS_Values = map[st
 type ComponentOperatorSpec struct {
 	// ConfigMaps: configures where to place operator written ConfigMaps.
 	ConfigMaps *ComponentOperatorConfigMaps `json:"configMaps,omitempty"`
+
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *ComponentOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_ComponentOperatorSpec populates our ComponentOperatorSpec from the provided source ComponentOperatorSpec
@@ -2200,6 +2221,18 @@ func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSp
 		operator.ConfigMaps = &configMap
 	} else {
 		operator.ConfigMaps = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret ComponentOperatorSecrets
+		err := secret.AssignProperties_From_ComponentOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ComponentOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
 	}
 
 	// No error
@@ -2221,6 +2254,18 @@ func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec
 		destination.ConfigMaps = &configMap
 	} else {
 		destination.ConfigMaps = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret storage.ComponentOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_ComponentOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag
@@ -2389,6 +2434,51 @@ func (maps *ComponentOperatorConfigMaps) AssignProperties_To_ComponentOperatorCo
 		destination.InstrumentationKey = &instrumentationKey
 	} else {
 		destination.InstrumentationKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ComponentOperatorSecrets struct {
+	// HockeyAppToken: indicates where the HockeyAppToken secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	HockeyAppToken *genruntime.SecretDestination `json:"hockeyAppToken,omitempty"`
+}
+
+// AssignProperties_From_ComponentOperatorSecrets populates our ComponentOperatorSecrets from the provided source ComponentOperatorSecrets
+func (secrets *ComponentOperatorSecrets) AssignProperties_From_ComponentOperatorSecrets(source *storage.ComponentOperatorSecrets) error {
+
+	// HockeyAppToken
+	if source.HockeyAppToken != nil {
+		hockeyAppToken := source.HockeyAppToken.Copy()
+		secrets.HockeyAppToken = &hockeyAppToken
+	} else {
+		secrets.HockeyAppToken = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ComponentOperatorSecrets populates the provided destination ComponentOperatorSecrets from our ComponentOperatorSecrets
+func (secrets *ComponentOperatorSecrets) AssignProperties_To_ComponentOperatorSecrets(destination *storage.ComponentOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// HockeyAppToken
+	if secrets.HockeyAppToken != nil {
+		hockeyAppToken := secrets.HockeyAppToken.Copy()
+		destination.HockeyAppToken = &hockeyAppToken
+	} else {
+		destination.HockeyAppToken = nil
 	}
 
 	// Update the property bag

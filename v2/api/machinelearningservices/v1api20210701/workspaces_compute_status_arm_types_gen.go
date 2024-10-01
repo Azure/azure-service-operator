@@ -794,9 +794,6 @@ var databricks_ProvisioningState_STATUS_ARM_Values = map[string]Databricks_Provi
 
 // Properties of Databricks
 type DatabricksProperties_STATUS_ARM struct {
-	// DatabricksAccessToken: Databricks access token
-	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
-
 	// WorkspaceUrl: Workspace Url
 	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
 }
@@ -1448,9 +1445,6 @@ type VirtualMachineImage_STATUS_ARM struct {
 
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS_ARM struct {
-	// PrivateKeyData: Private key data
-	PrivateKeyData *string `json:"privateKeyData,omitempty"`
-
 	// PublicKeyData: Public key data
 	PublicKeyData *string `json:"publicKeyData,omitempty"`
 

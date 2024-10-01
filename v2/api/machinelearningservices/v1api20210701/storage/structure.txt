@@ -297,7 +297,7 @@ WorkspacesCompute: Resource
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── Properties: *Object (3 properties)
-│   │   │   │   ├── DatabricksAccessToken: *string
+│   │   │   │   ├── DatabricksAccessToken: *genruntime.SecretReference
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -311,7 +311,7 @@ WorkspacesCompute: Resource
 │   │   │   │   ├── Address: *string
 │   │   │   │   ├── AdministratorAccount: *Object (5 properties)
 │   │   │   │   │   ├── Password: *genruntime.SecretReference
-│   │   │   │   │   ├── PrivateKeyData: *string
+│   │   │   │   │   ├── PrivateKeyData: *genruntime.SecretReference
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   ├── PublicKeyData: *string
 │   │   │   │   │   └── Username: *string
@@ -378,7 +378,7 @@ WorkspacesCompute: Resource
 │   │       │   ├── Address: *string
 │   │       │   ├── AdministratorAccount: *Object (5 properties)
 │   │       │   │   ├── Password: *genruntime.SecretReference
-│   │       │   │   ├── PrivateKeyData: *string
+│   │       │   │   ├── PrivateKeyData: *genruntime.SecretReference
 │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │       │   │   ├── PublicKeyData: *string
 │   │       │   │   └── Username: *string
@@ -740,8 +740,7 @@ WorkspacesCompute: Resource
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── IsAttachedCompute: *bool
     │   │   ├── ModifiedOn: *string
-    │   │   ├── Properties: *Object (3 properties)
-    │   │   │   ├── DatabricksAccessToken: *string
+    │   │   ├── Properties: *Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── WorkspaceUrl: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -777,8 +776,7 @@ WorkspacesCompute: Resource
     │   │   ├── ModifiedOn: *string
     │   │   ├── Properties: *Object (4 properties)
     │   │   │   ├── Address: *string
-    │   │   │   ├── AdministratorAccount: *Object (4 properties)
-    │   │   │   │   ├── PrivateKeyData: *string
+    │   │   │   ├── AdministratorAccount: *Object (3 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── PublicKeyData: *string
     │   │   │   │   └── Username: *string
@@ -913,8 +911,7 @@ WorkspacesCompute: Resource
     │       ├── ModifiedOn: *string
     │       ├── Properties: *Object (6 properties)
     │       │   ├── Address: *string
-    │       │   ├── AdministratorAccount: *Object (4 properties)
-    │       │   │   ├── PrivateKeyData: *string
+    │       │   ├── AdministratorAccount: *Object (3 properties)
     │       │   │   ├── PropertyBag: genruntime.PropertyBag
     │       │   │   ├── PublicKeyData: *string
     │       │   │   └── Username: *string

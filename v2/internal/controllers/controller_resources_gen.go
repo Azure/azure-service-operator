@@ -771,8 +771,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Func: indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey,
 			},
 			{
+				Key:  ".spec.properties.databricks.properties.databricksAccessToken",
+				Func: indexMachinelearningservicesWorkspacesComputeDatabricksAccessToken,
+			},
+			{
 				Key:  ".spec.properties.hdInsight.properties.administratorAccount.password",
 				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPassword,
+			},
+			{
+				Key:  ".spec.properties.hdInsight.properties.administratorAccount.privateKeyData",
+				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPrivateKeyData,
 			},
 			{
 				Key:  ".spec.properties.kubernetes.properties.relayConnectionString",
@@ -786,11 +794,15 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
 				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword,
 			},
+			{
+				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.privateKeyData",
+				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePrivateKeyData,
+			},
 		},
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.kubernetes.properties.relayConnectionString", ".spec.properties.kubernetes.properties.serviceBusConnectionString", ".spec.properties.virtualMachine.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.databricks.properties.databricksAccessToken", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.hdInsight.properties.administratorAccount.privateKeyData", ".spec.properties.kubernetes.properties.relayConnectionString", ".spec.properties.kubernetes.properties.serviceBusConnectionString", ".spec.properties.virtualMachine.properties.administratorAccount.password", ".spec.properties.virtualMachine.properties.administratorAccount.privateKeyData"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
 			},
 		},
 	})
@@ -3224,6 +3236,27 @@ func indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey(rawObj c
 	return obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey.Index()
 }
 
+// indexMachinelearningservicesWorkspacesComputeDatabricksAccessToken an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.databricks.properties.databricksAccessToken
+func indexMachinelearningservicesWorkspacesComputeDatabricksAccessToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Databricks == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Databricks.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Databricks.Properties.DatabricksAccessToken == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Databricks.Properties.DatabricksAccessToken.Index()
+}
+
 // indexMachinelearningservicesWorkspacesComputeHDInsightPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.password
 func indexMachinelearningservicesWorkspacesComputeHDInsightPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
@@ -3246,6 +3279,30 @@ func indexMachinelearningservicesWorkspacesComputeHDInsightPassword(rawObj clien
 		return nil
 	}
 	return obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeHDInsightPrivateKeyData an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.privateKeyData
+func indexMachinelearningservicesWorkspacesComputeHDInsightPrivateKeyData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.PrivateKeyData == nil {
+		return nil
+	}
+	return obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.PrivateKeyData.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeRelayConnectionString an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.kubernetes.properties.relayConnectionString
@@ -3312,6 +3369,30 @@ func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj 
 		return nil
 	}
 	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeVirtualMachinePrivateKeyData an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.privateKeyData
+func indexMachinelearningservicesWorkspacesComputeVirtualMachinePrivateKeyData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.PrivateKeyData == nil {
+		return nil
+	}
+	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.PrivateKeyData.Index()
 }
 
 // indexManagedidentityFederatedIdentityCredentialIssuerFromConfig an index function for managedidentity_v20230131s.FederatedIdentityCredential .spec.issuerFromConfig

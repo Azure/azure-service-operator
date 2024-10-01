@@ -10940,7 +10940,7 @@ var databricks_ProvisioningState_STATUS_Values = map[string]Databricks_Provision
 // Properties of Databricks
 type DatabricksProperties struct {
 	// DatabricksAccessToken: Databricks access token
-	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
+	DatabricksAccessToken *genruntime.SecretReference `json:"databricksAccessToken,omitempty"`
 
 	// WorkspaceUrl: Workspace Url
 	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
@@ -10957,7 +10957,11 @@ func (properties *DatabricksProperties) ConvertToARM(resolved genruntime.Convert
 
 	// Set property "DatabricksAccessToken":
 	if properties.DatabricksAccessToken != nil {
-		databricksAccessToken := *properties.DatabricksAccessToken
+		databricksAccessTokenSecret, err := resolved.ResolvedSecrets.Lookup(*properties.DatabricksAccessToken)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property DatabricksAccessToken")
+		}
+		databricksAccessToken := databricksAccessTokenSecret
 		result.DatabricksAccessToken = &databricksAccessToken
 	}
 
@@ -10981,11 +10985,7 @@ func (properties *DatabricksProperties) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabricksProperties_ARM, got %T", armInput)
 	}
 
-	// Set property "DatabricksAccessToken":
-	if typedInput.DatabricksAccessToken != nil {
-		databricksAccessToken := *typedInput.DatabricksAccessToken
-		properties.DatabricksAccessToken = &databricksAccessToken
-	}
+	// no assignment for property "DatabricksAccessToken"
 
 	// Set property "WorkspaceUrl":
 	if typedInput.WorkspaceUrl != nil {
@@ -11001,7 +11001,12 @@ func (properties *DatabricksProperties) PopulateFromARM(owner genruntime.Arbitra
 func (properties *DatabricksProperties) AssignProperties_From_DatabricksProperties(source *storage.DatabricksProperties) error {
 
 	// DatabricksAccessToken
-	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
+	if source.DatabricksAccessToken != nil {
+		databricksAccessToken := source.DatabricksAccessToken.Copy()
+		properties.DatabricksAccessToken = &databricksAccessToken
+	} else {
+		properties.DatabricksAccessToken = nil
+	}
 
 	// WorkspaceUrl
 	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
@@ -11016,7 +11021,12 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DatabricksAccessToken
-	destination.DatabricksAccessToken = genruntime.ClonePointerToString(properties.DatabricksAccessToken)
+	if properties.DatabricksAccessToken != nil {
+		databricksAccessToken := properties.DatabricksAccessToken.Copy()
+		destination.DatabricksAccessToken = &databricksAccessToken
+	} else {
+		destination.DatabricksAccessToken = nil
+	}
 
 	// WorkspaceUrl
 	destination.WorkspaceUrl = genruntime.ClonePointerToString(properties.WorkspaceUrl)
@@ -11035,9 +11045,6 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 // Initialize_From_DatabricksProperties_STATUS populates our DatabricksProperties from the provided source DatabricksProperties_STATUS
 func (properties *DatabricksProperties) Initialize_From_DatabricksProperties_STATUS(source *DatabricksProperties_STATUS) error {
 
-	// DatabricksAccessToken
-	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
-
 	// WorkspaceUrl
 	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
 
@@ -11047,9 +11054,6 @@ func (properties *DatabricksProperties) Initialize_From_DatabricksProperties_STA
 
 // Properties of Databricks
 type DatabricksProperties_STATUS struct {
-	// DatabricksAccessToken: Databricks access token
-	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
-
 	// WorkspaceUrl: Workspace Url
 	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
 }
@@ -11068,12 +11072,6 @@ func (properties *DatabricksProperties_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabricksProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property "DatabricksAccessToken":
-	if typedInput.DatabricksAccessToken != nil {
-		databricksAccessToken := *typedInput.DatabricksAccessToken
-		properties.DatabricksAccessToken = &databricksAccessToken
-	}
-
 	// Set property "WorkspaceUrl":
 	if typedInput.WorkspaceUrl != nil {
 		workspaceUrl := *typedInput.WorkspaceUrl
@@ -11087,9 +11085,6 @@ func (properties *DatabricksProperties_STATUS) PopulateFromARM(owner genruntime.
 // AssignProperties_From_DatabricksProperties_STATUS populates our DatabricksProperties_STATUS from the provided source DatabricksProperties_STATUS
 func (properties *DatabricksProperties_STATUS) AssignProperties_From_DatabricksProperties_STATUS(source *storage.DatabricksProperties_STATUS) error {
 
-	// DatabricksAccessToken
-	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
-
 	// WorkspaceUrl
 	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
 
@@ -11101,9 +11096,6 @@ func (properties *DatabricksProperties_STATUS) AssignProperties_From_DatabricksP
 func (properties *DatabricksProperties_STATUS) AssignProperties_To_DatabricksProperties_STATUS(destination *storage.DatabricksProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// DatabricksAccessToken
-	destination.DatabricksAccessToken = genruntime.ClonePointerToString(properties.DatabricksAccessToken)
 
 	// WorkspaceUrl
 	destination.WorkspaceUrl = genruntime.ClonePointerToString(properties.WorkspaceUrl)
@@ -17182,7 +17174,7 @@ type VirtualMachineSshCredentials struct {
 	Password *genruntime.SecretReference `json:"password,omitempty"`
 
 	// PrivateKeyData: Private key data
-	PrivateKeyData *string `json:"privateKeyData,omitempty"`
+	PrivateKeyData *genruntime.SecretReference `json:"privateKeyData,omitempty"`
 
 	// PublicKeyData: Public key data
 	PublicKeyData *string `json:"publicKeyData,omitempty"`
@@ -17212,7 +17204,11 @@ func (credentials *VirtualMachineSshCredentials) ConvertToARM(resolved genruntim
 
 	// Set property "PrivateKeyData":
 	if credentials.PrivateKeyData != nil {
-		privateKeyData := *credentials.PrivateKeyData
+		privateKeyDataSecret, err := resolved.ResolvedSecrets.Lookup(*credentials.PrivateKeyData)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property PrivateKeyData")
+		}
+		privateKeyData := privateKeyDataSecret
 		result.PrivateKeyData = &privateKeyData
 	}
 
@@ -17244,11 +17240,7 @@ func (credentials *VirtualMachineSshCredentials) PopulateFromARM(owner genruntim
 
 	// no assignment for property "Password"
 
-	// Set property "PrivateKeyData":
-	if typedInput.PrivateKeyData != nil {
-		privateKeyData := *typedInput.PrivateKeyData
-		credentials.PrivateKeyData = &privateKeyData
-	}
+	// no assignment for property "PrivateKeyData"
 
 	// Set property "PublicKeyData":
 	if typedInput.PublicKeyData != nil {
@@ -17278,7 +17270,12 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_From_VirtualMa
 	}
 
 	// PrivateKeyData
-	credentials.PrivateKeyData = genruntime.ClonePointerToString(source.PrivateKeyData)
+	if source.PrivateKeyData != nil {
+		privateKeyDatum := source.PrivateKeyData.Copy()
+		credentials.PrivateKeyData = &privateKeyDatum
+	} else {
+		credentials.PrivateKeyData = nil
+	}
 
 	// PublicKeyData
 	credentials.PublicKeyData = genruntime.ClonePointerToString(source.PublicKeyData)
@@ -17304,7 +17301,12 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMach
 	}
 
 	// PrivateKeyData
-	destination.PrivateKeyData = genruntime.ClonePointerToString(credentials.PrivateKeyData)
+	if credentials.PrivateKeyData != nil {
+		privateKeyDatum := credentials.PrivateKeyData.Copy()
+		destination.PrivateKeyData = &privateKeyDatum
+	} else {
+		destination.PrivateKeyData = nil
+	}
 
 	// PublicKeyData
 	destination.PublicKeyData = genruntime.ClonePointerToString(credentials.PublicKeyData)
@@ -17326,9 +17328,6 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMach
 // Initialize_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials from the provided source VirtualMachineSshCredentials_STATUS
 func (credentials *VirtualMachineSshCredentials) Initialize_From_VirtualMachineSshCredentials_STATUS(source *VirtualMachineSshCredentials_STATUS) error {
 
-	// PrivateKeyData
-	credentials.PrivateKeyData = genruntime.ClonePointerToString(source.PrivateKeyData)
-
 	// PublicKeyData
 	credentials.PublicKeyData = genruntime.ClonePointerToString(source.PublicKeyData)
 
@@ -17341,9 +17340,6 @@ func (credentials *VirtualMachineSshCredentials) Initialize_From_VirtualMachineS
 
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS struct {
-	// PrivateKeyData: Private key data
-	PrivateKeyData *string `json:"privateKeyData,omitempty"`
-
 	// PublicKeyData: Public key data
 	PublicKeyData *string `json:"publicKeyData,omitempty"`
 
@@ -17365,12 +17361,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineSshCredentials_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property "PrivateKeyData":
-	if typedInput.PrivateKeyData != nil {
-		privateKeyData := *typedInput.PrivateKeyData
-		credentials.PrivateKeyData = &privateKeyData
-	}
-
 	// Set property "PublicKeyData":
 	if typedInput.PublicKeyData != nil {
 		publicKeyData := *typedInput.PublicKeyData
@@ -17390,9 +17380,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) PopulateFromARM(owner ge
 // AssignProperties_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials_STATUS from the provided source VirtualMachineSshCredentials_STATUS
 func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_VirtualMachineSshCredentials_STATUS(source *storage.VirtualMachineSshCredentials_STATUS) error {
 
-	// PrivateKeyData
-	credentials.PrivateKeyData = genruntime.ClonePointerToString(source.PrivateKeyData)
-
 	// PublicKeyData
 	credentials.PublicKeyData = genruntime.ClonePointerToString(source.PublicKeyData)
 
@@ -17407,9 +17394,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_Vi
 func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_To_VirtualMachineSshCredentials_STATUS(destination *storage.VirtualMachineSshCredentials_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// PrivateKeyData
-	destination.PrivateKeyData = genruntime.ClonePointerToString(credentials.PrivateKeyData)
 
 	// PublicKeyData
 	destination.PublicKeyData = genruntime.ClonePointerToString(credentials.PublicKeyData)
