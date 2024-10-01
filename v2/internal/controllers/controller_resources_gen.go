@@ -618,11 +618,19 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.administratorLoginPassword",
 				Func: indexDbforpostgresqlFlexibleServerAdministratorLoginPassword,
 			},
+			{
+				Key:  ".spec.dataEncryption.primaryKeyURIFromConfig",
+				Func: indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbforpostgresql_v20221201s.FlexibleServerList{}),
+			},
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.dataEncryption.primaryKeyURIFromConfig"}, &dbforpostgresql_v20221201s.FlexibleServerList{}),
 			},
 		},
 	})
@@ -2941,6 +2949,21 @@ func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.
 		return nil
 	}
 	return obj.Spec.AdministratorLoginPassword.Index()
+}
+
+// indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig an index function for dbforpostgresql_v20221201s.FlexibleServer .spec.dataEncryption.primaryKeyURIFromConfig
+func indexDbforpostgresqlFlexibleServerPrimaryKeyURIFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20221201s.FlexibleServer)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DataEncryption == nil {
+		return nil
+	}
+	if obj.Spec.DataEncryption.PrimaryKeyURIFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DataEncryption.PrimaryKeyURIFromConfig.Index()
 }
 
 // indexDevicesIotHubEventHubsConnectionString an index function for devices_v20210702s.IotHub .spec.properties.routing.endpoints.eventHubs.connectionString

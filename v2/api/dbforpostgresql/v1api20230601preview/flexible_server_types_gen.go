@@ -234,7 +234,7 @@ func (server *FlexibleServer) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (server *FlexibleServer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateSecretDestinations, server.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateSecretDestinations, server.validateConfigMapDestinations, server.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -258,6 +258,9 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return server.validateConfigMapDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateOptionalConfigMapReferences()
+		},
 	}
 }
 
@@ -273,6 +276,15 @@ func (server *FlexibleServer) validateConfigMapDestinations() (admission.Warning
 		server.Spec.OperatorSpec.ConfigMaps.FullyQualifiedDomainName,
 	}
 	return configmaps.ValidateDestinations(toValidate)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (server *FlexibleServer) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&server.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -2784,7 +2796,10 @@ type DataEncryption struct {
 	GeoBackupEncryptionKeyStatus *DataEncryption_GeoBackupEncryptionKeyStatus `json:"geoBackupEncryptionKeyStatus,omitempty"`
 
 	// GeoBackupKeyURI: URI for the key in keyvault for data encryption for geo-backup of server.
-	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
+	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
+
+	// GeoBackupKeyURIFromConfig: URI for the key in keyvault for data encryption for geo-backup of server.
+	GeoBackupKeyURIFromConfig *genruntime.ConfigMapReference `json:"geoBackupKeyURIFromConfig,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
 
 	// GeoBackupUserAssignedIdentityReference: Resource Id for the User assigned identity to be used for data encryption for
 	// geo-backup of server.
@@ -2794,7 +2809,10 @@ type DataEncryption struct {
 	PrimaryEncryptionKeyStatus *DataEncryption_PrimaryEncryptionKeyStatus `json:"primaryEncryptionKeyStatus,omitempty"`
 
 	// PrimaryKeyURI: URI for the key in keyvault for data encryption of the primary server.
-	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
+
+	// PrimaryKeyURIFromConfig: URI for the key in keyvault for data encryption of the primary server.
+	PrimaryKeyURIFromConfig *genruntime.ConfigMapReference `json:"primaryKeyURIFromConfig,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 
 	// PrimaryUserAssignedIdentityReference: Resource Id for the User assigned identity to be used for data encryption of the
 	// primary server.
@@ -2826,6 +2844,14 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 		geoBackupKeyURI := *encryption.GeoBackupKeyURI
 		result.GeoBackupKeyURI = &geoBackupKeyURI
 	}
+	if encryption.GeoBackupKeyURIFromConfig != nil {
+		geoBackupKeyURIValue, err := resolved.ResolvedConfigMaps.Lookup(*encryption.GeoBackupKeyURIFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property GeoBackupKeyURI")
+		}
+		geoBackupKeyURI := geoBackupKeyURIValue
+		result.GeoBackupKeyURI = &geoBackupKeyURI
+	}
 
 	// Set property "GeoBackupUserAssignedIdentityId":
 	if encryption.GeoBackupUserAssignedIdentityReference != nil {
@@ -2848,6 +2874,14 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 	// Set property "PrimaryKeyURI":
 	if encryption.PrimaryKeyURI != nil {
 		primaryKeyURI := *encryption.PrimaryKeyURI
+		result.PrimaryKeyURI = &primaryKeyURI
+	}
+	if encryption.PrimaryKeyURIFromConfig != nil {
+		primaryKeyURIValue, err := resolved.ResolvedConfigMaps.Lookup(*encryption.PrimaryKeyURIFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property PrimaryKeyURI")
+		}
+		primaryKeyURI := primaryKeyURIValue
 		result.PrimaryKeyURI = &primaryKeyURI
 	}
 
@@ -2897,6 +2931,8 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 		encryption.GeoBackupKeyURI = &geoBackupKeyURI
 	}
 
+	// no assignment for property "GeoBackupKeyURIFromConfig"
+
 	// no assignment for property "GeoBackupUserAssignedIdentityReference"
 
 	// Set property "PrimaryEncryptionKeyStatus":
@@ -2912,6 +2948,8 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 		primaryKeyURI := *typedInput.PrimaryKeyURI
 		encryption.PrimaryKeyURI = &primaryKeyURI
 	}
+
+	// no assignment for property "PrimaryKeyURIFromConfig"
 
 	// no assignment for property "PrimaryUserAssignedIdentityReference"
 
@@ -2942,6 +2980,14 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 	// GeoBackupKeyURI
 	encryption.GeoBackupKeyURI = genruntime.ClonePointerToString(source.GeoBackupKeyURI)
 
+	// GeoBackupKeyURIFromConfig
+	if source.GeoBackupKeyURIFromConfig != nil {
+		geoBackupKeyURIFromConfig := source.GeoBackupKeyURIFromConfig.Copy()
+		encryption.GeoBackupKeyURIFromConfig = &geoBackupKeyURIFromConfig
+	} else {
+		encryption.GeoBackupKeyURIFromConfig = nil
+	}
+
 	// GeoBackupUserAssignedIdentityReference
 	if source.GeoBackupUserAssignedIdentityReference != nil {
 		geoBackupUserAssignedIdentityReference := source.GeoBackupUserAssignedIdentityReference.Copy()
@@ -2961,6 +3007,14 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 
 	// PrimaryKeyURI
 	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
+
+	// PrimaryKeyURIFromConfig
+	if source.PrimaryKeyURIFromConfig != nil {
+		primaryKeyURIFromConfig := source.PrimaryKeyURIFromConfig.Copy()
+		encryption.PrimaryKeyURIFromConfig = &primaryKeyURIFromConfig
+	} else {
+		encryption.PrimaryKeyURIFromConfig = nil
+	}
 
 	// PrimaryUserAssignedIdentityReference
 	if source.PrimaryUserAssignedIdentityReference != nil {
@@ -2999,6 +3053,14 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 	// GeoBackupKeyURI
 	destination.GeoBackupKeyURI = genruntime.ClonePointerToString(encryption.GeoBackupKeyURI)
 
+	// GeoBackupKeyURIFromConfig
+	if encryption.GeoBackupKeyURIFromConfig != nil {
+		geoBackupKeyURIFromConfig := encryption.GeoBackupKeyURIFromConfig.Copy()
+		destination.GeoBackupKeyURIFromConfig = &geoBackupKeyURIFromConfig
+	} else {
+		destination.GeoBackupKeyURIFromConfig = nil
+	}
+
 	// GeoBackupUserAssignedIdentityReference
 	if encryption.GeoBackupUserAssignedIdentityReference != nil {
 		geoBackupUserAssignedIdentityReference := encryption.GeoBackupUserAssignedIdentityReference.Copy()
@@ -3017,6 +3079,14 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 
 	// PrimaryKeyURI
 	destination.PrimaryKeyURI = genruntime.ClonePointerToString(encryption.PrimaryKeyURI)
+
+	// PrimaryKeyURIFromConfig
+	if encryption.PrimaryKeyURIFromConfig != nil {
+		primaryKeyURIFromConfig := encryption.PrimaryKeyURIFromConfig.Copy()
+		destination.PrimaryKeyURIFromConfig = &primaryKeyURIFromConfig
+	} else {
+		destination.PrimaryKeyURIFromConfig = nil
+	}
 
 	// PrimaryUserAssignedIdentityReference
 	if encryption.PrimaryUserAssignedIdentityReference != nil {

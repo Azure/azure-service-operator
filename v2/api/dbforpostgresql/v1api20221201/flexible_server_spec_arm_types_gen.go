@@ -129,7 +129,7 @@ type Backup_ARM struct {
 // Data encryption properties of a server
 type DataEncryption_ARM struct {
 	// PrimaryKeyURI: URI for the key for data encryption for primary server.
-	PrimaryKeyURI                 *string `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyURI                 *string `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: Data encryption type to depict if it is System Managed vs Azure Key vault.

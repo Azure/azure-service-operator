@@ -136,14 +136,14 @@ type DataEncryption_ARM struct {
 	GeoBackupEncryptionKeyStatus *DataEncryption_GeoBackupEncryptionKeyStatus_ARM `json:"geoBackupEncryptionKeyStatus,omitempty"`
 
 	// GeoBackupKeyURI: URI for the key in keyvault for data encryption for geo-backup of server.
-	GeoBackupKeyURI                 *string `json:"geoBackupKeyURI,omitempty"`
+	GeoBackupKeyURI                 *string `json:"geoBackupKeyURI,omitempty" optionalConfigMapPair:"GeoBackupKeyURI"`
 	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
 
 	// PrimaryEncryptionKeyStatus: Primary encryption key status for Data encryption enabled server.
 	PrimaryEncryptionKeyStatus *DataEncryption_PrimaryEncryptionKeyStatus_ARM `json:"primaryEncryptionKeyStatus,omitempty"`
 
 	// PrimaryKeyURI: URI for the key in keyvault for data encryption of the primary server.
-	PrimaryKeyURI                 *string `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyURI                 *string `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: Data encryption type to depict if it is System Managed vs Azure Key vault.

@@ -1974,6 +1974,8 @@ objectModelConfiguration:
           $armReference: true
     2022-12-01:
       DataEncryption:
+        PrimaryKeyURI:
+          $importConfigMapMode: optional
         PrimaryUserAssignedIdentityId:
           $armReference: true
       FlexibleServer:
@@ -2002,9 +2004,13 @@ objectModelConfiguration:
           $armReference: true
     2023-06-01-preview:
       DataEncryption:
-        PrimaryUserAssignedIdentityId:
-          $armReference: true
+        GeoBackupKeyURI:
+          $importConfigMapMode: optional
         GeoBackupUserAssignedIdentityId:
+          $armReference: true
+        PrimaryKeyURI:
+          $importConfigMapMode: optional
+        PrimaryUserAssignedIdentityId:
           $armReference: true
       FlexibleServer:
         $azureGeneratedSecrets:
