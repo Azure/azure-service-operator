@@ -49,10 +49,10 @@ func (registry *Registry) SetConditions(conditions conditions.Conditions) {
 	registry.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesExporter = &Registry{}
+var _ genruntime.KubernetesConfigExporter = &Registry{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (registry *Registry) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (registry *Registry) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(registry.Namespace)
 	if registry.Spec.OperatorSpec != nil && registry.Spec.OperatorSpec.ConfigMaps != nil {
 		if registry.Status.DiscoveryUrl != nil {

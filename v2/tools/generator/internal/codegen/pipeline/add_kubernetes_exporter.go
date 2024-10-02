@@ -40,7 +40,7 @@ func AddKubernetesExporter(idFactory astmodel.IdentifierFactory) *Stage {
 					continue
 				}
 
-				builder := functions.NewKubernetesExporterBuilder(def.Name(), resourceType, idFactory, configMapMappings)
+				builder := functions.NewKubernetesConfigExporterBuilder(def.Name(), resourceType, idFactory, configMapMappings)
 
 				resourceType = resourceType.WithInterface(builder.ToInterfaceImplementation())
 				updatedDef := def.WithType(resourceType)

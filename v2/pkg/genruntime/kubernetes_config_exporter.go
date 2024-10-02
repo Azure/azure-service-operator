@@ -14,12 +14,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
-// KubernetesExporter defines a resource which can create other resources in Kubernetes.
-type KubernetesExporter interface {
-	// ExportKubernetesResources provides a list of Kubernetes resource for the operator to create once the resource which
+// KubernetesConfigExporter defines a resource which can create configmaps in Kubernetes
+type KubernetesConfigExporter interface {
+	// ExportKubernetesConfigMaps provides a list of Kubernetes ConfigMaps for the operator to create once the resource which
 	// implements this interface is successfully provisioned. This method is invoked once a resource has been
 	// successfully created in Azure, but before the Ready condition has been marked successful.
-	ExportKubernetesResources(
+	ExportKubernetesConfigMaps(
 		ctx context.Context,
 		obj MetaObject,
 		armClient *genericarmclient.GenericClient,

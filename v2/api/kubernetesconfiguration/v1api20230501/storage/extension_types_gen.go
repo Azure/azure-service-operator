@@ -50,10 +50,10 @@ func (extension *Extension) SetConditions(conditions conditions.Conditions) {
 	extension.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesExporter = &Extension{}
+var _ genruntime.KubernetesConfigExporter = &Extension{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (extension *Extension) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (extension *Extension) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(extension.Namespace)
 	if extension.Spec.OperatorSpec != nil && extension.Spec.OperatorSpec.ConfigMaps != nil {
 		if extension.Status.AksAssignedIdentity != nil {

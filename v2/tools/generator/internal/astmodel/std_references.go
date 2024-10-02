@@ -62,7 +62,7 @@ var (
 
 	// Type names - GenRuntime
 	KubernetesResourceType           = MakeExternalTypeName(GenRuntimeReference, "KubernetesResource")
-	KubernetesExporterType           = MakeExternalTypeName(GenRuntimeReference, "KubernetesExporter")
+	KuberentesConfigExporterType     = MakeExternalTypeName(GenRuntimeReference, "KubernetesConfigExporter")
 	TenantResourceType               = MakeExternalTypeName(GenRuntimeReference, "TenantResource")
 	ConvertibleSpecInterfaceType     = MakeExternalTypeName(GenRuntimeReference, "ConvertibleSpec")
 	ConvertibleStatusInterfaceType   = MakeExternalTypeName(GenRuntimeReference, "ConvertibleStatus")
