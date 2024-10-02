@@ -746,7 +746,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/RootManageSharedAccessKey/listKeys?api-version=2021-11-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/RootManageSharedAccessKey/listKeys?api-version=2024-01-01
         method: POST
       response:
         proto: HTTP/2.0
@@ -1550,7 +1550,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc/listKeys?api-version=2021-11-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc/listKeys?api-version=2024-01-01
         method: POST
       response:
         proto: HTTP/2.0
@@ -1605,7 +1605,7 @@ interactions:
                 - application/json
             Test-Request-Attempt:
                 - "0"
-        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol/listKeys?api-version=2021-11-01
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol/listKeys?api-version=2024-01-01
         method: POST
       response:
         proto: HTTP/2.0
