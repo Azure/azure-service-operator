@@ -208,6 +208,8 @@ func (tcr *TypeCatalogReport) writeType(
 		tcr.writeErroredType(rpt, t, currentPackage, parentTypes)
 	case *astmodel.ValidatedType:
 		tcr.writeValidatedType(rpt, t, currentPackage, parentTypes)
+	case *astmodel.FlaggedType:
+		tcr.writeFlaggedType(rpt, t, currentPackage, parentTypes)
 	case astmodel.MetaType:
 		tcr.writeType(rpt, t.Unwrap(), currentPackage, parentTypes)
 	default:
@@ -350,12 +352,27 @@ func (tcr *TypeCatalogReport) writeErroredType(
 func (tcr *TypeCatalogReport) writeValidatedType(
 	rpt *StructureReport,
 	vt *astmodel.ValidatedType,
-	_ astmodel.InternalPackageReference,
-	_ astmodel.TypeNameSet,
+	currentPackage astmodel.InternalPackageReference,
+	types astmodel.TypeNameSet,
 ) {
 	for index, rule := range vt.Validations().ToKubeBuilderValidations() {
 		rpt.Addf("Rule %d: %s", index, rule)
 	}
+
+	tcr.writeType(rpt, vt.ElementType(), currentPackage, types)
+}
+
+func (tcr *TypeCatalogReport) writeFlaggedType(
+	rpt *StructureReport,
+	ft *astmodel.FlaggedType,
+	currentPackage astmodel.InternalPackageReference,
+	types astmodel.TypeNameSet,
+) {
+	for index, flag := range ft.Flags() {
+		rpt.Addf("Flag %d: %s", index, flag)
+	}
+
+	tcr.writeType(rpt, ft.Element(), currentPackage, types)
 }
 
 // asDefinitionToInline returns the definition to inline, if any.

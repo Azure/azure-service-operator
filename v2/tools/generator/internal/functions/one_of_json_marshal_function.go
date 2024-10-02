@@ -25,8 +25,14 @@ type OneOfJSONMarshalFunction struct {
 }
 
 // NewOneOfJSONMarshalFunction creates a new OneOfJSONMarshalFunction struct
-func NewOneOfJSONMarshalFunction(oneOfObject *astmodel.ObjectType, idFactory astmodel.IdentifierFactory) *OneOfJSONMarshalFunction {
-	return &OneOfJSONMarshalFunction{oneOfObject, idFactory}
+func NewOneOfJSONMarshalFunction(
+	oneOfObject *astmodel.ObjectType,
+	idFactory astmodel.IdentifierFactory,
+) *OneOfJSONMarshalFunction {
+	return &OneOfJSONMarshalFunction{
+		oneOfObject,
+		idFactory,
+	}
 }
 
 // Ensure OneOfJSONMarshalFunction implements Function interface correctly
