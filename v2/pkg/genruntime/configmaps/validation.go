@@ -11,6 +11,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 type keyPair struct {
@@ -21,10 +22,40 @@ type keyPair struct {
 // ValidateDestinations checks that no two destinations are writing to the same configmap/key, as that could cause
 // those values to overwrite one another.
 func ValidateDestinations(destinations []*genruntime.ConfigMapDestination) (admission.Warnings, error) {
+	return ValidateDestinationsExt(destinations, nil)
+}
+
+// TODO: ValidateDestinationsExt will replace ValidateDestinations in a future PR.
+func ValidateDestinationsExt(
+	destinations []*genruntime.ConfigMapDestination,
+	destinationExpressions []*core.DestinationExpression,
+) (admission.Warnings, error) {
 	locations := set.Make[keyPair]()
 
 	for _, dest := range destinations {
 		if dest == nil {
+			continue
+		}
+
+		pair := keyPair{
+			name: dest.Name,
+			key:  dest.Key,
+		}
+		if locations.Contains(pair) {
+			return nil, errors.Errorf("cannot write more than one configmap value to destination %s", dest.String())
+		}
+
+		locations.Add(pair)
+	}
+
+	for _, dest := range destinationExpressions {
+		if dest == nil {
+			continue
+		}
+
+		if dest.Key == "" {
+			// TODO: Key may be empty because of map[string]string supported exports.
+			// TODO: We should validate that in more depth but need a CEL parser to do so.
 			continue
 		}
 
