@@ -134,6 +134,8 @@ import (
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
+	machinelearningservices_v20240401 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401"
+	machinelearningservices_v20240401s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/storage"
 	managedidentity_customizations "github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations"
 	managedidentity_v20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	managedidentity_v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130/storage"
@@ -766,9 +768,23 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.Workspace)})
 	result = append(result, &registration.StorageType{
-		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
+		Obj: new(machinelearningservices_v20240401s.Workspace),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.encryption.keyVaultProperties.identityClientIdFromConfig",
+				Func: indexMachinelearningservicesWorkspaceIdentityClientIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.encryption.keyVaultProperties.identityClientIdFromConfig"}, &machinelearningservices_v20240401s.WorkspaceList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(machinelearningservices_v20240401s.WorkspacesCompute),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword",
@@ -779,8 +795,36 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Func: indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey,
 			},
 			{
+				Key:  ".spec.properties.aks.properties.sslConfiguration.cert",
+				Func: indexMachinelearningservicesWorkspacesComputeCert,
+			},
+			{
+				Key:  ".spec.properties.databricks.properties.databricksAccessToken",
+				Func: indexMachinelearningservicesWorkspacesComputeDatabricksAccessToken,
+			},
+			{
+				Key:  ".spec.properties.kubernetes.properties.extensionPrincipalIdFromConfig",
+				Func: indexMachinelearningservicesWorkspacesComputeExtensionPrincipalIdFromConfig,
+			},
+			{
 				Key:  ".spec.properties.hdInsight.properties.administratorAccount.password",
 				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPassword,
+			},
+			{
+				Key:  ".spec.properties.hdInsight.properties.administratorAccount.privateKeyData",
+				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPrivateKeyData,
+			},
+			{
+				Key:  ".spec.properties.hdInsight.properties.administratorAccount.publicKeyData",
+				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPublicKeyData,
+			},
+			{
+				Key:  ".spec.properties.aks.properties.sslConfiguration.key",
+				Func: indexMachinelearningservicesWorkspacesComputeKey,
+			},
+			{
+				Key:  ".spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.objectIdFromConfig",
+				Func: indexMachinelearningservicesWorkspacesComputeObjectIdFromConfig,
 			},
 			{
 				Key:  ".spec.properties.kubernetes.properties.relayConnectionString",
@@ -791,18 +835,120 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Func: indexMachinelearningservicesWorkspacesComputeServiceBusConnectionString,
 			},
 			{
+				Key:  ".spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.tenantIdFromConfig",
+				Func: indexMachinelearningservicesWorkspacesComputeTenantIdFromConfig,
+			},
+			{
 				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
 				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword,
+			},
+			{
+				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.privateKeyData",
+				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePrivateKeyData,
+			},
+			{
+				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.publicKeyData",
+				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePublicKeyData,
 			},
 		},
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.kubernetes.properties.relayConnectionString", ".spec.properties.kubernetes.properties.serviceBusConnectionString", ".spec.properties.virtualMachine.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.aks.properties.sslConfiguration.cert", ".spec.properties.aks.properties.sslConfiguration.key", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.databricks.properties.databricksAccessToken", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.hdInsight.properties.administratorAccount.privateKeyData", ".spec.properties.hdInsight.properties.administratorAccount.publicKeyData", ".spec.properties.kubernetes.properties.relayConnectionString", ".spec.properties.kubernetes.properties.serviceBusConnectionString", ".spec.properties.virtualMachine.properties.administratorAccount.password", ".spec.properties.virtualMachine.properties.administratorAccount.privateKeyData", ".spec.properties.virtualMachine.properties.administratorAccount.publicKeyData"}, &machinelearningservices_v20240401s.WorkspacesComputeList{}),
+			},
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.objectIdFromConfig", ".spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.tenantIdFromConfig", ".spec.properties.kubernetes.properties.extensionPrincipalIdFromConfig"}, &machinelearningservices_v20240401s.WorkspacesComputeList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.WorkspacesConnection)})
+	result = append(result, &registration.StorageType{
+		Obj: new(machinelearningservices_v20240401s.WorkspacesConnection),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.accountKey.credentials.key",
+				Func: indexMachinelearningservicesWorkspacesConnectionAccountKeyKey,
+			},
+			{
+				Key:  ".spec.properties.apiKey.credentials.key",
+				Func: indexMachinelearningservicesWorkspacesConnectionApiKeyKey,
+			},
+			{
+				Key:  ".spec.properties.customKeys.credentials.keys",
+				Func: indexMachinelearningservicesWorkspacesConnectionKeys,
+			},
+			{
+				Key:  ".spec.properties.managedIdentity.credentials.clientIdFromConfig",
+				Func: indexMachinelearningservicesWorkspacesConnectionManagedIdentityClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.oAuth2.credentials.clientIdFromConfig",
+				Func: indexMachinelearningservicesWorkspacesConnectionOAuth2ClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.oAuth2.credentials.clientSecret",
+				Func: indexMachinelearningservicesWorkspacesConnectionOAuth2ClientSecret,
+			},
+			{
+				Key:  ".spec.properties.oAuth2.credentials.developerToken",
+				Func: indexMachinelearningservicesWorkspacesConnectionOAuth2DeveloperToken,
+			},
+			{
+				Key:  ".spec.properties.oAuth2.credentials.password",
+				Func: indexMachinelearningservicesWorkspacesConnectionOAuth2Password,
+			},
+			{
+				Key:  ".spec.properties.oAuth2.credentials.refreshToken",
+				Func: indexMachinelearningservicesWorkspacesConnectionOAuth2RefreshToken,
+			},
+			{
+				Key:  ".spec.properties.oAuth2.credentials.tenantIdFromConfig",
+				Func: indexMachinelearningservicesWorkspacesConnectionOAuth2TenantIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.pat.credentials.pat",
+				Func: indexMachinelearningservicesWorkspacesConnectionPat,
+			},
+			{
+				Key:  ".spec.properties.sas.credentials.sas",
+				Func: indexMachinelearningservicesWorkspacesConnectionSas,
+			},
+			{
+				Key:  ".spec.properties.accessKey.credentials.secretAccessKey",
+				Func: indexMachinelearningservicesWorkspacesConnectionSecretAccessKey,
+			},
+			{
+				Key:  ".spec.properties.servicePrincipal.credentials.clientIdFromConfig",
+				Func: indexMachinelearningservicesWorkspacesConnectionServicePrincipalClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.servicePrincipal.credentials.clientSecret",
+				Func: indexMachinelearningservicesWorkspacesConnectionServicePrincipalClientSecret,
+			},
+			{
+				Key:  ".spec.properties.servicePrincipal.credentials.tenantIdFromConfig",
+				Func: indexMachinelearningservicesWorkspacesConnectionServicePrincipalTenantIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.usernamePassword.credentials.password",
+				Func: indexMachinelearningservicesWorkspacesConnectionUsernamePasswordPassword,
+			},
+			{
+				Key:  ".spec.properties.usernamePassword.credentials.securityToken",
+				Func: indexMachinelearningservicesWorkspacesConnectionUsernamePasswordSecurityToken,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.accessKey.credentials.secretAccessKey", ".spec.properties.accountKey.credentials.key", ".spec.properties.apiKey.credentials.key", ".spec.properties.customKeys.credentials.keys", ".spec.properties.oAuth2.credentials.clientSecret", ".spec.properties.oAuth2.credentials.developerToken", ".spec.properties.oAuth2.credentials.password", ".spec.properties.oAuth2.credentials.refreshToken", ".spec.properties.pat.credentials.pat", ".spec.properties.sas.credentials.sas", ".spec.properties.servicePrincipal.credentials.clientSecret", ".spec.properties.usernamePassword.credentials.password", ".spec.properties.usernamePassword.credentials.securityToken"}, &machinelearningservices_v20240401s.WorkspacesConnectionList{}),
+			},
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.managedIdentity.credentials.clientIdFromConfig", ".spec.properties.oAuth2.credentials.clientIdFromConfig", ".spec.properties.oAuth2.credentials.tenantIdFromConfig", ".spec.properties.servicePrincipal.credentials.clientIdFromConfig", ".spec.properties.servicePrincipal.credentials.tenantIdFromConfig"}, &machinelearningservices_v20240401s.WorkspacesConnectionList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(managedidentity_v20230131s.FederatedIdentityCredential),
 		Indexes: []registration.Index{
@@ -1665,6 +1811,16 @@ func getKnownTypes() []client.Object {
 		new(machinelearningservices_v20210701s.Workspace),
 		new(machinelearningservices_v20210701s.WorkspacesCompute),
 		new(machinelearningservices_v20210701s.WorkspacesConnection))
+	result = append(
+		result,
+		new(machinelearningservices_v20240401.Workspace),
+		new(machinelearningservices_v20240401.WorkspacesCompute),
+		new(machinelearningservices_v20240401.WorkspacesConnection))
+	result = append(
+		result,
+		new(machinelearningservices_v20240401s.Workspace),
+		new(machinelearningservices_v20240401s.WorkspacesCompute),
+		new(machinelearningservices_v20240401s.WorkspacesConnection))
 	result = append(result, new(managedidentity_v20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20220131p.FederatedIdentityCredential))
@@ -2098,6 +2254,8 @@ func createScheme() *runtime.Scheme {
 	_ = kubernetesconfiguration_v20230501s.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701s.AddToScheme(scheme)
+	_ = machinelearningservices_v20240401.AddToScheme(scheme)
+	_ = machinelearningservices_v20240401s.AddToScheme(scheme)
 	_ = managedidentity_v20181130.AddToScheme(scheme)
 	_ = managedidentity_v20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20220131p.AddToScheme(scheme)
@@ -3199,9 +3357,27 @@ func indexKubernetesconfigurationExtensionConfigurationProtectedSettings(rawObj 
 	return obj.Spec.ConfigurationProtectedSettings.Index()
 }
 
-// indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword
+// indexMachinelearningservicesWorkspaceIdentityClientIdFromConfig an index function for machinelearningservices_v20240401s.Workspace .spec.encryption.keyVaultProperties.identityClientIdFromConfig
+func indexMachinelearningservicesWorkspaceIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.Workspace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Encryption == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.KeyVaultProperties == nil {
+		return nil
+	}
+	if obj.Spec.Encryption.KeyVaultProperties.IdentityClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Encryption.KeyVaultProperties.IdentityClientIdFromConfig.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword
 func indexMachinelearningservicesWorkspacesComputeAdminUserPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
 	if !ok {
 		return nil
 	}
@@ -3223,9 +3399,9 @@ func indexMachinelearningservicesWorkspacesComputeAdminUserPassword(rawObj clien
 	return obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword.Index()
 }
 
-// indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey
+// indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey
 func indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
 	if !ok {
 		return nil
 	}
@@ -3247,9 +3423,75 @@ func indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey(rawObj c
 	return obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey.Index()
 }
 
-// indexMachinelearningservicesWorkspacesComputeHDInsightPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.password
+// indexMachinelearningservicesWorkspacesComputeCert an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.aks.properties.sslConfiguration.cert
+func indexMachinelearningservicesWorkspacesComputeCert(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AKS == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AKS.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AKS.Properties.SslConfiguration == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AKS.Properties.SslConfiguration.Cert == nil {
+		return nil
+	}
+	return obj.Spec.Properties.AKS.Properties.SslConfiguration.Cert.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeDatabricksAccessToken an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.databricks.properties.databricksAccessToken
+func indexMachinelearningservicesWorkspacesComputeDatabricksAccessToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Databricks == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Databricks.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Databricks.Properties.DatabricksAccessToken == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Databricks.Properties.DatabricksAccessToken.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeExtensionPrincipalIdFromConfig an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.kubernetes.properties.extensionPrincipalIdFromConfig
+func indexMachinelearningservicesWorkspacesComputeExtensionPrincipalIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Kubernetes == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Kubernetes.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Kubernetes.Properties.ExtensionPrincipalIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Kubernetes.Properties.ExtensionPrincipalIdFromConfig.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeHDInsightPassword an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.password
 func indexMachinelearningservicesWorkspacesComputeHDInsightPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
 	if !ok {
 		return nil
 	}
@@ -3271,9 +3513,108 @@ func indexMachinelearningservicesWorkspacesComputeHDInsightPassword(rawObj clien
 	return obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password.Index()
 }
 
-// indexMachinelearningservicesWorkspacesComputeRelayConnectionString an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.kubernetes.properties.relayConnectionString
+// indexMachinelearningservicesWorkspacesComputeHDInsightPrivateKeyData an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.privateKeyData
+func indexMachinelearningservicesWorkspacesComputeHDInsightPrivateKeyData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.PrivateKeyData == nil {
+		return nil
+	}
+	return obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.PrivateKeyData.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeHDInsightPublicKeyData an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.publicKeyData
+func indexMachinelearningservicesWorkspacesComputeHDInsightPublicKeyData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.PublicKeyData == nil {
+		return nil
+	}
+	return obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.PublicKeyData.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeKey an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.aks.properties.sslConfiguration.key
+func indexMachinelearningservicesWorkspacesComputeKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AKS == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AKS.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AKS.Properties.SslConfiguration == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AKS.Properties.SslConfiguration.Key == nil {
+		return nil
+	}
+	return obj.Spec.Properties.AKS.Properties.SslConfiguration.Key.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeObjectIdFromConfig an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.objectIdFromConfig
+func indexMachinelearningservicesWorkspacesComputeObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance.Properties.PersonalComputeInstanceSettings == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance.Properties.PersonalComputeInstanceSettings.AssignedUser == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance.Properties.PersonalComputeInstanceSettings.AssignedUser.ObjectIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ComputeInstance.Properties.PersonalComputeInstanceSettings.AssignedUser.ObjectIdFromConfig.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeRelayConnectionString an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.kubernetes.properties.relayConnectionString
 func indexMachinelearningservicesWorkspacesComputeRelayConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
 	if !ok {
 		return nil
 	}
@@ -3292,9 +3633,9 @@ func indexMachinelearningservicesWorkspacesComputeRelayConnectionString(rawObj c
 	return obj.Spec.Properties.Kubernetes.Properties.RelayConnectionString.Index()
 }
 
-// indexMachinelearningservicesWorkspacesComputeServiceBusConnectionString an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.kubernetes.properties.serviceBusConnectionString
+// indexMachinelearningservicesWorkspacesComputeServiceBusConnectionString an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.kubernetes.properties.serviceBusConnectionString
 func indexMachinelearningservicesWorkspacesComputeServiceBusConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
 	if !ok {
 		return nil
 	}
@@ -3313,9 +3654,36 @@ func indexMachinelearningservicesWorkspacesComputeServiceBusConnectionString(raw
 	return obj.Spec.Properties.Kubernetes.Properties.ServiceBusConnectionString.Index()
 }
 
-// indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.password
+// indexMachinelearningservicesWorkspacesComputeTenantIdFromConfig an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.computeInstance.properties.personalComputeInstanceSettings.assignedUser.tenantIdFromConfig
+func indexMachinelearningservicesWorkspacesComputeTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance.Properties.PersonalComputeInstanceSettings == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance.Properties.PersonalComputeInstanceSettings.AssignedUser == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ComputeInstance.Properties.PersonalComputeInstanceSettings.AssignedUser.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ComputeInstance.Properties.PersonalComputeInstanceSettings.AssignedUser.TenantIdFromConfig.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.password
 func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
 	if !ok {
 		return nil
 	}
@@ -3335,6 +3703,432 @@ func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj 
 		return nil
 	}
 	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeVirtualMachinePrivateKeyData an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.privateKeyData
+func indexMachinelearningservicesWorkspacesComputeVirtualMachinePrivateKeyData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.PrivateKeyData == nil {
+		return nil
+	}
+	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.PrivateKeyData.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeVirtualMachinePublicKeyData an index function for machinelearningservices_v20240401s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.publicKeyData
+func indexMachinelearningservicesWorkspacesComputeVirtualMachinePublicKeyData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.PublicKeyData == nil {
+		return nil
+	}
+	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.PublicKeyData.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionAccountKeyKey an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.accountKey.credentials.key
+func indexMachinelearningservicesWorkspacesConnectionAccountKeyKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AccountKey == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AccountKey.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AccountKey.Credentials.Key == nil {
+		return nil
+	}
+	return obj.Spec.Properties.AccountKey.Credentials.Key.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionApiKeyKey an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.apiKey.credentials.key
+func indexMachinelearningservicesWorkspacesConnectionApiKeyKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiKey == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiKey.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ApiKey.Credentials.Key == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ApiKey.Credentials.Key.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionKeys an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.customKeys.credentials.keys
+func indexMachinelearningservicesWorkspacesConnectionKeys(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.CustomKeys == nil {
+		return nil
+	}
+	if obj.Spec.Properties.CustomKeys.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.CustomKeys.Credentials.Keys == nil {
+		return nil
+	}
+	return obj.Spec.Properties.CustomKeys.Credentials.Keys.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionManagedIdentityClientIdFromConfig an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.managedIdentity.credentials.clientIdFromConfig
+func indexMachinelearningservicesWorkspacesConnectionManagedIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ManagedIdentity == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ManagedIdentity.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ManagedIdentity.Credentials.ClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ManagedIdentity.Credentials.ClientIdFromConfig.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionOAuth2ClientIdFromConfig an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.oAuth2.credentials.clientIdFromConfig
+func indexMachinelearningservicesWorkspacesConnectionOAuth2ClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2 == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials.ClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.OAuth2.Credentials.ClientIdFromConfig.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionOAuth2ClientSecret an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.oAuth2.credentials.clientSecret
+func indexMachinelearningservicesWorkspacesConnectionOAuth2ClientSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2 == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials.ClientSecret == nil {
+		return nil
+	}
+	return obj.Spec.Properties.OAuth2.Credentials.ClientSecret.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionOAuth2DeveloperToken an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.oAuth2.credentials.developerToken
+func indexMachinelearningservicesWorkspacesConnectionOAuth2DeveloperToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2 == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials.DeveloperToken == nil {
+		return nil
+	}
+	return obj.Spec.Properties.OAuth2.Credentials.DeveloperToken.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionOAuth2Password an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.oAuth2.credentials.password
+func indexMachinelearningservicesWorkspacesConnectionOAuth2Password(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2 == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials.Password == nil {
+		return nil
+	}
+	return obj.Spec.Properties.OAuth2.Credentials.Password.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionOAuth2RefreshToken an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.oAuth2.credentials.refreshToken
+func indexMachinelearningservicesWorkspacesConnectionOAuth2RefreshToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2 == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials.RefreshToken == nil {
+		return nil
+	}
+	return obj.Spec.Properties.OAuth2.Credentials.RefreshToken.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionOAuth2TenantIdFromConfig an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.oAuth2.credentials.tenantIdFromConfig
+func indexMachinelearningservicesWorkspacesConnectionOAuth2TenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2 == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.OAuth2.Credentials.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.OAuth2.Credentials.TenantIdFromConfig.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionPat an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.pat.credentials.pat
+func indexMachinelearningservicesWorkspacesConnectionPat(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PAT == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PAT.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PAT.Credentials.Pat == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PAT.Credentials.Pat.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionSas an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.sas.credentials.sas
+func indexMachinelearningservicesWorkspacesConnectionSas(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SAS == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SAS.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.SAS.Credentials.Sas == nil {
+		return nil
+	}
+	return obj.Spec.Properties.SAS.Credentials.Sas.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionSecretAccessKey an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.accessKey.credentials.secretAccessKey
+func indexMachinelearningservicesWorkspacesConnectionSecretAccessKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AccessKey == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AccessKey.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AccessKey.Credentials.SecretAccessKey == nil {
+		return nil
+	}
+	return obj.Spec.Properties.AccessKey.Credentials.SecretAccessKey.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionServicePrincipalClientIdFromConfig an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.servicePrincipal.credentials.clientIdFromConfig
+func indexMachinelearningservicesWorkspacesConnectionServicePrincipalClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServicePrincipal == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServicePrincipal.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServicePrincipal.Credentials.ClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ServicePrincipal.Credentials.ClientIdFromConfig.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionServicePrincipalClientSecret an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.servicePrincipal.credentials.clientSecret
+func indexMachinelearningservicesWorkspacesConnectionServicePrincipalClientSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServicePrincipal == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServicePrincipal.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServicePrincipal.Credentials.ClientSecret == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ServicePrincipal.Credentials.ClientSecret.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionServicePrincipalTenantIdFromConfig an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.servicePrincipal.credentials.tenantIdFromConfig
+func indexMachinelearningservicesWorkspacesConnectionServicePrincipalTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServicePrincipal == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServicePrincipal.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServicePrincipal.Credentials.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.ServicePrincipal.Credentials.TenantIdFromConfig.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionUsernamePasswordPassword an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.usernamePassword.credentials.password
+func indexMachinelearningservicesWorkspacesConnectionUsernamePasswordPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.UsernamePassword == nil {
+		return nil
+	}
+	if obj.Spec.Properties.UsernamePassword.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.UsernamePassword.Credentials.Password == nil {
+		return nil
+	}
+	return obj.Spec.Properties.UsernamePassword.Credentials.Password.Index()
+}
+
+// indexMachinelearningservicesWorkspacesConnectionUsernamePasswordSecurityToken an index function for machinelearningservices_v20240401s.WorkspacesConnection .spec.properties.usernamePassword.credentials.securityToken
+func indexMachinelearningservicesWorkspacesConnectionUsernamePasswordSecurityToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20240401s.WorkspacesConnection)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.UsernamePassword == nil {
+		return nil
+	}
+	if obj.Spec.Properties.UsernamePassword.Credentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.UsernamePassword.Credentials.SecurityToken == nil {
+		return nil
+	}
+	return obj.Spec.Properties.UsernamePassword.Credentials.SecurityToken.Index()
 }
 
 // indexManagedidentityFederatedIdentityCredentialIssuerFromConfig an index function for managedidentity_v20230131s.FederatedIdentityCredential .spec.issuerFromConfig

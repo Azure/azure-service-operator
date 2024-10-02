@@ -359,6 +359,12 @@ typeTransformers:
     remove: true
     because: These properties should be marked readonly
 
+  - group: machinelearningservices
+    name: EncryptionProperty
+    property: Status
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
   - group: network
     name: RouteTables_Route_Spec
     property: Type
@@ -2448,6 +2454,7 @@ objectModelConfiguration:
         UserAssignedIdentity:
           $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
       KeyVaultProperties:
+        $nameInNextVersion: EncryptionKeyVaultProperties
         KeyVaultArmId:
           $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
       Kubernetes:
@@ -2519,9 +2526,170 @@ objectModelConfiguration:
       VirtualMachineSshCredentials:
         Password:
           $isSecret: true
+        PrivateKeyData:
+          $isSecret: true
+        PublicKeyData:
+          $isSecret: true
+      DatabricksProperties:
+        DatabricksAccessToken:
+          $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
         $supportedFrom: v2.0.0-beta.2
+      Identity:
+        $nameInNextVersion: ManagedServiceIdentity
+      KeyVaultProperties_STATUS:
+        $nameInNextVersion: EncryptionKeyVaultProperties_STATUS
+      Identity_STATUS:
+        $nameInNextVersion: ManagedServiceIdentity_STATUS
+      SslConfiguration:
+        Key:
+          $isSecret: true
+        Cert:
+          $isSecret: true
+    2024-04-01:
+      AksNetworkingConfiguration:
+        SubnetId:
+          $armReference: true
+      IdentityForCmk:
+        UserAssignedIdentity:
+          $armReference: true
+      Kubernetes:
+        ResourceId:
+          $armReference: true
+      Workspace:
+        $export: true
+        $supportedFrom: v2.10.0
+        $azureGeneratedSecrets:
+          - AppInsightsInstrumentationKey
+          - ContainerRegistryUserName
+          - ContainerRegistryPassword
+          - ContainerRegistryPassword2
+          - PrimaryNotebookAccessKey
+          - SecondaryNotebookAccessKey
+          - UserStorageKey
+      WorkspaceConnectionUsernamePassword:
+        Password:
+          $isSecret: true
+      WorkspaceConnectionPersonalAccessToken:
+        Pat:
+          $isSecret: true
+      WorkspaceProperties:
+        HubResourceId:
+          $armReference: true
+        ApplicationInsights:
+          $armReference: true
+        ContainerRegistry:
+          $armReference: true
+        KeyVault:
+          $armReference: true
+        PrimaryUserAssignedIdentity:
+          $armReference: true
+        StorageAccount:
+          $armReference: true
+      WorkspaceConnectionManagedIdentity:
+        ResourceId:
+          $armReference: true
+        ClientId:
+          $importConfigMapMode: optional
+      ScheduleBase:
+        Id:
+          $armReference: true
+      EncryptionKeyVaultProperties:
+        KeyVaultArmId:
+          $armReference: true
+        IdentityClientId:
+          $importConfigMapMode: optional
+      SharedPrivateLinkResourceProperty:
+        PrivateLinkResourceId:
+          $armReference: true
+      Workspaces_Compute:
+        $exportAs: WorkspacesCompute
+        $supportedFrom: v2.10.0
+      HDInsight:
+        ResourceId:
+          $armReference: true
+      DataFactory:
+        ResourceId:
+          $armReference: true
+      DataLakeAnalytics:
+        ResourceId:
+          $armReference: true
+      Databricks:
+        ResourceId:
+          $armReference: true
+      AKS:
+        ResourceId:
+          $armReference: true
+      ComputeInstance:
+        ResourceId:
+          $armReference: true
+      SynapseSpark:
+        ResourceId:
+          $armReference: true
+      AmlCompute:
+        ResourceId:
+          $armReference: true
+      VirtualMachine:
+        ResourceId:
+          $armReference: true
+      VirtualMachineImage:
+        Id:
+          $armReference: true
+      UserAccountCredentials:
+        AdminUserPassword:
+          $isSecret: true
+        AdminUserSshPublicKey:
+          $isSecret: true
+      VirtualMachineSshCredentials:
+        Password:
+          $isSecret: true
+        PrivateKeyData:
+          $isSecret: true
+        PublicKeyData:
+          $isSecret: true
+      Workspaces_Connection:
+        $exportAs: WorkspacesConnection
+        $supportedFrom: v2.10.0
+      AssignedUser:
+        ObjectId:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      KubernetesProperties:
+        ExtensionPrincipalId:
+          $importConfigMapMode: optional
+      PrivateEndpointDestination:
+        SubresourceTarget:
+          $armReference: true
+      AKS_Properties:
+        LoadBalancerSubnet:
+          $armReference: true
+      DatabricksProperties:
+        DatabricksAccessToken:
+          $isSecret: true
+      WorkspaceConnectionAccessKey:
+        SecretAccessKey:
+          $isSecret: true
+      WorkspaceConnectionApiKey:
+        Key:
+          $isSecret: true
+      CustomKeys:
+        Keys:
+          $isSecret: true
+      WorkspaceConnectionSharedAccessSignature:
+        Sas:
+          $isSecret: true
+      WorkspaceConnectionOAuth2:
+        ClientId:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      WorkspaceConnectionServicePrincipal:
+        ClientId:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
   monitor:
     2023-04-03:
       Account:

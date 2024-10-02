@@ -49,22 +49,36 @@ var _ conversion.Convertible = &WorkspacesConnection{}
 
 // ConvertFrom populates our WorkspacesConnection from the provided hub WorkspacesConnection
 func (connection *WorkspacesConnection) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.WorkspacesConnection)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1api20210701/storage/WorkspacesConnection but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.WorkspacesConnection
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return connection.AssignProperties_From_WorkspacesConnection(source)
+	err = connection.AssignProperties_From_WorkspacesConnection(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to connection")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub WorkspacesConnection from our WorkspacesConnection
 func (connection *WorkspacesConnection) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.WorkspacesConnection)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1api20210701/storage/WorkspacesConnection but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.WorkspacesConnection
+	err := connection.AssignProperties_To_WorkspacesConnection(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from connection")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return connection.AssignProperties_To_WorkspacesConnection(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1api20210701-workspacesconnection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspacesconnections,verbs=create;update,versions=v1api20210701,name=default.v1api20210701.workspacesconnections.machinelearningservices.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (connection *WorkspacesConnection) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the WorkspacesConnection resource
 func (connection *WorkspacesConnection) defaultImpl() { connection.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &WorkspacesConnection{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (connection *WorkspacesConnection) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Workspaces_Connection_STATUS); ok {
-		return connection.Spec.Initialize_From_Workspaces_Connection_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Workspaces_Connection_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &WorkspacesConnection{}
 
@@ -601,33 +604,6 @@ func (connection *Workspaces_Connection_Spec) AssignProperties_To_Workspaces_Con
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Workspaces_Connection_STATUS populates our Workspaces_Connection_Spec from the provided source Workspaces_Connection_STATUS
-func (connection *Workspaces_Connection_Spec) Initialize_From_Workspaces_Connection_STATUS(source *Workspaces_Connection_STATUS) error {
-
-	// AuthType
-	connection.AuthType = genruntime.ClonePointerToString(source.AuthType)
-
-	// Category
-	connection.Category = genruntime.ClonePointerToString(source.Category)
-
-	// Target
-	connection.Target = genruntime.ClonePointerToString(source.Target)
-
-	// Value
-	connection.Value = genruntime.ClonePointerToString(source.Value)
-
-	// ValueFormat
-	if source.ValueFormat != nil {
-		valueFormat := genruntime.ToEnum(string(*source.ValueFormat), workspaceConnectionProps_ValueFormat_Values)
-		connection.ValueFormat = &valueFormat
-	} else {
-		connection.ValueFormat = nil
 	}
 
 	// No error
