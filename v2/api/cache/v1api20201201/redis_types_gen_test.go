@@ -6,7 +6,7 @@ package v1api20201201
 import (
 	"encoding/json"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
-	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
+	v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -140,7 +140,7 @@ func RunResourceConversionTestForRedis(subject Redis) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230401s.Redis
+	var hub v20230801s.Redis
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
