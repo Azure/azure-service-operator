@@ -111,12 +111,12 @@ To install the CRDs for these resources, your ASO configuration must include `ca
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                 |
-|--------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| Redis              | 2023-08-01  | v1api20230801 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230801/v1api20230801_redis.yaml)              |
-| RedisFirewallRule  | 2023-08-01  | v1api20230801 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230801/v1api20230801_redisfirewallrule.yaml)  |
-| RedisLinkedServer  | 2023-08-01  | v1api20230801 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230801/v1api20230801_redislinkedserver.yaml)  |
-| RedisPatchSchedule | 2023-08-01  | v1api20230801 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230801/v1api20230801_redispatchschedule.yaml) |
+| Resource                                                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                 |
+|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| [Redis](https://azure.github.io/azure-service-operator/reference/cache/v1api20230801/#cache.azure.com/v1api20230801.Redis)                           | 2023-08-01  | v1api20230801 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230801/v1api20230801_redis.yaml)              |
+| [RedisFirewallRule](https://azure.github.io/azure-service-operator/reference/cache/v1api20230801/#cache.azure.com/v1api20230801.RedisFirewallRule)   | 2023-08-01  | v1api20230801 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230801/v1api20230801_redisfirewallrule.yaml)  |
+| [RedisLinkedServer](https://azure.github.io/azure-service-operator/reference/cache/v1api20230801/#cache.azure.com/v1api20230801.RedisLinkedServer)   | 2023-08-01  | v1api20230801 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230801/v1api20230801_redislinkedserver.yaml)  |
+| [RedisPatchSchedule](https://azure.github.io/azure-service-operator/reference/cache/v1api20230801/#cache.azure.com/v1api20230801.RedisPatchSchedule) | 2023-08-01  | v1api20230801 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20230801/v1api20230801_redispatchschedule.yaml) |
 
 ### Released
 
@@ -465,11 +465,11 @@ To install the CRDs for these resources, your ASO configuration must include `ma
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
-|----------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Workspace            | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_workspace.yaml)            |
-| WorkspacesCompute    | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_workspacescompute.yaml)    |
-| WorkspacesConnection | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_workspacesconnection.yaml) |
+| Resource                                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Workspace](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20240401/#machinelearningservices.azure.com/v1api20240401.Workspace)                       | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_workspace.yaml)            |
+| [WorkspacesCompute](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20240401/#machinelearningservices.azure.com/v1api20240401.WorkspacesCompute)       | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_workspacescompute.yaml)    |
+| [WorkspacesConnection](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20240401/#machinelearningservices.azure.com/v1api20240401.WorkspacesConnection) | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_workspacesconnection.yaml) |
 
 ### Released
 
@@ -516,9 +516,9 @@ To install the CRDs for these resources, your ASO configuration must include `ne
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                             |
-|------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| WebApplicationFirewallPolicy | 2024-01-01  | v1api20240101 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20240101_webapplicationfirewallpolicy.yaml) |
+| Resource                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                             |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [WebApplicationFirewallPolicy](https://azure.github.io/azure-service-operator/reference/network/v1api20240101/#network.azure.com/v1api20240101.WebApplicationFirewallPolicy) | 2024-01-01  | v1api20240101 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20240101_webapplicationfirewallpolicy.yaml) |
 
 ### Released
 

@@ -170,8 +170,8 @@ string
 <td>
 <code>natGatewayState</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_NatGatewayState">
-AdditionalLocation_NatGatewayState
+<a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_NatGatewayState_ARM">
+AdditionalLocation_NatGatewayState_ARM
 </a>
 </em>
 </td>
@@ -231,7 +231,27 @@ VirtualNetworkConfiguration_ARM
 <h3 id="apimanagement.azure.com/v1api20230501preview.AdditionalLocation_NatGatewayState">AdditionalLocation_NatGatewayState
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation">AdditionalLocation</a>, <a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_ARM">AdditionalLocation_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation">AdditionalLocation</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.AdditionalLocation_NatGatewayState_ARM">AdditionalLocation_NatGatewayState_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_ARM">AdditionalLocation_ARM</a>)
 </p>
 <div>
 </div>
@@ -251,7 +271,27 @@ VirtualNetworkConfiguration_ARM
 <h3 id="apimanagement.azure.com/v1api20230501preview.AdditionalLocation_NatGatewayState_STATUS">AdditionalLocation_NatGatewayState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_STATUS">AdditionalLocation_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_STATUS_ARM">AdditionalLocation_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_STATUS">AdditionalLocation_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.AdditionalLocation_NatGatewayState_STATUS_ARM">AdditionalLocation_NatGatewayState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_STATUS_ARM">AdditionalLocation_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -271,7 +311,33 @@ VirtualNetworkConfiguration_ARM
 <h3 id="apimanagement.azure.com/v1api20230501preview.AdditionalLocation_PlatformVersion_STATUS">AdditionalLocation_PlatformVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_STATUS">AdditionalLocation_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_STATUS_ARM">AdditionalLocation_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_STATUS">AdditionalLocation_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;mtv1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;stv1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;stv2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;stv2.1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;undetermined&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.AdditionalLocation_PlatformVersion_STATUS_ARM">AdditionalLocation_PlatformVersion_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_STATUS_ARM">AdditionalLocation_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -512,8 +578,8 @@ string
 <td>
 <code>natGatewayState</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_NatGatewayState_STATUS">
-AdditionalLocation_NatGatewayState_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_NatGatewayState_STATUS_ARM">
+AdditionalLocation_NatGatewayState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -537,8 +603,8 @@ only for Premium SKU on stv2 platform.</p>
 <td>
 <code>platformVersion</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_PlatformVersion_STATUS">
-AdditionalLocation_PlatformVersion_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.AdditionalLocation_PlatformVersion_STATUS_ARM">
+AdditionalLocation_PlatformVersion_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1224,7 +1290,31 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiContractProperties_Protocols_STATUS">ApiContractProperties_Protocols_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_STATUS">Service_Api_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_STATUS">Service_Api_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;https&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ws&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wss&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiContractProperties_Protocols_STATUS_ARM">ApiContractProperties_Protocols_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1429,8 +1519,8 @@ URL for this API.</p>
 <td>
 <code>protocols</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiContractProperties_Protocols_STATUS">
-[]ApiContractProperties_Protocols_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiContractProperties_Protocols_STATUS_ARM">
+[]ApiContractProperties_Protocols_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1510,8 +1600,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiContractProperties_Type_STATUS">
-ApiContractProperties_Type_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiContractProperties_Type_STATUS_ARM">
+ApiContractProperties_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1524,7 +1614,35 @@ ApiContractProperties_Type_STATUS
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiContractProperties_Type_STATUS">ApiContractProperties_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_STATUS">Service_Api_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_STATUS">Service_Api_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;graphql&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;grpc&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;odata&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;soap&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;websocket&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiContractProperties_Type_STATUS_ARM">ApiContractProperties_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1602,8 +1720,8 @@ string
 <td>
 <code>apiType</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ApiType">
-ApiCreateOrUpdateProperties_ApiType
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ApiType_ARM">
+ApiCreateOrUpdateProperties_ApiType_ARM
 </a>
 </em>
 </td>
@@ -1702,8 +1820,8 @@ string
 <td>
 <code>format</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Format">
-ApiCreateOrUpdateProperties_Format
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Format_ARM">
+ApiCreateOrUpdateProperties_Format_ARM
 </a>
 </em>
 </td>
@@ -1752,8 +1870,8 @@ URL for this API.</p>
 <td>
 <code>protocols</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Protocols">
-[]ApiCreateOrUpdateProperties_Protocols
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Protocols_ARM">
+[]ApiCreateOrUpdateProperties_Protocols_ARM
 </a>
 </em>
 </td>
@@ -1821,8 +1939,8 @@ string
 <td>
 <code>translateRequiredQueryParameters</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">
-ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM">
+ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM
 </a>
 </em>
 </td>
@@ -1835,8 +1953,8 @@ value &lsquo;template&rsquo;. Possible values: &lsquo;template&rsquo;, &lsquo;qu
 <td>
 <code>type</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Type">
-ApiCreateOrUpdateProperties_Type
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Type_ARM">
+ApiCreateOrUpdateProperties_Type_ARM
 </a>
 </em>
 </td>
@@ -1873,7 +1991,35 @@ ApiCreateOrUpdateProperties_WsdlSelector_ARM
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ApiType">ApiCreateOrUpdateProperties_ApiType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;graphql&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;grpc&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;odata&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;soap&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;websocket&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ApiType_ARM">ApiCreateOrUpdateProperties_ApiType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1901,7 +2047,53 @@ ApiCreateOrUpdateProperties_WsdlSelector_ARM
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Format">ApiCreateOrUpdateProperties_Format
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;graphql-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;grpc&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;grpc-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;odata&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;odata-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;openapi&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;openapi&#43;json&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;openapi&#43;json-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;openapi-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;swagger-json&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;swagger-link-json&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wadl-link-json&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wadl-xml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wsdl&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wsdl-link&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Format_ARM">ApiCreateOrUpdateProperties_Format_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1947,7 +2139,31 @@ ApiCreateOrUpdateProperties_WsdlSelector_ARM
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Protocols">ApiCreateOrUpdateProperties_Protocols
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;https&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ws&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wss&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Protocols_ARM">ApiCreateOrUpdateProperties_Protocols_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1971,7 +2187,27 @@ ApiCreateOrUpdateProperties_WsdlSelector_ARM
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;template&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM">ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1991,7 +2227,35 @@ ApiCreateOrUpdateProperties_WsdlSelector_ARM
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Type">ApiCreateOrUpdateProperties_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;graphql&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;grpc&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;odata&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;soap&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;websocket&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_Type_ARM">ApiCreateOrUpdateProperties_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2322,8 +2586,8 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 <td>
 <code>type</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_Type">
-ApiManagementServiceIdentity_Type
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_Type_ARM">
+ApiManagementServiceIdentity_Type_ARM
 </a>
 </em>
 </td>
@@ -2458,8 +2722,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_Type_STATUS">
-ApiManagementServiceIdentity_Type_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_Type_STATUS_ARM">
+ApiManagementServiceIdentity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2489,7 +2753,31 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_Type">ApiManagementServiceIdentity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity">ApiManagementServiceIdentity</a>, <a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_ARM">ApiManagementServiceIdentity_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity">ApiManagementServiceIdentity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_Type_ARM">ApiManagementServiceIdentity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_ARM">ApiManagementServiceIdentity_ARM</a>)
 </p>
 <div>
 </div>
@@ -2513,7 +2801,31 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_Type_STATUS">ApiManagementServiceIdentity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_STATUS">ApiManagementServiceIdentity_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_STATUS_ARM">ApiManagementServiceIdentity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_STATUS">ApiManagementServiceIdentity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_Type_STATUS_ARM">ApiManagementServiceIdentity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceIdentity_STATUS_ARM">ApiManagementServiceIdentity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2638,8 +2950,8 @@ TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_S
 <td>
 <code>developerPortalStatus</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_DeveloperPortalStatus">
-ApiManagementServiceProperties_DeveloperPortalStatus
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_DeveloperPortalStatus_ARM">
+ApiManagementServiceProperties_DeveloperPortalStatus_ARM
 </a>
 </em>
 </td>
@@ -2689,8 +3001,8 @@ policy on the gateway.</p>
 <td>
 <code>legacyPortalStatus</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_LegacyPortalStatus">
-ApiManagementServiceProperties_LegacyPortalStatus
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_LegacyPortalStatus_ARM">
+ApiManagementServiceProperties_LegacyPortalStatus_ARM
 </a>
 </em>
 </td>
@@ -2702,8 +3014,8 @@ ApiManagementServiceProperties_LegacyPortalStatus
 <td>
 <code>natGatewayState</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_NatGatewayState">
-ApiManagementServiceProperties_NatGatewayState
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_NatGatewayState_ARM">
+ApiManagementServiceProperties_NatGatewayState_ARM
 </a>
 </em>
 </td>
@@ -2736,8 +3048,8 @@ string
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PublicNetworkAccess">
-ApiManagementServiceProperties_PublicNetworkAccess
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PublicNetworkAccess_ARM">
+ApiManagementServiceProperties_PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -2798,8 +3110,8 @@ VirtualNetworkConfiguration_ARM
 <td>
 <code>virtualNetworkType</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_VirtualNetworkType">
-ApiManagementServiceProperties_VirtualNetworkType
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_VirtualNetworkType_ARM">
+ApiManagementServiceProperties_VirtualNetworkType_ARM
 </a>
 </em>
 </td>
@@ -2815,7 +3127,27 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_DeveloperPortalStatus">ApiManagementServiceProperties_DeveloperPortalStatus
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_DeveloperPortalStatus_ARM">ApiManagementServiceProperties_DeveloperPortalStatus_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2835,7 +3167,27 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_DeveloperPortalStatus_STATUS">ApiManagementServiceProperties_DeveloperPortalStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM">ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2855,7 +3207,27 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_LegacyPortalStatus">ApiManagementServiceProperties_LegacyPortalStatus
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_LegacyPortalStatus_ARM">ApiManagementServiceProperties_LegacyPortalStatus_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2875,7 +3247,27 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_LegacyPortalStatus_STATUS">ApiManagementServiceProperties_LegacyPortalStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM">ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2895,7 +3287,27 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_NatGatewayState">ApiManagementServiceProperties_NatGatewayState
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_NatGatewayState_ARM">ApiManagementServiceProperties_NatGatewayState_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2915,7 +3327,27 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_NatGatewayState_STATUS">ApiManagementServiceProperties_NatGatewayState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_NatGatewayState_STATUS_ARM">ApiManagementServiceProperties_NatGatewayState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2935,7 +3367,33 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PlatformVersion_STATUS">ApiManagementServiceProperties_PlatformVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;mtv1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;stv1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;stv2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;stv2.1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;undetermined&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PlatformVersion_STATUS_ARM">ApiManagementServiceProperties_PlatformVersion_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2961,7 +3419,27 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PublicNetworkAccess">ApiManagementServiceProperties_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PublicNetworkAccess_ARM">ApiManagementServiceProperties_PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2981,7 +3459,27 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PublicNetworkAccess_STATUS">ApiManagementServiceProperties_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM">ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3114,8 +3612,8 @@ TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_S
 <td>
 <code>developerPortalStatus</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_DeveloperPortalStatus_STATUS">
-ApiManagementServiceProperties_DeveloperPortalStatus_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM">
+ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3198,8 +3696,8 @@ string
 <td>
 <code>legacyPortalStatus</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_LegacyPortalStatus_STATUS">
-ApiManagementServiceProperties_LegacyPortalStatus_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM">
+ApiManagementServiceProperties_LegacyPortalStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3222,8 +3720,8 @@ string
 <td>
 <code>natGatewayState</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_NatGatewayState_STATUS">
-ApiManagementServiceProperties_NatGatewayState_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_NatGatewayState_STATUS_ARM">
+ApiManagementServiceProperties_NatGatewayState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3258,8 +3756,8 @@ only for Premium SKU on stv2 platform.</p>
 <td>
 <code>platformVersion</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PlatformVersion_STATUS">
-ApiManagementServiceProperties_PlatformVersion_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PlatformVersion_STATUS_ARM">
+ApiManagementServiceProperties_PlatformVersion_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3343,8 +3841,8 @@ the region. Supported only for Developer and Premium SKU being deployed in Virtu
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PublicNetworkAccess_STATUS">
-ApiManagementServiceProperties_PublicNetworkAccess_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM">
+ApiManagementServiceProperties_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3428,8 +3926,8 @@ VirtualNetworkConfiguration_STATUS_ARM
 <td>
 <code>virtualNetworkType</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_VirtualNetworkType_STATUS">
-ApiManagementServiceProperties_VirtualNetworkType_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM">
+ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3445,7 +3943,29 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_VirtualNetworkType">ApiManagementServiceProperties_VirtualNetworkType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Spec">Service_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;External&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Internal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_VirtualNetworkType_ARM">ApiManagementServiceProperties_VirtualNetworkType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_ARM">ApiManagementServiceProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -3467,7 +3987,29 @@ setup inside a Virtual Network having an Intranet Facing Endpoint only.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_VirtualNetworkType_STATUS">ApiManagementServiceProperties_VirtualNetworkType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_STATUS">Service_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;External&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Internal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM">ApiManagementServiceProperties_VirtualNetworkType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceProperties_STATUS_ARM">ApiManagementServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3559,8 +4101,8 @@ int
 <td>
 <code>name</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_Name">
-ApiManagementServiceSkuProperties_Name
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_Name_ARM">
+ApiManagementServiceSkuProperties_Name_ARM
 </a>
 </em>
 </td>
@@ -3573,7 +4115,39 @@ ApiManagementServiceSkuProperties_Name
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_Name">ApiManagementServiceSkuProperties_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties">ApiManagementServiceSkuProperties</a>, <a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_ARM">ApiManagementServiceSkuProperties_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties">ApiManagementServiceSkuProperties</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;BasicV2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Consumption&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Developer&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Isolated&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StandardV2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_Name_ARM">ApiManagementServiceSkuProperties_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_ARM">ApiManagementServiceSkuProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -3605,7 +4179,39 @@ ApiManagementServiceSkuProperties_Name
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_Name_STATUS">ApiManagementServiceSkuProperties_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_STATUS">ApiManagementServiceSkuProperties_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_STATUS_ARM">ApiManagementServiceSkuProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_STATUS">ApiManagementServiceSkuProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;BasicV2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Consumption&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Developer&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Isolated&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StandardV2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_Name_STATUS_ARM">ApiManagementServiceSkuProperties_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_STATUS_ARM">ApiManagementServiceSkuProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3707,8 +4313,8 @@ int
 <td>
 <code>name</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_Name_STATUS">
-ApiManagementServiceSkuProperties_Name_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiManagementServiceSkuProperties_Name_STATUS_ARM">
+ApiManagementServiceSkuProperties_Name_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4139,8 +4745,8 @@ string
 <td>
 <code>versioningScheme</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_VersioningScheme">
-ApiVersionSetContractDetails_VersioningScheme
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_VersioningScheme_ARM">
+ApiVersionSetContractDetails_VersioningScheme_ARM
 </a>
 </em>
 </td>
@@ -4311,8 +4917,8 @@ string
 <td>
 <code>versioningScheme</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_VersioningScheme_STATUS">
-ApiVersionSetContractDetails_VersioningScheme_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM">
+ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4325,7 +4931,29 @@ ApiVersionSetContractDetails_VersioningScheme_STATUS
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_VersioningScheme">ApiVersionSetContractDetails_VersioningScheme
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails">ApiVersionSetContractDetails</a>, <a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_ARM">ApiVersionSetContractDetails_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails">ApiVersionSetContractDetails</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Header&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Segment&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_VersioningScheme_ARM">ApiVersionSetContractDetails_VersioningScheme_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_ARM">ApiVersionSetContractDetails_ARM</a>)
 </p>
 <div>
 </div>
@@ -4347,7 +4975,29 @@ ApiVersionSetContractDetails_VersioningScheme_STATUS
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_VersioningScheme_STATUS">ApiVersionSetContractDetails_VersioningScheme_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_STATUS">ApiVersionSetContractDetails_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_STATUS_ARM">ApiVersionSetContractDetails_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_STATUS">ApiVersionSetContractDetails_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Header&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Segment&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM">ApiVersionSetContractDetails_VersioningScheme_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractDetails_STATUS_ARM">ApiVersionSetContractDetails_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4430,8 +5080,8 @@ string
 <td>
 <code>versioningScheme</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_VersioningScheme">
-ApiVersionSetContractProperties_VersioningScheme
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_VersioningScheme_ARM">
+ApiVersionSetContractProperties_VersioningScheme_ARM
 </a>
 </em>
 </td>
@@ -4505,8 +5155,8 @@ string
 <td>
 <code>versioningScheme</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_VersioningScheme_STATUS">
-ApiVersionSetContractProperties_VersioningScheme_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM">
+ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4519,7 +5169,29 @@ ApiVersionSetContractProperties_VersioningScheme_STATUS
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_VersioningScheme">ApiVersionSetContractProperties_VersioningScheme
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_ARM">ApiVersionSetContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_ApiVersionSet_Spec">Service_ApiVersionSet_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_ApiVersionSet_Spec">Service_ApiVersionSet_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Header&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Segment&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_VersioningScheme_ARM">ApiVersionSetContractProperties_VersioningScheme_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_ARM">ApiVersionSetContractProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -4541,7 +5213,29 @@ ApiVersionSetContractProperties_VersioningScheme_STATUS
 <h3 id="apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_VersioningScheme_STATUS">ApiVersionSetContractProperties_VersioningScheme_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_STATUS_ARM">ApiVersionSetContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_ApiVersionSet_STATUS">Service_ApiVersionSet_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_ApiVersionSet_STATUS">Service_ApiVersionSet_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Header&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Segment&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM">ApiVersionSetContractProperties_VersioningScheme_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ApiVersionSetContractProperties_STATUS_ARM">ApiVersionSetContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5018,8 +5712,8 @@ string
 <td>
 <code>authorizationType</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_AuthorizationType">
-AuthorizationContractProperties_AuthorizationType
+<a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_AuthorizationType_ARM">
+AuthorizationContractProperties_AuthorizationType_ARM
 </a>
 </em>
 </td>
@@ -5031,8 +5725,8 @@ AuthorizationContractProperties_AuthorizationType
 <td>
 <code>oauth2grantType</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_Oauth2GrantType">
-AuthorizationContractProperties_Oauth2GrantType
+<a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_Oauth2GrantType_ARM">
+AuthorizationContractProperties_Oauth2GrantType_ARM
 </a>
 </em>
 </td>
@@ -5056,7 +5750,25 @@ map[string]string
 <h3 id="apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_AuthorizationType">AuthorizationContractProperties_AuthorizationType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_ARM">AuthorizationContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_AuthorizationProviders_Authorization_Spec">Service_AuthorizationProviders_Authorization_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_AuthorizationProviders_Authorization_Spec">Service_AuthorizationProviders_Authorization_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;OAuth2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_AuthorizationType_ARM">AuthorizationContractProperties_AuthorizationType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_ARM">AuthorizationContractProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -5074,7 +5786,25 @@ map[string]string
 <h3 id="apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_AuthorizationType_STATUS">AuthorizationContractProperties_AuthorizationType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_STATUS_ARM">AuthorizationContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_AuthorizationProviders_Authorization_STATUS">Service_AuthorizationProviders_Authorization_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_AuthorizationProviders_Authorization_STATUS">Service_AuthorizationProviders_Authorization_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;OAuth2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_AuthorizationType_STATUS_ARM">AuthorizationContractProperties_AuthorizationType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_STATUS_ARM">AuthorizationContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5092,7 +5822,27 @@ map[string]string
 <h3 id="apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_Oauth2GrantType">AuthorizationContractProperties_Oauth2GrantType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_ARM">AuthorizationContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_AuthorizationProviders_Authorization_Spec">Service_AuthorizationProviders_Authorization_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_AuthorizationProviders_Authorization_Spec">Service_AuthorizationProviders_Authorization_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AuthorizationCode&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ClientCredentials&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_Oauth2GrantType_ARM">AuthorizationContractProperties_Oauth2GrantType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_ARM">AuthorizationContractProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -5112,7 +5862,27 @@ map[string]string
 <h3 id="apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_Oauth2GrantType_STATUS">AuthorizationContractProperties_Oauth2GrantType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_STATUS_ARM">AuthorizationContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_AuthorizationProviders_Authorization_STATUS">Service_AuthorizationProviders_Authorization_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_AuthorizationProviders_Authorization_STATUS">Service_AuthorizationProviders_Authorization_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AuthorizationCode&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ClientCredentials&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM">AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_STATUS_ARM">AuthorizationContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5149,8 +5919,8 @@ map[string]string
 <td>
 <code>authorizationType</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_AuthorizationType_STATUS">
-AuthorizationContractProperties_AuthorizationType_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_AuthorizationType_STATUS_ARM">
+AuthorizationContractProperties_AuthorizationType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5175,8 +5945,8 @@ AuthorizationError_STATUS_ARM
 <td>
 <code>oauth2grantType</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_Oauth2GrantType_STATUS">
-AuthorizationContractProperties_Oauth2GrantType_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM">
+AuthorizationContractProperties_Oauth2GrantType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6721,8 +7491,8 @@ BackendProperties_ARM
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Protocol">
-BackendContractProperties_Protocol
+<a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Protocol_ARM">
+BackendContractProperties_Protocol_ARM
 </a>
 </em>
 </td>
@@ -6781,8 +7551,8 @@ BackendTlsProperties_ARM
 <td>
 <code>type</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Type">
-BackendContractProperties_Type
+<a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Type_ARM">
+BackendContractProperties_Type_ARM
 </a>
 </em>
 </td>
@@ -6806,7 +7576,27 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Protocol">BackendContractProperties_Protocol
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_ARM">BackendContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Backend_Spec">Service_Backend_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Backend_Spec">Service_Backend_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;soap&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Protocol_ARM">BackendContractProperties_Protocol_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_ARM">BackendContractProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -6826,7 +7616,27 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Protocol_STATUS">BackendContractProperties_Protocol_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_STATUS_ARM">BackendContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Backend_STATUS">Service_Backend_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Backend_STATUS">Service_Backend_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;soap&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Protocol_STATUS_ARM">BackendContractProperties_Protocol_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_STATUS_ARM">BackendContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6926,8 +7736,8 @@ BackendProperties_STATUS_ARM
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Protocol_STATUS">
-BackendContractProperties_Protocol_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Protocol_STATUS_ARM">
+BackendContractProperties_Protocol_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6988,8 +7798,8 @@ BackendTlsProperties_STATUS_ARM
 <td>
 <code>type</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Type_STATUS">
-BackendContractProperties_Type_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Type_STATUS_ARM">
+BackendContractProperties_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7013,7 +7823,27 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Type">BackendContractProperties_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_ARM">BackendContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Backend_Spec">Service_Backend_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Backend_Spec">Service_Backend_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Pool&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Single&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Type_ARM">BackendContractProperties_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_ARM">BackendContractProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -7033,7 +7863,27 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Type_STATUS">BackendContractProperties_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_STATUS_ARM">BackendContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Backend_STATUS">Service_Backend_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Backend_STATUS">Service_Backend_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Pool&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Single&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.BackendContractProperties_Type_STATUS_ARM">BackendContractProperties_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.BackendContractProperties_STATUS_ARM">BackendContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8422,7 +9272,28 @@ certificates for this backend host.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.BearerTokenSendingMethodsContract">BearerTokenSendingMethodsContract
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.OpenIdAuthenticationSettingsContract">OpenIdAuthenticationSettingsContract</a>, <a href="#apimanagement.azure.com/v1api20230501preview.OpenIdAuthenticationSettingsContract_ARM">OpenIdAuthenticationSettingsContract_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.OpenIdAuthenticationSettingsContract">OpenIdAuthenticationSettingsContract</a>)
+</p>
+<div>
+<p>Form of an authorization grant, which the client uses to request the access token.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;authorizationHeader&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;query&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.BearerTokenSendingMethodsContract_ARM">BearerTokenSendingMethodsContract_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.OpenIdAuthenticationSettingsContract_ARM">OpenIdAuthenticationSettingsContract_ARM</a>)
 </p>
 <div>
 <p>Form of an authorization grant, which the client uses to request the access token.</p>
@@ -8443,7 +9314,28 @@ certificates for this backend host.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.BearerTokenSendingMethodsContract_STATUS">BearerTokenSendingMethodsContract_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.OpenIdAuthenticationSettingsContract_STATUS">OpenIdAuthenticationSettingsContract_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.OpenIdAuthenticationSettingsContract_STATUS_ARM">OpenIdAuthenticationSettingsContract_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.OpenIdAuthenticationSettingsContract_STATUS">OpenIdAuthenticationSettingsContract_STATUS</a>)
+</p>
+<div>
+<p>Form of an authorization grant, which the client uses to request the access token.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;authorizationHeader&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;query&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.BearerTokenSendingMethodsContract_STATUS_ARM">BearerTokenSendingMethodsContract_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.OpenIdAuthenticationSettingsContract_STATUS_ARM">OpenIdAuthenticationSettingsContract_STATUS_ARM</a>)
 </p>
 <div>
 <p>Form of an authorization grant, which the client uses to request the access token.</p>
@@ -8585,8 +9477,8 @@ string
 <td>
 <code>storeName</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_StoreName">
-CertificateConfiguration_StoreName
+<a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_StoreName_ARM">
+CertificateConfiguration_StoreName_ARM
 </a>
 </em>
 </td>
@@ -8697,8 +9589,8 @@ string
 <td>
 <code>storeName</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_StoreName_STATUS">
-CertificateConfiguration_StoreName_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_StoreName_STATUS_ARM">
+CertificateConfiguration_StoreName_STATUS_ARM
 </a>
 </em>
 </td>
@@ -8712,7 +9604,27 @@ CertificateAuthority are valid locations.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_StoreName">CertificateConfiguration_StoreName
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration">CertificateConfiguration</a>, <a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_ARM">CertificateConfiguration_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration">CertificateConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CertificateAuthority&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Root&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_StoreName_ARM">CertificateConfiguration_StoreName_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_ARM">CertificateConfiguration_ARM</a>)
 </p>
 <div>
 </div>
@@ -8732,7 +9644,27 @@ CertificateAuthority are valid locations.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_StoreName_STATUS">CertificateConfiguration_StoreName_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_STATUS">CertificateConfiguration_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_STATUS_ARM">CertificateConfiguration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_STATUS">CertificateConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CertificateAuthority&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Root&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_StoreName_STATUS_ARM">CertificateConfiguration_StoreName_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.CertificateConfiguration_STATUS_ARM">CertificateConfiguration_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9580,8 +10512,8 @@ available for self-hosted gateways. Default value is &lsquo;Enabled&rsquo;</p>
 <td>
 <code>legacyApi</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_LegacyApi">
-ConfigurationApi_LegacyApi
+<a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_LegacyApi_ARM">
+ConfigurationApi_LegacyApi_ARM
 </a>
 </em>
 </td>
@@ -9596,7 +10528,27 @@ available for self-hosted gateways. Default value is &lsquo;Enabled&rsquo;</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ConfigurationApi_LegacyApi">ConfigurationApi_LegacyApi
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi">ConfigurationApi</a>, <a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_ARM">ConfigurationApi_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi">ConfigurationApi</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ConfigurationApi_LegacyApi_ARM">ConfigurationApi_LegacyApi_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_ARM">ConfigurationApi_ARM</a>)
 </p>
 <div>
 </div>
@@ -9616,7 +10568,27 @@ available for self-hosted gateways. Default value is &lsquo;Enabled&rsquo;</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ConfigurationApi_LegacyApi_STATUS">ConfigurationApi_LegacyApi_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_STATUS">ConfigurationApi_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_STATUS_ARM">ConfigurationApi_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_STATUS">ConfigurationApi_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ConfigurationApi_LegacyApi_STATUS_ARM">ConfigurationApi_LegacyApi_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_STATUS_ARM">ConfigurationApi_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9686,8 +10658,8 @@ available for self-hosted gateways. Default value is &lsquo;Enabled&rsquo;</p>
 <td>
 <code>legacyApi</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_LegacyApi_STATUS">
-ConfigurationApi_LegacyApi_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ConfigurationApi_LegacyApi_STATUS_ARM">
+ConfigurationApi_LegacyApi_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10072,8 +11044,8 @@ string
 <td>
 <code>certificateSource</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateSource">
-HostnameConfiguration_CertificateSource
+<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateSource_ARM">
+HostnameConfiguration_CertificateSource_ARM
 </a>
 </em>
 </td>
@@ -10085,8 +11057,8 @@ HostnameConfiguration_CertificateSource
 <td>
 <code>certificateStatus</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateStatus">
-HostnameConfiguration_CertificateStatus
+<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateStatus_ARM">
+HostnameConfiguration_CertificateStatus_ARM
 </a>
 </em>
 </td>
@@ -10170,8 +11142,8 @@ bool
 <td>
 <code>type</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_Type">
-HostnameConfiguration_Type
+<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_Type_ARM">
+HostnameConfiguration_Type_ARM
 </a>
 </em>
 </td>
@@ -10184,7 +11156,31 @@ HostnameConfiguration_Type
 <h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateSource">HostnameConfiguration_CertificateSource
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration">HostnameConfiguration</a>, <a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_ARM">HostnameConfiguration_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration">HostnameConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BuiltIn&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Custom&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;KeyVault&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Managed&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateSource_ARM">HostnameConfiguration_CertificateSource_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_ARM">HostnameConfiguration_ARM</a>)
 </p>
 <div>
 </div>
@@ -10208,7 +11204,31 @@ HostnameConfiguration_Type
 <h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateSource_STATUS">HostnameConfiguration_CertificateSource_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS">HostnameConfiguration_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS_ARM">HostnameConfiguration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS">HostnameConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BuiltIn&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Custom&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;KeyVault&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Managed&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateSource_STATUS_ARM">HostnameConfiguration_CertificateSource_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS_ARM">HostnameConfiguration_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -10232,7 +11252,29 @@ HostnameConfiguration_Type
 <h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateStatus">HostnameConfiguration_CertificateStatus
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration">HostnameConfiguration</a>, <a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_ARM">HostnameConfiguration_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration">HostnameConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Completed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;InProgress&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateStatus_ARM">HostnameConfiguration_CertificateStatus_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_ARM">HostnameConfiguration_ARM</a>)
 </p>
 <div>
 </div>
@@ -10254,7 +11296,29 @@ HostnameConfiguration_Type
 <h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateStatus_STATUS">HostnameConfiguration_CertificateStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS">HostnameConfiguration_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS_ARM">HostnameConfiguration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS">HostnameConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Completed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;InProgress&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateStatus_STATUS_ARM">HostnameConfiguration_CertificateStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS_ARM">HostnameConfiguration_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -10448,8 +11512,8 @@ CertificateInformation_STATUS_ARM
 <td>
 <code>certificateSource</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateSource_STATUS">
-HostnameConfiguration_CertificateSource_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateSource_STATUS_ARM">
+HostnameConfiguration_CertificateSource_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10461,8 +11525,8 @@ HostnameConfiguration_CertificateSource_STATUS
 <td>
 <code>certificateStatus</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateStatus_STATUS">
-HostnameConfiguration_CertificateStatus_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_CertificateStatus_STATUS_ARM">
+HostnameConfiguration_CertificateStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10546,8 +11610,8 @@ bool
 <td>
 <code>type</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_Type_STATUS">
-HostnameConfiguration_Type_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_Type_STATUS_ARM">
+HostnameConfiguration_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10560,7 +11624,35 @@ HostnameConfiguration_Type_STATUS
 <h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_Type">HostnameConfiguration_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration">HostnameConfiguration</a>, <a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_ARM">HostnameConfiguration_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration">HostnameConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ConfigurationApi&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DeveloperPortal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Management&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Portal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Proxy&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Scm&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_Type_ARM">HostnameConfiguration_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_ARM">HostnameConfiguration_ARM</a>)
 </p>
 <div>
 </div>
@@ -10588,7 +11680,35 @@ HostnameConfiguration_Type_STATUS
 <h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_Type_STATUS">HostnameConfiguration_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS">HostnameConfiguration_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS_ARM">HostnameConfiguration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS">HostnameConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ConfigurationApi&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DeveloperPortal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Management&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Portal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Proxy&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Scm&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_Type_STATUS_ARM">HostnameConfiguration_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.HostnameConfiguration_STATUS_ARM">HostnameConfiguration_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11454,8 +12574,8 @@ string
 <td>
 <code>bearerTokenSendingMethods</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.BearerTokenSendingMethodsContract">
-[]BearerTokenSendingMethodsContract
+<a href="#apimanagement.azure.com/v1api20230501preview.BearerTokenSendingMethodsContract_ARM">
+[]BearerTokenSendingMethodsContract_ARM
 </a>
 </em>
 </td>
@@ -11538,8 +12658,8 @@ string
 <td>
 <code>bearerTokenSendingMethods</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.BearerTokenSendingMethodsContract_STATUS">
-[]BearerTokenSendingMethodsContract_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.BearerTokenSendingMethodsContract_STATUS_ARM">
+[]BearerTokenSendingMethodsContract_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11678,8 +12798,8 @@ Service_Policy_STATUS
 <td>
 <code>format</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_Format">
-PolicyContractProperties_Format
+<a href="#apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_Format_ARM">
+PolicyContractProperties_Format_ARM
 </a>
 </em>
 </td>
@@ -11703,7 +12823,31 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_Format">PolicyContractProperties_Format
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_ARM">PolicyContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Policy_Spec">Service_Policy_Spec</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Products_Policy_Spec">Service_Products_Policy_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Policy_Spec">Service_Policy_Spec</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Products_Policy_Spec">Service_Products_Policy_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;rawxml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;rawxml-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml-link&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_Format_ARM">PolicyContractProperties_Format_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_ARM">PolicyContractProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -11727,7 +12871,31 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_Format_STATUS">PolicyContractProperties_Format_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_STATUS_ARM">PolicyContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Policy_STATUS">Service_Policy_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Products_Policy_STATUS">Service_Products_Policy_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Policy_STATUS">Service_Policy_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Products_Policy_STATUS">Service_Products_Policy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;rawxml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;rawxml-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml-link&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_Format_STATUS_ARM">PolicyContractProperties_Format_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_STATUS_ARM">PolicyContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11768,8 +12936,8 @@ string
 <td>
 <code>format</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_Format_STATUS">
-PolicyContractProperties_Format_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.PolicyContractProperties_Format_STATUS_ARM">
+PolicyContractProperties_Format_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11942,8 +13110,8 @@ string
 <td>
 <code>format</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_Format">
-PolicyFragmentContractProperties_Format
+<a href="#apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_Format_ARM">
+PolicyFragmentContractProperties_Format_ARM
 </a>
 </em>
 </td>
@@ -11967,7 +13135,27 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_Format">PolicyFragmentContractProperties_Format
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_ARM">PolicyFragmentContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_PolicyFragment_Spec">Service_PolicyFragment_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_PolicyFragment_Spec">Service_PolicyFragment_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;rawxml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_Format_ARM">PolicyFragmentContractProperties_Format_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_ARM">PolicyFragmentContractProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -11987,7 +13175,27 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_Format_STATUS">PolicyFragmentContractProperties_Format_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_STATUS_ARM">PolicyFragmentContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_PolicyFragment_STATUS">Service_PolicyFragment_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_PolicyFragment_STATUS">Service_PolicyFragment_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;rawxml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_Format_STATUS_ARM">PolicyFragmentContractProperties_Format_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_STATUS_ARM">PolicyFragmentContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -12035,8 +13243,8 @@ string
 <td>
 <code>format</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_Format_STATUS">
-PolicyFragmentContractProperties_Format_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.PolicyFragmentContractProperties_Format_STATUS_ARM">
+PolicyFragmentContractProperties_Format_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12138,7 +13346,30 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.PrivateEndpointServiceConnectionStatus_STATUS">PrivateEndpointServiceConnectionStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PrivateLinkServiceConnectionState_STATUS">PrivateLinkServiceConnectionState_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.PrivateLinkServiceConnectionState_STATUS_ARM">PrivateLinkServiceConnectionState_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PrivateLinkServiceConnectionState_STATUS">PrivateLinkServiceConnectionState_STATUS</a>)
+</p>
+<div>
+<p>The private endpoint connection status.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Approved&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Pending&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Rejected&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.PrivateEndpointServiceConnectionStatus_STATUS_ARM">PrivateEndpointServiceConnectionStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.PrivateLinkServiceConnectionState_STATUS_ARM">PrivateLinkServiceConnectionState_STATUS_ARM</a>)
 </p>
 <div>
 <p>The private endpoint connection status.</p>
@@ -12253,8 +13484,8 @@ string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.PrivateEndpointServiceConnectionStatus_STATUS">
-PrivateEndpointServiceConnectionStatus_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.PrivateEndpointServiceConnectionStatus_STATUS_ARM">
+PrivateEndpointServiceConnectionStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12582,8 +13813,8 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ProductContractProperties_State">
-ProductContractProperties_State
+<a href="#apimanagement.azure.com/v1api20230501preview.ProductContractProperties_State_ARM">
+ProductContractProperties_State_ARM
 </a>
 </em>
 </td>
@@ -12690,8 +13921,8 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.ProductContractProperties_State_STATUS">
-ProductContractProperties_State_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.ProductContractProperties_State_STATUS_ARM">
+ProductContractProperties_State_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12745,7 +13976,27 @@ these terms before they can complete the subscription process.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ProductContractProperties_State">ProductContractProperties_State
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ProductContractProperties_ARM">ProductContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Product_Spec">Service_Product_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Product_Spec">Service_Product_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;notPublished&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;published&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ProductContractProperties_State_ARM">ProductContractProperties_State_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ProductContractProperties_ARM">ProductContractProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -12765,7 +14016,27 @@ these terms before they can complete the subscription process.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.ProductContractProperties_State_STATUS">ProductContractProperties_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ProductContractProperties_STATUS_ARM">ProductContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20230501preview.Service_Product_STATUS">Service_Product_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Product_STATUS">Service_Product_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;notPublished&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;published&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.ProductContractProperties_State_STATUS_ARM">ProductContractProperties_State_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.ProductContractProperties_STATUS_ARM">ProductContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -19466,8 +20737,8 @@ the following format: <code>yyyy-MM-ddTHH:mm:ssZ</code> as specified by the ISO 
 <td>
 <code>state</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.SubscriptionContractProperties_State_STATUS">
-SubscriptionContractProperties_State_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.SubscriptionContractProperties_State_STATUS_ARM">
+SubscriptionContractProperties_State_STATUS_ARM
 </a>
 </em>
 </td>
@@ -19495,7 +20766,35 @@ string
 <h3 id="apimanagement.azure.com/v1api20230501preview.SubscriptionContractProperties_State_STATUS">SubscriptionContractProperties_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Subscription_STATUS">Service_Subscription_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.SubscriptionContractProperties_STATUS_ARM">SubscriptionContractProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Subscription_STATUS">Service_Subscription_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;active&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;cancelled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;expired&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;rejected&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;submitted&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;suspended&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.SubscriptionContractProperties_State_STATUS_ARM">SubscriptionContractProperties_State_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.SubscriptionContractProperties_STATUS_ARM">SubscriptionContractProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -19605,8 +20904,8 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.SubscriptionCreateParameterProperties_State">
-SubscriptionCreateParameterProperties_State
+<a href="#apimanagement.azure.com/v1api20230501preview.SubscriptionCreateParameterProperties_State_ARM">
+SubscriptionCreateParameterProperties_State_ARM
 </a>
 </em>
 </td>
@@ -19624,7 +20923,35 @@ reached its expiration date and was deactivated.</p>
 <h3 id="apimanagement.azure.com/v1api20230501preview.SubscriptionCreateParameterProperties_State">SubscriptionCreateParameterProperties_State
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Subscription_Spec">Service_Subscription_Spec</a>, <a href="#apimanagement.azure.com/v1api20230501preview.SubscriptionCreateParameterProperties_ARM">SubscriptionCreateParameterProperties_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.Service_Subscription_Spec">Service_Subscription_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;active&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;cancelled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;expired&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;rejected&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;submitted&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;suspended&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.SubscriptionCreateParameterProperties_State_ARM">SubscriptionCreateParameterProperties_State_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.SubscriptionCreateParameterProperties_ARM">SubscriptionCreateParameterProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -19888,7 +21215,31 @@ SubscriptionOperatorSecrets
 <h3 id="apimanagement.azure.com/v1api20230501preview.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.SystemData_STATUS">SystemData_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -19912,7 +21263,31 @@ SubscriptionOperatorSecrets
 <h3 id="apimanagement.azure.com/v1api20230501preview.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.SystemData_STATUS">SystemData_STATUS</a>, <a href="#apimanagement.azure.com/v1api20230501preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20230501preview.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20230501preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -20063,8 +21438,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -20098,8 +21473,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#apimanagement.azure.com/v1api20230501preview.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#apimanagement.azure.com/v1api20230501preview.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>
