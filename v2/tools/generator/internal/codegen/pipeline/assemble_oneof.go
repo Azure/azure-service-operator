@@ -108,9 +108,12 @@ func (oa *oneOfAssembler) assemble(name astmodel.InternalTypeName) error {
 
 // assemblePair updates a pair of nodes that have a relationship and recursively invokes itself to traverse the entire
 // tree of referenced imports.
-// ancestor is the parent or super-type. It may be a less specialised OneOf, a root OneOf, an Object or an AllOf
+// ancestor is the parent or super-type. It may be a less specialised OneOf, a root OneOf, an Object or an AllOf.
 // descendent is the child or subtype. It will be an intermediate or leaf OneOf.
-func (oa *oneOfAssembler) assemblePair(ancestor astmodel.InternalTypeName, descendant astmodel.InternalTypeName) error {
+func (oa *oneOfAssembler) assemblePair(
+	ancestor astmodel.InternalTypeName,
+	descendant astmodel.InternalTypeName,
+) error {
 	// Remove any direct reference to the parent from the leaf
 	err := oa.removeParentReferenceFromLeaf(ancestor, descendant)
 	if err != nil {
