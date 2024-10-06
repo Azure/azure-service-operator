@@ -1,0 +1,28 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+----------------------------------------------------------------
+Clusters_Database: Resource
+├── Spec: Object (2 properties)
+│   ├── Flag 0: oneof
+│   ├── ReadOnlyFollowing: *ReadOnlyFollowingDatabase
+│   └── ReadWrite: *ReadWriteDatabase
+└── Status: Object (0 properties)
+Database: Object (2 properties)
+├── Flag 0: oneof
+├── ReadOnlyFollowing: *ReadOnlyFollowingDatabase
+└── ReadWrite: *ReadWriteDatabase
+ReadOnlyFollowingDatabase: Object (5 properties)
+├── DatabaseShareOrigin: string
+├── HotCachePeriod: string
+├── Kind: Enum (1 value)
+│   └── ReadOnlyFollowingDatabase
+├── Location: string
+└── Name: Validated<string> (1 rule)
+    └── Rule 0: MaxLength: 96
+ReadWriteDatabase: Object (5 properties)
+├── HotCachePeriod: string
+├── KeyVaultURL: string
+├── Kind: Enum (1 value)
+│   └── ReadWriteDatabase
+├── Location: string
+└── Name: Validated<string> (1 rule)
+    └── Rule 0: MaxLength: 96
