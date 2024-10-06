@@ -36,7 +36,7 @@
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2018-09-01&#34;
     PrivateDnsZone   Generator information: - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json - ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;privateDnsZones/&#x200b;{privateZoneName}     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
 
-<meta itemprop="wordCount" content="894">
+<meta itemprop="wordCount" content="906">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="network.azure.com/v1api20180901"/>
 <meta name="twitter:description" content="network.azure.com/v1api20180901  Package v1api20180901 contains API Schema definitions for the network v1api20180901 API group
@@ -279,6 +279,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -464,6 +466,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -499,6 +503,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1329,7 +1335,35 @@ map[string]string
 <h3 id="network.azure.com/v1api20180901.PrivateZoneProperties_ProvisioningState_STATUS">PrivateZoneProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20180901.PrivateDnsZone_STATUS">PrivateDnsZone_STATUS</a>, <a href="#network.azure.com/v1api20180901.PrivateZoneProperties_STATUS_ARM">PrivateZoneProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20180901.PrivateDnsZone_STATUS">PrivateDnsZone_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20180901.PrivateZoneProperties_ProvisioningState_STATUS_ARM">PrivateZoneProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20180901.PrivateZoneProperties_STATUS_ARM">PrivateZoneProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1447,8 +1481,8 @@ zone with registration enabled. This is a read-only property and any attempt to 
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20180901.PrivateZoneProperties_ProvisioningState_STATUS">
-PrivateZoneProperties_ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20180901.PrivateZoneProperties_ProvisioningState_STATUS_ARM">
+PrivateZoneProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>

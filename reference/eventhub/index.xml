@@ -179,8 +179,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;encoding&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_Encoding&#34;&gt;
-CaptureDescription_Encoding
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_ARM&#34;&gt;
+CaptureDescription_Encoding_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -229,7 +229,27 @@ bool
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.CaptureDescription_Encoding&#34;&gt;CaptureDescription_Encoding
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription&#34;&gt;CaptureDescription&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_ARM&#34;&gt;CaptureDescription_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription&#34;&gt;CaptureDescription&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Avro&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AvroDeflate&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_ARM&#34;&gt;CaptureDescription_Encoding_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_ARM&#34;&gt;CaptureDescription_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -249,7 +269,27 @@ bool
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_STATUS&#34;&gt;CaptureDescription_Encoding_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_STATUS&#34;&gt;CaptureDescription_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_STATUS_ARM&#34;&gt;CaptureDescription_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_STATUS&#34;&gt;CaptureDescription_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Avro&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AvroDeflate&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_STATUS_ARM&#34;&gt;CaptureDescription_Encoding_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_STATUS_ARM&#34;&gt;CaptureDescription_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -401,8 +441,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;encoding&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_STATUS&#34;&gt;
-CaptureDescription_Encoding_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_STATUS_ARM&#34;&gt;
+CaptureDescription_Encoding_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -972,8 +1012,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;keySource&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_KeySource&#34;&gt;
-Encryption_KeySource
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_KeySource_ARM&#34;&gt;
+Encryption_KeySource_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1010,7 +1050,25 @@ bool
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Encryption_KeySource&#34;&gt;Encryption_KeySource
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption&#34;&gt;Encryption&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_ARM&#34;&gt;Encryption_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption&#34;&gt;Encryption&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.KeyVault&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Encryption_KeySource_ARM&#34;&gt;Encryption_KeySource_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_ARM&#34;&gt;Encryption_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1028,7 +1086,25 @@ bool
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Encryption_KeySource_STATUS&#34;&gt;Encryption_KeySource_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_STATUS&#34;&gt;Encryption_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_STATUS_ARM&#34;&gt;Encryption_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_STATUS&#34;&gt;Encryption_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.KeyVault&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Encryption_KeySource_STATUS_ARM&#34;&gt;Encryption_KeySource_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_STATUS_ARM&#34;&gt;Encryption_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1118,8 +1194,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;keySource&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_KeySource_STATUS&#34;&gt;
-Encryption_KeySource_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Encryption_KeySource_STATUS_ARM&#34;&gt;
+Encryption_KeySource_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1217,8 +1293,8 @@ Identity_Type
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_Type&#34;&gt;
-Identity_Type
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_Type_ARM&#34;&gt;
+Identity_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1348,8 +1424,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_Type_STATUS&#34;&gt;
-Identity_Type_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_Type_STATUS_ARM&#34;&gt;
+Identity_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1375,7 +1451,31 @@ map[string]./api/eventhub/v1api20211101.UserAssignedIdentity_STATUS_ARM
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Identity_Type&#34;&gt;Identity_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity&#34;&gt;Identity&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_ARM&#34;&gt;Identity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity&#34;&gt;Identity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Identity_Type_ARM&#34;&gt;Identity_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_ARM&#34;&gt;Identity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1399,7 +1499,31 @@ map[string]./api/eventhub/v1api20211101.UserAssignedIdentity_STATUS_ARM
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Identity_Type_STATUS&#34;&gt;Identity_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_STATUS&#34;&gt;Identity_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_STATUS_ARM&#34;&gt;Identity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_STATUS&#34;&gt;Identity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Identity_Type_STATUS_ARM&#34;&gt;Identity_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Identity_STATUS_ARM&#34;&gt;Identity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3669,7 +3793,29 @@ Namespaces_Eventhubs_Consumergroup_STATUS
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS&#34;&gt;Namespaces_AuthorizationRule_Properties_Rights_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_STATUS_ARM&#34;&gt;Namespaces_AuthorizationRule_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_STATUS&#34;&gt;Namespaces_AuthorizationRule_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_STATUS&#34;&gt;Namespaces_AuthorizationRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Listen&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Manage&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Send&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM&#34;&gt;Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_STATUS_ARM&#34;&gt;Namespaces_AuthorizationRule_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3691,7 +3837,29 @@ Namespaces_Eventhubs_Consumergroup_STATUS
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec&#34;&gt;Namespaces_AuthorizationRule_Properties_Rights_Spec
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Spec_ARM&#34;&gt;Namespaces_AuthorizationRule_Properties_Spec_ARM&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Spec&#34;&gt;Namespaces_AuthorizationRule_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Spec&#34;&gt;Namespaces_AuthorizationRule_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Listen&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Manage&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Send&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM&#34;&gt;Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Spec_ARM&#34;&gt;Namespaces_AuthorizationRule_Properties_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3729,8 +3897,8 @@ Namespaces_Eventhubs_Consumergroup_STATUS
 &lt;td&gt;
 &lt;code&gt;rights&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS&#34;&gt;
-[]Namespaces_AuthorizationRule_Properties_Rights_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM&#34;&gt;
+[]Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3759,8 +3927,8 @@ Namespaces_Eventhubs_Consumergroup_STATUS
 &lt;td&gt;
 &lt;code&gt;rights&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec&#34;&gt;
-[]Namespaces_AuthorizationRule_Properties_Rights_Spec
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM&#34;&gt;
+[]Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4140,8 +4308,8 @@ int
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_Status_STATUS&#34;&gt;
-Namespaces_Eventhub_Properties_Status_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_Status_STATUS_ARM&#34;&gt;
+Namespaces_Eventhub_Properties_Status_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4217,7 +4385,41 @@ int
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_Status_STATUS&#34;&gt;Namespaces_Eventhub_Properties_Status_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_STATUS_ARM&#34;&gt;Namespaces_Eventhub_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_STATUS&#34;&gt;Namespaces_Eventhub_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_STATUS&#34;&gt;Namespaces_Eventhub_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Active&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ReceiveDisabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Renaming&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Restoring&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SendDisabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Unknown&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_Status_STATUS_ARM&#34;&gt;Namespaces_Eventhub_Properties_Status_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_STATUS_ARM&#34;&gt;Namespaces_Eventhub_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4621,7 +4823,29 @@ Namespaces_Eventhub_Properties_Spec_ARM
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_STATUS&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_STATUS&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Listen&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Manage&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Send&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4643,7 +4867,29 @@ Namespaces_Eventhub_Properties_Spec_ARM
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Spec&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Spec&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Listen&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Manage&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Send&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM&#34;&gt;Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4681,8 +4927,8 @@ Namespaces_Eventhub_Properties_Spec_ARM
 &lt;td&gt;
 &lt;code&gt;rights&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS&#34;&gt;
-[]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM&#34;&gt;
+[]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4711,8 +4957,8 @@ Namespaces_Eventhub_Properties_Spec_ARM
 &lt;td&gt;
 &lt;code&gt;rights&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec&#34;&gt;
-[]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM&#34;&gt;
+[]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5548,8 +5794,8 @@ The Event Hubs premium units for Premium tier, where value should be 0 to 10 pre
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_Name&#34;&gt;
-Sku_Name
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_Name_ARM&#34;&gt;
+Sku_Name_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5561,8 +5807,8 @@ Sku_Name
 &lt;td&gt;
 &lt;code&gt;tier&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_Tier&#34;&gt;
-Sku_Tier
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_Tier_ARM&#34;&gt;
+Sku_Tier_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5575,7 +5821,29 @@ Sku_Tier
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Sku_Name&#34;&gt;Sku_Name
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku&#34;&gt;Sku&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku&#34;&gt;Sku&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Sku_Name_ARM&#34;&gt;Sku_Name_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5597,7 +5865,29 @@ Sku_Tier
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Sku_Name_STATUS&#34;&gt;Sku_Name_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Sku_Name_STATUS_ARM&#34;&gt;Sku_Name_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5704,8 +5994,8 @@ The Event Hubs premium units for Premium tier, where value should be 0 to 10 pre
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_Name_STATUS&#34;&gt;
-Sku_Name_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_Name_STATUS_ARM&#34;&gt;
+Sku_Name_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5717,8 +6007,8 @@ Sku_Name_STATUS
 &lt;td&gt;
 &lt;code&gt;tier&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_Tier_STATUS&#34;&gt;
-Sku_Tier_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_Tier_STATUS_ARM&#34;&gt;
+Sku_Tier_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5731,7 +6021,29 @@ Sku_Tier_STATUS
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Sku_Tier&#34;&gt;Sku_Tier
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku&#34;&gt;Sku&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku&#34;&gt;Sku&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Sku_Tier_ARM&#34;&gt;Sku_Tier_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5753,7 +6065,29 @@ Sku_Tier_STATUS
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Sku_Tier_STATUS&#34;&gt;Sku_Tier_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.Sku_Tier_STATUS_ARM&#34;&gt;Sku_Tier_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5775,7 +6109,31 @@ Sku_Tier_STATUS
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.SystemData_CreatedByType_STATUS&#34;&gt;SystemData_CreatedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.SystemData_CreatedByType_STATUS_ARM&#34;&gt;SystemData_CreatedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5799,7 +6157,31 @@ Sku_Tier_STATUS
 &lt;h3 id=&#34;eventhub.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS&#34;&gt;SystemData_LastModifiedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventhub.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;SystemData_LastModifiedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5950,8 +6332,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_CreatedByType_STATUS&#34;&gt;
-SystemData_CreatedByType_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_CreatedByType_STATUS_ARM&#34;&gt;
+SystemData_CreatedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5985,8 +6367,8 @@ string
 &lt;td&gt;
 &lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS&#34;&gt;
-SystemData_LastModifiedByType_STATUS
+&lt;a href=&#34;#eventhub.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;
+SystemData_LastModifiedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

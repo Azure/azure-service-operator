@@ -353,8 +353,8 @@ before taking the action&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;actionType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_ActionType&#34;&gt;
-AutoHealActions_ActionType
+&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_ActionType_ARM&#34;&gt;
+AutoHealActions_ActionType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -392,7 +392,29 @@ before taking the action&lt;/p&gt;
 &lt;h3 id=&#34;web.azure.com/v1api20220301.AutoHealActions_ActionType&#34;&gt;AutoHealActions_ActionType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions&#34;&gt;AutoHealActions&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_ARM&#34;&gt;AutoHealActions_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions&#34;&gt;AutoHealActions&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CustomAction&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LogEvent&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Recycle&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.AutoHealActions_ActionType_ARM&#34;&gt;AutoHealActions_ActionType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_ARM&#34;&gt;AutoHealActions_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -414,7 +436,29 @@ before taking the action&lt;/p&gt;
 &lt;h3 id=&#34;web.azure.com/v1api20220301.AutoHealActions_ActionType_STATUS&#34;&gt;AutoHealActions_ActionType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_STATUS&#34;&gt;AutoHealActions_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_STATUS_ARM&#34;&gt;AutoHealActions_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_STATUS&#34;&gt;AutoHealActions_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CustomAction&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LogEvent&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Recycle&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.AutoHealActions_ActionType_STATUS_ARM&#34;&gt;AutoHealActions_ActionType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_STATUS_ARM&#34;&gt;AutoHealActions_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -509,8 +553,8 @@ before taking the action&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;actionType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_ActionType_STATUS&#34;&gt;
-AutoHealActions_ActionType_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.AutoHealActions_ActionType_STATUS_ARM&#34;&gt;
+AutoHealActions_ActionType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1402,8 +1446,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_Type&#34;&gt;
-AzureStorageInfoValue_Type
+&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_Type_ARM&#34;&gt;
+AzureStorageInfoValue_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1543,8 +1587,8 @@ string
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_State_STATUS&#34;&gt;
-AzureStorageInfoValue_State_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_State_STATUS_ARM&#34;&gt;
+AzureStorageInfoValue_State_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1556,8 +1600,8 @@ AzureStorageInfoValue_State_STATUS
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_Type_STATUS&#34;&gt;
-AzureStorageInfoValue_Type_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_Type_STATUS_ARM&#34;&gt;
+AzureStorageInfoValue_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1570,7 +1614,31 @@ AzureStorageInfoValue_Type_STATUS
 &lt;h3 id=&#34;web.azure.com/v1api20220301.AzureStorageInfoValue_State_STATUS&#34;&gt;AzureStorageInfoValue_State_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS&#34;&gt;AzureStorageInfoValue_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS_ARM&#34;&gt;AzureStorageInfoValue_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS&#34;&gt;AzureStorageInfoValue_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;InvalidCredentials&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;InvalidShare&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NotValidated&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Ok&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.AzureStorageInfoValue_State_STATUS_ARM&#34;&gt;AzureStorageInfoValue_State_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS_ARM&#34;&gt;AzureStorageInfoValue_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1594,7 +1662,27 @@ AzureStorageInfoValue_Type_STATUS
 &lt;h3 id=&#34;web.azure.com/v1api20220301.AzureStorageInfoValue_Type&#34;&gt;AzureStorageInfoValue_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue&#34;&gt;AzureStorageInfoValue&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_ARM&#34;&gt;AzureStorageInfoValue_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue&#34;&gt;AzureStorageInfoValue&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AzureBlob&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AzureFiles&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.AzureStorageInfoValue_Type_ARM&#34;&gt;AzureStorageInfoValue_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_ARM&#34;&gt;AzureStorageInfoValue_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1614,7 +1702,27 @@ AzureStorageInfoValue_Type_STATUS
 &lt;h3 id=&#34;web.azure.com/v1api20220301.AzureStorageInfoValue_Type_STATUS&#34;&gt;AzureStorageInfoValue_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS&#34;&gt;AzureStorageInfoValue_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS_ARM&#34;&gt;AzureStorageInfoValue_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS&#34;&gt;AzureStorageInfoValue_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AzureBlob&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AzureFiles&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.AzureStorageInfoValue_Type_STATUS_ARM&#34;&gt;AzureStorageInfoValue_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS_ARM&#34;&gt;AzureStorageInfoValue_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2522,8 +2630,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_Type&#34;&gt;
-ConnStringInfo_Type
+&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_Type_ARM&#34;&gt;
+ConnStringInfo_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2628,8 +2736,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_Type_STATUS&#34;&gt;
-ConnStringInfo_Type_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_Type_STATUS_ARM&#34;&gt;
+ConnStringInfo_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2642,7 +2750,45 @@ ConnStringInfo_Type_STATUS
 &lt;h3 id=&#34;web.azure.com/v1api20220301.ConnStringInfo_Type&#34;&gt;ConnStringInfo_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo&#34;&gt;ConnStringInfo&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_ARM&#34;&gt;ConnStringInfo_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo&#34;&gt;ConnStringInfo&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ApiHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Custom&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DocDb&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;MySql&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NotificationHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PostgreSQL&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RedisCache&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SQLAzure&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SQLServer&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceBus&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.ConnStringInfo_Type_ARM&#34;&gt;ConnStringInfo_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_ARM&#34;&gt;ConnStringInfo_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2680,7 +2826,45 @@ ConnStringInfo_Type_STATUS
 &lt;h3 id=&#34;web.azure.com/v1api20220301.ConnStringInfo_Type_STATUS&#34;&gt;ConnStringInfo_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_STATUS&#34;&gt;ConnStringInfo_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_STATUS_ARM&#34;&gt;ConnStringInfo_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_STATUS&#34;&gt;ConnStringInfo_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ApiHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Custom&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DocDb&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;MySql&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NotificationHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PostgreSQL&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RedisCache&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SQLAzure&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SQLServer&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceBus&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.ConnStringInfo_Type_STATUS_ARM&#34;&gt;ConnStringInfo_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ConnStringInfo_STATUS_ARM&#34;&gt;ConnStringInfo_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3469,8 +3653,8 @@ string
 &lt;td&gt;
 &lt;code&gt;hostType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_HostType&#34;&gt;
-HostNameSslState_HostType
+&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_HostType_ARM&#34;&gt;
+HostNameSslState_HostType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3493,8 +3677,8 @@ string
 &lt;td&gt;
 &lt;code&gt;sslState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_SslState&#34;&gt;
-HostNameSslState_SslState
+&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_SslState_ARM&#34;&gt;
+HostNameSslState_SslState_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3540,7 +3724,27 @@ string
 &lt;h3 id=&#34;web.azure.com/v1api20220301.HostNameSslState_HostType&#34;&gt;HostNameSslState_HostType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState&#34;&gt;HostNameSslState&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_ARM&#34;&gt;HostNameSslState_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState&#34;&gt;HostNameSslState&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Repository&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.HostNameSslState_HostType_ARM&#34;&gt;HostNameSslState_HostType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_ARM&#34;&gt;HostNameSslState_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3560,7 +3764,27 @@ string
 &lt;h3 id=&#34;web.azure.com/v1api20220301.HostNameSslState_HostType_STATUS&#34;&gt;HostNameSslState_HostType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_STATUS&#34;&gt;HostNameSslState_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_STATUS_ARM&#34;&gt;HostNameSslState_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_STATUS&#34;&gt;HostNameSslState_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Repository&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.HostNameSslState_HostType_STATUS_ARM&#34;&gt;HostNameSslState_HostType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_STATUS_ARM&#34;&gt;HostNameSslState_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3685,8 +3909,8 @@ string
 &lt;td&gt;
 &lt;code&gt;hostType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_HostType_STATUS&#34;&gt;
-HostNameSslState_HostType_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_HostType_STATUS_ARM&#34;&gt;
+HostNameSslState_HostType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3709,8 +3933,8 @@ string
 &lt;td&gt;
 &lt;code&gt;sslState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_SslState_STATUS&#34;&gt;
-HostNameSslState_SslState_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_SslState_STATUS_ARM&#34;&gt;
+HostNameSslState_SslState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3756,7 +3980,29 @@ string
 &lt;h3 id=&#34;web.azure.com/v1api20220301.HostNameSslState_SslState&#34;&gt;HostNameSslState_SslState
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState&#34;&gt;HostNameSslState&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_ARM&#34;&gt;HostNameSslState_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState&#34;&gt;HostNameSslState&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;IpBasedEnabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SniEnabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.HostNameSslState_SslState_ARM&#34;&gt;HostNameSslState_SslState_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_ARM&#34;&gt;HostNameSslState_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3778,7 +4024,29 @@ string
 &lt;h3 id=&#34;web.azure.com/v1api20220301.HostNameSslState_SslState_STATUS&#34;&gt;HostNameSslState_SslState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_STATUS&#34;&gt;HostNameSslState_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_STATUS_ARM&#34;&gt;HostNameSslState_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_STATUS&#34;&gt;HostNameSslState_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;IpBasedEnabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SniEnabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.HostNameSslState_SslState_STATUS_ARM&#34;&gt;HostNameSslState_SslState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.HostNameSslState_STATUS_ARM&#34;&gt;HostNameSslState_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4243,8 +4511,8 @@ int
 &lt;td&gt;
 &lt;code&gt;tag&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_Tag&#34;&gt;
-IpSecurityRestriction_Tag
+&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_Tag_ARM&#34;&gt;
+IpSecurityRestriction_Tag_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4558,8 +4826,8 @@ int
 &lt;td&gt;
 &lt;code&gt;tag&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_Tag_STATUS&#34;&gt;
-IpSecurityRestriction_Tag_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_Tag_STATUS_ARM&#34;&gt;
+IpSecurityRestriction_Tag_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4594,7 +4862,29 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.IpSecurityRestriction_Tag&#34;&gt;IpSecurityRestriction_Tag
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction&#34;&gt;IpSecurityRestriction&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_ARM&#34;&gt;IpSecurityRestriction_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction&#34;&gt;IpSecurityRestriction&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceTag&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;XffProxy&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.IpSecurityRestriction_Tag_ARM&#34;&gt;IpSecurityRestriction_Tag_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_ARM&#34;&gt;IpSecurityRestriction_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4616,7 +4906,29 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.IpSecurityRestriction_Tag_STATUS&#34;&gt;IpSecurityRestriction_Tag_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_STATUS&#34;&gt;IpSecurityRestriction_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_STATUS_ARM&#34;&gt;IpSecurityRestriction_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_STATUS&#34;&gt;IpSecurityRestriction_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceTag&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;XffProxy&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.IpSecurityRestriction_Tag_STATUS_ARM&#34;&gt;IpSecurityRestriction_Tag_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.IpSecurityRestriction_STATUS_ARM&#34;&gt;IpSecurityRestriction_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4862,8 +5174,8 @@ key references will be ARM resource ids in the form:
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_Type&#34;&gt;
-ManagedServiceIdentity_Type
+&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_Type_ARM&#34;&gt;
+ManagedServiceIdentity_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4995,8 +5307,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_Type_STATUS&#34;&gt;
-ManagedServiceIdentity_Type_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_Type_STATUS_ARM&#34;&gt;
+ManagedServiceIdentity_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5024,7 +5336,31 @@ key references will be ARM resource ids in the form:
 &lt;h3 id=&#34;web.azure.com/v1api20220301.ManagedServiceIdentity_Type&#34;&gt;ManagedServiceIdentity_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity&#34;&gt;ManagedServiceIdentity&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_ARM&#34;&gt;ManagedServiceIdentity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity&#34;&gt;ManagedServiceIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.ManagedServiceIdentity_Type_ARM&#34;&gt;ManagedServiceIdentity_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_ARM&#34;&gt;ManagedServiceIdentity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5048,7 +5384,31 @@ key references will be ARM resource ids in the form:
 &lt;h3 id=&#34;web.azure.com/v1api20220301.ManagedServiceIdentity_Type_STATUS&#34;&gt;ManagedServiceIdentity_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_STATUS&#34;&gt;ManagedServiceIdentity_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_STATUS_ARM&#34;&gt;ManagedServiceIdentity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_STATUS&#34;&gt;ManagedServiceIdentity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.ManagedServiceIdentity_Type_STATUS_ARM&#34;&gt;ManagedServiceIdentity_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.ManagedServiceIdentity_STATUS_ARM&#34;&gt;ManagedServiceIdentity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6611,7 +6971,33 @@ Serverfarm_STATUS
 &lt;h3 id=&#34;web.azure.com/v1api20220301.Serverfarm_Properties_ProvisioningState_STATUS&#34;&gt;Serverfarm_Properties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_Properties_STATUS_ARM&#34;&gt;Serverfarm_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_STATUS&#34;&gt;Serverfarm_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_STATUS&#34;&gt;Serverfarm_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;InProgress&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.Serverfarm_Properties_ProvisioningState_STATUS_ARM&#34;&gt;Serverfarm_Properties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_Properties_STATUS_ARM&#34;&gt;Serverfarm_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6802,8 +7188,8 @@ If &lt;code&gt;false&lt;/code&gt;, apps assigned to this App Service plan will s
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_Properties_ProvisioningState_STATUS&#34;&gt;
-Serverfarm_Properties_ProvisioningState_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_Properties_ProvisioningState_STATUS_ARM&#34;&gt;
+Serverfarm_Properties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6848,8 +7234,8 @@ string
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_Properties_Status_STATUS&#34;&gt;
-Serverfarm_Properties_Status_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_Properties_Status_STATUS_ARM&#34;&gt;
+Serverfarm_Properties_Status_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7107,7 +7493,29 @@ If &lt;code&gt;false&lt;/code&gt;, this App Service Plan will not perform availa
 &lt;h3 id=&#34;web.azure.com/v1api20220301.Serverfarm_Properties_Status_STATUS&#34;&gt;Serverfarm_Properties_Status_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_Properties_STATUS_ARM&#34;&gt;Serverfarm_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_STATUS&#34;&gt;Serverfarm_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_STATUS&#34;&gt;Serverfarm_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Pending&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Ready&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.Serverfarm_Properties_Status_STATUS_ARM&#34;&gt;Serverfarm_Properties_Status_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Serverfarm_Properties_STATUS_ARM&#34;&gt;Serverfarm_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9494,8 +9902,8 @@ Experiments_ARM
 &lt;td&gt;
 &lt;code&gt;ftpsState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_FtpsState&#34;&gt;
-SiteConfig_FtpsState
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_FtpsState_ARM&#34;&gt;
+SiteConfig_FtpsState_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9660,8 +10068,8 @@ string
 &lt;td&gt;
 &lt;code&gt;loadBalancing&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_LoadBalancing&#34;&gt;
-SiteConfig_LoadBalancing
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_LoadBalancing_ARM&#34;&gt;
+SiteConfig_LoadBalancing_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9695,8 +10103,8 @@ int
 &lt;td&gt;
 &lt;code&gt;managedPipelineMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ManagedPipelineMode&#34;&gt;
-SiteConfig_ManagedPipelineMode
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ManagedPipelineMode_ARM&#34;&gt;
+SiteConfig_ManagedPipelineMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9719,8 +10127,8 @@ int
 &lt;td&gt;
 &lt;code&gt;minTlsVersion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_MinTlsVersion&#34;&gt;
-SiteConfig_MinTlsVersion
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_MinTlsVersion_ARM&#34;&gt;
+SiteConfig_MinTlsVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9925,8 +10333,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;scmMinTlsVersion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ScmMinTlsVersion&#34;&gt;
-SiteConfig_ScmMinTlsVersion
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ScmMinTlsVersion_ARM&#34;&gt;
+SiteConfig_ScmMinTlsVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9938,8 +10346,8 @@ SiteConfig_ScmMinTlsVersion
 &lt;td&gt;
 &lt;code&gt;scmType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ScmType&#34;&gt;
-SiteConfig_ScmType
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ScmType_ARM&#34;&gt;
+SiteConfig_ScmType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10069,7 +10477,29 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_FtpsState&#34;&gt;SiteConfig_FtpsState
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AllAllowed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;FtpsOnly&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_FtpsState_ARM&#34;&gt;SiteConfig_FtpsState_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10091,7 +10521,29 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_FtpsState_STATUS&#34;&gt;SiteConfig_FtpsState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AllAllowed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;FtpsOnly&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_FtpsState_STATUS_ARM&#34;&gt;SiteConfig_FtpsState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10113,7 +10565,35 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_LoadBalancing&#34;&gt;SiteConfig_LoadBalancing
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LeastRequests&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LeastResponseTime&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PerSiteRoundRobin&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestHash&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WeightedRoundRobin&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WeightedTotalTraffic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_LoadBalancing_ARM&#34;&gt;SiteConfig_LoadBalancing_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10141,7 +10621,35 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_LoadBalancing_STATUS&#34;&gt;SiteConfig_LoadBalancing_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LeastRequests&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LeastResponseTime&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PerSiteRoundRobin&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestHash&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WeightedRoundRobin&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WeightedTotalTraffic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_LoadBalancing_STATUS_ARM&#34;&gt;SiteConfig_LoadBalancing_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10169,7 +10677,27 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ManagedPipelineMode&#34;&gt;SiteConfig_ManagedPipelineMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Classic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Integrated&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ManagedPipelineMode_ARM&#34;&gt;SiteConfig_ManagedPipelineMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10189,7 +10717,27 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ManagedPipelineMode_STATUS&#34;&gt;SiteConfig_ManagedPipelineMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Classic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Integrated&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ManagedPipelineMode_STATUS_ARM&#34;&gt;SiteConfig_ManagedPipelineMode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10209,7 +10757,29 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_MinTlsVersion&#34;&gt;SiteConfig_MinTlsVersion
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_MinTlsVersion_ARM&#34;&gt;SiteConfig_MinTlsVersion_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10231,7 +10801,29 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_MinTlsVersion_STATUS&#34;&gt;SiteConfig_MinTlsVersion_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_MinTlsVersion_STATUS_ARM&#34;&gt;SiteConfig_MinTlsVersion_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11281,8 +11873,8 @@ Experiments_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;ftpsState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_FtpsState_STATUS&#34;&gt;
-SiteConfig_FtpsState_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_FtpsState_STATUS_ARM&#34;&gt;
+SiteConfig_FtpsState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11447,8 +12039,8 @@ string
 &lt;td&gt;
 &lt;code&gt;loadBalancing&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_LoadBalancing_STATUS&#34;&gt;
-SiteConfig_LoadBalancing_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_LoadBalancing_STATUS_ARM&#34;&gt;
+SiteConfig_LoadBalancing_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11495,8 +12087,8 @@ SiteMachineKey_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;managedPipelineMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ManagedPipelineMode_STATUS&#34;&gt;
-SiteConfig_ManagedPipelineMode_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ManagedPipelineMode_STATUS_ARM&#34;&gt;
+SiteConfig_ManagedPipelineMode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11519,8 +12111,8 @@ int
 &lt;td&gt;
 &lt;code&gt;minTlsVersion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_MinTlsVersion_STATUS&#34;&gt;
-SiteConfig_MinTlsVersion_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_MinTlsVersion_STATUS_ARM&#34;&gt;
+SiteConfig_MinTlsVersion_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11725,8 +12317,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;scmMinTlsVersion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ScmMinTlsVersion_STATUS&#34;&gt;
-SiteConfig_ScmMinTlsVersion_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ScmMinTlsVersion_STATUS_ARM&#34;&gt;
+SiteConfig_ScmMinTlsVersion_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11738,8 +12330,8 @@ SiteConfig_ScmMinTlsVersion_STATUS
 &lt;td&gt;
 &lt;code&gt;scmType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ScmType_STATUS&#34;&gt;
-SiteConfig_ScmType_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ScmType_STATUS_ARM&#34;&gt;
+SiteConfig_ScmType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11869,7 +12461,29 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ScmMinTlsVersion&#34;&gt;SiteConfig_ScmMinTlsVersion
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ScmMinTlsVersion_ARM&#34;&gt;SiteConfig_ScmMinTlsVersion_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11891,7 +12505,29 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ScmMinTlsVersion_STATUS&#34;&gt;SiteConfig_ScmMinTlsVersion_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;1.2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ScmMinTlsVersion_STATUS_ARM&#34;&gt;SiteConfig_ScmMinTlsVersion_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11913,7 +12549,51 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ScmType&#34;&gt;SiteConfig_ScmType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig&#34;&gt;SiteConfig&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BitbucketGit&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BitbucketHg&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CodePlexGit&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CodePlexHg&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Dropbox&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ExternalGit&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ExternalHg&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GitHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LocalGit&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OneDrive&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Tfs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;VSO&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;VSTSRM&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ScmType_ARM&#34;&gt;SiteConfig_ScmType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_ARM&#34;&gt;SiteConfig_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11957,7 +12637,51 @@ int
 &lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ScmType_STATUS&#34;&gt;SiteConfig_ScmType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS&#34;&gt;SiteConfig_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BitbucketGit&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BitbucketHg&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CodePlexGit&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CodePlexHg&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Dropbox&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ExternalGit&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ExternalHg&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GitHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LocalGit&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OneDrive&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Tfs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;VSO&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;VSTSRM&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.SiteConfig_ScmType_STATUS_ARM&#34;&gt;SiteConfig_ScmType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.SiteConfig_STATUS_ARM&#34;&gt;SiteConfig_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -12329,7 +13053,29 @@ string
 &lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_AvailabilityState_STATUS&#34;&gt;Site_Properties_AvailabilityState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_STATUS_ARM&#34;&gt;Site_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.Site_STATUS&#34;&gt;Site_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_STATUS&#34;&gt;Site_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DisasterRecoveryMode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Limited&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Normal&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_AvailabilityState_STATUS_ARM&#34;&gt;Site_Properties_AvailabilityState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_STATUS_ARM&#34;&gt;Site_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -12351,7 +13097,29 @@ string
 &lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_ClientCertMode_STATUS&#34;&gt;Site_Properties_ClientCertMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_STATUS_ARM&#34;&gt;Site_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.Site_STATUS&#34;&gt;Site_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_STATUS&#34;&gt;Site_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Optional&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OptionalInteractiveUser&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Required&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_ClientCertMode_STATUS_ARM&#34;&gt;Site_Properties_ClientCertMode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_STATUS_ARM&#34;&gt;Site_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -12373,7 +13141,29 @@ string
 &lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_ClientCertMode_Spec&#34;&gt;Site_Properties_ClientCertMode_Spec
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_Spec_ARM&#34;&gt;Site_Properties_Spec_ARM&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.Site_Spec&#34;&gt;Site_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Spec&#34;&gt;Site_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Optional&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OptionalInteractiveUser&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Required&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_ClientCertMode_Spec_ARM&#34;&gt;Site_Properties_ClientCertMode_Spec_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_Spec_ARM&#34;&gt;Site_Properties_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -12395,7 +13185,33 @@ string
 &lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_RedundancyMode_STATUS&#34;&gt;Site_Properties_RedundancyMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_STATUS_ARM&#34;&gt;Site_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.Site_STATUS&#34;&gt;Site_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_STATUS&#34;&gt;Site_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ActiveActive&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failover&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeoRedundant&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Manual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_RedundancyMode_STATUS_ARM&#34;&gt;Site_Properties_RedundancyMode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_STATUS_ARM&#34;&gt;Site_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -12421,7 +13237,33 @@ string
 &lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_RedundancyMode_Spec&#34;&gt;Site_Properties_RedundancyMode_Spec
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_Spec_ARM&#34;&gt;Site_Properties_Spec_ARM&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.Site_Spec&#34;&gt;Site_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Spec&#34;&gt;Site_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ActiveActive&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failover&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeoRedundant&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Manual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_RedundancyMode_Spec_ARM&#34;&gt;Site_Properties_RedundancyMode_Spec_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_Spec_ARM&#34;&gt;Site_Properties_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -12463,8 +13305,8 @@ string
 &lt;td&gt;
 &lt;code&gt;availabilityState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_AvailabilityState_STATUS&#34;&gt;
-Site_Properties_AvailabilityState_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_AvailabilityState_STATUS_ARM&#34;&gt;
+Site_Properties_AvailabilityState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12511,8 +13353,8 @@ string
 &lt;td&gt;
 &lt;code&gt;clientCertMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_ClientCertMode_STATUS&#34;&gt;
-Site_Properties_ClientCertMode_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_ClientCertMode_STATUS_ARM&#34;&gt;
+Site_Properties_ClientCertMode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12784,8 +13626,8 @@ string.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;redundancyMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_RedundancyMode_STATUS&#34;&gt;
-Site_Properties_RedundancyMode_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_RedundancyMode_STATUS_ARM&#34;&gt;
+Site_Properties_RedundancyMode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12935,8 +13777,8 @@ string
 &lt;td&gt;
 &lt;code&gt;usageState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_UsageState_STATUS&#34;&gt;
-Site_Properties_UsageState_STATUS
+&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_UsageState_STATUS_ARM&#34;&gt;
+Site_Properties_UsageState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -13048,8 +13890,8 @@ string
 &lt;td&gt;
 &lt;code&gt;clientCertMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_ClientCertMode_Spec&#34;&gt;
-Site_Properties_ClientCertMode_Spec
+&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_ClientCertMode_Spec_ARM&#34;&gt;
+Site_Properties_ClientCertMode_Spec_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -13218,8 +14060,8 @@ string.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;redundancyMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_RedundancyMode_Spec&#34;&gt;
-Site_Properties_RedundancyMode_Spec
+&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_RedundancyMode_Spec_ARM&#34;&gt;
+Site_Properties_RedundancyMode_Spec_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -13333,7 +14175,27 @@ Security Groups and User Defined Routes applied.&lt;/p&gt;
 &lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_UsageState_STATUS&#34;&gt;Site_Properties_UsageState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_STATUS_ARM&#34;&gt;Site_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#web.azure.com/v1api20220301.Site_STATUS&#34;&gt;Site_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_STATUS&#34;&gt;Site_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Exceeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Normal&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;web.azure.com/v1api20220301.Site_Properties_UsageState_STATUS_ARM&#34;&gt;Site_Properties_UsageState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#web.azure.com/v1api20220301.Site_Properties_STATUS_ARM&#34;&gt;Site_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;

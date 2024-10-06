@@ -39,7 +39,7 @@
     CreationData   (Appears on:Disk_Spec, Snapshot_Spec)  Data used when creating a disk.
     Field Description      createOption  CreationData_CreateOption     CreateOption: This enumerates the possible sources of a disk&rsquo;s creation.">
 
-<meta itemprop="wordCount" content="7897">
+<meta itemprop="wordCount" content="4662">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="compute.azure.com/v1api20200930"/>
 <meta name="twitter:description" content="compute.azure.com/v1api20200930  Package v1api20200930 contains API Schema definitions for the compute v1api20200930 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -917,125 +923,10 @@ bytes for the VHD footer).</p>
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.CreationData_ARM">CreationData_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_ARM">DiskProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_ARM">SnapshotProperties_ARM</a>)
-</p>
-<div>
-<p>Data used when creating a disk.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createOption</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.CreationData_CreateOption">
-CreationData_CreateOption
-</a>
-</em>
-</td>
-<td>
-<p>CreateOption: This enumerates the possible sources of a disk&rsquo;s creation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>galleryImageReference</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ImageDiskReference_ARM">
-ImageDiskReference_ARM
-</a>
-</em>
-</td>
-<td>
-<p>GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
-the shared galley image version from which to create a disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageReference</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ImageDiskReference_ARM">
-ImageDiskReference_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ImageReference: Disk source information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logicalSectorSize</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceUri: If createOption is Import, this is the URI of a blob to be imported into a managed disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StorageAccountId: Required if createOption is Import. The Azure Resource Manager identifier of the storage account
-containing the blob to import as a disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>uploadSizeBytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>UploadSizeBytes: If createOption is Upload, this is the size of the contents of the upload including the VHD footer.
-This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512
-bytes for the VHD footer).</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.CreationData_CreateOption">CreationData_CreateOption
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.CreationData">CreationData</a>, <a href="#compute.azure.com/v1api20200930.CreationData_ARM">CreationData_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.CreationData">CreationData</a>)
 </p>
 <div>
 </div>
@@ -1065,7 +956,7 @@ bytes for the VHD footer).</p>
 <h3 id="compute.azure.com/v1api20200930.CreationData_CreateOption_STATUS">CreationData_CreateOption_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.CreationData_STATUS">CreationData_STATUS</a>, <a href="#compute.azure.com/v1api20200930.CreationData_STATUS_ARM">CreationData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.CreationData_STATUS">CreationData_STATUS</a>)
 </p>
 <div>
 </div>
@@ -1141,133 +1032,6 @@ the shared galley image version from which to create a disk.</p>
 <em>
 <a href="#compute.azure.com/v1api20200930.ImageDiskReference_STATUS">
 ImageDiskReference_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ImageReference: Disk source information.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>logicalSectorSize</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceResourceId: If createOption is Copy, this is the ARM id of the source snapshot or disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceUniqueId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceUniqueId: If this field is set, this is the unique id identifying the source of this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceUri: If createOption is Import, this is the URI of a blob to be imported into a managed disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StorageAccountId: Required if createOption is Import. The Azure Resource Manager identifier of the storage account
-containing the blob to import as a disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>uploadSizeBytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>UploadSizeBytes: If createOption is Upload, this is the size of the contents of the upload including the VHD footer.
-This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512
-bytes for the VHD footer).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.CreationData_STATUS_ARM">CreationData_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">SnapshotProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Data used when creating a disk.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createOption</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.CreationData_CreateOption_STATUS">
-CreationData_CreateOption_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreateOption: This enumerates the possible sources of a disk&rsquo;s creation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>galleryImageReference</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ImageDiskReference_STATUS_ARM">
-ImageDiskReference_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
-the shared galley image version from which to create a disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>imageReference</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ImageDiskReference_STATUS_ARM">
-ImageDiskReference_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1694,228 +1458,10 @@ Disk_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.DiskProperties_ARM">DiskProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_Spec_ARM">Disk_Spec_ARM</a>)
-</p>
-<div>
-<p>Disk resource properties.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>burstingEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
-disabled by default. Does not apply to Ultra disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.CreationData_ARM">
-CreationData_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskAccessId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskIOPSReadOnly</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One
-operation can transfer between 4k and 256k bytes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskIOPSReadWrite</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskIOPSReadWrite: The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can
-transfer between 4k and 256k bytes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskMBpsReadOnly</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskMBpsReadOnly: The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly.
-MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskMBpsReadWrite</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskMBpsReadWrite: The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes
-per second - MB here uses the ISO notation, of powers of 10.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.Encryption_ARM">
-Encryption_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionSettingsCollection</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.EncryptionSettingsCollection_ARM">
-EncryptionSettingsCollection_ARM
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionSettingsCollection: Encryption settings collection used for Azure Disk Encryption, can contain multiple
-encryption settings per disk or snapshot.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hyperVGeneration</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskProperties_HyperVGeneration">
-DiskProperties_HyperVGeneration
-</a>
-</em>
-</td>
-<td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxShares</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
-disk that can be mounted on multiple VMs at the same time.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkAccessPolicy</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.NetworkAccessPolicy">
-NetworkAccessPolicy
-</a>
-</em>
-</td>
-<td>
-<p>NetworkAccessPolicy: Policy for accessing the disk via network.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskProperties_OsType">
-DiskProperties_OsType
-</a>
-</em>
-</td>
-<td>
-<p>OsType: The Operating System type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purchasePlan</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.PurchasePlan_ARM">
-PurchasePlan_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
-2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Tier: Performance tier of the disk (e.g, P4, S10) as described here:
-<a href="https://azure.microsoft.com/en-us/pricing/details/managed-disks/">https://azure.microsoft.com/en-us/pricing/details/managed-disks/</a>. Does not apply to Ultra disks.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.DiskProperties_HyperVGeneration">DiskProperties_HyperVGeneration
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_ARM">DiskProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.Disk_Spec">Disk_Spec</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_Spec">Disk_Spec</a>)
 </p>
 <div>
 </div>
@@ -1935,7 +1481,7 @@ string
 <h3 id="compute.azure.com/v1api20200930.DiskProperties_HyperVGeneration_STATUS">DiskProperties_HyperVGeneration_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>)
 </p>
 <div>
 </div>
@@ -1955,7 +1501,7 @@ string
 <h3 id="compute.azure.com/v1api20200930.DiskProperties_OsType">DiskProperties_OsType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_ARM">DiskProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.Disk_Spec">Disk_Spec</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_Spec">Disk_Spec</a>)
 </p>
 <div>
 </div>
@@ -1975,7 +1521,7 @@ string
 <h3 id="compute.azure.com/v1api20200930.DiskProperties_OsType_STATUS">DiskProperties_OsType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>)
 </p>
 <div>
 </div>
@@ -1991,296 +1537,6 @@ string
 </tr><tr><td><p>&#34;Windows&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS_ARM">Disk_STATUS_ARM</a>)
-</p>
-<div>
-<p>Disk resource properties.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>burstingEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
-disabled by default. Does not apply to Ultra disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.CreationData_STATUS_ARM">
-CreationData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskAccessId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskIOPSReadOnly</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One
-operation can transfer between 4k and 256k bytes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskIOPSReadWrite</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskIOPSReadWrite: The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can
-transfer between 4k and 256k bytes.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskMBpsReadOnly</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskMBpsReadOnly: The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly.
-MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskMBpsReadWrite</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskMBpsReadWrite: The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes
-per second - MB here uses the ISO notation, of powers of 10.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeBytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskSizeBytes: The size of the disk in bytes. This field is read only.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskState</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskState_STATUS">
-DiskState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>DiskState: The state of the disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.Encryption_STATUS_ARM">
-Encryption_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionSettingsCollection</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.EncryptionSettingsCollection_STATUS_ARM">
-EncryptionSettingsCollection_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionSettingsCollection: Encryption settings collection used for Azure Disk Encryption, can contain multiple
-encryption settings per disk or snapshot.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hyperVGeneration</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskProperties_HyperVGeneration_STATUS">
-DiskProperties_HyperVGeneration_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maxShares</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
-disk that can be mounted on multiple VMs at the same time.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkAccessPolicy</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.NetworkAccessPolicy_STATUS">
-NetworkAccessPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>NetworkAccessPolicy: Policy for accessing the disk via network.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskProperties_OsType_STATUS">
-DiskProperties_OsType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>OsType: The Operating System type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: The disk provisioning state.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purchasePlan</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.PurchasePlan_STATUS_ARM">
-PurchasePlan_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
-2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>shareInfo</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ShareInfoElement_STATUS_ARM">
-[]ShareInfoElement_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ShareInfo: Details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than
-one for disks to allow attaching them to multiple VMs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Tier: Performance tier of the disk (e.g, P4, S10) as described here:
-<a href="https://azure.microsoft.com/en-us/pricing/details/managed-disks/">https://azure.microsoft.com/en-us/pricing/details/managed-disks/</a>. Does not apply to Ultra disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeCreated</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeCreated: The time when the disk was created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>uniqueId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UniqueId: Unique Guid identifying the resource.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="compute.azure.com/v1api20200930.DiskSku">DiskSku
 </h3>
@@ -2313,41 +1569,10 @@ DiskSku_Name
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.DiskSku_ARM">DiskSku_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_Spec_ARM">Disk_Spec_ARM</a>)
-</p>
-<div>
-<p>The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskSku_Name">
-DiskSku_Name
-</a>
-</em>
-</td>
-<td>
-<p>Name: The sku name.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.DiskSku_Name">DiskSku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskSku">DiskSku</a>, <a href="#compute.azure.com/v1api20200930.DiskSku_ARM">DiskSku_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskSku">DiskSku</a>)
 </p>
 <div>
 </div>
@@ -2371,7 +1596,7 @@ DiskSku_Name
 <h3 id="compute.azure.com/v1api20200930.DiskSku_Name_STATUS">DiskSku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskSku_STATUS">DiskSku_STATUS</a>, <a href="#compute.azure.com/v1api20200930.DiskSku_STATUS_ARM">DiskSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskSku_STATUS">DiskSku_STATUS</a>)
 </p>
 <div>
 </div>
@@ -2434,52 +1659,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.DiskSku_STATUS_ARM">DiskSku_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS_ARM">Disk_STATUS_ARM</a>)
-</p>
-<div>
-<p>The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskSku_Name_STATUS">
-DiskSku_Name_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Name: The sku name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Tier: The sku tier.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.DiskState">DiskState
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.SnapshotProperties_ARM">SnapshotProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec</a>)
 </p>
 <div>
 <p>This enumerates the possible state of the disk.</p>
@@ -2508,7 +1691,7 @@ string
 <h3 id="compute.azure.com/v1api20200930.DiskState_STATUS">DiskState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">SnapshotProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
 </p>
 <div>
 <p>This enumerates the possible state of the disk.</p>
@@ -2952,149 +2135,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.Disk_STATUS_ARM">Disk_STATUS_ARM
-</h3>
-<div>
-<p>Disk resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ExtendedLocation_STATUS_ARM">
-ExtendedLocation_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ManagedBy: A relative URI containing the ID of the VM that has the disk attached.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedByExtended</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>ManagedByExtended: List of relative URIs containing the IDs of the VMs that have the disk attached. maxShares should be
-set to a value greater than one for disks to allow attaching them to multiple VMs.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Resource name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">
-DiskProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Disk resource properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskSku_STATUS_ARM">
-DiskSku_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Resource type</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zones</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>Zones: The Logical zone list for Disk.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.Disk_Spec">Disk_Spec
 </h3>
 <p>
@@ -3401,102 +2441,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.Disk_Spec_ARM">Disk_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ExtendedLocation_ARM">
-ExtendedLocation_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskProperties_ARM">
-DiskProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Disk resource properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskSku_ARM">
-DiskSku_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zones</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>Zones: The Logical zone list for Disk.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.Encryption">Encryption
 </h3>
 <p>
@@ -3597,62 +2541,6 @@ overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.EncryptionSettingsCollection_ARM">EncryptionSettingsCollection_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_ARM">DiskProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_ARM">SnapshotProperties_ARM</a>)
-</p>
-<div>
-<p>Encryption settings for disk or snapshot</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
-this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
-null in the request object, the existing settings remain unchanged.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionSettings</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.EncryptionSettingsElement_ARM">
-[]EncryptionSettingsElement_ARM
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionSettings: A collection of encryption settings, one for each disk volume.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionSettingsVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EncryptionSettingsVersion: Describes what type of encryption is used for the disks. Once this field is set, it cannot be
-overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app.&lsquo;1.1&rsquo; corresponds to Azure Disk Encryption.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.EncryptionSettingsCollection_STATUS">EncryptionSettingsCollection_STATUS
 </h3>
 <p>
@@ -3688,62 +2576,6 @@ null in the request object, the existing settings remain unchanged.</p>
 <em>
 <a href="#compute.azure.com/v1api20200930.EncryptionSettingsElement_STATUS">
 []EncryptionSettingsElement_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionSettings: A collection of encryption settings, one for each disk volume.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionSettingsVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EncryptionSettingsVersion: Describes what type of encryption is used for the disks. Once this field is set, it cannot be
-overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app.&lsquo;1.1&rsquo; corresponds to Azure Disk Encryption.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.EncryptionSettingsCollection_STATUS_ARM">EncryptionSettingsCollection_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">SnapshotProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Encryption settings for disk or snapshot</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
-this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
-null in the request object, the existing settings remain unchanged.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionSettings</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.EncryptionSettingsElement_STATUS_ARM">
-[]EncryptionSettingsElement_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3810,51 +2642,6 @@ provided is used to unwrap the disk encryption key.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.EncryptionSettingsElement_ARM">EncryptionSettingsElement_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.EncryptionSettingsCollection_ARM">EncryptionSettingsCollection_ARM</a>)
-</p>
-<div>
-<p>Encryption settings for one disk volume.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>diskEncryptionKey</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.KeyVaultAndSecretReference_ARM">
-KeyVaultAndSecretReference_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyEncryptionKey</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.KeyVaultAndKeyReference_ARM">
-KeyVaultAndKeyReference_ARM
-</a>
-</em>
-</td>
-<td>
-<p>KeyEncryptionKey: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when
-provided is used to unwrap the disk encryption key.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.EncryptionSettingsElement_STATUS">EncryptionSettingsElement_STATUS
 </h3>
 <p>
@@ -3900,55 +2687,10 @@ provided is used to unwrap the disk encryption key.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.EncryptionSettingsElement_STATUS_ARM">EncryptionSettingsElement_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.EncryptionSettingsCollection_STATUS_ARM">EncryptionSettingsCollection_STATUS_ARM</a>)
-</p>
-<div>
-<p>Encryption settings for one disk volume.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>diskEncryptionKey</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.KeyVaultAndSecretReference_STATUS_ARM">
-KeyVaultAndSecretReference_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyEncryptionKey</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.KeyVaultAndKeyReference_STATUS_ARM">
-KeyVaultAndKeyReference_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>KeyEncryptionKey: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when
-provided is used to unwrap the disk encryption key.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.EncryptionType">EncryptionType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Encryption">Encryption</a>, <a href="#compute.azure.com/v1api20200930.Encryption_ARM">Encryption_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Encryption">Encryption</a>)
 </p>
 <div>
 <p>The type of key used to encrypt the data of the disk.</p>
@@ -3971,7 +2713,7 @@ provided is used to unwrap the disk encryption key.</p>
 <h3 id="compute.azure.com/v1api20200930.EncryptionType_STATUS">EncryptionType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Encryption_STATUS">Encryption_STATUS</a>, <a href="#compute.azure.com/v1api20200930.Encryption_STATUS_ARM">Encryption_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Encryption_STATUS">Encryption_STATUS</a>)
 </p>
 <div>
 <p>The type of key used to encrypt the data of the disk.</p>
@@ -3991,93 +2733,10 @@ provided is used to unwrap the disk encryption key.</p>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.Encryption_ARM">Encryption_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_ARM">DiskProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_ARM">SnapshotProperties_ARM</a>)
-</p>
-<div>
-<p>Encryption at rest settings for disk or snapshot</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>diskEncryptionSetId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.EncryptionType">
-EncryptionType
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of key used to encrypt the data of the disk.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.Encryption_STATUS">Encryption_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
-</p>
-<div>
-<p>Encryption at rest settings for disk or snapshot</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>diskEncryptionSetId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.EncryptionType_STATUS">
-EncryptionType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of key used to encrypt the data of the disk.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.Encryption_STATUS_ARM">Encryption_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">SnapshotProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>Encryption at rest settings for disk or snapshot</p>
@@ -4161,7 +2820,7 @@ ExtendedLocationType
 <h3 id="compute.azure.com/v1api20200930.ExtendedLocationType">ExtendedLocationType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.ExtendedLocation">ExtendedLocation</a>, <a href="#compute.azure.com/v1api20200930.ExtendedLocation_ARM">ExtendedLocation_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.ExtendedLocation">ExtendedLocation</a>)
 </p>
 <div>
 <p>The type of extendedLocation.</p>
@@ -4180,7 +2839,7 @@ ExtendedLocationType
 <h3 id="compute.azure.com/v1api20200930.ExtendedLocationType_STATUS">ExtendedLocationType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>, <a href="#compute.azure.com/v1api20200930.ExtendedLocation_STATUS_ARM">ExtendedLocation_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>)
 </p>
 <div>
 <p>The type of extendedLocation.</p>
@@ -4196,94 +2855,10 @@ ExtendedLocationType
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.ExtendedLocation_ARM">ExtendedLocation_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_Spec_ARM">Disk_Spec_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_Spec_ARM">Snapshot_Spec_ARM</a>)
-</p>
-<div>
-<p>The complex type of the extended location.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the extended location.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ExtendedLocationType">
-ExtendedLocationType
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of the extended location.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.ExtendedLocation_STATUS">ExtendedLocation_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
-</p>
-<div>
-<p>The complex type of the extended location.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the extended location.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ExtendedLocationType_STATUS">
-ExtendedLocationType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of the extended location.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.ExtendedLocation_STATUS_ARM">ExtendedLocation_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS_ARM">Disk_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_STATUS_ARM">Snapshot_STATUS_ARM</a>)
 </p>
 <div>
 <p>The complex type of the extended location.</p>
@@ -4365,91 +2940,10 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.ImageDiskReference_ARM">ImageDiskReference_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.CreationData_ARM">CreationData_ARM</a>)
-</p>
-<div>
-<p>The source image used for creating the disk.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lun</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Lun: If the disk is created from an image&rsquo;s data disk, this is an index that indicates which of the data disks in the
-image to use. For OS disks, this field is null.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.ImageDiskReference_STATUS">ImageDiskReference_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.CreationData_STATUS">CreationData_STATUS</a>)
-</p>
-<div>
-<p>The source image used for creating the disk.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: A relative uri containing either a Platform Image Repository or user image reference.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lun</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Lun: If the disk is created from an image&rsquo;s data disk, this is an index that indicates which of the data disks in the
-image to use. For OS disks, this field is null.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.ImageDiskReference_STATUS_ARM">ImageDiskReference_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.CreationData_STATUS_ARM">CreationData_STATUS_ARM</a>)
 </p>
 <div>
 <p>The source image used for creating the disk.</p>
@@ -4529,48 +3023,6 @@ SourceVault
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.KeyVaultAndKeyReference_ARM">KeyVaultAndKeyReference_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.EncryptionSettingsElement_ARM">EncryptionSettingsElement_ARM</a>)
-</p>
-<div>
-<p>Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyUrl: Url pointing to a key or secret in KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVault</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SourceVault_ARM">
-SourceVault_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.KeyVaultAndKeyReference_STATUS">KeyVaultAndKeyReference_STATUS
 </h3>
 <p>
@@ -4604,48 +3056,6 @@ string
 <em>
 <a href="#compute.azure.com/v1api20200930.SourceVault_STATUS">
 SourceVault_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.KeyVaultAndKeyReference_STATUS_ARM">KeyVaultAndKeyReference_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.EncryptionSettingsElement_STATUS_ARM">EncryptionSettingsElement_STATUS_ARM</a>)
-</p>
-<div>
-<p>Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyUrl: Url pointing to a key or secret in KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVault</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SourceVault_STATUS_ARM">
-SourceVault_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4697,48 +3107,6 @@ SourceVault
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.KeyVaultAndSecretReference_ARM">KeyVaultAndSecretReference_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.EncryptionSettingsElement_ARM">EncryptionSettingsElement_ARM</a>)
-</p>
-<div>
-<p>Key Vault Secret Url and vault id of the encryption key</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>secretUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SecretUrl: Url pointing to a key or secret in KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVault</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SourceVault_ARM">
-SourceVault_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.KeyVaultAndSecretReference_STATUS">KeyVaultAndSecretReference_STATUS
 </h3>
 <p>
@@ -4781,52 +3149,10 @@ SourceVault_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.KeyVaultAndSecretReference_STATUS_ARM">KeyVaultAndSecretReference_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.EncryptionSettingsElement_STATUS_ARM">EncryptionSettingsElement_STATUS_ARM</a>)
-</p>
-<div>
-<p>Key Vault Secret Url and vault id of the encryption key</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>secretUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SecretUrl: Url pointing to a key or secret in KeyVault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVault</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SourceVault_STATUS_ARM">
-SourceVault_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.NetworkAccessPolicy">NetworkAccessPolicy
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_ARM">DiskProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.Disk_Spec">Disk_Spec</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_ARM">SnapshotProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_Spec">Disk_Spec</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec</a>)
 </p>
 <div>
 <p>Policy for accessing the disk via network.</p>
@@ -4849,7 +3175,7 @@ SourceVault_STATUS_ARM
 <h3 id="compute.azure.com/v1api20200930.NetworkAccessPolicy_STATUS">NetworkAccessPolicy_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">SnapshotProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
 </p>
 <div>
 <p>Policy for accessing the disk via network.</p>
@@ -4873,69 +3199,6 @@ SourceVault_STATUS_ARM
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_Spec">Disk_Spec</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec</a>)
-</p>
-<div>
-<p>Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The plan ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>product</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
-imageReference element.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>promotionCode</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PromotionCode: The Offer Promotion Code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publisher</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Publisher: The publisher ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.PurchasePlan_ARM">PurchasePlan_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_ARM">DiskProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_ARM">SnapshotProperties_ARM</a>)
 </p>
 <div>
 <p>Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.</p>
@@ -5058,101 +3321,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.PurchasePlan_STATUS_ARM">PurchasePlan_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">SnapshotProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The plan ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>product</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
-imageReference element.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>promotionCode</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PromotionCode: The Offer Promotion Code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publisher</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Publisher: The publisher ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.ShareInfoElement_STATUS">ShareInfoElement_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Disk_STATUS">Disk_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>vmUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VmUri: A relative URI containing the ID of the VM that has the disk attached.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.ShareInfoElement_STATUS_ARM">ShareInfoElement_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.DiskProperties_STATUS_ARM">DiskProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5455,168 +3627,10 @@ Snapshot_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.SnapshotProperties_ARM">SnapshotProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_Spec_ARM">Snapshot_Spec_ARM</a>)
-</p>
-<div>
-<p>Snapshot resource properties.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.CreationData_ARM">
-CreationData_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskAccessId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskState</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskState">
-DiskState
-</a>
-</em>
-</td>
-<td>
-<p>DiskState: The state of the snapshot.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.Encryption_ARM">
-Encryption_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionSettingsCollection</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.EncryptionSettingsCollection_ARM">
-EncryptionSettingsCollection_ARM
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
-encryption settings per disk or snapshot.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hyperVGeneration</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotProperties_HyperVGeneration">
-SnapshotProperties_HyperVGeneration
-</a>
-</em>
-</td>
-<td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>incremental</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-snapshots and can be diffed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkAccessPolicy</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.NetworkAccessPolicy">
-NetworkAccessPolicy
-</a>
-</em>
-</td>
-<td>
-<p>NetworkAccessPolicy: Policy for accessing the disk via network.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotProperties_OsType">
-SnapshotProperties_OsType
-</a>
-</em>
-</td>
-<td>
-<p>OsType: The Operating System type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purchasePlan</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.PurchasePlan_ARM">
-PurchasePlan_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.SnapshotProperties_HyperVGeneration">SnapshotProperties_HyperVGeneration
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.SnapshotProperties_ARM">SnapshotProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec</a>)
 </p>
 <div>
 </div>
@@ -5636,7 +3650,7 @@ PurchasePlan_ARM
 <h3 id="compute.azure.com/v1api20200930.SnapshotProperties_HyperVGeneration_STATUS">SnapshotProperties_HyperVGeneration_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">SnapshotProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
 </p>
 <div>
 </div>
@@ -5656,7 +3670,7 @@ PurchasePlan_ARM
 <h3 id="compute.azure.com/v1api20200930.SnapshotProperties_OsType">SnapshotProperties_OsType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.SnapshotProperties_ARM">SnapshotProperties_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec</a>)
 </p>
 <div>
 </div>
@@ -5676,7 +3690,7 @@ PurchasePlan_ARM
 <h3 id="compute.azure.com/v1api20200930.SnapshotProperties_OsType_STATUS">SnapshotProperties_OsType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">SnapshotProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
 </p>
 <div>
 </div>
@@ -5692,209 +3706,6 @@ PurchasePlan_ARM
 </tr><tr><td><p>&#34;Windows&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">SnapshotProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_STATUS_ARM">Snapshot_STATUS_ARM</a>)
-</p>
-<div>
-<p>Snapshot resource properties.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>creationData</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.CreationData_STATUS_ARM">
-CreationData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskAccessId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeBytes</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskSizeBytes: The size of the disk in bytes. This field is read only.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskState</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.DiskState_STATUS">
-DiskState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>DiskState: The state of the snapshot.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.Encryption_STATUS_ARM">
-Encryption_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionSettingsCollection</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.EncryptionSettingsCollection_STATUS_ARM">
-EncryptionSettingsCollection_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
-encryption settings per disk or snapshot.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hyperVGeneration</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotProperties_HyperVGeneration_STATUS">
-SnapshotProperties_HyperVGeneration_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>incremental</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-snapshots and can be diffed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkAccessPolicy</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.NetworkAccessPolicy_STATUS">
-NetworkAccessPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>NetworkAccessPolicy: Policy for accessing the disk via network.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotProperties_OsType_STATUS">
-SnapshotProperties_OsType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>OsType: The Operating System type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: The disk provisioning state.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>purchasePlan</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.PurchasePlan_STATUS_ARM">
-PurchasePlan_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timeCreated</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TimeCreated: The time when the snapshot was created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>uniqueId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>UniqueId: Unique Guid identifying the resource.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="compute.azure.com/v1api20200930.SnapshotSku">SnapshotSku
 </h3>
@@ -5928,42 +3739,10 @@ SnapshotSku_Name
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.SnapshotSku_ARM">SnapshotSku_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_Spec_ARM">Snapshot_Spec_ARM</a>)
-</p>
-<div>
-<p>The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
-snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotSku_Name">
-SnapshotSku_Name
-</a>
-</em>
-</td>
-<td>
-<p>Name: The sku name.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.SnapshotSku_Name">SnapshotSku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.SnapshotSku">SnapshotSku</a>, <a href="#compute.azure.com/v1api20200930.SnapshotSku_ARM">SnapshotSku_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.SnapshotSku">SnapshotSku</a>)
 </p>
 <div>
 </div>
@@ -5985,7 +3764,7 @@ SnapshotSku_Name
 <h3 id="compute.azure.com/v1api20200930.SnapshotSku_Name_STATUS">SnapshotSku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.SnapshotSku_STATUS">SnapshotSku_STATUS</a>, <a href="#compute.azure.com/v1api20200930.SnapshotSku_STATUS_ARM">SnapshotSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.SnapshotSku_STATUS">SnapshotSku_STATUS</a>)
 </p>
 <div>
 </div>
@@ -6008,49 +3787,6 @@ SnapshotSku_Name
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_STATUS">Snapshot_STATUS</a>)
-</p>
-<div>
-<p>The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
-snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotSku_Name_STATUS">
-SnapshotSku_Name_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Name: The sku name.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Tier: The sku tier.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.SnapshotSku_STATUS_ARM">SnapshotSku_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.Snapshot_STATUS_ARM">Snapshot_STATUS_ARM</a>)
 </p>
 <div>
 <p>The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
@@ -6399,127 +4135,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.Snapshot_STATUS_ARM">Snapshot_STATUS_ARM
-</h3>
-<div>
-<p>Snapshot resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ExtendedLocation_STATUS_ARM">
-ExtendedLocation_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ManagedBy: Unused. Always Null.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Resource name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotProperties_STATUS_ARM">
-SnapshotProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Snapshot resource properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotSku_STATUS_ARM">
-SnapshotSku_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Resource type</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.Snapshot_Spec">Snapshot_Spec
 </h3>
 <p>
@@ -6756,92 +4371,6 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.Snapshot_Spec_ARM">Snapshot_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.ExtendedLocation_ARM">
-ExtendedLocation_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotProperties_ARM">
-SnapshotProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Snapshot resource properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20200930.SnapshotSku_ARM">
-SnapshotSku_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.SourceVault">SourceVault
 </h3>
 <p>
@@ -6874,69 +4403,10 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20200930.SourceVault_ARM">SourceVault_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.KeyVaultAndKeyReference_ARM">KeyVaultAndKeyReference_ARM</a>, <a href="#compute.azure.com/v1api20200930.KeyVaultAndSecretReference_ARM">KeyVaultAndSecretReference_ARM</a>)
-</p>
-<div>
-<p>The vault id is an Azure Resource Manager Resource id in the form
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20200930.SourceVault_STATUS">SourceVault_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.KeyVaultAndKeyReference_STATUS">KeyVaultAndKeyReference_STATUS</a>, <a href="#compute.azure.com/v1api20200930.KeyVaultAndSecretReference_STATUS">KeyVaultAndSecretReference_STATUS</a>)
-</p>
-<div>
-<p>The vault id is an Azure Resource Manager Resource id in the form
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20200930.SourceVault_STATUS_ARM">SourceVault_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20200930.KeyVaultAndKeyReference_STATUS_ARM">KeyVaultAndKeyReference_STATUS_ARM</a>, <a href="#compute.azure.com/v1api20200930.KeyVaultAndSecretReference_STATUS_ARM">KeyVaultAndSecretReference_STATUS_ARM</a>)
 </p>
 <div>
 <p>The vault id is an Azure Resource Manager Resource id in the form

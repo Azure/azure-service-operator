@@ -515,8 +515,8 @@ ConfigurationStoreOperatorSecrets
 &lt;td&gt;
 &lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode&#34;&gt;
-ConfigurationStoreProperties_CreateMode
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_ARM&#34;&gt;
+ConfigurationStoreProperties_CreateMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -563,8 +563,8 @@ EncryptionProperties_ARM
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess&#34;&gt;
-ConfigurationStoreProperties_PublicNetworkAccess
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_ARM&#34;&gt;
+ConfigurationStoreProperties_PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -590,7 +590,27 @@ deleted.&lt;/p&gt;
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode&#34;&gt;ConfigurationStoreProperties_CreateMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ARM&#34;&gt;ConfigurationStoreProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec&#34;&gt;ConfigurationStore_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec&#34;&gt;ConfigurationStore_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Recover&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_ARM&#34;&gt;ConfigurationStoreProperties_CreateMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ARM&#34;&gt;ConfigurationStoreProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -610,7 +630,27 @@ deleted.&lt;/p&gt;
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_STATUS&#34;&gt;ConfigurationStoreProperties_CreateMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM&#34;&gt;ConfigurationStoreProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS&#34;&gt;ConfigurationStore_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS&#34;&gt;ConfigurationStore_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Recover&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_STATUS_ARM&#34;&gt;ConfigurationStoreProperties_CreateMode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM&#34;&gt;ConfigurationStoreProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -630,7 +670,35 @@ deleted.&lt;/p&gt;
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ProvisioningState_STATUS&#34;&gt;ConfigurationStoreProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM&#34;&gt;ConfigurationStoreProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS&#34;&gt;ConfigurationStore_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS&#34;&gt;ConfigurationStore_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ProvisioningState_STATUS_ARM&#34;&gt;ConfigurationStoreProperties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM&#34;&gt;ConfigurationStoreProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -658,7 +726,27 @@ deleted.&lt;/p&gt;
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess&#34;&gt;ConfigurationStoreProperties_PublicNetworkAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ARM&#34;&gt;ConfigurationStoreProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec&#34;&gt;ConfigurationStore_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_Spec&#34;&gt;ConfigurationStore_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_ARM&#34;&gt;ConfigurationStoreProperties_PublicNetworkAccess_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ARM&#34;&gt;ConfigurationStoreProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -678,7 +766,27 @@ deleted.&lt;/p&gt;
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_STATUS&#34;&gt;ConfigurationStoreProperties_PublicNetworkAccess_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM&#34;&gt;ConfigurationStoreProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS&#34;&gt;ConfigurationStore_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStore_STATUS&#34;&gt;ConfigurationStore_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_STATUS_ARM&#34;&gt;ConfigurationStoreProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -715,8 +823,8 @@ deleted.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_STATUS&#34;&gt;
-ConfigurationStoreProperties_CreateMode_STATUS
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_CreateMode_STATUS_ARM&#34;&gt;
+ConfigurationStoreProperties_CreateMode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -798,8 +906,8 @@ string
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ProvisioningState_STATUS&#34;&gt;
-ConfigurationStoreProperties_ProvisioningState_STATUS
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_ProvisioningState_STATUS_ARM&#34;&gt;
+ConfigurationStoreProperties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -811,8 +919,8 @@ ConfigurationStoreProperties_ProvisioningState_STATUS
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_STATUS&#34;&gt;
-ConfigurationStoreProperties_PublicNetworkAccess_STATUS
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;
+ConfigurationStoreProperties_PublicNetworkAccess_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1908,8 +2016,8 @@ dictionary keys will be ARM resource ids in the form:
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type&#34;&gt;
-ResourceIdentity_Type
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_ARM&#34;&gt;
+ResourceIdentity_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2045,8 +2153,8 @@ system-assigned identity.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_STATUS&#34;&gt;
-ResourceIdentity_Type_STATUS
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_STATUS_ARM&#34;&gt;
+ResourceIdentity_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2075,7 +2183,31 @@ dictionary keys will be ARM resource ids in the form:
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type&#34;&gt;ResourceIdentity_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity&#34;&gt;ResourceIdentity&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_ARM&#34;&gt;ResourceIdentity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity&#34;&gt;ResourceIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_ARM&#34;&gt;ResourceIdentity_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_ARM&#34;&gt;ResourceIdentity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2099,7 +2231,31 @@ dictionary keys will be ARM resource ids in the form:
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_STATUS&#34;&gt;ResourceIdentity_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS&#34;&gt;ResourceIdentity_STATUS&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS_ARM&#34;&gt;ResourceIdentity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS&#34;&gt;ResourceIdentity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.ResourceIdentity_Type_STATUS_ARM&#34;&gt;ResourceIdentity_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.ResourceIdentity_STATUS_ARM&#34;&gt;ResourceIdentity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2366,8 +2522,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType&#34;&gt;
-SystemData_CreatedByType
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_ARM&#34;&gt;
+SystemData_CreatedByType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2401,8 +2557,8 @@ string
 &lt;td&gt;
 &lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType&#34;&gt;
-SystemData_LastModifiedByType
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_ARM&#34;&gt;
+SystemData_LastModifiedByType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2415,7 +2571,31 @@ SystemData_LastModifiedByType
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType&#34;&gt;SystemData_CreatedByType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData&#34;&gt;SystemData&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_ARM&#34;&gt;SystemData_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData&#34;&gt;SystemData&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_ARM&#34;&gt;SystemData_CreatedByType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_ARM&#34;&gt;SystemData_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2439,7 +2619,31 @@ SystemData_LastModifiedByType
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_STATUS&#34;&gt;SystemData_CreatedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_STATUS_ARM&#34;&gt;SystemData_CreatedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2463,7 +2667,31 @@ SystemData_LastModifiedByType
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType&#34;&gt;SystemData_LastModifiedByType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData&#34;&gt;SystemData&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_ARM&#34;&gt;SystemData_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData&#34;&gt;SystemData&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_ARM&#34;&gt;SystemData_LastModifiedByType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_ARM&#34;&gt;SystemData_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2487,7 +2715,31 @@ SystemData_LastModifiedByType
 &lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_STATUS&#34;&gt;SystemData_LastModifiedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;SystemData_LastModifiedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2638,8 +2890,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_STATUS&#34;&gt;
-SystemData_CreatedByType_STATUS
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_CreatedByType_STATUS_ARM&#34;&gt;
+SystemData_CreatedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2673,8 +2925,8 @@ string
 &lt;td&gt;
 &lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_STATUS&#34;&gt;
-SystemData_LastModifiedByType_STATUS
+&lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;
+SystemData_LastModifiedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

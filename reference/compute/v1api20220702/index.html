@@ -42,7 +42,7 @@
     Field Description      code  string    Code: The error code.
     message  string    Message: The error message.">
 
-<meta itemprop="wordCount" content="2425">
+<meta itemprop="wordCount" content="1457">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="compute.azure.com/v1api20220702"/>
 <meta name="twitter:description" content="compute.azure.com/v1api20220702  Package v1api20220702 contains API Schema definitions for the compute v1api20220702 API group
@@ -287,6 +287,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -472,6 +474,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -507,6 +511,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -854,57 +860,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.ApiErrorBase_STATUS_ARM">ApiErrorBase_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.ApiError_STATUS_ARM">ApiError_STATUS_ARM</a>)
-</p>
-<div>
-<p>Api error base.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Code: The error code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Message: The error message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>target</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Target: The target of the particular error.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20220702.ApiError_STATUS">ApiError_STATUS
 </h3>
 <p>
@@ -951,83 +906,6 @@ string
 <em>
 <a href="#compute.azure.com/v1api20220702.InnerError_STATUS">
 InnerError_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Innererror: The Api inner error</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Message: The error message.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>target</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Target: The target of the particular error.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.ApiError_STATUS_ARM">ApiError_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetProperties_STATUS_ARM">EncryptionSetProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Api error.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>code</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Code: The error code.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>details</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.ApiErrorBase_STATUS_ARM">
-[]ApiErrorBase_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Details: The Api error details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>innererror</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.InnerError_STATUS_ARM">
-InnerError_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1248,7 +1126,7 @@ DiskEncryptionSet_STATUS
 <h3 id="compute.azure.com/v1api20220702.DiskEncryptionSetType">DiskEncryptionSetType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>, <a href="#compute.azure.com/v1api20220702.EncryptionSetProperties_ARM">EncryptionSetProperties_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">DiskEncryptionSet_Spec</a>)
 </p>
 <div>
 <p>The type of key used to encrypt the data of the disk.</p>
@@ -1271,7 +1149,7 @@ DiskEncryptionSet_STATUS
 <h3 id="compute.azure.com/v1api20220702.DiskEncryptionSetType_STATUS">DiskEncryptionSetType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>, <a href="#compute.azure.com/v1api20220702.EncryptionSetProperties_STATUS_ARM">EncryptionSetProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS">DiskEncryptionSet_STATUS</a>)
 </p>
 <div>
 <p>The type of key used to encrypt the data of the disk.</p>
@@ -1491,102 +1369,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS_ARM">DiskEncryptionSet_STATUS_ARM
-</h3>
-<div>
-<p>disk encryption set resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS_ARM">
-EncryptionSetIdentity_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-be used  to encrypt disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Resource name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetProperties_STATUS_ARM">
-EncryptionSetProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Resource type</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20220702.DiskEncryptionSet_Spec">DiskEncryptionSet_Spec
 </h3>
 <p>
@@ -1731,78 +1513,6 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.DiskEncryptionSet_Spec_ARM">DiskEncryptionSet_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_ARM">
-EncryptionSetIdentity_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-be used  to encrypt disks.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Resource location</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetProperties_ARM">
-EncryptionSetProperties_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity">EncryptionSetIdentity
 </h3>
 <p>
@@ -1848,52 +1558,6 @@ Directory tenant; it will cause the encrypted resources to lose access to the ke
 <p>UserAssignedIdentities: The list of user identities associated with the disk encryption set. The user identity
 dictionary key references will be ARM resource ids in the form:
 &lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity_ARM">EncryptionSetIdentity_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec_ARM">DiskEncryptionSet_Spec_ARM</a>)
-</p>
-<div>
-<p>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used
-to encrypt disks.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_Type">
-EncryptionSetIdentity_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations.
-Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active
-Directory tenant; it will cause the encrypted resources to lose access to the keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.UserAssignedIdentityDetails_ARM">
-map[string]./api/compute/v1api20220702.UserAssignedIdentityDetails_ARM
-</a>
-</em>
-</td>
-<td>
 </td>
 </tr>
 </tbody>
@@ -1971,83 +1635,10 @@ dictionary key references will be ARM resource ids in the form:
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS_ARM">EncryptionSetIdentity_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS_ARM">DiskEncryptionSet_STATUS_ARM</a>)
-</p>
-<div>
-<p>The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used
-to encrypt disks.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the
-x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the
-x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_Type_STATUS">
-EncryptionSetIdentity_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations.
-Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active
-Directory tenant; it will cause the encrypted resources to lose access to the keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_UserAssignedIdentities_STATUS_ARM">
-map[string]./api/compute/v1api20220702.EncryptionSetIdentity_UserAssignedIdentities_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: The list of user identities associated with the disk encryption set. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity_Type">EncryptionSetIdentity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity">EncryptionSetIdentity</a>, <a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_ARM">EncryptionSetIdentity_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity">EncryptionSetIdentity</a>)
 </p>
 <div>
 </div>
@@ -2071,7 +1662,7 @@ dictionary key references will be ARM resource ids in the form:
 <h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity_Type_STATUS">EncryptionSetIdentity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a>, <a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS_ARM">EncryptionSetIdentity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS">EncryptionSetIdentity_STATUS</a>)
 </p>
 <div>
 </div>
@@ -2131,273 +1722,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetIdentity_UserAssignedIdentities_STATUS_ARM">EncryptionSetIdentity_UserAssignedIdentities_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_STATUS_ARM">EncryptionSetIdentity_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: The client id of user assigned identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetProperties_ARM">EncryptionSetProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_Spec_ARM">DiskEncryptionSet_Spec_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>activeKey</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_ARM">
-KeyForDiskEncryptionSet_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ActiveKey: The key vault key which is currently used by this disk encryption set.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionType</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.DiskEncryptionSetType">
-DiskEncryptionSetType
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionType: The type of key used to encrypt the data of the disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>federatedClientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FederatedClientId: Multi-tenant application client id to access key vault in a different tenant. Setting the value to
-&lsquo;None&rsquo; will clear the property.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rotationToLatestKeyVersionEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RotationToLatestKeyVersionEnabled: Set this flag to true to enable auto-updating of this disk encryption set to the
-latest key version.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.EncryptionSetProperties_STATUS_ARM">EncryptionSetProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.DiskEncryptionSet_STATUS_ARM">DiskEncryptionSet_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>activeKey</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS_ARM">
-KeyForDiskEncryptionSet_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ActiveKey: The key vault key which is currently used by this disk encryption set.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>autoKeyRotationError</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.ApiError_STATUS_ARM">
-ApiError_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AutoKeyRotationError: The error that was encountered during auto-key rotation. If an error is present, then auto-key
-rotation will not be attempted until the error on this disk encryption set is fixed.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryptionType</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.DiskEncryptionSetType_STATUS">
-DiskEncryptionSetType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>EncryptionType: The type of key used to encrypt the data of the disk.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>federatedClientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FederatedClientId: Multi-tenant application client id to access key vault in a different tenant. Setting the value to
-&lsquo;None&rsquo; will clear the property.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastKeyRotationTimestamp</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastKeyRotationTimestamp: The time when the active key of this disk encryption set was updated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>previousKeys</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS_ARM">
-[]KeyForDiskEncryptionSet_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PreviousKeys: A readonly collection of key vault keys previously used by this disk encryption set while a key rotation
-is in progress. It will be empty if there is no ongoing key rotation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ProvisioningState: The disk encryption set provisioning state.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>rotationToLatestKeyVersionEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>RotationToLatestKeyVersionEnabled: Set this flag to true to enable auto-updating of this disk encryption set to the
-latest key version.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20220702.InnerError_STATUS">InnerError_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.ApiError_STATUS">ApiError_STATUS</a>)
-</p>
-<div>
-<p>Inner error details.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>errordetail</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Errordetail: The internal error message or exception dump.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>exceptiontype</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Exceptiontype: The exception type.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.InnerError_STATUS_ARM">InnerError_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.ApiError_STATUS_ARM">ApiError_STATUS_ARM</a>)
 </p>
 <div>
 <p>Inner error details.</p>
@@ -2492,50 +1820,6 @@ the KeyVault subscription is not the same as the Disk Encryption Set subscriptio
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_ARM">KeyForDiskEncryptionSet_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetProperties_ARM">EncryptionSetProperties_ARM</a>)
-</p>
-<div>
-<p>Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyUrl: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of
-rotationToLatestKeyVersionEnabled value.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVault</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.SourceVault_ARM">
-SourceVault_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if
-the KeyVault subscription is not the same as the Disk Encryption Set subscription.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS
 </h3>
 <p>
@@ -2580,50 +1864,6 @@ the KeyVault subscription is not the same as the Disk Encryption Set subscriptio
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS_ARM">KeyForDiskEncryptionSet_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetProperties_STATUS_ARM">EncryptionSetProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyUrl: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of
-rotationToLatestKeyVersionEnabled value.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVault</code><br/>
-<em>
-<a href="#compute.azure.com/v1api20220702.SourceVault_STATUS_ARM">
-SourceVault_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if
-the KeyVault subscription is not the same as the Disk Encryption Set subscription.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20220702.SourceVault">SourceVault
 </h3>
 <p>
@@ -2656,69 +1896,10 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.SourceVault_ARM">SourceVault_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_ARM">KeyForDiskEncryptionSet_ARM</a>)
-</p>
-<div>
-<p>The vault id is an Azure Resource Manager Resource id in the form
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="compute.azure.com/v1api20220702.SourceVault_STATUS">SourceVault_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS">KeyForDiskEncryptionSet_STATUS</a>)
-</p>
-<div>
-<p>The vault id is an Azure Resource Manager Resource id in the form
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource Id</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1api20220702.SourceVault_STATUS_ARM">SourceVault_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.KeyForDiskEncryptionSet_STATUS_ARM">KeyForDiskEncryptionSet_STATUS_ARM</a>)
 </p>
 <div>
 <p>The vault id is an Azure Resource Manager Resource id in the form
@@ -2775,14 +1956,6 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="compute.azure.com/v1api20220702.UserAssignedIdentityDetails_ARM">UserAssignedIdentityDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1api20220702.EncryptionSetIdentity_ARM">EncryptionSetIdentity_ARM</a>)
-</p>
-<div>
-<p>Information about the user assigned identity for the resource</p>
-</div>
 <hr/>
 
 	

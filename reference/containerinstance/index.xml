@@ -1018,8 +1018,8 @@ container group.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type&#34;&gt;
-ContainerGroupIdentity_Type
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_ARM&#34;&gt;
+ContainerGroupIdentity_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1157,8 +1157,8 @@ identity.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_STATUS&#34;&gt;
-ContainerGroupIdentity_Type_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_STATUS_ARM&#34;&gt;
+ContainerGroupIdentity_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1186,7 +1186,31 @@ map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_A
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type&#34;&gt;ContainerGroupIdentity_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity&#34;&gt;ContainerGroupIdentity&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_ARM&#34;&gt;ContainerGroupIdentity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity&#34;&gt;ContainerGroupIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_ARM&#34;&gt;ContainerGroupIdentity_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_ARM&#34;&gt;ContainerGroupIdentity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1210,7 +1234,31 @@ map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_A
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_STATUS&#34;&gt;ContainerGroupIdentity_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_STATUS&#34;&gt;ContainerGroupIdentity_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_STATUS_ARM&#34;&gt;ContainerGroupIdentity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_STATUS&#34;&gt;ContainerGroupIdentity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_STATUS_ARM&#34;&gt;ContainerGroupIdentity_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_STATUS_ARM&#34;&gt;ContainerGroupIdentity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1234,7 +1282,28 @@ map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_A
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroupSku&#34;&gt;ContainerGroupSku
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM&#34;&gt;ContainerGroup_Properties_Spec_ARM&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec&#34;&gt;ContainerGroup_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec&#34;&gt;ContainerGroup_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The container group SKU.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Dedicated&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroupSku_ARM&#34;&gt;ContainerGroupSku_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM&#34;&gt;ContainerGroup_Properties_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The container group SKU.&lt;/p&gt;
@@ -1255,7 +1324,28 @@ map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_A
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroupSku_STATUS&#34;&gt;ContainerGroupSku_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM&#34;&gt;ContainerGroup_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS&#34;&gt;ContainerGroup_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS&#34;&gt;ContainerGroup_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The container group SKU.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Dedicated&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroupSku_STATUS_ARM&#34;&gt;ContainerGroupSku_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM&#34;&gt;ContainerGroup_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The container group SKU.&lt;/p&gt;
@@ -1519,7 +1609,27 @@ string
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_STATUS&#34;&gt;ContainerGroup_Properties_OsType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM&#34;&gt;ContainerGroup_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS&#34;&gt;ContainerGroup_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS&#34;&gt;ContainerGroup_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Linux&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Windows&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_STATUS_ARM&#34;&gt;ContainerGroup_Properties_OsType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM&#34;&gt;ContainerGroup_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1539,7 +1649,27 @@ string
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_Spec&#34;&gt;ContainerGroup_Properties_OsType_Spec
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM&#34;&gt;ContainerGroup_Properties_Spec_ARM&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec&#34;&gt;ContainerGroup_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec&#34;&gt;ContainerGroup_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Linux&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Windows&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_Spec_ARM&#34;&gt;ContainerGroup_Properties_OsType_Spec_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM&#34;&gt;ContainerGroup_Properties_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1559,7 +1689,29 @@ string
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_STATUS&#34;&gt;ContainerGroup_Properties_RestartPolicy_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM&#34;&gt;ContainerGroup_Properties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS&#34;&gt;ContainerGroup_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS&#34;&gt;ContainerGroup_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Always&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Never&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OnFailure&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_STATUS_ARM&#34;&gt;ContainerGroup_Properties_RestartPolicy_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM&#34;&gt;ContainerGroup_Properties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1581,7 +1733,29 @@ string
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_Spec&#34;&gt;ContainerGroup_Properties_RestartPolicy_Spec
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM&#34;&gt;ContainerGroup_Properties_Spec_ARM&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec&#34;&gt;ContainerGroup_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec&#34;&gt;ContainerGroup_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Always&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Never&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OnFailure&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_Spec_ARM&#34;&gt;ContainerGroup_Properties_RestartPolicy_Spec_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM&#34;&gt;ContainerGroup_Properties_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1723,8 +1897,8 @@ IpAddress_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;osType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_STATUS&#34;&gt;
-ContainerGroup_Properties_OsType_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_STATUS_ARM&#34;&gt;
+ContainerGroup_Properties_OsType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1747,8 +1921,8 @@ string
 &lt;td&gt;
 &lt;code&gt;restartPolicy&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_STATUS&#34;&gt;
-ContainerGroup_Properties_RestartPolicy_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_STATUS_ARM&#34;&gt;
+ContainerGroup_Properties_RestartPolicy_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1763,8 +1937,8 @@ ContainerGroup_Properties_RestartPolicy_STATUS
 &lt;td&gt;
 &lt;code&gt;sku&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupSku_STATUS&#34;&gt;
-ContainerGroupSku_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupSku_STATUS_ARM&#34;&gt;
+ContainerGroupSku_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1910,8 +2084,8 @@ IpAddress_ARM
 &lt;td&gt;
 &lt;code&gt;osType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_Spec&#34;&gt;
-ContainerGroup_Properties_OsType_Spec
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_Spec_ARM&#34;&gt;
+ContainerGroup_Properties_OsType_Spec_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1923,8 +2097,8 @@ ContainerGroup_Properties_OsType_Spec
 &lt;td&gt;
 &lt;code&gt;restartPolicy&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_Spec&#34;&gt;
-ContainerGroup_Properties_RestartPolicy_Spec
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_Spec_ARM&#34;&gt;
+ContainerGroup_Properties_RestartPolicy_Spec_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1939,8 +2113,8 @@ ContainerGroup_Properties_RestartPolicy_Spec
 &lt;td&gt;
 &lt;code&gt;sku&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupSku&#34;&gt;
-ContainerGroupSku
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerGroupSku_ARM&#34;&gt;
+ContainerGroupSku_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2829,8 +3003,8 @@ int
 &lt;td&gt;
 &lt;code&gt;scheme&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme&#34;&gt;
-ContainerHttpGet_Scheme
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_ARM&#34;&gt;
+ContainerHttpGet_Scheme_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2961,8 +3135,8 @@ int
 &lt;td&gt;
 &lt;code&gt;scheme&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_STATUS&#34;&gt;
-ContainerHttpGet_Scheme_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_STATUS_ARM&#34;&gt;
+ContainerHttpGet_Scheme_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2975,7 +3149,27 @@ ContainerHttpGet_Scheme_STATUS
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme&#34;&gt;ContainerHttpGet_Scheme
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet&#34;&gt;ContainerHttpGet&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_ARM&#34;&gt;ContainerHttpGet_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet&#34;&gt;ContainerHttpGet&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;http&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;https&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_ARM&#34;&gt;ContainerHttpGet_Scheme_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_ARM&#34;&gt;ContainerHttpGet_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2995,7 +3189,27 @@ ContainerHttpGet_Scheme_STATUS
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_STATUS&#34;&gt;ContainerHttpGet_Scheme_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_STATUS&#34;&gt;ContainerHttpGet_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_STATUS_ARM&#34;&gt;ContainerHttpGet_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_STATUS&#34;&gt;ContainerHttpGet_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;http&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;https&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_STATUS_ARM&#34;&gt;ContainerHttpGet_Scheme_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerHttpGet_STATUS_ARM&#34;&gt;ContainerHttpGet_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3085,8 +3299,8 @@ int
 &lt;td&gt;
 &lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_Protocol&#34;&gt;
-ContainerPort_Protocol
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_ARM&#34;&gt;
+ContainerPort_Protocol_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3099,7 +3313,27 @@ ContainerPort_Protocol
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerPort_Protocol&#34;&gt;ContainerPort_Protocol
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort&#34;&gt;ContainerPort&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_ARM&#34;&gt;ContainerPort_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort&#34;&gt;ContainerPort&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TCP&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UDP&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_ARM&#34;&gt;ContainerPort_Protocol_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_ARM&#34;&gt;ContainerPort_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3119,7 +3353,27 @@ ContainerPort_Protocol
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_STATUS&#34;&gt;ContainerPort_Protocol_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_STATUS&#34;&gt;ContainerPort_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_STATUS_ARM&#34;&gt;ContainerPort_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_STATUS&#34;&gt;ContainerPort_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TCP&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UDP&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_STATUS_ARM&#34;&gt;ContainerPort_Protocol_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_STATUS_ARM&#34;&gt;ContainerPort_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3209,8 +3463,8 @@ int
 &lt;td&gt;
 &lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_STATUS&#34;&gt;
-ContainerPort_Protocol_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_STATUS_ARM&#34;&gt;
+ContainerPort_Protocol_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5416,8 +5670,8 @@ int
 &lt;td&gt;
 &lt;code&gt;sku&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_Sku&#34;&gt;
-GpuResource_Sku
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_Sku_ARM&#34;&gt;
+GpuResource_Sku_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5500,8 +5754,8 @@ int
 &lt;td&gt;
 &lt;code&gt;sku&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_Sku_STATUS&#34;&gt;
-GpuResource_Sku_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_Sku_STATUS_ARM&#34;&gt;
+GpuResource_Sku_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5514,7 +5768,29 @@ GpuResource_Sku_STATUS
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.GpuResource_Sku&#34;&gt;GpuResource_Sku
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource&#34;&gt;GpuResource&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_ARM&#34;&gt;GpuResource_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource&#34;&gt;GpuResource&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;K80&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;P100&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;V100&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.GpuResource_Sku_ARM&#34;&gt;GpuResource_Sku_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_ARM&#34;&gt;GpuResource_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5536,7 +5812,29 @@ GpuResource_Sku_STATUS
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.GpuResource_Sku_STATUS&#34;&gt;GpuResource_Sku_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_STATUS&#34;&gt;GpuResource_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_STATUS_ARM&#34;&gt;GpuResource_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_STATUS&#34;&gt;GpuResource_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;K80&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;P100&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;V100&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.GpuResource_Sku_STATUS_ARM&#34;&gt;GpuResource_Sku_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.GpuResource_STATUS_ARM&#34;&gt;GpuResource_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6622,8 +6920,8 @@ IpAddress_Type
 &lt;td&gt;
 &lt;code&gt;autoGeneratedDomainNameLabelScope&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope&#34;&gt;
-IpAddress_AutoGeneratedDomainNameLabelScope
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_ARM&#34;&gt;
+IpAddress_AutoGeneratedDomainNameLabelScope_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6676,8 +6974,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_Type&#34;&gt;
-IpAddress_Type
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_Type_ARM&#34;&gt;
+IpAddress_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6690,7 +6988,33 @@ IpAddress_Type
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope&#34;&gt;IpAddress_AutoGeneratedDomainNameLabelScope
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress&#34;&gt;IpAddress&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_ARM&#34;&gt;IpAddress_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress&#34;&gt;IpAddress&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Noreuse&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ResourceGroupReuse&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SubscriptionReuse&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TenantReuse&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Unsecure&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_ARM&#34;&gt;IpAddress_AutoGeneratedDomainNameLabelScope_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_ARM&#34;&gt;IpAddress_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6716,7 +7040,33 @@ IpAddress_Type
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_STATUS&#34;&gt;IpAddress_AutoGeneratedDomainNameLabelScope_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_STATUS&#34;&gt;IpAddress_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_STATUS_ARM&#34;&gt;IpAddress_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_STATUS&#34;&gt;IpAddress_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Noreuse&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ResourceGroupReuse&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SubscriptionReuse&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TenantReuse&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Unsecure&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM&#34;&gt;IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_STATUS_ARM&#34;&gt;IpAddress_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6855,8 +7205,8 @@ IpAddress_Type_STATUS
 &lt;td&gt;
 &lt;code&gt;autoGeneratedDomainNameLabelScope&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_STATUS&#34;&gt;
-IpAddress_AutoGeneratedDomainNameLabelScope_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM&#34;&gt;
+IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6920,8 +7270,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_Type_STATUS&#34;&gt;
-IpAddress_Type_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_Type_STATUS_ARM&#34;&gt;
+IpAddress_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6934,7 +7284,27 @@ IpAddress_Type_STATUS
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.IpAddress_Type&#34;&gt;IpAddress_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress&#34;&gt;IpAddress&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_ARM&#34;&gt;IpAddress_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress&#34;&gt;IpAddress&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Private&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Public&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.IpAddress_Type_ARM&#34;&gt;IpAddress_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_ARM&#34;&gt;IpAddress_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6954,7 +7324,27 @@ IpAddress_Type_STATUS
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.IpAddress_Type_STATUS&#34;&gt;IpAddress_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_STATUS&#34;&gt;IpAddress_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_STATUS_ARM&#34;&gt;IpAddress_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_STATUS&#34;&gt;IpAddress_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Private&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Public&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.IpAddress_Type_STATUS_ARM&#34;&gt;IpAddress_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.IpAddress_STATUS_ARM&#34;&gt;IpAddress_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7070,8 +7460,8 @@ genruntime.ResourceReference
 &lt;td&gt;
 &lt;code&gt;logType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_LogType&#34;&gt;
-LogAnalytics_LogType
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_ARM&#34;&gt;
+LogAnalytics_LogType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7127,7 +7517,27 @@ string
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.LogAnalytics_LogType&#34;&gt;LogAnalytics_LogType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics&#34;&gt;LogAnalytics&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_ARM&#34;&gt;LogAnalytics_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics&#34;&gt;LogAnalytics&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ContainerInsights&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ContainerInstanceLogs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_ARM&#34;&gt;LogAnalytics_LogType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_ARM&#34;&gt;LogAnalytics_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7147,7 +7557,27 @@ string
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_STATUS&#34;&gt;LogAnalytics_LogType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_STATUS&#34;&gt;LogAnalytics_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_STATUS_ARM&#34;&gt;LogAnalytics_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_STATUS&#34;&gt;LogAnalytics_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ContainerInsights&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ContainerInstanceLogs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_STATUS_ARM&#34;&gt;LogAnalytics_LogType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_STATUS_ARM&#34;&gt;LogAnalytics_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7237,8 +7667,8 @@ string
 &lt;td&gt;
 &lt;code&gt;logType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_STATUS&#34;&gt;
-LogAnalytics_LogType_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_STATUS_ARM&#34;&gt;
+LogAnalytics_LogType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7343,8 +7773,8 @@ int
 &lt;td&gt;
 &lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_Protocol&#34;&gt;
-Port_Protocol
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_Protocol_ARM&#34;&gt;
+Port_Protocol_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7357,7 +7787,27 @@ Port_Protocol
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.Port_Protocol&#34;&gt;Port_Protocol
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port&#34;&gt;Port&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_ARM&#34;&gt;Port_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port&#34;&gt;Port&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TCP&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UDP&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.Port_Protocol_ARM&#34;&gt;Port_Protocol_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_ARM&#34;&gt;Port_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7377,7 +7827,27 @@ Port_Protocol
 &lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.Port_Protocol_STATUS&#34;&gt;Port_Protocol_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_STATUS&#34;&gt;Port_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_STATUS_ARM&#34;&gt;Port_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_STATUS&#34;&gt;Port_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TCP&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UDP&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerinstance.azure.com/v1api20211001.Port_Protocol_STATUS_ARM&#34;&gt;Port_Protocol_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_STATUS_ARM&#34;&gt;Port_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7467,8 +7937,8 @@ int
 &lt;td&gt;
 &lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_Protocol_STATUS&#34;&gt;
-Port_Protocol_STATUS
+&lt;a href=&#34;#containerinstance.azure.com/v1api20211001.Port_Protocol_STATUS_ARM&#34;&gt;
+Port_Protocol_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

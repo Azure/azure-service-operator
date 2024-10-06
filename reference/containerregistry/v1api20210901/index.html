@@ -39,7 +39,7 @@
     EncryptionProperty   (Appears on:Registry_Spec)      Field Description      keyVaultProperties  KeyVaultProperties     KeyVaultProperties: Key vault properties.
     status  EncryptionProperty_Status     Status: Indicates whether or not the encryption is enabled for container registry.">
 
-<meta itemprop="wordCount" content="3661">
+<meta itemprop="wordCount" content="3917">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="containerregistry.azure.com/v1api20210901"/>
 <meta name="twitter:description" content="containerregistry.azure.com/v1api20210901  Package v1api20210901 contains API Schema definitions for the containerregistry v1api20210901 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -874,8 +880,8 @@ KeyVaultProperties_ARM
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_Status">
-EncryptionProperty_Status
+<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_Status_ARM">
+EncryptionProperty_Status_ARM
 </a>
 </em>
 </td>
@@ -960,8 +966,8 @@ KeyVaultProperties_STATUS_ARM
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_Status_STATUS">
-EncryptionProperty_Status_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_Status_STATUS_ARM">
+EncryptionProperty_Status_STATUS_ARM
 </a>
 </em>
 </td>
@@ -974,7 +980,27 @@ EncryptionProperty_Status_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty_Status">EncryptionProperty_Status
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty">EncryptionProperty</a>, <a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_ARM">EncryptionProperty_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty">EncryptionProperty</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty_Status_ARM">EncryptionProperty_Status_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_ARM">EncryptionProperty_ARM</a>)
 </p>
 <div>
 </div>
@@ -994,7 +1020,27 @@ EncryptionProperty_Status_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty_Status_STATUS">EncryptionProperty_Status_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS">EncryptionProperty_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS_ARM">EncryptionProperty_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS">EncryptionProperty_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty_Status_STATUS_ARM">EncryptionProperty_Status_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS_ARM">EncryptionProperty_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1062,8 +1108,8 @@ ExportPolicy_Status
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_Status">
-ExportPolicy_Status
+<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_Status_ARM">
+ExportPolicy_Status_ARM
 </a>
 </em>
 </td>
@@ -1124,8 +1170,8 @@ ExportPolicy_Status_STATUS
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_Status_STATUS">
-ExportPolicy_Status_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_Status_STATUS_ARM">
+ExportPolicy_Status_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1138,7 +1184,27 @@ ExportPolicy_Status_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy_Status">ExportPolicy_Status
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.ExportPolicy">ExportPolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_ARM">ExportPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.ExportPolicy">ExportPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy_Status_ARM">ExportPolicy_Status_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_ARM">ExportPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -1158,7 +1224,27 @@ ExportPolicy_Status_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy_Status_STATUS">ExportPolicy_Status_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS">ExportPolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS_ARM">ExportPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS">ExportPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy_Status_STATUS_ARM">ExportPolicy_Status_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS_ARM">ExportPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1237,8 +1323,8 @@ string
 <td>
 <code>action</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule_Action">
-IPRule_Action
+<a href="#containerregistry.azure.com/v1api20210901.IPRule_Action_ARM">
+IPRule_Action_ARM
 </a>
 </em>
 </td>
@@ -1262,7 +1348,25 @@ string
 <h3 id="containerregistry.azure.com/v1api20210901.IPRule_Action">IPRule_Action
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IPRule">IPRule</a>, <a href="#containerregistry.azure.com/v1api20210901.IPRule_ARM">IPRule_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IPRule">IPRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.IPRule_Action_ARM">IPRule_Action_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IPRule_ARM">IPRule_ARM</a>)
 </p>
 <div>
 </div>
@@ -1280,7 +1384,25 @@ string
 <h3 id="containerregistry.azure.com/v1api20210901.IPRule_Action_STATUS">IPRule_Action_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IPRule_STATUS">IPRule_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.IPRule_STATUS_ARM">IPRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IPRule_STATUS">IPRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.IPRule_Action_STATUS_ARM">IPRule_Action_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IPRule_STATUS_ARM">IPRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1357,8 +1479,8 @@ string
 <td>
 <code>action</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule_Action_STATUS">
-IPRule_Action_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.IPRule_Action_STATUS_ARM">
+IPRule_Action_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1490,8 +1612,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_Type">
-IdentityProperties_Type
+<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_Type_ARM">
+IdentityProperties_Type_ARM
 </a>
 </em>
 </td>
@@ -1624,8 +1746,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_Type_STATUS">
-IdentityProperties_Type_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_Type_STATUS_ARM">
+IdentityProperties_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1654,7 +1776,31 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 <h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties_Type">IdentityProperties_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties">IdentityProperties</a>, <a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_ARM">IdentityProperties_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties">IdentityProperties</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties_Type_ARM">IdentityProperties_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_ARM">IdentityProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1678,7 +1824,31 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 <h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties_Type_STATUS">IdentityProperties_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS">IdentityProperties_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS_ARM">IdentityProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS">IdentityProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties_Type_STATUS_ARM">IdentityProperties_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS_ARM">IdentityProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1987,8 +2157,8 @@ NetworkRuleSet_DefaultAction
 <td>
 <code>defaultAction</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction">
-NetworkRuleSet_DefaultAction
+<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction_ARM">
+NetworkRuleSet_DefaultAction_ARM
 </a>
 </em>
 </td>
@@ -2014,7 +2184,27 @@ NetworkRuleSet_DefaultAction
 <h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction">NetworkRuleSet_DefaultAction
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet">NetworkRuleSet</a>, <a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet">NetworkRuleSet</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deny&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction_ARM">NetworkRuleSet_DefaultAction_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
 </p>
 <div>
 </div>
@@ -2034,7 +2224,27 @@ NetworkRuleSet_DefaultAction
 <h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction_STATUS">NetworkRuleSet_DefaultAction_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deny&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction_STATUS_ARM">NetworkRuleSet_DefaultAction_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2115,8 +2325,8 @@ NetworkRuleSet_DefaultAction_STATUS
 <td>
 <code>defaultAction</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction_STATUS">
-NetworkRuleSet_DefaultAction_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction_STATUS_ARM">
+NetworkRuleSet_DefaultAction_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2528,8 +2738,8 @@ QuarantinePolicy_Status
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status">
-QuarantinePolicy_Status
+<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status_ARM">
+QuarantinePolicy_Status_ARM
 </a>
 </em>
 </td>
@@ -2590,8 +2800,8 @@ QuarantinePolicy_Status_STATUS
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status_STATUS">
-QuarantinePolicy_Status_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status_STATUS_ARM">
+QuarantinePolicy_Status_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2604,7 +2814,27 @@ QuarantinePolicy_Status_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status">QuarantinePolicy_Status
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy">QuarantinePolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_ARM">QuarantinePolicy_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy">QuarantinePolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status_ARM">QuarantinePolicy_Status_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_ARM">QuarantinePolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -2624,7 +2854,27 @@ QuarantinePolicy_Status_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status_STATUS">QuarantinePolicy_Status_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS">QuarantinePolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS_ARM">QuarantinePolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS">QuarantinePolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status_STATUS_ARM">QuarantinePolicy_Status_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS_ARM">QuarantinePolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2930,8 +3180,8 @@ EncryptionProperty_ARM
 <td>
 <code>networkRuleBypassOptions</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions">
-RegistryProperties_NetworkRuleBypassOptions
+<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions_ARM">
+RegistryProperties_NetworkRuleBypassOptions_ARM
 </a>
 </em>
 </td>
@@ -2969,8 +3219,8 @@ Policies_ARM
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess">
-RegistryProperties_PublicNetworkAccess
+<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess_ARM">
+RegistryProperties_PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -2982,8 +3232,8 @@ RegistryProperties_PublicNetworkAccess
 <td>
 <code>zoneRedundancy</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy">
-RegistryProperties_ZoneRedundancy
+<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy_ARM">
+RegistryProperties_ZoneRedundancy_ARM
 </a>
 </em>
 </td>
@@ -2996,7 +3246,27 @@ RegistryProperties_ZoneRedundancy
 <h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions">RegistryProperties_NetworkRuleBypassOptions
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions_ARM">RegistryProperties_NetworkRuleBypassOptions_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -3016,7 +3286,27 @@ RegistryProperties_ZoneRedundancy
 <h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions_STATUS">RegistryProperties_NetworkRuleBypassOptions_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM">RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3036,7 +3326,35 @@ RegistryProperties_ZoneRedundancy
 <h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ProvisioningState_STATUS">RegistryProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ProvisioningState_STATUS_ARM">RegistryProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3064,7 +3382,27 @@ RegistryProperties_ZoneRedundancy
 <h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess">RegistryProperties_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess_ARM">RegistryProperties_PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -3084,7 +3422,27 @@ RegistryProperties_ZoneRedundancy
 <h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess_STATUS">RegistryProperties_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess_STATUS_ARM">RegistryProperties_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3189,8 +3547,8 @@ string
 <td>
 <code>networkRuleBypassOptions</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions_STATUS">
-RegistryProperties_NetworkRuleBypassOptions_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM">
+RegistryProperties_NetworkRuleBypassOptions_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3241,8 +3599,8 @@ Policies_STATUS_ARM
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ProvisioningState_STATUS">
-RegistryProperties_ProvisioningState_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ProvisioningState_STATUS_ARM">
+RegistryProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3254,8 +3612,8 @@ RegistryProperties_ProvisioningState_STATUS
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess_STATUS">
-RegistryProperties_PublicNetworkAccess_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess_STATUS_ARM">
+RegistryProperties_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3280,8 +3638,8 @@ Status_STATUS_ARM
 <td>
 <code>zoneRedundancy</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy_STATUS">
-RegistryProperties_ZoneRedundancy_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy_STATUS_ARM">
+RegistryProperties_ZoneRedundancy_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3294,7 +3652,27 @@ RegistryProperties_ZoneRedundancy_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy">RegistryProperties_ZoneRedundancy
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy_ARM">RegistryProperties_ZoneRedundancy_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -3314,7 +3692,27 @@ RegistryProperties_ZoneRedundancy_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy_STATUS">RegistryProperties_ZoneRedundancy_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy_STATUS_ARM">RegistryProperties_ZoneRedundancy_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4100,8 +4498,8 @@ int
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_Status">
-RetentionPolicy_Status
+<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_Status_ARM">
+RetentionPolicy_Status_ARM
 </a>
 </em>
 </td>
@@ -4206,8 +4604,8 @@ string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_Status_STATUS">
-RetentionPolicy_Status_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_Status_STATUS_ARM">
+RetentionPolicy_Status_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4220,7 +4618,27 @@ RetentionPolicy_Status_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy_Status">RetentionPolicy_Status
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy">RetentionPolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_ARM">RetentionPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy">RetentionPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy_Status_ARM">RetentionPolicy_Status_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_ARM">RetentionPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -4240,7 +4658,27 @@ RetentionPolicy_Status_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy_Status_STATUS">RetentionPolicy_Status_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS">RetentionPolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS_ARM">RetentionPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS">RetentionPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy_Status_STATUS_ARM">RetentionPolicy_Status_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS_ARM">RetentionPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4308,8 +4746,8 @@ Sku_Name
 <td>
 <code>name</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_Name">
-Sku_Name
+<a href="#containerregistry.azure.com/v1api20210901.Sku_Name_ARM">
+Sku_Name_ARM
 </a>
 </em>
 </td>
@@ -4322,7 +4760,31 @@ Sku_Name
 <h3 id="containerregistry.azure.com/v1api20210901.Sku_Name">Sku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku">Sku</a>, <a href="#containerregistry.azure.com/v1api20210901.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku">Sku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Classic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.Sku_Name_ARM">Sku_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
 </div>
@@ -4346,7 +4808,31 @@ Sku_Name
 <h3 id="containerregistry.azure.com/v1api20210901.Sku_Name_STATUS">Sku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS">Sku_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Classic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.Sku_Name_STATUS_ARM">Sku_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4431,8 +4917,8 @@ Sku_Tier_STATUS
 <td>
 <code>name</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_Name_STATUS">
-Sku_Name_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.Sku_Name_STATUS_ARM">
+Sku_Name_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4444,8 +4930,8 @@ Sku_Name_STATUS
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_Tier_STATUS">
-Sku_Tier_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.Sku_Tier_STATUS_ARM">
+Sku_Tier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4458,7 +4944,31 @@ Sku_Tier_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.Sku_Tier_STATUS">Sku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS">Sku_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Classic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.Sku_Tier_STATUS_ARM">Sku_Tier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4584,7 +5094,31 @@ string
 <h3 id="containerregistry.azure.com/v1api20210901.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS">SystemData_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4608,7 +5142,31 @@ string
 <h3 id="containerregistry.azure.com/v1api20210901.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS">SystemData_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4759,8 +5317,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4794,8 +5352,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4869,8 +5427,8 @@ TrustPolicy_Type
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Status">
-TrustPolicy_Status
+<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Status_ARM">
+TrustPolicy_Status_ARM
 </a>
 </em>
 </td>
@@ -4882,8 +5440,8 @@ TrustPolicy_Status
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Type">
-TrustPolicy_Type
+<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Type_ARM">
+TrustPolicy_Type_ARM
 </a>
 </em>
 </td>
@@ -4957,8 +5515,8 @@ TrustPolicy_Type_STATUS
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Status_STATUS">
-TrustPolicy_Status_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Status_STATUS_ARM">
+TrustPolicy_Status_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4970,8 +5528,8 @@ TrustPolicy_Status_STATUS
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Type_STATUS">
-TrustPolicy_Type_STATUS
+<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Type_STATUS_ARM">
+TrustPolicy_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4984,7 +5542,27 @@ TrustPolicy_Type_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Status">TrustPolicy_Status
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy">TrustPolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_ARM">TrustPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy">TrustPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Status_ARM">TrustPolicy_Status_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_ARM">TrustPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -5004,7 +5582,27 @@ TrustPolicy_Type_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Status_STATUS">TrustPolicy_Status_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS">TrustPolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS_ARM">TrustPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS">TrustPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Status_STATUS_ARM">TrustPolicy_Status_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS_ARM">TrustPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5024,7 +5622,25 @@ TrustPolicy_Type_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Type">TrustPolicy_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy">TrustPolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_ARM">TrustPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy">TrustPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Notary&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Type_ARM">TrustPolicy_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_ARM">TrustPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -5042,7 +5658,25 @@ TrustPolicy_Type_STATUS
 <h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Type_STATUS">TrustPolicy_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS">TrustPolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS_ARM">TrustPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS">TrustPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Notary&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Type_STATUS_ARM">TrustPolicy_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS_ARM">TrustPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>

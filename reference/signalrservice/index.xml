@@ -32,7 +32,28 @@ Resource Types:
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ACLAction&#34;&gt;ACLAction
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRNetworkACLs&#34;&gt;SignalRNetworkACLs&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRNetworkACLs_ARM&#34;&gt;SignalRNetworkACLs_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRNetworkACLs&#34;&gt;SignalRNetworkACLs&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Azure Networking ACL Action.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deny&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ACLAction_ARM&#34;&gt;ACLAction_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRNetworkACLs_ARM&#34;&gt;SignalRNetworkACLs_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Azure Networking ACL Action.&lt;/p&gt;
@@ -53,7 +74,28 @@ Resource Types:
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ACLAction_STATUS&#34;&gt;ACLAction_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRNetworkACLs_STATUS&#34;&gt;SignalRNetworkACLs_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRNetworkACLs_STATUS_ARM&#34;&gt;SignalRNetworkACLs_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRNetworkACLs_STATUS&#34;&gt;SignalRNetworkACLs_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Azure Networking ACL Action.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deny&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ACLAction_STATUS_ARM&#34;&gt;ACLAction_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRNetworkACLs_STATUS_ARM&#34;&gt;SignalRNetworkACLs_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Azure Networking ACL Action.&lt;/p&gt;
@@ -89,7 +131,44 @@ Resource Types:
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.FeatureFlags&#34;&gt;FeatureFlags
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRFeature&#34;&gt;SignalRFeature&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRFeature_ARM&#34;&gt;SignalRFeature_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRFeature&#34;&gt;SignalRFeature&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;FeatureFlags is the supported features of Azure SignalR service.
+- ServiceMode: Flag for backend server for SignalR
+service. Values allowed: &amp;ldquo;Default&amp;rdquo;: have your own backend server; &amp;ldquo;Serverless&amp;rdquo;: your application doesn&amp;rsquo;t have a backend
+server; &amp;ldquo;Classic&amp;rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended;
+&amp;ldquo;PredefinedOnly&amp;rdquo;: for future use.
+- EnableConnectivityLogs: &amp;ldquo;true&amp;rdquo;/&amp;ldquo;false&amp;rdquo;, to enable/disable the connectivity log
+category respectively.
+- EnableMessagingLogs: &amp;ldquo;true&amp;rdquo;/&amp;ldquo;false&amp;rdquo;, to enable/disable the connectivity log category
+respectively.
+- EnableLiveTrace: Live Trace allows you to know what&amp;rsquo;s happening inside Azure SignalR service, it will
+give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application
+or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+Values allowed: &amp;ldquo;true&amp;rdquo;/&amp;ldquo;false&amp;rdquo;, to enable/disable live trace feature.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EnableConnectivityLogs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EnableLiveTrace&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EnableMessagingLogs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceMode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.FeatureFlags_ARM&#34;&gt;FeatureFlags_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRFeature_ARM&#34;&gt;SignalRFeature_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;FeatureFlags is the supported features of Azure SignalR service.
@@ -126,7 +205,44 @@ Values allowed: &amp;ldquo;true&amp;rdquo;/&amp;ldquo;false&amp;rdquo;, to enabl
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.FeatureFlags_STATUS&#34;&gt;FeatureFlags_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRFeature_STATUS&#34;&gt;SignalRFeature_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRFeature_STATUS_ARM&#34;&gt;SignalRFeature_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRFeature_STATUS&#34;&gt;SignalRFeature_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;FeatureFlags is the supported features of Azure SignalR service.
+- ServiceMode: Flag for backend server for SignalR
+service. Values allowed: &amp;ldquo;Default&amp;rdquo;: have your own backend server; &amp;ldquo;Serverless&amp;rdquo;: your application doesn&amp;rsquo;t have a backend
+server; &amp;ldquo;Classic&amp;rdquo;: for backward compatibility. Support both Default and Serverless mode but not recommended;
+&amp;ldquo;PredefinedOnly&amp;rdquo;: for future use.
+- EnableConnectivityLogs: &amp;ldquo;true&amp;rdquo;/&amp;ldquo;false&amp;rdquo;, to enable/disable the connectivity log
+category respectively.
+- EnableMessagingLogs: &amp;ldquo;true&amp;rdquo;/&amp;ldquo;false&amp;rdquo;, to enable/disable the connectivity log category
+respectively.
+- EnableLiveTrace: Live Trace allows you to know what&amp;rsquo;s happening inside Azure SignalR service, it will
+give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application
+or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+Values allowed: &amp;ldquo;true&amp;rdquo;/&amp;ldquo;false&amp;rdquo;, to enable/disable live trace feature.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EnableConnectivityLogs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EnableLiveTrace&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EnableMessagingLogs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceMode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.FeatureFlags_STATUS_ARM&#34;&gt;FeatureFlags_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRFeature_STATUS_ARM&#34;&gt;SignalRFeature_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;FeatureFlags is the supported features of Azure SignalR service.
@@ -327,7 +443,30 @@ It also appears in the aud (audience) claim of the issued token.&lt;/p&gt;
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ManagedIdentityType&#34;&gt;ManagedIdentityType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentity&#34;&gt;ManagedIdentity&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentity_ARM&#34;&gt;ManagedIdentity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentity&#34;&gt;ManagedIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Represents the identity type: systemAssigned, userAssigned, None&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ManagedIdentityType_ARM&#34;&gt;ManagedIdentityType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentity_ARM&#34;&gt;ManagedIdentity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Represents the identity type: systemAssigned, userAssigned, None&lt;/p&gt;
@@ -350,7 +489,30 @@ It also appears in the aud (audience) claim of the issued token.&lt;/p&gt;
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ManagedIdentityType_STATUS&#34;&gt;ManagedIdentityType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentity_STATUS&#34;&gt;ManagedIdentity_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentity_STATUS_ARM&#34;&gt;ManagedIdentity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentity_STATUS&#34;&gt;ManagedIdentity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Represents the identity type: systemAssigned, userAssigned, None&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ManagedIdentityType_STATUS_ARM&#34;&gt;ManagedIdentityType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentity_STATUS_ARM&#34;&gt;ManagedIdentity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Represents the identity type: systemAssigned, userAssigned, None&lt;/p&gt;
@@ -390,8 +552,8 @@ It also appears in the aud (audience) claim of the issued token.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentityType&#34;&gt;
-ManagedIdentityType
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentityType_ARM&#34;&gt;
+ManagedIdentityType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -525,8 +687,8 @@ Only be used in response&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentityType_STATUS&#34;&gt;
-ManagedIdentityType_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ManagedIdentityType_STATUS_ARM&#34;&gt;
+ManagedIdentityType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -613,8 +775,8 @@ map[string]./api/signalrservice/v1api20211001.UserAssignedIdentityProperty_STATU
 &lt;td&gt;
 &lt;code&gt;allow&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType&#34;&gt;
-[]SignalRRequestType
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_ARM&#34;&gt;
+[]SignalRRequestType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -626,8 +788,8 @@ map[string]./api/signalrservice/v1api20211001.UserAssignedIdentityProperty_STATU
 &lt;td&gt;
 &lt;code&gt;deny&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType&#34;&gt;
-[]SignalRRequestType
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_ARM&#34;&gt;
+[]SignalRRequestType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -701,8 +863,8 @@ map[string]./api/signalrservice/v1api20211001.UserAssignedIdentityProperty_STATU
 &lt;td&gt;
 &lt;code&gt;allow&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS&#34;&gt;
-[]SignalRRequestType_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS_ARM&#34;&gt;
+[]SignalRRequestType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -714,8 +876,8 @@ map[string]./api/signalrservice/v1api20211001.UserAssignedIdentityProperty_STATU
 &lt;td&gt;
 &lt;code&gt;deny&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS&#34;&gt;
-[]SignalRRequestType_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS_ARM&#34;&gt;
+[]SignalRRequestType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -800,8 +962,8 @@ string
 &lt;td&gt;
 &lt;code&gt;allow&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType&#34;&gt;
-[]SignalRRequestType
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_ARM&#34;&gt;
+[]SignalRRequestType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -813,8 +975,8 @@ string
 &lt;td&gt;
 &lt;code&gt;deny&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType&#34;&gt;
-[]SignalRRequestType
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_ARM&#34;&gt;
+[]SignalRRequestType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -910,8 +1072,8 @@ string
 &lt;td&gt;
 &lt;code&gt;allow&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS&#34;&gt;
-[]SignalRRequestType_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS_ARM&#34;&gt;
+[]SignalRRequestType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -923,8 +1085,8 @@ string
 &lt;td&gt;
 &lt;code&gt;deny&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS&#34;&gt;
-[]SignalRRequestType_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS_ARM&#34;&gt;
+[]SignalRRequestType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1006,7 +1168,42 @@ string
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ProvisioningState_STATUS&#34;&gt;ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRProperties_STATUS_ARM&#34;&gt;SignalRProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_STATUS&#34;&gt;SignalR_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_STATUS&#34;&gt;SignalR_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Provisioning state of the resource.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Moving&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Running&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Unknown&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ProvisioningState_STATUS_ARM&#34;&gt;ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRProperties_STATUS_ARM&#34;&gt;SignalRProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Provisioning state of the resource.&lt;/p&gt;
@@ -1442,8 +1639,8 @@ Allowed values: Standard_S1, Free_F1&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;tier&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRSkuTier&#34;&gt;
-SignalRSkuTier
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRSkuTier_ARM&#34;&gt;
+SignalRSkuTier_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1602,8 +1799,8 @@ string
 &lt;td&gt;
 &lt;code&gt;tier&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRSkuTier_STATUS&#34;&gt;
-SignalRSkuTier_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalRSkuTier_STATUS_ARM&#34;&gt;
+SignalRSkuTier_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1741,7 +1938,28 @@ SignalRSkuTier_STATUS
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ServiceKind&#34;&gt;ServiceKind
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_Spec&#34;&gt;SignalR_Spec&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_Spec_ARM&#34;&gt;SignalR_Spec_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_Spec&#34;&gt;SignalR_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The kind of the service, it can be SignalR or RawWebSockets&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RawWebSockets&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SignalR&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ServiceKind_ARM&#34;&gt;ServiceKind_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_Spec_ARM&#34;&gt;SignalR_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The kind of the service, it can be SignalR or RawWebSockets&lt;/p&gt;
@@ -1762,7 +1980,28 @@ SignalRSkuTier_STATUS
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ServiceKind_STATUS&#34;&gt;ServiceKind_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_STATUS&#34;&gt;SignalR_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_STATUS_ARM&#34;&gt;SignalR_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_STATUS&#34;&gt;SignalR_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The kind of the service, it can be SignalR or RawWebSockets&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RawWebSockets&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SignalR&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.ServiceKind_STATUS_ARM&#34;&gt;ServiceKind_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SignalR_STATUS_ARM&#34;&gt;SignalR_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The kind of the service, it can be SignalR or RawWebSockets&lt;/p&gt;
@@ -2323,8 +2562,8 @@ allowed values.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;flag&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.FeatureFlags&#34;&gt;
-FeatureFlags
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.FeatureFlags_ARM&#34;&gt;
+FeatureFlags_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2449,8 +2688,8 @@ allowed values.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;flag&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.FeatureFlags_STATUS&#34;&gt;
-FeatureFlags_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.FeatureFlags_STATUS_ARM&#34;&gt;
+FeatureFlags_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2569,8 +2808,8 @@ NetworkACL
 &lt;td&gt;
 &lt;code&gt;defaultAction&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ACLAction&#34;&gt;
-ACLAction
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ACLAction_ARM&#34;&gt;
+ACLAction_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2683,8 +2922,8 @@ NetworkACL_STATUS
 &lt;td&gt;
 &lt;code&gt;defaultAction&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ACLAction_STATUS&#34;&gt;
-ACLAction_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ACLAction_STATUS_ARM&#34;&gt;
+ACLAction_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3098,8 +3337,8 @@ SignalRNetworkACLs_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ProvisioningState_STATUS&#34;&gt;
-ProvisioningState_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ProvisioningState_STATUS_ARM&#34;&gt;
+ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3210,7 +3449,32 @@ string
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SignalRRequestType&#34;&gt;SignalRRequestType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.NetworkACL&#34;&gt;NetworkACL&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.NetworkACL_ARM&#34;&gt;NetworkACL_ARM&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.PrivateEndpointACL&#34;&gt;PrivateEndpointACL&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.PrivateEndpointACL_ARM&#34;&gt;PrivateEndpointACL_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.NetworkACL&#34;&gt;NetworkACL&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.PrivateEndpointACL&#34;&gt;PrivateEndpointACL&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The incoming request type to the service&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ClientConnection&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RESTAPI&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServerConnection&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Trace&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SignalRRequestType_ARM&#34;&gt;SignalRRequestType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.NetworkACL_ARM&#34;&gt;NetworkACL_ARM&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.PrivateEndpointACL_ARM&#34;&gt;PrivateEndpointACL_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The incoming request type to the service&lt;/p&gt;
@@ -3235,7 +3499,32 @@ string
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS&#34;&gt;SignalRRequestType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.NetworkACL_STATUS&#34;&gt;NetworkACL_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.NetworkACL_STATUS_ARM&#34;&gt;NetworkACL_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.PrivateEndpointACL_STATUS&#34;&gt;PrivateEndpointACL_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.PrivateEndpointACL_STATUS_ARM&#34;&gt;PrivateEndpointACL_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.NetworkACL_STATUS&#34;&gt;NetworkACL_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.PrivateEndpointACL_STATUS&#34;&gt;PrivateEndpointACL_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The incoming request type to the service&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ClientConnection&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RESTAPI&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServerConnection&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Trace&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SignalRRequestType_STATUS_ARM&#34;&gt;SignalRRequestType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.NetworkACL_STATUS_ARM&#34;&gt;NetworkACL_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.PrivateEndpointACL_STATUS_ARM&#34;&gt;PrivateEndpointACL_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The incoming request type to the service&lt;/p&gt;
@@ -3260,7 +3549,33 @@ string
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SignalRSkuTier&#34;&gt;SignalRSkuTier
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ResourceSku&#34;&gt;ResourceSku&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ResourceSku_ARM&#34;&gt;ResourceSku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ResourceSku&#34;&gt;ResourceSku&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Optional tier of this particular SKU. &amp;lsquo;Standard&amp;rsquo; or &amp;lsquo;Free&amp;rsquo;.
+&lt;code&gt;Basic&lt;/code&gt; is deprecated, use &lt;code&gt;Standard&lt;/code&gt; instead.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Free&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SignalRSkuTier_ARM&#34;&gt;SignalRSkuTier_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ResourceSku_ARM&#34;&gt;ResourceSku_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Optional tier of this particular SKU. &amp;lsquo;Standard&amp;rsquo; or &amp;lsquo;Free&amp;rsquo;.
@@ -3286,7 +3601,33 @@ string
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SignalRSkuTier_STATUS&#34;&gt;SignalRSkuTier_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ResourceSku_STATUS&#34;&gt;ResourceSku_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ResourceSku_STATUS_ARM&#34;&gt;ResourceSku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ResourceSku_STATUS&#34;&gt;ResourceSku_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Optional tier of this particular SKU. &amp;lsquo;Standard&amp;rsquo; or &amp;lsquo;Free&amp;rsquo;.
+&lt;code&gt;Basic&lt;/code&gt; is deprecated, use &lt;code&gt;Standard&lt;/code&gt; instead.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Free&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SignalRSkuTier_STATUS_ARM&#34;&gt;SignalRSkuTier_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ResourceSku_STATUS_ARM&#34;&gt;ResourceSku_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Optional tier of this particular SKU. &amp;lsquo;Standard&amp;rsquo; or &amp;lsquo;Free&amp;rsquo;.
@@ -3828,8 +4169,8 @@ ManagedIdentity_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ServiceKind_STATUS&#34;&gt;
-ServiceKind_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ServiceKind_STATUS_ARM&#34;&gt;
+ServiceKind_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4191,8 +4532,8 @@ ManagedIdentity_ARM
 &lt;td&gt;
 &lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ServiceKind&#34;&gt;
-ServiceKind
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.ServiceKind_ARM&#34;&gt;
+ServiceKind_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4263,7 +4604,31 @@ map[string]string
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SystemData_CreatedByType_STATUS&#34;&gt;SystemData_CreatedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SystemData_CreatedByType_STATUS_ARM&#34;&gt;SystemData_CreatedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4287,7 +4652,31 @@ map[string]string
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SystemData_LastModifiedByType_STATUS&#34;&gt;SystemData_LastModifiedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;SystemData_LastModifiedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4438,8 +4827,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_CreatedByType_STATUS&#34;&gt;
-SystemData_CreatedByType_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_CreatedByType_STATUS_ARM&#34;&gt;
+SystemData_CreatedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4473,8 +4862,8 @@ string
 &lt;td&gt;
 &lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_LastModifiedByType_STATUS&#34;&gt;
-SystemData_LastModifiedByType_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;
+SystemData_LastModifiedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4561,8 +4950,8 @@ ManagedIdentitySettings_ARM
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthType&#34;&gt;
-UpstreamAuthType
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthType_ARM&#34;&gt;
+UpstreamAuthType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4649,8 +5038,8 @@ ManagedIdentitySettings_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthType_STATUS&#34;&gt;
-UpstreamAuthType_STATUS
+&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthType_STATUS_ARM&#34;&gt;
+UpstreamAuthType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4663,7 +5052,28 @@ UpstreamAuthType_STATUS
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.UpstreamAuthType&#34;&gt;UpstreamAuthType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthSettings&#34;&gt;UpstreamAuthSettings&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthSettings_ARM&#34;&gt;UpstreamAuthSettings_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthSettings&#34;&gt;UpstreamAuthSettings&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Upstream auth type enum.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.UpstreamAuthType_ARM&#34;&gt;UpstreamAuthType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthSettings_ARM&#34;&gt;UpstreamAuthSettings_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Upstream auth type enum.&lt;/p&gt;
@@ -4684,7 +5094,28 @@ UpstreamAuthType_STATUS
 &lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.UpstreamAuthType_STATUS&#34;&gt;UpstreamAuthType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthSettings_STATUS&#34;&gt;UpstreamAuthSettings_STATUS&lt;/a&gt;, &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthSettings_STATUS_ARM&#34;&gt;UpstreamAuthSettings_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthSettings_STATUS&#34;&gt;UpstreamAuthSettings_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Upstream auth type enum.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;signalrservice.azure.com/v1api20211001.UpstreamAuthType_STATUS_ARM&#34;&gt;UpstreamAuthType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UpstreamAuthSettings_STATUS_ARM&#34;&gt;UpstreamAuthSettings_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Upstream auth type enum.&lt;/p&gt;

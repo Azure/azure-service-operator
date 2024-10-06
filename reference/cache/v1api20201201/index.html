@@ -39,7 +39,7 @@
     PrivateEndpointConnection_STATUS   (Appears on:Redis_STATUS)  The Private Endpoint Connection resource.
     Field Description      id  string    Id: Fully qualified resource ID for the resource.">
 
-<meta itemprop="wordCount" content="4756">
+<meta itemprop="wordCount" content="4888">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="cache.azure.com/v1api20201201"/>
 <meta name="twitter:description" content="cache.azure.com/v1api20201201  Package v1api20201201 contains API Schema definitions for the cache v1api20201201 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1174,8 +1180,8 @@ bool
 <td>
 <code>minimumTlsVersion</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.RedisCreateProperties_MinimumTlsVersion">
-RedisCreateProperties_MinimumTlsVersion
+<a href="#cache.azure.com/v1api20201201.RedisCreateProperties_MinimumTlsVersion_ARM">
+RedisCreateProperties_MinimumTlsVersion_ARM
 </a>
 </em>
 </td>
@@ -1188,8 +1194,8 @@ RedisCreateProperties_MinimumTlsVersion
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.RedisCreateProperties_PublicNetworkAccess">
-RedisCreateProperties_PublicNetworkAccess
+<a href="#cache.azure.com/v1api20201201.RedisCreateProperties_PublicNetworkAccess_ARM">
+RedisCreateProperties_PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -1311,7 +1317,29 @@ map[string]string
 <h3 id="cache.azure.com/v1api20201201.RedisCreateProperties_MinimumTlsVersion">RedisCreateProperties_MinimumTlsVersion
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisCreateProperties_ARM">RedisCreateProperties_ARM</a>, <a href="#cache.azure.com/v1api20201201.Redis_Spec">Redis_Spec</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Redis_Spec">Redis_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;1.0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;1.1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;1.2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.RedisCreateProperties_MinimumTlsVersion_ARM">RedisCreateProperties_MinimumTlsVersion_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisCreateProperties_ARM">RedisCreateProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1333,7 +1361,27 @@ map[string]string
 <h3 id="cache.azure.com/v1api20201201.RedisCreateProperties_PublicNetworkAccess">RedisCreateProperties_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisCreateProperties_ARM">RedisCreateProperties_ARM</a>, <a href="#cache.azure.com/v1api20201201.Redis_Spec">Redis_Spec</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Redis_Spec">Redis_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.RedisCreateProperties_PublicNetworkAccess_ARM">RedisCreateProperties_PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisCreateProperties_ARM">RedisCreateProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2190,8 +2238,8 @@ string
 <td>
 <code>serverRole</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.RedisLinkedServerCreateProperties_ServerRole">
-RedisLinkedServerCreateProperties_ServerRole
+<a href="#cache.azure.com/v1api20201201.RedisLinkedServerCreateProperties_ServerRole_ARM">
+RedisLinkedServerCreateProperties_ServerRole_ARM
 </a>
 </em>
 </td>
@@ -2204,7 +2252,27 @@ RedisLinkedServerCreateProperties_ServerRole
 <h3 id="cache.azure.com/v1api20201201.RedisLinkedServerCreateProperties_ServerRole">RedisLinkedServerCreateProperties_ServerRole
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisLinkedServerCreateProperties_ARM">RedisLinkedServerCreateProperties_ARM</a>, <a href="#cache.azure.com/v1api20201201.Redis_LinkedServer_Spec">Redis_LinkedServer_Spec</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Redis_LinkedServer_Spec">Redis_LinkedServer_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Primary&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Secondary&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.RedisLinkedServerCreateProperties_ServerRole_ARM">RedisLinkedServerCreateProperties_ServerRole_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisLinkedServerCreateProperties_ARM">RedisLinkedServerCreateProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2274,8 +2342,8 @@ string
 <td>
 <code>serverRole</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.RedisLinkedServerProperties_ServerRole_STATUS">
-RedisLinkedServerProperties_ServerRole_STATUS
+<a href="#cache.azure.com/v1api20201201.RedisLinkedServerProperties_ServerRole_STATUS_ARM">
+RedisLinkedServerProperties_ServerRole_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2288,7 +2356,27 @@ RedisLinkedServerProperties_ServerRole_STATUS
 <h3 id="cache.azure.com/v1api20201201.RedisLinkedServerProperties_ServerRole_STATUS">RedisLinkedServerProperties_ServerRole_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisLinkedServerProperties_STATUS_ARM">RedisLinkedServerProperties_STATUS_ARM</a>, <a href="#cache.azure.com/v1api20201201.Redis_LinkedServer_STATUS">Redis_LinkedServer_STATUS</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Redis_LinkedServer_STATUS">Redis_LinkedServer_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Primary&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Secondary&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.RedisLinkedServerProperties_ServerRole_STATUS_ARM">RedisLinkedServerProperties_ServerRole_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisLinkedServerProperties_STATUS_ARM">RedisLinkedServerProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2568,7 +2656,29 @@ Redis_PatchSchedule_STATUS
 <h3 id="cache.azure.com/v1api20201201.RedisProperties_MinimumTlsVersion_STATUS">RedisProperties_MinimumTlsVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisProperties_STATUS_ARM">RedisProperties_STATUS_ARM</a>, <a href="#cache.azure.com/v1api20201201.Redis_STATUS">Redis_STATUS</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Redis_STATUS">Redis_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;1.0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;1.1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;1.2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.RedisProperties_MinimumTlsVersion_STATUS_ARM">RedisProperties_MinimumTlsVersion_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisProperties_STATUS_ARM">RedisProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2590,7 +2700,47 @@ Redis_PatchSchedule_STATUS
 <h3 id="cache.azure.com/v1api20201201.RedisProperties_ProvisioningState_STATUS">RedisProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisProperties_STATUS_ARM">RedisProperties_STATUS_ARM</a>, <a href="#cache.azure.com/v1api20201201.Redis_STATUS">Redis_STATUS</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Redis_STATUS">Redis_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Linking&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Provisioning&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RecoveringScaleFailure&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Scaling&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unlinking&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unprovisioning&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.RedisProperties_ProvisioningState_STATUS_ARM">RedisProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisProperties_STATUS_ARM">RedisProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2630,7 +2780,27 @@ Redis_PatchSchedule_STATUS
 <h3 id="cache.azure.com/v1api20201201.RedisProperties_PublicNetworkAccess_STATUS">RedisProperties_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisProperties_STATUS_ARM">RedisProperties_STATUS_ARM</a>, <a href="#cache.azure.com/v1api20201201.Redis_STATUS">Redis_STATUS</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Redis_STATUS">Redis_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.RedisProperties_PublicNetworkAccess_STATUS_ARM">RedisProperties_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.RedisProperties_STATUS_ARM">RedisProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3079,8 +3249,8 @@ string
 <td>
 <code>minimumTlsVersion</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.RedisProperties_MinimumTlsVersion_STATUS">
-RedisProperties_MinimumTlsVersion_STATUS
+<a href="#cache.azure.com/v1api20201201.RedisProperties_MinimumTlsVersion_STATUS_ARM">
+RedisProperties_MinimumTlsVersion_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3117,8 +3287,8 @@ int
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.RedisProperties_ProvisioningState_STATUS">
-RedisProperties_ProvisioningState_STATUS
+<a href="#cache.azure.com/v1api20201201.RedisProperties_ProvisioningState_STATUS_ARM">
+RedisProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3130,8 +3300,8 @@ RedisProperties_ProvisioningState_STATUS
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.RedisProperties_PublicNetworkAccess_STATUS">
-RedisProperties_PublicNetworkAccess_STATUS
+<a href="#cache.azure.com/v1api20201201.RedisProperties_PublicNetworkAccess_STATUS_ARM">
+RedisProperties_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4916,8 +5086,8 @@ int
 <td>
 <code>dayOfWeek</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.ScheduleEntry_DayOfWeek">
-ScheduleEntry_DayOfWeek
+<a href="#cache.azure.com/v1api20201201.ScheduleEntry_DayOfWeek_ARM">
+ScheduleEntry_DayOfWeek_ARM
 </a>
 </em>
 </td>
@@ -4952,7 +5122,41 @@ int
 <h3 id="cache.azure.com/v1api20201201.ScheduleEntry_DayOfWeek">ScheduleEntry_DayOfWeek
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.ScheduleEntry">ScheduleEntry</a>, <a href="#cache.azure.com/v1api20201201.ScheduleEntry_ARM">ScheduleEntry_ARM</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.ScheduleEntry">ScheduleEntry</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Everyday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Friday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Monday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Saturday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Sunday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Thursday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tuesday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Wednesday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Weekend&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.ScheduleEntry_DayOfWeek_ARM">ScheduleEntry_DayOfWeek_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.ScheduleEntry_ARM">ScheduleEntry_ARM</a>)
 </p>
 <div>
 </div>
@@ -4986,7 +5190,41 @@ int
 <h3 id="cache.azure.com/v1api20201201.ScheduleEntry_DayOfWeek_STATUS">ScheduleEntry_DayOfWeek_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.ScheduleEntry_STATUS">ScheduleEntry_STATUS</a>, <a href="#cache.azure.com/v1api20201201.ScheduleEntry_STATUS_ARM">ScheduleEntry_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.ScheduleEntry_STATUS">ScheduleEntry_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Everyday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Friday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Monday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Saturday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Sunday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Thursday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tuesday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Wednesday&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Weekend&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.ScheduleEntry_DayOfWeek_STATUS_ARM">ScheduleEntry_DayOfWeek_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.ScheduleEntry_STATUS_ARM">ScheduleEntry_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5090,8 +5328,8 @@ int
 <td>
 <code>dayOfWeek</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.ScheduleEntry_DayOfWeek_STATUS">
-ScheduleEntry_DayOfWeek_STATUS
+<a href="#cache.azure.com/v1api20201201.ScheduleEntry_DayOfWeek_STATUS_ARM">
+ScheduleEntry_DayOfWeek_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5211,8 +5449,8 @@ P (Premium) family (1, 2, 3, 4).</p>
 <td>
 <code>family</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.Sku_Family">
-Sku_Family
+<a href="#cache.azure.com/v1api20201201.Sku_Family_ARM">
+Sku_Family_ARM
 </a>
 </em>
 </td>
@@ -5224,8 +5462,8 @@ Sku_Family
 <td>
 <code>name</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.Sku_Name">
-Sku_Name
+<a href="#cache.azure.com/v1api20201201.Sku_Name_ARM">
+Sku_Name_ARM
 </a>
 </em>
 </td>
@@ -5238,7 +5476,27 @@ Sku_Name
 <h3 id="cache.azure.com/v1api20201201.Sku_Family">Sku_Family
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku">Sku</a>, <a href="#cache.azure.com/v1api20201201.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku">Sku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;C&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;P&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.Sku_Family_ARM">Sku_Family_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
 </div>
@@ -5258,7 +5516,27 @@ Sku_Name
 <h3 id="cache.azure.com/v1api20201201.Sku_Family_STATUS">Sku_Family_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku_STATUS">Sku_STATUS</a>, <a href="#cache.azure.com/v1api20201201.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;C&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;P&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.Sku_Family_STATUS_ARM">Sku_Family_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5278,7 +5556,29 @@ Sku_Name
 <h3 id="cache.azure.com/v1api20201201.Sku_Name">Sku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku">Sku</a>, <a href="#cache.azure.com/v1api20201201.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku">Sku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.Sku_Name_ARM">Sku_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
 </div>
@@ -5300,7 +5600,29 @@ Sku_Name
 <h3 id="cache.azure.com/v1api20201201.Sku_Name_STATUS">Sku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku_STATUS">Sku_STATUS</a>, <a href="#cache.azure.com/v1api20201201.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="cache.azure.com/v1api20201201.Sku_Name_STATUS_ARM">Sku_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#cache.azure.com/v1api20201201.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5407,8 +5729,8 @@ P (Premium) family (1, 2, 3, 4).</p>
 <td>
 <code>family</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.Sku_Family_STATUS">
-Sku_Family_STATUS
+<a href="#cache.azure.com/v1api20201201.Sku_Family_STATUS_ARM">
+Sku_Family_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5420,8 +5742,8 @@ Sku_Family_STATUS
 <td>
 <code>name</code><br/>
 <em>
-<a href="#cache.azure.com/v1api20201201.Sku_Name_STATUS">
-Sku_Name_STATUS
+<a href="#cache.azure.com/v1api20201201.Sku_Name_STATUS_ARM">
+Sku_Name_STATUS_ARM
 </a>
 </em>
 </td>

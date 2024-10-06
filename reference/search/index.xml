@@ -96,8 +96,8 @@ authentication.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;aadAuthFailureMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode&#34;&gt;
-DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode
+&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM&#34;&gt;
+DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -111,7 +111,27 @@ authentication.&lt;/p&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode&#34;&gt;DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption&#34;&gt;DataPlaneAadOrApiKeyAuthOption&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_ARM&#34;&gt;DataPlaneAadOrApiKeyAuthOption_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption&#34;&gt;DataPlaneAadOrApiKeyAuthOption&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;http401WithBearerChallenge&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;http403&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM&#34;&gt;DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_ARM&#34;&gt;DataPlaneAadOrApiKeyAuthOption_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -131,7 +151,27 @@ authentication.&lt;/p&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS&#34;&gt;DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_STATUS&#34;&gt;DataPlaneAadOrApiKeyAuthOption_STATUS&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_STATUS_ARM&#34;&gt;DataPlaneAadOrApiKeyAuthOption_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_STATUS&#34;&gt;DataPlaneAadOrApiKeyAuthOption_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;http401WithBearerChallenge&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;http403&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM&#34;&gt;DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_STATUS_ARM&#34;&gt;DataPlaneAadOrApiKeyAuthOption_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -200,8 +240,8 @@ authentication.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;aadAuthFailureMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS&#34;&gt;
-DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS
+&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM&#34;&gt;
+DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -423,8 +463,8 @@ Keys.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;enforcement&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement&#34;&gt;
-EncryptionWithCmk_Enforcement
+&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_ARM&#34;&gt;
+EncryptionWithCmk_Enforcement_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -437,7 +477,27 @@ EncryptionWithCmk_Enforcement
 &lt;h3 id=&#34;search.azure.com/v1api20220901.EncryptionWithCmk_EncryptionComplianceStatus_STATUS&#34;&gt;EncryptionWithCmk_EncryptionComplianceStatus_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS&#34;&gt;EncryptionWithCmk_STATUS&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS_ARM&#34;&gt;EncryptionWithCmk_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS&#34;&gt;EncryptionWithCmk_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Compliant&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NonCompliant&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM&#34;&gt;EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS_ARM&#34;&gt;EncryptionWithCmk_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -457,7 +517,29 @@ EncryptionWithCmk_Enforcement
 &lt;h3 id=&#34;search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement&#34;&gt;EncryptionWithCmk_Enforcement
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk&#34;&gt;EncryptionWithCmk&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_ARM&#34;&gt;EncryptionWithCmk_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk&#34;&gt;EncryptionWithCmk&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Unspecified&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_ARM&#34;&gt;EncryptionWithCmk_Enforcement_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_ARM&#34;&gt;EncryptionWithCmk_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -479,7 +561,29 @@ EncryptionWithCmk_Enforcement
 &lt;h3 id=&#34;search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_STATUS&#34;&gt;EncryptionWithCmk_Enforcement_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS&#34;&gt;EncryptionWithCmk_STATUS&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS_ARM&#34;&gt;EncryptionWithCmk_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS&#34;&gt;EncryptionWithCmk_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Unspecified&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_STATUS_ARM&#34;&gt;EncryptionWithCmk_Enforcement_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS_ARM&#34;&gt;EncryptionWithCmk_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -566,8 +670,8 @@ Keys.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;encryptionComplianceStatus&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_EncryptionComplianceStatus_STATUS&#34;&gt;
-EncryptionWithCmk_EncryptionComplianceStatus_STATUS
+&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM&#34;&gt;
+EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -581,8 +685,8 @@ the service will be marked as &amp;lsquo;nonCompliant&amp;rsquo;.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;enforcement&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_STATUS&#34;&gt;
-EncryptionWithCmk_Enforcement_STATUS
+&lt;a href=&#34;#search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_STATUS_ARM&#34;&gt;
+EncryptionWithCmk_Enforcement_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -643,8 +747,8 @@ Identity_Type
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.Identity_Type&#34;&gt;
-Identity_Type
+&lt;a href=&#34;#search.azure.com/v1api20220901.Identity_Type_ARM&#34;&gt;
+Identity_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -749,8 +853,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.Identity_Type_STATUS&#34;&gt;
-Identity_Type_STATUS
+&lt;a href=&#34;#search.azure.com/v1api20220901.Identity_Type_STATUS_ARM&#34;&gt;
+Identity_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -763,7 +867,27 @@ Identity_Type_STATUS
 &lt;h3 id=&#34;search.azure.com/v1api20220901.Identity_Type&#34;&gt;Identity_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Identity&#34;&gt;Identity&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.Identity_ARM&#34;&gt;Identity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Identity&#34;&gt;Identity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.Identity_Type_ARM&#34;&gt;Identity_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Identity_ARM&#34;&gt;Identity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -783,7 +907,27 @@ Identity_Type_STATUS
 &lt;h3 id=&#34;search.azure.com/v1api20220901.Identity_Type_STATUS&#34;&gt;Identity_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Identity_STATUS&#34;&gt;Identity_STATUS&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.Identity_STATUS_ARM&#34;&gt;Identity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Identity_STATUS&#34;&gt;Identity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.Identity_Type_STATUS_ARM&#34;&gt;Identity_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Identity_STATUS_ARM&#34;&gt;Identity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1522,8 +1666,8 @@ within a search service.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;hostingMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_HostingMode&#34;&gt;
-SearchServiceProperties_HostingMode
+&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_ARM&#34;&gt;
+SearchServiceProperties_HostingMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1563,8 +1707,8 @@ allowed values are between 1 and 3.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess&#34;&gt;
-SearchServiceProperties_PublicNetworkAccess
+&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_ARM&#34;&gt;
+SearchServiceProperties_PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1591,7 +1735,27 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.&lt;/p&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_HostingMode&#34;&gt;SearchServiceProperties_HostingMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_ARM&#34;&gt;SearchServiceProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_Spec&#34;&gt;SearchService_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_Spec&#34;&gt;SearchService_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;highDensity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_ARM&#34;&gt;SearchServiceProperties_HostingMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_ARM&#34;&gt;SearchServiceProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1611,7 +1775,27 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.&lt;/p&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_STATUS&#34;&gt;SearchServiceProperties_HostingMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM&#34;&gt;SearchServiceProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_STATUS&#34;&gt;SearchService_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_STATUS&#34;&gt;SearchService_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;highDensity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_STATUS_ARM&#34;&gt;SearchServiceProperties_HostingMode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM&#34;&gt;SearchServiceProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1631,7 +1815,29 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.&lt;/p&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_ProvisioningState_STATUS&#34;&gt;SearchServiceProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM&#34;&gt;SearchServiceProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_STATUS&#34;&gt;SearchService_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_STATUS&#34;&gt;SearchService_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;provisioning&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_ProvisioningState_STATUS_ARM&#34;&gt;SearchServiceProperties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM&#34;&gt;SearchServiceProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1653,7 +1859,27 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.&lt;/p&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess&#34;&gt;SearchServiceProperties_PublicNetworkAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_ARM&#34;&gt;SearchServiceProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_Spec&#34;&gt;SearchService_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_Spec&#34;&gt;SearchService_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_ARM&#34;&gt;SearchServiceProperties_PublicNetworkAccess_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_ARM&#34;&gt;SearchServiceProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1673,7 +1899,27 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.&lt;/p&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_STATUS&#34;&gt;SearchServiceProperties_PublicNetworkAccess_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM&#34;&gt;SearchServiceProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_STATUS&#34;&gt;SearchService_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_STATUS&#34;&gt;SearchService_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;SearchServiceProperties_PublicNetworkAccess_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM&#34;&gt;SearchServiceProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1750,8 +1996,8 @@ within a search service.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;hostingMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_STATUS&#34;&gt;
-SearchServiceProperties_HostingMode_STATUS
+&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_STATUS_ARM&#34;&gt;
+SearchServiceProperties_HostingMode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1804,8 +2050,8 @@ allowed values are between 1 and 3.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_ProvisioningState_STATUS&#34;&gt;
-SearchServiceProperties_ProvisioningState_STATUS
+&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_ProvisioningState_STATUS_ARM&#34;&gt;
+SearchServiceProperties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1822,8 +2068,8 @@ Create search service. This is because the free service uses capacity that is al
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_STATUS&#34;&gt;
-SearchServiceProperties_PublicNetworkAccess_STATUS
+&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;
+SearchServiceProperties_PublicNetworkAccess_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1862,8 +2108,8 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_Status_STATUS&#34;&gt;
-SearchServiceProperties_Status_STATUS
+&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_Status_STATUS_ARM&#34;&gt;
+SearchServiceProperties_Status_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1894,7 +2140,35 @@ string
 &lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_Status_STATUS&#34;&gt;SearchServiceProperties_Status_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM&#34;&gt;SearchServiceProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_STATUS&#34;&gt;SearchService_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_STATUS&#34;&gt;SearchService_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;degraded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;error&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;provisioning&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;running&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_Status_STATUS_ARM&#34;&gt;SearchServiceProperties_Status_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM&#34;&gt;SearchServiceProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2744,8 +3018,8 @@ partition, up to 12 partitions.&amp;rsquo;&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.Sku_Name&#34;&gt;
-Sku_Name
+&lt;a href=&#34;#search.azure.com/v1api20220901.Sku_Name_ARM&#34;&gt;
+Sku_Name_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2763,7 +3037,37 @@ partition, up to 12 partitions.&amp;rsquo;&lt;/p&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.Sku_Name&#34;&gt;Sku_Name
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Sku&#34;&gt;Sku&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Sku&#34;&gt;Sku&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;free&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard3&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;storage_optimized_l1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;storage_optimized_l2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.Sku_Name_ARM&#34;&gt;Sku_Name_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2793,7 +3097,37 @@ partition, up to 12 partitions.&amp;rsquo;&lt;/p&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.Sku_Name_STATUS&#34;&gt;Sku_Name_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;free&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard3&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;storage_optimized_l1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;storage_optimized_l2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.Sku_Name_STATUS_ARM&#34;&gt;Sku_Name_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2876,8 +3210,8 @@ partition, up to 12 partitions.&amp;rsquo;&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#search.azure.com/v1api20220901.Sku_Name_STATUS&#34;&gt;
-Sku_Name_STATUS
+&lt;a href=&#34;#search.azure.com/v1api20220901.Sku_Name_STATUS_ARM&#34;&gt;
+Sku_Name_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

@@ -42,7 +42,7 @@
     Field Description      actions  []string    Actions: Allowed actions.
     dataActions  []string    DataActions: Allowed Data actions.">
 
-<meta itemprop="wordCount" content="1646">
+<meta itemprop="wordCount" content="1668">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="authorization.azure.com/v1api20220401"/>
 <meta name="twitter:description" content="authorization.azure.com/v1api20220401  Package v1api20220401 contains API Schema definitions for the authorization v1api20220401 API group
@@ -287,6 +287,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -472,6 +474,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -507,6 +511,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1355,8 +1361,8 @@ string
 <td>
 <code>principalType</code><br/>
 <em>
-<a href="#authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType">
-RoleAssignmentProperties_PrincipalType
+<a href="#authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_ARM">
+RoleAssignmentProperties_PrincipalType_ARM
 </a>
 </em>
 </td>
@@ -1379,7 +1385,33 @@ string
 <h3 id="authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType">RoleAssignmentProperties_PrincipalType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleAssignmentProperties_ARM">RoleAssignmentProperties_ARM</a>, <a href="#authorization.azure.com/v1api20220401.RoleAssignment_Spec">RoleAssignment_Spec</a>)
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleAssignment_Spec">RoleAssignment_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Device&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ForeignGroup&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Group&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ServicePrincipal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_ARM">RoleAssignmentProperties_PrincipalType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleAssignmentProperties_ARM">RoleAssignmentProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1405,7 +1437,33 @@ string
 <h3 id="authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_STATUS">RoleAssignmentProperties_PrincipalType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleAssignmentProperties_STATUS_ARM">RoleAssignmentProperties_STATUS_ARM</a>, <a href="#authorization.azure.com/v1api20220401.RoleAssignment_STATUS">RoleAssignment_STATUS</a>)
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleAssignment_STATUS">RoleAssignment_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Device&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ForeignGroup&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Group&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ServicePrincipal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_STATUS_ARM">RoleAssignmentProperties_PrincipalType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20220401.RoleAssignmentProperties_STATUS_ARM">RoleAssignmentProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1527,8 +1585,8 @@ string
 <td>
 <code>principalType</code><br/>
 <em>
-<a href="#authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_STATUS">
-RoleAssignmentProperties_PrincipalType_STATUS
+<a href="#authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_STATUS_ARM">
+RoleAssignmentProperties_PrincipalType_STATUS_ARM
 </a>
 </em>
 </td>

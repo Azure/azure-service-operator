@@ -241,8 +241,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 &lt;td&gt;
 &lt;code&gt;alertSensitivity&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_AlertSensitivity&#34;&gt;
-DynamicMetricCriteria_AlertSensitivity
+&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_AlertSensitivity_ARM&#34;&gt;
+DynamicMetricCriteria_AlertSensitivity_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -255,8 +255,8 @@ the metric series pattern.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;criterionType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_CriterionType&#34;&gt;
-DynamicMetricCriteria_CriterionType
+&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_CriterionType_ARM&#34;&gt;
+DynamicMetricCriteria_CriterionType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -340,8 +340,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_Operator&#34;&gt;
-DynamicMetricCriteria_Operator
+&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_Operator_ARM&#34;&gt;
+DynamicMetricCriteria_Operator_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -365,8 +365,8 @@ validation to be skipped.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;timeAggregation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_TimeAggregation&#34;&gt;
-DynamicMetricCriteria_TimeAggregation
+&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_TimeAggregation_ARM&#34;&gt;
+DynamicMetricCriteria_TimeAggregation_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -379,7 +379,29 @@ DynamicMetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_AlertSensitivity&#34;&gt;DynamicMetricCriteria_AlertSensitivity
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria&#34;&gt;DynamicMetricCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_ARM&#34;&gt;DynamicMetricCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria&#34;&gt;DynamicMetricCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;High&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Low&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Medium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_AlertSensitivity_ARM&#34;&gt;DynamicMetricCriteria_AlertSensitivity_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_ARM&#34;&gt;DynamicMetricCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -401,7 +423,29 @@ DynamicMetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_AlertSensitivity_STATUS&#34;&gt;DynamicMetricCriteria_AlertSensitivity_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS&#34;&gt;DynamicMetricCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS_ARM&#34;&gt;DynamicMetricCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS&#34;&gt;DynamicMetricCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;High&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Low&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Medium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_AlertSensitivity_STATUS_ARM&#34;&gt;DynamicMetricCriteria_AlertSensitivity_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS_ARM&#34;&gt;DynamicMetricCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -423,7 +467,25 @@ DynamicMetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_CriterionType&#34;&gt;DynamicMetricCriteria_CriterionType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria&#34;&gt;DynamicMetricCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_ARM&#34;&gt;DynamicMetricCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria&#34;&gt;DynamicMetricCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DynamicThresholdCriterion&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_CriterionType_ARM&#34;&gt;DynamicMetricCriteria_CriterionType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_ARM&#34;&gt;DynamicMetricCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -441,7 +503,25 @@ DynamicMetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_CriterionType_STATUS&#34;&gt;DynamicMetricCriteria_CriterionType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS&#34;&gt;DynamicMetricCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS_ARM&#34;&gt;DynamicMetricCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS&#34;&gt;DynamicMetricCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DynamicThresholdCriterion&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_CriterionType_STATUS_ARM&#34;&gt;DynamicMetricCriteria_CriterionType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS_ARM&#34;&gt;DynamicMetricCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -459,7 +539,29 @@ DynamicMetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_Operator&#34;&gt;DynamicMetricCriteria_Operator
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria&#34;&gt;DynamicMetricCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_ARM&#34;&gt;DynamicMetricCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria&#34;&gt;DynamicMetricCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterOrLessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_Operator_ARM&#34;&gt;DynamicMetricCriteria_Operator_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_ARM&#34;&gt;DynamicMetricCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -481,7 +583,29 @@ DynamicMetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_Operator_STATUS&#34;&gt;DynamicMetricCriteria_Operator_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS&#34;&gt;DynamicMetricCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS_ARM&#34;&gt;DynamicMetricCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS&#34;&gt;DynamicMetricCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterOrLessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_Operator_STATUS_ARM&#34;&gt;DynamicMetricCriteria_Operator_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS_ARM&#34;&gt;DynamicMetricCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -697,8 +821,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 &lt;td&gt;
 &lt;code&gt;alertSensitivity&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_AlertSensitivity_STATUS&#34;&gt;
-DynamicMetricCriteria_AlertSensitivity_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_AlertSensitivity_STATUS_ARM&#34;&gt;
+DynamicMetricCriteria_AlertSensitivity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -711,8 +835,8 @@ the metric series pattern.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;criterionType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_CriterionType_STATUS&#34;&gt;
-DynamicMetricCriteria_CriterionType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_CriterionType_STATUS_ARM&#34;&gt;
+DynamicMetricCriteria_CriterionType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -796,8 +920,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_Operator_STATUS&#34;&gt;
-DynamicMetricCriteria_Operator_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_Operator_STATUS_ARM&#34;&gt;
+DynamicMetricCriteria_Operator_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -821,8 +945,8 @@ validation to be skipped.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;timeAggregation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_TimeAggregation_STATUS&#34;&gt;
-DynamicMetricCriteria_TimeAggregation_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_TimeAggregation_STATUS_ARM&#34;&gt;
+DynamicMetricCriteria_TimeAggregation_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -835,7 +959,33 @@ DynamicMetricCriteria_TimeAggregation_STATUS
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_TimeAggregation&#34;&gt;DynamicMetricCriteria_TimeAggregation
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria&#34;&gt;DynamicMetricCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_ARM&#34;&gt;DynamicMetricCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria&#34;&gt;DynamicMetricCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Maximum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minimum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Total&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_TimeAggregation_ARM&#34;&gt;DynamicMetricCriteria_TimeAggregation_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_ARM&#34;&gt;DynamicMetricCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -861,7 +1011,33 @@ DynamicMetricCriteria_TimeAggregation_STATUS
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_TimeAggregation_STATUS&#34;&gt;DynamicMetricCriteria_TimeAggregation_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS&#34;&gt;DynamicMetricCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS_ARM&#34;&gt;DynamicMetricCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS&#34;&gt;DynamicMetricCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Maximum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minimum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Total&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.DynamicMetricCriteria_TimeAggregation_STATUS_ARM&#34;&gt;DynamicMetricCriteria_TimeAggregation_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.DynamicMetricCriteria_STATUS_ARM&#34;&gt;DynamicMetricCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1778,8 +1954,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 &lt;td&gt;
 &lt;code&gt;odata.type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType&#34;&gt;
-MetricAlertMultipleResourceMultipleMetricCriteria_OdataType
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM&#34;&gt;
+MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1792,7 +1968,25 @@ MetricAlertMultipleResourceMultipleMetricCriteria_OdataType
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_OdataType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_ARM&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_ARM&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1810,7 +2004,25 @@ MetricAlertMultipleResourceMultipleMetricCriteria_OdataType
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_ARM&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM&#34;&gt;MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1924,8 +2136,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 &lt;td&gt;
 &lt;code&gt;odata.type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS&#34;&gt;
-MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_ARM&#34;&gt;
+MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2349,8 +2561,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 &lt;td&gt;
 &lt;code&gt;odata.type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_OdataType&#34;&gt;
-MetricAlertSingleResourceMultipleMetricCriteria_OdataType
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM&#34;&gt;
+MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2363,7 +2575,25 @@ MetricAlertSingleResourceMultipleMetricCriteria_OdataType
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_OdataType&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_OdataType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_ARM&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_ARM&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2381,7 +2611,25 @@ MetricAlertSingleResourceMultipleMetricCriteria_OdataType
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_STATUS&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_STATUS&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_ARM&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM&#34;&gt;MetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2495,8 +2743,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 &lt;td&gt;
 &lt;code&gt;odata.type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS&#34;&gt;
-MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_ARM&#34;&gt;
+MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3248,8 +3496,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 &lt;td&gt;
 &lt;code&gt;criterionType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_CriterionType&#34;&gt;
-MetricCriteria_CriterionType
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_CriterionType_ARM&#34;&gt;
+MetricCriteria_CriterionType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3307,8 +3555,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_Operator&#34;&gt;
-MetricCriteria_Operator
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_Operator_ARM&#34;&gt;
+MetricCriteria_Operator_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3343,8 +3591,8 @@ float64
 &lt;td&gt;
 &lt;code&gt;timeAggregation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_TimeAggregation&#34;&gt;
-MetricCriteria_TimeAggregation
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_TimeAggregation_ARM&#34;&gt;
+MetricCriteria_TimeAggregation_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3357,7 +3605,25 @@ MetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_CriterionType&#34;&gt;MetricCriteria_CriterionType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria&#34;&gt;MetricCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_ARM&#34;&gt;MetricCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria&#34;&gt;MetricCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StaticThresholdCriterion&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_CriterionType_ARM&#34;&gt;MetricCriteria_CriterionType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_ARM&#34;&gt;MetricCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3375,7 +3641,25 @@ MetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_CriterionType_STATUS&#34;&gt;MetricCriteria_CriterionType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS&#34;&gt;MetricCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS_ARM&#34;&gt;MetricCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS&#34;&gt;MetricCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StaticThresholdCriterion&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_CriterionType_STATUS_ARM&#34;&gt;MetricCriteria_CriterionType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS_ARM&#34;&gt;MetricCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3393,7 +3677,33 @@ MetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_Operator&#34;&gt;MetricCriteria_Operator
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria&#34;&gt;MetricCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_ARM&#34;&gt;MetricCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria&#34;&gt;MetricCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_Operator_ARM&#34;&gt;MetricCriteria_Operator_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_ARM&#34;&gt;MetricCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3419,7 +3729,33 @@ MetricCriteria_TimeAggregation
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_Operator_STATUS&#34;&gt;MetricCriteria_Operator_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS&#34;&gt;MetricCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS_ARM&#34;&gt;MetricCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS&#34;&gt;MetricCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_Operator_STATUS_ARM&#34;&gt;MetricCriteria_Operator_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS_ARM&#34;&gt;MetricCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3610,8 +3946,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 &lt;td&gt;
 &lt;code&gt;criterionType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_CriterionType_STATUS&#34;&gt;
-MetricCriteria_CriterionType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_CriterionType_STATUS_ARM&#34;&gt;
+MetricCriteria_CriterionType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3669,8 +4005,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_Operator_STATUS&#34;&gt;
-MetricCriteria_Operator_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_Operator_STATUS_ARM&#34;&gt;
+MetricCriteria_Operator_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3705,8 +4041,8 @@ float64
 &lt;td&gt;
 &lt;code&gt;timeAggregation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_TimeAggregation_STATUS&#34;&gt;
-MetricCriteria_TimeAggregation_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_TimeAggregation_STATUS_ARM&#34;&gt;
+MetricCriteria_TimeAggregation_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3719,7 +4055,33 @@ MetricCriteria_TimeAggregation_STATUS
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_TimeAggregation&#34;&gt;MetricCriteria_TimeAggregation
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria&#34;&gt;MetricCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_ARM&#34;&gt;MetricCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria&#34;&gt;MetricCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Maximum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minimum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Total&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_TimeAggregation_ARM&#34;&gt;MetricCriteria_TimeAggregation_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_ARM&#34;&gt;MetricCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3745,7 +4107,33 @@ MetricCriteria_TimeAggregation_STATUS
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_TimeAggregation_STATUS&#34;&gt;MetricCriteria_TimeAggregation_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS&#34;&gt;MetricCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS_ARM&#34;&gt;MetricCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS&#34;&gt;MetricCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Maximum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minimum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Total&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.MetricCriteria_TimeAggregation_STATUS_ARM&#34;&gt;MetricCriteria_TimeAggregation_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.MetricCriteria_STATUS_ARM&#34;&gt;MetricCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4273,8 +4661,8 @@ float64
 &lt;td&gt;
 &lt;code&gt;odata.type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_OdataType&#34;&gt;
-WebtestLocationAvailabilityCriteria_OdataType
+&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_OdataType_ARM&#34;&gt;
+WebtestLocationAvailabilityCriteria_OdataType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4298,7 +4686,25 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_OdataType&#34;&gt;WebtestLocationAvailabilityCriteria_OdataType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria&#34;&gt;WebtestLocationAvailabilityCriteria&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_ARM&#34;&gt;WebtestLocationAvailabilityCriteria_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria&#34;&gt;WebtestLocationAvailabilityCriteria&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_OdataType_ARM&#34;&gt;WebtestLocationAvailabilityCriteria_OdataType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_ARM&#34;&gt;WebtestLocationAvailabilityCriteria_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4316,7 +4722,25 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_OdataType_STATUS&#34;&gt;WebtestLocationAvailabilityCriteria_OdataType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_STATUS&#34;&gt;WebtestLocationAvailabilityCriteria_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_STATUS_ARM&#34;&gt;WebtestLocationAvailabilityCriteria_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_STATUS&#34;&gt;WebtestLocationAvailabilityCriteria_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_OdataType_STATUS_ARM&#34;&gt;WebtestLocationAvailabilityCriteria_OdataType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_STATUS_ARM&#34;&gt;WebtestLocationAvailabilityCriteria_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4459,8 +4883,8 @@ float64
 &lt;td&gt;
 &lt;code&gt;odata.type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_OdataType_STATUS&#34;&gt;
-WebtestLocationAvailabilityCriteria_OdataType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180301.WebtestLocationAvailabilityCriteria_OdataType_STATUS_ARM&#34;&gt;
+WebtestLocationAvailabilityCriteria_OdataType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4858,8 +5282,8 @@ int
 &lt;td&gt;
 &lt;code&gt;Kind&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180501preview.WebTestProperties_Kind&#34;&gt;
-WebTestProperties_Kind
+&lt;a href=&#34;#insights.azure.com/v1api20180501preview.WebTestProperties_Kind_ARM&#34;&gt;
+WebTestProperties_Kind_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5068,7 +5492,31 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20180501preview.WebTestProperties_Kind&#34;&gt;WebTestProperties_Kind
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180501preview.WebTestProperties_ARM&#34;&gt;WebTestProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180501preview.Webtest_Spec&#34;&gt;Webtest_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180501preview.Webtest_Spec&#34;&gt;Webtest_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;multistep&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ping&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180501preview.WebTestProperties_Kind_ARM&#34;&gt;WebTestProperties_Kind_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180501preview.WebTestProperties_ARM&#34;&gt;WebTestProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5092,7 +5540,31 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20180501preview.WebTestProperties_Kind_STATUS&#34;&gt;WebTestProperties_Kind_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180501preview.WebTestProperties_STATUS_ARM&#34;&gt;WebTestProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20180501preview.Webtest_STATUS&#34;&gt;Webtest_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180501preview.Webtest_STATUS&#34;&gt;Webtest_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;multistep&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ping&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20180501preview.WebTestProperties_Kind_STATUS_ARM&#34;&gt;WebTestProperties_Kind_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20180501preview.WebTestProperties_STATUS_ARM&#34;&gt;WebTestProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5519,8 +5991,8 @@ int
 &lt;td&gt;
 &lt;code&gt;Kind&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20180501preview.WebTestProperties_Kind_STATUS&#34;&gt;
-WebTestProperties_Kind_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20180501preview.WebTestProperties_Kind_STATUS_ARM&#34;&gt;
+WebTestProperties_Kind_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7028,8 +7500,8 @@ Resource Types:
 &lt;td&gt;
 &lt;code&gt;Application_Type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type&#34;&gt;
-ApplicationInsightsComponentProperties_Application_Type
+&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_ARM&#34;&gt;
+ApplicationInsightsComponentProperties_Application_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7063,8 +7535,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;Flow_Type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type&#34;&gt;
-ApplicationInsightsComponentProperties_Flow_Type
+&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_ARM&#34;&gt;
+ApplicationInsightsComponentProperties_Flow_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7111,8 +7583,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;IngestionMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode&#34;&gt;
-ApplicationInsightsComponentProperties_IngestionMode
+&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_ARM&#34;&gt;
+ApplicationInsightsComponentProperties_IngestionMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7124,8 +7596,8 @@ ApplicationInsightsComponentProperties_IngestionMode
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccessForIngestion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.PublicNetworkAccessType&#34;&gt;
-PublicNetworkAccessType
+&lt;a href=&#34;#insights.azure.com/v1api20200202.PublicNetworkAccessType_ARM&#34;&gt;
+PublicNetworkAccessType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7137,8 +7609,8 @@ PublicNetworkAccessType
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccessForQuery&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.PublicNetworkAccessType&#34;&gt;
-PublicNetworkAccessType
+&lt;a href=&#34;#insights.azure.com/v1api20200202.PublicNetworkAccessType_ARM&#34;&gt;
+PublicNetworkAccessType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7150,8 +7622,8 @@ PublicNetworkAccessType
 &lt;td&gt;
 &lt;code&gt;Request_Source&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source&#34;&gt;
-ApplicationInsightsComponentProperties_Request_Source
+&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_ARM&#34;&gt;
+ApplicationInsightsComponentProperties_Request_Source_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7198,7 +7670,27 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type&#34;&gt;ApplicationInsightsComponentProperties_Application_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;other&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;web&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_ARM&#34;&gt;ApplicationInsightsComponentProperties_Application_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7218,7 +7710,27 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_STATUS&#34;&gt;ApplicationInsightsComponentProperties_Application_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;other&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;web&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7238,7 +7750,25 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type&#34;&gt;ApplicationInsightsComponentProperties_Flow_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Bluefield&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_ARM&#34;&gt;ApplicationInsightsComponentProperties_Flow_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7256,7 +7786,25 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_STATUS&#34;&gt;ApplicationInsightsComponentProperties_Flow_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Bluefield&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7274,7 +7822,29 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode&#34;&gt;ApplicationInsightsComponentProperties_IngestionMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ApplicationInsights&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ApplicationInsightsWithDiagnosticSettings&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LogAnalytics&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_ARM&#34;&gt;ApplicationInsightsComponentProperties_IngestionMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7296,7 +7866,29 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_STATUS&#34;&gt;ApplicationInsightsComponentProperties_IngestionMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ApplicationInsights&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ApplicationInsightsWithDiagnosticSettings&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LogAnalytics&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7318,7 +7910,25 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source&#34;&gt;ApplicationInsightsComponentProperties_Request_Source
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;rest&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_ARM&#34;&gt;ApplicationInsightsComponentProperties_Request_Source_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7336,7 +7946,25 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_STATUS&#34;&gt;ApplicationInsightsComponentProperties_Request_Source_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;rest&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7393,8 +8021,8 @@ string
 &lt;td&gt;
 &lt;code&gt;Application_Type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_STATUS&#34;&gt;
-ApplicationInsightsComponentProperties_Application_Type_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM&#34;&gt;
+ApplicationInsightsComponentProperties_Application_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7450,8 +8078,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;Flow_Type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_STATUS&#34;&gt;
-ApplicationInsightsComponentProperties_Flow_Type_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM&#34;&gt;
+ApplicationInsightsComponentProperties_Flow_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7509,8 +8137,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;IngestionMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_STATUS&#34;&gt;
-ApplicationInsightsComponentProperties_IngestionMode_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM&#34;&gt;
+ApplicationInsightsComponentProperties_IngestionMode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7583,8 +8211,8 @@ Canceled, and Failed.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccessForIngestion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS&#34;&gt;
-PublicNetworkAccessType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS_ARM&#34;&gt;
+PublicNetworkAccessType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7596,8 +8224,8 @@ PublicNetworkAccessType_STATUS
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccessForQuery&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS&#34;&gt;
-PublicNetworkAccessType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS_ARM&#34;&gt;
+PublicNetworkAccessType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7609,8 +8237,8 @@ PublicNetworkAccessType_STATUS
 &lt;td&gt;
 &lt;code&gt;Request_Source&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_STATUS&#34;&gt;
-ApplicationInsightsComponentProperties_Request_Source_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM&#34;&gt;
+ApplicationInsightsComponentProperties_Request_Source_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9013,7 +9641,28 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.PublicNetworkAccessType&#34;&gt;PublicNetworkAccessType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_Spec&#34;&gt;Component_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The network access type for operating on the Application Insights Component. By default it is Enabled&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.PublicNetworkAccessType_ARM&#34;&gt;PublicNetworkAccessType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_ARM&#34;&gt;ApplicationInsightsComponentProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The network access type for operating on the Application Insights Component. By default it is Enabled&lt;/p&gt;
@@ -9034,7 +9683,28 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS&#34;&gt;PublicNetworkAccessType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.Component_STATUS&#34;&gt;Component_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The network access type for operating on the Application Insights Component. By default it is Enabled&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20200202.PublicNetworkAccessType_STATUS_ARM&#34;&gt;PublicNetworkAccessType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20200202.ApplicationInsightsComponentProperties_STATUS_ARM&#34;&gt;ApplicationInsightsComponentProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The network access type for operating on the Application Insights Component. By default it is Enabled&lt;/p&gt;
@@ -9447,8 +10117,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_Operator&#34;&gt;
-Condition_Operator
+&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_Operator_ARM&#34;&gt;
+Condition_Operator_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9493,8 +10163,8 @@ LogAlert.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;timeAggregation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_TimeAggregation&#34;&gt;
-Condition_TimeAggregation
+&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_TimeAggregation_ARM&#34;&gt;
+Condition_TimeAggregation_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9671,7 +10341,33 @@ aggregation granularity (windowSize) and the selected number of aggregated point
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.Condition_Operator&#34;&gt;Condition_Operator
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition&#34;&gt;Condition&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_ARM&#34;&gt;Condition_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition&#34;&gt;Condition&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.Condition_Operator_ARM&#34;&gt;Condition_Operator_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_ARM&#34;&gt;Condition_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9697,7 +10393,33 @@ aggregation granularity (windowSize) and the selected number of aggregated point
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.Condition_Operator_STATUS&#34;&gt;Condition_Operator_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_STATUS&#34;&gt;Condition_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_STATUS_ARM&#34;&gt;Condition_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_STATUS&#34;&gt;Condition_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.Condition_Operator_STATUS_ARM&#34;&gt;Condition_Operator_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_STATUS_ARM&#34;&gt;Condition_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9917,8 +10639,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_Operator_STATUS&#34;&gt;
-Condition_Operator_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_Operator_STATUS_ARM&#34;&gt;
+Condition_Operator_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9965,8 +10687,8 @@ LogAlert.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;timeAggregation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS&#34;&gt;
-Condition_TimeAggregation_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS_ARM&#34;&gt;
+Condition_TimeAggregation_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9979,7 +10701,33 @@ Condition_TimeAggregation_STATUS
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.Condition_TimeAggregation&#34;&gt;Condition_TimeAggregation
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition&#34;&gt;Condition&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_ARM&#34;&gt;Condition_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition&#34;&gt;Condition&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Maximum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minimum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Total&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.Condition_TimeAggregation_ARM&#34;&gt;Condition_TimeAggregation_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_ARM&#34;&gt;Condition_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10005,7 +10753,33 @@ Condition_TimeAggregation_STATUS
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS&#34;&gt;Condition_TimeAggregation_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_STATUS&#34;&gt;Condition_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_STATUS_ARM&#34;&gt;Condition_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_STATUS&#34;&gt;Condition_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Maximum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minimum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Total&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS_ARM&#34;&gt;Condition_TimeAggregation_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Condition_STATUS_ARM&#34;&gt;Condition_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10112,8 +10886,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_Operator&#34;&gt;
-Dimension_Operator
+&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_Operator_ARM&#34;&gt;
+Dimension_Operator_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10137,7 +10911,27 @@ Dimension_Operator
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.Dimension_Operator&#34;&gt;Dimension_Operator
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension&#34;&gt;Dimension&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_ARM&#34;&gt;Dimension_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension&#34;&gt;Dimension&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Exclude&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Include&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.Dimension_Operator_ARM&#34;&gt;Dimension_Operator_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_ARM&#34;&gt;Dimension_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10157,7 +10951,27 @@ Dimension_Operator
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.Dimension_Operator_STATUS&#34;&gt;Dimension_Operator_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_STATUS&#34;&gt;Dimension_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_STATUS_ARM&#34;&gt;Dimension_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_STATUS&#34;&gt;Dimension_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Exclude&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Include&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.Dimension_Operator_STATUS_ARM&#34;&gt;Dimension_Operator_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_STATUS_ARM&#34;&gt;Dimension_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10258,8 +11072,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_Operator_STATUS&#34;&gt;
-Dimension_Operator_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20220615.Dimension_Operator_STATUS_ARM&#34;&gt;
+Dimension_Operator_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11018,8 +11832,8 @@ WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAl
 &lt;td&gt;
 &lt;code&gt;severity&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity&#34;&gt;
-ScheduledQueryRuleProperties_Severity
+&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_ARM&#34;&gt;
+ScheduledQueryRuleProperties_Severity_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11252,8 +12066,8 @@ WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAl
 &lt;td&gt;
 &lt;code&gt;severity&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS&#34;&gt;
-ScheduledQueryRuleProperties_Severity_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS_ARM&#34;&gt;
+ScheduledQueryRuleProperties_Severity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11305,7 +12119,33 @@ Relevant and required only for rules of the kind LogAlert.&lt;/p&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity&#34;&gt;ScheduledQueryRuleProperties_Severity
 (&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_ARM&#34;&gt;ScheduledQueryRuleProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec&#34;&gt;ScheduledQueryRule_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec&#34;&gt;ScheduledQueryRule_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;0&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;1&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;2&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;3&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;4&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_ARM&#34;&gt;ScheduledQueryRuleProperties_Severity_ARM
+(&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_ARM&#34;&gt;ScheduledQueryRuleProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11331,7 +12171,33 @@ Relevant and required only for rules of the kind LogAlert.&lt;/p&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS&#34;&gt;ScheduledQueryRuleProperties_Severity_STATUS
 (&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_STATUS_ARM&#34;&gt;ScheduledQueryRuleProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS&#34;&gt;ScheduledQueryRule_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS&#34;&gt;ScheduledQueryRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;0&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;1&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;2&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;3&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;4&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS_ARM&#34;&gt;ScheduledQueryRuleProperties_Severity_STATUS_ARM
+(&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_STATUS_ARM&#34;&gt;ScheduledQueryRuleProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11357,7 +12223,27 @@ Relevant and required only for rules of the kind LogAlert.&lt;/p&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS&#34;&gt;ScheduledQueryRule_Kind_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS&#34;&gt;ScheduledQueryRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS_ARM&#34;&gt;ScheduledQueryRule_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS&#34;&gt;ScheduledQueryRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LogAlert&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LogToMetric&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS_ARM&#34;&gt;ScheduledQueryRule_Kind_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS_ARM&#34;&gt;ScheduledQueryRule_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11377,7 +12263,27 @@ Relevant and required only for rules of the kind LogAlert.&lt;/p&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec&#34;&gt;ScheduledQueryRule_Kind_Spec
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec&#34;&gt;ScheduledQueryRule_Spec&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec_ARM&#34;&gt;ScheduledQueryRule_Spec_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec&#34;&gt;ScheduledQueryRule_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LogAlert&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LogToMetric&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec_ARM&#34;&gt;ScheduledQueryRule_Kind_Spec_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec_ARM&#34;&gt;ScheduledQueryRule_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11778,8 +12684,8 @@ string
 &lt;td&gt;
 &lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS&#34;&gt;
-ScheduledQueryRule_Kind_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS_ARM&#34;&gt;
+ScheduledQueryRule_Kind_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12138,8 +13044,8 @@ Relevant and required only for rules of the kind LogAlert.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec&#34;&gt;
-ScheduledQueryRule_Kind_Spec
+&lt;a href=&#34;#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec_ARM&#34;&gt;
+ScheduledQueryRule_Kind_Spec_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12197,7 +13103,31 @@ map[string]string
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS&#34;&gt;SystemData_CreatedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS_ARM&#34;&gt;SystemData_CreatedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -12221,7 +13151,31 @@ map[string]string
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS&#34;&gt;SystemData_LastModifiedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;SystemData_LastModifiedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -12372,8 +13326,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS&#34;&gt;
-SystemData_CreatedByType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS_ARM&#34;&gt;
+SystemData_CreatedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12407,8 +13361,8 @@ string
 &lt;td&gt;
 &lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS&#34;&gt;
-SystemData_LastModifiedByType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;
+SystemData_LastModifiedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12600,8 +13554,8 @@ int
 &lt;td&gt;
 &lt;code&gt;Kind&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.WebTestProperties_Kind&#34;&gt;
-WebTestProperties_Kind
+&lt;a href=&#34;#insights.azure.com/v1api20220615.WebTestProperties_Kind_ARM&#34;&gt;
+WebTestProperties_Kind_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12810,7 +13764,29 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.WebTestProperties_Kind&#34;&gt;WebTestProperties_Kind
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.WebTestProperties_ARM&#34;&gt;WebTestProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.Webtest_Spec&#34;&gt;Webtest_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Webtest_Spec&#34;&gt;Webtest_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;multistep&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ping&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.WebTestProperties_Kind_ARM&#34;&gt;WebTestProperties_Kind_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.WebTestProperties_ARM&#34;&gt;WebTestProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -12832,7 +13808,29 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS&#34;&gt;WebTestProperties_Kind_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM&#34;&gt;WebTestProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20220615.Webtest_STATUS&#34;&gt;Webtest_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.Webtest_STATUS&#34;&gt;Webtest_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;multistep&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ping&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS_ARM&#34;&gt;WebTestProperties_Kind_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM&#34;&gt;WebTestProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -13257,8 +14255,8 @@ int
 &lt;td&gt;
 &lt;code&gt;Kind&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS&#34;&gt;
-WebTestProperties_Kind_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS_ARM&#34;&gt;
+WebTestProperties_Kind_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -14836,8 +15834,8 @@ EmailNotification_ARM
 &lt;td&gt;
 &lt;code&gt;operation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_Operation&#34;&gt;
-AutoscaleNotification_Operation
+&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_Operation_ARM&#34;&gt;
+AutoscaleNotification_Operation_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -14863,7 +15861,25 @@ AutoscaleNotification_Operation
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.AutoscaleNotification_Operation&#34;&gt;AutoscaleNotification_Operation
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification&#34;&gt;AutoscaleNotification&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_ARM&#34;&gt;AutoscaleNotification_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification&#34;&gt;AutoscaleNotification&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Scale&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.AutoscaleNotification_Operation_ARM&#34;&gt;AutoscaleNotification_Operation_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_ARM&#34;&gt;AutoscaleNotification_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -14881,7 +15897,25 @@ AutoscaleNotification_Operation
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.AutoscaleNotification_Operation_STATUS&#34;&gt;AutoscaleNotification_Operation_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_STATUS&#34;&gt;AutoscaleNotification_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_STATUS_ARM&#34;&gt;AutoscaleNotification_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_STATUS&#34;&gt;AutoscaleNotification_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Scale&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.AutoscaleNotification_Operation_STATUS_ARM&#34;&gt;AutoscaleNotification_Operation_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_STATUS_ARM&#34;&gt;AutoscaleNotification_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -14986,8 +16020,8 @@ EmailNotification_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;operation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_Operation_STATUS&#34;&gt;
-AutoscaleNotification_Operation_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification_Operation_STATUS_ARM&#34;&gt;
+AutoscaleNotification_Operation_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -16689,8 +17723,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_Operator&#34;&gt;
-MetricTrigger_Operator
+&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_Operator_ARM&#34;&gt;
+MetricTrigger_Operator_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -16702,8 +17736,8 @@ MetricTrigger_Operator
 &lt;td&gt;
 &lt;code&gt;statistic&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_Statistic&#34;&gt;
-MetricTrigger_Statistic
+&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_Statistic_ARM&#34;&gt;
+MetricTrigger_Statistic_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -16726,8 +17760,8 @@ float64
 &lt;td&gt;
 &lt;code&gt;timeAggregation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_TimeAggregation&#34;&gt;
-MetricTrigger_TimeAggregation
+&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_TimeAggregation_ARM&#34;&gt;
+MetricTrigger_TimeAggregation_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -16765,7 +17799,35 @@ collection, which can vary from resource-to-resource. Must be between 12 hours a
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_Operator&#34;&gt;MetricTrigger_Operator
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger&#34;&gt;MetricTrigger&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_ARM&#34;&gt;MetricTrigger_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger&#34;&gt;MetricTrigger&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NotEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_Operator_ARM&#34;&gt;MetricTrigger_Operator_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_ARM&#34;&gt;MetricTrigger_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -16793,7 +17855,35 @@ collection, which can vary from resource-to-resource. Must be between 12 hours a
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_Operator_STATUS&#34;&gt;MetricTrigger_Operator_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS&#34;&gt;MetricTrigger_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS_ARM&#34;&gt;MetricTrigger_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS&#34;&gt;MetricTrigger_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NotEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_Operator_STATUS_ARM&#34;&gt;MetricTrigger_Operator_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS_ARM&#34;&gt;MetricTrigger_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -17069,8 +18159,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_Operator_STATUS&#34;&gt;
-MetricTrigger_Operator_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_Operator_STATUS_ARM&#34;&gt;
+MetricTrigger_Operator_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -17082,8 +18172,8 @@ MetricTrigger_Operator_STATUS
 &lt;td&gt;
 &lt;code&gt;statistic&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_Statistic_STATUS&#34;&gt;
-MetricTrigger_Statistic_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_Statistic_STATUS_ARM&#34;&gt;
+MetricTrigger_Statistic_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -17106,8 +18196,8 @@ float64
 &lt;td&gt;
 &lt;code&gt;timeAggregation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_TimeAggregation_STATUS&#34;&gt;
-MetricTrigger_TimeAggregation_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_TimeAggregation_STATUS_ARM&#34;&gt;
+MetricTrigger_TimeAggregation_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -17145,7 +18235,33 @@ collection, which can vary from resource-to-resource. Must be between 12 hours a
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_Statistic&#34;&gt;MetricTrigger_Statistic
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger&#34;&gt;MetricTrigger&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_ARM&#34;&gt;MetricTrigger_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger&#34;&gt;MetricTrigger&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Max&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Min&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Sum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_Statistic_ARM&#34;&gt;MetricTrigger_Statistic_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_ARM&#34;&gt;MetricTrigger_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -17171,7 +18287,33 @@ collection, which can vary from resource-to-resource. Must be between 12 hours a
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_Statistic_STATUS&#34;&gt;MetricTrigger_Statistic_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS&#34;&gt;MetricTrigger_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS_ARM&#34;&gt;MetricTrigger_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS&#34;&gt;MetricTrigger_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Max&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Min&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Sum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_Statistic_STATUS_ARM&#34;&gt;MetricTrigger_Statistic_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS_ARM&#34;&gt;MetricTrigger_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -17197,7 +18339,35 @@ collection, which can vary from resource-to-resource. Must be between 12 hours a
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_TimeAggregation&#34;&gt;MetricTrigger_TimeAggregation
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger&#34;&gt;MetricTrigger&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_ARM&#34;&gt;MetricTrigger_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger&#34;&gt;MetricTrigger&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Last&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Maximum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minimum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Total&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_TimeAggregation_ARM&#34;&gt;MetricTrigger_TimeAggregation_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_ARM&#34;&gt;MetricTrigger_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -17225,7 +18395,35 @@ collection, which can vary from resource-to-resource. Must be between 12 hours a
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_TimeAggregation_STATUS&#34;&gt;MetricTrigger_TimeAggregation_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS&#34;&gt;MetricTrigger_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS_ARM&#34;&gt;MetricTrigger_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS&#34;&gt;MetricTrigger_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Average&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Count&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Last&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Maximum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minimum&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Total&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.MetricTrigger_TimeAggregation_STATUS_ARM&#34;&gt;MetricTrigger_TimeAggregation_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.MetricTrigger_STATUS_ARM&#34;&gt;MetricTrigger_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -17325,8 +18523,8 @@ minute and 60 minutes in ISO 8601 format.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;scaleMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ScaleMode&#34;&gt;
-PredictiveAutoscalePolicy_ScaleMode
+&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ScaleMode_ARM&#34;&gt;
+PredictiveAutoscalePolicy_ScaleMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -17411,8 +18609,8 @@ minute and 60 minutes in ISO 8601 format.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;scaleMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ScaleMode_STATUS&#34;&gt;
-PredictiveAutoscalePolicy_ScaleMode_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM&#34;&gt;
+PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -17425,7 +18623,29 @@ PredictiveAutoscalePolicy_ScaleMode_STATUS
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ScaleMode&#34;&gt;PredictiveAutoscalePolicy_ScaleMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy&#34;&gt;PredictiveAutoscalePolicy&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ARM&#34;&gt;PredictiveAutoscalePolicy_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy&#34;&gt;PredictiveAutoscalePolicy&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ForecastOnly&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ScaleMode_ARM&#34;&gt;PredictiveAutoscalePolicy_ScaleMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ARM&#34;&gt;PredictiveAutoscalePolicy_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -17447,7 +18667,29 @@ PredictiveAutoscalePolicy_ScaleMode_STATUS
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ScaleMode_STATUS&#34;&gt;PredictiveAutoscalePolicy_ScaleMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_STATUS&#34;&gt;PredictiveAutoscalePolicy_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_STATUS_ARM&#34;&gt;PredictiveAutoscalePolicy_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_STATUS&#34;&gt;PredictiveAutoscalePolicy_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ForecastOnly&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM&#34;&gt;PredictiveAutoscalePolicy_ScaleMode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_STATUS_ARM&#34;&gt;PredictiveAutoscalePolicy_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -17532,8 +18774,8 @@ RecurrentSchedule
 &lt;td&gt;
 &lt;code&gt;frequency&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_Frequency&#34;&gt;
-Recurrence_Frequency
+&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_Frequency_ARM&#34;&gt;
+Recurrence_Frequency_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -17561,7 +18803,39 @@ RecurrentSchedule_ARM
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.Recurrence_Frequency&#34;&gt;Recurrence_Frequency
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence&#34;&gt;Recurrence&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_ARM&#34;&gt;Recurrence_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence&#34;&gt;Recurrence&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Day&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Hour&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minute&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Month&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Second&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Week&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Year&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.Recurrence_Frequency_ARM&#34;&gt;Recurrence_Frequency_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_ARM&#34;&gt;Recurrence_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -17593,7 +18867,39 @@ RecurrentSchedule_ARM
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.Recurrence_Frequency_STATUS&#34;&gt;Recurrence_Frequency_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_STATUS&#34;&gt;Recurrence_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_STATUS_ARM&#34;&gt;Recurrence_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_STATUS&#34;&gt;Recurrence_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Day&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Hour&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Minute&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Month&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Second&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Week&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Year&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.Recurrence_Frequency_STATUS_ARM&#34;&gt;Recurrence_Frequency_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_STATUS_ARM&#34;&gt;Recurrence_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -17688,8 +18994,8 @@ RecurrentSchedule_STATUS
 &lt;td&gt;
 &lt;code&gt;frequency&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_Frequency_STATUS&#34;&gt;
-Recurrence_Frequency_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.Recurrence_Frequency_STATUS_ARM&#34;&gt;
+Recurrence_Frequency_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -18154,8 +19460,8 @@ and 1 minute in ISO 8601 format.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;direction&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_Direction&#34;&gt;
-ScaleAction_Direction
+&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_Direction_ARM&#34;&gt;
+ScaleAction_Direction_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -18167,8 +19473,8 @@ ScaleAction_Direction
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_Type&#34;&gt;
-ScaleAction_Type
+&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_Type_ARM&#34;&gt;
+ScaleAction_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -18193,7 +19499,29 @@ value is 1.&lt;/p&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleAction_Direction&#34;&gt;ScaleAction_Direction
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction&#34;&gt;ScaleAction&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_ARM&#34;&gt;ScaleAction_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction&#34;&gt;ScaleAction&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Decrease&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Increase&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleAction_Direction_ARM&#34;&gt;ScaleAction_Direction_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_ARM&#34;&gt;ScaleAction_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -18215,7 +19543,29 @@ value is 1.&lt;/p&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleAction_Direction_STATUS&#34;&gt;ScaleAction_Direction_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_STATUS&#34;&gt;ScaleAction_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_STATUS_ARM&#34;&gt;ScaleAction_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_STATUS&#34;&gt;ScaleAction_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Decrease&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Increase&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleAction_Direction_STATUS_ARM&#34;&gt;ScaleAction_Direction_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_STATUS_ARM&#34;&gt;ScaleAction_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -18334,8 +19684,8 @@ and 1 minute in ISO 8601 format.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;direction&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_Direction_STATUS&#34;&gt;
-ScaleAction_Direction_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_Direction_STATUS_ARM&#34;&gt;
+ScaleAction_Direction_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -18347,8 +19697,8 @@ ScaleAction_Direction_STATUS
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_Type_STATUS&#34;&gt;
-ScaleAction_Type_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_Type_STATUS_ARM&#34;&gt;
+ScaleAction_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -18373,7 +19723,31 @@ value is 1.&lt;/p&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleAction_Type&#34;&gt;ScaleAction_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction&#34;&gt;ScaleAction&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_ARM&#34;&gt;ScaleAction_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction&#34;&gt;ScaleAction&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ChangeCount&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ExactCount&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PercentChangeCount&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceAllowedNextValue&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleAction_Type_ARM&#34;&gt;ScaleAction_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_ARM&#34;&gt;ScaleAction_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -18397,7 +19771,31 @@ value is 1.&lt;/p&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleAction_Type_STATUS&#34;&gt;ScaleAction_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_STATUS&#34;&gt;ScaleAction_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_STATUS_ARM&#34;&gt;ScaleAction_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_STATUS&#34;&gt;ScaleAction_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ChangeCount&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ExactCount&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PercentChangeCount&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceAllowedNextValue&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleAction_Type_STATUS_ARM&#34;&gt;ScaleAction_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleAction_STATUS_ARM&#34;&gt;ScaleAction_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -18759,8 +20157,8 @@ string
 &lt;td&gt;
 &lt;code&gt;Operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_Operator&#34;&gt;
-ScaleRuleMetricDimension_Operator
+&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_Operator_ARM&#34;&gt;
+ScaleRuleMetricDimension_Operator_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -18785,7 +20183,27 @@ values. &amp;lsquo;NotEquals&amp;rsquo; being not equal to all of the values&lt;
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleRuleMetricDimension_Operator&#34;&gt;ScaleRuleMetricDimension_Operator
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension&#34;&gt;ScaleRuleMetricDimension&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_ARM&#34;&gt;ScaleRuleMetricDimension_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension&#34;&gt;ScaleRuleMetricDimension&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NotEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleRuleMetricDimension_Operator_ARM&#34;&gt;ScaleRuleMetricDimension_Operator_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_ARM&#34;&gt;ScaleRuleMetricDimension_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -18805,7 +20223,27 @@ values. &amp;lsquo;NotEquals&amp;rsquo; being not equal to all of the values&lt;
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleRuleMetricDimension_Operator_STATUS&#34;&gt;ScaleRuleMetricDimension_Operator_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_STATUS&#34;&gt;ScaleRuleMetricDimension_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_STATUS_ARM&#34;&gt;ScaleRuleMetricDimension_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_STATUS&#34;&gt;ScaleRuleMetricDimension_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NotEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.ScaleRuleMetricDimension_Operator_STATUS_ARM&#34;&gt;ScaleRuleMetricDimension_Operator_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_STATUS_ARM&#34;&gt;ScaleRuleMetricDimension_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -18907,8 +20345,8 @@ string
 &lt;td&gt;
 &lt;code&gt;Operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_Operator_STATUS&#34;&gt;
-ScaleRuleMetricDimension_Operator_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.ScaleRuleMetricDimension_Operator_STATUS_ARM&#34;&gt;
+ScaleRuleMetricDimension_Operator_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -19065,7 +20503,31 @@ ScaleAction_STATUS_ARM
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.SystemData_CreatedByType_STATUS&#34;&gt;SystemData_CreatedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.SystemData_CreatedByType_STATUS_ARM&#34;&gt;SystemData_CreatedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -19089,7 +20551,31 @@ ScaleAction_STATUS_ARM
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.SystemData_LastModifiedByType_STATUS&#34;&gt;SystemData_LastModifiedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;SystemData_LastModifiedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -19240,8 +20726,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_CreatedByType_STATUS&#34;&gt;
-SystemData_CreatedByType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_CreatedByType_STATUS_ARM&#34;&gt;
+SystemData_CreatedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -19275,8 +20761,8 @@ string
 &lt;td&gt;
 &lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_LastModifiedByType_STATUS&#34;&gt;
-SystemData_LastModifiedByType_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20221001.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;
+SystemData_LastModifiedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -22292,8 +23778,8 @@ string
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20230101.ReceiverStatus_STATUS&#34;&gt;
-ReceiverStatus_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20230101.ReceiverStatus_STATUS_ARM&#34;&gt;
+ReceiverStatus_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -23202,7 +24688,30 @@ bool
 &lt;h3 id=&#34;insights.azure.com/v1api20230101.ReceiverStatus_STATUS&#34;&gt;ReceiverStatus_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20230101.EmailReceiver_STATUS&#34;&gt;EmailReceiver_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20230101.EmailReceiver_STATUS_ARM&#34;&gt;EmailReceiver_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20230101.SmsReceiver_STATUS&#34;&gt;SmsReceiver_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20230101.SmsReceiver_STATUS_ARM&#34;&gt;SmsReceiver_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20230101.EmailReceiver_STATUS&#34;&gt;EmailReceiver_STATUS&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20230101.SmsReceiver_STATUS&#34;&gt;SmsReceiver_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Indicates the status of the receiver. Receivers that are not Enabled will not receive any communications.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NotSpecified&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20230101.ReceiverStatus_STATUS_ARM&#34;&gt;ReceiverStatus_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20230101.EmailReceiver_STATUS_ARM&#34;&gt;EmailReceiver_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#insights.azure.com/v1api20230101.SmsReceiver_STATUS_ARM&#34;&gt;SmsReceiver_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Indicates the status of the receiver. Receivers that are not Enabled will not receive any communications.&lt;/p&gt;
@@ -23441,8 +24950,8 @@ string
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20230101.ReceiverStatus_STATUS&#34;&gt;
-ReceiverStatus_STATUS
+&lt;a href=&#34;#insights.azure.com/v1api20230101.ReceiverStatus_STATUS_ARM&#34;&gt;
+ReceiverStatus_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

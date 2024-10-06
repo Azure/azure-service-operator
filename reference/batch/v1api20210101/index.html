@@ -39,7 +39,7 @@
     AutoStorageBaseProperties   (Appears on:BatchAccount_Spec)  The properties related to the auto-storage account.
     Field Description      storageAccountReference  genruntime.ResourceReference     StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.">
 
-<meta itemprop="wordCount" content="2833">
+<meta itemprop="wordCount" content="2957">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="batch.azure.com/v1api20210101"/>
 <meta name="twitter:description" content="batch.azure.com/v1api20210101  Package v1api20210101 contains API Schema definitions for the batch v1api20210101 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1187,8 +1193,8 @@ KeyVaultReference_ARM
 <td>
 <code>poolAllocationMode</code><br/>
 <em>
-<a href="#batch.azure.com/v1api20210101.PoolAllocationMode">
-PoolAllocationMode
+<a href="#batch.azure.com/v1api20210101.PoolAllocationMode_ARM">
+PoolAllocationMode_ARM
 </a>
 </em>
 </td>
@@ -1202,8 +1208,8 @@ UserSubscription, clients must use Azure Active Directory. The default is BatchS
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#batch.azure.com/v1api20210101.PublicNetworkAccessType">
-PublicNetworkAccessType
+<a href="#batch.azure.com/v1api20210101.PublicNetworkAccessType_ARM">
+PublicNetworkAccessType_ARM
 </a>
 </em>
 </td>
@@ -1281,8 +1287,8 @@ their Batch account encryption configuration.</p>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_Type">
-BatchAccountIdentity_Type
+<a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_Type_ARM">
+BatchAccountIdentity_Type_ARM
 </a>
 </em>
 </td>
@@ -1418,8 +1424,8 @@ identity.</p>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_Type_STATUS">
-BatchAccountIdentity_Type_STATUS
+<a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_Type_STATUS_ARM">
+BatchAccountIdentity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1447,7 +1453,29 @@ references will be ARM resource ids in the form:
 <h3 id="batch.azure.com/v1api20210101.BatchAccountIdentity_Type">BatchAccountIdentity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountIdentity">BatchAccountIdentity</a>, <a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_ARM">BatchAccountIdentity_ARM</a>)
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountIdentity">BatchAccountIdentity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="batch.azure.com/v1api20210101.BatchAccountIdentity_Type_ARM">BatchAccountIdentity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_ARM">BatchAccountIdentity_ARM</a>)
 </p>
 <div>
 </div>
@@ -1469,7 +1497,29 @@ references will be ARM resource ids in the form:
 <h3 id="batch.azure.com/v1api20210101.BatchAccountIdentity_Type_STATUS">BatchAccountIdentity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a>, <a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_STATUS_ARM">BatchAccountIdentity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_STATUS">BatchAccountIdentity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="batch.azure.com/v1api20210101.BatchAccountIdentity_Type_STATUS_ARM">BatchAccountIdentity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountIdentity_STATUS_ARM">BatchAccountIdentity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1569,7 +1619,35 @@ string
 <h3 id="batch.azure.com/v1api20210101.BatchAccountProperties_ProvisioningState_STATUS">BatchAccountProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountProperties_STATUS_ARM">BatchAccountProperties_STATUS_ARM</a>, <a href="#batch.azure.com/v1api20210101.BatchAccount_STATUS">BatchAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccount_STATUS">BatchAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Cancelled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Invalid&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="batch.azure.com/v1api20210101.BatchAccountProperties_ProvisioningState_STATUS_ARM">BatchAccountProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountProperties_STATUS_ARM">BatchAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1729,8 +1807,8 @@ so this value is not returned.</p>
 <td>
 <code>poolAllocationMode</code><br/>
 <em>
-<a href="#batch.azure.com/v1api20210101.PoolAllocationMode_STATUS">
-PoolAllocationMode_STATUS
+<a href="#batch.azure.com/v1api20210101.PoolAllocationMode_STATUS_ARM">
+PoolAllocationMode_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1765,8 +1843,8 @@ int
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#batch.azure.com/v1api20210101.BatchAccountProperties_ProvisioningState_STATUS">
-BatchAccountProperties_ProvisioningState_STATUS
+<a href="#batch.azure.com/v1api20210101.BatchAccountProperties_ProvisioningState_STATUS_ARM">
+BatchAccountProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1778,8 +1856,8 @@ BatchAccountProperties_ProvisioningState_STATUS
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#batch.azure.com/v1api20210101.PublicNetworkAccessType_STATUS">
-PublicNetworkAccessType_STATUS
+<a href="#batch.azure.com/v1api20210101.PublicNetworkAccessType_STATUS_ARM">
+PublicNetworkAccessType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2446,8 +2524,8 @@ managed key. For additional control, a customer-managed key can be used instead.
 <td>
 <code>keySource</code><br/>
 <em>
-<a href="#batch.azure.com/v1api20210101.EncryptionProperties_KeySource">
-EncryptionProperties_KeySource
+<a href="#batch.azure.com/v1api20210101.EncryptionProperties_KeySource_ARM">
+EncryptionProperties_KeySource_ARM
 </a>
 </em>
 </td>
@@ -2473,7 +2551,27 @@ KeyVaultProperties_ARM
 <h3 id="batch.azure.com/v1api20210101.EncryptionProperties_KeySource">EncryptionProperties_KeySource
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.EncryptionProperties">EncryptionProperties</a>, <a href="#batch.azure.com/v1api20210101.EncryptionProperties_ARM">EncryptionProperties_ARM</a>)
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.EncryptionProperties">EncryptionProperties</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.Batch&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Microsoft.KeyVault&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="batch.azure.com/v1api20210101.EncryptionProperties_KeySource_ARM">EncryptionProperties_KeySource_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.EncryptionProperties_ARM">EncryptionProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2493,7 +2591,27 @@ KeyVaultProperties_ARM
 <h3 id="batch.azure.com/v1api20210101.EncryptionProperties_KeySource_STATUS">EncryptionProperties_KeySource_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.EncryptionProperties_STATUS">EncryptionProperties_STATUS</a>, <a href="#batch.azure.com/v1api20210101.EncryptionProperties_STATUS_ARM">EncryptionProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.EncryptionProperties_STATUS">EncryptionProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.Batch&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Microsoft.KeyVault&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="batch.azure.com/v1api20210101.EncryptionProperties_KeySource_STATUS_ARM">EncryptionProperties_KeySource_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.EncryptionProperties_STATUS_ARM">EncryptionProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2576,8 +2694,8 @@ managed key. For additional control, a customer-managed key can be used instead.
 <td>
 <code>keySource</code><br/>
 <em>
-<a href="#batch.azure.com/v1api20210101.EncryptionProperties_KeySource_STATUS">
-EncryptionProperties_KeySource_STATUS
+<a href="#batch.azure.com/v1api20210101.EncryptionProperties_KeySource_STATUS_ARM">
+EncryptionProperties_KeySource_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2900,7 +3018,28 @@ string
 <h3 id="batch.azure.com/v1api20210101.PoolAllocationMode">PoolAllocationMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountCreateProperties_ARM">BatchAccountCreateProperties_ARM</a>, <a href="#batch.azure.com/v1api20210101.BatchAccount_Spec">BatchAccount_Spec</a>)
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccount_Spec">BatchAccount_Spec</a>)
+</p>
+<div>
+<p>The allocation mode for creating pools in the Batch account.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BatchService&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserSubscription&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="batch.azure.com/v1api20210101.PoolAllocationMode_ARM">PoolAllocationMode_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountCreateProperties_ARM">BatchAccountCreateProperties_ARM</a>)
 </p>
 <div>
 <p>The allocation mode for creating pools in the Batch account.</p>
@@ -2921,7 +3060,28 @@ string
 <h3 id="batch.azure.com/v1api20210101.PoolAllocationMode_STATUS">PoolAllocationMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountProperties_STATUS_ARM">BatchAccountProperties_STATUS_ARM</a>, <a href="#batch.azure.com/v1api20210101.BatchAccount_STATUS">BatchAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccount_STATUS">BatchAccount_STATUS</a>)
+</p>
+<div>
+<p>The allocation mode for creating pools in the Batch account.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BatchService&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserSubscription&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="batch.azure.com/v1api20210101.PoolAllocationMode_STATUS_ARM">PoolAllocationMode_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountProperties_STATUS_ARM">BatchAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The allocation mode for creating pools in the Batch account.</p>
@@ -3000,7 +3160,28 @@ string
 <h3 id="batch.azure.com/v1api20210101.PublicNetworkAccessType">PublicNetworkAccessType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountCreateProperties_ARM">BatchAccountCreateProperties_ARM</a>, <a href="#batch.azure.com/v1api20210101.BatchAccount_Spec">BatchAccount_Spec</a>)
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccount_Spec">BatchAccount_Spec</a>)
+</p>
+<div>
+<p>The network access type for operating on the resources in the Batch account.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="batch.azure.com/v1api20210101.PublicNetworkAccessType_ARM">PublicNetworkAccessType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountCreateProperties_ARM">BatchAccountCreateProperties_ARM</a>)
 </p>
 <div>
 <p>The network access type for operating on the resources in the Batch account.</p>
@@ -3021,7 +3202,28 @@ string
 <h3 id="batch.azure.com/v1api20210101.PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountProperties_STATUS_ARM">BatchAccountProperties_STATUS_ARM</a>, <a href="#batch.azure.com/v1api20210101.BatchAccount_STATUS">BatchAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccount_STATUS">BatchAccount_STATUS</a>)
+</p>
+<div>
+<p>The network access type for operating on the resources in the Batch account.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="batch.azure.com/v1api20210101.PublicNetworkAccessType_STATUS_ARM">PublicNetworkAccessType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#batch.azure.com/v1api20210101.BatchAccountProperties_STATUS_ARM">BatchAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The network access type for operating on the resources in the Batch account.</p>

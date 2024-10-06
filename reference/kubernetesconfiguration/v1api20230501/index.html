@@ -39,7 +39,7 @@
     ErrorAdditionalInfo_STATUS   (Appears on:ErrorDetail_STATUS, ErrorDetail_STATUS_Unrolled)  The resource management error additional info.
     Field Description      info  map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON     Info: The additional info.">
 
-<meta itemprop="wordCount" content="3141">
+<meta itemprop="wordCount" content="3238">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="kubernetesconfiguration.azure.com/v1api20230501"/>
 <meta name="twitter:description" content="kubernetesconfiguration.azure.com/v1api20230501  Package v1api20230501 contains API Schema definitions for the kubernetesconfiguration v1api20230501 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1465,7 +1471,29 @@ ExtensionOperatorConfigMaps
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.ExtensionStatus_Level_STATUS">ExtensionStatus_Level_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionStatus_STATUS">ExtensionStatus_STATUS</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionStatus_STATUS_ARM">ExtensionStatus_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionStatus_STATUS">ExtensionStatus_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Error&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Information&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Warning&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.ExtensionStatus_Level_STATUS_ARM">ExtensionStatus_Level_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionStatus_STATUS_ARM">ExtensionStatus_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1601,8 +1629,8 @@ string
 <td>
 <code>level</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionStatus_Level_STATUS">
-ExtensionStatus_Level_STATUS
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionStatus_Level_STATUS_ARM">
+ExtensionStatus_Level_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1727,8 +1755,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Type_STATUS">
-Extension_Properties_AksAssignedIdentity_Type_STATUS
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM">
+Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1787,8 +1815,8 @@ Extension_Properties_AksAssignedIdentity_Type_Spec
 <td>
 <code>type</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Type_Spec">
-Extension_Properties_AksAssignedIdentity_Type_Spec
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Type_Spec_ARM">
+Extension_Properties_AksAssignedIdentity_Type_Spec_ARM
 </a>
 </em>
 </td>
@@ -1801,7 +1829,27 @@ Extension_Properties_AksAssignedIdentity_Type_Spec
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Type_STATUS">Extension_Properties_AksAssignedIdentity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_STATUS">Extension_Properties_AksAssignedIdentity_STATUS</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_STATUS_ARM">Extension_Properties_AksAssignedIdentity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_STATUS">Extension_Properties_AksAssignedIdentity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM">Extension_Properties_AksAssignedIdentity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_STATUS_ARM">Extension_Properties_AksAssignedIdentity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1821,7 +1869,27 @@ Extension_Properties_AksAssignedIdentity_Type_Spec
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Type_Spec">Extension_Properties_AksAssignedIdentity_Type_Spec
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Spec">Extension_Properties_AksAssignedIdentity_Spec</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Spec_ARM">Extension_Properties_AksAssignedIdentity_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Spec">Extension_Properties_AksAssignedIdentity_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Type_Spec_ARM">Extension_Properties_AksAssignedIdentity_Type_Spec_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_AksAssignedIdentity_Spec_ARM">Extension_Properties_AksAssignedIdentity_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -1973,8 +2041,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.ProvisioningStateDefinition_STATUS">
-ProvisioningStateDefinition_STATUS
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.ProvisioningStateDefinition_STATUS_ARM">
+ProvisioningStateDefinition_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2857,8 +2925,8 @@ Identity_Type
 <td>
 <code>type</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_Type">
-Identity_Type
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_Type_ARM">
+Identity_Type_ARM
 </a>
 </em>
 </td>
@@ -2963,8 +3031,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_Type_STATUS">
-Identity_Type_STATUS
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_Type_STATUS_ARM">
+Identity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2977,7 +3045,25 @@ Identity_Type_STATUS
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.Identity_Type">Identity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity">Identity</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_ARM">Identity_ARM</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity">Identity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.Identity_Type_ARM">Identity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_ARM">Identity_ARM</a>)
 </p>
 <div>
 </div>
@@ -2995,7 +3081,25 @@ Identity_Type_STATUS
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.Identity_Type_STATUS">Identity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_STATUS">Identity_STATUS</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_STATUS">Identity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.Identity_Type_STATUS_ARM">Identity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3309,7 +3413,36 @@ string
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.ProvisioningStateDefinition_STATUS">ProvisioningStateDefinition_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_STATUS_ARM">Extension_Properties_STATUS_ARM</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_STATUS">Extension_STATUS</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_STATUS">Extension_STATUS</a>)
+</p>
+<div>
+<p>The provisioning state of the resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.ProvisioningStateDefinition_STATUS_ARM">ProvisioningStateDefinition_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Properties_STATUS_ARM">Extension_Properties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The provisioning state of the resource.</p>
@@ -3881,8 +4014,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_CreatedByType">
-SystemData_CreatedByType
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_CreatedByType_ARM">
+SystemData_CreatedByType_ARM
 </a>
 </em>
 </td>
@@ -3916,8 +4049,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_LastModifiedByType">
-SystemData_LastModifiedByType
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_LastModifiedByType_ARM">
+SystemData_LastModifiedByType_ARM
 </a>
 </em>
 </td>
@@ -3930,7 +4063,31 @@ SystemData_LastModifiedByType
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.SystemData_CreatedByType">SystemData_CreatedByType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData">SystemData</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_ARM">SystemData_ARM</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData">SystemData</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.SystemData_CreatedByType_ARM">SystemData_CreatedByType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_ARM">SystemData_ARM</a>)
 </p>
 <div>
 </div>
@@ -3954,7 +4111,31 @@ SystemData_LastModifiedByType
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_STATUS">SystemData_STATUS</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3978,7 +4159,31 @@ SystemData_LastModifiedByType
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.SystemData_LastModifiedByType">SystemData_LastModifiedByType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData">SystemData</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_ARM">SystemData_ARM</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData">SystemData</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.SystemData_LastModifiedByType_ARM">SystemData_LastModifiedByType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_ARM">SystemData_ARM</a>)
 </p>
 <div>
 </div>
@@ -4002,7 +4207,31 @@ SystemData_LastModifiedByType
 <h3 id="kubernetesconfiguration.azure.com/v1api20230501.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_STATUS">SystemData_STATUS</a>, <a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4153,8 +4382,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4188,8 +4417,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>

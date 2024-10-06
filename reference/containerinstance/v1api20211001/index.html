@@ -39,7 +39,7 @@
     AzureFileVolume   (Appears on:Volume)  The properties of the Azure File volume. Azure File shares are mounted as volumes.
     Field Description      readOnly  bool    ReadOnly: The flag indicating whether the Azure File shared mounted as a volume is read-only.">
 
-<meta itemprop="wordCount" content="7339">
+<meta itemprop="wordCount" content="7539">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="containerinstance.azure.com/v1api20211001"/>
 <meta name="twitter:description" content="containerinstance.azure.com/v1api20211001  Package v1api20211001 contains API Schema definitions for the containerinstance v1api20211001 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1773,8 +1779,8 @@ container group.</p>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type">
-ContainerGroupIdentity_Type
+<a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_ARM">
+ContainerGroupIdentity_Type_ARM
 </a>
 </em>
 </td>
@@ -1912,8 +1918,8 @@ identity.</p>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_STATUS">
-ContainerGroupIdentity_Type_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_STATUS_ARM">
+ContainerGroupIdentity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1941,7 +1947,31 @@ map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_A
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type">ContainerGroupIdentity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity">ContainerGroupIdentity</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_ARM">ContainerGroupIdentity_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity">ContainerGroupIdentity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_ARM">ContainerGroupIdentity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_ARM">ContainerGroupIdentity_ARM</a>)
 </p>
 <div>
 </div>
@@ -1965,7 +1995,31 @@ map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_A
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_STATUS">ContainerGroupIdentity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_STATUS">ContainerGroupIdentity_STATUS</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_STATUS_ARM">ContainerGroupIdentity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_STATUS">ContainerGroupIdentity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_Type_STATUS_ARM">ContainerGroupIdentity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroupIdentity_STATUS_ARM">ContainerGroupIdentity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1989,7 +2043,28 @@ map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_A
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerGroupSku">ContainerGroupSku
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM">ContainerGroup_Properties_Spec_ARM</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec">ContainerGroup_Spec</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec">ContainerGroup_Spec</a>)
+</p>
+<div>
+<p>The container group SKU.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Dedicated&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerGroupSku_ARM">ContainerGroupSku_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM">ContainerGroup_Properties_Spec_ARM</a>)
 </p>
 <div>
 <p>The container group SKU.</p>
@@ -2010,7 +2085,28 @@ map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_A
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerGroupSku_STATUS">ContainerGroupSku_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM">ContainerGroup_Properties_STATUS_ARM</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS">ContainerGroup_STATUS</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS">ContainerGroup_STATUS</a>)
+</p>
+<div>
+<p>The container group SKU.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Dedicated&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerGroupSku_STATUS_ARM">ContainerGroupSku_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM">ContainerGroup_Properties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The container group SKU.</p>
@@ -2274,7 +2370,27 @@ string
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_STATUS">ContainerGroup_Properties_OsType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM">ContainerGroup_Properties_STATUS_ARM</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS">ContainerGroup_STATUS</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS">ContainerGroup_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Linux&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Windows&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_STATUS_ARM">ContainerGroup_Properties_OsType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM">ContainerGroup_Properties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2294,7 +2410,27 @@ string
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_Spec">ContainerGroup_Properties_OsType_Spec
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM">ContainerGroup_Properties_Spec_ARM</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec">ContainerGroup_Spec</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec">ContainerGroup_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Linux&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Windows&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_Spec_ARM">ContainerGroup_Properties_OsType_Spec_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM">ContainerGroup_Properties_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -2314,7 +2450,29 @@ string
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_STATUS">ContainerGroup_Properties_RestartPolicy_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM">ContainerGroup_Properties_STATUS_ARM</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS">ContainerGroup_STATUS</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_STATUS">ContainerGroup_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Always&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Never&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;OnFailure&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_STATUS_ARM">ContainerGroup_Properties_RestartPolicy_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_STATUS_ARM">ContainerGroup_Properties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2336,7 +2494,29 @@ string
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_Spec">ContainerGroup_Properties_RestartPolicy_Spec
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM">ContainerGroup_Properties_Spec_ARM</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec">ContainerGroup_Spec</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Spec">ContainerGroup_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Always&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Never&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;OnFailure&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_Spec_ARM">ContainerGroup_Properties_RestartPolicy_Spec_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_Spec_ARM">ContainerGroup_Properties_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -2478,8 +2658,8 @@ IpAddress_STATUS_ARM
 <td>
 <code>osType</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_STATUS">
-ContainerGroup_Properties_OsType_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_STATUS_ARM">
+ContainerGroup_Properties_OsType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2502,8 +2682,8 @@ string
 <td>
 <code>restartPolicy</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_STATUS">
-ContainerGroup_Properties_RestartPolicy_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_STATUS_ARM">
+ContainerGroup_Properties_RestartPolicy_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2518,8 +2698,8 @@ ContainerGroup_Properties_RestartPolicy_STATUS
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerGroupSku_STATUS">
-ContainerGroupSku_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.ContainerGroupSku_STATUS_ARM">
+ContainerGroupSku_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2665,8 +2845,8 @@ IpAddress_ARM
 <td>
 <code>osType</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_Spec">
-ContainerGroup_Properties_OsType_Spec
+<a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_OsType_Spec_ARM">
+ContainerGroup_Properties_OsType_Spec_ARM
 </a>
 </em>
 </td>
@@ -2678,8 +2858,8 @@ ContainerGroup_Properties_OsType_Spec
 <td>
 <code>restartPolicy</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_Spec">
-ContainerGroup_Properties_RestartPolicy_Spec
+<a href="#containerinstance.azure.com/v1api20211001.ContainerGroup_Properties_RestartPolicy_Spec_ARM">
+ContainerGroup_Properties_RestartPolicy_Spec_ARM
 </a>
 </em>
 </td>
@@ -2694,8 +2874,8 @@ ContainerGroup_Properties_RestartPolicy_Spec
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerGroupSku">
-ContainerGroupSku
+<a href="#containerinstance.azure.com/v1api20211001.ContainerGroupSku_ARM">
+ContainerGroupSku_ARM
 </a>
 </em>
 </td>
@@ -3584,8 +3764,8 @@ int
 <td>
 <code>scheme</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme">
-ContainerHttpGet_Scheme
+<a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_ARM">
+ContainerHttpGet_Scheme_ARM
 </a>
 </em>
 </td>
@@ -3716,8 +3896,8 @@ int
 <td>
 <code>scheme</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_STATUS">
-ContainerHttpGet_Scheme_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_STATUS_ARM">
+ContainerHttpGet_Scheme_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3730,7 +3910,27 @@ ContainerHttpGet_Scheme_STATUS
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme">ContainerHttpGet_Scheme
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet">ContainerHttpGet</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_ARM">ContainerHttpGet_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet">ContainerHttpGet</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;https&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_ARM">ContainerHttpGet_Scheme_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_ARM">ContainerHttpGet_ARM</a>)
 </p>
 <div>
 </div>
@@ -3750,7 +3950,27 @@ ContainerHttpGet_Scheme_STATUS
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_STATUS">ContainerHttpGet_Scheme_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_STATUS">ContainerHttpGet_STATUS</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_STATUS_ARM">ContainerHttpGet_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_STATUS">ContainerHttpGet_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;https&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerHttpGet_Scheme_STATUS_ARM">ContainerHttpGet_Scheme_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerHttpGet_STATUS_ARM">ContainerHttpGet_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3840,8 +4060,8 @@ int
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerPort_Protocol">
-ContainerPort_Protocol
+<a href="#containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_ARM">
+ContainerPort_Protocol_ARM
 </a>
 </em>
 </td>
@@ -3854,7 +4074,27 @@ ContainerPort_Protocol
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerPort_Protocol">ContainerPort_Protocol
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerPort">ContainerPort</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerPort_ARM">ContainerPort_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerPort">ContainerPort</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;TCP&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UDP&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_ARM">ContainerPort_Protocol_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerPort_ARM">ContainerPort_ARM</a>)
 </p>
 <div>
 </div>
@@ -3874,7 +4114,27 @@ ContainerPort_Protocol
 <h3 id="containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_STATUS">ContainerPort_Protocol_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerPort_STATUS">ContainerPort_STATUS</a>, <a href="#containerinstance.azure.com/v1api20211001.ContainerPort_STATUS_ARM">ContainerPort_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerPort_STATUS">ContainerPort_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;TCP&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UDP&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_STATUS_ARM">ContainerPort_Protocol_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.ContainerPort_STATUS_ARM">ContainerPort_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3964,8 +4224,8 @@ int
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_STATUS">
-ContainerPort_Protocol_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.ContainerPort_Protocol_STATUS_ARM">
+ContainerPort_Protocol_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6171,8 +6431,8 @@ int
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.GpuResource_Sku">
-GpuResource_Sku
+<a href="#containerinstance.azure.com/v1api20211001.GpuResource_Sku_ARM">
+GpuResource_Sku_ARM
 </a>
 </em>
 </td>
@@ -6255,8 +6515,8 @@ int
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.GpuResource_Sku_STATUS">
-GpuResource_Sku_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.GpuResource_Sku_STATUS_ARM">
+GpuResource_Sku_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6269,7 +6529,29 @@ GpuResource_Sku_STATUS
 <h3 id="containerinstance.azure.com/v1api20211001.GpuResource_Sku">GpuResource_Sku
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.GpuResource">GpuResource</a>, <a href="#containerinstance.azure.com/v1api20211001.GpuResource_ARM">GpuResource_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.GpuResource">GpuResource</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;K80&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;P100&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;V100&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.GpuResource_Sku_ARM">GpuResource_Sku_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.GpuResource_ARM">GpuResource_ARM</a>)
 </p>
 <div>
 </div>
@@ -6291,7 +6573,29 @@ GpuResource_Sku_STATUS
 <h3 id="containerinstance.azure.com/v1api20211001.GpuResource_Sku_STATUS">GpuResource_Sku_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.GpuResource_STATUS">GpuResource_STATUS</a>, <a href="#containerinstance.azure.com/v1api20211001.GpuResource_STATUS_ARM">GpuResource_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.GpuResource_STATUS">GpuResource_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;K80&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;P100&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;V100&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.GpuResource_Sku_STATUS_ARM">GpuResource_Sku_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.GpuResource_STATUS_ARM">GpuResource_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7377,8 +7681,8 @@ IpAddress_Type
 <td>
 <code>autoGeneratedDomainNameLabelScope</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope">
-IpAddress_AutoGeneratedDomainNameLabelScope
+<a href="#containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_ARM">
+IpAddress_AutoGeneratedDomainNameLabelScope_ARM
 </a>
 </em>
 </td>
@@ -7431,8 +7735,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.IpAddress_Type">
-IpAddress_Type
+<a href="#containerinstance.azure.com/v1api20211001.IpAddress_Type_ARM">
+IpAddress_Type_ARM
 </a>
 </em>
 </td>
@@ -7445,7 +7749,33 @@ IpAddress_Type
 <h3 id="containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope">IpAddress_AutoGeneratedDomainNameLabelScope
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress">IpAddress</a>, <a href="#containerinstance.azure.com/v1api20211001.IpAddress_ARM">IpAddress_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress">IpAddress</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Noreuse&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ResourceGroupReuse&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SubscriptionReuse&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TenantReuse&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unsecure&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_ARM">IpAddress_AutoGeneratedDomainNameLabelScope_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress_ARM">IpAddress_ARM</a>)
 </p>
 <div>
 </div>
@@ -7471,7 +7801,33 @@ IpAddress_Type
 <h3 id="containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_STATUS">IpAddress_AutoGeneratedDomainNameLabelScope_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress_STATUS">IpAddress_STATUS</a>, <a href="#containerinstance.azure.com/v1api20211001.IpAddress_STATUS_ARM">IpAddress_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress_STATUS">IpAddress_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Noreuse&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ResourceGroupReuse&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SubscriptionReuse&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TenantReuse&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unsecure&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM">IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress_STATUS_ARM">IpAddress_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7610,8 +7966,8 @@ IpAddress_Type_STATUS
 <td>
 <code>autoGeneratedDomainNameLabelScope</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_STATUS">
-IpAddress_AutoGeneratedDomainNameLabelScope_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM">
+IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7675,8 +8031,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.IpAddress_Type_STATUS">
-IpAddress_Type_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.IpAddress_Type_STATUS_ARM">
+IpAddress_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7689,7 +8045,27 @@ IpAddress_Type_STATUS
 <h3 id="containerinstance.azure.com/v1api20211001.IpAddress_Type">IpAddress_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress">IpAddress</a>, <a href="#containerinstance.azure.com/v1api20211001.IpAddress_ARM">IpAddress_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress">IpAddress</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Private&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Public&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.IpAddress_Type_ARM">IpAddress_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress_ARM">IpAddress_ARM</a>)
 </p>
 <div>
 </div>
@@ -7709,7 +8085,27 @@ IpAddress_Type_STATUS
 <h3 id="containerinstance.azure.com/v1api20211001.IpAddress_Type_STATUS">IpAddress_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress_STATUS">IpAddress_STATUS</a>, <a href="#containerinstance.azure.com/v1api20211001.IpAddress_STATUS_ARM">IpAddress_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress_STATUS">IpAddress_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Private&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Public&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.IpAddress_Type_STATUS_ARM">IpAddress_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.IpAddress_STATUS_ARM">IpAddress_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7825,8 +8221,8 @@ genruntime.ResourceReference
 <td>
 <code>logType</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_LogType">
-LogAnalytics_LogType
+<a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_ARM">
+LogAnalytics_LogType_ARM
 </a>
 </em>
 </td>
@@ -7882,7 +8278,27 @@ string
 <h3 id="containerinstance.azure.com/v1api20211001.LogAnalytics_LogType">LogAnalytics_LogType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.LogAnalytics">LogAnalytics</a>, <a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_ARM">LogAnalytics_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.LogAnalytics">LogAnalytics</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ContainerInsights&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ContainerInstanceLogs&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_ARM">LogAnalytics_LogType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_ARM">LogAnalytics_ARM</a>)
 </p>
 <div>
 </div>
@@ -7902,7 +8318,27 @@ string
 <h3 id="containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_STATUS">LogAnalytics_LogType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_STATUS">LogAnalytics_STATUS</a>, <a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_STATUS_ARM">LogAnalytics_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_STATUS">LogAnalytics_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ContainerInsights&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ContainerInstanceLogs&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_STATUS_ARM">LogAnalytics_LogType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_STATUS_ARM">LogAnalytics_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7992,8 +8428,8 @@ string
 <td>
 <code>logType</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_STATUS">
-LogAnalytics_LogType_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.LogAnalytics_LogType_STATUS_ARM">
+LogAnalytics_LogType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -8098,8 +8534,8 @@ int
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.Port_Protocol">
-Port_Protocol
+<a href="#containerinstance.azure.com/v1api20211001.Port_Protocol_ARM">
+Port_Protocol_ARM
 </a>
 </em>
 </td>
@@ -8112,7 +8548,27 @@ Port_Protocol
 <h3 id="containerinstance.azure.com/v1api20211001.Port_Protocol">Port_Protocol
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.Port">Port</a>, <a href="#containerinstance.azure.com/v1api20211001.Port_ARM">Port_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.Port">Port</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;TCP&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UDP&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.Port_Protocol_ARM">Port_Protocol_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.Port_ARM">Port_ARM</a>)
 </p>
 <div>
 </div>
@@ -8132,7 +8588,27 @@ Port_Protocol
 <h3 id="containerinstance.azure.com/v1api20211001.Port_Protocol_STATUS">Port_Protocol_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.Port_STATUS">Port_STATUS</a>, <a href="#containerinstance.azure.com/v1api20211001.Port_STATUS_ARM">Port_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.Port_STATUS">Port_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;TCP&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UDP&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerinstance.azure.com/v1api20211001.Port_Protocol_STATUS_ARM">Port_Protocol_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerinstance.azure.com/v1api20211001.Port_STATUS_ARM">Port_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8222,8 +8698,8 @@ int
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#containerinstance.azure.com/v1api20211001.Port_Protocol_STATUS">
-Port_Protocol_STATUS
+<a href="#containerinstance.azure.com/v1api20211001.Port_Protocol_STATUS_ARM">
+Port_Protocol_STATUS_ARM
 </a>
 </em>
 </td>

@@ -348,8 +348,8 @@ string
 &lt;td&gt;
 &lt;code&gt;principalType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType&#34;&gt;
-RoleAssignmentProperties_PrincipalType
+&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_ARM&#34;&gt;
+RoleAssignmentProperties_PrincipalType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -372,7 +372,31 @@ string
 &lt;h3 id=&#34;authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType&#34;&gt;RoleAssignmentProperties_PrincipalType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_ARM&#34;&gt;RoleAssignmentProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec&#34;&gt;RoleAssignment_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec&#34;&gt;RoleAssignment_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ForeignGroup&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Group&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServicePrincipal&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_ARM&#34;&gt;RoleAssignmentProperties_PrincipalType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_ARM&#34;&gt;RoleAssignmentProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -396,7 +420,31 @@ string
 &lt;h3 id=&#34;authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS&#34;&gt;RoleAssignmentProperties_PrincipalType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_STATUS_ARM&#34;&gt;RoleAssignmentProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignment_STATUS&#34;&gt;RoleAssignment_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignment_STATUS&#34;&gt;RoleAssignment_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ForeignGroup&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Group&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServicePrincipal&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS_ARM&#34;&gt;RoleAssignmentProperties_PrincipalType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_STATUS_ARM&#34;&gt;RoleAssignmentProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -516,8 +564,8 @@ string
 &lt;td&gt;
 &lt;code&gt;principalType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS&#34;&gt;
-RoleAssignmentProperties_PrincipalType_STATUS
+&lt;a href=&#34;#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS_ARM&#34;&gt;
+RoleAssignmentProperties_PrincipalType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1612,8 +1660,8 @@ string
 &lt;td&gt;
 &lt;code&gt;principalType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType&#34;&gt;
-RoleAssignmentProperties_PrincipalType
+&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_ARM&#34;&gt;
+RoleAssignmentProperties_PrincipalType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1636,7 +1684,33 @@ string
 &lt;h3 id=&#34;authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType&#34;&gt;RoleAssignmentProperties_PrincipalType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentProperties_ARM&#34;&gt;RoleAssignmentProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignment_Spec&#34;&gt;RoleAssignment_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignment_Spec&#34;&gt;RoleAssignment_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Device&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ForeignGroup&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Group&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServicePrincipal&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_ARM&#34;&gt;RoleAssignmentProperties_PrincipalType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentProperties_ARM&#34;&gt;RoleAssignmentProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1662,7 +1736,33 @@ string
 &lt;h3 id=&#34;authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_STATUS&#34;&gt;RoleAssignmentProperties_PrincipalType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentProperties_STATUS_ARM&#34;&gt;RoleAssignmentProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignment_STATUS&#34;&gt;RoleAssignment_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignment_STATUS&#34;&gt;RoleAssignment_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Device&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ForeignGroup&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Group&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServicePrincipal&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_STATUS_ARM&#34;&gt;RoleAssignmentProperties_PrincipalType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentProperties_STATUS_ARM&#34;&gt;RoleAssignmentProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1784,8 +1884,8 @@ string
 &lt;td&gt;
 &lt;code&gt;principalType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_STATUS&#34;&gt;
-RoleAssignmentProperties_PrincipalType_STATUS
+&lt;a href=&#34;#authorization.azure.com/v1api20220401.RoleAssignmentProperties_PrincipalType_STATUS_ARM&#34;&gt;
+RoleAssignmentProperties_PrincipalType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

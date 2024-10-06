@@ -367,8 +367,8 @@ Resource Types:
 &lt;td&gt;
 &lt;code&gt;administratorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.AdministratorProperties_AdministratorType&#34;&gt;
-AdministratorProperties_AdministratorType
+&lt;a href=&#34;#sql.azure.com/v1api20211101.AdministratorProperties_AdministratorType_ARM&#34;&gt;
+AdministratorProperties_AdministratorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -414,7 +414,25 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.AdministratorProperties_AdministratorType&#34;&gt;AdministratorProperties_AdministratorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.AdministratorProperties_ARM&#34;&gt;AdministratorProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Administrator_Spec&#34;&gt;Servers_Administrator_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Administrator_Spec&#34;&gt;Servers_Administrator_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ActiveDirectory&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.AdministratorProperties_AdministratorType_ARM&#34;&gt;AdministratorProperties_AdministratorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.AdministratorProperties_ARM&#34;&gt;AdministratorProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -432,7 +450,25 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.AdministratorProperties_AdministratorType_STATUS&#34;&gt;AdministratorProperties_AdministratorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.AdministratorProperties_STATUS_ARM&#34;&gt;AdministratorProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Administrator_STATUS&#34;&gt;Servers_Administrator_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Administrator_STATUS&#34;&gt;Servers_Administrator_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ActiveDirectory&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.AdministratorProperties_AdministratorType_STATUS_ARM&#34;&gt;AdministratorProperties_AdministratorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.AdministratorProperties_STATUS_ARM&#34;&gt;AdministratorProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -467,8 +503,8 @@ string
 &lt;td&gt;
 &lt;code&gt;administratorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.AdministratorProperties_AdministratorType_STATUS&#34;&gt;
-AdministratorProperties_AdministratorType_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.AdministratorProperties_AdministratorType_STATUS_ARM&#34;&gt;
+AdministratorProperties_AdministratorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -542,8 +578,8 @@ string
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_State&#34;&gt;
-AdvancedThreatProtectionProperties_State
+&lt;a href=&#34;#sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_State_ARM&#34;&gt;
+AdvancedThreatProtectionProperties_State_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -585,8 +621,8 @@ string
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_State_STATUS&#34;&gt;
-AdvancedThreatProtectionProperties_State_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_State_STATUS_ARM&#34;&gt;
+AdvancedThreatProtectionProperties_State_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -600,7 +636,29 @@ applied yet on the specific database or server.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_State&#34;&gt;AdvancedThreatProtectionProperties_State
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_ARM&#34;&gt;AdvancedThreatProtectionProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_AdvancedThreatProtectionSetting_Spec&#34;&gt;Servers_AdvancedThreatProtectionSetting_Spec&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_AdvancedThreatProtectionSetting_Spec&#34;&gt;Servers_Databases_AdvancedThreatProtectionSetting_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_AdvancedThreatProtectionSetting_Spec&#34;&gt;Servers_AdvancedThreatProtectionSetting_Spec&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_AdvancedThreatProtectionSetting_Spec&#34;&gt;Servers_Databases_AdvancedThreatProtectionSetting_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;New&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_State_ARM&#34;&gt;AdvancedThreatProtectionProperties_State_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_ARM&#34;&gt;AdvancedThreatProtectionProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -622,7 +680,29 @@ applied yet on the specific database or server.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_State_STATUS&#34;&gt;AdvancedThreatProtectionProperties_State_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_STATUS_ARM&#34;&gt;AdvancedThreatProtectionProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_AdvancedThreatProtectionSetting_STATUS&#34;&gt;Servers_AdvancedThreatProtectionSetting_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_AdvancedThreatProtectionSetting_STATUS&#34;&gt;Servers_Databases_AdvancedThreatProtectionSetting_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_AdvancedThreatProtectionSetting_STATUS&#34;&gt;Servers_AdvancedThreatProtectionSetting_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_AdvancedThreatProtectionSetting_STATUS&#34;&gt;Servers_Databases_AdvancedThreatProtectionSetting_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;New&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_State_STATUS_ARM&#34;&gt;AdvancedThreatProtectionProperties_State_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.AdvancedThreatProtectionProperties_STATUS_ARM&#34;&gt;AdvancedThreatProtectionProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -719,8 +799,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;diffBackupIntervalInHours&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours&#34;&gt;
-BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours
+&lt;a href=&#34;#sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM&#34;&gt;
+BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -745,7 +825,27 @@ int
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours&#34;&gt;BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours
 (&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_ARM&#34;&gt;BackupShortTermRetentionPolicyProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_BackupShortTermRetentionPolicy_Spec&#34;&gt;Servers_Databases_BackupShortTermRetentionPolicy_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_BackupShortTermRetentionPolicy_Spec&#34;&gt;Servers_Databases_BackupShortTermRetentionPolicy_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;12&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;24&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM&#34;&gt;BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM
+(&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_ARM&#34;&gt;BackupShortTermRetentionPolicyProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -765,7 +865,27 @@ int
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS&#34;&gt;BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS
 (&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_STATUS_ARM&#34;&gt;BackupShortTermRetentionPolicyProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_BackupShortTermRetentionPolicy_STATUS&#34;&gt;Servers_Databases_BackupShortTermRetentionPolicy_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_BackupShortTermRetentionPolicy_STATUS&#34;&gt;Servers_Databases_BackupShortTermRetentionPolicy_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;12&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;24&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS_ARM&#34;&gt;BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS_ARM
+(&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_STATUS_ARM&#34;&gt;BackupShortTermRetentionPolicyProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -802,8 +922,8 @@ int
 &lt;td&gt;
 &lt;code&gt;diffBackupIntervalInHours&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS&#34;&gt;
-BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS_ARM&#34;&gt;
+BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1101,8 +1221,8 @@ int
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_State&#34;&gt;
-DatabaseBlobAuditingPolicyProperties_State
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_State_ARM&#34;&gt;
+DatabaseBlobAuditingPolicyProperties_State_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1307,8 +1427,8 @@ int
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_State_STATUS&#34;&gt;
-DatabaseBlobAuditingPolicyProperties_State_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM&#34;&gt;
+DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1345,7 +1465,27 @@ Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_State&#34;&gt;DatabaseBlobAuditingPolicyProperties_State
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_ARM&#34;&gt;DatabaseBlobAuditingPolicyProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_AuditingSetting_Spec&#34;&gt;Servers_Databases_AuditingSetting_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_AuditingSetting_Spec&#34;&gt;Servers_Databases_AuditingSetting_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_State_ARM&#34;&gt;DatabaseBlobAuditingPolicyProperties_State_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_ARM&#34;&gt;DatabaseBlobAuditingPolicyProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1365,7 +1505,27 @@ Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_State_STATUS&#34;&gt;DatabaseBlobAuditingPolicyProperties_State_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_STATUS_ARM&#34;&gt;DatabaseBlobAuditingPolicyProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_AuditingSetting_STATUS&#34;&gt;Servers_Databases_AuditingSetting_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_AuditingSetting_STATUS&#34;&gt;Servers_Databases_AuditingSetting_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM&#34;&gt;DatabaseBlobAuditingPolicyProperties_State_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseBlobAuditingPolicyProperties_STATUS_ARM&#34;&gt;DatabaseBlobAuditingPolicyProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1446,8 +1606,8 @@ DatabaseIdentity_Type
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_Type&#34;&gt;
-DatabaseIdentity_Type
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_Type_ARM&#34;&gt;
+DatabaseIdentity_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1555,8 +1715,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_Type_STATUS&#34;&gt;
-DatabaseIdentity_Type_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_Type_STATUS_ARM&#34;&gt;
+DatabaseIdentity_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1582,7 +1742,27 @@ map[string]./api/sql/v1api20211101.DatabaseUserIdentity_STATUS_ARM
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseIdentity_Type&#34;&gt;DatabaseIdentity_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity&#34;&gt;DatabaseIdentity&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_ARM&#34;&gt;DatabaseIdentity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity&#34;&gt;DatabaseIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseIdentity_Type_ARM&#34;&gt;DatabaseIdentity_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_ARM&#34;&gt;DatabaseIdentity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1602,7 +1782,27 @@ map[string]./api/sql/v1api20211101.DatabaseUserIdentity_STATUS_ARM
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseIdentity_Type_STATUS&#34;&gt;DatabaseIdentity_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_STATUS&#34;&gt;DatabaseIdentity_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_STATUS_ARM&#34;&gt;DatabaseIdentity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_STATUS&#34;&gt;DatabaseIdentity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseIdentity_Type_STATUS_ARM&#34;&gt;DatabaseIdentity_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseIdentity_STATUS_ARM&#34;&gt;DatabaseIdentity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1651,8 +1851,8 @@ is disabled&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;catalogCollation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CatalogCollation&#34;&gt;
-DatabaseProperties_CatalogCollation
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CatalogCollation_ARM&#34;&gt;
+DatabaseProperties_CatalogCollation_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1675,8 +1875,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CreateMode&#34;&gt;
-DatabaseProperties_CreateMode
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CreateMode_ARM&#34;&gt;
+DatabaseProperties_CreateMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1749,8 +1949,8 @@ Note: the value of this property cannot be changed after the database has been c
 &lt;td&gt;
 &lt;code&gt;licenseType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_LicenseType&#34;&gt;
-DatabaseProperties_LicenseType
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_LicenseType_ARM&#34;&gt;
+DatabaseProperties_LicenseType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1807,8 +2007,8 @@ float64
 &lt;td&gt;
 &lt;code&gt;readScale&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ReadScale&#34;&gt;
-DatabaseProperties_ReadScale
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ReadScale_ARM&#34;&gt;
+DatabaseProperties_ReadScale_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1842,8 +2042,8 @@ string
 &lt;td&gt;
 &lt;code&gt;requestedBackupStorageRedundancy&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_RequestedBackupStorageRedundancy&#34;&gt;
-DatabaseProperties_RequestedBackupStorageRedundancy
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_RequestedBackupStorageRedundancy_ARM&#34;&gt;
+DatabaseProperties_RequestedBackupStorageRedundancy_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1877,8 +2077,8 @@ the new database.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;sampleName&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_SampleName&#34;&gt;
-DatabaseProperties_SampleName
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_SampleName_ARM&#34;&gt;
+DatabaseProperties_SampleName_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1890,8 +2090,8 @@ DatabaseProperties_SampleName
 &lt;td&gt;
 &lt;code&gt;secondaryType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_SecondaryType&#34;&gt;
-DatabaseProperties_SecondaryType
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_SecondaryType_ARM&#34;&gt;
+DatabaseProperties_SecondaryType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1947,7 +2147,27 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CatalogCollation&#34;&gt;DatabaseProperties_CatalogCollation
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DATABASE_DEFAULT&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SQL_Latin1_General_CP1_CI_AS&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CatalogCollation_ARM&#34;&gt;DatabaseProperties_CatalogCollation_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1967,7 +2187,27 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CatalogCollation_STATUS&#34;&gt;DatabaseProperties_CatalogCollation_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DATABASE_DEFAULT&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SQL_Latin1_General_CP1_CI_AS&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CatalogCollation_STATUS_ARM&#34;&gt;DatabaseProperties_CatalogCollation_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1987,7 +2227,43 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CreateMode&#34;&gt;DatabaseProperties_CreateMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Copy&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OnlineSecondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PointInTimeRestore&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Recovery&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Restore&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RestoreExternalBackup&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RestoreExternalBackupSecondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RestoreLongTermRetentionBackup&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Secondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CreateMode_ARM&#34;&gt;DatabaseProperties_CreateMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2023,7 +2299,43 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CreateMode_STATUS&#34;&gt;DatabaseProperties_CreateMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Copy&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OnlineSecondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PointInTimeRestore&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Recovery&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Restore&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RestoreExternalBackup&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RestoreExternalBackupSecondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RestoreLongTermRetentionBackup&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Secondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CreateMode_STATUS_ARM&#34;&gt;DatabaseProperties_CreateMode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2059,7 +2371,31 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CurrentBackupStorageRedundancy_STATUS&#34;&gt;DatabaseProperties_CurrentBackupStorageRedundancy_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Geo&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeoZone&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Local&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Zone&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM&#34;&gt;DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2083,7 +2419,27 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_LicenseType&#34;&gt;DatabaseProperties_LicenseType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BasePrice&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LicenseIncluded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_LicenseType_ARM&#34;&gt;DatabaseProperties_LicenseType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2103,7 +2459,27 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_LicenseType_STATUS&#34;&gt;DatabaseProperties_LicenseType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BasePrice&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LicenseIncluded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_LicenseType_STATUS_ARM&#34;&gt;DatabaseProperties_LicenseType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2123,7 +2499,27 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_ReadScale&#34;&gt;DatabaseProperties_ReadScale
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_ReadScale_ARM&#34;&gt;DatabaseProperties_ReadScale_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2143,7 +2539,27 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_ReadScale_STATUS&#34;&gt;DatabaseProperties_ReadScale_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_ReadScale_STATUS_ARM&#34;&gt;DatabaseProperties_ReadScale_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2163,7 +2579,31 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_RequestedBackupStorageRedundancy&#34;&gt;DatabaseProperties_RequestedBackupStorageRedundancy
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Geo&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeoZone&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Local&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Zone&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_RequestedBackupStorageRedundancy_ARM&#34;&gt;DatabaseProperties_RequestedBackupStorageRedundancy_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2187,7 +2627,31 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_RequestedBackupStorageRedundancy_STATUS&#34;&gt;DatabaseProperties_RequestedBackupStorageRedundancy_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Geo&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeoZone&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Local&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Zone&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM&#34;&gt;DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2240,8 +2704,8 @@ is disabled&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;catalogCollation&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CatalogCollation_STATUS&#34;&gt;
-DatabaseProperties_CatalogCollation_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CatalogCollation_STATUS_ARM&#34;&gt;
+DatabaseProperties_CatalogCollation_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2264,8 +2728,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CreateMode_STATUS&#34;&gt;
-DatabaseProperties_CreateMode_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CreateMode_STATUS_ARM&#34;&gt;
+DatabaseProperties_CreateMode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2304,8 +2768,8 @@ string
 &lt;td&gt;
 &lt;code&gt;currentBackupStorageRedundancy&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CurrentBackupStorageRedundancy_STATUS&#34;&gt;
-DatabaseProperties_CurrentBackupStorageRedundancy_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM&#34;&gt;
+DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2443,8 +2907,8 @@ Note: the value of this property cannot be changed after the database has been c
 &lt;td&gt;
 &lt;code&gt;licenseType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_LicenseType_STATUS&#34;&gt;
-DatabaseProperties_LicenseType_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_LicenseType_STATUS_ARM&#34;&gt;
+DatabaseProperties_LicenseType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2526,8 +2990,8 @@ ready.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;readScale&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ReadScale_STATUS&#34;&gt;
-DatabaseProperties_ReadScale_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ReadScale_STATUS_ARM&#34;&gt;
+DatabaseProperties_ReadScale_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2565,8 +3029,8 @@ database.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;requestedBackupStorageRedundancy&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_RequestedBackupStorageRedundancy_STATUS&#34;&gt;
-DatabaseProperties_RequestedBackupStorageRedundancy_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM&#34;&gt;
+DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2625,8 +3089,8 @@ is paused.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;sampleName&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_SampleName_STATUS&#34;&gt;
-DatabaseProperties_SampleName_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_SampleName_STATUS_ARM&#34;&gt;
+DatabaseProperties_SampleName_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2638,8 +3102,8 @@ DatabaseProperties_SampleName_STATUS
 &lt;td&gt;
 &lt;code&gt;secondaryType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_SecondaryType_STATUS&#34;&gt;
-DatabaseProperties_SecondaryType_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_SecondaryType_STATUS_ARM&#34;&gt;
+DatabaseProperties_SecondaryType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2696,8 +3160,8 @@ header must contain authentication token for the source tenant. For more details
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_Status_STATUS&#34;&gt;
-DatabaseProperties_Status_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_Status_STATUS_ARM&#34;&gt;
+DatabaseProperties_Status_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2722,7 +3186,29 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_SampleName&#34;&gt;DatabaseProperties_SampleName
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AdventureWorksLT&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WideWorldImportersFull&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WideWorldImportersStd&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_SampleName_ARM&#34;&gt;DatabaseProperties_SampleName_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2744,7 +3230,29 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_SampleName_STATUS&#34;&gt;DatabaseProperties_SampleName_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AdventureWorksLT&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WideWorldImportersFull&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WideWorldImportersStd&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_SampleName_STATUS_ARM&#34;&gt;DatabaseProperties_SampleName_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2766,7 +3274,27 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_SecondaryType&#34;&gt;DatabaseProperties_SecondaryType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_Spec&#34;&gt;Servers_Database_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Geo&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Named&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_SecondaryType_ARM&#34;&gt;DatabaseProperties_SecondaryType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_ARM&#34;&gt;DatabaseProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2786,7 +3314,27 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_SecondaryType_STATUS&#34;&gt;DatabaseProperties_SecondaryType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Geo&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Named&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_SecondaryType_STATUS_ARM&#34;&gt;DatabaseProperties_SecondaryType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2806,7 +3354,71 @@ across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_Status_STATUS&#34;&gt;DatabaseProperties_Status_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Database_STATUS&#34;&gt;Servers_Database_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AutoClosed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Copying&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EmergencyMode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Inaccessible&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Offline&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OfflineChangingDwPerformanceTiers&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OfflineSecondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Online&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OnlineChangingDwPerformanceTiers&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Paused&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Pausing&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Recovering&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RecoveryPending&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Restoring&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Resuming&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Scaling&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Shutdown&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standby&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Starting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Stopped&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Stopping&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Suspect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseProperties_Status_STATUS_ARM&#34;&gt;DatabaseProperties_Status_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseProperties_STATUS_ARM&#34;&gt;DatabaseProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2932,8 +3544,8 @@ int
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State&#34;&gt;
-DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM&#34;&gt;
+DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3043,8 +3655,8 @@ int
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS&#34;&gt;
-DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM&#34;&gt;
+DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3070,7 +3682,27 @@ will hold all Threat Detection audit logs.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State&#34;&gt;DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM&#34;&gt;DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_SecurityAlertPolicy_Spec&#34;&gt;Servers_Databases_SecurityAlertPolicy_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_SecurityAlertPolicy_Spec&#34;&gt;Servers_Databases_SecurityAlertPolicy_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM&#34;&gt;DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM&#34;&gt;DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3090,7 +3722,27 @@ will hold all Threat Detection audit logs.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS&#34;&gt;DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM&#34;&gt;DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_SecurityAlertPolicy_STATUS&#34;&gt;Servers_Databases_SecurityAlertPolicy_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_SecurityAlertPolicy_STATUS&#34;&gt;Servers_Databases_SecurityAlertPolicy_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM&#34;&gt;DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM&#34;&gt;DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3493,8 +4145,8 @@ high availability. Applicable only to Hyperscale elastic pools.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;licenseType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_LicenseType&#34;&gt;
-ElasticPoolProperties_LicenseType
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_LicenseType_ARM&#34;&gt;
+ElasticPoolProperties_LicenseType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3566,7 +4218,27 @@ spread across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ElasticPoolProperties_LicenseType&#34;&gt;ElasticPoolProperties_LicenseType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_ARM&#34;&gt;ElasticPoolProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ElasticPool_Spec&#34;&gt;Servers_ElasticPool_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ElasticPool_Spec&#34;&gt;Servers_ElasticPool_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BasePrice&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LicenseIncluded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ElasticPoolProperties_LicenseType_ARM&#34;&gt;ElasticPoolProperties_LicenseType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_ARM&#34;&gt;ElasticPoolProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3586,7 +4258,27 @@ spread across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ElasticPoolProperties_LicenseType_STATUS&#34;&gt;ElasticPoolProperties_LicenseType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_STATUS_ARM&#34;&gt;ElasticPoolProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ElasticPool_STATUS&#34;&gt;Servers_ElasticPool_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ElasticPool_STATUS&#34;&gt;Servers_ElasticPool_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BasePrice&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LicenseIncluded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ElasticPoolProperties_LicenseType_STATUS_ARM&#34;&gt;ElasticPoolProperties_LicenseType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_STATUS_ARM&#34;&gt;ElasticPoolProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3646,8 +4338,8 @@ high availability. Applicable only to Hyperscale elastic pools.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;licenseType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_LicenseType_STATUS&#34;&gt;
-ElasticPoolProperties_LicenseType_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_LicenseType_STATUS_ARM&#34;&gt;
+ElasticPoolProperties_LicenseType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3706,8 +4398,8 @@ ElasticPoolPerDatabaseSettings_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_State_STATUS&#34;&gt;
-ElasticPoolProperties_State_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_State_STATUS_ARM&#34;&gt;
+ElasticPoolProperties_State_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3732,7 +4424,29 @@ spread across multiple availability zones.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ElasticPoolProperties_State_STATUS&#34;&gt;ElasticPoolProperties_State_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_STATUS_ARM&#34;&gt;ElasticPoolProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ElasticPool_STATUS&#34;&gt;Servers_ElasticPool_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ElasticPool_STATUS&#34;&gt;Servers_ElasticPool_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Ready&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ElasticPoolProperties_State_STATUS_ARM&#34;&gt;ElasticPoolProperties_State_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ElasticPoolProperties_STATUS_ARM&#34;&gt;ElasticPoolProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3821,7 +4535,27 @@ FailoverGroupReadWriteEndpoint_ARM
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupProperties_ReplicationRole_STATUS&#34;&gt;FailoverGroupProperties_ReplicationRole_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupProperties_STATUS_ARM&#34;&gt;FailoverGroupProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_FailoverGroup_STATUS&#34;&gt;Servers_FailoverGroup_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_FailoverGroup_STATUS&#34;&gt;Servers_FailoverGroup_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Primary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Secondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupProperties_ReplicationRole_STATUS_ARM&#34;&gt;FailoverGroupProperties_ReplicationRole_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupProperties_STATUS_ARM&#34;&gt;FailoverGroupProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3908,8 +4642,8 @@ FailoverGroupReadWriteEndpoint_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;replicationRole&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupProperties_ReplicationRole_STATUS&#34;&gt;
-FailoverGroupProperties_ReplicationRole_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupProperties_ReplicationRole_STATUS_ARM&#34;&gt;
+FailoverGroupProperties_ReplicationRole_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3981,8 +4715,8 @@ FailoverGroupReadOnlyEndpoint_FailoverPolicy
 &lt;td&gt;
 &lt;code&gt;failoverPolicy&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_FailoverPolicy&#34;&gt;
-FailoverGroupReadOnlyEndpoint_FailoverPolicy
+&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM&#34;&gt;
+FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3995,7 +4729,27 @@ FailoverGroupReadOnlyEndpoint_FailoverPolicy
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_FailoverPolicy&#34;&gt;FailoverGroupReadOnlyEndpoint_FailoverPolicy
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint&#34;&gt;FailoverGroupReadOnlyEndpoint&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_ARM&#34;&gt;FailoverGroupReadOnlyEndpoint_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint&#34;&gt;FailoverGroupReadOnlyEndpoint&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM&#34;&gt;FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_ARM&#34;&gt;FailoverGroupReadOnlyEndpoint_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4015,7 +4769,27 @@ FailoverGroupReadOnlyEndpoint_FailoverPolicy
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS&#34;&gt;FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_STATUS&#34;&gt;FailoverGroupReadOnlyEndpoint_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_STATUS_ARM&#34;&gt;FailoverGroupReadOnlyEndpoint_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_STATUS&#34;&gt;FailoverGroupReadOnlyEndpoint_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_ARM&#34;&gt;FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_STATUS_ARM&#34;&gt;FailoverGroupReadOnlyEndpoint_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4083,8 +4857,8 @@ FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS
 &lt;td&gt;
 &lt;code&gt;failoverPolicy&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS&#34;&gt;
-FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_ARM&#34;&gt;
+FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4158,8 +4932,8 @@ endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMin
 &lt;td&gt;
 &lt;code&gt;failoverPolicy&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_FailoverPolicy&#34;&gt;
-FailoverGroupReadWriteEndpoint_FailoverPolicy
+&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM&#34;&gt;
+FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4185,7 +4959,27 @@ endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMin
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_FailoverPolicy&#34;&gt;FailoverGroupReadWriteEndpoint_FailoverPolicy
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint&#34;&gt;FailoverGroupReadWriteEndpoint&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_ARM&#34;&gt;FailoverGroupReadWriteEndpoint_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint&#34;&gt;FailoverGroupReadWriteEndpoint&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Automatic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Manual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM&#34;&gt;FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_ARM&#34;&gt;FailoverGroupReadWriteEndpoint_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4205,7 +4999,27 @@ endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMin
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS&#34;&gt;FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_STATUS&#34;&gt;FailoverGroupReadWriteEndpoint_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_STATUS_ARM&#34;&gt;FailoverGroupReadWriteEndpoint_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_STATUS&#34;&gt;FailoverGroupReadWriteEndpoint_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Automatic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Manual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_ARM&#34;&gt;FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_STATUS_ARM&#34;&gt;FailoverGroupReadWriteEndpoint_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4286,8 +5100,8 @@ endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMin
 &lt;td&gt;
 &lt;code&gt;failoverPolicy&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS&#34;&gt;
-FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_ARM&#34;&gt;
+FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4483,7 +5297,27 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.PartnerInfo_ReplicationRole_STATUS&#34;&gt;PartnerInfo_ReplicationRole_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PartnerInfo_STATUS&#34;&gt;PartnerInfo_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.PartnerInfo_STATUS_ARM&#34;&gt;PartnerInfo_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PartnerInfo_STATUS&#34;&gt;PartnerInfo_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Primary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Secondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.PartnerInfo_ReplicationRole_STATUS_ARM&#34;&gt;PartnerInfo_ReplicationRole_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PartnerInfo_STATUS_ARM&#34;&gt;PartnerInfo_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4595,8 +5429,8 @@ string
 &lt;td&gt;
 &lt;code&gt;replicationRole&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.PartnerInfo_ReplicationRole_STATUS&#34;&gt;
-PartnerInfo_ReplicationRole_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.PartnerInfo_ReplicationRole_STATUS_ARM&#34;&gt;
+PartnerInfo_ReplicationRole_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4609,7 +5443,33 @@ PartnerInfo_ReplicationRole_STATUS
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.PrivateEndpointConnectionProperties_ProvisioningState_STATUS&#34;&gt;PrivateEndpointConnectionProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateEndpointConnectionProperties_STATUS&#34;&gt;PrivateEndpointConnectionProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateEndpointConnectionProperties_STATUS&#34;&gt;PrivateEndpointConnectionProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Approving&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Dropping&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Ready&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Rejecting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4757,8 +5617,8 @@ PrivateLinkServiceConnectionStateProperty_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateEndpointConnectionProperties_ProvisioningState_STATUS&#34;&gt;
-PrivateEndpointConnectionProperties_ProvisioningState_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM&#34;&gt;
+PrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4827,7 +5687,25 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS&#34;&gt;PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_STATUS&#34;&gt;PrivateLinkServiceConnectionStateProperty_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionStateProperty_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_STATUS&#34;&gt;PrivateLinkServiceConnectionStateProperty_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionStateProperty_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4915,8 +5793,8 @@ PrivateLinkServiceConnectionStateProperty_Status_STATUS
 &lt;td&gt;
 &lt;code&gt;actionsRequired&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS&#34;&gt;
-PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM&#34;&gt;
+PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4939,8 +5817,8 @@ string
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_Status_STATUS&#34;&gt;
-PrivateLinkServiceConnectionStateProperty_Status_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM&#34;&gt;
+PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4953,7 +5831,31 @@ PrivateLinkServiceConnectionStateProperty_Status_STATUS
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_Status_STATUS&#34;&gt;PrivateLinkServiceConnectionStateProperty_Status_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_STATUS&#34;&gt;PrivateLinkServiceConnectionStateProperty_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionStateProperty_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_STATUS&#34;&gt;PrivateLinkServiceConnectionStateProperty_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Approved&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disconnected&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Pending&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Rejected&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.PrivateLinkServiceConnectionStateProperty_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionStateProperty_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5039,8 +5941,8 @@ Directory principal for the resource.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_Type&#34;&gt;
-ResourceIdentity_Type
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_Type_ARM&#34;&gt;
+ResourceIdentity_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5172,8 +6074,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_Type_STATUS&#34;&gt;
-ResourceIdentity_Type_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_Type_STATUS_ARM&#34;&gt;
+ResourceIdentity_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5200,7 +6102,31 @@ map[string]./api/sql/v1api20211101.UserIdentity_STATUS_ARM
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ResourceIdentity_Type&#34;&gt;ResourceIdentity_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity&#34;&gt;ResourceIdentity&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_ARM&#34;&gt;ResourceIdentity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity&#34;&gt;ResourceIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned,UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ResourceIdentity_Type_ARM&#34;&gt;ResourceIdentity_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_ARM&#34;&gt;ResourceIdentity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5224,7 +6150,31 @@ map[string]./api/sql/v1api20211101.UserIdentity_STATUS_ARM
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ResourceIdentity_Type_STATUS&#34;&gt;ResourceIdentity_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_STATUS&#34;&gt;ResourceIdentity_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_STATUS_ARM&#34;&gt;ResourceIdentity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_STATUS&#34;&gt;ResourceIdentity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned,UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ResourceIdentity_Type_STATUS_ARM&#34;&gt;ResourceIdentity_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ResourceIdentity_STATUS_ARM&#34;&gt;ResourceIdentity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5675,8 +6625,8 @@ int
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_State&#34;&gt;
-ServerBlobAuditingPolicyProperties_State
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_State_ARM&#34;&gt;
+ServerBlobAuditingPolicyProperties_State_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5902,8 +6852,8 @@ int
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_State_STATUS&#34;&gt;
-ServerBlobAuditingPolicyProperties_State_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_State_STATUS_ARM&#34;&gt;
+ServerBlobAuditingPolicyProperties_State_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5940,7 +6890,27 @@ Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_State&#34;&gt;ServerBlobAuditingPolicyProperties_State
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_ARM&#34;&gt;ServerBlobAuditingPolicyProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_AuditingSetting_Spec&#34;&gt;Servers_AuditingSetting_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_AuditingSetting_Spec&#34;&gt;Servers_AuditingSetting_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_State_ARM&#34;&gt;ServerBlobAuditingPolicyProperties_State_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_ARM&#34;&gt;ServerBlobAuditingPolicyProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5960,7 +6930,27 @@ Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_State_STATUS&#34;&gt;ServerBlobAuditingPolicyProperties_State_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_STATUS_ARM&#34;&gt;ServerBlobAuditingPolicyProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_AuditingSetting_STATUS&#34;&gt;Servers_AuditingSetting_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_AuditingSetting_STATUS&#34;&gt;Servers_AuditingSetting_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_State_STATUS_ARM&#34;&gt;ServerBlobAuditingPolicyProperties_State_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerBlobAuditingPolicyProperties_STATUS_ARM&#34;&gt;ServerBlobAuditingPolicyProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5997,8 +6987,8 @@ Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;connectionType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ConnectionType&#34;&gt;
-ServerConnectionPolicyProperties_ConnectionType
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ConnectionType_ARM&#34;&gt;
+ServerConnectionPolicyProperties_ConnectionType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6011,7 +7001,29 @@ ServerConnectionPolicyProperties_ConnectionType
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ConnectionType&#34;&gt;ServerConnectionPolicyProperties_ConnectionType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ARM&#34;&gt;ServerConnectionPolicyProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ConnectionPolicy_Spec&#34;&gt;Servers_ConnectionPolicy_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ConnectionPolicy_Spec&#34;&gt;Servers_ConnectionPolicy_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Proxy&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Redirect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ConnectionType_ARM&#34;&gt;ServerConnectionPolicyProperties_ConnectionType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ARM&#34;&gt;ServerConnectionPolicyProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6033,7 +7045,29 @@ ServerConnectionPolicyProperties_ConnectionType
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ConnectionType_STATUS&#34;&gt;ServerConnectionPolicyProperties_ConnectionType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_STATUS_ARM&#34;&gt;ServerConnectionPolicyProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ConnectionPolicy_STATUS&#34;&gt;Servers_ConnectionPolicy_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_ConnectionPolicy_STATUS&#34;&gt;Servers_ConnectionPolicy_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Proxy&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Redirect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM&#34;&gt;ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_STATUS_ARM&#34;&gt;ServerConnectionPolicyProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6072,8 +7106,8 @@ ServerConnectionPolicyProperties_ConnectionType
 &lt;td&gt;
 &lt;code&gt;connectionType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ConnectionType_STATUS&#34;&gt;
-ServerConnectionPolicyProperties_ConnectionType_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM&#34;&gt;
+ServerConnectionPolicyProperties_ConnectionType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6191,8 +7225,8 @@ string
 &lt;td&gt;
 &lt;code&gt;administratorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_AdministratorType&#34;&gt;
-ServerExternalAdministrator_AdministratorType
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_AdministratorType_ARM&#34;&gt;
+ServerExternalAdministrator_AdministratorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6226,8 +7260,8 @@ string
 &lt;td&gt;
 &lt;code&gt;principalType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_PrincipalType&#34;&gt;
-ServerExternalAdministrator_PrincipalType
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_PrincipalType_ARM&#34;&gt;
+ServerExternalAdministrator_PrincipalType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6262,7 +7296,25 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerExternalAdministrator_AdministratorType&#34;&gt;ServerExternalAdministrator_AdministratorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator&#34;&gt;ServerExternalAdministrator&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_ARM&#34;&gt;ServerExternalAdministrator_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator&#34;&gt;ServerExternalAdministrator&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ActiveDirectory&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerExternalAdministrator_AdministratorType_ARM&#34;&gt;ServerExternalAdministrator_AdministratorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_ARM&#34;&gt;ServerExternalAdministrator_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6280,7 +7332,25 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerExternalAdministrator_AdministratorType_STATUS&#34;&gt;ServerExternalAdministrator_AdministratorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_STATUS&#34;&gt;ServerExternalAdministrator_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_STATUS_ARM&#34;&gt;ServerExternalAdministrator_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_STATUS&#34;&gt;ServerExternalAdministrator_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ActiveDirectory&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerExternalAdministrator_AdministratorType_STATUS_ARM&#34;&gt;ServerExternalAdministrator_AdministratorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_STATUS_ARM&#34;&gt;ServerExternalAdministrator_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6298,7 +7368,29 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerExternalAdministrator_PrincipalType&#34;&gt;ServerExternalAdministrator_PrincipalType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator&#34;&gt;ServerExternalAdministrator&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_ARM&#34;&gt;ServerExternalAdministrator_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator&#34;&gt;ServerExternalAdministrator&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Group&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerExternalAdministrator_PrincipalType_ARM&#34;&gt;ServerExternalAdministrator_PrincipalType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_ARM&#34;&gt;ServerExternalAdministrator_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6320,7 +7412,29 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerExternalAdministrator_PrincipalType_STATUS&#34;&gt;ServerExternalAdministrator_PrincipalType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_STATUS&#34;&gt;ServerExternalAdministrator_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_STATUS_ARM&#34;&gt;ServerExternalAdministrator_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_STATUS&#34;&gt;ServerExternalAdministrator_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Group&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerExternalAdministrator_PrincipalType_STATUS_ARM&#34;&gt;ServerExternalAdministrator_PrincipalType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_STATUS_ARM&#34;&gt;ServerExternalAdministrator_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6447,8 +7561,8 @@ string
 &lt;td&gt;
 &lt;code&gt;administratorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_AdministratorType_STATUS&#34;&gt;
-ServerExternalAdministrator_AdministratorType_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_AdministratorType_STATUS_ARM&#34;&gt;
+ServerExternalAdministrator_AdministratorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6482,8 +7596,8 @@ string
 &lt;td&gt;
 &lt;code&gt;principalType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_PrincipalType_STATUS&#34;&gt;
-ServerExternalAdministrator_PrincipalType_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerExternalAdministrator_PrincipalType_STATUS_ARM&#34;&gt;
+ServerExternalAdministrator_PrincipalType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6843,8 +7957,8 @@ string
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_PublicNetworkAccess&#34;&gt;
-ServerProperties_PublicNetworkAccess
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_PublicNetworkAccess_ARM&#34;&gt;
+ServerProperties_PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6857,8 +7971,8 @@ in, must be &amp;lsquo;Enabled&amp;rsquo; or &amp;lsquo;Disabled&amp;rsquo;&lt;/
 &lt;td&gt;
 &lt;code&gt;restrictOutboundNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_RestrictOutboundNetworkAccess&#34;&gt;
-ServerProperties_RestrictOutboundNetworkAccess
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_RestrictOutboundNetworkAccess_ARM&#34;&gt;
+ServerProperties_RestrictOutboundNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6883,7 +7997,27 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_PublicNetworkAccess&#34;&gt;ServerProperties_PublicNetworkAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_ARM&#34;&gt;ServerProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Server_Spec&#34;&gt;Server_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Server_Spec&#34;&gt;Server_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_PublicNetworkAccess_ARM&#34;&gt;ServerProperties_PublicNetworkAccess_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_ARM&#34;&gt;ServerProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6903,7 +8037,27 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_PublicNetworkAccess_STATUS&#34;&gt;ServerProperties_PublicNetworkAccess_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;ServerProperties_PublicNetworkAccess_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6923,7 +8077,27 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_RestrictOutboundNetworkAccess&#34;&gt;ServerProperties_RestrictOutboundNetworkAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_ARM&#34;&gt;ServerProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Server_Spec&#34;&gt;Server_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Server_Spec&#34;&gt;Server_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_RestrictOutboundNetworkAccess_ARM&#34;&gt;ServerProperties_RestrictOutboundNetworkAccess_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_ARM&#34;&gt;ServerProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6943,7 +8117,27 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_RestrictOutboundNetworkAccess_STATUS&#34;&gt;ServerProperties_RestrictOutboundNetworkAccess_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM&#34;&gt;ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7072,8 +8266,8 @@ string
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_PublicNetworkAccess_STATUS&#34;&gt;
-ServerProperties_PublicNetworkAccess_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;
+ServerProperties_PublicNetworkAccess_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7086,8 +8280,8 @@ in, must be &amp;lsquo;Enabled&amp;rsquo; or &amp;lsquo;Disabled&amp;rsquo;&lt;/
 &lt;td&gt;
 &lt;code&gt;restrictOutboundNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_RestrictOutboundNetworkAccess_STATUS&#34;&gt;
-ServerProperties_RestrictOutboundNetworkAccess_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM&#34;&gt;
+ServerProperties_RestrictOutboundNetworkAccess_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7122,8 +8316,8 @@ string
 &lt;td&gt;
 &lt;code&gt;workspaceFeature&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_WorkspaceFeature_STATUS&#34;&gt;
-ServerProperties_WorkspaceFeature_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_WorkspaceFeature_STATUS_ARM&#34;&gt;
+ServerProperties_WorkspaceFeature_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7136,7 +8330,27 @@ ServerProperties_WorkspaceFeature_STATUS
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_WorkspaceFeature_STATUS&#34;&gt;ServerProperties_WorkspaceFeature_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Connected&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disconnected&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerProperties_WorkspaceFeature_STATUS_ARM&#34;&gt;ServerProperties_WorkspaceFeature_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7218,8 +8432,8 @@ int
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State&#34;&gt;
-ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM&#34;&gt;
+ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7329,8 +8543,8 @@ int
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS&#34;&gt;
-ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM&#34;&gt;
+ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7356,7 +8570,27 @@ will hold all Threat Detection audit logs.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State&#34;&gt;ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM&#34;&gt;ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_SecurityAlertPolicy_Spec&#34;&gt;Servers_SecurityAlertPolicy_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_SecurityAlertPolicy_Spec&#34;&gt;Servers_SecurityAlertPolicy_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM&#34;&gt;ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM&#34;&gt;ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7376,7 +8610,27 @@ will hold all Threat Detection audit logs.&lt;/p&gt;
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS&#34;&gt;ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM&#34;&gt;ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_SecurityAlertPolicy_STATUS&#34;&gt;Servers_SecurityAlertPolicy_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_SecurityAlertPolicy_STATUS&#34;&gt;Servers_SecurityAlertPolicy_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM&#34;&gt;ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM&#34;&gt;ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -19489,7 +20743,31 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.SystemData_CreatedByType_STATUS&#34;&gt;SystemData_CreatedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.SystemData_CreatedByType_STATUS_ARM&#34;&gt;SystemData_CreatedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -19513,7 +20791,31 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS&#34;&gt;SystemData_LastModifiedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;SystemData_LastModifiedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -19664,8 +20966,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_CreatedByType_STATUS&#34;&gt;
-SystemData_CreatedByType_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_CreatedByType_STATUS_ARM&#34;&gt;
+SystemData_CreatedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -19699,8 +21001,8 @@ string
 &lt;td&gt;
 &lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS&#34;&gt;
-SystemData_LastModifiedByType_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;
+SystemData_LastModifiedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -19730,8 +21032,8 @@ SystemData_LastModifiedByType_STATUS
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_State&#34;&gt;
-TransparentDataEncryptionProperties_State
+&lt;a href=&#34;#sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_State_ARM&#34;&gt;
+TransparentDataEncryptionProperties_State_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -19761,8 +21063,8 @@ TransparentDataEncryptionProperties_State
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_State_STATUS&#34;&gt;
-TransparentDataEncryptionProperties_State_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_State_STATUS_ARM&#34;&gt;
+TransparentDataEncryptionProperties_State_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -19775,7 +21077,27 @@ TransparentDataEncryptionProperties_State_STATUS
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_State&#34;&gt;TransparentDataEncryptionProperties_State
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_TransparentDataEncryption_Spec&#34;&gt;Servers_Databases_TransparentDataEncryption_Spec&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_ARM&#34;&gt;TransparentDataEncryptionProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_TransparentDataEncryption_Spec&#34;&gt;Servers_Databases_TransparentDataEncryption_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_State_ARM&#34;&gt;TransparentDataEncryptionProperties_State_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_ARM&#34;&gt;TransparentDataEncryptionProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -19795,7 +21117,27 @@ TransparentDataEncryptionProperties_State_STATUS
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_State_STATUS&#34;&gt;TransparentDataEncryptionProperties_State_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_TransparentDataEncryption_STATUS&#34;&gt;Servers_Databases_TransparentDataEncryption_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_STATUS_ARM&#34;&gt;TransparentDataEncryptionProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_Databases_TransparentDataEncryption_STATUS&#34;&gt;Servers_Databases_TransparentDataEncryption_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_State_STATUS_ARM&#34;&gt;TransparentDataEncryptionProperties_State_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.TransparentDataEncryptionProperties_STATUS_ARM&#34;&gt;TransparentDataEncryptionProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -20000,8 +21342,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#sql.azure.com/v1api20211101.VirtualNetworkRuleProperties_State_STATUS&#34;&gt;
-VirtualNetworkRuleProperties_State_STATUS
+&lt;a href=&#34;#sql.azure.com/v1api20211101.VirtualNetworkRuleProperties_State_STATUS_ARM&#34;&gt;
+VirtualNetworkRuleProperties_State_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -20025,7 +21367,35 @@ string
 &lt;h3 id=&#34;sql.azure.com/v1api20211101.VirtualNetworkRuleProperties_State_STATUS&#34;&gt;VirtualNetworkRuleProperties_State_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_VirtualNetworkRule_STATUS&#34;&gt;Servers_VirtualNetworkRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#sql.azure.com/v1api20211101.VirtualNetworkRuleProperties_STATUS_ARM&#34;&gt;VirtualNetworkRuleProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.Servers_VirtualNetworkRule_STATUS&#34;&gt;Servers_VirtualNetworkRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;InProgress&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Initializing&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Ready&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Unknown&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;sql.azure.com/v1api20211101.VirtualNetworkRuleProperties_State_STATUS_ARM&#34;&gt;VirtualNetworkRuleProperties_State_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#sql.azure.com/v1api20211101.VirtualNetworkRuleProperties_STATUS_ARM&#34;&gt;VirtualNetworkRuleProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;

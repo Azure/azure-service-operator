@@ -151,72 +151,6 @@ vault.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.AccessPolicyEntry_ARM&#34;&gt;AccessPolicyEntry_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
-vault&amp;rsquo;s tenant ID.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;applicationId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ApplicationId:  Application ID of the client making request on behalf of a principal&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;objectId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
-vault. The object ID must be unique for the list of access policies.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;permissions&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_ARM&#34;&gt;
-Permissions_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Permissions: Permissions the identity has for keys, secrets and certificates.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.AccessPolicyEntry_STATUS&#34;&gt;AccessPolicyEntry_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
@@ -283,106 +217,10 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.AccessPolicyEntry_STATUS_ARM&#34;&gt;AccessPolicyEntry_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
-vault&amp;rsquo;s tenant ID.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;applicationId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ApplicationId:  Application ID of the client making request on behalf of a principal&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;objectId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
-vault. The object ID must be unique for the list of access policies.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;permissions&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS_ARM&#34;&gt;
-Permissions_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Permissions: Permissions the identity has for keys, secrets and certificates.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.IPRule&#34;&gt;IPRule
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A rule governing the accessibility of a vault from a specific ip address or ip range.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;value&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Value: An IPv4 address range in CIDR notation, such as &amp;lsquo;124.56.78.91&amp;rsquo; (simple IP address) or &amp;lsquo;124.56.78.0/24&amp;rsquo; (all
-addresses that start with 124.56.78).&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.IPRule_ARM&#34;&gt;IPRule_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;A rule governing the accessibility of a vault from a specific ip address or ip range.&lt;/p&gt;
@@ -439,40 +277,10 @@ addresses that start with 124.56.78).&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.IPRule_STATUS_ARM&#34;&gt;IPRule_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A rule governing the accessibility of a vault from a specific ip address or ip range.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;value&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Value: An IPv4 address range in CIDR notation, such as &amp;lsquo;124.56.78.91&amp;rsquo; (simple IP address) or &amp;lsquo;124.56.78.0/24&amp;rsquo; (all
-addresses that start with 124.56.78).&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.IdentityType_STATUS&#34;&gt;IdentityType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The type of identity.&lt;/p&gt;
@@ -566,82 +374,10 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A set of rules governing the network accessibility of a vault.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;bypass&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_Bypass&#34;&gt;
-NetworkRuleSet_Bypass
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Bypass: Tells what traffic can bypass network rules. This can be &amp;lsquo;AzureServices&amp;rsquo; or &amp;lsquo;None&amp;rsquo;.  If not specified the
-default is &amp;lsquo;AzureServices&amp;rsquo;.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;defaultAction&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_DefaultAction&#34;&gt;
-NetworkRuleSet_DefaultAction
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
-the bypass property has been evaluated.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;ipRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.IPRule_ARM&#34;&gt;
-[]IPRule_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;IpRules: The list of IP address rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;virtualNetworkRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VirtualNetworkRule_ARM&#34;&gt;
-[]VirtualNetworkRule_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;VirtualNetworkRules: The list of virtual network rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.NetworkRuleSet_Bypass&#34;&gt;NetworkRuleSet_Bypass
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -661,7 +397,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.NetworkRuleSet_Bypass_STATUS&#34;&gt;NetworkRuleSet_Bypass_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -681,7 +417,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.NetworkRuleSet_DefaultAction&#34;&gt;NetworkRuleSet_DefaultAction
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -701,7 +437,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.NetworkRuleSet_DefaultAction_STATUS&#34;&gt;NetworkRuleSet_DefaultAction_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -790,78 +526,6 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A set of rules governing the network accessibility of a vault.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;bypass&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_Bypass_STATUS&#34;&gt;
-NetworkRuleSet_Bypass_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Bypass: Tells what traffic can bypass network rules. This can be &amp;lsquo;AzureServices&amp;rsquo; or &amp;lsquo;None&amp;rsquo;.  If not specified the
-default is &amp;lsquo;AzureServices&amp;rsquo;.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;defaultAction&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_DefaultAction_STATUS&#34;&gt;
-NetworkRuleSet_DefaultAction_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
-the bypass property has been evaluated.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;ipRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.IPRule_STATUS_ARM&#34;&gt;
-[]IPRule_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;IpRules: The list of IP address rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;virtualNetworkRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VirtualNetworkRule_STATUS_ARM&#34;&gt;
-[]VirtualNetworkRule_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;VirtualNetworkRules: The list of virtual network rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions&#34;&gt;Permissions
 &lt;/h3&gt;
 &lt;p&gt;
@@ -932,80 +596,10 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_ARM&#34;&gt;Permissions_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.AccessPolicyEntry_ARM&#34;&gt;AccessPolicyEntry_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Permissions the identity has for keys, secrets, certificates and storage.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;certificates&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_Certificates&#34;&gt;
-[]Permissions_Certificates
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Certificates: Permissions to certificates&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;keys&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_Keys&#34;&gt;
-[]Permissions_Keys
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Keys: Permissions to keys&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secrets&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_Secrets&#34;&gt;
-[]Permissions_Secrets
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secrets: Permissions to secrets&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;storage&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_Storage&#34;&gt;
-[]Permissions_Storage
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Storage: Permissions to storage accounts&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_Certificates&#34;&gt;Permissions_Certificates
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions&#34;&gt;Permissions&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_ARM&#34;&gt;Permissions_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions&#34;&gt;Permissions&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1053,7 +647,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_Certificates_STATUS&#34;&gt;Permissions_Certificates_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1101,7 +695,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_Keys&#34;&gt;Permissions_Keys
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions&#34;&gt;Permissions&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_ARM&#34;&gt;Permissions_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions&#34;&gt;Permissions&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1151,7 +745,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_Keys_STATUS&#34;&gt;Permissions_Keys_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1268,80 +862,10 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.AccessPolicyEntry_STATUS_ARM&#34;&gt;AccessPolicyEntry_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Permissions the identity has for keys, secrets, certificates and storage.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;certificates&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_Certificates_STATUS&#34;&gt;
-[]Permissions_Certificates_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Certificates: Permissions to certificates&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;keys&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_Keys_STATUS&#34;&gt;
-[]Permissions_Keys_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Keys: Permissions to keys&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secrets&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_Secrets_STATUS&#34;&gt;
-[]Permissions_Secrets_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secrets: Permissions to secrets&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;storage&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_Storage_STATUS&#34;&gt;
-[]Permissions_Storage_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Storage: Permissions to storage accounts&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_Secrets&#34;&gt;Permissions_Secrets
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions&#34;&gt;Permissions&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_ARM&#34;&gt;Permissions_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions&#34;&gt;Permissions&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1373,7 +897,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_Secrets_STATUS&#34;&gt;Permissions_Secrets_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1405,7 +929,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_Storage&#34;&gt;Permissions_Storage
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions&#34;&gt;Permissions&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_ARM&#34;&gt;Permissions_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions&#34;&gt;Permissions&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1449,7 +973,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Permissions_Storage_STATUS&#34;&gt;Permissions_Storage_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1569,120 +1093,10 @@ PrivateEndpointConnectionProvisioningState_STATUS
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionItem_STATUS_ARM&#34;&gt;PrivateEndpointConnectionItem_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Private endpoint connection item.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;etag&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Etag: Modified whenever there is a change in the state of private endpoint connection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Id: Id of private endpoint connection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;
-PrivateEndpointConnectionProperties_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Properties: Private endpoint connection properties.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionItem_STATUS_ARM&#34;&gt;PrivateEndpointConnectionItem_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Properties of the private endpoint connection resource.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;privateEndpoint&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpoint_STATUS_ARM&#34;&gt;
-PrivateEndpoint_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;PrivateEndpoint: Properties of the private endpoint object.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;privateLinkServiceConnectionState&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_STATUS_ARM&#34;&gt;
-PrivateLinkServiceConnectionState_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;PrivateLinkServiceConnectionState: Approval state of the private link connection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionProvisioningState_STATUS&#34;&gt;
-PrivateEndpointConnectionProvisioningState_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ProvisioningState: Provisioning state of the private endpoint connection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionProvisioningState_STATUS&#34;&gt;PrivateEndpointConnectionProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionItem_STATUS&#34;&gt;PrivateEndpointConnectionItem_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionItem_STATUS&#34;&gt;PrivateEndpointConnectionItem_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The current provisioning state.&lt;/p&gt;
@@ -1711,7 +1125,7 @@ PrivateEndpointConnectionProvisioningState_STATUS
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.PrivateEndpointServiceConnectionStatus_STATUS&#34;&gt;PrivateEndpointServiceConnectionStatus_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_STATUS&#34;&gt;PrivateLinkServiceConnectionState_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionState_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_STATUS&#34;&gt;PrivateLinkServiceConnectionState_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The private endpoint connection status.&lt;/p&gt;
@@ -1762,39 +1176,10 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.PrivateEndpoint_STATUS_ARM&#34;&gt;PrivateEndpoint_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Private endpoint object properties.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Id: Full identifier of the private endpoint resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_ActionsRequired_STATUS&#34;&gt;PrivateLinkServiceConnectionState_ActionsRequired_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_STATUS&#34;&gt;PrivateLinkServiceConnectionState_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionState_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_STATUS&#34;&gt;PrivateLinkServiceConnectionState_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1813,61 +1198,6 @@ string
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionItem_STATUS&#34;&gt;PrivateEndpointConnectionItem_STATUS&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;An object that represents the approval state of the private link connection.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;actionsRequired&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_ActionsRequired_STATUS&#34;&gt;
-PrivateLinkServiceConnectionState_ActionsRequired_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;description&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Description: The reason for approval or rejection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointServiceConnectionStatus_STATUS&#34;&gt;
-PrivateEndpointServiceConnectionStatus_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Status: Indicates whether the connection has been approved, rejected or removed by the key vault owner.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.PrivateLinkServiceConnectionState_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionState_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;An object that represents the approval state of the private link connection.&lt;/p&gt;
@@ -1963,54 +1293,10 @@ Sku_Name
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Sku_ARM&#34;&gt;Sku_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;SKU details&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;family&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_Family&#34;&gt;
-Sku_Family
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Family: SKU family name&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_Name&#34;&gt;
-Sku_Name
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Name: SKU name to specify whether the key vault is a standard vault or a premium vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Sku_Family&#34;&gt;Sku_Family
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku&#34;&gt;Sku&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku&#34;&gt;Sku&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2028,7 +1314,7 @@ Sku_Name
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Sku_Family_STATUS&#34;&gt;Sku_Family_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2046,7 +1332,7 @@ Sku_Name
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Sku_Name&#34;&gt;Sku_Name
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku&#34;&gt;Sku&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku&#34;&gt;Sku&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2066,7 +1352,7 @@ Sku_Name
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Sku_Name_STATUS&#34;&gt;Sku_Name_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2127,142 +1413,10 @@ Sku_Name_STATUS
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;SKU details&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;family&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_Family_STATUS&#34;&gt;
-Sku_Family_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Family: SKU family name&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_Name_STATUS&#34;&gt;
-Sku_Name_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Name: SKU name to specify whether the key vault is a standard vault or a premium vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.SystemData_STATUS&#34;&gt;SystemData_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Vault_STATUS&#34;&gt;Vault_STATUS&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Metadata pertaining to creation and last modification of the key vault resource.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createdAt&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreatedAt: The timestamp of the key vault resource creation (UTC).&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createdBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreatedBy: The identity that created the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.IdentityType_STATUS&#34;&gt;
-IdentityType_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreatedByType: The type of identity that created the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;lastModifiedAt&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;LastModifiedAt: The timestamp of the key vault resource last modification (UTC).&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;lastModifiedBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;LastModifiedBy: The identity that last modified the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.IdentityType_STATUS&#34;&gt;
-IdentityType_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;LastModifiedByType: The type of identity that last modified the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Vault_STATUS_ARM&#34;&gt;Vault_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Metadata pertaining to creation and last modification of the key vault resource.&lt;/p&gt;
@@ -2678,206 +1832,10 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VaultProperties_ARM&#34;&gt;VaultProperties_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Vault_Spec_ARM&#34;&gt;Vault_Spec_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Properties of the vault&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;accessPolicies&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.AccessPolicyEntry_ARM&#34;&gt;
-[]AccessPolicyEntry_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
-the same tenant ID as the key vault&amp;rsquo;s tenant ID. When &lt;code&gt;createMode&lt;/code&gt; is set to &lt;code&gt;recover&lt;/code&gt;, access policies are not
-required. Otherwise, access policies are required.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_CreateMode&#34;&gt;
-VaultProperties_CreateMode
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreateMode: The vault&amp;rsquo;s create mode to indicate whether the vault need to be recovered or not.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enablePurgeProtection&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
-property to true activates protection against purge for this vault and its content - only the Key Vault service may
-initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
-functionality is irreversible - that is, the property does not accept false as its value.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enableRbacAuthorization&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
-Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
-will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
-stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
-of false. Note that management actions are always authorized with RBAC.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enableSoftDelete&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnableSoftDelete: Property to specify whether the &amp;lsquo;soft delete&amp;rsquo; functionality is enabled for this key vault. If it&amp;rsquo;s not
-set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
-cannot be reverted to false.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForDeployment&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
-as secrets from the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForDiskEncryption&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
-vault and unwrap keys.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForTemplateDeployment&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
-the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;networkAcls&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_ARM&#34;&gt;
-NetworkRuleSet_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_ProvisioningState&#34;&gt;
-VaultProperties_ProvisioningState
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ProvisioningState: Provisioning state of the vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;sku&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_ARM&#34;&gt;
-Sku_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Sku: SKU details&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;softDeleteRetentionInDays&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-int
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SoftDeleteRetentionInDays: softDelete data retention days. It accepts &amp;gt;=7 and &amp;lt;=90.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;vaultUri&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;VaultUri: The URI of the vault for performing operations on keys and secrets.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VaultProperties_CreateMode&#34;&gt;VaultProperties_CreateMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties&#34;&gt;VaultProperties&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties&#34;&gt;VaultProperties&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2901,7 +1859,7 @@ string
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VaultProperties_CreateMode_STATUS&#34;&gt;VaultProperties_CreateMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS&#34;&gt;VaultProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS&#34;&gt;VaultProperties_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2925,7 +1883,7 @@ string
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VaultProperties_ProvisioningState&#34;&gt;VaultProperties_ProvisioningState
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties&#34;&gt;VaultProperties&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties&#34;&gt;VaultProperties&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2945,7 +1903,7 @@ string
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VaultProperties_ProvisioningState_STATUS&#34;&gt;VaultProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS&#34;&gt;VaultProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS&#34;&gt;VaultProperties_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3182,226 +2140,6 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Vault_STATUS_ARM&#34;&gt;Vault_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Properties of the vault&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;accessPolicies&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.AccessPolicyEntry_STATUS_ARM&#34;&gt;
-[]AccessPolicyEntry_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
-the same tenant ID as the key vault&amp;rsquo;s tenant ID. When &lt;code&gt;createMode&lt;/code&gt; is set to &lt;code&gt;recover&lt;/code&gt;, access policies are not
-required. Otherwise, access policies are required.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_CreateMode_STATUS&#34;&gt;
-VaultProperties_CreateMode_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreateMode: The vault&amp;rsquo;s create mode to indicate whether the vault need to be recovered or not.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enablePurgeProtection&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
-property to true activates protection against purge for this vault and its content - only the Key Vault service may
-initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
-functionality is irreversible - that is, the property does not accept false as its value.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enableRbacAuthorization&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
-Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
-will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
-stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
-of false. Note that management actions are always authorized with RBAC.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enableSoftDelete&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnableSoftDelete: Property to specify whether the &amp;lsquo;soft delete&amp;rsquo; functionality is enabled for this key vault. If it&amp;rsquo;s not
-set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
-cannot be reverted to false.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForDeployment&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
-as secrets from the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForDiskEncryption&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
-vault and unwrap keys.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForTemplateDeployment&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
-the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;hsmPoolResourceId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;HsmPoolResourceId: The resource id of HSM Pool.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;networkAcls&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS_ARM&#34;&gt;
-NetworkRuleSet_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;privateEndpointConnections&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.PrivateEndpointConnectionItem_STATUS_ARM&#34;&gt;
-[]PrivateEndpointConnectionItem_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;PrivateEndpointConnections: List of private endpoint connections associated with the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_ProvisioningState_STATUS&#34;&gt;
-VaultProperties_ProvisioningState_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ProvisioningState: Provisioning state of the vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;sku&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.Sku_STATUS_ARM&#34;&gt;
-Sku_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Sku: SKU details&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;softDeleteRetentionInDays&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-int
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SoftDeleteRetentionInDays: softDelete data retention days. It accepts &amp;gt;=7 and &amp;lt;=90.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;vaultUri&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;VaultUri: The URI of the vault for performing operations on keys and secrets.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Vault_STATUS&#34;&gt;Vault_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
@@ -3514,102 +2252,6 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Vault_STATUS_ARM&#34;&gt;Vault_STATUS_ARM
-&lt;/h3&gt;
-&lt;div&gt;
-&lt;p&gt;Resource information with extended details.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Id: Fully qualified identifier of the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Location: Azure location of the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Name: Name of the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_STATUS_ARM&#34;&gt;
-VaultProperties_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Properties: Properties of the vault&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;systemData&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.SystemData_STATUS_ARM&#34;&gt;
-SystemData_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SystemData: System metadata for the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags: Tags assigned to the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Type: Resource type of the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Vault_Spec&#34;&gt;Vault_Spec
 &lt;/h3&gt;
 &lt;p&gt;
@@ -3689,65 +2331,6 @@ map[string]string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.Vault_Spec_ARM&#34;&gt;Vault_Spec_ARM
-&lt;/h3&gt;
-&lt;div&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Location: The supported Azure location where the key vault should be created.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.VaultProperties_ARM&#34;&gt;
-VaultProperties_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Properties: Properties of the vault&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags: The tags that will be assigned to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VirtualNetworkRule&#34;&gt;VirtualNetworkRule
 &lt;/h3&gt;
 &lt;p&gt;
@@ -3792,92 +2375,10 @@ genruntime.ResourceReference
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VirtualNetworkRule_ARM&#34;&gt;VirtualNetworkRule_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A rule governing the accessibility of a vault from a specific virtual network.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;ignoreMissingVnetServiceEndpoint&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
-serviceEndpoints configured.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VirtualNetworkRule_STATUS&#34;&gt;VirtualNetworkRule_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A rule governing the accessibility of a vault from a specific virtual network.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Id: Full resource id of a vnet subnet, such as
-&amp;lsquo;/&amp;#x200b;subscriptions/&amp;#x200b;subid/&amp;#x200b;resourceGroups/&amp;#x200b;rg1/&amp;#x200b;providers/&amp;#x200b;Microsoft.Network/&amp;#x200b;virtualNetworks/&amp;#x200b;test-vnet/&amp;#x200b;subnets/&amp;#x200b;subnet1&amp;rsquo;.&lt;/&amp;#x200b;p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;ignoreMissingVnetServiceEndpoint&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
-serviceEndpoints configured.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20210401preview.VirtualNetworkRule_STATUS_ARM&#34;&gt;VirtualNetworkRule_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20210401preview.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;A rule governing the accessibility of a vault from a specific virtual network.&lt;/p&gt;
@@ -4058,72 +2559,6 @@ vault.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.AccessPolicyEntry_ARM&#34;&gt;AccessPolicyEntry_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
-vault&amp;rsquo;s tenant ID.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;applicationId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ApplicationId:  Application ID of the client making request on behalf of a principal&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;objectId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
-vault. The object ID must be unique for the list of access policies.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;permissions&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_ARM&#34;&gt;
-Permissions_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Permissions: Permissions the identity has for keys, secrets and certificates.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.AccessPolicyEntry_STATUS&#34;&gt;AccessPolicyEntry_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
@@ -4190,106 +2625,10 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.AccessPolicyEntry_STATUS_ARM&#34;&gt;AccessPolicyEntry_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
-vault&amp;rsquo;s tenant ID.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;applicationId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ApplicationId:  Application ID of the client making request on behalf of a principal&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;objectId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
-vault. The object ID must be unique for the list of access policies.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;permissions&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM&#34;&gt;
-Permissions_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Permissions: Permissions the identity has for keys, secrets and certificates.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.IPRule&#34;&gt;IPRule
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A rule governing the accessibility of a vault from a specific ip address or ip range.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;value&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Value: An IPv4 address range in CIDR notation, such as &amp;lsquo;124.56.78.91&amp;rsquo; (simple IP address) or &amp;lsquo;124.56.78.0/24&amp;rsquo; (all
-addresses that start with 124.56.78).&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.IPRule_ARM&#34;&gt;IPRule_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;A rule governing the accessibility of a vault from a specific ip address or ip range.&lt;/p&gt;
@@ -4346,40 +2685,10 @@ addresses that start with 124.56.78).&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.IPRule_STATUS_ARM&#34;&gt;IPRule_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A rule governing the accessibility of a vault from a specific ip address or ip range.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;value&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Value: An IPv4 address range in CIDR notation, such as &amp;lsquo;124.56.78.91&amp;rsquo; (simple IP address) or &amp;lsquo;124.56.78.0/24&amp;rsquo; (all
-addresses that start with 124.56.78).&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.IdentityType_STATUS&#34;&gt;IdentityType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The type of identity.&lt;/p&gt;
@@ -4473,82 +2782,10 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A set of rules governing the network accessibility of a vault.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;bypass&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_Bypass&#34;&gt;
-NetworkRuleSet_Bypass
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Bypass: Tells what traffic can bypass network rules. This can be &amp;lsquo;AzureServices&amp;rsquo; or &amp;lsquo;None&amp;rsquo;.  If not specified the
-default is &amp;lsquo;AzureServices&amp;rsquo;.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;defaultAction&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_DefaultAction&#34;&gt;
-NetworkRuleSet_DefaultAction
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
-the bypass property has been evaluated.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;ipRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.IPRule_ARM&#34;&gt;
-[]IPRule_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;IpRules: The list of IP address rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;virtualNetworkRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VirtualNetworkRule_ARM&#34;&gt;
-[]VirtualNetworkRule_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;VirtualNetworkRules: The list of virtual network rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.NetworkRuleSet_Bypass&#34;&gt;NetworkRuleSet_Bypass
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4568,7 +2805,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.NetworkRuleSet_Bypass_STATUS&#34;&gt;NetworkRuleSet_Bypass_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4588,7 +2825,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.NetworkRuleSet_DefaultAction&#34;&gt;NetworkRuleSet_DefaultAction
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet&#34;&gt;NetworkRuleSet&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4608,7 +2845,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.NetworkRuleSet_DefaultAction_STATUS&#34;&gt;NetworkRuleSet_DefaultAction_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4697,78 +2934,6 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A set of rules governing the network accessibility of a vault.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;bypass&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_Bypass_STATUS&#34;&gt;
-NetworkRuleSet_Bypass_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Bypass: Tells what traffic can bypass network rules. This can be &amp;lsquo;AzureServices&amp;rsquo; or &amp;lsquo;None&amp;rsquo;.  If not specified the
-default is &amp;lsquo;AzureServices&amp;rsquo;.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;defaultAction&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_DefaultAction_STATUS&#34;&gt;
-NetworkRuleSet_DefaultAction_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
-the bypass property has been evaluated.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;ipRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.IPRule_STATUS_ARM&#34;&gt;
-[]IPRule_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;IpRules: The list of IP address rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;virtualNetworkRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VirtualNetworkRule_STATUS_ARM&#34;&gt;
-[]VirtualNetworkRule_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;VirtualNetworkRules: The list of virtual network rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions&#34;&gt;Permissions
 &lt;/h3&gt;
 &lt;p&gt;
@@ -4839,80 +3004,10 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_ARM&#34;&gt;Permissions_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.AccessPolicyEntry_ARM&#34;&gt;AccessPolicyEntry_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Permissions the identity has for keys, secrets, certificates and storage.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;certificates&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_Certificates&#34;&gt;
-[]Permissions_Certificates
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Certificates: Permissions to certificates&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;keys&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_Keys&#34;&gt;
-[]Permissions_Keys
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Keys: Permissions to keys&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secrets&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_Secrets&#34;&gt;
-[]Permissions_Secrets
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secrets: Permissions to secrets&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;storage&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_Storage&#34;&gt;
-[]Permissions_Storage
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Storage: Permissions to storage accounts&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_Certificates&#34;&gt;Permissions_Certificates
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions&#34;&gt;Permissions&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_ARM&#34;&gt;Permissions_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions&#34;&gt;Permissions&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4962,7 +3057,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_Certificates_STATUS&#34;&gt;Permissions_Certificates_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5012,7 +3107,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_Keys&#34;&gt;Permissions_Keys
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions&#34;&gt;Permissions&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_ARM&#34;&gt;Permissions_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions&#34;&gt;Permissions&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5070,7 +3165,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_Keys_STATUS&#34;&gt;Permissions_Keys_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5195,80 +3290,10 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.AccessPolicyEntry_STATUS_ARM&#34;&gt;AccessPolicyEntry_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Permissions the identity has for keys, secrets, certificates and storage.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;certificates&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_Certificates_STATUS&#34;&gt;
-[]Permissions_Certificates_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Certificates: Permissions to certificates&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;keys&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_Keys_STATUS&#34;&gt;
-[]Permissions_Keys_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Keys: Permissions to keys&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secrets&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_Secrets_STATUS&#34;&gt;
-[]Permissions_Secrets_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secrets: Permissions to secrets&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;storage&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_Storage_STATUS&#34;&gt;
-[]Permissions_Storage_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Storage: Permissions to storage accounts&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_Secrets&#34;&gt;Permissions_Secrets
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions&#34;&gt;Permissions&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_ARM&#34;&gt;Permissions_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions&#34;&gt;Permissions&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5302,7 +3327,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_Secrets_STATUS&#34;&gt;Permissions_Secrets_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5336,7 +3361,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_Storage&#34;&gt;Permissions_Storage
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions&#34;&gt;Permissions&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_ARM&#34;&gt;Permissions_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions&#34;&gt;Permissions&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5382,7 +3407,7 @@ the bypass property has been evaluated.&lt;/p&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Permissions_Storage_STATUS&#34;&gt;Permissions_Storage_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM&#34;&gt;Permissions_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Permissions_STATUS&#34;&gt;Permissions_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5504,120 +3529,10 @@ PrivateEndpointConnectionProvisioningState_STATUS
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS_ARM&#34;&gt;PrivateEndpointConnectionItem_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Private endpoint connection item.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;etag&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Etag: Modified whenever there is a change in the state of private endpoint connection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Id: Id of private endpoint connection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;
-PrivateEndpointConnectionProperties_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Properties: Private endpoint connection properties.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS_ARM&#34;&gt;PrivateEndpointConnectionItem_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Properties of the private endpoint connection resource.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;privateEndpoint&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpoint_STATUS_ARM&#34;&gt;
-PrivateEndpoint_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;PrivateEndpoint: Properties of the private endpoint object.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;privateLinkServiceConnectionState&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS_ARM&#34;&gt;
-PrivateLinkServiceConnectionState_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;PrivateLinkServiceConnectionState: Approval state of the private link connection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProvisioningState_STATUS&#34;&gt;
-PrivateEndpointConnectionProvisioningState_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ProvisioningState: Provisioning state of the private endpoint connection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProvisioningState_STATUS&#34;&gt;PrivateEndpointConnectionProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS&#34;&gt;PrivateEndpointConnectionItem_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS&#34;&gt;PrivateEndpointConnectionItem_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The current provisioning state.&lt;/p&gt;
@@ -5646,7 +3561,7 @@ PrivateEndpointConnectionProvisioningState_STATUS
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.PrivateEndpointServiceConnectionStatus_STATUS&#34;&gt;PrivateEndpointServiceConnectionStatus_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS&#34;&gt;PrivateLinkServiceConnectionState_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionState_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS&#34;&gt;PrivateLinkServiceConnectionState_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The private endpoint connection status.&lt;/p&gt;
@@ -5697,39 +3612,10 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.PrivateEndpoint_STATUS_ARM&#34;&gt;PrivateEndpoint_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Private endpoint object properties.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Id: Full identifier of the private endpoint resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_ActionsRequired_STATUS&#34;&gt;PrivateLinkServiceConnectionState_ActionsRequired_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS&#34;&gt;PrivateLinkServiceConnectionState_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionState_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS&#34;&gt;PrivateLinkServiceConnectionState_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5748,61 +3634,6 @@ string
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS&#34;&gt;PrivateEndpointConnectionItem_STATUS&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;An object that represents the approval state of the private link connection.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;actionsRequired&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_ActionsRequired_STATUS&#34;&gt;
-PrivateLinkServiceConnectionState_ActionsRequired_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;description&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Description: The reason for approval or rejection.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointServiceConnectionStatus_STATUS&#34;&gt;
-PrivateEndpointServiceConnectionStatus_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Status: Indicates whether the connection has been approved, rejected or removed by the key vault owner.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS_ARM&#34;&gt;PrivateLinkServiceConnectionState_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;PrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;An object that represents the approval state of the private link connection.&lt;/p&gt;
@@ -5898,54 +3729,10 @@ Sku_Name
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Sku_ARM&#34;&gt;Sku_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;SKU details&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;family&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_Family&#34;&gt;
-Sku_Family
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Family: SKU family name&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_Name&#34;&gt;
-Sku_Name
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Name: SKU name to specify whether the key vault is a standard vault or a premium vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Sku_Family&#34;&gt;Sku_Family
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku&#34;&gt;Sku&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku&#34;&gt;Sku&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5963,7 +3750,7 @@ Sku_Name
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Sku_Family_STATUS&#34;&gt;Sku_Family_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5981,7 +3768,7 @@ Sku_Name
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Sku_Name&#34;&gt;Sku_Name
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku&#34;&gt;Sku&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku&#34;&gt;Sku&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6001,7 +3788,7 @@ Sku_Name
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Sku_Name_STATUS&#34;&gt;Sku_Name_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6062,142 +3849,10 @@ Sku_Name_STATUS
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;SKU details&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;family&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_Family_STATUS&#34;&gt;
-Sku_Family_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Family: SKU family name&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_Name_STATUS&#34;&gt;
-Sku_Name_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Name: SKU name to specify whether the key vault is a standard vault or a premium vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.SystemData_STATUS&#34;&gt;SystemData_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Vault_STATUS&#34;&gt;Vault_STATUS&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Metadata pertaining to creation and last modification of the key vault resource.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createdAt&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreatedAt: The timestamp of the key vault resource creation (UTC).&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createdBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreatedBy: The identity that created the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.IdentityType_STATUS&#34;&gt;
-IdentityType_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreatedByType: The type of identity that created the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;lastModifiedAt&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;LastModifiedAt: The timestamp of the key vault resource last modification (UTC).&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;lastModifiedBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;LastModifiedBy: The identity that last modified the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.IdentityType_STATUS&#34;&gt;
-IdentityType_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;LastModifiedByType: The type of identity that last modified the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Vault_STATUS_ARM&#34;&gt;Vault_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Metadata pertaining to creation and last modification of the key vault resource.&lt;/p&gt;
@@ -6627,220 +4282,10 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VaultProperties_ARM&#34;&gt;VaultProperties_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Vault_Spec_ARM&#34;&gt;Vault_Spec_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Properties of the vault&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;accessPolicies&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.AccessPolicyEntry_ARM&#34;&gt;
-[]AccessPolicyEntry_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
-the same tenant ID as the key vault&amp;rsquo;s tenant ID. When &lt;code&gt;createMode&lt;/code&gt; is set to &lt;code&gt;recover&lt;/code&gt;, access policies are not
-required. Otherwise, access policies are required.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_CreateMode&#34;&gt;
-VaultProperties_CreateMode
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreateMode: The vault&amp;rsquo;s create mode to indicate whether the vault need to be recovered or not.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enablePurgeProtection&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
-property to true activates protection against purge for this vault and its content - only the Key Vault service may
-initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
-functionality is irreversible - that is, the property does not accept false as its value.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enableRbacAuthorization&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
-Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
-will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
-stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
-of false. Note that management actions are always authorized with RBAC.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enableSoftDelete&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnableSoftDelete: Property to specify whether the &amp;lsquo;soft delete&amp;rsquo; functionality is enabled for this key vault. If it&amp;rsquo;s not
-set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
-cannot be reverted to false.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForDeployment&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
-as secrets from the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForDiskEncryption&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
-vault and unwrap keys.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForTemplateDeployment&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
-the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;networkAcls&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM&#34;&gt;
-NetworkRuleSet_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_ProvisioningState&#34;&gt;
-VaultProperties_ProvisioningState
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ProvisioningState: Provisioning state of the vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;PublicNetworkAccess: Property to specify whether the vault will accept traffic from public internet. If set to
-&amp;lsquo;disabled&amp;rsquo; all traffic except private endpoint traffic and that that originates from trusted services will be blocked.
-This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the
-rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;sku&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_ARM&#34;&gt;
-Sku_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Sku: SKU details&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;softDeleteRetentionInDays&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-int
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SoftDeleteRetentionInDays: softDelete data retention days. It accepts &amp;gt;=7 and &amp;lt;=90.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;vaultUri&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;VaultUri: The URI of the vault for performing operations on keys and secrets.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VaultProperties_CreateMode&#34;&gt;VaultProperties_CreateMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties&#34;&gt;VaultProperties&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties&#34;&gt;VaultProperties&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6864,7 +4309,7 @@ string
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VaultProperties_CreateMode_STATUS&#34;&gt;VaultProperties_CreateMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS&#34;&gt;VaultProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS&#34;&gt;VaultProperties_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6888,7 +4333,7 @@ string
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VaultProperties_ProvisioningState&#34;&gt;VaultProperties_ProvisioningState
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties&#34;&gt;VaultProperties&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_ARM&#34;&gt;VaultProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties&#34;&gt;VaultProperties&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6908,7 +4353,7 @@ string
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VaultProperties_ProvisioningState_STATUS&#34;&gt;VaultProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS&#34;&gt;VaultProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS&#34;&gt;VaultProperties_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7159,240 +4604,6 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM&#34;&gt;VaultProperties_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Vault_STATUS_ARM&#34;&gt;Vault_STATUS_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;Properties of the vault&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;accessPolicies&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.AccessPolicyEntry_STATUS_ARM&#34;&gt;
-[]AccessPolicyEntry_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
-the same tenant ID as the key vault&amp;rsquo;s tenant ID. When &lt;code&gt;createMode&lt;/code&gt; is set to &lt;code&gt;recover&lt;/code&gt;, access policies are not
-required. Otherwise, access policies are required.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_CreateMode_STATUS&#34;&gt;
-VaultProperties_CreateMode_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;CreateMode: The vault&amp;rsquo;s create mode to indicate whether the vault need to be recovered or not.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enablePurgeProtection&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
-property to true activates protection against purge for this vault and its content - only the Key Vault service may
-initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
-functionality is irreversible - that is, the property does not accept false as its value.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enableRbacAuthorization&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
-Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
-will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
-stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
-of false. Note that management actions are always authorized with RBAC.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enableSoftDelete&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnableSoftDelete: Property to specify whether the &amp;lsquo;soft delete&amp;rsquo; functionality is enabled for this key vault. If it&amp;rsquo;s not
-set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
-cannot be reverted to false.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForDeployment&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
-as secrets from the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForDiskEncryption&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
-vault and unwrap keys.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabledForTemplateDeployment&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
-the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;hsmPoolResourceId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;HsmPoolResourceId: The resource id of HSM Pool.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;networkAcls&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM&#34;&gt;
-NetworkRuleSet_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;privateEndpointConnections&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS_ARM&#34;&gt;
-[]PrivateEndpointConnectionItem_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;PrivateEndpointConnections: List of private endpoint connections associated with the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_ProvisioningState_STATUS&#34;&gt;
-VaultProperties_ProvisioningState_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ProvisioningState: Provisioning state of the vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;PublicNetworkAccess: Property to specify whether the vault will accept traffic from public internet. If set to
-&amp;lsquo;disabled&amp;rsquo; all traffic except private endpoint traffic and that that originates from trusted services will be blocked.
-This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the
-rules.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;sku&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.Sku_STATUS_ARM&#34;&gt;
-Sku_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Sku: SKU details&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;softDeleteRetentionInDays&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-int
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SoftDeleteRetentionInDays: softDelete data retention days. It accepts &amp;gt;=7 and &amp;lt;=90.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;vaultUri&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;VaultUri: The URI of the vault for performing operations on keys and secrets.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Vault_STATUS&#34;&gt;Vault_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
@@ -7505,102 +4716,6 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Vault_STATUS_ARM&#34;&gt;Vault_STATUS_ARM
-&lt;/h3&gt;
-&lt;div&gt;
-&lt;p&gt;Resource information with extended details.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Id: Fully qualified identifier of the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Location: Azure location of the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Name: Name of the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM&#34;&gt;
-VaultProperties_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Properties: Properties of the vault&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;systemData&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.SystemData_STATUS_ARM&#34;&gt;
-SystemData_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SystemData: System metadata for the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags: Tags assigned to the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Type: Resource type of the key vault resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Vault_Spec&#34;&gt;Vault_Spec
 &lt;/h3&gt;
 &lt;p&gt;
@@ -7680,65 +4795,6 @@ map[string]string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.Vault_Spec_ARM&#34;&gt;Vault_Spec_ARM
-&lt;/h3&gt;
-&lt;div&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Location: The supported Azure location where the key vault should be created.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#keyvault.azure.com/v1api20230701.VaultProperties_ARM&#34;&gt;
-VaultProperties_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Properties: Properties of the vault&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags: The tags that will be assigned to the key vault.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VirtualNetworkRule&#34;&gt;VirtualNetworkRule
 &lt;/h3&gt;
 &lt;p&gt;
@@ -7783,92 +4839,10 @@ genruntime.ResourceReference
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VirtualNetworkRule_ARM&#34;&gt;VirtualNetworkRule_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM&#34;&gt;NetworkRuleSet_ARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A rule governing the accessibility of a vault from a specific virtual network.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;ignoreMissingVnetServiceEndpoint&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
-serviceEndpoints configured.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VirtualNetworkRule_STATUS&#34;&gt;VirtualNetworkRule_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS&#34;&gt;NetworkRuleSet_STATUS&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;p&gt;A rule governing the accessibility of a vault from a specific virtual network.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Id: Full resource id of a vnet subnet, such as
-&amp;lsquo;/&amp;#x200b;subscriptions/&amp;#x200b;subid/&amp;#x200b;resourceGroups/&amp;#x200b;rg1/&amp;#x200b;providers/&amp;#x200b;Microsoft.Network/&amp;#x200b;virtualNetworks/&amp;#x200b;test-vnet/&amp;#x200b;subnets/&amp;#x200b;subnet1&amp;rsquo;.&lt;/&amp;#x200b;p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;ignoreMissingVnetServiceEndpoint&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
-serviceEndpoints configured.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;keyvault.azure.com/v1api20230701.VirtualNetworkRule_STATUS_ARM&#34;&gt;VirtualNetworkRule_STATUS_ARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM&#34;&gt;NetworkRuleSet_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;A rule governing the accessibility of a vault from a specific virtual network.&lt;/p&gt;

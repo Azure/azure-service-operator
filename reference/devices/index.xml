@@ -106,8 +106,8 @@ created identity and a set of user assigned identities. The type &amp;lsquo;None
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_Type&#34;&gt;
-ArmIdentity_Type
+&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_Type_ARM&#34;&gt;
+ArmIdentity_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -236,8 +236,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_Type_STATUS&#34;&gt;
-ArmIdentity_Type_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_Type_STATUS_ARM&#34;&gt;
+ArmIdentity_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -263,7 +263,31 @@ map[string]./api/devices/v1api20210702.ArmUserIdentity_STATUS_ARM
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.ArmIdentity_Type&#34;&gt;ArmIdentity_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity&#34;&gt;ArmIdentity&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_ARM&#34;&gt;ArmIdentity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity&#34;&gt;ArmIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.ArmIdentity_Type_ARM&#34;&gt;ArmIdentity_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_ARM&#34;&gt;ArmIdentity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -287,7 +311,31 @@ map[string]./api/devices/v1api20210702.ArmUserIdentity_STATUS_ARM
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.ArmIdentity_Type_STATUS&#34;&gt;ArmIdentity_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_STATUS&#34;&gt;ArmIdentity_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_STATUS_ARM&#34;&gt;ArmIdentity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_STATUS&#34;&gt;ArmIdentity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned, UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.ArmIdentity_Type_STATUS_ARM&#34;&gt;ArmIdentity_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.ArmIdentity_STATUS_ARM&#34;&gt;ArmIdentity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1187,8 +1235,8 @@ maximum length of 64 characters, and must be unique.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;source&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_Source&#34;&gt;
-FallbackRouteProperties_Source
+&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_Source_ARM&#34;&gt;
+FallbackRouteProperties_Source_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1345,8 +1393,8 @@ maximum length of 64 characters, and must be unique.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;source&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_Source_STATUS&#34;&gt;
-FallbackRouteProperties_Source_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_Source_STATUS_ARM&#34;&gt;
+FallbackRouteProperties_Source_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1359,7 +1407,25 @@ FallbackRouteProperties_Source_STATUS
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.FallbackRouteProperties_Source&#34;&gt;FallbackRouteProperties_Source
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties&#34;&gt;FallbackRouteProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_ARM&#34;&gt;FallbackRouteProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties&#34;&gt;FallbackRouteProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceMessages&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.FallbackRouteProperties_Source_ARM&#34;&gt;FallbackRouteProperties_Source_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_ARM&#34;&gt;FallbackRouteProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1377,7 +1443,25 @@ FallbackRouteProperties_Source_STATUS
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.FallbackRouteProperties_Source_STATUS&#34;&gt;FallbackRouteProperties_Source_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_STATUS&#34;&gt;FallbackRouteProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_STATUS_ARM&#34;&gt;FallbackRouteProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_STATUS&#34;&gt;FallbackRouteProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceMessages&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.FallbackRouteProperties_Source_STATUS_ARM&#34;&gt;FallbackRouteProperties_Source_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.FallbackRouteProperties_STATUS_ARM&#34;&gt;FallbackRouteProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1772,7 +1856,27 @@ IotHub_STATUS
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubLocationDescription_Role_STATUS&#34;&gt;IotHubLocationDescription_Role_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubLocationDescription_STATUS&#34;&gt;IotHubLocationDescription_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubLocationDescription_STATUS_ARM&#34;&gt;IotHubLocationDescription_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubLocationDescription_STATUS&#34;&gt;IotHubLocationDescription_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;primary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;secondary&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubLocationDescription_Role_STATUS_ARM&#34;&gt;IotHubLocationDescription_Role_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubLocationDescription_STATUS_ARM&#34;&gt;IotHubLocationDescription_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1864,8 +1968,8 @@ string
 &lt;td&gt;
 &lt;code&gt;role&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubLocationDescription_Role_STATUS&#34;&gt;
-IotHubLocationDescription_Role_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubLocationDescription_Role_STATUS_ARM&#34;&gt;
+IotHubLocationDescription_Role_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2458,8 +2562,8 @@ This key has to be present in the dictionary while making create or update calls
 &lt;td&gt;
 &lt;code&gt;features&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_Features&#34;&gt;
-IotHubProperties_Features
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_Features_ARM&#34;&gt;
+IotHubProperties_Features_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2522,8 +2626,8 @@ NetworkRuleSetProperties_ARM
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_PublicNetworkAccess&#34;&gt;
-IotHubProperties_PublicNetworkAccess
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_PublicNetworkAccess_ARM&#34;&gt;
+IotHubProperties_PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2578,7 +2682,27 @@ causes an error to be thrown.&lt;/p&gt;
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubProperties_Features&#34;&gt;IotHubProperties_Features
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties&#34;&gt;IotHubProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_ARM&#34;&gt;IotHubProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties&#34;&gt;IotHubProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceManagement&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubProperties_Features_ARM&#34;&gt;IotHubProperties_Features_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_ARM&#34;&gt;IotHubProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2598,7 +2722,27 @@ causes an error to be thrown.&lt;/p&gt;
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubProperties_Features_STATUS&#34;&gt;IotHubProperties_Features_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_STATUS&#34;&gt;IotHubProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_STATUS_ARM&#34;&gt;IotHubProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_STATUS&#34;&gt;IotHubProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceManagement&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubProperties_Features_STATUS_ARM&#34;&gt;IotHubProperties_Features_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_STATUS_ARM&#34;&gt;IotHubProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2618,7 +2762,27 @@ causes an error to be thrown.&lt;/p&gt;
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubProperties_PublicNetworkAccess&#34;&gt;IotHubProperties_PublicNetworkAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties&#34;&gt;IotHubProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_ARM&#34;&gt;IotHubProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties&#34;&gt;IotHubProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubProperties_PublicNetworkAccess_ARM&#34;&gt;IotHubProperties_PublicNetworkAccess_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_ARM&#34;&gt;IotHubProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2638,7 +2802,27 @@ causes an error to be thrown.&lt;/p&gt;
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubProperties_PublicNetworkAccess_STATUS&#34;&gt;IotHubProperties_PublicNetworkAccess_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_STATUS&#34;&gt;IotHubProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_STATUS_ARM&#34;&gt;IotHubProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_STATUS&#34;&gt;IotHubProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;IotHubProperties_PublicNetworkAccess_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_STATUS_ARM&#34;&gt;IotHubProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3107,8 +3291,8 @@ This key has to be present in the dictionary while making create or update calls
 &lt;td&gt;
 &lt;code&gt;features&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_Features_STATUS&#34;&gt;
-IotHubProperties_Features_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_Features_STATUS_ARM&#34;&gt;
+IotHubProperties_Features_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3219,8 +3403,8 @@ string
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_PublicNetworkAccess_STATUS&#34;&gt;
-IotHubProperties_PublicNetworkAccess_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;
+IotHubProperties_PublicNetworkAccess_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3358,8 +3542,8 @@ int
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_Name&#34;&gt;
-IotHubSkuInfo_Name
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_Name_ARM&#34;&gt;
+IotHubSkuInfo_Name_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3372,7 +3556,37 @@ IotHubSkuInfo_Name
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubSkuInfo_Name&#34;&gt;IotHubSkuInfo_Name
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo&#34;&gt;IotHubSkuInfo&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_ARM&#34;&gt;IotHubSkuInfo_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo&#34;&gt;IotHubSkuInfo&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;B1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;B2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;B3&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;F1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;S1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;S2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;S3&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubSkuInfo_Name_ARM&#34;&gt;IotHubSkuInfo_Name_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_ARM&#34;&gt;IotHubSkuInfo_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3402,7 +3616,37 @@ IotHubSkuInfo_Name
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubSkuInfo_Name_STATUS&#34;&gt;IotHubSkuInfo_Name_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_STATUS&#34;&gt;IotHubSkuInfo_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_STATUS_ARM&#34;&gt;IotHubSkuInfo_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_STATUS&#34;&gt;IotHubSkuInfo_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;B1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;B2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;B3&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;F1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;S1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;S2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;S3&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubSkuInfo_Name_STATUS_ARM&#34;&gt;IotHubSkuInfo_Name_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_STATUS_ARM&#34;&gt;IotHubSkuInfo_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3517,8 +3761,8 @@ int
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_Name_STATUS&#34;&gt;
-IotHubSkuInfo_Name_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_Name_STATUS_ARM&#34;&gt;
+IotHubSkuInfo_Name_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3530,8 +3774,8 @@ IotHubSkuInfo_Name_STATUS
 &lt;td&gt;
 &lt;code&gt;tier&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_Tier_STATUS&#34;&gt;
-IotHubSkuInfo_Tier_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_Tier_STATUS_ARM&#34;&gt;
+IotHubSkuInfo_Tier_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3544,7 +3788,29 @@ IotHubSkuInfo_Tier_STATUS
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubSkuInfo_Tier_STATUS&#34;&gt;IotHubSkuInfo_Tier_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_STATUS&#34;&gt;IotHubSkuInfo_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_STATUS_ARM&#34;&gt;IotHubSkuInfo_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_STATUS&#34;&gt;IotHubSkuInfo_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Free&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IotHubSkuInfo_Tier_STATUS_ARM&#34;&gt;IotHubSkuInfo_Tier_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IotHubSkuInfo_STATUS_ARM&#34;&gt;IotHubSkuInfo_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4122,8 +4388,8 @@ string
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_Action&#34;&gt;
-IpFilterRule_Action
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_Action_ARM&#34;&gt;
+IpFilterRule_Action_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4158,7 +4424,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IpFilterRule_Action&#34;&gt;IpFilterRule_Action
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule&#34;&gt;IpFilterRule&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_ARM&#34;&gt;IpFilterRule_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule&#34;&gt;IpFilterRule&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Accept&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Reject&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IpFilterRule_Action_ARM&#34;&gt;IpFilterRule_Action_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_ARM&#34;&gt;IpFilterRule_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4178,7 +4464,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.IpFilterRule_Action_STATUS&#34;&gt;IpFilterRule_Action_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_STATUS&#34;&gt;IpFilterRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_STATUS_ARM&#34;&gt;IpFilterRule_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_STATUS&#34;&gt;IpFilterRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Accept&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Reject&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.IpFilterRule_Action_STATUS_ARM&#34;&gt;IpFilterRule_Action_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_STATUS_ARM&#34;&gt;IpFilterRule_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4268,8 +4574,8 @@ string
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_Action_STATUS&#34;&gt;
-IpFilterRule_Action_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.IpFilterRule_Action_STATUS_ARM&#34;&gt;
+IpFilterRule_Action_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4702,8 +5008,8 @@ string
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_Action&#34;&gt;
-NetworkRuleSetIpRule_Action
+&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_Action_ARM&#34;&gt;
+NetworkRuleSetIpRule_Action_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4738,7 +5044,25 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.NetworkRuleSetIpRule_Action&#34;&gt;NetworkRuleSetIpRule_Action
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule&#34;&gt;NetworkRuleSetIpRule&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_ARM&#34;&gt;NetworkRuleSetIpRule_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule&#34;&gt;NetworkRuleSetIpRule&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.NetworkRuleSetIpRule_Action_ARM&#34;&gt;NetworkRuleSetIpRule_Action_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_ARM&#34;&gt;NetworkRuleSetIpRule_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4756,7 +5080,25 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.NetworkRuleSetIpRule_Action_STATUS&#34;&gt;NetworkRuleSetIpRule_Action_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_STATUS&#34;&gt;NetworkRuleSetIpRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_STATUS_ARM&#34;&gt;NetworkRuleSetIpRule_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_STATUS&#34;&gt;NetworkRuleSetIpRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.NetworkRuleSetIpRule_Action_STATUS_ARM&#34;&gt;NetworkRuleSetIpRule_Action_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_STATUS_ARM&#34;&gt;NetworkRuleSetIpRule_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4844,8 +5186,8 @@ string
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_Action_STATUS&#34;&gt;
-NetworkRuleSetIpRule_Action_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetIpRule_Action_STATUS_ARM&#34;&gt;
+NetworkRuleSetIpRule_Action_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4963,8 +5305,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;defaultAction&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_DefaultAction&#34;&gt;
-NetworkRuleSetProperties_DefaultAction
+&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_DefaultAction_ARM&#34;&gt;
+NetworkRuleSetProperties_DefaultAction_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4990,7 +5332,27 @@ NetworkRuleSetProperties_DefaultAction
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.NetworkRuleSetProperties_DefaultAction&#34;&gt;NetworkRuleSetProperties_DefaultAction
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties&#34;&gt;NetworkRuleSetProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_ARM&#34;&gt;NetworkRuleSetProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties&#34;&gt;NetworkRuleSetProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deny&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.NetworkRuleSetProperties_DefaultAction_ARM&#34;&gt;NetworkRuleSetProperties_DefaultAction_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_ARM&#34;&gt;NetworkRuleSetProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5010,7 +5372,27 @@ NetworkRuleSetProperties_DefaultAction
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.NetworkRuleSetProperties_DefaultAction_STATUS&#34;&gt;NetworkRuleSetProperties_DefaultAction_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_STATUS&#34;&gt;NetworkRuleSetProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_STATUS_ARM&#34;&gt;NetworkRuleSetProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_STATUS&#34;&gt;NetworkRuleSetProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deny&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.NetworkRuleSetProperties_DefaultAction_STATUS_ARM&#34;&gt;NetworkRuleSetProperties_DefaultAction_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_STATUS_ARM&#34;&gt;NetworkRuleSetProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5113,8 +5495,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;defaultAction&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_DefaultAction_STATUS&#34;&gt;
-NetworkRuleSetProperties_DefaultAction_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.NetworkRuleSetProperties_DefaultAction_STATUS_ARM&#34;&gt;
+NetworkRuleSetProperties_DefaultAction_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5340,8 +5722,8 @@ maximum length of 64 characters, and must be unique.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;source&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_Source&#34;&gt;
-RouteProperties_Source
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_Source_ARM&#34;&gt;
+RouteProperties_Source_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5496,8 +5878,8 @@ maximum length of 64 characters, and must be unique.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;source&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_Source_STATUS&#34;&gt;
-RouteProperties_Source_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_Source_STATUS_ARM&#34;&gt;
+RouteProperties_Source_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5510,7 +5892,35 @@ RouteProperties_Source_STATUS
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RouteProperties_Source&#34;&gt;RouteProperties_Source
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties&#34;&gt;RouteProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_ARM&#34;&gt;RouteProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties&#34;&gt;RouteProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceConnectionStateEvents&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceJobLifecycleEvents&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceLifecycleEvents&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceMessages&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Invalid&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TwinChangeEvents&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RouteProperties_Source_ARM&#34;&gt;RouteProperties_Source_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_ARM&#34;&gt;RouteProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5538,7 +5948,35 @@ RouteProperties_Source_STATUS
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RouteProperties_Source_STATUS&#34;&gt;RouteProperties_Source_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_STATUS&#34;&gt;RouteProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_STATUS_ARM&#34;&gt;RouteProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_STATUS&#34;&gt;RouteProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceConnectionStateEvents&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceJobLifecycleEvents&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceLifecycleEvents&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceMessages&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Invalid&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TwinChangeEvents&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RouteProperties_Source_STATUS_ARM&#34;&gt;RouteProperties_Source_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RouteProperties_STATUS_ARM&#34;&gt;RouteProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6010,8 +6448,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_AuthenticationType&#34;&gt;
-RoutingEventHubProperties_AuthenticationType
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_AuthenticationType_ARM&#34;&gt;
+RoutingEventHubProperties_AuthenticationType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6115,7 +6553,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingEventHubProperties_AuthenticationType&#34;&gt;RoutingEventHubProperties_AuthenticationType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties&#34;&gt;RoutingEventHubProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_ARM&#34;&gt;RoutingEventHubProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties&#34;&gt;RoutingEventHubProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingEventHubProperties_AuthenticationType_ARM&#34;&gt;RoutingEventHubProperties_AuthenticationType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_ARM&#34;&gt;RoutingEventHubProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6135,7 +6593,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingEventHubProperties_AuthenticationType_STATUS&#34;&gt;RoutingEventHubProperties_AuthenticationType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_STATUS&#34;&gt;RoutingEventHubProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_STATUS_ARM&#34;&gt;RoutingEventHubProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_STATUS&#34;&gt;RoutingEventHubProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingEventHubProperties_AuthenticationType_STATUS_ARM&#34;&gt;RoutingEventHubProperties_AuthenticationType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_STATUS_ARM&#34;&gt;RoutingEventHubProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6284,8 +6762,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_AuthenticationType_STATUS&#34;&gt;
-RoutingEventHubProperties_AuthenticationType_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingEventHubProperties_AuthenticationType_STATUS_ARM&#34;&gt;
+RoutingEventHubProperties_AuthenticationType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6831,8 +7309,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_AuthenticationType&#34;&gt;
-RoutingServiceBusQueueEndpointProperties_AuthenticationType
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM&#34;&gt;
+RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6936,7 +7414,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_AuthenticationType&#34;&gt;RoutingServiceBusQueueEndpointProperties_AuthenticationType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties&#34;&gt;RoutingServiceBusQueueEndpointProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_ARM&#34;&gt;RoutingServiceBusQueueEndpointProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties&#34;&gt;RoutingServiceBusQueueEndpointProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM&#34;&gt;RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_ARM&#34;&gt;RoutingServiceBusQueueEndpointProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6956,7 +7454,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS&#34;&gt;RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_STATUS&#34;&gt;RoutingServiceBusQueueEndpointProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_STATUS_ARM&#34;&gt;RoutingServiceBusQueueEndpointProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_STATUS&#34;&gt;RoutingServiceBusQueueEndpointProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM&#34;&gt;RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_STATUS_ARM&#34;&gt;RoutingServiceBusQueueEndpointProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7105,8 +7623,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS&#34;&gt;
-RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM&#34;&gt;
+RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7344,8 +7862,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_AuthenticationType&#34;&gt;
-RoutingServiceBusTopicEndpointProperties_AuthenticationType
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM&#34;&gt;
+RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7449,7 +7967,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_AuthenticationType&#34;&gt;RoutingServiceBusTopicEndpointProperties_AuthenticationType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties&#34;&gt;RoutingServiceBusTopicEndpointProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_ARM&#34;&gt;RoutingServiceBusTopicEndpointProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties&#34;&gt;RoutingServiceBusTopicEndpointProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM&#34;&gt;RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_ARM&#34;&gt;RoutingServiceBusTopicEndpointProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7469,7 +8007,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS&#34;&gt;RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_STATUS&#34;&gt;RoutingServiceBusTopicEndpointProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_STATUS_ARM&#34;&gt;RoutingServiceBusTopicEndpointProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_STATUS&#34;&gt;RoutingServiceBusTopicEndpointProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM&#34;&gt;RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_STATUS_ARM&#34;&gt;RoutingServiceBusTopicEndpointProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7618,8 +8176,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS&#34;&gt;
-RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM&#34;&gt;
+RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7907,8 +8465,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_AuthenticationType&#34;&gt;
-RoutingStorageContainerProperties_AuthenticationType
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_AuthenticationType_ARM&#34;&gt;
+RoutingStorageContainerProperties_AuthenticationType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7954,8 +8512,8 @@ string
 &lt;td&gt;
 &lt;code&gt;encoding&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_Encoding&#34;&gt;
-RoutingStorageContainerProperties_Encoding
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_Encoding_ARM&#34;&gt;
+RoutingStorageContainerProperties_Encoding_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8062,7 +8620,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingStorageContainerProperties_AuthenticationType&#34;&gt;RoutingStorageContainerProperties_AuthenticationType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties&#34;&gt;RoutingStorageContainerProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_ARM&#34;&gt;RoutingStorageContainerProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties&#34;&gt;RoutingStorageContainerProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingStorageContainerProperties_AuthenticationType_ARM&#34;&gt;RoutingStorageContainerProperties_AuthenticationType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_ARM&#34;&gt;RoutingStorageContainerProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8082,7 +8660,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingStorageContainerProperties_AuthenticationType_STATUS&#34;&gt;RoutingStorageContainerProperties_AuthenticationType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_STATUS&#34;&gt;RoutingStorageContainerProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_STATUS_ARM&#34;&gt;RoutingStorageContainerProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_STATUS&#34;&gt;RoutingStorageContainerProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM&#34;&gt;RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_STATUS_ARM&#34;&gt;RoutingStorageContainerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8102,7 +8700,29 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingStorageContainerProperties_Encoding&#34;&gt;RoutingStorageContainerProperties_Encoding
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties&#34;&gt;RoutingStorageContainerProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_ARM&#34;&gt;RoutingStorageContainerProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties&#34;&gt;RoutingStorageContainerProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Avro&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AvroDeflate&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;JSON&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingStorageContainerProperties_Encoding_ARM&#34;&gt;RoutingStorageContainerProperties_Encoding_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_ARM&#34;&gt;RoutingStorageContainerProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8124,7 +8744,29 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingStorageContainerProperties_Encoding_STATUS&#34;&gt;RoutingStorageContainerProperties_Encoding_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_STATUS&#34;&gt;RoutingStorageContainerProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_STATUS_ARM&#34;&gt;RoutingStorageContainerProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_STATUS&#34;&gt;RoutingStorageContainerProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Avro&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AvroDeflate&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;JSON&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.RoutingStorageContainerProperties_Encoding_STATUS_ARM&#34;&gt;RoutingStorageContainerProperties_Encoding_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_STATUS_ARM&#34;&gt;RoutingStorageContainerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8325,8 +8967,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_AuthenticationType_STATUS&#34;&gt;
-RoutingStorageContainerProperties_AuthenticationType_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM&#34;&gt;
+RoutingStorageContainerProperties_AuthenticationType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8361,8 +9003,8 @@ string
 &lt;td&gt;
 &lt;code&gt;encoding&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_Encoding_STATUS&#34;&gt;
-RoutingStorageContainerProperties_Encoding_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.RoutingStorageContainerProperties_Encoding_STATUS_ARM&#34;&gt;
+RoutingStorageContainerProperties_Encoding_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8540,8 +9182,8 @@ string
 &lt;td&gt;
 &lt;code&gt;rights&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_Rights&#34;&gt;
-SharedAccessSignatureAuthorizationRule_Rights
+&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_Rights_ARM&#34;&gt;
+SharedAccessSignatureAuthorizationRule_Rights_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8554,7 +9196,53 @@ SharedAccessSignatureAuthorizationRule_Rights
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_Rights&#34;&gt;SharedAccessSignatureAuthorizationRule_Rights
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule&#34;&gt;SharedAccessSignatureAuthorizationRule&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_ARM&#34;&gt;SharedAccessSignatureAuthorizationRule_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule&#34;&gt;SharedAccessSignatureAuthorizationRule&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, RegistryWrite&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, RegistryWrite, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, RegistryWrite, ServiceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, ServiceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, ServiceConnect, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryWrite&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryWrite, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryWrite, ServiceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryWrite, ServiceConnect, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceConnect, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_Rights_ARM&#34;&gt;SharedAccessSignatureAuthorizationRule_Rights_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_ARM&#34;&gt;SharedAccessSignatureAuthorizationRule_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8600,7 +9288,53 @@ SharedAccessSignatureAuthorizationRule_Rights
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_Rights_STATUS&#34;&gt;SharedAccessSignatureAuthorizationRule_Rights_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_STATUS&#34;&gt;SharedAccessSignatureAuthorizationRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_STATUS_ARM&#34;&gt;SharedAccessSignatureAuthorizationRule_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_STATUS&#34;&gt;SharedAccessSignatureAuthorizationRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, RegistryWrite&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, RegistryWrite, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, RegistryWrite, ServiceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, ServiceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryRead, ServiceConnect, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryWrite&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryWrite, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryWrite, ServiceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegistryWrite, ServiceConnect, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceConnect, DeviceConnect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM&#34;&gt;SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_STATUS_ARM&#34;&gt;SharedAccessSignatureAuthorizationRule_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8716,8 +9450,8 @@ string
 &lt;td&gt;
 &lt;code&gt;rights&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_Rights_STATUS&#34;&gt;
-SharedAccessSignatureAuthorizationRule_Rights_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM&#34;&gt;
+SharedAccessSignatureAuthorizationRule_Rights_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8828,8 +9562,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_AuthenticationType&#34;&gt;
-StorageEndpointProperties_AuthenticationType
+&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_AuthenticationType_ARM&#34;&gt;
+StorageEndpointProperties_AuthenticationType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8890,7 +9624,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.StorageEndpointProperties_AuthenticationType&#34;&gt;StorageEndpointProperties_AuthenticationType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties&#34;&gt;StorageEndpointProperties&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_ARM&#34;&gt;StorageEndpointProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties&#34;&gt;StorageEndpointProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.StorageEndpointProperties_AuthenticationType_ARM&#34;&gt;StorageEndpointProperties_AuthenticationType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_ARM&#34;&gt;StorageEndpointProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8910,7 +9664,27 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.StorageEndpointProperties_AuthenticationType_STATUS&#34;&gt;StorageEndpointProperties_AuthenticationType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_STATUS&#34;&gt;StorageEndpointProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_STATUS_ARM&#34;&gt;StorageEndpointProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_STATUS&#34;&gt;StorageEndpointProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;identityBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;keyBased&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.StorageEndpointProperties_AuthenticationType_STATUS_ARM&#34;&gt;StorageEndpointProperties_AuthenticationType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_STATUS_ARM&#34;&gt;StorageEndpointProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9015,8 +9789,8 @@ string
 &lt;td&gt;
 &lt;code&gt;authenticationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_AuthenticationType_STATUS&#34;&gt;
-StorageEndpointProperties_AuthenticationType_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.StorageEndpointProperties_AuthenticationType_STATUS_ARM&#34;&gt;
+StorageEndpointProperties_AuthenticationType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9066,7 +9840,31 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.SystemData_CreatedByType_STATUS&#34;&gt;SystemData_CreatedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.SystemData_CreatedByType_STATUS_ARM&#34;&gt;SystemData_CreatedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9090,7 +9888,31 @@ string
 &lt;h3 id=&#34;devices.azure.com/v1api20210702.SystemData_LastModifiedByType_STATUS&#34;&gt;SystemData_LastModifiedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;devices.azure.com/v1api20210702.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;SystemData_LastModifiedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9241,8 +10063,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_CreatedByType_STATUS&#34;&gt;
-SystemData_CreatedByType_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_CreatedByType_STATUS_ARM&#34;&gt;
+SystemData_CreatedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9276,8 +10098,8 @@ string
 &lt;td&gt;
 &lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_LastModifiedByType_STATUS&#34;&gt;
-SystemData_LastModifiedByType_STATUS
+&lt;a href=&#34;#devices.azure.com/v1api20210702.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;
+SystemData_LastModifiedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

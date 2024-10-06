@@ -39,7 +39,7 @@
     CMKIdentityDefinition   (Appears on:EncryptionConfiguration)  Managed Identity used for CMK.
     Field Description      userAssignedIdentityReference  genruntime.ResourceReference     UserAssignedIdentityReference: The resource id of the user assigned identity to authenticate to customer&rsquo;s key vault.">
 
-<meta itemprop="wordCount" content="2440">
+<meta itemprop="wordCount" content="2526">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="datafactory.azure.com/v1api20180601"/>
 <meta name="twitter:description" content="datafactory.azure.com/v1api20180601  Package v1api20180601 contains API Schema definitions for the datafactory v1api20180601 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1625,8 +1631,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type">
-FactoryGitHubConfiguration_Type
+<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type_ARM">
+FactoryGitHubConfiguration_Type_ARM
 </a>
 </em>
 </td>
@@ -1887,8 +1893,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type_STATUS">
-FactoryGitHubConfiguration_Type_STATUS
+<a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type_STATUS_ARM">
+FactoryGitHubConfiguration_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1901,7 +1907,25 @@ FactoryGitHubConfiguration_Type_STATUS
 <h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type">FactoryGitHubConfiguration_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration">FactoryGitHubConfiguration</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_ARM">FactoryGitHubConfiguration_ARM</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration">FactoryGitHubConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;FactoryGitHubConfiguration&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type_ARM">FactoryGitHubConfiguration_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_ARM">FactoryGitHubConfiguration_ARM</a>)
 </p>
 <div>
 </div>
@@ -1919,7 +1943,25 @@ FactoryGitHubConfiguration_Type_STATUS
 <h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type_STATUS">FactoryGitHubConfiguration_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS">FactoryGitHubConfiguration_STATUS</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS_ARM">FactoryGitHubConfiguration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS">FactoryGitHubConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;FactoryGitHubConfiguration&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_Type_STATUS_ARM">FactoryGitHubConfiguration_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryGitHubConfiguration_STATUS_ARM">FactoryGitHubConfiguration_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1998,8 +2040,8 @@ FactoryIdentity_Type
 <td>
 <code>type</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_Type">
-FactoryIdentity_Type
+<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_Type_ARM">
+FactoryIdentity_Type_ARM
 </a>
 </em>
 </td>
@@ -2129,8 +2171,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_Type_STATUS">
-FactoryIdentity_Type_STATUS
+<a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_Type_STATUS_ARM">
+FactoryIdentity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2156,7 +2198,29 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 <h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity_Type">FactoryIdentity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity">FactoryIdentity</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_ARM">FactoryIdentity_ARM</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity">FactoryIdentity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity_Type_ARM">FactoryIdentity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_ARM">FactoryIdentity_ARM</a>)
 </p>
 <div>
 </div>
@@ -2178,7 +2242,29 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 <h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity_Type_STATUS">FactoryIdentity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS">FactoryIdentity_STATUS</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS_ARM">FactoryIdentity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS">FactoryIdentity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.FactoryIdentity_Type_STATUS_ARM">FactoryIdentity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryIdentity_STATUS_ARM">FactoryIdentity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2243,8 +2329,8 @@ map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification_ARM
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess">
-FactoryProperties_PublicNetworkAccess
+<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess_ARM">
+FactoryProperties_PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -2283,7 +2369,27 @@ FactoryRepoConfiguration_ARM
 <h3 id="datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess">FactoryProperties_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_ARM">FactoryProperties_ARM</a>, <a href="#datafactory.azure.com/v1api20180601.Factory_Spec">Factory_Spec</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_Spec">Factory_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess_ARM">FactoryProperties_PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_ARM">FactoryProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2303,7 +2409,27 @@ FactoryRepoConfiguration_ARM
 <h3 id="datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess_STATUS">FactoryProperties_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_STATUS_ARM">FactoryProperties_STATUS_ARM</a>, <a href="#datafactory.azure.com/v1api20180601.Factory_STATUS">Factory_STATUS</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.Factory_STATUS">Factory_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess_STATUS_ARM">FactoryProperties_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryProperties_STATUS_ARM">FactoryProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2388,8 +2514,8 @@ string
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess_STATUS">
-FactoryProperties_PublicNetworkAccess_STATUS
+<a href="#datafactory.azure.com/v1api20180601.FactoryProperties_PublicNetworkAccess_STATUS_ARM">
+FactoryProperties_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2833,8 +2959,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type">
-FactoryVSTSConfiguration_Type
+<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type_ARM">
+FactoryVSTSConfiguration_Type_ARM
 </a>
 </em>
 </td>
@@ -3069,8 +3195,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type_STATUS">
-FactoryVSTSConfiguration_Type_STATUS
+<a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type_STATUS_ARM">
+FactoryVSTSConfiguration_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3083,7 +3209,25 @@ FactoryVSTSConfiguration_Type_STATUS
 <h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type">FactoryVSTSConfiguration_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration">FactoryVSTSConfiguration</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_ARM">FactoryVSTSConfiguration_ARM</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration">FactoryVSTSConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;FactoryVSTSConfiguration&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type_ARM">FactoryVSTSConfiguration_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_ARM">FactoryVSTSConfiguration_ARM</a>)
 </p>
 <div>
 </div>
@@ -3101,7 +3245,25 @@ FactoryVSTSConfiguration_Type_STATUS
 <h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type_STATUS">FactoryVSTSConfiguration_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS">FactoryVSTSConfiguration_STATUS</a>, <a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS_ARM">FactoryVSTSConfiguration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS">FactoryVSTSConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;FactoryVSTSConfiguration&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_Type_STATUS_ARM">FactoryVSTSConfiguration_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.FactoryVSTSConfiguration_STATUS_ARM">FactoryVSTSConfiguration_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3919,8 +4081,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 <td>
 <code>type</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type">
-GlobalParameterSpecification_Type
+<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type_ARM">
+GlobalParameterSpecification_Type_ARM
 </a>
 </em>
 </td>
@@ -4007,8 +4169,8 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 <td>
 <code>type</code><br/>
 <em>
-<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type_STATUS">
-GlobalParameterSpecification_Type_STATUS
+<a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type_STATUS_ARM">
+GlobalParameterSpecification_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4034,7 +4196,35 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 <h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type">GlobalParameterSpecification_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification">GlobalParameterSpecification</a>, <a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_ARM">GlobalParameterSpecification_ARM</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification">GlobalParameterSpecification</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Array&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Bool&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Float&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Int&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Object&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;String&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type_ARM">GlobalParameterSpecification_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_ARM">GlobalParameterSpecification_ARM</a>)
 </p>
 <div>
 </div>
@@ -4062,7 +4252,35 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 <h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type_STATUS">GlobalParameterSpecification_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS">GlobalParameterSpecification_STATUS</a>, <a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS_ARM">GlobalParameterSpecification_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS">GlobalParameterSpecification_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Array&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Bool&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Float&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Int&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Object&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;String&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="datafactory.azure.com/v1api20180601.GlobalParameterSpecification_Type_STATUS_ARM">GlobalParameterSpecification_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS_ARM">GlobalParameterSpecification_STATUS_ARM</a>)
 </p>
 <div>
 </div>

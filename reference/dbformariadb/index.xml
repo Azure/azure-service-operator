@@ -467,7 +467,32 @@ string
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.MinimalTlsVersion&#34;&gt;MinimalTlsVersion
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Enforce a minimal Tls version for the server.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TLS1_0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TLS1_1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TLS1_2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TLSEnforcementDisabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.MinimalTlsVersion_ARM&#34;&gt;MinimalTlsVersion_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Enforce a minimal Tls version for the server.&lt;/p&gt;
@@ -492,7 +517,32 @@ string
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.MinimalTlsVersion_STATUS&#34;&gt;MinimalTlsVersion_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Enforce a minimal Tls version for the server.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TLS1_0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TLS1_1&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TLS1_2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;TLSEnforcementDisabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.MinimalTlsVersion_STATUS_ARM&#34;&gt;MinimalTlsVersion_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Enforce a minimal Tls version for the server.&lt;/p&gt;
@@ -573,7 +623,29 @@ string
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.PublicNetworkAccess&#34;&gt;PublicNetworkAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Whether or not public network access is allowed for this server. Value is optional but if passed in, must be &amp;lsquo;Enabled&amp;rsquo;
+or &amp;lsquo;Disabled&amp;rsquo;&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.PublicNetworkAccess_ARM&#34;&gt;PublicNetworkAccess_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Whether or not public network access is allowed for this server. Value is optional but if passed in, must be &amp;lsquo;Enabled&amp;rsquo;
@@ -595,7 +667,29 @@ or &amp;lsquo;Disabled&amp;rsquo;&lt;/p&gt;
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.PublicNetworkAccess_STATUS&#34;&gt;PublicNetworkAccess_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Whether or not public network access is allowed for this server. Value is optional but if passed in, must be &amp;lsquo;Enabled&amp;rsquo;
+or &amp;lsquo;Disabled&amp;rsquo;&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.PublicNetworkAccess_STATUS_ARM&#34;&gt;PublicNetworkAccess_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Whether or not public network access is allowed for this server. Value is optional but if passed in, must be &amp;lsquo;Enabled&amp;rsquo;
@@ -827,7 +921,33 @@ ServerOperatorSecrets
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS&#34;&gt;ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateEndpointConnectionProperties_STATUS&#34;&gt;ServerPrivateEndpointConnectionProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;ServerPrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateEndpointConnectionProperties_STATUS&#34;&gt;ServerPrivateEndpointConnectionProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Approving&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Dropping&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Ready&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Rejecting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM&#34;&gt;ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateEndpointConnectionProperties_STATUS_ARM&#34;&gt;ServerPrivateEndpointConnectionProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -953,8 +1073,8 @@ ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS&#34;&gt;
-ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM&#34;&gt;
+ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1051,7 +1171,25 @@ ServerPrivateEndpointConnectionProperties_STATUS_ARM
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_STATUS&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1139,8 +1277,8 @@ ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS
 &lt;td&gt;
 &lt;code&gt;actionsRequired&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS&#34;&gt;
-ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM&#34;&gt;
+ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1163,8 +1301,8 @@ string
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS&#34;&gt;
-ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM&#34;&gt;
+ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1177,7 +1315,31 @@ ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_STATUS&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Approved&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disconnected&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Pending&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Rejected&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM&#34;&gt;ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1499,8 +1661,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_CreateMode&#34;&gt;
-ServerPropertiesForDefaultCreate_CreateMode
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_CreateMode_ARM&#34;&gt;
+ServerPropertiesForDefaultCreate_CreateMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1512,8 +1674,8 @@ ServerPropertiesForDefaultCreate_CreateMode
 &lt;td&gt;
 &lt;code&gt;minimalTlsVersion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion&#34;&gt;
-MinimalTlsVersion
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion_ARM&#34;&gt;
+MinimalTlsVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1525,8 +1687,8 @@ MinimalTlsVersion
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess&#34;&gt;
-PublicNetworkAccess
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess_ARM&#34;&gt;
+PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1539,8 +1701,8 @@ in, must be &amp;lsquo;Enabled&amp;rsquo; or &amp;lsquo;Disabled&amp;rsquo;&lt;/
 &lt;td&gt;
 &lt;code&gt;sslEnforcement&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement&#34;&gt;
-SslEnforcement
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement_ARM&#34;&gt;
+SslEnforcement_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1565,8 +1727,8 @@ StorageProfile_ARM
 &lt;td&gt;
 &lt;code&gt;version&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion&#34;&gt;
-ServerVersion
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion_ARM&#34;&gt;
+ServerVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1579,7 +1741,25 @@ ServerVersion
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_CreateMode&#34;&gt;ServerPropertiesForDefaultCreate_CreateMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Default&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_CreateMode_ARM&#34;&gt;ServerPropertiesForDefaultCreate_CreateMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1720,8 +1900,8 @@ ServerVersion
 &lt;td&gt;
 &lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_CreateMode&#34;&gt;
-ServerPropertiesForGeoRestore_CreateMode
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_CreateMode_ARM&#34;&gt;
+ServerPropertiesForGeoRestore_CreateMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1733,8 +1913,8 @@ ServerPropertiesForGeoRestore_CreateMode
 &lt;td&gt;
 &lt;code&gt;minimalTlsVersion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion&#34;&gt;
-MinimalTlsVersion
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion_ARM&#34;&gt;
+MinimalTlsVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1746,8 +1926,8 @@ MinimalTlsVersion
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess&#34;&gt;
-PublicNetworkAccess
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess_ARM&#34;&gt;
+PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1771,8 +1951,8 @@ string
 &lt;td&gt;
 &lt;code&gt;sslEnforcement&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement&#34;&gt;
-SslEnforcement
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement_ARM&#34;&gt;
+SslEnforcement_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1797,8 +1977,8 @@ StorageProfile_ARM
 &lt;td&gt;
 &lt;code&gt;version&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion&#34;&gt;
-ServerVersion
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion_ARM&#34;&gt;
+ServerVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1811,7 +1991,25 @@ ServerVersion
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_CreateMode&#34;&gt;ServerPropertiesForGeoRestore_CreateMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeoRestore&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_CreateMode_ARM&#34;&gt;ServerPropertiesForGeoRestore_CreateMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1952,8 +2150,8 @@ ServerVersion
 &lt;td&gt;
 &lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_CreateMode&#34;&gt;
-ServerPropertiesForReplica_CreateMode
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_CreateMode_ARM&#34;&gt;
+ServerPropertiesForReplica_CreateMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1965,8 +2163,8 @@ ServerPropertiesForReplica_CreateMode
 &lt;td&gt;
 &lt;code&gt;minimalTlsVersion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion&#34;&gt;
-MinimalTlsVersion
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion_ARM&#34;&gt;
+MinimalTlsVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1978,8 +2176,8 @@ MinimalTlsVersion
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess&#34;&gt;
-PublicNetworkAccess
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess_ARM&#34;&gt;
+PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2003,8 +2201,8 @@ string
 &lt;td&gt;
 &lt;code&gt;sslEnforcement&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement&#34;&gt;
-SslEnforcement
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement_ARM&#34;&gt;
+SslEnforcement_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2029,8 +2227,8 @@ StorageProfile_ARM
 &lt;td&gt;
 &lt;code&gt;version&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion&#34;&gt;
-ServerVersion
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion_ARM&#34;&gt;
+ServerVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2043,7 +2241,25 @@ ServerVersion
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_CreateMode&#34;&gt;ServerPropertiesForReplica_CreateMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Replica&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_CreateMode_ARM&#34;&gt;ServerPropertiesForReplica_CreateMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2195,8 +2411,8 @@ ServerVersion
 &lt;td&gt;
 &lt;code&gt;createMode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_CreateMode&#34;&gt;
-ServerPropertiesForRestore_CreateMode
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_CreateMode_ARM&#34;&gt;
+ServerPropertiesForRestore_CreateMode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2208,8 +2424,8 @@ ServerPropertiesForRestore_CreateMode
 &lt;td&gt;
 &lt;code&gt;minimalTlsVersion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion&#34;&gt;
-MinimalTlsVersion
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion_ARM&#34;&gt;
+MinimalTlsVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2221,8 +2437,8 @@ MinimalTlsVersion
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess&#34;&gt;
-PublicNetworkAccess
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess_ARM&#34;&gt;
+PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2257,8 +2473,8 @@ string
 &lt;td&gt;
 &lt;code&gt;sslEnforcement&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement&#34;&gt;
-SslEnforcement
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement_ARM&#34;&gt;
+SslEnforcement_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2283,8 +2499,8 @@ StorageProfile_ARM
 &lt;td&gt;
 &lt;code&gt;version&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion&#34;&gt;
-ServerVersion
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion_ARM&#34;&gt;
+ServerVersion_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2297,7 +2513,25 @@ ServerVersion
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_CreateMode&#34;&gt;ServerPropertiesForRestore_CreateMode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PointInTimeRestore&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_CreateMode_ARM&#34;&gt;ServerPropertiesForRestore_CreateMode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2377,8 +2611,8 @@ string
 &lt;td&gt;
 &lt;code&gt;minimalTlsVersion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion_STATUS&#34;&gt;
-MinimalTlsVersion_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.MinimalTlsVersion_STATUS_ARM&#34;&gt;
+MinimalTlsVersion_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2403,8 +2637,8 @@ MinimalTlsVersion_STATUS
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess_STATUS&#34;&gt;
-PublicNetworkAccess_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.PublicNetworkAccess_STATUS_ARM&#34;&gt;
+PublicNetworkAccess_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2439,8 +2673,8 @@ string
 &lt;td&gt;
 &lt;code&gt;sslEnforcement&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement_STATUS&#34;&gt;
-SslEnforcement_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.SslEnforcement_STATUS_ARM&#34;&gt;
+SslEnforcement_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2465,8 +2699,8 @@ StorageProfile_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;userVisibleState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_UserVisibleState_STATUS&#34;&gt;
-ServerProperties_UserVisibleState_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_UserVisibleState_STATUS_ARM&#34;&gt;
+ServerProperties_UserVisibleState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2478,8 +2712,8 @@ ServerProperties_UserVisibleState_STATUS
 &lt;td&gt;
 &lt;code&gt;version&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion_STATUS&#34;&gt;
-ServerVersion_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerVersion_STATUS_ARM&#34;&gt;
+ServerVersion_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2492,7 +2726,29 @@ ServerVersion_STATUS
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerProperties_UserVisibleState_STATUS&#34;&gt;ServerProperties_UserVisibleState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Dropping&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Ready&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerProperties_UserVisibleState_STATUS_ARM&#34;&gt;ServerProperties_UserVisibleState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2514,7 +2770,28 @@ ServerVersion_STATUS
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerVersion&#34;&gt;ServerVersion
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The version of a server.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;10.2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;10.3&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerVersion_ARM&#34;&gt;ServerVersion_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The version of a server.&lt;/p&gt;
@@ -2535,7 +2812,28 @@ ServerVersion_STATUS
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerVersion_STATUS&#34;&gt;ServerVersion_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The version of a server.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;10.2&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;10.3&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.ServerVersion_STATUS_ARM&#34;&gt;ServerVersion_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The version of a server.&lt;/p&gt;
@@ -3770,8 +4068,8 @@ string
 &lt;td&gt;
 &lt;code&gt;tier&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_Tier&#34;&gt;
-Sku_Tier
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_Tier_ARM&#34;&gt;
+Sku_Tier_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3920,8 +4218,8 @@ string
 &lt;td&gt;
 &lt;code&gt;tier&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_Tier_STATUS&#34;&gt;
-Sku_Tier_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_Tier_STATUS_ARM&#34;&gt;
+Sku_Tier_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3934,7 +4232,29 @@ Sku_Tier_STATUS
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.Sku_Tier&#34;&gt;Sku_Tier
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku&#34;&gt;Sku&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku&#34;&gt;Sku&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeneralPurpose&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;MemoryOptimized&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.Sku_Tier_ARM&#34;&gt;Sku_Tier_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3956,7 +4276,29 @@ Sku_Tier_STATUS
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.Sku_Tier_STATUS&#34;&gt;Sku_Tier_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Basic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeneralPurpose&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;MemoryOptimized&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.Sku_Tier_STATUS_ARM&#34;&gt;Sku_Tier_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3978,7 +4320,28 @@ Sku_Tier_STATUS
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.SslEnforcement&#34;&gt;SslEnforcement
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate&#34;&gt;ServerPropertiesForDefaultCreate&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore&#34;&gt;ServerPropertiesForGeoRestore&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica&#34;&gt;ServerPropertiesForReplica&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore&#34;&gt;ServerPropertiesForRestore&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Enable ssl enforcement or not when connect to server.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.SslEnforcement_ARM&#34;&gt;SslEnforcement_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForDefaultCreate_ARM&#34;&gt;ServerPropertiesForDefaultCreate_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForGeoRestore_ARM&#34;&gt;ServerPropertiesForGeoRestore_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForReplica_ARM&#34;&gt;ServerPropertiesForReplica_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerPropertiesForRestore_ARM&#34;&gt;ServerPropertiesForRestore_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Enable ssl enforcement or not when connect to server.&lt;/p&gt;
@@ -3999,7 +4362,28 @@ Sku_Tier_STATUS
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.SslEnforcement_STATUS&#34;&gt;SslEnforcement_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.Server_STATUS&#34;&gt;Server_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Enable ssl enforcement or not when connect to server.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.SslEnforcement_STATUS_ARM&#34;&gt;SslEnforcement_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.ServerProperties_STATUS_ARM&#34;&gt;ServerProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Enable ssl enforcement or not when connect to server.&lt;/p&gt;
@@ -4114,8 +4498,8 @@ int
 &lt;td&gt;
 &lt;code&gt;geoRedundantBackup&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_GeoRedundantBackup&#34;&gt;
-StorageProfile_GeoRedundantBackup
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_GeoRedundantBackup_ARM&#34;&gt;
+StorageProfile_GeoRedundantBackup_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4127,8 +4511,8 @@ StorageProfile_GeoRedundantBackup
 &lt;td&gt;
 &lt;code&gt;storageAutogrow&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_StorageAutogrow&#34;&gt;
-StorageProfile_StorageAutogrow
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_StorageAutogrow_ARM&#34;&gt;
+StorageProfile_StorageAutogrow_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4152,7 +4536,27 @@ int
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.StorageProfile_GeoRedundantBackup&#34;&gt;StorageProfile_GeoRedundantBackup
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile&#34;&gt;StorageProfile&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_ARM&#34;&gt;StorageProfile_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile&#34;&gt;StorageProfile&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.StorageProfile_GeoRedundantBackup_ARM&#34;&gt;StorageProfile_GeoRedundantBackup_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_ARM&#34;&gt;StorageProfile_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4172,7 +4576,27 @@ int
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.StorageProfile_GeoRedundantBackup_STATUS&#34;&gt;StorageProfile_GeoRedundantBackup_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_STATUS&#34;&gt;StorageProfile_STATUS&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_STATUS_ARM&#34;&gt;StorageProfile_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_STATUS&#34;&gt;StorageProfile_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.StorageProfile_GeoRedundantBackup_STATUS_ARM&#34;&gt;StorageProfile_GeoRedundantBackup_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_STATUS_ARM&#34;&gt;StorageProfile_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4286,8 +4710,8 @@ int
 &lt;td&gt;
 &lt;code&gt;geoRedundantBackup&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_GeoRedundantBackup_STATUS&#34;&gt;
-StorageProfile_GeoRedundantBackup_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_GeoRedundantBackup_STATUS_ARM&#34;&gt;
+StorageProfile_GeoRedundantBackup_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4299,8 +4723,8 @@ StorageProfile_GeoRedundantBackup_STATUS
 &lt;td&gt;
 &lt;code&gt;storageAutogrow&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_StorageAutogrow_STATUS&#34;&gt;
-StorageProfile_StorageAutogrow_STATUS
+&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_StorageAutogrow_STATUS_ARM&#34;&gt;
+StorageProfile_StorageAutogrow_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4324,7 +4748,27 @@ int
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.StorageProfile_StorageAutogrow&#34;&gt;StorageProfile_StorageAutogrow
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile&#34;&gt;StorageProfile&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_ARM&#34;&gt;StorageProfile_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile&#34;&gt;StorageProfile&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.StorageProfile_StorageAutogrow_ARM&#34;&gt;StorageProfile_StorageAutogrow_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_ARM&#34;&gt;StorageProfile_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4344,7 +4788,27 @@ int
 &lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.StorageProfile_StorageAutogrow_STATUS&#34;&gt;StorageProfile_StorageAutogrow_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_STATUS&#34;&gt;StorageProfile_STATUS&lt;/a&gt;, &lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_STATUS_ARM&#34;&gt;StorageProfile_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_STATUS&#34;&gt;StorageProfile_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dbformariadb.azure.com/v1api20180601.StorageProfile_StorageAutogrow_STATUS_ARM&#34;&gt;StorageProfile_StorageAutogrow_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#dbformariadb.azure.com/v1api20180601.StorageProfile_STATUS_ARM&#34;&gt;StorageProfile_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;

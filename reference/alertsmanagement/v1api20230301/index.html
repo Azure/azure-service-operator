@@ -39,7 +39,7 @@
     PrometheusRule   (Appears on:PrometheusRuleGroup_Spec)  An Azure Prometheus alerting or recording rule.
     Field Description      actions  []PrometheusRuleGroupAction     Actions: Actions that are performed when the alert rule becomes active, and when an alert condition is resolved.">
 
-<meta itemprop="wordCount" content="1925">
+<meta itemprop="wordCount" content="1945">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="alertsmanagement.azure.com/v1api20230301"/>
 <meta name="twitter:description" content="alertsmanagement.azure.com/v1api20230301  Package v1api20230301 contains API Schema definitions for the alertsmanagement v1api20230301 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -2479,7 +2485,31 @@ int
 <h3 id="alertsmanagement.azure.com/v1api20230301.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS">SystemData_STATUS</a>, <a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="alertsmanagement.azure.com/v1api20230301.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2503,7 +2533,31 @@ int
 <h3 id="alertsmanagement.azure.com/v1api20230301.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS">SystemData_STATUS</a>, <a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="alertsmanagement.azure.com/v1api20230301.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#alertsmanagement.azure.com/v1api20230301.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2654,8 +2708,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#alertsmanagement.azure.com/v1api20230301.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#alertsmanagement.azure.com/v1api20230301.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2689,8 +2743,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#alertsmanagement.azure.com/v1api20230301.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#alertsmanagement.azure.com/v1api20230301.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>

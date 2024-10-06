@@ -39,7 +39,7 @@
     Backup   (Appears on:FlexibleServer_Spec)  Backup properties of a server
     Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.">
 
-<meta itemprop="wordCount" content="3962">
+<meta itemprop="wordCount" content="4125">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="dbforpostgresql.azure.com/v1api20210601"/>
 <meta name="twitter:description" content="dbforpostgresql.azure.com/v1api20210601  Package v1api20210601 contains API Schema definitions for the dbforpostgresql v1api20210601 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -872,8 +878,8 @@ int
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.Backup_GeoRedundantBackup">
-Backup_GeoRedundantBackup
+<a href="#dbforpostgresql.azure.com/v1api20210601.Backup_GeoRedundantBackup_ARM">
+Backup_GeoRedundantBackup_ARM
 </a>
 </em>
 </td>
@@ -886,7 +892,27 @@ Backup_GeoRedundantBackup
 <h3 id="dbforpostgresql.azure.com/v1api20210601.Backup_GeoRedundantBackup">Backup_GeoRedundantBackup
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Backup">Backup</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.Backup_ARM">Backup_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Backup">Backup</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.Backup_GeoRedundantBackup_ARM">Backup_GeoRedundantBackup_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Backup_ARM">Backup_ARM</a>)
 </p>
 <div>
 </div>
@@ -906,7 +932,27 @@ Backup_GeoRedundantBackup
 <h3 id="dbforpostgresql.azure.com/v1api20210601.Backup_GeoRedundantBackup_STATUS">Backup_GeoRedundantBackup_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Backup_STATUS">Backup_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.Backup_STATUS_ARM">Backup_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Backup_STATUS">Backup_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.Backup_GeoRedundantBackup_STATUS_ARM">Backup_GeoRedundantBackup_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Backup_STATUS_ARM">Backup_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1018,8 +1064,8 @@ string
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.Backup_GeoRedundantBackup_STATUS">
-Backup_GeoRedundantBackup_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.Backup_GeoRedundantBackup_STATUS_ARM">
+Backup_GeoRedundantBackup_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1072,7 +1118,31 @@ string
 <h3 id="dbforpostgresql.azure.com/v1api20210601.ConfigurationProperties_DataType_STATUS">ConfigurationProperties_DataType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.ConfigurationProperties_STATUS_ARM">ConfigurationProperties_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Boolean&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enumeration&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Integer&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Numeric&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.ConfigurationProperties_DataType_STATUS_ARM">ConfigurationProperties_DataType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.ConfigurationProperties_STATUS_ARM">ConfigurationProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1124,8 +1194,8 @@ string
 <td>
 <code>dataType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.ConfigurationProperties_DataType_STATUS">
-ConfigurationProperties_DataType_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.ConfigurationProperties_DataType_STATUS_ARM">
+ConfigurationProperties_DataType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3771,8 +3841,8 @@ string
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_Mode">
-HighAvailability_Mode
+<a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_Mode_ARM">
+HighAvailability_Mode_ARM
 </a>
 </em>
 </td>
@@ -3796,7 +3866,27 @@ string
 <h3 id="dbforpostgresql.azure.com/v1api20210601.HighAvailability_Mode">HighAvailability_Mode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability">HighAvailability</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_ARM">HighAvailability_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability">HighAvailability</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.HighAvailability_Mode_ARM">HighAvailability_Mode_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_ARM">HighAvailability_ARM</a>)
 </p>
 <div>
 </div>
@@ -3816,7 +3906,27 @@ string
 <h3 id="dbforpostgresql.azure.com/v1api20210601.HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_STATUS">HighAvailability_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.HighAvailability_Mode_STATUS_ARM">HighAvailability_Mode_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3908,8 +4018,8 @@ HighAvailability_State_STATUS
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_Mode_STATUS">
-HighAvailability_Mode_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_Mode_STATUS_ARM">
+HighAvailability_Mode_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3932,8 +4042,8 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_State_STATUS">
-HighAvailability_State_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_State_STATUS_ARM">
+HighAvailability_State_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3946,7 +4056,35 @@ HighAvailability_State_STATUS
 <h3 id="dbforpostgresql.azure.com/v1api20210601.HighAvailability_State_STATUS">HighAvailability_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_STATUS">HighAvailability_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CreatingStandby&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;FailingOver&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Healthy&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;NotEnabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RemovingStandby&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ReplicatingData&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.HighAvailability_State_STATUS_ARM">HighAvailability_State_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4304,7 +4442,27 @@ string
 <h3 id="dbforpostgresql.azure.com/v1api20210601.Network_PublicNetworkAccess_STATUS">Network_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Network_STATUS">Network_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.Network_STATUS_ARM">Network_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Network_STATUS">Network_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.Network_PublicNetworkAccess_STATUS_ARM">Network_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Network_STATUS_ARM">Network_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4416,8 +4574,8 @@ string
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.Network_PublicNetworkAccess_STATUS">
-Network_PublicNetworkAccess_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.Network_PublicNetworkAccess_STATUS_ARM">
+Network_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4494,8 +4652,8 @@ Backup_ARM
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_CreateMode">
-ServerProperties_CreateMode
+<a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_CreateMode_ARM">
+ServerProperties_CreateMode_ARM
 </a>
 </em>
 </td>
@@ -4581,8 +4739,8 @@ Storage_ARM
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.ServerVersion">
-ServerVersion
+<a href="#dbforpostgresql.azure.com/v1api20210601.ServerVersion_ARM">
+ServerVersion_ARM
 </a>
 </em>
 </td>
@@ -4595,7 +4753,31 @@ ServerVersion
 <h3 id="dbforpostgresql.azure.com/v1api20210601.ServerProperties_CreateMode">ServerProperties_CreateMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Create&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PointInTimeRestore&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Update&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.ServerProperties_CreateMode_ARM">ServerProperties_CreateMode_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -4619,7 +4801,31 @@ ServerVersion
 <h3 id="dbforpostgresql.azure.com/v1api20210601.ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Create&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PointInTimeRestore&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Update&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.ServerProperties_CreateMode_STATUS_ARM">ServerProperties_CreateMode_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4696,8 +4902,8 @@ Backup_STATUS_ARM
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_CreateMode_STATUS">
-ServerProperties_CreateMode_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_CreateMode_STATUS_ARM">
+ServerProperties_CreateMode_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4794,8 +5000,8 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_State_STATUS">
-ServerProperties_State_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_State_STATUS_ARM">
+ServerProperties_State_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4820,8 +5026,8 @@ Storage_STATUS_ARM
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.ServerVersion_STATUS">
-ServerVersion_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.ServerVersion_STATUS_ARM">
+ServerVersion_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4834,7 +5040,37 @@ ServerVersion_STATUS
 <h3 id="dbforpostgresql.azure.com/v1api20210601.ServerProperties_State_STATUS">ServerProperties_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Dropping&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Ready&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Starting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Stopped&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Stopping&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.ServerProperties_State_STATUS_ARM">ServerProperties_State_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4864,7 +5100,32 @@ ServerVersion_STATUS
 <h3 id="dbforpostgresql.azure.com/v1api20210601.ServerVersion">ServerVersion
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+</p>
+<div>
+<p>The version of a server.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;11&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;12&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;13&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;14&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.ServerVersion_ARM">ServerVersion_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
 <p>The version of a server.</p>
@@ -4889,7 +5150,32 @@ ServerVersion_STATUS
 <h3 id="dbforpostgresql.azure.com/v1api20210601.ServerVersion_STATUS">ServerVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+</p>
+<div>
+<p>The version of a server.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;11&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;12&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;13&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;14&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.ServerVersion_STATUS_ARM">ServerVersion_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The version of a server.</p>
@@ -4984,8 +5270,8 @@ string
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.Sku_Tier">
-Sku_Tier
+<a href="#dbforpostgresql.azure.com/v1api20210601.Sku_Tier_ARM">
+Sku_Tier_ARM
 </a>
 </em>
 </td>
@@ -5068,8 +5354,8 @@ string
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.Sku_Tier_STATUS">
-Sku_Tier_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.Sku_Tier_STATUS_ARM">
+Sku_Tier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5082,7 +5368,29 @@ Sku_Tier_STATUS
 <h3 id="dbforpostgresql.azure.com/v1api20210601.Sku_Tier">Sku_Tier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Sku">Sku</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Sku">Sku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Burstable&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GeneralPurpose&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.Sku_Tier_ARM">Sku_Tier_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
 </div>
@@ -5104,7 +5412,29 @@ Sku_Tier_STATUS
 <h3 id="dbforpostgresql.azure.com/v1api20210601.Sku_Tier_STATUS">Sku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Sku_STATUS">Sku_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Burstable&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GeneralPurpose&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.Sku_Tier_STATUS_ARM">Sku_Tier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5242,7 +5572,31 @@ int
 <h3 id="dbforpostgresql.azure.com/v1api20210601.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5266,7 +5620,31 @@ int
 <h3 id="dbforpostgresql.azure.com/v1api20210601.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1api20210601.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5417,8 +5795,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5452,8 +5830,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#dbforpostgresql.azure.com/v1api20210601.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>

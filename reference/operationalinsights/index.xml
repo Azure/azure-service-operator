@@ -127,7 +127,28 @@ string
 &lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType&#34;&gt;PublicNetworkAccessType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ARM&#34;&gt;WorkspaceProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.Workspace_Spec&#34;&gt;Workspace_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.Workspace_Spec&#34;&gt;Workspace_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The network access type for operating on the Log Analytics Workspace. By default it is Enabled&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_ARM&#34;&gt;PublicNetworkAccessType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ARM&#34;&gt;WorkspaceProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The network access type for operating on the Log Analytics Workspace. By default it is Enabled&lt;/p&gt;
@@ -148,7 +169,28 @@ string
 &lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS&#34;&gt;PublicNetworkAccessType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM&#34;&gt;WorkspaceProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.Workspace_STATUS&#34;&gt;Workspace_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.Workspace_STATUS&#34;&gt;Workspace_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The network access type for operating on the Log Analytics Workspace. By default it is Enabled&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS_ARM&#34;&gt;PublicNetworkAccessType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM&#34;&gt;WorkspaceProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The network access type for operating on the Log Analytics Workspace. By default it is Enabled&lt;/p&gt;
@@ -447,7 +489,35 @@ float64
 &lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceCapping_DataIngestionStatus_STATUS&#34;&gt;WorkspaceCapping_DataIngestionStatus_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_STATUS&#34;&gt;WorkspaceCapping_STATUS&lt;/a&gt;, &lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_STATUS_ARM&#34;&gt;WorkspaceCapping_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_STATUS&#34;&gt;WorkspaceCapping_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ApproachingQuota&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ForceOff&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ForceOn&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;OverQuota&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RespectQuota&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SubscriptionSuspended&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceCapping_DataIngestionStatus_STATUS_ARM&#34;&gt;WorkspaceCapping_DataIngestionStatus_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_STATUS_ARM&#34;&gt;WorkspaceCapping_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -556,8 +626,8 @@ float64
 &lt;td&gt;
 &lt;code&gt;dataIngestionStatus&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_DataIngestionStatus_STATUS&#34;&gt;
-WorkspaceCapping_DataIngestionStatus_STATUS
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_DataIngestionStatus_STATUS_ARM&#34;&gt;
+WorkspaceCapping_DataIngestionStatus_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -915,8 +985,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState&#34;&gt;
-WorkspaceProperties_ProvisioningState
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_ARM&#34;&gt;
+WorkspaceProperties_ProvisioningState_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -928,8 +998,8 @@ WorkspaceProperties_ProvisioningState
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccessForIngestion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType&#34;&gt;
-PublicNetworkAccessType
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_ARM&#34;&gt;
+PublicNetworkAccessType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -941,8 +1011,8 @@ PublicNetworkAccessType
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccessForQuery&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType&#34;&gt;
-PublicNetworkAccessType
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_ARM&#34;&gt;
+PublicNetworkAccessType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -993,7 +1063,37 @@ WorkspaceCapping_ARM
 &lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState&#34;&gt;WorkspaceProperties_ProvisioningState
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ARM&#34;&gt;WorkspaceProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.Workspace_Spec&#34;&gt;Workspace_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.Workspace_Spec&#34;&gt;Workspace_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ProvisioningAccount&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_ARM&#34;&gt;WorkspaceProperties_ProvisioningState_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ARM&#34;&gt;WorkspaceProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1023,7 +1123,37 @@ WorkspaceCapping_ARM
 &lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_STATUS&#34;&gt;WorkspaceProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM&#34;&gt;WorkspaceProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.Workspace_STATUS&#34;&gt;Workspace_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.Workspace_STATUS&#34;&gt;Workspace_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ProvisioningAccount&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_STATUS_ARM&#34;&gt;WorkspaceProperties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM&#34;&gt;WorkspaceProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1140,8 +1270,8 @@ string
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_STATUS&#34;&gt;
-WorkspaceProperties_ProvisioningState_STATUS
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_STATUS_ARM&#34;&gt;
+WorkspaceProperties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1153,8 +1283,8 @@ WorkspaceProperties_ProvisioningState_STATUS
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccessForIngestion&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS&#34;&gt;
-PublicNetworkAccessType_STATUS
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS_ARM&#34;&gt;
+PublicNetworkAccessType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1166,8 +1296,8 @@ PublicNetworkAccessType_STATUS
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccessForQuery&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS&#34;&gt;
-PublicNetworkAccessType_STATUS
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS_ARM&#34;&gt;
+PublicNetworkAccessType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1280,8 +1410,8 @@ WorkspaceSku_Name
 &lt;td&gt;
 &lt;code&gt;capacityReservationLevel&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel&#34;&gt;
-WorkspaceSku_CapacityReservationLevel
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_ARM&#34;&gt;
+WorkspaceSku_CapacityReservationLevel_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1294,8 +1424,8 @@ selected.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name&#34;&gt;
-WorkspaceSku_Name
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_ARM&#34;&gt;
+WorkspaceSku_Name_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1308,7 +1438,39 @@ WorkspaceSku_Name
 &lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel&#34;&gt;WorkspaceSku_CapacityReservationLevel
 (&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku&#34;&gt;WorkspaceSku&lt;/a&gt;, &lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_ARM&#34;&gt;WorkspaceSku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku&#34;&gt;WorkspaceSku&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;100&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;1000&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;200&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;2000&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;300&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;400&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;500&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;5000&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_ARM&#34;&gt;WorkspaceSku_CapacityReservationLevel_ARM
+(&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_ARM&#34;&gt;WorkspaceSku_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1340,7 +1502,39 @@ WorkspaceSku_Name
 &lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_STATUS&#34;&gt;WorkspaceSku_CapacityReservationLevel_STATUS
 (&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS&#34;&gt;WorkspaceSku_STATUS&lt;/a&gt;, &lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS_ARM&#34;&gt;WorkspaceSku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS&#34;&gt;WorkspaceSku_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;100&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;1000&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;200&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;2000&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;300&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;400&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;500&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;5000&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_STATUS_ARM&#34;&gt;WorkspaceSku_CapacityReservationLevel_STATUS_ARM
+(&lt;code&gt;int&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS_ARM&#34;&gt;WorkspaceSku_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1372,7 +1566,39 @@ WorkspaceSku_Name
 &lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name&#34;&gt;WorkspaceSku_Name
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku&#34;&gt;WorkspaceSku&lt;/a&gt;, &lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_ARM&#34;&gt;WorkspaceSku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku&#34;&gt;WorkspaceSku&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CapacityReservation&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Free&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LACluster&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PerGB2018&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PerNode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standalone&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_ARM&#34;&gt;WorkspaceSku_Name_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_ARM&#34;&gt;WorkspaceSku_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1404,7 +1630,39 @@ WorkspaceSku_Name
 &lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_STATUS&#34;&gt;WorkspaceSku_Name_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS&#34;&gt;WorkspaceSku_STATUS&lt;/a&gt;, &lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS_ARM&#34;&gt;WorkspaceSku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS&#34;&gt;WorkspaceSku_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CapacityReservation&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Free&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LACluster&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PerGB2018&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PerNode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standalone&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_STATUS_ARM&#34;&gt;WorkspaceSku_Name_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS_ARM&#34;&gt;WorkspaceSku_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1509,8 +1767,8 @@ WorkspaceSku_Name_STATUS
 &lt;td&gt;
 &lt;code&gt;capacityReservationLevel&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_STATUS&#34;&gt;
-WorkspaceSku_CapacityReservationLevel_STATUS
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_STATUS_ARM&#34;&gt;
+WorkspaceSku_CapacityReservationLevel_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1534,8 +1792,8 @@ string
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_STATUS&#34;&gt;
-WorkspaceSku_Name_STATUS
+&lt;a href=&#34;#operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_STATUS_ARM&#34;&gt;
+WorkspaceSku_Name_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

@@ -39,7 +39,7 @@
     AddressSpace   (Appears on:VirtualNetworkGateway_Spec, VirtualNetwork_Spec, VirtualNetworks_VirtualNetworkPeering_Spec, VpnClientConfiguration)  AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
     Field Description      addressPrefixes  []string    AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.">
 
-<meta itemprop="wordCount" content="30497">
+<meta itemprop="wordCount" content="31441">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="network.azure.com/v1api20201101"/>
 <meta name="twitter:description" content="network.azure.com/v1api20201101  Package v1api20201101 contains API Schema definitions for the network v1api20201101 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1555,8 +1561,8 @@ SubResource_STATUS_ARM
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2342,8 +2348,8 @@ bool
 <td>
 <code>protectionCoverage</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.DdosSettings_ProtectionCoverage">
-DdosSettings_ProtectionCoverage
+<a href="#network.azure.com/v1api20201101.DdosSettings_ProtectionCoverage_ARM">
+DdosSettings_ProtectionCoverage_ARM
 </a>
 </em>
 </td>
@@ -2357,7 +2363,27 @@ ability to be customized.</p>
 <h3 id="network.azure.com/v1api20201101.DdosSettings_ProtectionCoverage">DdosSettings_ProtectionCoverage
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.DdosSettings">DdosSettings</a>, <a href="#network.azure.com/v1api20201101.DdosSettings_ARM">DdosSettings_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.DdosSettings">DdosSettings</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.DdosSettings_ProtectionCoverage_ARM">DdosSettings_ProtectionCoverage_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.DdosSettings_ARM">DdosSettings_ARM</a>)
 </p>
 <div>
 </div>
@@ -2377,7 +2403,27 @@ ability to be customized.</p>
 <h3 id="network.azure.com/v1api20201101.DdosSettings_ProtectionCoverage_STATUS">DdosSettings_ProtectionCoverage_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.DdosSettings_STATUS">DdosSettings_STATUS</a>, <a href="#network.azure.com/v1api20201101.DdosSettings_STATUS_ARM">DdosSettings_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.DdosSettings_STATUS">DdosSettings_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.DdosSettings_ProtectionCoverage_STATUS_ARM">DdosSettings_ProtectionCoverage_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.DdosSettings_STATUS_ARM">DdosSettings_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2494,8 +2540,8 @@ bool
 <td>
 <code>protectionCoverage</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.DdosSettings_ProtectionCoverage_STATUS">
-DdosSettings_ProtectionCoverage_STATUS
+<a href="#network.azure.com/v1api20201101.DdosSettings_ProtectionCoverage_STATUS_ARM">
+DdosSettings_ProtectionCoverage_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2763,7 +2809,40 @@ string
 <h3 id="network.azure.com/v1api20201101.DhGroup">DhGroup
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>)
+</p>
+<div>
+<p>The DH Groups used in IKE Phase 1 for initial SA.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;DHGroup1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DHGroup14&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DHGroup2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DHGroup2048&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DHGroup24&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ECP256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ECP384&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.DhGroup_ARM">DhGroup_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
 </p>
 <div>
 <p>The DH Groups used in IKE Phase 1 for initial SA.</p>
@@ -2796,7 +2875,40 @@ string
 <h3 id="network.azure.com/v1api20201101.DhGroup_STATUS">DhGroup_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>)
+</p>
+<div>
+<p>The DH Groups used in IKE Phase 1 for initial SA.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;DHGroup1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DHGroup14&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DHGroup2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DHGroup2048&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DHGroup24&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ECP256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ECP384&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.DhGroup_STATUS_ARM">DhGroup_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
 </p>
 <div>
 <p>The DH Groups used in IKE Phase 1 for initial SA.</p>
@@ -2991,7 +3103,26 @@ ExtendedLocationType
 <h3 id="network.azure.com/v1api20201101.ExtendedLocationType">ExtendedLocationType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.ExtendedLocation">ExtendedLocation</a>, <a href="#network.azure.com/v1api20201101.ExtendedLocation_ARM">ExtendedLocation_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.ExtendedLocation">ExtendedLocation</a>)
+</p>
+<div>
+<p>The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;EdgeZone&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.ExtendedLocationType_ARM">ExtendedLocationType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.ExtendedLocation_ARM">ExtendedLocation_ARM</a>)
 </p>
 <div>
 <p>The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.</p>
@@ -3010,7 +3141,26 @@ ExtendedLocationType
 <h3 id="network.azure.com/v1api20201101.ExtendedLocationType_STATUS">ExtendedLocationType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>, <a href="#network.azure.com/v1api20201101.ExtendedLocation_STATUS_ARM">ExtendedLocation_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>)
+</p>
+<div>
+<p>The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;EdgeZone&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.ExtendedLocationType_STATUS_ARM">ExtendedLocationType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.ExtendedLocation_STATUS_ARM">ExtendedLocation_STATUS_ARM</a>)
 </p>
 <div>
 <p>The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.</p>
@@ -3057,8 +3207,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ExtendedLocationType">
-ExtendedLocationType
+<a href="#network.azure.com/v1api20201101.ExtendedLocationType_ARM">
+ExtendedLocationType_ARM
 </a>
 </em>
 </td>
@@ -3141,8 +3291,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ExtendedLocationType_STATUS">
-ExtendedLocationType_STATUS
+<a href="#network.azure.com/v1api20201101.ExtendedLocationType_STATUS_ARM">
+ExtendedLocationType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3241,8 +3391,8 @@ string
 <td>
 <code>privateIPAddressVersion</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPVersion">
-IPVersion
+<a href="#network.azure.com/v1api20201101.IPVersion_ARM">
+IPVersion_ARM
 </a>
 </em>
 </td>
@@ -3254,8 +3404,8 @@ IPVersion
 <td>
 <code>privateIPAllocationMethod</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPAllocationMethod">
-IPAllocationMethod
+<a href="#network.azure.com/v1api20201101.IPAllocationMethod_ARM">
+IPAllocationMethod_ARM
 </a>
 </em>
 </td>
@@ -3387,8 +3537,8 @@ string
 <td>
 <code>privateIPAddressVersion</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPVersion_STATUS">
-IPVersion_STATUS
+<a href="#network.azure.com/v1api20201101.IPVersion_STATUS_ARM">
+IPVersion_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3400,8 +3550,8 @@ IPVersion_STATUS
 <td>
 <code>privateIPAllocationMethod</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPAllocationMethod_STATUS">
-IPAllocationMethod_STATUS
+<a href="#network.azure.com/v1api20201101.IPAllocationMethod_STATUS_ARM">
+IPAllocationMethod_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3413,8 +3563,8 @@ IPAllocationMethod_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3939,7 +4089,28 @@ string
 <h3 id="network.azure.com/v1api20201101.IPAllocationMethod">IPAllocationMethod
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_ARM">FrontendIPConfigurationPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_ARM">PublicIPAddressPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_Spec">PublicIPAddress_Spec</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration">VirtualNetworkGatewayIPConfiguration</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM">VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_Spec">PublicIPAddress_Spec</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration">VirtualNetworkGatewayIPConfiguration</a>)
+</p>
+<div>
+<p>IP address allocation method.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Dynamic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Static&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IPAllocationMethod_ARM">IPAllocationMethod_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_ARM">FrontendIPConfigurationPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_ARM">PublicIPAddressPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM">VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM</a>)
 </p>
 <div>
 <p>IP address allocation method.</p>
@@ -3960,7 +4131,28 @@ string
 <h3 id="network.azure.com/v1api20201101.IPAllocationMethod_STATUS">IPAllocationMethod_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM">FrontendIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM">PublicIPAddressPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration_STATUS">VirtualNetworkGatewayIPConfiguration_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration_STATUS">VirtualNetworkGatewayIPConfiguration_STATUS</a>)
+</p>
+<div>
+<p>IP address allocation method.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Dynamic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Static&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IPAllocationMethod_STATUS_ARM">IPAllocationMethod_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM">FrontendIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM">PublicIPAddressPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 <p>IP address allocation method.</p>
@@ -4359,7 +4551,28 @@ string
 <h3 id="network.azure.com/v1api20201101.IPVersion">IPVersion
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_ARM">FrontendIPConfigurationPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_ARM">PublicIPAddressPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_Spec">PublicIPAddress_Spec</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_Spec">PublicIPAddress_Spec</a>)
+</p>
+<div>
+<p>IP address version.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;IPv4&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;IPv6&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IPVersion_ARM">IPVersion_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_ARM">FrontendIPConfigurationPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_ARM">PublicIPAddressPropertiesFormat_ARM</a>)
 </p>
 <div>
 <p>IP address version.</p>
@@ -4380,7 +4593,28 @@ string
 <h3 id="network.azure.com/v1api20201101.IPVersion_STATUS">IPVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM">FrontendIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM">PublicIPAddressPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded</a>)
+</p>
+<div>
+<p>IP address version.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;IPv4&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;IPv6&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IPVersion_STATUS_ARM">IPVersion_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM">FrontendIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM">PublicIPAddressPropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 <p>IP address version.</p>
@@ -4401,7 +4635,38 @@ string
 <h3 id="network.azure.com/v1api20201101.IkeEncryption">IkeEncryption
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>)
+</p>
+<div>
+<p>The IKE encryption algorithm (IKE phase 2).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AES192&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DES&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DES3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES256&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IkeEncryption_ARM">IkeEncryption_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
 </p>
 <div>
 <p>The IKE encryption algorithm (IKE phase 2).</p>
@@ -4432,7 +4697,38 @@ string
 <h3 id="network.azure.com/v1api20201101.IkeEncryption_STATUS">IkeEncryption_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>)
+</p>
+<div>
+<p>The IKE encryption algorithm (IKE phase 2).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AES192&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DES&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DES3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES256&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IkeEncryption_STATUS_ARM">IkeEncryption_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
 </p>
 <div>
 <p>The IKE encryption algorithm (IKE phase 2).</p>
@@ -4463,7 +4759,36 @@ string
 <h3 id="network.azure.com/v1api20201101.IkeIntegrity">IkeIntegrity
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>)
+</p>
+<div>
+<p>The IKE integrity algorithm (IKE phase 2).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;GCMAES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MD5&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA384&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IkeIntegrity_ARM">IkeIntegrity_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
 </p>
 <div>
 <p>The IKE integrity algorithm (IKE phase 2).</p>
@@ -4492,7 +4817,36 @@ string
 <h3 id="network.azure.com/v1api20201101.IkeIntegrity_STATUS">IkeIntegrity_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>)
+</p>
+<div>
+<p>The IKE integrity algorithm (IKE phase 2).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;GCMAES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MD5&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA384&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IkeIntegrity_STATUS_ARM">IkeIntegrity_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
 </p>
 <div>
 <p>The IKE integrity algorithm (IKE phase 2).</p>
@@ -4751,8 +5105,8 @@ default value is 4 minutes. This element is only used when the protocol is set t
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.TransportProtocol">
-TransportProtocol
+<a href="#network.azure.com/v1api20201101.TransportProtocol_ARM">
+TransportProtocol_ARM
 </a>
 </em>
 </td>
@@ -4867,8 +5221,8 @@ default value is 4 minutes. This element is only used when the protocol is set t
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.TransportProtocol_STATUS">
-TransportProtocol_STATUS
+<a href="#network.azure.com/v1api20201101.TransportProtocol_STATUS_ARM">
+TransportProtocol_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4880,8 +5234,8 @@ TransportProtocol_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5277,8 +5631,8 @@ default value is 4 minutes. This element is only used when the protocol is set t
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.TransportProtocol">
-TransportProtocol
+<a href="#network.azure.com/v1api20201101.TransportProtocol_ARM">
+TransportProtocol_ARM
 </a>
 </em>
 </td>
@@ -5395,8 +5749,8 @@ default value is 4 minutes. This element is only used when the protocol is set t
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.TransportProtocol_STATUS">
-TransportProtocol_STATUS
+<a href="#network.azure.com/v1api20201101.TransportProtocol_STATUS_ARM">
+TransportProtocol_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5408,8 +5762,8 @@ TransportProtocol_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5526,8 +5880,8 @@ default value is 4 minutes. This element is only used when the protocol is set t
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.TransportProtocol_STATUS">
-TransportProtocol_STATUS
+<a href="#network.azure.com/v1api20201101.TransportProtocol_STATUS_ARM">
+TransportProtocol_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5539,8 +5893,8 @@ TransportProtocol_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6241,7 +6595,42 @@ string
 <h3 id="network.azure.com/v1api20201101.IpsecEncryption">IpsecEncryption
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>)
+</p>
+<div>
+<p>The IPSec encryption algorithm (IKE phase 1).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AES192&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DES&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DES3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES192&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IpsecEncryption_ARM">IpsecEncryption_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
 </p>
 <div>
 <p>The IPSec encryption algorithm (IKE phase 1).</p>
@@ -6276,7 +6665,42 @@ string
 <h3 id="network.azure.com/v1api20201101.IpsecEncryption_STATUS">IpsecEncryption_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>)
+</p>
+<div>
+<p>The IPSec encryption algorithm (IKE phase 1).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AES192&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DES&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DES3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES192&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IpsecEncryption_STATUS_ARM">IpsecEncryption_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
 </p>
 <div>
 <p>The IPSec encryption algorithm (IKE phase 1).</p>
@@ -6311,7 +6735,36 @@ string
 <h3 id="network.azure.com/v1api20201101.IpsecIntegrity">IpsecIntegrity
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>)
+</p>
+<div>
+<p>The IPSec integrity algorithm (IKE phase 1).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;GCMAES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES192&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MD5&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA256&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IpsecIntegrity_ARM">IpsecIntegrity_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
 </p>
 <div>
 <p>The IPSec integrity algorithm (IKE phase 1).</p>
@@ -6340,7 +6793,36 @@ string
 <h3 id="network.azure.com/v1api20201101.IpsecIntegrity_STATUS">IpsecIntegrity_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>)
+</p>
+<div>
+<p>The IPSec integrity algorithm (IKE phase 1).</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;GCMAES128&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES192&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GCMAES256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MD5&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SHA256&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.IpsecIntegrity_STATUS_ARM">IpsecIntegrity_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
 </p>
 <div>
 <p>The IPSec integrity algorithm (IKE phase 1).</p>
@@ -6506,8 +6988,8 @@ to site VPN tunnel.</p>
 <td>
 <code>dhGroup</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.DhGroup">
-DhGroup
+<a href="#network.azure.com/v1api20201101.DhGroup_ARM">
+DhGroup_ARM
 </a>
 </em>
 </td>
@@ -6519,8 +7001,8 @@ DhGroup
 <td>
 <code>ikeEncryption</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IkeEncryption">
-IkeEncryption
+<a href="#network.azure.com/v1api20201101.IkeEncryption_ARM">
+IkeEncryption_ARM
 </a>
 </em>
 </td>
@@ -6532,8 +7014,8 @@ IkeEncryption
 <td>
 <code>ikeIntegrity</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IkeIntegrity">
-IkeIntegrity
+<a href="#network.azure.com/v1api20201101.IkeIntegrity_ARM">
+IkeIntegrity_ARM
 </a>
 </em>
 </td>
@@ -6545,8 +7027,8 @@ IkeIntegrity
 <td>
 <code>ipsecEncryption</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IpsecEncryption">
-IpsecEncryption
+<a href="#network.azure.com/v1api20201101.IpsecEncryption_ARM">
+IpsecEncryption_ARM
 </a>
 </em>
 </td>
@@ -6558,8 +7040,8 @@ IpsecEncryption
 <td>
 <code>ipsecIntegrity</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IpsecIntegrity">
-IpsecIntegrity
+<a href="#network.azure.com/v1api20201101.IpsecIntegrity_ARM">
+IpsecIntegrity_ARM
 </a>
 </em>
 </td>
@@ -6571,8 +7053,8 @@ IpsecIntegrity
 <td>
 <code>pfsGroup</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.PfsGroup">
-PfsGroup
+<a href="#network.azure.com/v1api20201101.PfsGroup_ARM">
+PfsGroup_ARM
 </a>
 </em>
 </td>
@@ -6746,8 +7228,8 @@ to site VPN tunnel.</p>
 <td>
 <code>dhGroup</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.DhGroup_STATUS">
-DhGroup_STATUS
+<a href="#network.azure.com/v1api20201101.DhGroup_STATUS_ARM">
+DhGroup_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6759,8 +7241,8 @@ DhGroup_STATUS
 <td>
 <code>ikeEncryption</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IkeEncryption_STATUS">
-IkeEncryption_STATUS
+<a href="#network.azure.com/v1api20201101.IkeEncryption_STATUS_ARM">
+IkeEncryption_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6772,8 +7254,8 @@ IkeEncryption_STATUS
 <td>
 <code>ikeIntegrity</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IkeIntegrity_STATUS">
-IkeIntegrity_STATUS
+<a href="#network.azure.com/v1api20201101.IkeIntegrity_STATUS_ARM">
+IkeIntegrity_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6785,8 +7267,8 @@ IkeIntegrity_STATUS
 <td>
 <code>ipsecEncryption</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IpsecEncryption_STATUS">
-IpsecEncryption_STATUS
+<a href="#network.azure.com/v1api20201101.IpsecEncryption_STATUS_ARM">
+IpsecEncryption_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6798,8 +7280,8 @@ IpsecEncryption_STATUS
 <td>
 <code>ipsecIntegrity</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IpsecIntegrity_STATUS">
-IpsecIntegrity_STATUS
+<a href="#network.azure.com/v1api20201101.IpsecIntegrity_STATUS_ARM">
+IpsecIntegrity_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6811,8 +7293,8 @@ IpsecIntegrity_STATUS
 <td>
 <code>pfsGroup</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.PfsGroup_STATUS">
-PfsGroup_STATUS
+<a href="#network.azure.com/v1api20201101.PfsGroup_STATUS_ARM">
+PfsGroup_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7716,8 +8198,8 @@ reference individual inbound NAT rules.</p>
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7802,8 +8284,8 @@ LoadBalancerSku_Tier
 <td>
 <code>name</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.LoadBalancerSku_Name">
-LoadBalancerSku_Name
+<a href="#network.azure.com/v1api20201101.LoadBalancerSku_Name_ARM">
+LoadBalancerSku_Name_ARM
 </a>
 </em>
 </td>
@@ -7815,8 +8297,8 @@ LoadBalancerSku_Name
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.LoadBalancerSku_Tier">
-LoadBalancerSku_Tier
+<a href="#network.azure.com/v1api20201101.LoadBalancerSku_Tier_ARM">
+LoadBalancerSku_Tier_ARM
 </a>
 </em>
 </td>
@@ -7829,7 +8311,27 @@ LoadBalancerSku_Tier
 <h3 id="network.azure.com/v1api20201101.LoadBalancerSku_Name">LoadBalancerSku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku">LoadBalancerSku</a>, <a href="#network.azure.com/v1api20201101.LoadBalancerSku_ARM">LoadBalancerSku_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku">LoadBalancerSku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.LoadBalancerSku_Name_ARM">LoadBalancerSku_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku_ARM">LoadBalancerSku_ARM</a>)
 </p>
 <div>
 </div>
@@ -7849,7 +8351,27 @@ LoadBalancerSku_Tier
 <h3 id="network.azure.com/v1api20201101.LoadBalancerSku_Name_STATUS">LoadBalancerSku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku_STATUS">LoadBalancerSku_STATUS</a>, <a href="#network.azure.com/v1api20201101.LoadBalancerSku_STATUS_ARM">LoadBalancerSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku_STATUS">LoadBalancerSku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.LoadBalancerSku_Name_STATUS_ARM">LoadBalancerSku_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku_STATUS_ARM">LoadBalancerSku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7930,8 +8452,8 @@ LoadBalancerSku_Tier_STATUS
 <td>
 <code>name</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.LoadBalancerSku_Name_STATUS">
-LoadBalancerSku_Name_STATUS
+<a href="#network.azure.com/v1api20201101.LoadBalancerSku_Name_STATUS_ARM">
+LoadBalancerSku_Name_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7943,8 +8465,8 @@ LoadBalancerSku_Name_STATUS
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.LoadBalancerSku_Tier_STATUS">
-LoadBalancerSku_Tier_STATUS
+<a href="#network.azure.com/v1api20201101.LoadBalancerSku_Tier_STATUS_ARM">
+LoadBalancerSku_Tier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7957,7 +8479,27 @@ LoadBalancerSku_Tier_STATUS
 <h3 id="network.azure.com/v1api20201101.LoadBalancerSku_Tier">LoadBalancerSku_Tier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku">LoadBalancerSku</a>, <a href="#network.azure.com/v1api20201101.LoadBalancerSku_ARM">LoadBalancerSku_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku">LoadBalancerSku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Global&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Regional&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.LoadBalancerSku_Tier_ARM">LoadBalancerSku_Tier_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku_ARM">LoadBalancerSku_ARM</a>)
 </p>
 <div>
 </div>
@@ -7977,7 +8519,27 @@ LoadBalancerSku_Tier_STATUS
 <h3 id="network.azure.com/v1api20201101.LoadBalancerSku_Tier_STATUS">LoadBalancerSku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku_STATUS">LoadBalancerSku_STATUS</a>, <a href="#network.azure.com/v1api20201101.LoadBalancerSku_STATUS_ARM">LoadBalancerSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku_STATUS">LoadBalancerSku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Global&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Regional&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.LoadBalancerSku_Tier_STATUS_ARM">LoadBalancerSku_Tier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancerSku_STATUS_ARM">LoadBalancerSku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9524,8 +10086,8 @@ default value is 4 minutes. This element is only used when the protocol is set t
 <td>
 <code>loadDistribution</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution">
-LoadBalancingRulePropertiesFormat_LoadDistribution
+<a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution_ARM">
+LoadBalancingRulePropertiesFormat_LoadDistribution_ARM
 </a>
 </em>
 </td>
@@ -9550,8 +10112,8 @@ SubResource_ARM
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.TransportProtocol">
-TransportProtocol
+<a href="#network.azure.com/v1api20201101.TransportProtocol_ARM">
+TransportProtocol_ARM
 </a>
 </em>
 </td>
@@ -9564,7 +10126,29 @@ TransportProtocol
 <h3 id="network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution">LoadBalancingRulePropertiesFormat_LoadDistribution
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancingRule">LoadBalancingRule</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_ARM">LoadBalancingRulePropertiesFormat_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancingRule">LoadBalancingRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SourceIP&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SourceIPProtocol&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution_ARM">LoadBalancingRulePropertiesFormat_LoadDistribution_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_ARM">LoadBalancingRulePropertiesFormat_ARM</a>)
 </p>
 <div>
 </div>
@@ -9586,7 +10170,29 @@ TransportProtocol
 <h3 id="network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS">LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM">LoadBalancingRulePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SourceIP&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SourceIPProtocol&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM">LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM">LoadBalancingRulePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9725,8 +10331,8 @@ default value is 4 minutes. This element is only used when the protocol is set t
 <td>
 <code>loadDistribution</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS">
-LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS
+<a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM">
+LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_ARM
 </a>
 </em>
 </td>
@@ -9751,8 +10357,8 @@ SubResource_STATUS_ARM
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.TransportProtocol_STATUS">
-TransportProtocol_STATUS
+<a href="#network.azure.com/v1api20201101.TransportProtocol_STATUS_ARM">
+TransportProtocol_STATUS_ARM
 </a>
 </em>
 </td>
@@ -9764,8 +10370,8 @@ TransportProtocol_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10870,8 +11476,8 @@ string
 <td>
 <code>privateIPAddressVersion</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPVersion">
-IPVersion
+<a href="#network.azure.com/v1api20201101.IPVersion_ARM">
+IPVersion_ARM
 </a>
 </em>
 </td>
@@ -10883,8 +11489,8 @@ IPVersion
 <td>
 <code>privateIPAllocationMethod</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPAllocationMethod">
-IPAllocationMethod
+<a href="#network.azure.com/v1api20201101.IPAllocationMethod_ARM">
+IPAllocationMethod_ARM
 </a>
 </em>
 </td>
@@ -11027,8 +11633,8 @@ string
 <td>
 <code>privateIPAddressVersion</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPVersion_STATUS">
-IPVersion_STATUS
+<a href="#network.azure.com/v1api20201101.IPVersion_STATUS_ARM">
+IPVersion_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11040,8 +11646,8 @@ IPVersion_STATUS
 <td>
 <code>privateIPAllocationMethod</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPAllocationMethod_STATUS">
-IPAllocationMethod_STATUS
+<a href="#network.azure.com/v1api20201101.IPAllocationMethod_STATUS_ARM">
+IPAllocationMethod_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11066,8 +11672,8 @@ NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_ARM
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11825,8 +12431,8 @@ NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM
 <td>
 <code>nicType</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_NicType">
-NetworkInterfacePropertiesFormat_NicType
+<a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_NicType_ARM">
+NetworkInterfacePropertiesFormat_NicType_ARM
 </a>
 </em>
 </td>
@@ -11852,7 +12458,33 @@ PrivateLinkServiceSpec_ARM
 <h3 id="network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_MigrationPhase_STATUS">NetworkInterfacePropertiesFormat_MigrationPhase_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM">NetworkInterfacePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Abort&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Commit&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Committed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Prepare&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM">NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM">NetworkInterfacePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11878,7 +12510,27 @@ PrivateLinkServiceSpec_ARM
 <h3 id="network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_NicType">NetworkInterfacePropertiesFormat_NicType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_ARM">NetworkInterfacePropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterface_Spec">NetworkInterface_Spec</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkInterface_Spec">NetworkInterface_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Elastic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_NicType_ARM">NetworkInterfacePropertiesFormat_NicType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_ARM">NetworkInterfacePropertiesFormat_ARM</a>)
 </p>
 <div>
 </div>
@@ -11898,7 +12550,27 @@ PrivateLinkServiceSpec_ARM
 <h3 id="network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_NicType_STATUS">NetworkInterfacePropertiesFormat_NicType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM">NetworkInterfacePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Elastic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_NicType_STATUS_ARM">NetworkInterfacePropertiesFormat_NicType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM">NetworkInterfacePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -12018,8 +12690,8 @@ string
 <td>
 <code>migrationPhase</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_MigrationPhase_STATUS">
-NetworkInterfacePropertiesFormat_MigrationPhase_STATUS
+<a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM">
+NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12044,8 +12716,8 @@ NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARM
 <td>
 <code>nicType</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_NicType_STATUS">
-NetworkInterfacePropertiesFormat_NicType_STATUS
+<a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_NicType_STATUS_ARM">
+NetworkInterfacePropertiesFormat_NicType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12094,8 +12766,8 @@ PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -13120,8 +13792,8 @@ NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -14863,8 +15535,8 @@ int
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_Protocol">
-OutboundRulePropertiesFormat_Protocol
+<a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_Protocol_ARM">
+OutboundRulePropertiesFormat_Protocol_ARM
 </a>
 </em>
 </td>
@@ -14877,7 +15549,29 @@ OutboundRulePropertiesFormat_Protocol
 <h3 id="network.azure.com/v1api20201101.OutboundRulePropertiesFormat_Protocol">OutboundRulePropertiesFormat_Protocol
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.OutboundRule">OutboundRule</a>, <a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_ARM">OutboundRulePropertiesFormat_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.OutboundRule">OutboundRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;All&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tcp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Udp&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.OutboundRulePropertiesFormat_Protocol_ARM">OutboundRulePropertiesFormat_Protocol_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_ARM">OutboundRulePropertiesFormat_ARM</a>)
 </p>
 <div>
 </div>
@@ -14899,7 +15593,29 @@ OutboundRulePropertiesFormat_Protocol
 <h3 id="network.azure.com/v1api20201101.OutboundRulePropertiesFormat_Protocol_STATUS">OutboundRulePropertiesFormat_Protocol_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_STATUS_ARM">OutboundRulePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.OutboundRule_STATUS">OutboundRule_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.OutboundRule_STATUS">OutboundRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;All&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tcp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Udp&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.OutboundRulePropertiesFormat_Protocol_STATUS_ARM">OutboundRulePropertiesFormat_Protocol_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_STATUS_ARM">OutboundRulePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -14999,8 +15715,8 @@ int
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_Protocol_STATUS">
-OutboundRulePropertiesFormat_Protocol_STATUS
+<a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_Protocol_STATUS_ARM">
+OutboundRulePropertiesFormat_Protocol_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15012,8 +15728,8 @@ OutboundRulePropertiesFormat_Protocol_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15295,7 +16011,42 @@ string
 <h3 id="network.azure.com/v1api20201101.PfsGroup">PfsGroup
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy">IpsecPolicy</a>)
+</p>
+<div>
+<p>The Pfs Groups used in IKE Phase 2 for new child SA.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ECP256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ECP384&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS14&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS2048&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS24&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFSMM&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.PfsGroup_ARM">PfsGroup_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_ARM">IpsecPolicy_ARM</a>)
 </p>
 <div>
 <p>The Pfs Groups used in IKE Phase 2 for new child SA.</p>
@@ -15330,7 +16081,42 @@ string
 <h3 id="network.azure.com/v1api20201101.PfsGroup_STATUS">PfsGroup_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>, <a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS">IpsecPolicy_STATUS</a>)
+</p>
+<div>
+<p>The Pfs Groups used in IKE Phase 2 for new child SA.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ECP256&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ECP384&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS14&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS2048&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFS24&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PFSMM&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.PfsGroup_STATUS_ARM">PfsGroup_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.IpsecPolicy_STATUS_ARM">IpsecPolicy_STATUS_ARM</a>)
 </p>
 <div>
 <p>The Pfs Groups used in IKE Phase 2 for new child SA.</p>
@@ -15746,8 +16532,8 @@ int
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_Protocol">
-ProbePropertiesFormat_Protocol
+<a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_Protocol_ARM">
+ProbePropertiesFormat_Protocol_ARM
 </a>
 </em>
 </td>
@@ -15774,7 +16560,29 @@ Otherwise, it is not allowed. There is no default value.</p>
 <h3 id="network.azure.com/v1api20201101.ProbePropertiesFormat_Protocol">ProbePropertiesFormat_Protocol
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.Probe">Probe</a>, <a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_ARM">ProbePropertiesFormat_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.Probe">Probe</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Https&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tcp&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.ProbePropertiesFormat_Protocol_ARM">ProbePropertiesFormat_Protocol_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_ARM">ProbePropertiesFormat_ARM</a>)
 </p>
 <div>
 </div>
@@ -15796,7 +16604,29 @@ Otherwise, it is not allowed. There is no default value.</p>
 <h3 id="network.azure.com/v1api20201101.ProbePropertiesFormat_Protocol_STATUS">ProbePropertiesFormat_Protocol_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_STATUS_ARM">ProbePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.Probe_STATUS">Probe_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.Probe_STATUS">Probe_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Https&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tcp&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.ProbePropertiesFormat_Protocol_STATUS_ARM">ProbePropertiesFormat_Protocol_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_STATUS_ARM">ProbePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -15885,8 +16715,8 @@ int
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_Protocol_STATUS">
-ProbePropertiesFormat_Protocol_STATUS
+<a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_Protocol_STATUS_ARM">
+ProbePropertiesFormat_Protocol_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15900,8 +16730,8 @@ successful.</p>
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -16198,7 +17028,32 @@ string
 <h3 id="network.azure.com/v1api20201101.ProvisioningState_STATUS">ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM">BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.Delegation_STATUS">Delegation_STATUS</a>, <a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM">FrontendIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM">InboundNatPoolPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatPool_STATUS">InboundNatPool_STATUS</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM">InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM">InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded">InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.LoadBalancerPropertiesFormat_STATUS_ARM">LoadBalancerPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.LoadBalancer_STATUS">LoadBalancer_STATUS</a>, <a href="#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS">LoadBalancers_InboundNatRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM">LoadBalancingRulePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM">NetworkInterfacePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkSecurityGroupPropertiesFormat_STATUS_ARM">NetworkSecurityGroupPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded">NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS">NetworkSecurityGroups_SecurityRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_STATUS_ARM">OutboundRulePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.OutboundRule_STATUS">OutboundRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_STATUS_ARM">ProbePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.Probe_STATUS">Probe_STATUS</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM">PublicIPAddressPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.RoutePropertiesFormat_STATUS_ARM">RoutePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.RouteTablePropertiesFormat_STATUS_ARM">RouteTablePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.RouteTable_STATUS">RouteTable_STATUS</a>, <a href="#network.azure.com/v1api20201101.RouteTables_Route_STATUS">RouteTables_Route_STATUS</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM">SecurityRulePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.ServiceDelegationPropertiesFormat_STATUS_ARM">ServiceDelegationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.ServiceEndpointPropertiesFormat_STATUS">ServiceEndpointPropertiesFormat_STATUS</a>, <a href="#network.azure.com/v1api20201101.ServiceEndpointPropertiesFormat_STATUS_ARM">ServiceEndpointPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM">SubnetPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration_STATUS">VirtualNetworkGatewayIPConfiguration_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_STATUS_ARM">VirtualNetworkPeeringPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkPropertiesFormat_STATUS_ARM">VirtualNetworkPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetwork_STATUS">VirtualNetwork_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS">VirtualNetworks_Subnet_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_STATUS">VirtualNetworks_VirtualNetworkPeering_STATUS</a>, <a href="#network.azure.com/v1api20201101.VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM">VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VpnClientRevokedCertificate_STATUS">VpnClientRevokedCertificate_STATUS</a>, <a href="#network.azure.com/v1api20201101.VpnClientRootCertificatePropertiesFormat_STATUS_ARM">VpnClientRootCertificatePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VpnClientRootCertificate_STATUS">VpnClientRootCertificate_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.Delegation_STATUS">Delegation_STATUS</a>, <a href="#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.InboundNatPool_STATUS">InboundNatPool_STATUS</a>, <a href="#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded">InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.LoadBalancer_STATUS">LoadBalancer_STATUS</a>, <a href="#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS">LoadBalancers_InboundNatRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded">NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS">NetworkSecurityGroups_SecurityRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.OutboundRule_STATUS">OutboundRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.Probe_STATUS">Probe_STATUS</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.RouteTable_STATUS">RouteTable_STATUS</a>, <a href="#network.azure.com/v1api20201101.RouteTables_Route_STATUS">RouteTables_Route_STATUS</a>, <a href="#network.azure.com/v1api20201101.ServiceEndpointPropertiesFormat_STATUS">ServiceEndpointPropertiesFormat_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration_STATUS">VirtualNetworkGatewayIPConfiguration_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetwork_STATUS">VirtualNetwork_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS">VirtualNetworks_Subnet_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_STATUS">VirtualNetworks_VirtualNetworkPeering_STATUS</a>, <a href="#network.azure.com/v1api20201101.VpnClientRevokedCertificate_STATUS">VpnClientRevokedCertificate_STATUS</a>, <a href="#network.azure.com/v1api20201101.VpnClientRootCertificate_STATUS">VpnClientRootCertificate_STATUS</a>)
+</p>
+<div>
+<p>The current provisioning state.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM">BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM">FrontendIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM">InboundNatPoolPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM">InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM">InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.LoadBalancerPropertiesFormat_STATUS_ARM">LoadBalancerPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM">LoadBalancingRulePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM">NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM">NetworkInterfacePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.NetworkSecurityGroupPropertiesFormat_STATUS_ARM">NetworkSecurityGroupPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_STATUS_ARM">OutboundRulePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.ProbePropertiesFormat_STATUS_ARM">ProbePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM">PublicIPAddressPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.RoutePropertiesFormat_STATUS_ARM">RoutePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.RouteTablePropertiesFormat_STATUS_ARM">RouteTablePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM">SecurityRulePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.ServiceDelegationPropertiesFormat_STATUS_ARM">ServiceDelegationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.ServiceEndpointPropertiesFormat_STATUS_ARM">ServiceEndpointPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM">SubnetPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_STATUS_ARM">VirtualNetworkPeeringPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkPropertiesFormat_STATUS_ARM">VirtualNetworkPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM">VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VpnClientRootCertificatePropertiesFormat_STATUS_ARM">VpnClientRootCertificatePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 <p>The current provisioning state.</p>
@@ -16835,8 +17690,8 @@ NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_ARM
 <td>
 <code>publicIPAddressVersion</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPVersion">
-IPVersion
+<a href="#network.azure.com/v1api20201101.IPVersion_ARM">
+IPVersion_ARM
 </a>
 </em>
 </td>
@@ -16848,8 +17703,8 @@ IPVersion
 <td>
 <code>publicIPAllocationMethod</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPAllocationMethod">
-IPAllocationMethod
+<a href="#network.azure.com/v1api20201101.IPAllocationMethod_ARM">
+IPAllocationMethod_ARM
 </a>
 </em>
 </td>
@@ -16888,7 +17743,33 @@ PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM
 <h3 id="network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_MigrationPhase_STATUS">PublicIPAddressPropertiesFormat_MigrationPhase_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM">PublicIPAddressPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Abort&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Commit&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Committed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Prepare&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM">PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM">PublicIPAddressPropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -17005,8 +17886,8 @@ IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded_ARM
 <td>
 <code>migrationPhase</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_MigrationPhase_STATUS">
-PublicIPAddressPropertiesFormat_MigrationPhase_STATUS
+<a href="#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM">
+PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_ARM
 </a>
 </em>
 </td>
@@ -17031,8 +17912,8 @@ NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -17044,8 +17925,8 @@ ProvisioningState_STATUS
 <td>
 <code>publicIPAddressVersion</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPVersion_STATUS">
-IPVersion_STATUS
+<a href="#network.azure.com/v1api20201101.IPVersion_STATUS_ARM">
+IPVersion_STATUS_ARM
 </a>
 </em>
 </td>
@@ -17057,8 +17938,8 @@ IPVersion_STATUS
 <td>
 <code>publicIPAllocationMethod</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPAllocationMethod_STATUS">
-IPAllocationMethod_STATUS
+<a href="#network.azure.com/v1api20201101.IPAllocationMethod_STATUS_ARM">
+IPAllocationMethod_STATUS_ARM
 </a>
 </em>
 </td>
@@ -17156,8 +18037,8 @@ PublicIPAddressSku_Tier
 <td>
 <code>name</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.PublicIPAddressSku_Name">
-PublicIPAddressSku_Name
+<a href="#network.azure.com/v1api20201101.PublicIPAddressSku_Name_ARM">
+PublicIPAddressSku_Name_ARM
 </a>
 </em>
 </td>
@@ -17169,8 +18050,8 @@ PublicIPAddressSku_Name
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.PublicIPAddressSku_Tier">
-PublicIPAddressSku_Tier
+<a href="#network.azure.com/v1api20201101.PublicIPAddressSku_Tier_ARM">
+PublicIPAddressSku_Tier_ARM
 </a>
 </em>
 </td>
@@ -17183,7 +18064,27 @@ PublicIPAddressSku_Tier
 <h3 id="network.azure.com/v1api20201101.PublicIPAddressSku_Name">PublicIPAddressSku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku">PublicIPAddressSku</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressSku_ARM">PublicIPAddressSku_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku">PublicIPAddressSku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.PublicIPAddressSku_Name_ARM">PublicIPAddressSku_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku_ARM">PublicIPAddressSku_ARM</a>)
 </p>
 <div>
 </div>
@@ -17203,7 +18104,27 @@ PublicIPAddressSku_Tier
 <h3 id="network.azure.com/v1api20201101.PublicIPAddressSku_Name_STATUS">PublicIPAddressSku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku_STATUS">PublicIPAddressSku_STATUS</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressSku_STATUS_ARM">PublicIPAddressSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku_STATUS">PublicIPAddressSku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.PublicIPAddressSku_Name_STATUS_ARM">PublicIPAddressSku_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku_STATUS_ARM">PublicIPAddressSku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -17284,8 +18205,8 @@ PublicIPAddressSku_Tier_STATUS
 <td>
 <code>name</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.PublicIPAddressSku_Name_STATUS">
-PublicIPAddressSku_Name_STATUS
+<a href="#network.azure.com/v1api20201101.PublicIPAddressSku_Name_STATUS_ARM">
+PublicIPAddressSku_Name_STATUS_ARM
 </a>
 </em>
 </td>
@@ -17297,8 +18218,8 @@ PublicIPAddressSku_Name_STATUS
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.PublicIPAddressSku_Tier_STATUS">
-PublicIPAddressSku_Tier_STATUS
+<a href="#network.azure.com/v1api20201101.PublicIPAddressSku_Tier_STATUS_ARM">
+PublicIPAddressSku_Tier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -17311,7 +18232,27 @@ PublicIPAddressSku_Tier_STATUS
 <h3 id="network.azure.com/v1api20201101.PublicIPAddressSku_Tier">PublicIPAddressSku_Tier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku">PublicIPAddressSku</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressSku_ARM">PublicIPAddressSku_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku">PublicIPAddressSku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Global&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Regional&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.PublicIPAddressSku_Tier_ARM">PublicIPAddressSku_Tier_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku_ARM">PublicIPAddressSku_ARM</a>)
 </p>
 <div>
 </div>
@@ -17331,7 +18272,27 @@ PublicIPAddressSku_Tier_STATUS
 <h3 id="network.azure.com/v1api20201101.PublicIPAddressSku_Tier_STATUS">PublicIPAddressSku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku_STATUS">PublicIPAddressSku_STATUS</a>, <a href="#network.azure.com/v1api20201101.PublicIPAddressSku_STATUS_ARM">PublicIPAddressSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku_STATUS">PublicIPAddressSku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Global&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Regional&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.PublicIPAddressSku_Tier_STATUS_ARM">PublicIPAddressSku_Tier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.PublicIPAddressSku_STATUS_ARM">PublicIPAddressSku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -18672,7 +19633,34 @@ string
 <h3 id="network.azure.com/v1api20201101.RouteNextHopType">RouteNextHopType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.RoutePropertiesFormat_ARM">RoutePropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.RouteTables_Route_Spec">RouteTables_Route_Spec</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.RouteTables_Route_Spec">RouteTables_Route_Spec</a>)
+</p>
+<div>
+<p>The type of Azure hop the packet should be sent to.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Internet&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VirtualAppliance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VirtualNetworkGateway&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VnetLocal&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.RouteNextHopType_ARM">RouteNextHopType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.RoutePropertiesFormat_ARM">RoutePropertiesFormat_ARM</a>)
 </p>
 <div>
 <p>The type of Azure hop the packet should be sent to.</p>
@@ -18699,7 +19687,34 @@ string
 <h3 id="network.azure.com/v1api20201101.RouteNextHopType_STATUS">RouteNextHopType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.RoutePropertiesFormat_STATUS_ARM">RoutePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.RouteTables_Route_STATUS">RouteTables_Route_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.RouteTables_Route_STATUS">RouteTables_Route_STATUS</a>)
+</p>
+<div>
+<p>The type of Azure hop the packet should be sent to.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Internet&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VirtualAppliance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VirtualNetworkGateway&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VnetLocal&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.RouteNextHopType_STATUS_ARM">RouteNextHopType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.RoutePropertiesFormat_STATUS_ARM">RoutePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 <p>The type of Azure hop the packet should be sent to.</p>
@@ -18777,8 +19792,8 @@ next hop type is VirtualAppliance.</p>
 <td>
 <code>nextHopType</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.RouteNextHopType">
-RouteNextHopType
+<a href="#network.azure.com/v1api20201101.RouteNextHopType_ARM">
+RouteNextHopType_ARM
 </a>
 </em>
 </td>
@@ -18842,8 +19857,8 @@ next hop type is VirtualAppliance.</p>
 <td>
 <code>nextHopType</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.RouteNextHopType_STATUS">
-RouteNextHopType_STATUS
+<a href="#network.azure.com/v1api20201101.RouteNextHopType_STATUS_ARM">
+RouteNextHopType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -18855,8 +19870,8 @@ RouteNextHopType_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -19058,8 +20073,8 @@ bool
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -20120,7 +21135,28 @@ string
 <h3 id="network.azure.com/v1api20201101.SecurityRuleAccess">SecurityRuleAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec">NetworkSecurityGroups_SecurityRule_Spec</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec">NetworkSecurityGroups_SecurityRule_Spec</a>)
+</p>
+<div>
+<p>Whether network traffic is allowed or denied.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deny&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SecurityRuleAccess_ARM">SecurityRuleAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM</a>)
 </p>
 <div>
 <p>Whether network traffic is allowed or denied.</p>
@@ -20141,7 +21177,28 @@ string
 <h3 id="network.azure.com/v1api20201101.SecurityRuleAccess_STATUS">SecurityRuleAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS">NetworkSecurityGroups_SecurityRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM">SecurityRulePropertiesFormat_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS">NetworkSecurityGroups_SecurityRule_STATUS</a>)
+</p>
+<div>
+<p>Whether network traffic is allowed or denied.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deny&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SecurityRuleAccess_STATUS_ARM">SecurityRuleAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM">SecurityRulePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 <p>Whether network traffic is allowed or denied.</p>
@@ -20162,7 +21219,28 @@ string
 <h3 id="network.azure.com/v1api20201101.SecurityRuleDirection">SecurityRuleDirection
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec">NetworkSecurityGroups_SecurityRule_Spec</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec">NetworkSecurityGroups_SecurityRule_Spec</a>)
+</p>
+<div>
+<p>The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Inbound&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Outbound&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SecurityRuleDirection_ARM">SecurityRuleDirection_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM</a>)
 </p>
 <div>
 <p>The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.</p>
@@ -20183,7 +21261,28 @@ string
 <h3 id="network.azure.com/v1api20201101.SecurityRuleDirection_STATUS">SecurityRuleDirection_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS">NetworkSecurityGroups_SecurityRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM">SecurityRulePropertiesFormat_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS">NetworkSecurityGroups_SecurityRule_STATUS</a>)
+</p>
+<div>
+<p>The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Inbound&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Outbound&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SecurityRuleDirection_STATUS_ARM">SecurityRuleDirection_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM">SecurityRulePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 <p>The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.</p>
@@ -20221,8 +21320,8 @@ string
 <td>
 <code>access</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SecurityRuleAccess">
-SecurityRuleAccess
+<a href="#network.azure.com/v1api20201101.SecurityRuleAccess_ARM">
+SecurityRuleAccess_ARM
 </a>
 </em>
 </td>
@@ -20304,8 +21403,8 @@ to match all ports.</p>
 <td>
 <code>direction</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SecurityRuleDirection">
-SecurityRuleDirection
+<a href="#network.azure.com/v1api20201101.SecurityRuleDirection_ARM">
+SecurityRuleDirection_ARM
 </a>
 </em>
 </td>
@@ -20329,8 +21428,8 @@ rule in the collection. The lower the priority number, the higher the priority o
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol">
-SecurityRulePropertiesFormat_Protocol
+<a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol_ARM">
+SecurityRulePropertiesFormat_Protocol_ARM
 </a>
 </em>
 </td>
@@ -20420,8 +21519,8 @@ all ports.</p>
 <td>
 <code>access</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SecurityRuleAccess">
-SecurityRuleAccess
+<a href="#network.azure.com/v1api20201101.SecurityRuleAccess_ARM">
+SecurityRuleAccess_ARM
 </a>
 </em>
 </td>
@@ -20503,8 +21602,8 @@ to match all ports.</p>
 <td>
 <code>direction</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SecurityRuleDirection">
-SecurityRuleDirection
+<a href="#network.azure.com/v1api20201101.SecurityRuleDirection_ARM">
+SecurityRuleDirection_ARM
 </a>
 </em>
 </td>
@@ -20528,8 +21627,8 @@ rule in the collection. The lower the priority number, the higher the priority o
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol">
-SecurityRulePropertiesFormat_Protocol
+<a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol_ARM">
+SecurityRulePropertiesFormat_Protocol_ARM
 </a>
 </em>
 </td>
@@ -20602,7 +21701,35 @@ all ports.</p>
 <h3 id="network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol">SecurityRulePropertiesFormat_Protocol
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec">NetworkSecurityGroups_SecurityRule_Spec</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec">NetworkSecurityGroups_SecurityRule_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Ah&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Esp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Icmp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;*&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tcp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Udp&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol_ARM">SecurityRulePropertiesFormat_Protocol_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM">SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM</a>)
 </p>
 <div>
 </div>
@@ -20630,7 +21757,35 @@ all ports.</p>
 <h3 id="network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol_STATUS">SecurityRulePropertiesFormat_Protocol_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS">NetworkSecurityGroups_SecurityRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM">SecurityRulePropertiesFormat_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS">NetworkSecurityGroups_SecurityRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Ah&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Esp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Icmp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;*&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tcp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Udp&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol_STATUS_ARM">SecurityRulePropertiesFormat_Protocol_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM">SecurityRulePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -20675,8 +21830,8 @@ all ports.</p>
 <td>
 <code>access</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SecurityRuleAccess_STATUS">
-SecurityRuleAccess_STATUS
+<a href="#network.azure.com/v1api20201101.SecurityRuleAccess_STATUS_ARM">
+SecurityRuleAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -20758,8 +21913,8 @@ to match all ports.</p>
 <td>
 <code>direction</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SecurityRuleDirection_STATUS">
-SecurityRuleDirection_STATUS
+<a href="#network.azure.com/v1api20201101.SecurityRuleDirection_STATUS_ARM">
+SecurityRuleDirection_STATUS_ARM
 </a>
 </em>
 </td>
@@ -20783,8 +21938,8 @@ rule in the collection. The lower the priority number, the higher the priority o
 <td>
 <code>protocol</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol_STATUS">
-SecurityRulePropertiesFormat_Protocol_STATUS
+<a href="#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol_STATUS_ARM">
+SecurityRulePropertiesFormat_Protocol_STATUS_ARM
 </a>
 </em>
 </td>
@@ -20796,8 +21951,8 @@ SecurityRulePropertiesFormat_Protocol_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -21106,8 +22261,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -21437,8 +22592,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -21579,7 +22734,27 @@ string
 <h3 id="network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies">SubnetPropertiesFormat_PrivateEndpointNetworkPolicies
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM">SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM">SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_Spec">VirtualNetworks_Subnet_Spec</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_Spec">VirtualNetworks_Subnet_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM">SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM">SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM">SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM</a>)
 </p>
 <div>
 </div>
@@ -21599,7 +22774,27 @@ string
 <h3 id="network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS">SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM">SubnetPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS">VirtualNetworks_Subnet_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS">VirtualNetworks_Subnet_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_ARM">SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM">SubnetPropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -21619,7 +22814,27 @@ string
 <h3 id="network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies">SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM">SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM">SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_Spec">VirtualNetworks_Subnet_Spec</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_Spec">VirtualNetworks_Subnet_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM">SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM">SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM">SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM</a>)
 </p>
 <div>
 </div>
@@ -21639,7 +22854,27 @@ string
 <h3 id="network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS">SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM">SubnetPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS">VirtualNetworks_Subnet_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS">VirtualNetworks_Subnet_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_ARM">SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM">SubnetPropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -21789,8 +23024,8 @@ NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM
 <td>
 <code>privateEndpointNetworkPolicies</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS">
-SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS
+<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_ARM">
+SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_ARM
 </a>
 </em>
 </td>
@@ -21815,8 +23050,8 @@ SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS
 <td>
 <code>privateLinkServiceNetworkPolicies</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS">
-SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS
+<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_ARM">
+SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_ARM
 </a>
 </em>
 </td>
@@ -21828,8 +23063,8 @@ SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -22023,8 +23258,8 @@ NetworkSecurityGroupSpec_VirtualNetwork_SubResourceEmbedded_ARM
 <td>
 <code>privateEndpointNetworkPolicies</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies">
-SubnetPropertiesFormat_PrivateEndpointNetworkPolicies
+<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM">
+SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM
 </a>
 </em>
 </td>
@@ -22036,8 +23271,8 @@ SubnetPropertiesFormat_PrivateEndpointNetworkPolicies
 <td>
 <code>privateLinkServiceNetworkPolicies</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies">
-SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies
+<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM">
+SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM
 </a>
 </em>
 </td>
@@ -22193,8 +23428,8 @@ NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM
 <td>
 <code>privateEndpointNetworkPolicies</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies">
-SubnetPropertiesFormat_PrivateEndpointNetworkPolicies
+<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM">
+SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_ARM
 </a>
 </em>
 </td>
@@ -22206,8 +23441,8 @@ SubnetPropertiesFormat_PrivateEndpointNetworkPolicies
 <td>
 <code>privateLinkServiceNetworkPolicies</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies">
-SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies
+<a href="#network.azure.com/v1api20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM">
+SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_ARM
 </a>
 </em>
 </td>
@@ -22614,7 +23849,30 @@ string
 <h3 id="network.azure.com/v1api20201101.TransportProtocol">TransportProtocol
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.InboundNatPool">InboundNatPool</a>, <a href="#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_ARM">InboundNatPoolPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_ARM">InboundNatRulePropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded">InboundNatRule_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_Spec">LoadBalancers_InboundNatRule_Spec</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRule">LoadBalancingRule</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_ARM">LoadBalancingRulePropertiesFormat_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.InboundNatPool">InboundNatPool</a>, <a href="#network.azure.com/v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded">InboundNatRule_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_Spec">LoadBalancers_InboundNatRule_Spec</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRule">LoadBalancingRule</a>)
+</p>
+<div>
+<p>The transport protocol for the endpoint.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;All&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tcp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Udp&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.TransportProtocol_ARM">TransportProtocol_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_ARM">InboundNatPoolPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_ARM">InboundNatRulePropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_ARM">LoadBalancingRulePropertiesFormat_ARM</a>)
 </p>
 <div>
 <p>The transport protocol for the endpoint.</p>
@@ -22637,7 +23895,30 @@ string
 <h3 id="network.azure.com/v1api20201101.TransportProtocol_STATUS">TransportProtocol_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM">InboundNatPoolPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatPool_STATUS">InboundNatPool_STATUS</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM">InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM">InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded">InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS">LoadBalancers_InboundNatRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM">LoadBalancingRulePropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.InboundNatPool_STATUS">InboundNatPool_STATUS</a>, <a href="#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded">InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS">LoadBalancers_InboundNatRule_STATUS</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>)
+</p>
+<div>
+<p>The transport protocol for the endpoint.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;All&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Tcp&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Udp&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.TransportProtocol_STATUS_ARM">TransportProtocol_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM">InboundNatPoolPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM">InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM">InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM</a>, <a href="#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM">LoadBalancingRulePropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 <p>The transport protocol for the endpoint.</p>
@@ -23392,8 +24673,8 @@ SubResource
 <td>
 <code>privateIPAllocationMethod</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPAllocationMethod">
-IPAllocationMethod
+<a href="#network.azure.com/v1api20201101.IPAllocationMethod_ARM">
+IPAllocationMethod_ARM
 </a>
 </em>
 </td>
@@ -23460,8 +24741,8 @@ string
 <td>
 <code>privateIPAllocationMethod</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.IPAllocationMethod_STATUS">
-IPAllocationMethod_STATUS
+<a href="#network.azure.com/v1api20201101.IPAllocationMethod_STATUS_ARM">
+IPAllocationMethod_STATUS_ARM
 </a>
 </em>
 </td>
@@ -23473,8 +24754,8 @@ IPAllocationMethod_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -23835,8 +25116,8 @@ routes. Assign Null value in case of removing existing default site setting.</p>
 <td>
 <code>gatewayType</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType">
-VirtualNetworkGatewayPropertiesFormat_GatewayType
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM">
+VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM
 </a>
 </em>
 </td>
@@ -23899,8 +25180,8 @@ configurations.</p>
 <td>
 <code>vpnGatewayGeneration</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration">
-VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM">
+VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM
 </a>
 </em>
 </td>
@@ -23912,8 +25193,8 @@ VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration
 <td>
 <code>vpnType</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType">
-VirtualNetworkGatewayPropertiesFormat_VpnType
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType_ARM">
+VirtualNetworkGatewayPropertiesFormat_VpnType_ARM
 </a>
 </em>
 </td>
@@ -23926,7 +25207,29 @@ VirtualNetworkGatewayPropertiesFormat_VpnType
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType">VirtualNetworkGatewayPropertiesFormat_GatewayType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_ARM">VirtualNetworkGatewayPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_Spec">VirtualNetworkGateway_Spec</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_Spec">VirtualNetworkGateway_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ExpressRoute&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LocalGateway&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Vpn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM">VirtualNetworkGatewayPropertiesFormat_GatewayType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_ARM">VirtualNetworkGatewayPropertiesFormat_ARM</a>)
 </p>
 <div>
 </div>
@@ -23948,7 +25251,29 @@ VirtualNetworkGatewayPropertiesFormat_VpnType
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS">VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ExpressRoute&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LocalGateway&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Vpn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -24072,8 +25397,8 @@ routes. Assign Null value in case of removing existing default site setting.</p>
 <td>
 <code>gatewayType</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS">
-VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM">
+VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -24109,8 +25434,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -24173,8 +25498,8 @@ configurations.</p>
 <td>
 <code>vpnGatewayGeneration</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS">
-VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM">
+VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM
 </a>
 </em>
 </td>
@@ -24186,8 +25511,8 @@ VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS
 <td>
 <code>vpnType</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS">
-VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM">
+VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -24200,7 +25525,29 @@ VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration">VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_ARM">VirtualNetworkGatewayPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_Spec">VirtualNetworkGateway_Spec</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_Spec">VirtualNetworkGateway_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Generation1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Generation2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM">VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_ARM">VirtualNetworkGatewayPropertiesFormat_ARM</a>)
 </p>
 <div>
 </div>
@@ -24222,7 +25569,29 @@ VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS">VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Generation1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Generation2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -24244,7 +25613,27 @@ VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType">VirtualNetworkGatewayPropertiesFormat_VpnType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_ARM">VirtualNetworkGatewayPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_Spec">VirtualNetworkGateway_Spec</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_Spec">VirtualNetworkGateway_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;PolicyBased&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RouteBased&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType_ARM">VirtualNetworkGatewayPropertiesFormat_VpnType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_ARM">VirtualNetworkGatewayPropertiesFormat_ARM</a>)
 </p>
 <div>
 </div>
@@ -24264,7 +25653,27 @@ VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS">VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;PolicyBased&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RouteBased&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM">VirtualNetworkGatewayPropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -24345,8 +25754,8 @@ VirtualNetworkGatewaySku_Tier
 <td>
 <code>name</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Name">
-VirtualNetworkGatewaySku_Name
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Name_ARM">
+VirtualNetworkGatewaySku_Name_ARM
 </a>
 </em>
 </td>
@@ -24358,8 +25767,8 @@ VirtualNetworkGatewaySku_Name
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Tier">
-VirtualNetworkGatewaySku_Tier
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Tier_ARM">
+VirtualNetworkGatewaySku_Tier_ARM
 </a>
 </em>
 </td>
@@ -24372,7 +25781,57 @@ VirtualNetworkGatewaySku_Tier
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Name">VirtualNetworkGatewaySku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku">VirtualNetworkGatewaySku</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_ARM">VirtualNetworkGatewaySku_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku">VirtualNetworkGatewaySku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw1AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw2AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw3AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;HighPerformance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UltraPerformance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw1AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw2AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw3AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw4&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw4AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw5&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw5AZ&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Name_ARM">VirtualNetworkGatewaySku_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_ARM">VirtualNetworkGatewaySku_ARM</a>)
 </p>
 <div>
 </div>
@@ -24422,7 +25881,57 @@ VirtualNetworkGatewaySku_Tier
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Name_STATUS">VirtualNetworkGatewaySku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_STATUS">VirtualNetworkGatewaySku_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_STATUS_ARM">VirtualNetworkGatewaySku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_STATUS">VirtualNetworkGatewaySku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw1AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw2AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw3AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;HighPerformance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UltraPerformance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw1AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw2AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw3AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw4&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw4AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw5&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw5AZ&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Name_STATUS_ARM">VirtualNetworkGatewaySku_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_STATUS_ARM">VirtualNetworkGatewaySku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -24555,8 +26064,8 @@ int
 <td>
 <code>name</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Name_STATUS">
-VirtualNetworkGatewaySku_Name_STATUS
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Name_STATUS_ARM">
+VirtualNetworkGatewaySku_Name_STATUS_ARM
 </a>
 </em>
 </td>
@@ -24568,8 +26077,8 @@ VirtualNetworkGatewaySku_Name_STATUS
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Tier_STATUS">
-VirtualNetworkGatewaySku_Tier_STATUS
+<a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Tier_STATUS_ARM">
+VirtualNetworkGatewaySku_Tier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -24582,7 +26091,57 @@ VirtualNetworkGatewaySku_Tier_STATUS
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Tier">VirtualNetworkGatewaySku_Tier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku">VirtualNetworkGatewaySku</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_ARM">VirtualNetworkGatewaySku_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku">VirtualNetworkGatewaySku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw1AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw2AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw3AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;HighPerformance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UltraPerformance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw1AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw2AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw3AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw4&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw4AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw5&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw5AZ&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Tier_ARM">VirtualNetworkGatewaySku_Tier_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_ARM">VirtualNetworkGatewaySku_ARM</a>)
 </p>
 <div>
 </div>
@@ -24632,7 +26191,57 @@ VirtualNetworkGatewaySku_Tier_STATUS
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Tier_STATUS">VirtualNetworkGatewaySku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_STATUS">VirtualNetworkGatewaySku_STATUS</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_STATUS_ARM">VirtualNetworkGatewaySku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_STATUS">VirtualNetworkGatewaySku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw1AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw2AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ErGw3AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;HighPerformance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UltraPerformance&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw1AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw2AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw3AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw4&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw4AZ&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw5&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;VpnGw5AZ&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkGatewaySku_Tier_STATUS_ARM">VirtualNetworkGatewaySku_Tier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkGatewaySku_STATUS_ARM">VirtualNetworkGatewaySku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -25504,8 +27113,8 @@ bool
 <td>
 <code>peeringState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState">
-VirtualNetworkPeeringPropertiesFormat_PeeringState
+<a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM">
+VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM
 </a>
 </em>
 </td>
@@ -25573,7 +27182,29 @@ gateway.</p>
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState">VirtualNetworkPeeringPropertiesFormat_PeeringState
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_ARM">VirtualNetworkPeeringPropertiesFormat_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_Spec">VirtualNetworks_VirtualNetworkPeering_Spec</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_Spec">VirtualNetworks_VirtualNetworkPeering_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Connected&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Disconnected&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Initiated&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM">VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_ARM">VirtualNetworkPeeringPropertiesFormat_ARM</a>)
 </p>
 <div>
 </div>
@@ -25595,7 +27226,29 @@ gateway.</p>
 <h3 id="network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS">VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_STATUS_ARM">VirtualNetworkPeeringPropertiesFormat_STATUS_ARM</a>, <a href="#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_STATUS">VirtualNetworks_VirtualNetworkPeering_STATUS</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_STATUS">VirtualNetworks_VirtualNetworkPeering_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Connected&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Disconnected&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Initiated&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM">VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_STATUS_ARM">VirtualNetworkPeeringPropertiesFormat_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -25680,8 +27333,8 @@ bool
 <td>
 <code>peeringState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS">
-VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS
+<a href="#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM">
+VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -25693,8 +27346,8 @@ VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -26073,8 +27726,8 @@ bool
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -28576,8 +30229,8 @@ string
 <td>
 <code>vpnAuthenticationTypes</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes">
-[]VpnClientConfiguration_VpnAuthenticationTypes
+<a href="#network.azure.com/v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes_ARM">
+[]VpnClientConfiguration_VpnAuthenticationTypes_ARM
 </a>
 </em>
 </td>
@@ -28615,8 +30268,8 @@ AddressSpace_ARM
 <td>
 <code>vpnClientProtocols</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VpnClientConfiguration_VpnClientProtocols">
-[]VpnClientConfiguration_VpnClientProtocols
+<a href="#network.azure.com/v1api20201101.VpnClientConfiguration_VpnClientProtocols_ARM">
+[]VpnClientConfiguration_VpnClientProtocols_ARM
 </a>
 </em>
 </td>
@@ -28910,8 +30563,8 @@ string
 <td>
 <code>vpnAuthenticationTypes</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes_STATUS">
-[]VpnClientConfiguration_VpnAuthenticationTypes_STATUS
+<a href="#network.azure.com/v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM">
+[]VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM
 </a>
 </em>
 </td>
@@ -28949,8 +30602,8 @@ AddressSpace_STATUS_ARM
 <td>
 <code>vpnClientProtocols</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.VpnClientConfiguration_VpnClientProtocols_STATUS">
-[]VpnClientConfiguration_VpnClientProtocols_STATUS
+<a href="#network.azure.com/v1api20201101.VpnClientConfiguration_VpnClientProtocols_STATUS_ARM">
+[]VpnClientConfiguration_VpnClientProtocols_STATUS_ARM
 </a>
 </em>
 </td>
@@ -28989,7 +30642,29 @@ AddressSpace_STATUS_ARM
 <h3 id="network.azure.com/v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes">VpnClientConfiguration_VpnAuthenticationTypes
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration">VpnClientConfiguration</a>, <a href="#network.azure.com/v1api20201101.VpnClientConfiguration_ARM">VpnClientConfiguration_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration">VpnClientConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AAD&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Certificate&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Radius&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes_ARM">VpnClientConfiguration_VpnAuthenticationTypes_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration_ARM">VpnClientConfiguration_ARM</a>)
 </p>
 <div>
 </div>
@@ -29011,7 +30686,29 @@ AddressSpace_STATUS_ARM
 <h3 id="network.azure.com/v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes_STATUS">VpnClientConfiguration_VpnAuthenticationTypes_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration_STATUS">VpnClientConfiguration_STATUS</a>, <a href="#network.azure.com/v1api20201101.VpnClientConfiguration_STATUS_ARM">VpnClientConfiguration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration_STATUS">VpnClientConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AAD&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Certificate&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Radius&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM">VpnClientConfiguration_VpnAuthenticationTypes_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration_STATUS_ARM">VpnClientConfiguration_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -29033,7 +30730,29 @@ AddressSpace_STATUS_ARM
 <h3 id="network.azure.com/v1api20201101.VpnClientConfiguration_VpnClientProtocols">VpnClientConfiguration_VpnClientProtocols
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration">VpnClientConfiguration</a>, <a href="#network.azure.com/v1api20201101.VpnClientConfiguration_ARM">VpnClientConfiguration_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration">VpnClientConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;IkeV2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;OpenVPN&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SSTP&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VpnClientConfiguration_VpnClientProtocols_ARM">VpnClientConfiguration_VpnClientProtocols_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration_ARM">VpnClientConfiguration_ARM</a>)
 </p>
 <div>
 </div>
@@ -29055,7 +30774,29 @@ AddressSpace_STATUS_ARM
 <h3 id="network.azure.com/v1api20201101.VpnClientConfiguration_VpnClientProtocols_STATUS">VpnClientConfiguration_VpnClientProtocols_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration_STATUS">VpnClientConfiguration_STATUS</a>, <a href="#network.azure.com/v1api20201101.VpnClientConfiguration_STATUS_ARM">VpnClientConfiguration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration_STATUS">VpnClientConfiguration_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;IkeV2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;OpenVPN&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SSTP&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20201101.VpnClientConfiguration_VpnClientProtocols_STATUS_ARM">VpnClientConfiguration_VpnClientProtocols_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20201101.VpnClientConfiguration_STATUS_ARM">VpnClientConfiguration_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -29163,8 +30904,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -29455,8 +31196,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS">
-ProvisioningState_STATUS
+<a href="#network.azure.com/v1api20201101.ProvisioningState_STATUS_ARM">
+ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>

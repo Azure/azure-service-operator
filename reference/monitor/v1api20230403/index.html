@@ -36,7 +36,7 @@
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2023-04-03&#34;
     Account   Generator information: - Generated from: /monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/monitoringAccounts_API.json - ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Monitor/&#x200b;accounts/&#x200b;{azureMonitorWorkspaceName}     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
 
-<meta itemprop="wordCount" content="1092">
+<meta itemprop="wordCount" content="1139">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="monitor.azure.com/v1api20230403"/>
 <meta name="twitter:description" content="monitor.azure.com/v1api20230403  Package v1api20230403 contains API Schema definitions for the monitor v1api20230403 API group
@@ -279,6 +279,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -464,6 +466,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -499,6 +503,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1367,8 +1373,8 @@ map[string]string
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess">
-AzureMonitorWorkspace_PublicNetworkAccess
+<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess_ARM">
+AzureMonitorWorkspace_PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -1381,7 +1387,33 @@ AzureMonitorWorkspace_PublicNetworkAccess
 <h3 id="monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ProvisioningState_STATUS">AzureMonitorWorkspace_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.Account_STATUS">Account_STATUS</a>, <a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_STATUS_ARM">AzureMonitorWorkspace_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.Account_STATUS">Account_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ProvisioningState_STATUS_ARM">AzureMonitorWorkspace_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_STATUS_ARM">AzureMonitorWorkspace_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1407,7 +1439,27 @@ AzureMonitorWorkspace_PublicNetworkAccess
 <h3 id="monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess">AzureMonitorWorkspace_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.Account_Spec">Account_Spec</a>, <a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ARM">AzureMonitorWorkspace_ARM</a>)
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.Account_Spec">Account_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess_ARM">AzureMonitorWorkspace_PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ARM">AzureMonitorWorkspace_ARM</a>)
 </p>
 <div>
 </div>
@@ -1427,7 +1479,27 @@ AzureMonitorWorkspace_PublicNetworkAccess
 <h3 id="monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess_STATUS">AzureMonitorWorkspace_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.Account_STATUS">Account_STATUS</a>, <a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_STATUS_ARM">AzureMonitorWorkspace_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.Account_STATUS">Account_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess_STATUS_ARM">AzureMonitorWorkspace_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_STATUS_ARM">AzureMonitorWorkspace_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1514,8 +1586,8 @@ Metrics_STATUS_ARM
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ProvisioningState_STATUS">
-AzureMonitorWorkspace_ProvisioningState_STATUS
+<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_ProvisioningState_STATUS_ARM">
+AzureMonitorWorkspace_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1527,8 +1599,8 @@ AzureMonitorWorkspace_ProvisioningState_STATUS
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess_STATUS">
-AzureMonitorWorkspace_PublicNetworkAccess_STATUS
+<a href="#monitor.azure.com/v1api20230403.AzureMonitorWorkspace_PublicNetworkAccess_STATUS_ARM">
+AzureMonitorWorkspace_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1763,7 +1835,31 @@ string
 <h3 id="monitor.azure.com/v1api20230403.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.SystemData_STATUS">SystemData_STATUS</a>, <a href="#monitor.azure.com/v1api20230403.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="monitor.azure.com/v1api20230403.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1787,7 +1883,31 @@ string
 <h3 id="monitor.azure.com/v1api20230403.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.SystemData_STATUS">SystemData_STATUS</a>, <a href="#monitor.azure.com/v1api20230403.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="monitor.azure.com/v1api20230403.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#monitor.azure.com/v1api20230403.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1938,8 +2058,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#monitor.azure.com/v1api20230403.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#monitor.azure.com/v1api20230403.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1973,8 +2093,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#monitor.azure.com/v1api20230403.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#monitor.azure.com/v1api20230403.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>

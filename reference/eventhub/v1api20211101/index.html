@@ -39,7 +39,7 @@
     CaptureDescription   (Appears on:Namespaces_Eventhub_Spec)  Properties to configure capture description for eventhub
     Field Description      destination  Destination     Destination: Properties of Destination where capture will be stored.">
 
-<meta itemprop="wordCount" content="5894">
+<meta itemprop="wordCount" content="6053">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="eventhub.azure.com/v1api20211101"/>
 <meta name="twitter:description" content="eventhub.azure.com/v1api20211101  Package v1api20211101 contains API Schema definitions for the eventhub v1api20211101 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -934,8 +940,8 @@ bool
 <td>
 <code>encoding</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.CaptureDescription_Encoding">
-CaptureDescription_Encoding
+<a href="#eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_ARM">
+CaptureDescription_Encoding_ARM
 </a>
 </em>
 </td>
@@ -984,7 +990,27 @@ bool
 <h3 id="eventhub.azure.com/v1api20211101.CaptureDescription_Encoding">CaptureDescription_Encoding
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.CaptureDescription">CaptureDescription</a>, <a href="#eventhub.azure.com/v1api20211101.CaptureDescription_ARM">CaptureDescription_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.CaptureDescription">CaptureDescription</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Avro&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AvroDeflate&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_ARM">CaptureDescription_Encoding_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.CaptureDescription_ARM">CaptureDescription_ARM</a>)
 </p>
 <div>
 </div>
@@ -1004,7 +1030,27 @@ bool
 <h3 id="eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_STATUS">CaptureDescription_Encoding_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.CaptureDescription_STATUS">CaptureDescription_STATUS</a>, <a href="#eventhub.azure.com/v1api20211101.CaptureDescription_STATUS_ARM">CaptureDescription_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.CaptureDescription_STATUS">CaptureDescription_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Avro&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AvroDeflate&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_STATUS_ARM">CaptureDescription_Encoding_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.CaptureDescription_STATUS_ARM">CaptureDescription_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1156,8 +1202,8 @@ bool
 <td>
 <code>encoding</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_STATUS">
-CaptureDescription_Encoding_STATUS
+<a href="#eventhub.azure.com/v1api20211101.CaptureDescription_Encoding_STATUS_ARM">
+CaptureDescription_Encoding_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1727,8 +1773,8 @@ bool
 <td>
 <code>keySource</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Encryption_KeySource">
-Encryption_KeySource
+<a href="#eventhub.azure.com/v1api20211101.Encryption_KeySource_ARM">
+Encryption_KeySource_ARM
 </a>
 </em>
 </td>
@@ -1765,7 +1811,25 @@ bool
 <h3 id="eventhub.azure.com/v1api20211101.Encryption_KeySource">Encryption_KeySource
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Encryption">Encryption</a>, <a href="#eventhub.azure.com/v1api20211101.Encryption_ARM">Encryption_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Encryption">Encryption</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.KeyVault&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Encryption_KeySource_ARM">Encryption_KeySource_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Encryption_ARM">Encryption_ARM</a>)
 </p>
 <div>
 </div>
@@ -1783,7 +1847,25 @@ bool
 <h3 id="eventhub.azure.com/v1api20211101.Encryption_KeySource_STATUS">Encryption_KeySource_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Encryption_STATUS">Encryption_STATUS</a>, <a href="#eventhub.azure.com/v1api20211101.Encryption_STATUS_ARM">Encryption_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Encryption_STATUS">Encryption_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.KeyVault&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Encryption_KeySource_STATUS_ARM">Encryption_KeySource_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Encryption_STATUS_ARM">Encryption_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1873,8 +1955,8 @@ bool
 <td>
 <code>keySource</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Encryption_KeySource_STATUS">
-Encryption_KeySource_STATUS
+<a href="#eventhub.azure.com/v1api20211101.Encryption_KeySource_STATUS_ARM">
+Encryption_KeySource_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1972,8 +2054,8 @@ Identity_Type
 <td>
 <code>type</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Identity_Type">
-Identity_Type
+<a href="#eventhub.azure.com/v1api20211101.Identity_Type_ARM">
+Identity_Type_ARM
 </a>
 </em>
 </td>
@@ -2103,8 +2185,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Identity_Type_STATUS">
-Identity_Type_STATUS
+<a href="#eventhub.azure.com/v1api20211101.Identity_Type_STATUS_ARM">
+Identity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2130,7 +2212,31 @@ map[string]./api/eventhub/v1api20211101.UserAssignedIdentity_STATUS_ARM
 <h3 id="eventhub.azure.com/v1api20211101.Identity_Type">Identity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Identity">Identity</a>, <a href="#eventhub.azure.com/v1api20211101.Identity_ARM">Identity_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Identity">Identity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Identity_Type_ARM">Identity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Identity_ARM">Identity_ARM</a>)
 </p>
 <div>
 </div>
@@ -2154,7 +2260,31 @@ map[string]./api/eventhub/v1api20211101.UserAssignedIdentity_STATUS_ARM
 <h3 id="eventhub.azure.com/v1api20211101.Identity_Type_STATUS">Identity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Identity_STATUS">Identity_STATUS</a>, <a href="#eventhub.azure.com/v1api20211101.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Identity_STATUS">Identity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Identity_Type_STATUS_ARM">Identity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4424,7 +4554,29 @@ Namespaces_Eventhubs_Consumergroup_STATUS
 <h3 id="eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS">Namespaces_AuthorizationRule_Properties_Rights_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_STATUS_ARM">Namespaces_AuthorizationRule_Properties_STATUS_ARM</a>, <a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_STATUS">Namespaces_AuthorizationRule_STATUS</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_STATUS">Namespaces_AuthorizationRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Listen&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Manage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Send&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM">Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_STATUS_ARM">Namespaces_AuthorizationRule_Properties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4446,7 +4598,29 @@ Namespaces_Eventhubs_Consumergroup_STATUS
 <h3 id="eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec">Namespaces_AuthorizationRule_Properties_Rights_Spec
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Spec_ARM">Namespaces_AuthorizationRule_Properties_Spec_ARM</a>, <a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Spec">Namespaces_AuthorizationRule_Spec</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Spec">Namespaces_AuthorizationRule_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Listen&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Manage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Send&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM">Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Spec_ARM">Namespaces_AuthorizationRule_Properties_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -4484,8 +4658,8 @@ Namespaces_Eventhubs_Consumergroup_STATUS
 <td>
 <code>rights</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS">
-[]Namespaces_AuthorizationRule_Properties_Rights_STATUS
+<a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM">
+[]Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4514,8 +4688,8 @@ Namespaces_Eventhubs_Consumergroup_STATUS
 <td>
 <code>rights</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec">
-[]Namespaces_AuthorizationRule_Properties_Rights_Spec
+<a href="#eventhub.azure.com/v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM">
+[]Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM
 </a>
 </em>
 </td>
@@ -4895,8 +5069,8 @@ int
 <td>
 <code>status</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_Status_STATUS">
-Namespaces_Eventhub_Properties_Status_STATUS
+<a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_Status_STATUS_ARM">
+Namespaces_Eventhub_Properties_Status_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4972,7 +5146,41 @@ int
 <h3 id="eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_Status_STATUS">Namespaces_Eventhub_Properties_Status_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_STATUS_ARM">Namespaces_Eventhub_Properties_STATUS_ARM</a>, <a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_STATUS">Namespaces_Eventhub_STATUS</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_STATUS">Namespaces_Eventhub_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Active&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ReceiveDisabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Renaming&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Restoring&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SendDisabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unknown&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_Status_STATUS_ARM">Namespaces_Eventhub_Properties_Status_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhub_Properties_STATUS_ARM">Namespaces_Eventhub_Properties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5376,7 +5584,29 @@ Namespaces_Eventhub_Properties_Spec_ARM
 <h3 id="eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM">Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM</a>, <a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_STATUS">Namespaces_Eventhubs_AuthorizationRule_STATUS</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_STATUS">Namespaces_Eventhubs_AuthorizationRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Listen&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Manage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Send&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM">Namespaces_Eventhubs_AuthorizationRule_Properties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5398,7 +5628,29 @@ Namespaces_Eventhub_Properties_Spec_ARM
 <h3 id="eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM">Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM</a>, <a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Spec">Namespaces_Eventhubs_AuthorizationRule_Spec</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Spec">Namespaces_Eventhubs_AuthorizationRule_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Listen&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Manage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Send&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM">Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -5436,8 +5688,8 @@ Namespaces_Eventhub_Properties_Spec_ARM
 <td>
 <code>rights</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS">
-[]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS
+<a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM">
+[]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5466,8 +5718,8 @@ Namespaces_Eventhub_Properties_Spec_ARM
 <td>
 <code>rights</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec">
-[]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec
+<a href="#eventhub.azure.com/v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM">
+[]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_ARM
 </a>
 </em>
 </td>
@@ -6303,8 +6555,8 @@ The Event Hubs premium units for Premium tier, where value should be 0 to 10 pre
 <td>
 <code>name</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Sku_Name">
-Sku_Name
+<a href="#eventhub.azure.com/v1api20211101.Sku_Name_ARM">
+Sku_Name_ARM
 </a>
 </em>
 </td>
@@ -6316,8 +6568,8 @@ Sku_Name
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Sku_Tier">
-Sku_Tier
+<a href="#eventhub.azure.com/v1api20211101.Sku_Tier_ARM">
+Sku_Tier_ARM
 </a>
 </em>
 </td>
@@ -6330,7 +6582,29 @@ Sku_Tier
 <h3 id="eventhub.azure.com/v1api20211101.Sku_Name">Sku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku">Sku</a>, <a href="#eventhub.azure.com/v1api20211101.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku">Sku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Sku_Name_ARM">Sku_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
 </div>
@@ -6352,7 +6626,29 @@ Sku_Tier
 <h3 id="eventhub.azure.com/v1api20211101.Sku_Name_STATUS">Sku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku_STATUS">Sku_STATUS</a>, <a href="#eventhub.azure.com/v1api20211101.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Sku_Name_STATUS_ARM">Sku_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6459,8 +6755,8 @@ The Event Hubs premium units for Premium tier, where value should be 0 to 10 pre
 <td>
 <code>name</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Sku_Name_STATUS">
-Sku_Name_STATUS
+<a href="#eventhub.azure.com/v1api20211101.Sku_Name_STATUS_ARM">
+Sku_Name_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6472,8 +6768,8 @@ Sku_Name_STATUS
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.Sku_Tier_STATUS">
-Sku_Tier_STATUS
+<a href="#eventhub.azure.com/v1api20211101.Sku_Tier_STATUS_ARM">
+Sku_Tier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6486,7 +6782,29 @@ Sku_Tier_STATUS
 <h3 id="eventhub.azure.com/v1api20211101.Sku_Tier">Sku_Tier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku">Sku</a>, <a href="#eventhub.azure.com/v1api20211101.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku">Sku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Sku_Tier_ARM">Sku_Tier_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
 </div>
@@ -6508,7 +6826,29 @@ Sku_Tier_STATUS
 <h3 id="eventhub.azure.com/v1api20211101.Sku_Tier_STATUS">Sku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku_STATUS">Sku_STATUS</a>, <a href="#eventhub.azure.com/v1api20211101.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.Sku_Tier_STATUS_ARM">Sku_Tier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6530,7 +6870,31 @@ Sku_Tier_STATUS
 <h3 id="eventhub.azure.com/v1api20211101.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.SystemData_STATUS">SystemData_STATUS</a>, <a href="#eventhub.azure.com/v1api20211101.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6554,7 +6918,31 @@ Sku_Tier_STATUS
 <h3 id="eventhub.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.SystemData_STATUS">SystemData_STATUS</a>, <a href="#eventhub.azure.com/v1api20211101.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventhub.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventhub.azure.com/v1api20211101.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6705,8 +7093,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#eventhub.azure.com/v1api20211101.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6740,8 +7128,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#eventhub.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#eventhub.azure.com/v1api20211101.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>

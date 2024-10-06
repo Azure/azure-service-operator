@@ -39,7 +39,7 @@
     AccessPolicyEntry   (Appears on:VaultProperties)  An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key vault&rsquo;s tenant ID.
     Field Description      applicationId  string    ApplicationId: Application ID of the client making request on behalf of a principal">
 
-<meta itemprop="wordCount" content="4817">
+<meta itemprop="wordCount" content="2737">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="keyvault.azure.com/v1api20230701"/>
 <meta name="twitter:description" content="keyvault.azure.com/v1api20230701  Package v1api20230701 contains API Schema definitions for the keyvault v1api20230701 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -906,72 +912,6 @@ vault.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.AccessPolicyEntry_ARM">AccessPolicyEntry_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_ARM">VaultProperties_ARM</a>)
-</p>
-<div>
-<p>An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
-vault&rsquo;s tenant ID.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>applicationId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ApplicationId:  Application ID of the client making request on behalf of a principal</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
-vault. The object ID must be unique for the list of access policies.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>permissions</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_ARM">
-Permissions_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Permissions: Permissions the identity has for keys, secrets and certificates.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.AccessPolicyEntry_STATUS">AccessPolicyEntry_STATUS
 </h3>
 <p>
@@ -1038,106 +978,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.AccessPolicyEntry_STATUS_ARM">AccessPolicyEntry_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM">VaultProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
-vault&rsquo;s tenant ID.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>applicationId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ApplicationId:  Application ID of the client making request on behalf of a principal</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>objectId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
-vault. The object ID must be unique for the list of access policies.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>permissions</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM">
-Permissions_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Permissions: Permissions the identity has for keys, secrets and certificates.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.IPRule">IPRule
 </h3>
 <p>
 (<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet">NetworkRuleSet</a>)
-</p>
-<div>
-<p>A rule governing the accessibility of a vault from a specific ip address or ip range.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Value: An IPv4 address range in CIDR notation, such as &lsquo;124.56.78.91&rsquo; (simple IP address) or &lsquo;124.56.78.0/24&rsquo; (all
-addresses that start with 124.56.78).</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="keyvault.azure.com/v1api20230701.IPRule_ARM">IPRule_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
 </p>
 <div>
 <p>A rule governing the accessibility of a vault from a specific ip address or ip range.</p>
@@ -1194,40 +1038,10 @@ addresses that start with 124.56.78).</p>
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.IPRule_STATUS_ARM">IPRule_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
-</p>
-<div>
-<p>A rule governing the accessibility of a vault from a specific ip address or ip range.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Value: An IPv4 address range in CIDR notation, such as &lsquo;124.56.78.91&rsquo; (simple IP address) or &lsquo;124.56.78.0/24&rsquo; (all
-addresses that start with 124.56.78).</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.IdentityType_STATUS">IdentityType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.SystemData_STATUS">SystemData_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.SystemData_STATUS">SystemData_STATUS</a>)
 </p>
 <div>
 <p>The type of identity.</p>
@@ -1321,82 +1135,10 @@ the bypass property has been evaluated.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM">NetworkRuleSet_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_ARM">VaultProperties_ARM</a>)
-</p>
-<div>
-<p>A set of rules governing the network accessibility of a vault.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>bypass</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_Bypass">
-NetworkRuleSet_Bypass
-</a>
-</em>
-</td>
-<td>
-<p>Bypass: Tells what traffic can bypass network rules. This can be &lsquo;AzureServices&rsquo; or &lsquo;None&rsquo;.  If not specified the
-default is &lsquo;AzureServices&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultAction</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_DefaultAction">
-NetworkRuleSet_DefaultAction
-</a>
-</em>
-</td>
-<td>
-<p>DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
-the bypass property has been evaluated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipRules</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.IPRule_ARM">
-[]IPRule_ARM
-</a>
-</em>
-</td>
-<td>
-<p>IpRules: The list of IP address rules.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualNetworkRules</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.VirtualNetworkRule_ARM">
-[]VirtualNetworkRule_ARM
-</a>
-</em>
-</td>
-<td>
-<p>VirtualNetworkRules: The list of virtual network rules.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.NetworkRuleSet_Bypass">NetworkRuleSet_Bypass
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet">NetworkRuleSet</a>, <a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet">NetworkRuleSet</a>)
 </p>
 <div>
 </div>
@@ -1416,7 +1158,7 @@ the bypass property has been evaluated.</p>
 <h3 id="keyvault.azure.com/v1api20230701.NetworkRuleSet_Bypass_STATUS">NetworkRuleSet_Bypass_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>)
 </p>
 <div>
 </div>
@@ -1436,7 +1178,7 @@ the bypass property has been evaluated.</p>
 <h3 id="keyvault.azure.com/v1api20230701.NetworkRuleSet_DefaultAction">NetworkRuleSet_DefaultAction
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet">NetworkRuleSet</a>, <a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet">NetworkRuleSet</a>)
 </p>
 <div>
 </div>
@@ -1456,7 +1198,7 @@ the bypass property has been evaluated.</p>
 <h3 id="keyvault.azure.com/v1api20230701.NetworkRuleSet_DefaultAction_STATUS">NetworkRuleSet_DefaultAction_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>)
 </p>
 <div>
 </div>
@@ -1545,78 +1287,6 @@ the bypass property has been evaluated.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM">VaultProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>A set of rules governing the network accessibility of a vault.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>bypass</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_Bypass_STATUS">
-NetworkRuleSet_Bypass_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Bypass: Tells what traffic can bypass network rules. This can be &lsquo;AzureServices&rsquo; or &lsquo;None&rsquo;.  If not specified the
-default is &lsquo;AzureServices&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultAction</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_DefaultAction_STATUS">
-NetworkRuleSet_DefaultAction_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
-the bypass property has been evaluated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipRules</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.IPRule_STATUS_ARM">
-[]IPRule_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>IpRules: The list of IP address rules.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualNetworkRules</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.VirtualNetworkRule_STATUS_ARM">
-[]VirtualNetworkRule_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>VirtualNetworkRules: The list of virtual network rules.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.Permissions">Permissions
 </h3>
 <p>
@@ -1687,80 +1357,10 @@ the bypass property has been evaluated.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.Permissions_ARM">Permissions_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.AccessPolicyEntry_ARM">AccessPolicyEntry_ARM</a>)
-</p>
-<div>
-<p>Permissions the identity has for keys, secrets, certificates and storage.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>certificates</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_Certificates">
-[]Permissions_Certificates
-</a>
-</em>
-</td>
-<td>
-<p>Certificates: Permissions to certificates</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keys</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_Keys">
-[]Permissions_Keys
-</a>
-</em>
-</td>
-<td>
-<p>Keys: Permissions to keys</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secrets</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_Secrets">
-[]Permissions_Secrets
-</a>
-</em>
-</td>
-<td>
-<p>Secrets: Permissions to secrets</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storage</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_Storage">
-[]Permissions_Storage
-</a>
-</em>
-</td>
-<td>
-<p>Storage: Permissions to storage accounts</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.Permissions_Certificates">Permissions_Certificates
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions">Permissions</a>, <a href="#keyvault.azure.com/v1api20230701.Permissions_ARM">Permissions_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions">Permissions</a>)
 </p>
 <div>
 </div>
@@ -1810,7 +1410,7 @@ the bypass property has been evaluated.</p>
 <h3 id="keyvault.azure.com/v1api20230701.Permissions_Certificates_STATUS">Permissions_Certificates_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS">Permissions_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM">Permissions_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS">Permissions_STATUS</a>)
 </p>
 <div>
 </div>
@@ -1860,7 +1460,7 @@ the bypass property has been evaluated.</p>
 <h3 id="keyvault.azure.com/v1api20230701.Permissions_Keys">Permissions_Keys
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions">Permissions</a>, <a href="#keyvault.azure.com/v1api20230701.Permissions_ARM">Permissions_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions">Permissions</a>)
 </p>
 <div>
 </div>
@@ -1918,7 +1518,7 @@ the bypass property has been evaluated.</p>
 <h3 id="keyvault.azure.com/v1api20230701.Permissions_Keys_STATUS">Permissions_Keys_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS">Permissions_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM">Permissions_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS">Permissions_STATUS</a>)
 </p>
 <div>
 </div>
@@ -2043,80 +1643,10 @@ the bypass property has been evaluated.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM">Permissions_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.AccessPolicyEntry_STATUS_ARM">AccessPolicyEntry_STATUS_ARM</a>)
-</p>
-<div>
-<p>Permissions the identity has for keys, secrets, certificates and storage.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>certificates</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_Certificates_STATUS">
-[]Permissions_Certificates_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Certificates: Permissions to certificates</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keys</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_Keys_STATUS">
-[]Permissions_Keys_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Keys: Permissions to keys</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secrets</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_Secrets_STATUS">
-[]Permissions_Secrets_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Secrets: Permissions to secrets</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storage</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Permissions_Storage_STATUS">
-[]Permissions_Storage_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Storage: Permissions to storage accounts</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.Permissions_Secrets">Permissions_Secrets
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions">Permissions</a>, <a href="#keyvault.azure.com/v1api20230701.Permissions_ARM">Permissions_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions">Permissions</a>)
 </p>
 <div>
 </div>
@@ -2150,7 +1680,7 @@ the bypass property has been evaluated.</p>
 <h3 id="keyvault.azure.com/v1api20230701.Permissions_Secrets_STATUS">Permissions_Secrets_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS">Permissions_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM">Permissions_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS">Permissions_STATUS</a>)
 </p>
 <div>
 </div>
@@ -2184,7 +1714,7 @@ the bypass property has been evaluated.</p>
 <h3 id="keyvault.azure.com/v1api20230701.Permissions_Storage">Permissions_Storage
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions">Permissions</a>, <a href="#keyvault.azure.com/v1api20230701.Permissions_ARM">Permissions_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions">Permissions</a>)
 </p>
 <div>
 </div>
@@ -2230,7 +1760,7 @@ the bypass property has been evaluated.</p>
 <h3 id="keyvault.azure.com/v1api20230701.Permissions_Storage_STATUS">Permissions_Storage_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS">Permissions_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS_ARM">Permissions_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Permissions_STATUS">Permissions_STATUS</a>)
 </p>
 <div>
 </div>
@@ -2352,120 +1882,10 @@ PrivateEndpointConnectionProvisioningState_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS_ARM">PrivateEndpointConnectionItem_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM">VaultProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Private endpoint connection item.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: Modified whenever there is a change in the state of private endpoint connection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Id of private endpoint connection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM">
-PrivateEndpointConnectionProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Private endpoint connection properties.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM">PrivateEndpointConnectionProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS_ARM">PrivateEndpointConnectionItem_STATUS_ARM</a>)
-</p>
-<div>
-<p>Properties of the private endpoint connection resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>privateEndpoint</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.PrivateEndpoint_STATUS_ARM">
-PrivateEndpoint_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PrivateEndpoint: Properties of the private endpoint object.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateLinkServiceConnectionState</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS_ARM">
-PrivateLinkServiceConnectionState_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PrivateLinkServiceConnectionState: Approval state of the private link connection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProvisioningState_STATUS">
-PrivateEndpointConnectionProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: Provisioning state of the private endpoint connection.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProvisioningState_STATUS">PrivateEndpointConnectionProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS">PrivateEndpointConnectionItem_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM">PrivateEndpointConnectionProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS">PrivateEndpointConnectionItem_STATUS</a>)
 </p>
 <div>
 <p>The current provisioning state.</p>
@@ -2494,7 +1914,7 @@ PrivateEndpointConnectionProvisioningState_STATUS
 <h3 id="keyvault.azure.com/v1api20230701.PrivateEndpointServiceConnectionStatus_STATUS">PrivateEndpointServiceConnectionStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS">PrivateLinkServiceConnectionState_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS_ARM">PrivateLinkServiceConnectionState_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS">PrivateLinkServiceConnectionState_STATUS</a>)
 </p>
 <div>
 <p>The private endpoint connection status.</p>
@@ -2545,39 +1965,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.PrivateEndpoint_STATUS_ARM">PrivateEndpoint_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM">PrivateEndpointConnectionProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Private endpoint object properties.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Full identifier of the private endpoint resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_ActionsRequired_STATUS">PrivateLinkServiceConnectionState_ActionsRequired_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS">PrivateLinkServiceConnectionState_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS_ARM">PrivateLinkServiceConnectionState_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS">PrivateLinkServiceConnectionState_STATUS</a>)
 </p>
 <div>
 </div>
@@ -2596,61 +1987,6 @@ string
 </h3>
 <p>
 (<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS">PrivateEndpointConnectionItem_STATUS</a>)
-</p>
-<div>
-<p>An object that represents the approval state of the private link connection.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>actionsRequired</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_ActionsRequired_STATUS">
-PrivateLinkServiceConnectionState_ActionsRequired_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: The reason for approval or rejection.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.PrivateEndpointServiceConnectionStatus_STATUS">
-PrivateEndpointServiceConnectionStatus_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: Indicates whether the connection has been approved, rejected or removed by the key vault owner.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="keyvault.azure.com/v1api20230701.PrivateLinkServiceConnectionState_STATUS_ARM">PrivateLinkServiceConnectionState_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionProperties_STATUS_ARM">PrivateEndpointConnectionProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>An object that represents the approval state of the private link connection.</p>
@@ -2746,54 +2082,10 @@ Sku_Name
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.Sku_ARM">Sku_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_ARM">VaultProperties_ARM</a>)
-</p>
-<div>
-<p>SKU details</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>family</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Sku_Family">
-Sku_Family
-</a>
-</em>
-</td>
-<td>
-<p>Family: SKU family name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Sku_Name">
-Sku_Name
-</a>
-</em>
-</td>
-<td>
-<p>Name: SKU name to specify whether the key vault is a standard vault or a premium vault.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.Sku_Family">Sku_Family
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Sku">Sku</a>, <a href="#keyvault.azure.com/v1api20230701.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Sku">Sku</a>)
 </p>
 <div>
 </div>
@@ -2811,7 +2103,7 @@ Sku_Name
 <h3 id="keyvault.azure.com/v1api20230701.Sku_Family_STATUS">Sku_Family_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Sku_STATUS">Sku_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Sku_STATUS">Sku_STATUS</a>)
 </p>
 <div>
 </div>
@@ -2829,7 +2121,7 @@ Sku_Name
 <h3 id="keyvault.azure.com/v1api20230701.Sku_Name">Sku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Sku">Sku</a>, <a href="#keyvault.azure.com/v1api20230701.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Sku">Sku</a>)
 </p>
 <div>
 </div>
@@ -2849,7 +2141,7 @@ Sku_Name
 <h3 id="keyvault.azure.com/v1api20230701.Sku_Name_STATUS">Sku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Sku_STATUS">Sku_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Sku_STATUS">Sku_STATUS</a>)
 </p>
 <div>
 </div>
@@ -2910,142 +2202,10 @@ Sku_Name_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.Sku_STATUS_ARM">Sku_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM">VaultProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>SKU details</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>family</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Sku_Family_STATUS">
-Sku_Family_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Family: SKU family name</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Sku_Name_STATUS">
-Sku_Name_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Name: SKU name to specify whether the key vault is a standard vault or a premium vault.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.SystemData_STATUS">SystemData_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Vault_STATUS">Vault_STATUS</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the key vault resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of the key vault resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the key vault resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.IdentityType_STATUS">
-IdentityType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the key vault resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of the key vault resource last modification (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the key vault resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.IdentityType_STATUS">
-IdentityType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the key vault resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="keyvault.azure.com/v1api20230701.SystemData_STATUS_ARM">SystemData_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Vault_STATUS_ARM">Vault_STATUS_ARM</a>)
 </p>
 <div>
 <p>Metadata pertaining to creation and last modification of the key vault resource.</p>
@@ -3475,220 +2635,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.VaultProperties_ARM">VaultProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Vault_Spec_ARM">Vault_Spec_ARM</a>)
-</p>
-<div>
-<p>Properties of the vault</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accessPolicies</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.AccessPolicyEntry_ARM">
-[]AccessPolicyEntry_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
-the same tenant ID as the key vault&rsquo;s tenant ID. When <code>createMode</code> is set to <code>recover</code>, access policies are not
-required. Otherwise, access policies are required.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.VaultProperties_CreateMode">
-VaultProperties_CreateMode
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: The vault&rsquo;s create mode to indicate whether the vault need to be recovered or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePurgeProtection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
-property to true activates protection against purge for this vault and its content - only the Key Vault service may
-initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
-functionality is irreversible - that is, the property does not accept false as its value.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableRbacAuthorization</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
-Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
-will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
-stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
-of false. Note that management actions are always authorized with RBAC.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableSoftDelete</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableSoftDelete: Property to specify whether the &lsquo;soft delete&rsquo; functionality is enabled for this key vault. If it&rsquo;s not
-set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
-cannot be reverted to false.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabledForDeployment</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
-as secrets from the key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabledForDiskEncryption</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
-vault and unwrap keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabledForTemplateDeployment</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
-the key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkAcls</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM">
-NetworkRuleSet_ARM
-</a>
-</em>
-</td>
-<td>
-<p>NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.VaultProperties_ProvisioningState">
-VaultProperties_ProvisioningState
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: Provisioning state of the vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Property to specify whether the vault will accept traffic from public internet. If set to
-&lsquo;disabled&rsquo; all traffic except private endpoint traffic and that that originates from trusted services will be blocked.
-This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the
-rules.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Sku_ARM">
-Sku_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: SKU details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>softDeleteRetentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>SoftDeleteRetentionInDays: softDelete data retention days. It accepts &gt;=7 and &lt;=90.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vaultUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VaultUri: The URI of the vault for performing operations on keys and secrets.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.VaultProperties_CreateMode">VaultProperties_CreateMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties">VaultProperties</a>, <a href="#keyvault.azure.com/v1api20230701.VaultProperties_ARM">VaultProperties_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties">VaultProperties</a>)
 </p>
 <div>
 </div>
@@ -3712,7 +2662,7 @@ string
 <h3 id="keyvault.azure.com/v1api20230701.VaultProperties_CreateMode_STATUS">VaultProperties_CreateMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS">VaultProperties_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM">VaultProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS">VaultProperties_STATUS</a>)
 </p>
 <div>
 </div>
@@ -3736,7 +2686,7 @@ string
 <h3 id="keyvault.azure.com/v1api20230701.VaultProperties_ProvisioningState">VaultProperties_ProvisioningState
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties">VaultProperties</a>, <a href="#keyvault.azure.com/v1api20230701.VaultProperties_ARM">VaultProperties_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties">VaultProperties</a>)
 </p>
 <div>
 </div>
@@ -3756,7 +2706,7 @@ string
 <h3 id="keyvault.azure.com/v1api20230701.VaultProperties_ProvisioningState_STATUS">VaultProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS">VaultProperties_STATUS</a>, <a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM">VaultProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS">VaultProperties_STATUS</a>)
 </p>
 <div>
 </div>
@@ -4007,240 +2957,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM">VaultProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.Vault_STATUS_ARM">Vault_STATUS_ARM</a>)
-</p>
-<div>
-<p>Properties of the vault</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>accessPolicies</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.AccessPolicyEntry_STATUS_ARM">
-[]AccessPolicyEntry_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
-the same tenant ID as the key vault&rsquo;s tenant ID. When <code>createMode</code> is set to <code>recover</code>, access policies are not
-required. Otherwise, access policies are required.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.VaultProperties_CreateMode_STATUS">
-VaultProperties_CreateMode_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: The vault&rsquo;s create mode to indicate whether the vault need to be recovered or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enablePurgeProtection</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
-property to true activates protection against purge for this vault and its content - only the Key Vault service may
-initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
-functionality is irreversible - that is, the property does not accept false as its value.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableRbacAuthorization</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
-Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
-will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
-stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
-of false. Note that management actions are always authorized with RBAC.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableSoftDelete</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableSoftDelete: Property to specify whether the &lsquo;soft delete&rsquo; functionality is enabled for this key vault. If it&rsquo;s not
-set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
-cannot be reverted to false.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabledForDeployment</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
-as secrets from the key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabledForDiskEncryption</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
-vault and unwrap keys.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enabledForTemplateDeployment</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
-the key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>hsmPoolResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>HsmPoolResourceId: The resource id of HSM Pool.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkAcls</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM">
-NetworkRuleSet_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateEndpointConnections</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.PrivateEndpointConnectionItem_STATUS_ARM">
-[]PrivateEndpointConnectionItem_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PrivateEndpointConnections: List of private endpoint connections associated with the key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.VaultProperties_ProvisioningState_STATUS">
-VaultProperties_ProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: Provisioning state of the vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Property to specify whether the vault will accept traffic from public internet. If set to
-&lsquo;disabled&rsquo; all traffic except private endpoint traffic and that that originates from trusted services will be blocked.
-This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the
-rules.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.Sku_STATUS_ARM">
-Sku_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: SKU details</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>softDeleteRetentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>SoftDeleteRetentionInDays: softDelete data retention days. It accepts &gt;=7 and &lt;=90.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>vaultUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VaultUri: The URI of the vault for performing operations on keys and secrets.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.Vault_STATUS">Vault_STATUS
 </h3>
 <p>
@@ -4353,102 +3069,6 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.Vault_STATUS_ARM">Vault_STATUS_ARM
-</h3>
-<div>
-<p>Resource information with extended details.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified identifier of the key vault resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Azure location of the key vault resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: Name of the key vault resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.VaultProperties_STATUS_ARM">
-VaultProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties of the vault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.SystemData_STATUS_ARM">
-SystemData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: System metadata for the key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Tags assigned to the key vault resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: Resource type of the key vault resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.Vault_Spec">Vault_Spec
 </h3>
 <p>
@@ -4528,65 +3148,6 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.Vault_Spec_ARM">Vault_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The supported Azure location where the key vault should be created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#keyvault.azure.com/v1api20230701.VaultProperties_ARM">
-VaultProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties of the vault</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The tags that will be assigned to the key vault.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.VirtualNetworkRule">VirtualNetworkRule
 </h3>
 <p>
@@ -4631,92 +3192,10 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="keyvault.azure.com/v1api20230701.VirtualNetworkRule_ARM">VirtualNetworkRule_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
-</p>
-<div>
-<p>A rule governing the accessibility of a vault from a specific virtual network.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ignoreMissingVnetServiceEndpoint</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
-serviceEndpoints configured.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="keyvault.azure.com/v1api20230701.VirtualNetworkRule_STATUS">VirtualNetworkRule_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>)
-</p>
-<div>
-<p>A rule governing the accessibility of a vault from a specific virtual network.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Full resource id of a vnet subnet, such as
-&lsquo;/&#x200b;subscriptions/&#x200b;subid/&#x200b;resourceGroups/&#x200b;rg1/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;test-vnet/&#x200b;subnets/&#x200b;subnet1&rsquo;.</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ignoreMissingVnetServiceEndpoint</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
-serviceEndpoints configured.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="keyvault.azure.com/v1api20230701.VirtualNetworkRule_STATUS_ARM">VirtualNetworkRule_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#keyvault.azure.com/v1api20230701.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
 </p>
 <div>
 <p>A rule governing the accessibility of a vault from a specific virtual network.</p>

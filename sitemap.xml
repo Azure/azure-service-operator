@@ -170,6 +170,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20230701/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20230801/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/categories/</loc>
@@ -328,6 +330,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20210701/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20240401/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20181130/</loc>
@@ -357,6 +361,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20220401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20220701/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20240101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/v1api20220501/</loc>
   </url><url>

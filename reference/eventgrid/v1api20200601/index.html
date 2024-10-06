@@ -39,7 +39,7 @@
     AdvancedFilter   (Appears on:EventSubscriptionFilter)      Field Description      boolEquals  BoolEqualsAdvancedFilter     BoolEquals: Mutually exclusive with all other properties
     numberGreaterThan  NumberGreaterThanAdvancedFilter     NumberGreaterThan: Mutually exclusive with all other properties">
 
-<meta itemprop="wordCount" content="10911">
+<meta itemprop="wordCount" content="11374">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="eventgrid.azure.com/v1api20200601"/>
 <meta name="twitter:description" content="eventgrid.azure.com/v1api20200601  Package v1api20200601 contains API Schema definitions for the eventgrid v1api20200601 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1678,8 +1684,8 @@ subscription.</p>
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType">
-AzureFunctionEventSubscriptionDestination_EndpointType
+<a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_ARM">
+AzureFunctionEventSubscriptionDestination_EndpointType_ARM
 </a>
 </em>
 </td>
@@ -1705,7 +1711,25 @@ AzureFunctionEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType">AzureFunctionEventSubscriptionDestination_EndpointType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination">AzureFunctionEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_ARM">AzureFunctionEventSubscriptionDestination_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination">AzureFunctionEventSubscriptionDestination</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureFunction&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_ARM">AzureFunctionEventSubscriptionDestination_EndpointType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_ARM">AzureFunctionEventSubscriptionDestination_ARM</a>)
 </p>
 <div>
 </div>
@@ -1723,7 +1747,25 @@ AzureFunctionEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_STATUS">AzureFunctionEventSubscriptionDestination_EndpointType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS">AzureFunctionEventSubscriptionDestination_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS_ARM">AzureFunctionEventSubscriptionDestination_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS">AzureFunctionEventSubscriptionDestination_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureFunction&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM">AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS_ARM">AzureFunctionEventSubscriptionDestination_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1821,8 +1863,8 @@ subscription.</p>
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_STATUS">
-AzureFunctionEventSubscriptionDestination_EndpointType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM">
+AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1927,8 +1969,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType">
-BoolEqualsAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_ARM">
+BoolEqualsAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -1952,7 +1994,25 @@ bool
 <h3 id="eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType">BoolEqualsAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter">BoolEqualsAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_ARM">BoolEqualsAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter">BoolEqualsAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BoolEquals&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_ARM">BoolEqualsAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_ARM">BoolEqualsAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -1970,7 +2030,25 @@ bool
 <h3 id="eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_STATUS">BoolEqualsAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_STATUS">BoolEqualsAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_STATUS_ARM">BoolEqualsAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_STATUS">BoolEqualsAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BoolEquals&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM">BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_STATUS_ARM">BoolEqualsAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2067,8 +2145,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_STATUS">
-BoolEqualsAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM">
+BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2406,8 +2484,8 @@ only if PublicNetworkAccess is enabled.</p>
 <td>
 <code>inputSchema</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema">
-DomainProperties_InputSchema
+<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_ARM">
+DomainProperties_InputSchema_ARM
 </a>
 </em>
 </td>
@@ -2432,8 +2510,8 @@ InputSchemaMapping_ARM
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess">
-DomainProperties_PublicNetworkAccess
+<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_ARM">
+DomainProperties_PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -2448,7 +2526,29 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 <h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema">DomainProperties_InputSchema
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_ARM">DomainProperties_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Domain_Spec">Domain_Spec</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Domain_Spec">Domain_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CloudEventSchemaV1_0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;CustomEventSchema&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EventGridSchema&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_ARM">DomainProperties_InputSchema_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_ARM">DomainProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2470,7 +2570,29 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 <h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_STATUS">DomainProperties_InputSchema_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM">DomainProperties_STATUS_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Domain_STATUS">Domain_STATUS</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Domain_STATUS">Domain_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CloudEventSchemaV1_0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;CustomEventSchema&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EventGridSchema&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_STATUS_ARM">DomainProperties_InputSchema_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM">DomainProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2492,7 +2614,35 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 <h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_ProvisioningState_STATUS">DomainProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM">DomainProperties_STATUS_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Domain_STATUS">Domain_STATUS</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Domain_STATUS">Domain_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_ProvisioningState_STATUS_ARM">DomainProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM">DomainProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2520,7 +2670,27 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 <h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess">DomainProperties_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_ARM">DomainProperties_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Domain_Spec">Domain_Spec</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Domain_Spec">Domain_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_ARM">DomainProperties_PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_ARM">DomainProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2540,7 +2710,27 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 <h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_STATUS">DomainProperties_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM">DomainProperties_STATUS_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Domain_STATUS">Domain_STATUS</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Domain_STATUS">Domain_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_STATUS_ARM">DomainProperties_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM">DomainProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2602,8 +2792,8 @@ only if PublicNetworkAccess is enabled.</p>
 <td>
 <code>inputSchema</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_STATUS">
-DomainProperties_InputSchema_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_STATUS_ARM">
+DomainProperties_InputSchema_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2652,8 +2842,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_ProvisioningState_STATUS">
-DomainProperties_ProvisioningState_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_ProvisioningState_STATUS_ARM">
+DomainProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2665,8 +2855,8 @@ DomainProperties_ProvisioningState_STATUS
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_STATUS">
-DomainProperties_PublicNetworkAccess_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_STATUS_ARM">
+DomainProperties_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2681,7 +2871,35 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 <h3 id="eventgrid.azure.com/v1api20200601.DomainTopicProperties_ProvisioningState_STATUS">DomainTopicProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainTopicProperties_STATUS_ARM">DomainTopicProperties_STATUS_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Domains_Topic_STATUS">Domains_Topic_STATUS</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Domains_Topic_STATUS">Domains_Topic_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.DomainTopicProperties_ProvisioningState_STATUS_ARM">DomainTopicProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.DomainTopicProperties_STATUS_ARM">DomainTopicProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2726,8 +2944,8 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.DomainTopicProperties_ProvisioningState_STATUS">
-DomainTopicProperties_ProvisioningState_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.DomainTopicProperties_ProvisioningState_STATUS_ARM">
+DomainTopicProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3651,8 +3869,8 @@ string
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType">
-EventHubEventSubscriptionDestination_EndpointType
+<a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_ARM">
+EventHubEventSubscriptionDestination_EndpointType_ARM
 </a>
 </em>
 </td>
@@ -3678,7 +3896,25 @@ EventHubEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType">EventHubEventSubscriptionDestination_EndpointType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination">EventHubEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_ARM">EventHubEventSubscriptionDestination_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination">EventHubEventSubscriptionDestination</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;EventHub&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_ARM">EventHubEventSubscriptionDestination_EndpointType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_ARM">EventHubEventSubscriptionDestination_ARM</a>)
 </p>
 <div>
 </div>
@@ -3696,7 +3932,25 @@ EventHubEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_STATUS">EventHubEventSubscriptionDestination_EndpointType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_STATUS">EventHubEventSubscriptionDestination_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_STATUS_ARM">EventHubEventSubscriptionDestination_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_STATUS">EventHubEventSubscriptionDestination_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;EventHub&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM">EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_STATUS_ARM">EventHubEventSubscriptionDestination_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3771,8 +4025,8 @@ string
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_STATUS">
-EventHubEventSubscriptionDestination_EndpointType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM">
+EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4767,8 +5021,8 @@ EventSubscriptionDestination_ARM
 <td>
 <code>eventDeliverySchema</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema">
-EventSubscriptionProperties_EventDeliverySchema
+<a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_ARM">
+EventSubscriptionProperties_EventDeliverySchema_ARM
 </a>
 </em>
 </td>
@@ -4830,7 +5084,29 @@ live for events.</p>
 <h3 id="eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema">EventSubscriptionProperties_EventDeliverySchema
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ARM">EventSubscriptionProperties_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.EventSubscription_Spec">EventSubscription_Spec</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventSubscription_Spec">EventSubscription_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CloudEventSchemaV1_0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;CustomInputSchema&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EventGridSchema&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_ARM">EventSubscriptionProperties_EventDeliverySchema_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ARM">EventSubscriptionProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -4852,7 +5128,29 @@ live for events.</p>
 <h3 id="eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_STATUS">EventSubscriptionProperties_EventDeliverySchema_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_STATUS_ARM">EventSubscriptionProperties_STATUS_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.EventSubscription_STATUS">EventSubscription_STATUS</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventSubscription_STATUS">EventSubscription_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CloudEventSchemaV1_0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;CustomInputSchema&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EventGridSchema&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM">EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_STATUS_ARM">EventSubscriptionProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4874,7 +5172,37 @@ live for events.</p>
 <h3 id="eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ProvisioningState_STATUS">EventSubscriptionProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_STATUS_ARM">EventSubscriptionProperties_STATUS_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.EventSubscription_STATUS">EventSubscription_STATUS</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventSubscription_STATUS">EventSubscription_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AwaitingManualAction&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ProvisioningState_STATUS_ARM">EventSubscriptionProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_STATUS_ARM">EventSubscriptionProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4947,8 +5275,8 @@ EventSubscriptionDestination_STATUS_ARM
 <td>
 <code>eventDeliverySchema</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_STATUS">
-EventSubscriptionProperties_EventDeliverySchema_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM">
+EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4995,8 +5323,8 @@ EventSubscriptionFilter_STATUS_ARM
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ProvisioningState_STATUS">
-EventSubscriptionProperties_ProvisioningState_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ProvisioningState_STATUS_ARM">
+EventSubscriptionProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5582,8 +5910,8 @@ string
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType">
-HybridConnectionEventSubscriptionDestination_EndpointType
+<a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_ARM">
+HybridConnectionEventSubscriptionDestination_EndpointType_ARM
 </a>
 </em>
 </td>
@@ -5609,7 +5937,25 @@ HybridConnectionEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType">HybridConnectionEventSubscriptionDestination_EndpointType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination">HybridConnectionEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_ARM">HybridConnectionEventSubscriptionDestination_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination">HybridConnectionEventSubscriptionDestination</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;HybridConnection&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_ARM">HybridConnectionEventSubscriptionDestination_EndpointType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_ARM">HybridConnectionEventSubscriptionDestination_ARM</a>)
 </p>
 <div>
 </div>
@@ -5627,7 +5973,25 @@ HybridConnectionEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_STATUS">HybridConnectionEventSubscriptionDestination_EndpointType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS">HybridConnectionEventSubscriptionDestination_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS_ARM">HybridConnectionEventSubscriptionDestination_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS">HybridConnectionEventSubscriptionDestination_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;HybridConnection&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM">HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS_ARM">HybridConnectionEventSubscriptionDestination_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5702,8 +6066,8 @@ string
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_STATUS">
-HybridConnectionEventSubscriptionDestination_EndpointType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM">
+HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5786,8 +6150,8 @@ string
 <td>
 <code>action</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_Action">
-InboundIpRule_Action
+<a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_Action_ARM">
+InboundIpRule_Action_ARM
 </a>
 </em>
 </td>
@@ -5811,7 +6175,25 @@ string
 <h3 id="eventgrid.azure.com/v1api20200601.InboundIpRule_Action">InboundIpRule_Action
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.InboundIpRule">InboundIpRule</a>, <a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_ARM">InboundIpRule_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.InboundIpRule">InboundIpRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.InboundIpRule_Action_ARM">InboundIpRule_Action_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_ARM">InboundIpRule_ARM</a>)
 </p>
 <div>
 </div>
@@ -5829,7 +6211,25 @@ string
 <h3 id="eventgrid.azure.com/v1api20200601.InboundIpRule_Action_STATUS">InboundIpRule_Action_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_STATUS">InboundIpRule_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_STATUS_ARM">InboundIpRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_STATUS">InboundIpRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.InboundIpRule_Action_STATUS_ARM">InboundIpRule_Action_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_STATUS_ARM">InboundIpRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5904,8 +6304,8 @@ string
 <td>
 <code>action</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_Action_STATUS">
-InboundIpRule_Action_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.InboundIpRule_Action_STATUS_ARM">
+InboundIpRule_Action_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6679,8 +7079,8 @@ JsonField_STATUS_ARM
 <td>
 <code>inputSchemaMappingType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType">
-JsonInputSchemaMapping_InputSchemaMappingType
+<a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_ARM">
+JsonInputSchemaMapping_InputSchemaMappingType_ARM
 </a>
 </em>
 </td>
@@ -6706,7 +7106,25 @@ JsonInputSchemaMappingProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType">JsonInputSchemaMapping_InputSchemaMappingType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping">JsonInputSchemaMapping</a>, <a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_ARM">JsonInputSchemaMapping_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping">JsonInputSchemaMapping</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Json&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_ARM">JsonInputSchemaMapping_InputSchemaMappingType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_ARM">JsonInputSchemaMapping_ARM</a>)
 </p>
 <div>
 </div>
@@ -6724,7 +7142,25 @@ JsonInputSchemaMappingProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_STATUS">JsonInputSchemaMapping_InputSchemaMappingType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_STATUS">JsonInputSchemaMapping_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_STATUS_ARM">JsonInputSchemaMapping_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_STATUS">JsonInputSchemaMapping_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Json&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM">JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_STATUS_ARM">JsonInputSchemaMapping_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6866,8 +7302,8 @@ JsonField_STATUS
 <td>
 <code>inputSchemaMappingType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_STATUS">
-JsonInputSchemaMapping_InputSchemaMappingType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM">
+JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6972,8 +7408,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType">
-NumberGreaterThanAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_ARM">
+NumberGreaterThanAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -6997,7 +7433,25 @@ float64
 <h3 id="eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType">NumberGreaterThanAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter">NumberGreaterThanAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_ARM">NumberGreaterThanAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter">NumberGreaterThanAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberGreaterThan&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_ARM">NumberGreaterThanAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_ARM">NumberGreaterThanAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -7015,7 +7469,25 @@ float64
 <h3 id="eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_STATUS">NumberGreaterThanAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_STATUS">NumberGreaterThanAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_STATUS_ARM">NumberGreaterThanAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_STATUS">NumberGreaterThanAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberGreaterThan&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM">NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_STATUS_ARM">NumberGreaterThanAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7112,8 +7584,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_STATUS">
-NumberGreaterThanAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM">
+NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7216,8 +7688,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType">
-NumberGreaterThanOrEqualsAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM">
+NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -7241,7 +7713,25 @@ float64
 <h3 id="eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType">NumberGreaterThanOrEqualsAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter">NumberGreaterThanOrEqualsAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_ARM">NumberGreaterThanOrEqualsAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter">NumberGreaterThanOrEqualsAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberGreaterThanOrEquals&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM">NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_ARM">NumberGreaterThanOrEqualsAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -7259,7 +7749,25 @@ float64
 <h3 id="eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS">NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS">NumberGreaterThanOrEqualsAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM">NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS">NumberGreaterThanOrEqualsAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberGreaterThanOrEquals&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM">NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM">NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7356,8 +7864,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS">
-NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM">
+NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7460,8 +7968,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType">
-NumberInAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_ARM">
+NumberInAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -7485,7 +7993,25 @@ NumberInAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType">NumberInAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter">NumberInAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_ARM">NumberInAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter">NumberInAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberIn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_ARM">NumberInAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_ARM">NumberInAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -7503,7 +8029,25 @@ NumberInAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_STATUS">NumberInAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_STATUS">NumberInAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_STATUS_ARM">NumberInAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_STATUS">NumberInAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberIn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_STATUS_ARM">NumberInAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_STATUS_ARM">NumberInAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7600,8 +8144,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_STATUS">
-NumberInAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_STATUS_ARM">
+NumberInAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7704,8 +8248,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType">
-NumberLessThanAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_ARM">
+NumberLessThanAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -7729,7 +8273,25 @@ float64
 <h3 id="eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType">NumberLessThanAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter">NumberLessThanAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_ARM">NumberLessThanAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter">NumberLessThanAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberLessThan&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_ARM">NumberLessThanAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_ARM">NumberLessThanAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -7747,7 +8309,25 @@ float64
 <h3 id="eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_STATUS">NumberLessThanAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_STATUS">NumberLessThanAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_STATUS_ARM">NumberLessThanAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_STATUS">NumberLessThanAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberLessThan&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM">NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_STATUS_ARM">NumberLessThanAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7844,8 +8424,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_STATUS">
-NumberLessThanAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM">
+NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7948,8 +8528,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType">
-NumberLessThanOrEqualsAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM">
+NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -7973,7 +8553,25 @@ float64
 <h3 id="eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType">NumberLessThanOrEqualsAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter">NumberLessThanOrEqualsAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_ARM">NumberLessThanOrEqualsAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter">NumberLessThanOrEqualsAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberLessThanOrEquals&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM">NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_ARM">NumberLessThanOrEqualsAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -7991,7 +8589,25 @@ float64
 <h3 id="eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS">NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS">NumberLessThanOrEqualsAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM">NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS">NumberLessThanOrEqualsAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberLessThanOrEquals&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM">NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM">NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8088,8 +8704,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS">
-NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM">
+NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -8192,8 +8808,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType">
-NumberNotInAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_ARM">
+NumberNotInAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -8217,7 +8833,25 @@ NumberNotInAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType">NumberNotInAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter">NumberNotInAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_ARM">NumberNotInAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter">NumberNotInAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberNotIn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_ARM">NumberNotInAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_ARM">NumberNotInAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -8235,7 +8869,25 @@ NumberNotInAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_STATUS">NumberNotInAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_STATUS">NumberNotInAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_STATUS_ARM">NumberNotInAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_STATUS">NumberNotInAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NumberNotIn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_STATUS_ARM">NumberNotInAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_STATUS_ARM">NumberNotInAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8332,8 +8984,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_STATUS">
-NumberNotInAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_STATUS_ARM">
+NumberNotInAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -8746,8 +9398,8 @@ string
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType">
-ServiceBusQueueEventSubscriptionDestination_EndpointType
+<a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM">
+ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM
 </a>
 </em>
 </td>
@@ -8773,7 +9425,25 @@ ServiceBusQueueEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType">ServiceBusQueueEventSubscriptionDestination_EndpointType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination">ServiceBusQueueEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_ARM">ServiceBusQueueEventSubscriptionDestination_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination">ServiceBusQueueEventSubscriptionDestination</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ServiceBusQueue&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM">ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_ARM">ServiceBusQueueEventSubscriptionDestination_ARM</a>)
 </p>
 <div>
 </div>
@@ -8791,7 +9461,25 @@ ServiceBusQueueEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS">ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS">ServiceBusQueueEventSubscriptionDestination_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS_ARM">ServiceBusQueueEventSubscriptionDestination_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS">ServiceBusQueueEventSubscriptionDestination_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ServiceBusQueue&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM">ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS_ARM">ServiceBusQueueEventSubscriptionDestination_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8866,8 +9554,8 @@ string
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS">
-ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM">
+ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -9011,8 +9699,8 @@ subscription.</p>
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType">
-ServiceBusTopicEventSubscriptionDestination_EndpointType
+<a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM">
+ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM
 </a>
 </em>
 </td>
@@ -9038,7 +9726,25 @@ ServiceBusTopicEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType">ServiceBusTopicEventSubscriptionDestination_EndpointType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination">ServiceBusTopicEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_ARM">ServiceBusTopicEventSubscriptionDestination_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination">ServiceBusTopicEventSubscriptionDestination</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ServiceBusTopic&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM">ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_ARM">ServiceBusTopicEventSubscriptionDestination_ARM</a>)
 </p>
 <div>
 </div>
@@ -9056,7 +9762,25 @@ ServiceBusTopicEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS">ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS">ServiceBusTopicEventSubscriptionDestination_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS_ARM">ServiceBusTopicEventSubscriptionDestination_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS">ServiceBusTopicEventSubscriptionDestination_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ServiceBusTopic&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM">ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS_ARM">ServiceBusTopicEventSubscriptionDestination_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9132,8 +9856,8 @@ subscription.</p>
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS">
-ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM">
+ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -9308,8 +10032,8 @@ string
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType">
-StorageBlobDeadLetterDestination_EndpointType
+<a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_ARM">
+StorageBlobDeadLetterDestination_EndpointType_ARM
 </a>
 </em>
 </td>
@@ -9335,7 +10059,25 @@ StorageBlobDeadLetterDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType">StorageBlobDeadLetterDestination_EndpointType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination">StorageBlobDeadLetterDestination</a>, <a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_ARM">StorageBlobDeadLetterDestination_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination">StorageBlobDeadLetterDestination</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StorageBlob&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_ARM">StorageBlobDeadLetterDestination_EndpointType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_ARM">StorageBlobDeadLetterDestination_ARM</a>)
 </p>
 <div>
 </div>
@@ -9353,7 +10095,25 @@ StorageBlobDeadLetterDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_STATUS">StorageBlobDeadLetterDestination_EndpointType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_STATUS">StorageBlobDeadLetterDestination_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_STATUS_ARM">StorageBlobDeadLetterDestination_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_STATUS">StorageBlobDeadLetterDestination_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StorageBlob&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM">StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_STATUS_ARM">StorageBlobDeadLetterDestination_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9439,8 +10199,8 @@ string
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_STATUS">
-StorageBlobDeadLetterDestination_EndpointType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM">
+StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -9617,8 +10377,8 @@ subscription.</p>
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType">
-StorageQueueEventSubscriptionDestination_EndpointType
+<a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_ARM">
+StorageQueueEventSubscriptionDestination_EndpointType_ARM
 </a>
 </em>
 </td>
@@ -9644,7 +10404,25 @@ StorageQueueEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType">StorageQueueEventSubscriptionDestination_EndpointType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination">StorageQueueEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_ARM">StorageQueueEventSubscriptionDestination_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination">StorageQueueEventSubscriptionDestination</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StorageQueue&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_ARM">StorageQueueEventSubscriptionDestination_EndpointType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_ARM">StorageQueueEventSubscriptionDestination_ARM</a>)
 </p>
 <div>
 </div>
@@ -9662,7 +10440,25 @@ StorageQueueEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_STATUS">StorageQueueEventSubscriptionDestination_EndpointType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_STATUS">StorageQueueEventSubscriptionDestination_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_STATUS_ARM">StorageQueueEventSubscriptionDestination_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_STATUS">StorageQueueEventSubscriptionDestination_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StorageQueue&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM">StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_STATUS_ARM">StorageQueueEventSubscriptionDestination_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9749,8 +10545,8 @@ subscription.</p>
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_STATUS">
-StorageQueueEventSubscriptionDestination_EndpointType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM">
+StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -9855,8 +10651,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType">
-StringBeginsWithAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_ARM">
+StringBeginsWithAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -9880,7 +10676,25 @@ StringBeginsWithAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType">StringBeginsWithAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter">StringBeginsWithAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_ARM">StringBeginsWithAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter">StringBeginsWithAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringBeginsWith&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_ARM">StringBeginsWithAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_ARM">StringBeginsWithAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -9898,7 +10712,25 @@ StringBeginsWithAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_STATUS">StringBeginsWithAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_STATUS">StringBeginsWithAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_STATUS_ARM">StringBeginsWithAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_STATUS">StringBeginsWithAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringBeginsWith&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM">StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_STATUS_ARM">StringBeginsWithAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -9995,8 +10827,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_STATUS">
-StringBeginsWithAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM">
+StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10099,8 +10931,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType">
-StringContainsAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_ARM">
+StringContainsAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -10124,7 +10956,25 @@ StringContainsAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType">StringContainsAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter">StringContainsAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_ARM">StringContainsAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter">StringContainsAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringContains&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_ARM">StringContainsAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_ARM">StringContainsAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -10142,7 +10992,25 @@ StringContainsAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_STATUS">StringContainsAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_STATUS">StringContainsAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_STATUS_ARM">StringContainsAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_STATUS">StringContainsAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringContains&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_STATUS_ARM">StringContainsAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_STATUS_ARM">StringContainsAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -10239,8 +11107,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_STATUS">
-StringContainsAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_STATUS_ARM">
+StringContainsAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10343,8 +11211,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType">
-StringEndsWithAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_ARM">
+StringEndsWithAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -10368,7 +11236,25 @@ StringEndsWithAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType">StringEndsWithAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter">StringEndsWithAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_ARM">StringEndsWithAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter">StringEndsWithAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringEndsWith&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_ARM">StringEndsWithAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_ARM">StringEndsWithAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -10386,7 +11272,25 @@ StringEndsWithAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_STATUS">StringEndsWithAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_STATUS">StringEndsWithAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_STATUS_ARM">StringEndsWithAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_STATUS">StringEndsWithAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringEndsWith&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM">StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_STATUS_ARM">StringEndsWithAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -10483,8 +11387,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_STATUS">
-StringEndsWithAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM">
+StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10587,8 +11491,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType">
-StringInAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_ARM">
+StringInAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -10612,7 +11516,25 @@ StringInAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType">StringInAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter">StringInAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_ARM">StringInAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter">StringInAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringIn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_ARM">StringInAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_ARM">StringInAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -10630,7 +11552,25 @@ StringInAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_STATUS">StringInAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_STATUS">StringInAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_STATUS_ARM">StringInAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_STATUS">StringInAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringIn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_STATUS_ARM">StringInAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_STATUS_ARM">StringInAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -10727,8 +11667,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_STATUS">
-StringInAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_STATUS_ARM">
+StringInAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10831,8 +11771,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType">
-StringNotInAdvancedFilter_OperatorType
+<a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_ARM">
+StringNotInAdvancedFilter_OperatorType_ARM
 </a>
 </em>
 </td>
@@ -10856,7 +11796,25 @@ StringNotInAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType">StringNotInAdvancedFilter_OperatorType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter">StringNotInAdvancedFilter</a>, <a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_ARM">StringNotInAdvancedFilter_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter">StringNotInAdvancedFilter</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringNotIn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_ARM">StringNotInAdvancedFilter_OperatorType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_ARM">StringNotInAdvancedFilter_ARM</a>)
 </p>
 <div>
 </div>
@@ -10874,7 +11832,25 @@ StringNotInAdvancedFilter_OperatorType
 <h3 id="eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_STATUS">StringNotInAdvancedFilter_OperatorType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_STATUS">StringNotInAdvancedFilter_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_STATUS_ARM">StringNotInAdvancedFilter_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_STATUS">StringNotInAdvancedFilter_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;StringNotIn&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_STATUS_ARM">StringNotInAdvancedFilter_OperatorType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_STATUS_ARM">StringNotInAdvancedFilter_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -10971,8 +11947,8 @@ string
 <td>
 <code>operatorType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_STATUS">
-StringNotInAdvancedFilter_OperatorType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_STATUS_ARM">
+StringNotInAdvancedFilter_OperatorType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10996,7 +11972,31 @@ StringNotInAdvancedFilter_OperatorType_STATUS
 <h3 id="eventgrid.azure.com/v1api20200601.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.SystemData_STATUS">SystemData_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11020,7 +12020,31 @@ StringNotInAdvancedFilter_OperatorType_STATUS
 <h3 id="eventgrid.azure.com/v1api20200601.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.SystemData_STATUS">SystemData_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11171,8 +12195,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11206,8 +12230,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11546,8 +12570,8 @@ only if PublicNetworkAccess is enabled.</p>
 <td>
 <code>inputSchema</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema">
-TopicProperties_InputSchema
+<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_ARM">
+TopicProperties_InputSchema_ARM
 </a>
 </em>
 </td>
@@ -11573,8 +12597,8 @@ various properties of a source schema to various required properties of the Even
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess">
-TopicProperties_PublicNetworkAccess
+<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_ARM">
+TopicProperties_PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -11589,7 +12613,29 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties
 <h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema">TopicProperties_InputSchema
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_ARM">TopicProperties_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Topic_Spec">Topic_Spec</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Topic_Spec">Topic_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CloudEventSchemaV1_0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;CustomEventSchema&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EventGridSchema&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_ARM">TopicProperties_InputSchema_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_ARM">TopicProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -11611,7 +12657,29 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties
 <h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_STATUS">TopicProperties_InputSchema_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM">TopicProperties_STATUS_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Topic_STATUS">Topic_STATUS</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Topic_STATUS">Topic_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CloudEventSchemaV1_0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;CustomEventSchema&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EventGridSchema&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_STATUS_ARM">TopicProperties_InputSchema_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM">TopicProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11633,7 +12701,35 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties
 <h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_ProvisioningState_STATUS">TopicProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM">TopicProperties_STATUS_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Topic_STATUS">Topic_STATUS</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Topic_STATUS">Topic_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_ProvisioningState_STATUS_ARM">TopicProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM">TopicProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11661,7 +12757,27 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties
 <h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess">TopicProperties_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_ARM">TopicProperties_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Topic_Spec">Topic_Spec</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Topic_Spec">Topic_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_ARM">TopicProperties_PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_ARM">TopicProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -11681,7 +12797,27 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties
 <h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_STATUS">TopicProperties_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM">TopicProperties_STATUS_ARM</a>, <a href="#eventgrid.azure.com/v1api20200601.Topic_STATUS">Topic_STATUS</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Topic_STATUS">Topic_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_STATUS_ARM">TopicProperties_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM">TopicProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11743,8 +12879,8 @@ only if PublicNetworkAccess is enabled.</p>
 <td>
 <code>inputSchema</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_STATUS">
-TopicProperties_InputSchema_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_STATUS_ARM">
+TopicProperties_InputSchema_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11793,8 +12929,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_ProvisioningState_STATUS">
-TopicProperties_ProvisioningState_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_ProvisioningState_STATUS_ARM">
+TopicProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11806,8 +12942,8 @@ TopicProperties_ProvisioningState_STATUS
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_STATUS">
-TopicProperties_PublicNetworkAccess_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_STATUS_ARM">
+TopicProperties_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12570,8 +13706,8 @@ int
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType">
-WebHookEventSubscriptionDestination_EndpointType
+<a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_ARM">
+WebHookEventSubscriptionDestination_EndpointType_ARM
 </a>
 </em>
 </td>
@@ -12597,7 +13733,25 @@ WebHookEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType">WebHookEventSubscriptionDestination_EndpointType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination">WebHookEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_ARM">WebHookEventSubscriptionDestination_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination">WebHookEventSubscriptionDestination</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;WebHook&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_ARM">WebHookEventSubscriptionDestination_EndpointType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_ARM">WebHookEventSubscriptionDestination_ARM</a>)
 </p>
 <div>
 </div>
@@ -12615,7 +13769,25 @@ WebHookEventSubscriptionDestinationProperties_ARM
 <h3 id="eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_STATUS">WebHookEventSubscriptionDestination_EndpointType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_STATUS">WebHookEventSubscriptionDestination_STATUS</a>, <a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_STATUS_ARM">WebHookEventSubscriptionDestination_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_STATUS">WebHookEventSubscriptionDestination_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;WebHook&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM">WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_STATUS_ARM">WebHookEventSubscriptionDestination_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -12736,8 +13908,8 @@ int
 <td>
 <code>endpointType</code><br/>
 <em>
-<a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_STATUS">
-WebHookEventSubscriptionDestination_EndpointType_STATUS
+<a href="#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM">
+WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM
 </a>
 </em>
 </td>

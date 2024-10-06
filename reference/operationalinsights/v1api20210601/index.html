@@ -39,7 +39,7 @@
     PrivateLinkScopedResource_STATUS   (Appears on:Workspace_STATUS)  The private link scope resource reference.
     Field Description      resourceId  string    ResourceId: The full resource Id of the private link scope resource.">
 
-<meta itemprop="wordCount" content="1751">
+<meta itemprop="wordCount" content="1893">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="operationalinsights.azure.com/v1api20210601"/>
 <meta name="twitter:description" content="operationalinsights.azure.com/v1api20210601  Package v1api20210601 contains API Schema definitions for the operationalinsights v1api20210601 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -882,7 +888,28 @@ string
 <h3 id="operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType">PublicNetworkAccessType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>, <a href="#operationalinsights.azure.com/v1api20210601.Workspace_Spec">Workspace_Spec</a>)
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.Workspace_Spec">Workspace_Spec</a>)
+</p>
+<div>
+<p>The network access type for operating on the Log Analytics Workspace. By default it is Enabled</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_ARM">PublicNetworkAccessType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
 </p>
 <div>
 <p>The network access type for operating on the Log Analytics Workspace. By default it is Enabled</p>
@@ -903,7 +930,28 @@ string
 <h3 id="operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS">PublicNetworkAccessType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>, <a href="#operationalinsights.azure.com/v1api20210601.Workspace_STATUS">Workspace_STATUS</a>)
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.Workspace_STATUS">Workspace_STATUS</a>)
+</p>
+<div>
+<p>The network access type for operating on the Log Analytics Workspace. By default it is Enabled</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS_ARM">PublicNetworkAccessType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The network access type for operating on the Log Analytics Workspace. By default it is Enabled</p>
@@ -1202,7 +1250,35 @@ float64
 <h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceCapping_DataIngestionStatus_STATUS">WorkspaceCapping_DataIngestionStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_STATUS">WorkspaceCapping_STATUS</a>, <a href="#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_STATUS_ARM">WorkspaceCapping_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_STATUS">WorkspaceCapping_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ApproachingQuota&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ForceOff&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ForceOn&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;OverQuota&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RespectQuota&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SubscriptionSuspended&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceCapping_DataIngestionStatus_STATUS_ARM">WorkspaceCapping_DataIngestionStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_STATUS_ARM">WorkspaceCapping_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1311,8 +1387,8 @@ float64
 <td>
 <code>dataIngestionStatus</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_DataIngestionStatus_STATUS">
-WorkspaceCapping_DataIngestionStatus_STATUS
+<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceCapping_DataIngestionStatus_STATUS_ARM">
+WorkspaceCapping_DataIngestionStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1670,8 +1746,8 @@ bool
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState">
-WorkspaceProperties_ProvisioningState
+<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_ARM">
+WorkspaceProperties_ProvisioningState_ARM
 </a>
 </em>
 </td>
@@ -1683,8 +1759,8 @@ WorkspaceProperties_ProvisioningState
 <td>
 <code>publicNetworkAccessForIngestion</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType">
-PublicNetworkAccessType
+<a href="#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_ARM">
+PublicNetworkAccessType_ARM
 </a>
 </em>
 </td>
@@ -1696,8 +1772,8 @@ PublicNetworkAccessType
 <td>
 <code>publicNetworkAccessForQuery</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType">
-PublicNetworkAccessType
+<a href="#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_ARM">
+PublicNetworkAccessType_ARM
 </a>
 </em>
 </td>
@@ -1748,7 +1824,37 @@ WorkspaceCapping_ARM
 <h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState">WorkspaceProperties_ProvisioningState
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>, <a href="#operationalinsights.azure.com/v1api20210601.Workspace_Spec">Workspace_Spec</a>)
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.Workspace_Spec">Workspace_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ProvisioningAccount&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_ARM">WorkspaceProperties_ProvisioningState_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ARM">WorkspaceProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1778,7 +1884,37 @@ WorkspaceCapping_ARM
 <h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_STATUS">WorkspaceProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>, <a href="#operationalinsights.azure.com/v1api20210601.Workspace_STATUS">Workspace_STATUS</a>)
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.Workspace_STATUS">Workspace_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ProvisioningAccount&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_STATUS_ARM">WorkspaceProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM">WorkspaceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1895,8 +2031,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_STATUS">
-WorkspaceProperties_ProvisioningState_STATUS
+<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceProperties_ProvisioningState_STATUS_ARM">
+WorkspaceProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1908,8 +2044,8 @@ WorkspaceProperties_ProvisioningState_STATUS
 <td>
 <code>publicNetworkAccessForIngestion</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS">
-PublicNetworkAccessType_STATUS
+<a href="#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS_ARM">
+PublicNetworkAccessType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1921,8 +2057,8 @@ PublicNetworkAccessType_STATUS
 <td>
 <code>publicNetworkAccessForQuery</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS">
-PublicNetworkAccessType_STATUS
+<a href="#operationalinsights.azure.com/v1api20210601.PublicNetworkAccessType_STATUS_ARM">
+PublicNetworkAccessType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2035,8 +2171,8 @@ WorkspaceSku_Name
 <td>
 <code>capacityReservationLevel</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel">
-WorkspaceSku_CapacityReservationLevel
+<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_ARM">
+WorkspaceSku_CapacityReservationLevel_ARM
 </a>
 </em>
 </td>
@@ -2049,8 +2185,8 @@ selected.</p>
 <td>
 <code>name</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name">
-WorkspaceSku_Name
+<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_ARM">
+WorkspaceSku_Name_ARM
 </a>
 </em>
 </td>
@@ -2063,7 +2199,39 @@ WorkspaceSku_Name
 <h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel">WorkspaceSku_CapacityReservationLevel
 (<code>int</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku">WorkspaceSku</a>, <a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_ARM">WorkspaceSku_ARM</a>)
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku">WorkspaceSku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>100</p></td>
+<td></td>
+</tr><tr><td><p>1000</p></td>
+<td></td>
+</tr><tr><td><p>200</p></td>
+<td></td>
+</tr><tr><td><p>2000</p></td>
+<td></td>
+</tr><tr><td><p>300</p></td>
+<td></td>
+</tr><tr><td><p>400</p></td>
+<td></td>
+</tr><tr><td><p>500</p></td>
+<td></td>
+</tr><tr><td><p>5000</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_ARM">WorkspaceSku_CapacityReservationLevel_ARM
+(<code>int</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_ARM">WorkspaceSku_ARM</a>)
 </p>
 <div>
 </div>
@@ -2095,7 +2263,39 @@ WorkspaceSku_Name
 <h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_STATUS">WorkspaceSku_CapacityReservationLevel_STATUS
 (<code>int</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS">WorkspaceSku_STATUS</a>, <a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS_ARM">WorkspaceSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS">WorkspaceSku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>100</p></td>
+<td></td>
+</tr><tr><td><p>1000</p></td>
+<td></td>
+</tr><tr><td><p>200</p></td>
+<td></td>
+</tr><tr><td><p>2000</p></td>
+<td></td>
+</tr><tr><td><p>300</p></td>
+<td></td>
+</tr><tr><td><p>400</p></td>
+<td></td>
+</tr><tr><td><p>500</p></td>
+<td></td>
+</tr><tr><td><p>5000</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_STATUS_ARM">WorkspaceSku_CapacityReservationLevel_STATUS_ARM
+(<code>int</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS_ARM">WorkspaceSku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2127,7 +2327,39 @@ WorkspaceSku_Name
 <h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name">WorkspaceSku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku">WorkspaceSku</a>, <a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_ARM">WorkspaceSku_ARM</a>)
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku">WorkspaceSku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CapacityReservation&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Free&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LACluster&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PerGB2018&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PerNode&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standalone&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_ARM">WorkspaceSku_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_ARM">WorkspaceSku_ARM</a>)
 </p>
 <div>
 </div>
@@ -2159,7 +2391,39 @@ WorkspaceSku_Name
 <h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_STATUS">WorkspaceSku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS">WorkspaceSku_STATUS</a>, <a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS_ARM">WorkspaceSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS">WorkspaceSku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CapacityReservation&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Free&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LACluster&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PerGB2018&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PerNode&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standalone&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_STATUS_ARM">WorkspaceSku_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_STATUS_ARM">WorkspaceSku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2264,8 +2528,8 @@ WorkspaceSku_Name_STATUS
 <td>
 <code>capacityReservationLevel</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_STATUS">
-WorkspaceSku_CapacityReservationLevel_STATUS
+<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_CapacityReservationLevel_STATUS_ARM">
+WorkspaceSku_CapacityReservationLevel_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2289,8 +2553,8 @@ string
 <td>
 <code>name</code><br/>
 <em>
-<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_STATUS">
-WorkspaceSku_Name_STATUS
+<a href="#operationalinsights.azure.com/v1api20210601.WorkspaceSku_Name_STATUS_ARM">
+WorkspaceSku_Name_STATUS_ARM
 </a>
 </em>
 </td>

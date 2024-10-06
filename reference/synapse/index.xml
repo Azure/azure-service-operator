@@ -548,8 +548,8 @@ int
 &lt;td&gt;
 &lt;code&gt;nodeSize&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize&#34;&gt;
-BigDataPoolResourceProperties_NodeSize
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_ARM&#34;&gt;
+BigDataPoolResourceProperties_NodeSize_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -561,8 +561,8 @@ BigDataPoolResourceProperties_NodeSize
 &lt;td&gt;
 &lt;code&gt;nodeSizeFamily&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily&#34;&gt;
-BigDataPoolResourceProperties_NodeSizeFamily
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_ARM&#34;&gt;
+BigDataPoolResourceProperties_NodeSizeFamily_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -632,7 +632,7 @@ string
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize&#34;&gt;BigDataPoolResourceProperties_NodeSize
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM&#34;&gt;BigDataPoolResourceProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec&#34;&gt;Workspaces_BigDataPool_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec&#34;&gt;Workspaces_BigDataPool_Spec&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -662,7 +662,31 @@ string
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily&#34;&gt;BigDataPoolResourceProperties_NodeSizeFamily
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM&#34;&gt;BigDataPoolResourceProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec&#34;&gt;Workspaces_BigDataPool_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_Spec&#34;&gt;Workspaces_BigDataPool_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;HardwareAcceleratedFPGA&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;HardwareAcceleratedGPU&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;MemoryOptimized&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_ARM&#34;&gt;BigDataPoolResourceProperties_NodeSizeFamily_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM&#34;&gt;BigDataPoolResourceProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -686,7 +710,7 @@ string
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_STATUS&#34;&gt;BigDataPoolResourceProperties_NodeSizeFamily_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM&#34;&gt;BigDataPoolResourceProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS&#34;&gt;Workspaces_BigDataPool_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS&#34;&gt;Workspaces_BigDataPool_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -707,10 +731,94 @@ string
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM&#34;&gt;BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM&#34;&gt;BigDataPoolResourceProperties_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;HardwareAcceleratedFPGA&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;HardwareAcceleratedGPU&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;MemoryOptimized&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_ARM&#34;&gt;BigDataPoolResourceProperties_NodeSize_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_ARM&#34;&gt;BigDataPoolResourceProperties_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Large&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Medium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Small&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;XLarge&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;XXLarge&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;XXXLarge&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_STATUS&#34;&gt;BigDataPoolResourceProperties_NodeSize_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM&#34;&gt;BigDataPoolResourceProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS&#34;&gt;Workspaces_BigDataPool_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspaces_BigDataPool_STATUS&#34;&gt;Workspaces_BigDataPool_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Large&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Medium&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Small&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;XLarge&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;XXLarge&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;XXXLarge&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_STATUS_ARM&#34;&gt;BigDataPoolResourceProperties_NodeSize_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_STATUS_ARM&#34;&gt;BigDataPoolResourceProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -899,8 +1007,8 @@ int
 &lt;td&gt;
 &lt;code&gt;nodeSize&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_STATUS&#34;&gt;
-BigDataPoolResourceProperties_NodeSize_STATUS
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSize_STATUS_ARM&#34;&gt;
+BigDataPoolResourceProperties_NodeSize_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -912,8 +1020,8 @@ BigDataPoolResourceProperties_NodeSize_STATUS
 &lt;td&gt;
 &lt;code&gt;nodeSizeFamily&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_STATUS&#34;&gt;
-BigDataPoolResourceProperties_NodeSizeFamily_STATUS
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM&#34;&gt;
+BigDataPoolResourceProperties_NodeSizeFamily_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2635,8 +2743,8 @@ ManagedIdentity_Type
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_Type&#34;&gt;
-ManagedIdentity_Type
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_Type_ARM&#34;&gt;
+ManagedIdentity_Type_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2766,8 +2874,8 @@ string
 &lt;td&gt;
 &lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_Type_STATUS&#34;&gt;
-ManagedIdentity_Type_STATUS
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_Type_STATUS_ARM&#34;&gt;
+ManagedIdentity_Type_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2793,7 +2901,29 @@ map[string]./api/synapse/v1api20210601.UserAssignedManagedIdentity_STATUS_ARM
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.ManagedIdentity_Type&#34;&gt;ManagedIdentity_Type
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity&#34;&gt;ManagedIdentity&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_ARM&#34;&gt;ManagedIdentity_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity&#34;&gt;ManagedIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned,UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.ManagedIdentity_Type_ARM&#34;&gt;ManagedIdentity_Type_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_ARM&#34;&gt;ManagedIdentity_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2815,7 +2945,29 @@ map[string]./api/synapse/v1api20210601.UserAssignedManagedIdentity_STATUS_ARM
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.ManagedIdentity_Type_STATUS&#34;&gt;ManagedIdentity_Type_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_STATUS&#34;&gt;ManagedIdentity_STATUS&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_STATUS_ARM&#34;&gt;ManagedIdentity_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_STATUS&#34;&gt;ManagedIdentity_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;None&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SystemAssigned,UserAssigned&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.ManagedIdentity_Type_STATUS_ARM&#34;&gt;ManagedIdentity_Type_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.ManagedIdentity_STATUS_ARM&#34;&gt;ManagedIdentity_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3288,8 +3440,8 @@ string
 &lt;td&gt;
 &lt;code&gt;configurationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType&#34;&gt;
-SparkConfigProperties_ConfigurationType
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_ARM&#34;&gt;
+SparkConfigProperties_ConfigurationType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3324,7 +3476,27 @@ string
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType&#34;&gt;SparkConfigProperties_ConfigurationType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties&#34;&gt;SparkConfigProperties&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_ARM&#34;&gt;SparkConfigProperties_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties&#34;&gt;SparkConfigProperties&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Artifact&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;File&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_ARM&#34;&gt;SparkConfigProperties_ConfigurationType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_ARM&#34;&gt;SparkConfigProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3344,7 +3516,27 @@ string
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_STATUS&#34;&gt;SparkConfigProperties_ConfigurationType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_STATUS&#34;&gt;SparkConfigProperties_STATUS&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_STATUS_ARM&#34;&gt;SparkConfigProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_STATUS&#34;&gt;SparkConfigProperties_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Artifact&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;File&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_STATUS_ARM&#34;&gt;SparkConfigProperties_ConfigurationType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_STATUS_ARM&#34;&gt;SparkConfigProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3445,8 +3637,8 @@ string
 &lt;td&gt;
 &lt;code&gt;configurationType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_STATUS&#34;&gt;
-SparkConfigProperties_ConfigurationType_STATUS
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.SparkConfigProperties_ConfigurationType_STATUS_ARM&#34;&gt;
+SparkConfigProperties_ConfigurationType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4287,8 +4479,8 @@ ManagedVirtualNetworkSettings_ARM
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess&#34;&gt;
-WorkspaceProperties_PublicNetworkAccess
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_ARM&#34;&gt;
+WorkspaceProperties_PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4373,7 +4565,27 @@ WorkspaceRepositoryConfiguration_ARM
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess&#34;&gt;WorkspaceProperties_PublicNetworkAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM&#34;&gt;WorkspaceProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspace_Spec&#34;&gt;Workspace_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspace_Spec&#34;&gt;Workspace_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_ARM&#34;&gt;WorkspaceProperties_PublicNetworkAccess_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.WorkspaceProperties_ARM&#34;&gt;WorkspaceProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4393,7 +4605,27 @@ WorkspaceRepositoryConfiguration_ARM
 &lt;h3 id=&#34;synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_STATUS&#34;&gt;WorkspaceProperties_PublicNetworkAccess_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM&#34;&gt;WorkspaceProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspace_STATUS&#34;&gt;Workspace_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.Workspace_STATUS&#34;&gt;Workspace_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;WorkspaceProperties_PublicNetworkAccess_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#synapse.azure.com/v1api20210601.WorkspaceProperties_STATUS_ARM&#34;&gt;WorkspaceProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4577,8 +4809,8 @@ string
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_STATUS&#34;&gt;
-WorkspaceProperties_PublicNetworkAccess_STATUS
+&lt;a href=&#34;#synapse.azure.com/v1api20210601.WorkspaceProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;
+WorkspaceProperties_PublicNetworkAccess_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

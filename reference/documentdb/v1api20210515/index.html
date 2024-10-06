@@ -39,7 +39,7 @@
     AnalyticalStorageConfiguration   (Appears on:DatabaseAccount_Spec)  Analytical storage specific properties.
     Field Description      schemaType  AnalyticalStorageSchemaType     SchemaType: Describes the types of schema for analytical storage.">
 
-<meta itemprop="wordCount" content="16661">
+<meta itemprop="wordCount" content="17113">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="documentdb.azure.com/v1api20210515"/>
 <meta name="twitter:description" content="documentdb.azure.com/v1api20210515  Package v1api20210515 contains API Schema definitions for the documentdb v1api20210515 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -850,8 +856,8 @@ AnalyticalStorageSchemaType
 <td>
 <code>schemaType</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageSchemaType">
-AnalyticalStorageSchemaType
+<a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageSchemaType_ARM">
+AnalyticalStorageSchemaType_ARM
 </a>
 </em>
 </td>
@@ -912,8 +918,8 @@ AnalyticalStorageSchemaType_STATUS
 <td>
 <code>schemaType</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageSchemaType_STATUS">
-AnalyticalStorageSchemaType_STATUS
+<a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageSchemaType_STATUS_ARM">
+AnalyticalStorageSchemaType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -926,7 +932,28 @@ AnalyticalStorageSchemaType_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.AnalyticalStorageSchemaType">AnalyticalStorageSchemaType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageConfiguration">AnalyticalStorageConfiguration</a>, <a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageConfiguration_ARM">AnalyticalStorageConfiguration_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageConfiguration">AnalyticalStorageConfiguration</a>)
+</p>
+<div>
+<p>Describes the types of schema for analytical storage.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;FullFidelity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;WellDefined&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.AnalyticalStorageSchemaType_ARM">AnalyticalStorageSchemaType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageConfiguration_ARM">AnalyticalStorageConfiguration_ARM</a>)
 </p>
 <div>
 <p>Describes the types of schema for analytical storage.</p>
@@ -947,7 +974,28 @@ AnalyticalStorageSchemaType_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.AnalyticalStorageSchemaType_STATUS">AnalyticalStorageSchemaType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageConfiguration_STATUS">AnalyticalStorageConfiguration_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageConfiguration_STATUS_ARM">AnalyticalStorageConfiguration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageConfiguration_STATUS">AnalyticalStorageConfiguration_STATUS</a>)
+</p>
+<div>
+<p>Describes the types of schema for analytical storage.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;FullFidelity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;WellDefined&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.AnalyticalStorageSchemaType_STATUS_ARM">AnalyticalStorageSchemaType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.AnalyticalStorageConfiguration_STATUS_ARM">AnalyticalStorageConfiguration_STATUS_ARM</a>)
 </p>
 <div>
 <p>Describes the types of schema for analytical storage.</p>
@@ -1014,8 +1062,8 @@ ApiProperties_ServerVersion
 <td>
 <code>serverVersion</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ApiProperties_ServerVersion">
-ApiProperties_ServerVersion
+<a href="#documentdb.azure.com/v1api20210515.ApiProperties_ServerVersion_ARM">
+ApiProperties_ServerVersion_ARM
 </a>
 </em>
 </td>
@@ -1074,8 +1122,8 @@ ApiProperties_ServerVersion_STATUS
 <td>
 <code>serverVersion</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ApiProperties_ServerVersion_STATUS">
-ApiProperties_ServerVersion_STATUS
+<a href="#documentdb.azure.com/v1api20210515.ApiProperties_ServerVersion_STATUS_ARM">
+ApiProperties_ServerVersion_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1088,7 +1136,29 @@ ApiProperties_ServerVersion_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.ApiProperties_ServerVersion">ApiProperties_ServerVersion
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ApiProperties">ApiProperties</a>, <a href="#documentdb.azure.com/v1api20210515.ApiProperties_ARM">ApiProperties_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ApiProperties">ApiProperties</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;3.2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;3.6&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;4.0&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ApiProperties_ServerVersion_ARM">ApiProperties_ServerVersion_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ApiProperties_ARM">ApiProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1110,7 +1180,29 @@ ApiProperties_ServerVersion_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.ApiProperties_ServerVersion_STATUS">ApiProperties_ServerVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ApiProperties_STATUS">ApiProperties_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.ApiProperties_STATUS_ARM">ApiProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ApiProperties_STATUS">ApiProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;3.2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;3.6&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;4.0&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ApiProperties_ServerVersion_STATUS_ARM">ApiProperties_ServerVersion_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ApiProperties_STATUS_ARM">ApiProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1910,8 +2002,8 @@ string
 <td>
 <code>order</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.CompositePath_Order">
-CompositePath_Order
+<a href="#documentdb.azure.com/v1api20210515.CompositePath_Order_ARM">
+CompositePath_Order_ARM
 </a>
 </em>
 </td>
@@ -1936,7 +2028,27 @@ string
 <h3 id="documentdb.azure.com/v1api20210515.CompositePath_Order">CompositePath_Order
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.CompositePath">CompositePath</a>, <a href="#documentdb.azure.com/v1api20210515.CompositePath_ARM">CompositePath_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.CompositePath">CompositePath</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ascending&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;descending&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.CompositePath_Order_ARM">CompositePath_Order_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.CompositePath_ARM">CompositePath_ARM</a>)
 </p>
 <div>
 </div>
@@ -1956,7 +2068,27 @@ string
 <h3 id="documentdb.azure.com/v1api20210515.CompositePath_Order_STATUS">CompositePath_Order_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.CompositePath_STATUS">CompositePath_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.CompositePath_STATUS_ARM">CompositePath_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.CompositePath_STATUS">CompositePath_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ascending&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;descending&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.CompositePath_Order_STATUS_ARM">CompositePath_Order_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.CompositePath_STATUS_ARM">CompositePath_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2034,8 +2166,8 @@ string
 <td>
 <code>order</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.CompositePath_Order_STATUS">
-CompositePath_Order_STATUS
+<a href="#documentdb.azure.com/v1api20210515.CompositePath_Order_STATUS_ARM">
+CompositePath_Order_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2152,8 +2284,8 @@ string
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_Mode">
-ConflictResolutionPolicy_Mode
+<a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_Mode_ARM">
+ConflictResolutionPolicy_Mode_ARM
 </a>
 </em>
 </td>
@@ -2166,7 +2298,27 @@ ConflictResolutionPolicy_Mode
 <h3 id="documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_Mode">ConflictResolutionPolicy_Mode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy">ConflictResolutionPolicy</a>, <a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_ARM">ConflictResolutionPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy">ConflictResolutionPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Custom&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LastWriterWins&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_Mode_ARM">ConflictResolutionPolicy_Mode_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_ARM">ConflictResolutionPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -2186,7 +2338,27 @@ ConflictResolutionPolicy_Mode
 <h3 id="documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_Mode_STATUS">ConflictResolutionPolicy_Mode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_STATUS">ConflictResolutionPolicy_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_STATUS_ARM">ConflictResolutionPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_STATUS">ConflictResolutionPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Custom&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LastWriterWins&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_Mode_STATUS_ARM">ConflictResolutionPolicy_Mode_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_STATUS_ARM">ConflictResolutionPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2298,8 +2470,8 @@ string
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_Mode_STATUS">
-ConflictResolutionPolicy_Mode_STATUS
+<a href="#documentdb.azure.com/v1api20210515.ConflictResolutionPolicy_Mode_STATUS_ARM">
+ConflictResolutionPolicy_Mode_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2312,7 +2484,26 @@ ConflictResolutionPolicy_Mode_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.ConnectorOffer">ConnectorOffer
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountCreateUpdateProperties_ARM">DatabaseAccountCreateUpdateProperties_ARM</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>)
+</p>
+<div>
+<p>The cassandra connector offer type for the Cosmos DB C* database account.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Small&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ConnectorOffer_ARM">ConnectorOffer_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountCreateUpdateProperties_ARM">DatabaseAccountCreateUpdateProperties_ARM</a>)
 </p>
 <div>
 <p>The cassandra connector offer type for the Cosmos DB C* database account.</p>
@@ -2331,7 +2522,26 @@ ConflictResolutionPolicy_Mode_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.ConnectorOffer_STATUS">ConnectorOffer_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountGetProperties_STATUS_ARM">DatabaseAccountGetProperties_STATUS_ARM</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>)
+</p>
+<div>
+<p>The cassandra connector offer type for the Cosmos DB C* database account.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Small&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ConnectorOffer_STATUS_ARM">ConnectorOffer_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountGetProperties_STATUS_ARM">DatabaseAccountGetProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The cassandra connector offer type for the Cosmos DB C* database account.</p>
@@ -2424,8 +2634,8 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 <td>
 <code>defaultConsistencyLevel</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_DefaultConsistencyLevel">
-ConsistencyPolicy_DefaultConsistencyLevel
+<a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_DefaultConsistencyLevel_ARM">
+ConsistencyPolicy_DefaultConsistencyLevel_ARM
 </a>
 </em>
 </td>
@@ -2464,7 +2674,33 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 <h3 id="documentdb.azure.com/v1api20210515.ConsistencyPolicy_DefaultConsistencyLevel">ConsistencyPolicy_DefaultConsistencyLevel
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy">ConsistencyPolicy</a>, <a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_ARM">ConsistencyPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy">ConsistencyPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BoundedStaleness&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ConsistentPrefix&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Eventual&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Session&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Strong&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ConsistencyPolicy_DefaultConsistencyLevel_ARM">ConsistencyPolicy_DefaultConsistencyLevel_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_ARM">ConsistencyPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -2490,7 +2726,33 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 <h3 id="documentdb.azure.com/v1api20210515.ConsistencyPolicy_DefaultConsistencyLevel_STATUS">ConsistencyPolicy_DefaultConsistencyLevel_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_STATUS">ConsistencyPolicy_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_STATUS_ARM">ConsistencyPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_STATUS">ConsistencyPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BoundedStaleness&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ConsistentPrefix&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Eventual&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Session&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Strong&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM">ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_STATUS_ARM">ConsistencyPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2590,8 +2852,8 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 <td>
 <code>defaultConsistencyLevel</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_DefaultConsistencyLevel_STATUS">
-ConsistencyPolicy_DefaultConsistencyLevel_STATUS
+<a href="#documentdb.azure.com/v1api20210515.ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM">
+ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2701,8 +2963,8 @@ int
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_Kind">
-ContainerPartitionKey_Kind
+<a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_Kind_ARM">
+ContainerPartitionKey_Kind_ARM
 </a>
 </em>
 </td>
@@ -2738,7 +3000,29 @@ int
 <h3 id="documentdb.azure.com/v1api20210515.ContainerPartitionKey_Kind">ContainerPartitionKey_Kind
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey">ContainerPartitionKey</a>, <a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_ARM">ContainerPartitionKey_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey">ContainerPartitionKey</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Hash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MultiHash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Range&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ContainerPartitionKey_Kind_ARM">ContainerPartitionKey_Kind_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_ARM">ContainerPartitionKey_ARM</a>)
 </p>
 <div>
 </div>
@@ -2760,7 +3044,29 @@ int
 <h3 id="documentdb.azure.com/v1api20210515.ContainerPartitionKey_Kind_STATUS">ContainerPartitionKey_Kind_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_STATUS">ContainerPartitionKey_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_STATUS_ARM">ContainerPartitionKey_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_STATUS">ContainerPartitionKey_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Hash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MultiHash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Range&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ContainerPartitionKey_Kind_STATUS_ARM">ContainerPartitionKey_Kind_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_STATUS_ARM">ContainerPartitionKey_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2864,8 +3170,8 @@ int
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_Kind_STATUS">
-ContainerPartitionKey_Kind_STATUS
+<a href="#documentdb.azure.com/v1api20210515.ContainerPartitionKey_Kind_STATUS_ARM">
+ContainerPartitionKey_Kind_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2957,8 +3263,8 @@ ContinuousModeBackupPolicy_Type
 <td>
 <code>type</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_Type">
-ContinuousModeBackupPolicy_Type
+<a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_Type_ARM">
+ContinuousModeBackupPolicy_Type_ARM
 </a>
 </em>
 </td>
@@ -3015,8 +3321,8 @@ ContinuousModeBackupPolicy_Type_STATUS
 <td>
 <code>type</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_Type_STATUS">
-ContinuousModeBackupPolicy_Type_STATUS
+<a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_Type_STATUS_ARM">
+ContinuousModeBackupPolicy_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3028,7 +3334,25 @@ ContinuousModeBackupPolicy_Type_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_Type">ContinuousModeBackupPolicy_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy">ContinuousModeBackupPolicy</a>, <a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_ARM">ContinuousModeBackupPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy">ContinuousModeBackupPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Continuous&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_Type_ARM">ContinuousModeBackupPolicy_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_ARM">ContinuousModeBackupPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -3046,7 +3370,25 @@ ContinuousModeBackupPolicy_Type_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_Type_STATUS">ContinuousModeBackupPolicy_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_STATUS">ContinuousModeBackupPolicy_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_STATUS_ARM">ContinuousModeBackupPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_STATUS">ContinuousModeBackupPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Continuous&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_Type_STATUS_ARM">ContinuousModeBackupPolicy_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ContinuousModeBackupPolicy_STATUS_ARM">ContinuousModeBackupPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3945,8 +4287,8 @@ BackupPolicy_ARM
 <td>
 <code>connectorOffer</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ConnectorOffer">
-ConnectorOffer
+<a href="#documentdb.azure.com/v1api20210515.ConnectorOffer_ARM">
+ConnectorOffer_ARM
 </a>
 </em>
 </td>
@@ -3984,8 +4326,8 @@ ConsistencyPolicy_ARM
 <td>
 <code>databaseAccountOfferType</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.DatabaseAccountOfferType">
-DatabaseAccountOfferType
+<a href="#documentdb.azure.com/v1api20210515.DatabaseAccountOfferType_ARM">
+DatabaseAccountOfferType_ARM
 </a>
 </em>
 </td>
@@ -4126,8 +4468,8 @@ string
 <td>
 <code>networkAclBypass</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.NetworkAclBypass">
-NetworkAclBypass
+<a href="#documentdb.azure.com/v1api20210515.NetworkAclBypass_ARM">
+NetworkAclBypass_ARM
 </a>
 </em>
 </td>
@@ -4150,8 +4492,8 @@ NetworkAclBypass
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.PublicNetworkAccess">
-PublicNetworkAccess
+<a href="#documentdb.azure.com/v1api20210515.PublicNetworkAccess_ARM">
+PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -4246,8 +4588,8 @@ BackupPolicy_STATUS_ARM
 <td>
 <code>connectorOffer</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ConnectorOffer_STATUS">
-ConnectorOffer_STATUS
+<a href="#documentdb.azure.com/v1api20210515.ConnectorOffer_STATUS_ARM">
+ConnectorOffer_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4285,8 +4627,8 @@ ConsistencyPolicy_STATUS_ARM
 <td>
 <code>databaseAccountOfferType</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.DatabaseAccountOfferType_STATUS">
-DatabaseAccountOfferType_STATUS
+<a href="#documentdb.azure.com/v1api20210515.DatabaseAccountOfferType_STATUS_ARM">
+DatabaseAccountOfferType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4451,8 +4793,8 @@ string
 <td>
 <code>networkAclBypass</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.NetworkAclBypass_STATUS">
-NetworkAclBypass_STATUS
+<a href="#documentdb.azure.com/v1api20210515.NetworkAclBypass_STATUS_ARM">
+NetworkAclBypass_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4498,8 +4840,8 @@ string
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.PublicNetworkAccess_STATUS">
-PublicNetworkAccess_STATUS
+<a href="#documentdb.azure.com/v1api20210515.PublicNetworkAccess_STATUS_ARM">
+PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4551,7 +4893,26 @@ PublicNetworkAccess_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.DatabaseAccountOfferType">DatabaseAccountOfferType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountCreateUpdateProperties_ARM">DatabaseAccountCreateUpdateProperties_ARM</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>)
+</p>
+<div>
+<p>The offer type for the Cosmos DB database account.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.DatabaseAccountOfferType_ARM">DatabaseAccountOfferType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountCreateUpdateProperties_ARM">DatabaseAccountCreateUpdateProperties_ARM</a>)
 </p>
 <div>
 <p>The offer type for the Cosmos DB database account.</p>
@@ -4570,7 +4931,26 @@ PublicNetworkAccess_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.DatabaseAccountOfferType_STATUS">DatabaseAccountOfferType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountGetProperties_STATUS_ARM">DatabaseAccountGetProperties_STATUS_ARM</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>)
+</p>
+<div>
+<p>The offer type for the Cosmos DB database account.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.DatabaseAccountOfferType_STATUS_ARM">DatabaseAccountOfferType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountGetProperties_STATUS_ARM">DatabaseAccountGetProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>The offer type for the Cosmos DB database account.</p>
@@ -4707,7 +5087,29 @@ DatabaseAccountOperatorSecrets
 <h3 id="documentdb.azure.com/v1api20210515.DatabaseAccount_Kind_STATUS">DatabaseAccount_Kind_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS_ARM">DatabaseAccount_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;GlobalDocumentDB&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MongoDB&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Parse&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.DatabaseAccount_Kind_STATUS_ARM">DatabaseAccount_Kind_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS_ARM">DatabaseAccount_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4729,7 +5131,29 @@ DatabaseAccountOperatorSecrets
 <h3 id="documentdb.azure.com/v1api20210515.DatabaseAccount_Kind_Spec">DatabaseAccount_Kind_Spec
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec_ARM">DatabaseAccount_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;GlobalDocumentDB&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MongoDB&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Parse&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.DatabaseAccount_Kind_Spec_ARM">DatabaseAccount_Kind_Spec_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec_ARM">DatabaseAccount_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -5254,8 +5678,8 @@ ManagedServiceIdentity_STATUS_ARM
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Kind_STATUS">
-DatabaseAccount_Kind_STATUS
+<a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Kind_STATUS_ARM">
+DatabaseAccount_Kind_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5738,8 +6162,8 @@ ManagedServiceIdentity_ARM
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Kind_Spec">
-DatabaseAccount_Kind_Spec
+<a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Kind_Spec_ARM">
+DatabaseAccount_Kind_Spec_ARM
 </a>
 </em>
 </td>
@@ -10096,8 +10520,8 @@ int
 <td>
 <code>dataType</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.Indexes_DataType">
-Indexes_DataType
+<a href="#documentdb.azure.com/v1api20210515.Indexes_DataType_ARM">
+Indexes_DataType_ARM
 </a>
 </em>
 </td>
@@ -10109,8 +10533,8 @@ Indexes_DataType
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.Indexes_Kind">
-Indexes_Kind
+<a href="#documentdb.azure.com/v1api20210515.Indexes_Kind_ARM">
+Indexes_Kind_ARM
 </a>
 </em>
 </td>
@@ -10134,7 +10558,35 @@ int
 <h3 id="documentdb.azure.com/v1api20210515.Indexes_DataType">Indexes_DataType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes">Indexes</a>, <a href="#documentdb.azure.com/v1api20210515.Indexes_ARM">Indexes_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes">Indexes</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;LineString&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MultiPolygon&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Number&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Point&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Polygon&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;String&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.Indexes_DataType_ARM">Indexes_DataType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes_ARM">Indexes_ARM</a>)
 </p>
 <div>
 </div>
@@ -10162,7 +10614,35 @@ int
 <h3 id="documentdb.azure.com/v1api20210515.Indexes_DataType_STATUS">Indexes_DataType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes_STATUS">Indexes_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.Indexes_STATUS_ARM">Indexes_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes_STATUS">Indexes_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;LineString&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MultiPolygon&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Number&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Point&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Polygon&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;String&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.Indexes_DataType_STATUS_ARM">Indexes_DataType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes_STATUS_ARM">Indexes_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -10190,7 +10670,29 @@ int
 <h3 id="documentdb.azure.com/v1api20210515.Indexes_Kind">Indexes_Kind
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes">Indexes</a>, <a href="#documentdb.azure.com/v1api20210515.Indexes_ARM">Indexes_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes">Indexes</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Hash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Range&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Spatial&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.Indexes_Kind_ARM">Indexes_Kind_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes_ARM">Indexes_ARM</a>)
 </p>
 <div>
 </div>
@@ -10212,7 +10714,29 @@ int
 <h3 id="documentdb.azure.com/v1api20210515.Indexes_Kind_STATUS">Indexes_Kind_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes_STATUS">Indexes_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.Indexes_STATUS_ARM">Indexes_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes_STATUS">Indexes_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Hash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Range&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Spatial&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.Indexes_Kind_STATUS_ARM">Indexes_Kind_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.Indexes_STATUS_ARM">Indexes_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -10306,8 +10830,8 @@ int
 <td>
 <code>dataType</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.Indexes_DataType_STATUS">
-Indexes_DataType_STATUS
+<a href="#documentdb.azure.com/v1api20210515.Indexes_DataType_STATUS_ARM">
+Indexes_DataType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10319,8 +10843,8 @@ Indexes_DataType_STATUS
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.Indexes_Kind_STATUS">
-Indexes_Kind_STATUS
+<a href="#documentdb.azure.com/v1api20210515.Indexes_Kind_STATUS_ARM">
+Indexes_Kind_STATUS_ARM
 </a>
 </em>
 </td>
@@ -10505,8 +11029,8 @@ bool
 <td>
 <code>indexingMode</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_IndexingMode">
-IndexingPolicy_IndexingMode
+<a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_IndexingMode_ARM">
+IndexingPolicy_IndexingMode_ARM
 </a>
 </em>
 </td>
@@ -10532,7 +11056,29 @@ IndexingPolicy_IndexingMode
 <h3 id="documentdb.azure.com/v1api20210515.IndexingPolicy_IndexingMode">IndexingPolicy_IndexingMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.IndexingPolicy">IndexingPolicy</a>, <a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_ARM">IndexingPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.IndexingPolicy">IndexingPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;consistent&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;lazy&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;none&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.IndexingPolicy_IndexingMode_ARM">IndexingPolicy_IndexingMode_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_ARM">IndexingPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -10554,7 +11100,29 @@ IndexingPolicy_IndexingMode
 <h3 id="documentdb.azure.com/v1api20210515.IndexingPolicy_IndexingMode_STATUS">IndexingPolicy_IndexingMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_STATUS">IndexingPolicy_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_STATUS_ARM">IndexingPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_STATUS">IndexingPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;consistent&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;lazy&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;none&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.IndexingPolicy_IndexingMode_STATUS_ARM">IndexingPolicy_IndexingMode_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_STATUS_ARM">IndexingPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -10737,8 +11305,8 @@ bool
 <td>
 <code>indexingMode</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_IndexingMode_STATUS">
-IndexingPolicy_IndexingMode_STATUS
+<a href="#documentdb.azure.com/v1api20210515.IndexingPolicy_IndexingMode_STATUS_ARM">
+IndexingPolicy_IndexingMode_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11234,8 +11802,8 @@ references will be ARM resource ids in the form:
 <td>
 <code>type</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_Type">
-ManagedServiceIdentity_Type
+<a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_Type_ARM">
+ManagedServiceIdentity_Type_ARM
 </a>
 </em>
 </td>
@@ -11373,8 +11941,8 @@ identity.</p>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_Type_STATUS">
-ManagedServiceIdentity_Type_STATUS
+<a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_Type_STATUS_ARM">
+ManagedServiceIdentity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11403,7 +11971,31 @@ references will be ARM resource ids in the form:
 <h3 id="documentdb.azure.com/v1api20210515.ManagedServiceIdentity_Type">ManagedServiceIdentity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity">ManagedServiceIdentity</a>, <a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_ARM">ManagedServiceIdentity_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity">ManagedServiceIdentity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ManagedServiceIdentity_Type_ARM">ManagedServiceIdentity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_ARM">ManagedServiceIdentity_ARM</a>)
 </p>
 <div>
 </div>
@@ -11427,7 +12019,31 @@ references will be ARM resource ids in the form:
 <h3 id="documentdb.azure.com/v1api20210515.ManagedServiceIdentity_Type_STATUS">ManagedServiceIdentity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_STATUS_ARM">ManagedServiceIdentity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.ManagedServiceIdentity_Type_STATUS_ARM">ManagedServiceIdentity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_STATUS_ARM">ManagedServiceIdentity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -13141,7 +13757,28 @@ DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.NetworkAclBypass">NetworkAclBypass
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountCreateUpdateProperties_ARM">DatabaseAccountCreateUpdateProperties_ARM</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>)
+</p>
+<div>
+<p>Indicates what services are allowed to bypass firewall checks.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.NetworkAclBypass_ARM">NetworkAclBypass_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountCreateUpdateProperties_ARM">DatabaseAccountCreateUpdateProperties_ARM</a>)
 </p>
 <div>
 <p>Indicates what services are allowed to bypass firewall checks.</p>
@@ -13162,7 +13799,28 @@ DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.NetworkAclBypass_STATUS">NetworkAclBypass_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountGetProperties_STATUS_ARM">DatabaseAccountGetProperties_STATUS_ARM</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>)
+</p>
+<div>
+<p>Indicates what services are allowed to bypass firewall checks.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.NetworkAclBypass_STATUS_ARM">NetworkAclBypass_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountGetProperties_STATUS_ARM">DatabaseAccountGetProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>Indicates what services are allowed to bypass firewall checks.</p>
@@ -13340,8 +13998,8 @@ PeriodicModeProperties_ARM
 <td>
 <code>type</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_Type">
-PeriodicModeBackupPolicy_Type
+<a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_Type_ARM">
+PeriodicModeBackupPolicy_Type_ARM
 </a>
 </em>
 </td>
@@ -13424,8 +14082,8 @@ PeriodicModeProperties_STATUS_ARM
 <td>
 <code>type</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_Type_STATUS">
-PeriodicModeBackupPolicy_Type_STATUS
+<a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_Type_STATUS_ARM">
+PeriodicModeBackupPolicy_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -13437,7 +14095,25 @@ PeriodicModeBackupPolicy_Type_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_Type">PeriodicModeBackupPolicy_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy">PeriodicModeBackupPolicy</a>, <a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_ARM">PeriodicModeBackupPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy">PeriodicModeBackupPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Periodic&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_Type_ARM">PeriodicModeBackupPolicy_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_ARM">PeriodicModeBackupPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -13455,7 +14131,25 @@ PeriodicModeBackupPolicy_Type_STATUS
 <h3 id="documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_Type_STATUS">PeriodicModeBackupPolicy_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_STATUS">PeriodicModeBackupPolicy_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_STATUS_ARM">PeriodicModeBackupPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_STATUS">PeriodicModeBackupPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Periodic&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_Type_STATUS_ARM">PeriodicModeBackupPolicy_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.PeriodicModeBackupPolicy_STATUS_ARM">PeriodicModeBackupPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -13693,7 +14387,28 @@ string
 <h3 id="documentdb.azure.com/v1api20210515.PublicNetworkAccess">PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountCreateUpdateProperties_ARM">DatabaseAccountCreateUpdateProperties_ARM</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_Spec">DatabaseAccount_Spec</a>)
+</p>
+<div>
+<p>Whether requests from Public Network are allowed</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.PublicNetworkAccess_ARM">PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountCreateUpdateProperties_ARM">DatabaseAccountCreateUpdateProperties_ARM</a>)
 </p>
 <div>
 <p>Whether requests from Public Network are allowed</p>
@@ -13714,7 +14429,28 @@ string
 <h3 id="documentdb.azure.com/v1api20210515.PublicNetworkAccess_STATUS">PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountGetProperties_STATUS_ARM">DatabaseAccountGetProperties_STATUS_ARM</a>, <a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccount_STATUS">DatabaseAccount_STATUS</a>)
+</p>
+<div>
+<p>Whether requests from Public Network are allowed</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.PublicNetworkAccess_STATUS_ARM">PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.DatabaseAccountGetProperties_STATUS_ARM">DatabaseAccountGetProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>Whether requests from Public Network are allowed</p>
@@ -13805,8 +14541,8 @@ string
 <td>
 <code>types</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.SpatialType">
-[]SpatialType
+<a href="#documentdb.azure.com/v1api20210515.SpatialType_ARM">
+[]SpatialType_ARM
 </a>
 </em>
 </td>
@@ -13889,8 +14625,8 @@ string
 <td>
 <code>types</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.SpatialType_STATUS">
-[]SpatialType_STATUS
+<a href="#documentdb.azure.com/v1api20210515.SpatialType_STATUS_ARM">
+[]SpatialType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -13903,7 +14639,32 @@ string
 <h3 id="documentdb.azure.com/v1api20210515.SpatialType">SpatialType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SpatialSpec">SpatialSpec</a>, <a href="#documentdb.azure.com/v1api20210515.SpatialSpec_ARM">SpatialSpec_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SpatialSpec">SpatialSpec</a>)
+</p>
+<div>
+<p>Indicates the spatial type of index.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;LineString&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MultiPolygon&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Point&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Polygon&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.SpatialType_ARM">SpatialType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SpatialSpec_ARM">SpatialSpec_ARM</a>)
 </p>
 <div>
 <p>Indicates the spatial type of index.</p>
@@ -13928,7 +14689,32 @@ string
 <h3 id="documentdb.azure.com/v1api20210515.SpatialType_STATUS">SpatialType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SpatialSpec_STATUS">SpatialSpec_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.SpatialSpec_STATUS_ARM">SpatialSpec_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SpatialSpec_STATUS">SpatialSpec_STATUS</a>)
+</p>
+<div>
+<p>Indicates the spatial type of index.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;LineString&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MultiPolygon&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Point&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Polygon&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.SpatialType_STATUS_ARM">SpatialType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SpatialSpec_STATUS_ARM">SpatialSpec_STATUS_ARM</a>)
 </p>
 <div>
 <p>Indicates the spatial type of index.</p>
@@ -16464,8 +17250,8 @@ string
 <td>
 <code>triggerOperation</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_TriggerOperation_STATUS">
-SqlTriggerGetProperties_Resource_TriggerOperation_STATUS
+<a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_ARM">
+SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_ARM
 </a>
 </em>
 </td>
@@ -16477,8 +17263,8 @@ SqlTriggerGetProperties_Resource_TriggerOperation_STATUS
 <td>
 <code>triggerType</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_TriggerType_STATUS">
-SqlTriggerGetProperties_Resource_TriggerType_STATUS
+<a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_TriggerType_STATUS_ARM">
+SqlTriggerGetProperties_Resource_TriggerType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -16502,7 +17288,33 @@ float64
 <h3 id="documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_TriggerOperation_STATUS">SqlTriggerGetProperties_Resource_TriggerOperation_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_STATUS">SqlTriggerGetProperties_Resource_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_STATUS_ARM">SqlTriggerGetProperties_Resource_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_STATUS">SqlTriggerGetProperties_Resource_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;All&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Create&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Delete&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Replace&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Update&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_ARM">SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_STATUS_ARM">SqlTriggerGetProperties_Resource_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -16528,7 +17340,27 @@ float64
 <h3 id="documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_TriggerType_STATUS">SqlTriggerGetProperties_Resource_TriggerType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_STATUS">SqlTriggerGetProperties_Resource_STATUS</a>, <a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_STATUS_ARM">SqlTriggerGetProperties_Resource_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_STATUS">SqlTriggerGetProperties_Resource_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Post&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Pre&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_TriggerType_STATUS_ARM">SqlTriggerGetProperties_Resource_TriggerType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerGetProperties_Resource_STATUS_ARM">SqlTriggerGetProperties_Resource_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -16683,8 +17515,8 @@ string
 <td>
 <code>triggerOperation</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource_TriggerOperation">
-SqlTriggerResource_TriggerOperation
+<a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource_TriggerOperation_ARM">
+SqlTriggerResource_TriggerOperation_ARM
 </a>
 </em>
 </td>
@@ -16696,8 +17528,8 @@ SqlTriggerResource_TriggerOperation
 <td>
 <code>triggerType</code><br/>
 <em>
-<a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource_TriggerType">
-SqlTriggerResource_TriggerType
+<a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource_TriggerType_ARM">
+SqlTriggerResource_TriggerType_ARM
 </a>
 </em>
 </td>
@@ -16710,7 +17542,33 @@ SqlTriggerResource_TriggerType
 <h3 id="documentdb.azure.com/v1api20210515.SqlTriggerResource_TriggerOperation">SqlTriggerResource_TriggerOperation
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource">SqlTriggerResource</a>, <a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource_ARM">SqlTriggerResource_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource">SqlTriggerResource</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;All&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Create&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Delete&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Replace&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Update&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.SqlTriggerResource_TriggerOperation_ARM">SqlTriggerResource_TriggerOperation_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource_ARM">SqlTriggerResource_ARM</a>)
 </p>
 <div>
 </div>
@@ -16736,7 +17594,27 @@ SqlTriggerResource_TriggerType
 <h3 id="documentdb.azure.com/v1api20210515.SqlTriggerResource_TriggerType">SqlTriggerResource_TriggerType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource">SqlTriggerResource</a>, <a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource_ARM">SqlTriggerResource_ARM</a>)
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource">SqlTriggerResource</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Post&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Pre&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="documentdb.azure.com/v1api20210515.SqlTriggerResource_TriggerType_ARM">SqlTriggerResource_TriggerType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#documentdb.azure.com/v1api20210515.SqlTriggerResource_ARM">SqlTriggerResource_ARM</a>)
 </p>
 <div>
 </div>

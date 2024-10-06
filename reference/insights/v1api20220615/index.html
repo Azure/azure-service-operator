@@ -39,7 +39,7 @@
     Actions   (Appears on:ScheduledQueryRule_Spec)  Actions to invoke when the alert fires.
     Field Description      actionGroupsReferences  []genruntime.ResourceReference     ActionGroupsReferences: Action Group resource Ids to invoke when the alert fires.">
 
-<meta itemprop="wordCount" content="6498">
+<meta itemprop="wordCount" content="6634">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="insights.azure.com/v1api20220615"/>
 <meta name="twitter:description" content="insights.azure.com/v1api20220615  Package v1api20220615 contains API Schema definitions for the insights v1api20220615 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1159,8 +1165,8 @@ string
 <td>
 <code>operator</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.Condition_Operator">
-Condition_Operator
+<a href="#insights.azure.com/v1api20220615.Condition_Operator_ARM">
+Condition_Operator_ARM
 </a>
 </em>
 </td>
@@ -1205,8 +1211,8 @@ LogAlert.</p>
 <td>
 <code>timeAggregation</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.Condition_TimeAggregation">
-Condition_TimeAggregation
+<a href="#insights.azure.com/v1api20220615.Condition_TimeAggregation_ARM">
+Condition_TimeAggregation_ARM
 </a>
 </em>
 </td>
@@ -1383,7 +1389,33 @@ aggregation granularity (windowSize) and the selected number of aggregated point
 <h3 id="insights.azure.com/v1api20220615.Condition_Operator">Condition_Operator
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition">Condition</a>, <a href="#insights.azure.com/v1api20220615.Condition_ARM">Condition_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition">Condition</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Equals&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GreaterThan&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GreaterThanOrEqual&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LessThan&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LessThanOrEqual&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.Condition_Operator_ARM">Condition_Operator_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_ARM">Condition_ARM</a>)
 </p>
 <div>
 </div>
@@ -1409,7 +1441,33 @@ aggregation granularity (windowSize) and the selected number of aggregated point
 <h3 id="insights.azure.com/v1api20220615.Condition_Operator_STATUS">Condition_Operator_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS">Condition_STATUS</a>, <a href="#insights.azure.com/v1api20220615.Condition_STATUS_ARM">Condition_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS">Condition_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Equals&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GreaterThan&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GreaterThanOrEqual&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LessThan&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LessThanOrEqual&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.Condition_Operator_STATUS_ARM">Condition_Operator_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS_ARM">Condition_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1629,8 +1687,8 @@ string
 <td>
 <code>operator</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.Condition_Operator_STATUS">
-Condition_Operator_STATUS
+<a href="#insights.azure.com/v1api20220615.Condition_Operator_STATUS_ARM">
+Condition_Operator_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1677,8 +1735,8 @@ LogAlert.</p>
 <td>
 <code>timeAggregation</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS">
-Condition_TimeAggregation_STATUS
+<a href="#insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS_ARM">
+Condition_TimeAggregation_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1691,7 +1749,33 @@ Condition_TimeAggregation_STATUS
 <h3 id="insights.azure.com/v1api20220615.Condition_TimeAggregation">Condition_TimeAggregation
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition">Condition</a>, <a href="#insights.azure.com/v1api20220615.Condition_ARM">Condition_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition">Condition</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Average&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Count&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Maximum&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Minimum&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Total&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.Condition_TimeAggregation_ARM">Condition_TimeAggregation_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_ARM">Condition_ARM</a>)
 </p>
 <div>
 </div>
@@ -1717,7 +1801,33 @@ Condition_TimeAggregation_STATUS
 <h3 id="insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS">Condition_TimeAggregation_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS">Condition_STATUS</a>, <a href="#insights.azure.com/v1api20220615.Condition_STATUS_ARM">Condition_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS">Condition_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Average&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Count&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Maximum&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Minimum&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Total&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.Condition_TimeAggregation_STATUS_ARM">Condition_TimeAggregation_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Condition_STATUS_ARM">Condition_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1824,8 +1934,8 @@ string
 <td>
 <code>operator</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.Dimension_Operator">
-Dimension_Operator
+<a href="#insights.azure.com/v1api20220615.Dimension_Operator_ARM">
+Dimension_Operator_ARM
 </a>
 </em>
 </td>
@@ -1849,7 +1959,27 @@ Dimension_Operator
 <h3 id="insights.azure.com/v1api20220615.Dimension_Operator">Dimension_Operator
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Dimension">Dimension</a>, <a href="#insights.azure.com/v1api20220615.Dimension_ARM">Dimension_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Dimension">Dimension</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Exclude&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Include&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.Dimension_Operator_ARM">Dimension_Operator_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Dimension_ARM">Dimension_ARM</a>)
 </p>
 <div>
 </div>
@@ -1869,7 +1999,27 @@ Dimension_Operator
 <h3 id="insights.azure.com/v1api20220615.Dimension_Operator_STATUS">Dimension_Operator_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Dimension_STATUS">Dimension_STATUS</a>, <a href="#insights.azure.com/v1api20220615.Dimension_STATUS_ARM">Dimension_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Dimension_STATUS">Dimension_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Exclude&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Include&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.Dimension_Operator_STATUS_ARM">Dimension_Operator_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Dimension_STATUS_ARM">Dimension_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1970,8 +2120,8 @@ string
 <td>
 <code>operator</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.Dimension_Operator_STATUS">
-Dimension_Operator_STATUS
+<a href="#insights.azure.com/v1api20220615.Dimension_Operator_STATUS_ARM">
+Dimension_Operator_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2730,8 +2880,8 @@ WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAl
 <td>
 <code>severity</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity">
-ScheduledQueryRuleProperties_Severity
+<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_ARM">
+ScheduledQueryRuleProperties_Severity_ARM
 </a>
 </em>
 </td>
@@ -2964,8 +3114,8 @@ WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAl
 <td>
 <code>severity</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS">
-ScheduledQueryRuleProperties_Severity_STATUS
+<a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS_ARM">
+ScheduledQueryRuleProperties_Severity_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3017,7 +3167,33 @@ Relevant and required only for rules of the kind LogAlert.</p>
 <h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity">ScheduledQueryRuleProperties_Severity
 (<code>int</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_ARM">ScheduledQueryRuleProperties_ARM</a>, <a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>0</p></td>
+<td></td>
+</tr><tr><td><p>1</p></td>
+<td></td>
+</tr><tr><td><p>2</p></td>
+<td></td>
+</tr><tr><td><p>3</p></td>
+<td></td>
+</tr><tr><td><p>4</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_ARM">ScheduledQueryRuleProperties_Severity_ARM
+(<code>int</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_ARM">ScheduledQueryRuleProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -3043,7 +3219,33 @@ Relevant and required only for rules of the kind LogAlert.</p>
 <h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS">ScheduledQueryRuleProperties_Severity_STATUS
 (<code>int</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_STATUS_ARM">ScheduledQueryRuleProperties_STATUS_ARM</a>, <a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>0</p></td>
+<td></td>
+</tr><tr><td><p>1</p></td>
+<td></td>
+</tr><tr><td><p>2</p></td>
+<td></td>
+</tr><tr><td><p>3</p></td>
+<td></td>
+</tr><tr><td><p>4</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_Severity_STATUS_ARM">ScheduledQueryRuleProperties_Severity_STATUS_ARM
+(<code>int</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRuleProperties_STATUS_ARM">ScheduledQueryRuleProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3069,7 +3271,27 @@ Relevant and required only for rules of the kind LogAlert.</p>
 <h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS">ScheduledQueryRule_Kind_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>, <a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS_ARM">ScheduledQueryRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;LogAlert&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LogToMetric&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS_ARM">ScheduledQueryRule_Kind_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_STATUS_ARM">ScheduledQueryRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3089,7 +3311,27 @@ Relevant and required only for rules of the kind LogAlert.</p>
 <h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec">ScheduledQueryRule_Kind_Spec
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>, <a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec_ARM">ScheduledQueryRule_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;LogAlert&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LogToMetric&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec_ARM">ScheduledQueryRule_Kind_Spec_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Spec_ARM">ScheduledQueryRule_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -3490,8 +3732,8 @@ string
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS">
-ScheduledQueryRule_Kind_STATUS
+<a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_STATUS_ARM">
+ScheduledQueryRule_Kind_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3850,8 +4092,8 @@ Relevant and required only for rules of the kind LogAlert.</p>
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec">
-ScheduledQueryRule_Kind_Spec
+<a href="#insights.azure.com/v1api20220615.ScheduledQueryRule_Kind_Spec_ARM">
+ScheduledQueryRule_Kind_Spec_ARM
 </a>
 </em>
 </td>
@@ -3909,7 +4151,31 @@ map[string]string
 <h3 id="insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.SystemData_STATUS">SystemData_STATUS</a>, <a href="#insights.azure.com/v1api20220615.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3933,7 +4199,31 @@ map[string]string
 <h3 id="insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.SystemData_STATUS">SystemData_STATUS</a>, <a href="#insights.azure.com/v1api20220615.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4084,8 +4374,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#insights.azure.com/v1api20220615.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4119,8 +4409,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#insights.azure.com/v1api20220615.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4312,8 +4602,8 @@ int
 <td>
 <code>Kind</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_Kind">
-WebTestProperties_Kind
+<a href="#insights.azure.com/v1api20220615.WebTestProperties_Kind_ARM">
+WebTestProperties_Kind_ARM
 </a>
 </em>
 </td>
@@ -4522,7 +4812,29 @@ string
 <h3 id="insights.azure.com/v1api20220615.WebTestProperties_Kind">WebTestProperties_Kind
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ARM">WebTestProperties_ARM</a>, <a href="#insights.azure.com/v1api20220615.Webtest_Spec">Webtest_Spec</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Webtest_Spec">Webtest_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;multistep&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ping&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.WebTestProperties_Kind_ARM">WebTestProperties_Kind_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_ARM">WebTestProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -4544,7 +4856,29 @@ string
 <h3 id="insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS">WebTestProperties_Kind_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>, <a href="#insights.azure.com/v1api20220615.Webtest_STATUS">Webtest_STATUS</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.Webtest_STATUS">Webtest_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;multistep&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ping&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS_ARM">WebTestProperties_Kind_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20220615.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4969,8 +5303,8 @@ int
 <td>
 <code>Kind</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS">
-WebTestProperties_Kind_STATUS
+<a href="#insights.azure.com/v1api20220615.WebTestProperties_Kind_STATUS_ARM">
+WebTestProperties_Kind_STATUS_ARM
 </a>
 </em>
 </td>

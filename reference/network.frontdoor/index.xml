@@ -47,7 +47,34 @@ Resource Types:
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ActionType&#34;&gt;ActionType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule&#34;&gt;CustomRule&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM&#34;&gt;CustomRule_ARM&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride&#34;&gt;ManagedRuleOverride&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_ARM&#34;&gt;ManagedRuleOverride_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule&#34;&gt;CustomRule&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride&#34;&gt;ManagedRuleOverride&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Defines the action to take on rule match.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AnomalyScoring&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Block&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Log&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Redirect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ActionType_ARM&#34;&gt;ActionType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM&#34;&gt;CustomRule_ARM&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_ARM&#34;&gt;ManagedRuleOverride_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Defines the action to take on rule match.&lt;/p&gt;
@@ -74,7 +101,34 @@ Resource Types:
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ActionType_STATUS&#34;&gt;ActionType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS&#34;&gt;CustomRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM&#34;&gt;CustomRule_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS&#34;&gt;ManagedRuleOverride_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS_ARM&#34;&gt;ManagedRuleOverride_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS&#34;&gt;CustomRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS&#34;&gt;ManagedRuleOverride_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Defines the action to take on rule match.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AnomalyScoring&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Block&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Log&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Redirect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ActionType_STATUS_ARM&#34;&gt;ActionType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM&#34;&gt;CustomRule_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS_ARM&#34;&gt;ManagedRuleOverride_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Defines the action to take on rule match.&lt;/p&gt;
@@ -322,8 +376,8 @@ CustomRule_RuleType
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ActionType&#34;&gt;
-ActionType
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ActionType_ARM&#34;&gt;
+ActionType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -335,8 +389,8 @@ ActionType
 &lt;td&gt;
 &lt;code&gt;enabledState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState&#34;&gt;
-CustomRule_EnabledState
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState_ARM&#34;&gt;
+CustomRule_EnabledState_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -405,8 +459,8 @@ int
 &lt;td&gt;
 &lt;code&gt;ruleType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType&#34;&gt;
-CustomRule_RuleType
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType_ARM&#34;&gt;
+CustomRule_RuleType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -419,7 +473,27 @@ CustomRule_RuleType
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState&#34;&gt;CustomRule_EnabledState
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule&#34;&gt;CustomRule&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM&#34;&gt;CustomRule_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule&#34;&gt;CustomRule&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState_ARM&#34;&gt;CustomRule_EnabledState_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM&#34;&gt;CustomRule_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -439,7 +513,27 @@ CustomRule_RuleType
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState_STATUS&#34;&gt;CustomRule_EnabledState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS&#34;&gt;CustomRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM&#34;&gt;CustomRule_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS&#34;&gt;CustomRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState_STATUS_ARM&#34;&gt;CustomRule_EnabledState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM&#34;&gt;CustomRule_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -459,7 +553,27 @@ CustomRule_RuleType
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType&#34;&gt;CustomRule_RuleType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule&#34;&gt;CustomRule&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM&#34;&gt;CustomRule_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule&#34;&gt;CustomRule&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;MatchRule&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RateLimitRule&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType_ARM&#34;&gt;CustomRule_RuleType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM&#34;&gt;CustomRule_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -479,7 +593,27 @@ CustomRule_RuleType
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType_STATUS&#34;&gt;CustomRule_RuleType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS&#34;&gt;CustomRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM&#34;&gt;CustomRule_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS&#34;&gt;CustomRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;MatchRule&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RateLimitRule&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType_STATUS_ARM&#34;&gt;CustomRule_RuleType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM&#34;&gt;CustomRule_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -630,8 +764,8 @@ CustomRule_RuleType_STATUS
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ActionType_STATUS&#34;&gt;
-ActionType_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ActionType_STATUS_ARM&#34;&gt;
+ActionType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -643,8 +777,8 @@ ActionType_STATUS
 &lt;td&gt;
 &lt;code&gt;enabledState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState_STATUS&#34;&gt;
-CustomRule_EnabledState_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState_STATUS_ARM&#34;&gt;
+CustomRule_EnabledState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -713,8 +847,8 @@ int
 &lt;td&gt;
 &lt;code&gt;ruleType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType_STATUS&#34;&gt;
-CustomRule_RuleType_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType_STATUS_ARM&#34;&gt;
+CustomRule_RuleType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1313,7 +1447,28 @@ string
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState&#34;&gt;ManagedRuleEnabledState
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride&#34;&gt;ManagedRuleOverride&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_ARM&#34;&gt;ManagedRuleOverride_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride&#34;&gt;ManagedRuleOverride&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Describes if the managed rule is in enabled or disabled state.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState_ARM&#34;&gt;ManagedRuleEnabledState_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_ARM&#34;&gt;ManagedRuleOverride_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Describes if the managed rule is in enabled or disabled state.&lt;/p&gt;
@@ -1334,7 +1489,28 @@ string
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState_STATUS&#34;&gt;ManagedRuleEnabledState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS&#34;&gt;ManagedRuleOverride_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS_ARM&#34;&gt;ManagedRuleOverride_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS&#34;&gt;ManagedRuleOverride_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Describes if the managed rule is in enabled or disabled state.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState_STATUS_ARM&#34;&gt;ManagedRuleEnabledState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS_ARM&#34;&gt;ManagedRuleOverride_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Describes if the managed rule is in enabled or disabled state.&lt;/p&gt;
@@ -1428,8 +1604,8 @@ this exclusion applies to.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;matchVariable&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable&#34;&gt;
-ManagedRuleExclusion_MatchVariable
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable_ARM&#34;&gt;
+ManagedRuleExclusion_MatchVariable_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1452,8 +1628,8 @@ string
 &lt;td&gt;
 &lt;code&gt;selectorMatchOperator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator&#34;&gt;
-ManagedRuleExclusion_SelectorMatchOperator
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator_ARM&#34;&gt;
+ManagedRuleExclusion_SelectorMatchOperator_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1467,7 +1643,33 @@ this exclusion applies to.&lt;/p&gt;
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable&#34;&gt;ManagedRuleExclusion_MatchVariable
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion&#34;&gt;ManagedRuleExclusion&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM&#34;&gt;ManagedRuleExclusion_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion&#34;&gt;ManagedRuleExclusion&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;QueryStringArgNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestBodyJsonArgNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestBodyPostArgNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestCookieNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestHeaderNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable_ARM&#34;&gt;ManagedRuleExclusion_MatchVariable_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM&#34;&gt;ManagedRuleExclusion_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1493,7 +1695,33 @@ this exclusion applies to.&lt;/p&gt;
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable_STATUS&#34;&gt;ManagedRuleExclusion_MatchVariable_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS&#34;&gt;ManagedRuleExclusion_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM&#34;&gt;ManagedRuleExclusion_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS&#34;&gt;ManagedRuleExclusion_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;QueryStringArgNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestBodyJsonArgNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestBodyPostArgNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestCookieNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestHeaderNames&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable_STATUS_ARM&#34;&gt;ManagedRuleExclusion_MatchVariable_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM&#34;&gt;ManagedRuleExclusion_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1592,8 +1820,8 @@ this exclusion applies to.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;matchVariable&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable_STATUS&#34;&gt;
-ManagedRuleExclusion_MatchVariable_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable_STATUS_ARM&#34;&gt;
+ManagedRuleExclusion_MatchVariable_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1616,8 +1844,8 @@ string
 &lt;td&gt;
 &lt;code&gt;selectorMatchOperator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator_STATUS&#34;&gt;
-ManagedRuleExclusion_SelectorMatchOperator_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM&#34;&gt;
+ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1631,7 +1859,33 @@ this exclusion applies to.&lt;/p&gt;
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator&#34;&gt;ManagedRuleExclusion_SelectorMatchOperator
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion&#34;&gt;ManagedRuleExclusion&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM&#34;&gt;ManagedRuleExclusion_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion&#34;&gt;ManagedRuleExclusion&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Contains&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EndsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EqualsAny&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StartsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator_ARM&#34;&gt;ManagedRuleExclusion_SelectorMatchOperator_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM&#34;&gt;ManagedRuleExclusion_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1657,7 +1911,33 @@ this exclusion applies to.&lt;/p&gt;
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator_STATUS&#34;&gt;ManagedRuleExclusion_SelectorMatchOperator_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS&#34;&gt;ManagedRuleExclusion_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM&#34;&gt;ManagedRuleExclusion_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS&#34;&gt;ManagedRuleExclusion_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Contains&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EndsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EqualsAny&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StartsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM&#34;&gt;ManagedRuleExclusion_SelectorMatchOperator_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM&#34;&gt;ManagedRuleExclusion_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1988,8 +2268,8 @@ string
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ActionType&#34;&gt;
-ActionType
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ActionType_ARM&#34;&gt;
+ActionType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2001,8 +2281,8 @@ ActionType
 &lt;td&gt;
 &lt;code&gt;enabledState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState&#34;&gt;
-ManagedRuleEnabledState
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState_ARM&#34;&gt;
+ManagedRuleEnabledState_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2124,8 +2404,8 @@ string
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ActionType_STATUS&#34;&gt;
-ActionType_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ActionType_STATUS_ARM&#34;&gt;
+ActionType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2137,8 +2417,8 @@ ActionType_STATUS
 &lt;td&gt;
 &lt;code&gt;enabledState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState_STATUS&#34;&gt;
-ManagedRuleEnabledState_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState_STATUS_ARM&#34;&gt;
+ManagedRuleEnabledState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2251,7 +2531,30 @@ string
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType&#34;&gt;ManagedRuleSetActionType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet&#34;&gt;ManagedRuleSet&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_ARM&#34;&gt;ManagedRuleSet_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet&#34;&gt;ManagedRuleSet&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Defines the action to take when a managed rule set score threshold is met.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Block&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Log&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Redirect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType_ARM&#34;&gt;ManagedRuleSetActionType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_ARM&#34;&gt;ManagedRuleSet_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Defines the action to take when a managed rule set score threshold is met.&lt;/p&gt;
@@ -2274,7 +2577,30 @@ string
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType_STATUS&#34;&gt;ManagedRuleSetActionType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS&#34;&gt;ManagedRuleSet_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS_ARM&#34;&gt;ManagedRuleSet_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS&#34;&gt;ManagedRuleSet_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Defines the action to take when a managed rule set score threshold is met.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Block&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Log&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Redirect&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType_STATUS_ARM&#34;&gt;ManagedRuleSetActionType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS_ARM&#34;&gt;ManagedRuleSet_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Defines the action to take when a managed rule set score threshold is met.&lt;/p&gt;
@@ -2433,8 +2759,8 @@ string
 &lt;td&gt;
 &lt;code&gt;ruleSetAction&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType&#34;&gt;
-ManagedRuleSetActionType
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType_ARM&#34;&gt;
+ManagedRuleSetActionType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2591,8 +2917,8 @@ string
 &lt;td&gt;
 &lt;code&gt;ruleSetAction&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType_STATUS&#34;&gt;
-ManagedRuleSetActionType_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType_STATUS_ARM&#34;&gt;
+ManagedRuleSetActionType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2746,8 +3072,8 @@ null.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;matchVariable&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable&#34;&gt;
-MatchCondition_MatchVariable
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable_ARM&#34;&gt;
+MatchCondition_MatchVariable_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2770,8 +3096,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator&#34;&gt;
-MatchCondition_Operator
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator_ARM&#34;&gt;
+MatchCondition_Operator_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2795,8 +3121,8 @@ null.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;transforms&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.TransformType&#34;&gt;
-[]TransformType
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.TransformType_ARM&#34;&gt;
+[]TransformType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2809,7 +3135,41 @@ null.&lt;/p&gt;
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable&#34;&gt;MatchCondition_MatchVariable
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition&#34;&gt;MatchCondition&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM&#34;&gt;MatchCondition_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition&#34;&gt;MatchCondition&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Cookies&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PostArgs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;QueryString&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RemoteAddr&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestBody&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestHeader&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestMethod&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestUri&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SocketAddr&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable_ARM&#34;&gt;MatchCondition_MatchVariable_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM&#34;&gt;MatchCondition_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2843,7 +3203,41 @@ null.&lt;/p&gt;
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable_STATUS&#34;&gt;MatchCondition_MatchVariable_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS&#34;&gt;MatchCondition_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM&#34;&gt;MatchCondition_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS&#34;&gt;MatchCondition_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Cookies&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;PostArgs&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;QueryString&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RemoteAddr&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestBody&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestHeader&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestMethod&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RequestUri&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;SocketAddr&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable_STATUS_ARM&#34;&gt;MatchCondition_MatchVariable_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM&#34;&gt;MatchCondition_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2877,7 +3271,47 @@ null.&lt;/p&gt;
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator&#34;&gt;MatchCondition_Operator
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition&#34;&gt;MatchCondition&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM&#34;&gt;MatchCondition_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition&#34;&gt;MatchCondition&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Any&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BeginsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Contains&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EndsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equal&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeoMatch&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;IPMatch&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegEx&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator_ARM&#34;&gt;MatchCondition_Operator_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM&#34;&gt;MatchCondition_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2917,7 +3351,47 @@ null.&lt;/p&gt;
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator_STATUS&#34;&gt;MatchCondition_Operator_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS&#34;&gt;MatchCondition_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM&#34;&gt;MatchCondition_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS&#34;&gt;MatchCondition_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Any&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BeginsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Contains&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EndsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Equal&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GeoMatch&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;GreaterThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;IPMatch&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;LessThanOrEqual&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RegEx&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator_STATUS_ARM&#34;&gt;MatchCondition_Operator_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM&#34;&gt;MatchCondition_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3076,8 +3550,8 @@ null.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;matchVariable&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable_STATUS&#34;&gt;
-MatchCondition_MatchVariable_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable_STATUS_ARM&#34;&gt;
+MatchCondition_MatchVariable_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3100,8 +3574,8 @@ bool
 &lt;td&gt;
 &lt;code&gt;operator&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator_STATUS&#34;&gt;
-MatchCondition_Operator_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator_STATUS_ARM&#34;&gt;
+MatchCondition_Operator_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3125,8 +3599,8 @@ null.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;transforms&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.TransformType_STATUS&#34;&gt;
-[]TransformType_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.TransformType_STATUS_ARM&#34;&gt;
+[]TransformType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3270,8 +3744,8 @@ int
 &lt;td&gt;
 &lt;code&gt;enabledState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState&#34;&gt;
-PolicySettings_EnabledState
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState_ARM&#34;&gt;
+PolicySettings_EnabledState_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3283,8 +3757,8 @@ PolicySettings_EnabledState
 &lt;td&gt;
 &lt;code&gt;mode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode&#34;&gt;
-PolicySettings_Mode
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode_ARM&#34;&gt;
+PolicySettings_Mode_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3307,8 +3781,8 @@ string
 &lt;td&gt;
 &lt;code&gt;requestBodyCheck&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck&#34;&gt;
-PolicySettings_RequestBodyCheck
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck_ARM&#34;&gt;
+PolicySettings_RequestBodyCheck_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3321,7 +3795,27 @@ PolicySettings_RequestBodyCheck
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState&#34;&gt;PolicySettings_EnabledState
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings&#34;&gt;PolicySettings&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM&#34;&gt;PolicySettings_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings&#34;&gt;PolicySettings&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState_ARM&#34;&gt;PolicySettings_EnabledState_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM&#34;&gt;PolicySettings_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3341,7 +3835,27 @@ PolicySettings_RequestBodyCheck
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState_STATUS&#34;&gt;PolicySettings_EnabledState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS&#34;&gt;PolicySettings_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM&#34;&gt;PolicySettings_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS&#34;&gt;PolicySettings_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState_STATUS_ARM&#34;&gt;PolicySettings_EnabledState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM&#34;&gt;PolicySettings_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3361,7 +3875,27 @@ PolicySettings_RequestBodyCheck
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode&#34;&gt;PolicySettings_Mode
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings&#34;&gt;PolicySettings&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM&#34;&gt;PolicySettings_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings&#34;&gt;PolicySettings&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Detection&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Prevention&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode_ARM&#34;&gt;PolicySettings_Mode_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM&#34;&gt;PolicySettings_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3381,7 +3915,27 @@ PolicySettings_RequestBodyCheck
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode_STATUS&#34;&gt;PolicySettings_Mode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS&#34;&gt;PolicySettings_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM&#34;&gt;PolicySettings_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS&#34;&gt;PolicySettings_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Detection&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Prevention&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode_STATUS_ARM&#34;&gt;PolicySettings_Mode_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM&#34;&gt;PolicySettings_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3401,7 +3955,27 @@ PolicySettings_RequestBodyCheck
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck&#34;&gt;PolicySettings_RequestBodyCheck
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings&#34;&gt;PolicySettings&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM&#34;&gt;PolicySettings_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings&#34;&gt;PolicySettings&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck_ARM&#34;&gt;PolicySettings_RequestBodyCheck_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM&#34;&gt;PolicySettings_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3421,7 +3995,27 @@ PolicySettings_RequestBodyCheck
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck_STATUS&#34;&gt;PolicySettings_RequestBodyCheck_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS&#34;&gt;PolicySettings_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM&#34;&gt;PolicySettings_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS&#34;&gt;PolicySettings_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck_STATUS_ARM&#34;&gt;PolicySettings_RequestBodyCheck_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM&#34;&gt;PolicySettings_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3572,8 +4166,8 @@ int
 &lt;td&gt;
 &lt;code&gt;enabledState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState_STATUS&#34;&gt;
-PolicySettings_EnabledState_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState_STATUS_ARM&#34;&gt;
+PolicySettings_EnabledState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3585,8 +4179,8 @@ PolicySettings_EnabledState_STATUS
 &lt;td&gt;
 &lt;code&gt;mode&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode_STATUS&#34;&gt;
-PolicySettings_Mode_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode_STATUS_ARM&#34;&gt;
+PolicySettings_Mode_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3609,8 +4203,8 @@ string
 &lt;td&gt;
 &lt;code&gt;requestBodyCheck&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck_STATUS&#34;&gt;
-PolicySettings_RequestBodyCheck_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck_STATUS_ARM&#34;&gt;
+PolicySettings_RequestBodyCheck_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3787,8 +4381,8 @@ Sku_Name
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_Name&#34;&gt;
-Sku_Name
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_Name_ARM&#34;&gt;
+Sku_Name_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3801,7 +4395,29 @@ Sku_Name
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.Sku_Name&#34;&gt;Sku_Name
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku&#34;&gt;Sku&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku&#34;&gt;Sku&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Classic_AzureFrontDoor&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium_AzureFrontDoor&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard_AzureFrontDoor&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.Sku_Name_ARM&#34;&gt;Sku_Name_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_ARM&#34;&gt;Sku_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3823,7 +4439,29 @@ Sku_Name
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.Sku_Name_STATUS&#34;&gt;Sku_Name_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_STATUS&#34;&gt;Sku_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Classic_AzureFrontDoor&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Premium_AzureFrontDoor&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Standard_AzureFrontDoor&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.Sku_Name_STATUS_ARM&#34;&gt;Sku_Name_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_STATUS_ARM&#34;&gt;Sku_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3893,8 +4531,8 @@ Sku_Name_STATUS
 &lt;td&gt;
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_Name_STATUS&#34;&gt;
-Sku_Name_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.Sku_Name_STATUS_ARM&#34;&gt;
+Sku_Name_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -3907,7 +4545,36 @@ Sku_Name_STATUS
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.TransformType&#34;&gt;TransformType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition&#34;&gt;MatchCondition&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM&#34;&gt;MatchCondition_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition&#34;&gt;MatchCondition&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Describes what transforms applied before matching.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Lowercase&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RemoveNulls&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Trim&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Uppercase&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UrlDecode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UrlEncode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.TransformType_ARM&#34;&gt;TransformType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM&#34;&gt;MatchCondition_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Describes what transforms applied before matching.&lt;/p&gt;
@@ -3936,7 +4603,36 @@ Sku_Name_STATUS
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.TransformType_STATUS&#34;&gt;TransformType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS&#34;&gt;MatchCondition_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM&#34;&gt;MatchCondition_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS&#34;&gt;MatchCondition_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Describes what transforms applied before matching.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Lowercase&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;RemoveNulls&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Trim&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Uppercase&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UrlDecode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;UrlEncode&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.TransformType_STATUS_ARM&#34;&gt;TransformType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM&#34;&gt;MatchCondition_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Describes what transforms applied before matching.&lt;/p&gt;
@@ -4193,7 +4889,35 @@ PolicySettings_ARM
 &lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ResourceState_STATUS&#34;&gt;WebApplicationFirewallPolicyProperties_ResourceState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS&#34;&gt;FrontDoorWebApplicationFirewallPolicy_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM&#34;&gt;WebApplicationFirewallPolicyProperties_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS&#34;&gt;FrontDoorWebApplicationFirewallPolicy_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabling&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabling&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM&#34;&gt;WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM&#34;&gt;WebApplicationFirewallPolicyProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4301,8 +5025,8 @@ string
 &lt;td&gt;
 &lt;code&gt;resourceState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ResourceState_STATUS&#34;&gt;
-WebApplicationFirewallPolicyProperties_ResourceState_STATUS
+&lt;a href=&#34;#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM&#34;&gt;
+WebApplicationFirewallPolicyProperties_ResourceState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

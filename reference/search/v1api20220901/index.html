@@ -39,7 +39,7 @@
     DataPlaneAadOrApiKeyAuthOption   (Appears on:DataPlaneAuthOptions)  Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
     Field Description      aadAuthFailureMode  DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode     AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed authentication.">
 
-<meta itemprop="wordCount" content="4810">
+<meta itemprop="wordCount" content="4947">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="search.azure.com/v1api20220901"/>
 <meta name="twitter:description" content="search.azure.com/v1api20220901  Package v1api20220901 contains API Schema definitions for the search v1api20220901 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -851,8 +857,8 @@ authentication.</p>
 <td>
 <code>aadAuthFailureMode</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode">
-DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode
+<a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM">
+DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM
 </a>
 </em>
 </td>
@@ -866,7 +872,27 @@ authentication.</p>
 <h3 id="search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption">DataPlaneAadOrApiKeyAuthOption</a>, <a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_ARM">DataPlaneAadOrApiKeyAuthOption_ARM</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption">DataPlaneAadOrApiKeyAuthOption</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http401WithBearerChallenge&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;http403&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_ARM">DataPlaneAadOrApiKeyAuthOption_ARM</a>)
 </p>
 <div>
 </div>
@@ -886,7 +912,27 @@ authentication.</p>
 <h3 id="search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_STATUS">DataPlaneAadOrApiKeyAuthOption_STATUS</a>, <a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_STATUS_ARM">DataPlaneAadOrApiKeyAuthOption_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_STATUS">DataPlaneAadOrApiKeyAuthOption_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http401WithBearerChallenge&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;http403&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM">DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_STATUS_ARM">DataPlaneAadOrApiKeyAuthOption_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -955,8 +1001,8 @@ authentication.</p>
 <td>
 <code>aadAuthFailureMode</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS">
-DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS
+<a href="#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM">
+DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1178,8 +1224,8 @@ Keys.</p>
 <td>
 <code>enforcement</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement">
-EncryptionWithCmk_Enforcement
+<a href="#search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_ARM">
+EncryptionWithCmk_Enforcement_ARM
 </a>
 </em>
 </td>
@@ -1192,7 +1238,27 @@ EncryptionWithCmk_Enforcement
 <h3 id="search.azure.com/v1api20220901.EncryptionWithCmk_EncryptionComplianceStatus_STATUS">EncryptionWithCmk_EncryptionComplianceStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</a>, <a href="#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS_ARM">EncryptionWithCmk_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Compliant&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;NonCompliant&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM">EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS_ARM">EncryptionWithCmk_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1212,7 +1278,29 @@ EncryptionWithCmk_Enforcement
 <h3 id="search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement">EncryptionWithCmk_Enforcement
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.EncryptionWithCmk">EncryptionWithCmk</a>, <a href="#search.azure.com/v1api20220901.EncryptionWithCmk_ARM">EncryptionWithCmk_ARM</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.EncryptionWithCmk">EncryptionWithCmk</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unspecified&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_ARM">EncryptionWithCmk_Enforcement_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.EncryptionWithCmk_ARM">EncryptionWithCmk_ARM</a>)
 </p>
 <div>
 </div>
@@ -1234,7 +1322,29 @@ EncryptionWithCmk_Enforcement
 <h3 id="search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_STATUS">EncryptionWithCmk_Enforcement_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</a>, <a href="#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS_ARM">EncryptionWithCmk_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS">EncryptionWithCmk_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unspecified&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_STATUS_ARM">EncryptionWithCmk_Enforcement_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.EncryptionWithCmk_STATUS_ARM">EncryptionWithCmk_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1321,8 +1431,8 @@ Keys.</p>
 <td>
 <code>encryptionComplianceStatus</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.EncryptionWithCmk_EncryptionComplianceStatus_STATUS">
-EncryptionWithCmk_EncryptionComplianceStatus_STATUS
+<a href="#search.azure.com/v1api20220901.EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM">
+EncryptionWithCmk_EncryptionComplianceStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1336,8 +1446,8 @@ the service will be marked as &lsquo;nonCompliant&rsquo;.</p>
 <td>
 <code>enforcement</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_STATUS">
-EncryptionWithCmk_Enforcement_STATUS
+<a href="#search.azure.com/v1api20220901.EncryptionWithCmk_Enforcement_STATUS_ARM">
+EncryptionWithCmk_Enforcement_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1398,8 +1508,8 @@ Identity_Type
 <td>
 <code>type</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.Identity_Type">
-Identity_Type
+<a href="#search.azure.com/v1api20220901.Identity_Type_ARM">
+Identity_Type_ARM
 </a>
 </em>
 </td>
@@ -1504,8 +1614,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.Identity_Type_STATUS">
-Identity_Type_STATUS
+<a href="#search.azure.com/v1api20220901.Identity_Type_STATUS_ARM">
+Identity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1518,7 +1628,27 @@ Identity_Type_STATUS
 <h3 id="search.azure.com/v1api20220901.Identity_Type">Identity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Identity">Identity</a>, <a href="#search.azure.com/v1api20220901.Identity_ARM">Identity_ARM</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Identity">Identity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.Identity_Type_ARM">Identity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Identity_ARM">Identity_ARM</a>)
 </p>
 <div>
 </div>
@@ -1538,7 +1668,27 @@ Identity_Type_STATUS
 <h3 id="search.azure.com/v1api20220901.Identity_Type_STATUS">Identity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Identity_STATUS">Identity_STATUS</a>, <a href="#search.azure.com/v1api20220901.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Identity_STATUS">Identity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.Identity_Type_STATUS_ARM">Identity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2277,8 +2427,8 @@ within a search service.</p>
 <td>
 <code>hostingMode</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.SearchServiceProperties_HostingMode">
-SearchServiceProperties_HostingMode
+<a href="#search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_ARM">
+SearchServiceProperties_HostingMode_ARM
 </a>
 </em>
 </td>
@@ -2318,8 +2468,8 @@ allowed values are between 1 and 3.</p>
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess">
-SearchServiceProperties_PublicNetworkAccess
+<a href="#search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_ARM">
+SearchServiceProperties_PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -2346,7 +2496,27 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.</p>
 <h3 id="search.azure.com/v1api20220901.SearchServiceProperties_HostingMode">SearchServiceProperties_HostingMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_ARM">SearchServiceProperties_ARM</a>, <a href="#search.azure.com/v1api20220901.SearchService_Spec">SearchService_Spec</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchService_Spec">SearchService_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;highDensity&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_ARM">SearchServiceProperties_HostingMode_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_ARM">SearchServiceProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2366,7 +2536,27 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.</p>
 <h3 id="search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_STATUS">SearchServiceProperties_HostingMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM">SearchServiceProperties_STATUS_ARM</a>, <a href="#search.azure.com/v1api20220901.SearchService_STATUS">SearchService_STATUS</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchService_STATUS">SearchService_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;highDensity&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_STATUS_ARM">SearchServiceProperties_HostingMode_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM">SearchServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2386,7 +2576,29 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.</p>
 <h3 id="search.azure.com/v1api20220901.SearchServiceProperties_ProvisioningState_STATUS">SearchServiceProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM">SearchServiceProperties_STATUS_ARM</a>, <a href="#search.azure.com/v1api20220901.SearchService_STATUS">SearchService_STATUS</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchService_STATUS">SearchService_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;provisioning&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;succeeded&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.SearchServiceProperties_ProvisioningState_STATUS_ARM">SearchServiceProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM">SearchServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2408,7 +2620,27 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.</p>
 <h3 id="search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess">SearchServiceProperties_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_ARM">SearchServiceProperties_ARM</a>, <a href="#search.azure.com/v1api20220901.SearchService_Spec">SearchService_Spec</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchService_Spec">SearchService_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_ARM">SearchServiceProperties_PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_ARM">SearchServiceProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2428,7 +2660,27 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.</p>
 <h3 id="search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_STATUS">SearchServiceProperties_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM">SearchServiceProperties_STATUS_ARM</a>, <a href="#search.azure.com/v1api20220901.SearchService_STATUS">SearchService_STATUS</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchService_STATUS">SearchService_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_STATUS_ARM">SearchServiceProperties_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM">SearchServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2505,8 +2757,8 @@ within a search service.</p>
 <td>
 <code>hostingMode</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_STATUS">
-SearchServiceProperties_HostingMode_STATUS
+<a href="#search.azure.com/v1api20220901.SearchServiceProperties_HostingMode_STATUS_ARM">
+SearchServiceProperties_HostingMode_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2559,8 +2811,8 @@ allowed values are between 1 and 3.</p>
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.SearchServiceProperties_ProvisioningState_STATUS">
-SearchServiceProperties_ProvisioningState_STATUS
+<a href="#search.azure.com/v1api20220901.SearchServiceProperties_ProvisioningState_STATUS_ARM">
+SearchServiceProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2577,8 +2829,8 @@ Create search service. This is because the free service uses capacity that is al
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_STATUS">
-SearchServiceProperties_PublicNetworkAccess_STATUS
+<a href="#search.azure.com/v1api20220901.SearchServiceProperties_PublicNetworkAccess_STATUS_ARM">
+SearchServiceProperties_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2617,8 +2869,8 @@ for standard SKUs or between 1 and 3 inclusive for basic SKU.</p>
 <td>
 <code>status</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.SearchServiceProperties_Status_STATUS">
-SearchServiceProperties_Status_STATUS
+<a href="#search.azure.com/v1api20220901.SearchServiceProperties_Status_STATUS_ARM">
+SearchServiceProperties_Status_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2649,7 +2901,35 @@ string
 <h3 id="search.azure.com/v1api20220901.SearchServiceProperties_Status_STATUS">SearchServiceProperties_Status_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM">SearchServiceProperties_STATUS_ARM</a>, <a href="#search.azure.com/v1api20220901.SearchService_STATUS">SearchService_STATUS</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchService_STATUS">SearchService_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;degraded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;error&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;provisioning&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;running&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.SearchServiceProperties_Status_STATUS_ARM">SearchServiceProperties_Status_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.SearchServiceProperties_STATUS_ARM">SearchServiceProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3499,8 +3779,8 @@ partition, up to 12 partitions.&rsquo;</p>
 <td>
 <code>name</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.Sku_Name">
-Sku_Name
+<a href="#search.azure.com/v1api20220901.Sku_Name_ARM">
+Sku_Name_ARM
 </a>
 </em>
 </td>
@@ -3518,7 +3798,37 @@ partition, up to 12 partitions.&rsquo;</p>
 <h3 id="search.azure.com/v1api20220901.Sku_Name">Sku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Sku">Sku</a>, <a href="#search.azure.com/v1api20220901.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Sku">Sku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;free&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;storage_optimized_l1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;storage_optimized_l2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.Sku_Name_ARM">Sku_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
 </div>
@@ -3548,7 +3858,37 @@ partition, up to 12 partitions.&rsquo;</p>
 <h3 id="search.azure.com/v1api20220901.Sku_Name_STATUS">Sku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Sku_STATUS">Sku_STATUS</a>, <a href="#search.azure.com/v1api20220901.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;free&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard2&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard3&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;storage_optimized_l1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;storage_optimized_l2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="search.azure.com/v1api20220901.Sku_Name_STATUS_ARM">Sku_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#search.azure.com/v1api20220901.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3631,8 +3971,8 @@ partition, up to 12 partitions.&rsquo;</p>
 <td>
 <code>name</code><br/>
 <em>
-<a href="#search.azure.com/v1api20220901.Sku_Name_STATUS">
-Sku_Name_STATUS
+<a href="#search.azure.com/v1api20220901.Sku_Name_STATUS_ARM">
+Sku_Name_STATUS_ARM
 </a>
 </em>
 </td>

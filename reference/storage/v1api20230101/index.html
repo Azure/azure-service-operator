@@ -39,7 +39,7 @@
     AccessPolicy   (Appears on:SignedIdentifier)      Field Description      expiryTime  string    ExpiryTime: Expiry time of the access policy
     permission  string    Permission: List of abbreviated permissions.">
 
-<meta itemprop="wordCount" content="26057">
+<meta itemprop="wordCount" content="26828">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="storage.azure.com/v1api20230101"/>
 <meta name="twitter:description" content="storage.azure.com/v1api20230101  Package v1api20230101 contains API Schema definitions for the storage v1api20230101 API group
@@ -283,6 +283,8 @@
   <a href="/azure-service-operator/reference/cache/v1api20230401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">cache.azure.com/v1api20230401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">cache.azure.com/v1api20230701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+  <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -468,6 +470,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
@@ -503,6 +507,8 @@
   <a href="/azure-service-operator/reference/network/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">network.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+  <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
@@ -1104,8 +1110,8 @@ in days.</p>
 <td>
 <code>state</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_State">
-AccountImmutabilityPolicyProperties_State
+<a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_State_ARM">
+AccountImmutabilityPolicyProperties_State_ARM
 </a>
 </em>
 </td>
@@ -1224,8 +1230,8 @@ in days.</p>
 <td>
 <code>state</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_State_STATUS">
-AccountImmutabilityPolicyProperties_State_STATUS
+<a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_State_STATUS_ARM">
+AccountImmutabilityPolicyProperties_State_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1242,7 +1248,29 @@ to a Locked state which cannot be reverted.</p>
 <h3 id="storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_State">AccountImmutabilityPolicyProperties_State
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties">AccountImmutabilityPolicyProperties</a>, <a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_ARM">AccountImmutabilityPolicyProperties_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties">AccountImmutabilityPolicyProperties</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Locked&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unlocked&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_State_ARM">AccountImmutabilityPolicyProperties_State_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_ARM">AccountImmutabilityPolicyProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1264,7 +1292,29 @@ to a Locked state which cannot be reverted.</p>
 <h3 id="storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_State_STATUS">AccountImmutabilityPolicyProperties_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_STATUS">AccountImmutabilityPolicyProperties_STATUS</a>, <a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_STATUS_ARM">AccountImmutabilityPolicyProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_STATUS">AccountImmutabilityPolicyProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Locked&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unlocked&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_State_STATUS_ARM">AccountImmutabilityPolicyProperties_State_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AccountImmutabilityPolicyProperties_STATUS_ARM">AccountImmutabilityPolicyProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1411,8 +1461,8 @@ string
 <td>
 <code>accountType</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_AccountType">
-ActiveDirectoryProperties_AccountType
+<a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_AccountType_ARM">
+ActiveDirectoryProperties_AccountType_ARM
 </a>
 </em>
 </td>
@@ -1502,7 +1552,27 @@ string
 <h3 id="storage.azure.com/v1api20230101.ActiveDirectoryProperties_AccountType">ActiveDirectoryProperties_AccountType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties">ActiveDirectoryProperties</a>, <a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_ARM">ActiveDirectoryProperties_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties">ActiveDirectoryProperties</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Computer&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ActiveDirectoryProperties_AccountType_ARM">ActiveDirectoryProperties_AccountType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_ARM">ActiveDirectoryProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -1522,7 +1592,27 @@ string
 <h3 id="storage.azure.com/v1api20230101.ActiveDirectoryProperties_AccountType_STATUS">ActiveDirectoryProperties_AccountType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_STATUS">ActiveDirectoryProperties_STATUS</a>, <a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_STATUS_ARM">ActiveDirectoryProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_STATUS">ActiveDirectoryProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Computer&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ActiveDirectoryProperties_AccountType_STATUS_ARM">ActiveDirectoryProperties_AccountType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_STATUS_ARM">ActiveDirectoryProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1667,8 +1757,8 @@ string
 <td>
 <code>accountType</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_AccountType_STATUS">
-ActiveDirectoryProperties_AccountType_STATUS
+<a href="#storage.azure.com/v1api20230101.ActiveDirectoryProperties_AccountType_STATUS_ARM">
+ActiveDirectoryProperties_AccountType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1845,8 +1935,8 @@ ActiveDirectoryProperties_ARM
 <td>
 <code>defaultSharePermission</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DefaultSharePermission">
-AzureFilesIdentityBasedAuthentication_DefaultSharePermission
+<a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DefaultSharePermission_ARM">
+AzureFilesIdentityBasedAuthentication_DefaultSharePermission_ARM
 </a>
 </em>
 </td>
@@ -1858,8 +1948,8 @@ AzureFilesIdentityBasedAuthentication_DefaultSharePermission
 <td>
 <code>directoryServiceOptions</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions">
-AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions
+<a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_ARM">
+AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_ARM
 </a>
 </em>
 </td>
@@ -1872,7 +1962,31 @@ AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions
 <h3 id="storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DefaultSharePermission">AzureFilesIdentityBasedAuthentication_DefaultSharePermission
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication">AzureFilesIdentityBasedAuthentication</a>, <a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_ARM">AzureFilesIdentityBasedAuthentication_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication">AzureFilesIdentityBasedAuthentication</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StorageFileDataSmbShareContributor&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StorageFileDataSmbShareElevatedContributor&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StorageFileDataSmbShareReader&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DefaultSharePermission_ARM">AzureFilesIdentityBasedAuthentication_DefaultSharePermission_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_ARM">AzureFilesIdentityBasedAuthentication_ARM</a>)
 </p>
 <div>
 </div>
@@ -1896,7 +2010,31 @@ AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions
 <h3 id="storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS">AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_STATUS">AzureFilesIdentityBasedAuthentication_STATUS</a>, <a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_STATUS_ARM">AzureFilesIdentityBasedAuthentication_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_STATUS">AzureFilesIdentityBasedAuthentication_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StorageFileDataSmbShareContributor&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StorageFileDataSmbShareElevatedContributor&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StorageFileDataSmbShareReader&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_ARM">AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_STATUS_ARM">AzureFilesIdentityBasedAuthentication_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1920,7 +2058,31 @@ AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions
 <h3 id="storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions">AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication">AzureFilesIdentityBasedAuthentication</a>, <a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_ARM">AzureFilesIdentityBasedAuthentication_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication">AzureFilesIdentityBasedAuthentication</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AADDS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AADKERB&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AD&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_ARM">AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_ARM">AzureFilesIdentityBasedAuthentication_ARM</a>)
 </p>
 <div>
 </div>
@@ -1944,7 +2106,31 @@ AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions
 <h3 id="storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS">AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_STATUS">AzureFilesIdentityBasedAuthentication_STATUS</a>, <a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_STATUS_ARM">AzureFilesIdentityBasedAuthentication_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_STATUS">AzureFilesIdentityBasedAuthentication_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AADDS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AADKERB&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;AD&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_ARM">AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_STATUS_ARM">AzureFilesIdentityBasedAuthentication_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2055,8 +2241,8 @@ ActiveDirectoryProperties_STATUS_ARM
 <td>
 <code>defaultSharePermission</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS">
-AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS
+<a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_ARM">
+AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2068,8 +2254,8 @@ AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS
 <td>
 <code>directoryServiceOptions</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS">
-AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS
+<a href="#storage.azure.com/v1api20230101.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_ARM">
+AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2365,8 +2551,8 @@ string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.BlobRestoreStatus_Status_STATUS">
-BlobRestoreStatus_Status_STATUS
+<a href="#storage.azure.com/v1api20230101.BlobRestoreStatus_Status_STATUS_ARM">
+BlobRestoreStatus_Status_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2380,7 +2566,29 @@ BlobRestoreStatus_Status_STATUS
 <h3 id="storage.azure.com/v1api20230101.BlobRestoreStatus_Status_STATUS">BlobRestoreStatus_Status_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.BlobRestoreStatus_STATUS">BlobRestoreStatus_STATUS</a>, <a href="#storage.azure.com/v1api20230101.BlobRestoreStatus_STATUS_ARM">BlobRestoreStatus_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.BlobRestoreStatus_STATUS">BlobRestoreStatus_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Complete&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;InProgress&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.BlobRestoreStatus_Status_STATUS_ARM">BlobRestoreStatus_Status_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.BlobRestoreStatus_STATUS_ARM">BlobRestoreStatus_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2652,8 +2860,8 @@ map[string]string
 <td>
 <code>publicAccess</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ContainerProperties_PublicAccess">
-ContainerProperties_PublicAccess
+<a href="#storage.azure.com/v1api20230101.ContainerProperties_PublicAccess_ARM">
+ContainerProperties_PublicAccess_ARM
 </a>
 </em>
 </td>
@@ -2666,7 +2874,27 @@ ContainerProperties_PublicAccess
 <h3 id="storage.azure.com/v1api20230101.ContainerProperties_LeaseDuration_STATUS">ContainerProperties_LeaseDuration_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_STATUS_ARM">ContainerProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_STATUS">StorageAccounts_BlobServices_Container_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_STATUS">StorageAccounts_BlobServices_Container_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Fixed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Infinite&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ContainerProperties_LeaseDuration_STATUS_ARM">ContainerProperties_LeaseDuration_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_STATUS_ARM">ContainerProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2686,7 +2914,33 @@ ContainerProperties_PublicAccess
 <h3 id="storage.azure.com/v1api20230101.ContainerProperties_LeaseState_STATUS">ContainerProperties_LeaseState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_STATUS_ARM">ContainerProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_STATUS">StorageAccounts_BlobServices_Container_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_STATUS">StorageAccounts_BlobServices_Container_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Available&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Breaking&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Broken&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Expired&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Leased&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ContainerProperties_LeaseState_STATUS_ARM">ContainerProperties_LeaseState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_STATUS_ARM">ContainerProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2712,7 +2966,27 @@ ContainerProperties_PublicAccess
 <h3 id="storage.azure.com/v1api20230101.ContainerProperties_LeaseStatus_STATUS">ContainerProperties_LeaseStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_STATUS_ARM">ContainerProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_STATUS">StorageAccounts_BlobServices_Container_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_STATUS">StorageAccounts_BlobServices_Container_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Locked&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unlocked&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ContainerProperties_LeaseStatus_STATUS_ARM">ContainerProperties_LeaseStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_STATUS_ARM">ContainerProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2732,7 +3006,29 @@ ContainerProperties_PublicAccess
 <h3 id="storage.azure.com/v1api20230101.ContainerProperties_PublicAccess">ContainerProperties_PublicAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_ARM">ContainerProperties_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_Spec">StorageAccounts_BlobServices_Container_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_Spec">StorageAccounts_BlobServices_Container_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Blob&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Container&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ContainerProperties_PublicAccess_ARM">ContainerProperties_PublicAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_ARM">ContainerProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -2754,7 +3050,29 @@ ContainerProperties_PublicAccess
 <h3 id="storage.azure.com/v1api20230101.ContainerProperties_PublicAccess_STATUS">ContainerProperties_PublicAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_STATUS_ARM">ContainerProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_STATUS">StorageAccounts_BlobServices_Container_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_BlobServices_Container_STATUS">StorageAccounts_BlobServices_Container_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Blob&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Container&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ContainerProperties_PublicAccess_STATUS_ARM">ContainerProperties_PublicAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ContainerProperties_STATUS_ARM">ContainerProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2923,8 +3241,8 @@ string
 <td>
 <code>leaseDuration</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ContainerProperties_LeaseDuration_STATUS">
-ContainerProperties_LeaseDuration_STATUS
+<a href="#storage.azure.com/v1api20230101.ContainerProperties_LeaseDuration_STATUS_ARM">
+ContainerProperties_LeaseDuration_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2937,8 +3255,8 @@ leased.</p>
 <td>
 <code>leaseState</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ContainerProperties_LeaseState_STATUS">
-ContainerProperties_LeaseState_STATUS
+<a href="#storage.azure.com/v1api20230101.ContainerProperties_LeaseState_STATUS_ARM">
+ContainerProperties_LeaseState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2950,8 +3268,8 @@ ContainerProperties_LeaseState_STATUS
 <td>
 <code>leaseStatus</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ContainerProperties_LeaseStatus_STATUS">
-ContainerProperties_LeaseStatus_STATUS
+<a href="#storage.azure.com/v1api20230101.ContainerProperties_LeaseStatus_STATUS_ARM">
+ContainerProperties_LeaseStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -2987,8 +3305,8 @@ map[string]string
 <td>
 <code>publicAccess</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ContainerProperties_PublicAccess_STATUS">
-ContainerProperties_PublicAccess_STATUS
+<a href="#storage.azure.com/v1api20230101.ContainerProperties_PublicAccess_STATUS_ARM">
+ContainerProperties_PublicAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3131,8 +3449,8 @@ request.</p>
 <td>
 <code>allowedMethods</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.CorsRule_AllowedMethods">
-[]CorsRule_AllowedMethods
+<a href="#storage.azure.com/v1api20230101.CorsRule_AllowedMethods_ARM">
+[]CorsRule_AllowedMethods_ARM
 </a>
 </em>
 </td>
@@ -3181,7 +3499,43 @@ preflight response.</p>
 <h3 id="storage.azure.com/v1api20230101.CorsRule_AllowedMethods">CorsRule_AllowedMethods
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.CorsRule">CorsRule</a>, <a href="#storage.azure.com/v1api20230101.CorsRule_ARM">CorsRule_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.CorsRule">CorsRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CONNECT&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DELETE&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GET&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;HEAD&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MERGE&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;OPTIONS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PATCH&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;POST&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PUT&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TRACE&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.CorsRule_AllowedMethods_ARM">CorsRule_AllowedMethods_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.CorsRule_ARM">CorsRule_ARM</a>)
 </p>
 <div>
 </div>
@@ -3217,7 +3571,43 @@ preflight response.</p>
 <h3 id="storage.azure.com/v1api20230101.CorsRule_AllowedMethods_STATUS">CorsRule_AllowedMethods_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.CorsRule_STATUS">CorsRule_STATUS</a>, <a href="#storage.azure.com/v1api20230101.CorsRule_STATUS_ARM">CorsRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.CorsRule_STATUS">CorsRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CONNECT&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;DELETE&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GET&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;HEAD&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MERGE&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;OPTIONS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PATCH&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;POST&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PUT&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TRACE&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.CorsRule_AllowedMethods_STATUS_ARM">CorsRule_AllowedMethods_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.CorsRule_STATUS_ARM">CorsRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3361,8 +3751,8 @@ request.</p>
 <td>
 <code>allowedMethods</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.CorsRule_AllowedMethods_STATUS">
-[]CorsRule_AllowedMethods_STATUS
+<a href="#storage.azure.com/v1api20230101.CorsRule_AllowedMethods_STATUS_ARM">
+[]CorsRule_AllowedMethods_STATUS_ARM
 </a>
 </em>
 </td>
@@ -4683,8 +5073,8 @@ enabled by default today and cannot be disabled.</p>
 <td>
 <code>keyType</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.EncryptionService_KeyType">
-EncryptionService_KeyType
+<a href="#storage.azure.com/v1api20230101.EncryptionService_KeyType_ARM">
+EncryptionService_KeyType_ARM
 </a>
 </em>
 </td>
@@ -4698,7 +5088,27 @@ encryption key will be used. &lsquo;Service&rsquo; key type implies that a defau
 <h3 id="storage.azure.com/v1api20230101.EncryptionService_KeyType">EncryptionService_KeyType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.EncryptionService">EncryptionService</a>, <a href="#storage.azure.com/v1api20230101.EncryptionService_ARM">EncryptionService_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.EncryptionService">EncryptionService</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Account&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Service&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.EncryptionService_KeyType_ARM">EncryptionService_KeyType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.EncryptionService_ARM">EncryptionService_ARM</a>)
 </p>
 <div>
 </div>
@@ -4718,7 +5128,27 @@ encryption key will be used. &lsquo;Service&rsquo; key type implies that a defau
 <h3 id="storage.azure.com/v1api20230101.EncryptionService_KeyType_STATUS">EncryptionService_KeyType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.EncryptionService_STATUS">EncryptionService_STATUS</a>, <a href="#storage.azure.com/v1api20230101.EncryptionService_STATUS_ARM">EncryptionService_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.EncryptionService_STATUS">EncryptionService_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Account&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Service&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.EncryptionService_KeyType_STATUS_ARM">EncryptionService_KeyType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.EncryptionService_STATUS_ARM">EncryptionService_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -4823,8 +5253,8 @@ enabled by default today and cannot be disabled.</p>
 <td>
 <code>keyType</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.EncryptionService_KeyType_STATUS">
-EncryptionService_KeyType_STATUS
+<a href="#storage.azure.com/v1api20230101.EncryptionService_KeyType_STATUS_ARM">
+EncryptionService_KeyType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5160,8 +5590,8 @@ EncryptionIdentity_ARM
 <td>
 <code>keySource</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.Encryption_KeySource">
-Encryption_KeySource
+<a href="#storage.azure.com/v1api20230101.Encryption_KeySource_ARM">
+Encryption_KeySource_ARM
 </a>
 </em>
 </td>
@@ -5213,7 +5643,27 @@ EncryptionServices_ARM
 <h3 id="storage.azure.com/v1api20230101.Encryption_KeySource">Encryption_KeySource
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Encryption">Encryption</a>, <a href="#storage.azure.com/v1api20230101.Encryption_ARM">Encryption_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Encryption">Encryption</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.Keyvault&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Microsoft.Storage&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.Encryption_KeySource_ARM">Encryption_KeySource_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Encryption_ARM">Encryption_ARM</a>)
 </p>
 <div>
 </div>
@@ -5233,7 +5683,27 @@ EncryptionServices_ARM
 <h3 id="storage.azure.com/v1api20230101.Encryption_KeySource_STATUS">Encryption_KeySource_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Encryption_STATUS">Encryption_STATUS</a>, <a href="#storage.azure.com/v1api20230101.Encryption_STATUS_ARM">Encryption_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Encryption_STATUS">Encryption_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.Keyvault&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Microsoft.Storage&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.Encryption_KeySource_STATUS_ARM">Encryption_KeySource_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Encryption_STATUS_ARM">Encryption_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5366,8 +5836,8 @@ EncryptionIdentity_STATUS_ARM
 <td>
 <code>keySource</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.Encryption_KeySource_STATUS">
-Encryption_KeySource_STATUS
+<a href="#storage.azure.com/v1api20230101.Encryption_KeySource_STATUS_ARM">
+Encryption_KeySource_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5681,7 +6151,26 @@ ExtendedLocationType
 <h3 id="storage.azure.com/v1api20230101.ExtendedLocationType">ExtendedLocationType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ExtendedLocation">ExtendedLocation</a>, <a href="#storage.azure.com/v1api20230101.ExtendedLocation_ARM">ExtendedLocation_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ExtendedLocation">ExtendedLocation</a>)
+</p>
+<div>
+<p>The type of extendedLocation.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;EdgeZone&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ExtendedLocationType_ARM">ExtendedLocationType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ExtendedLocation_ARM">ExtendedLocation_ARM</a>)
 </p>
 <div>
 <p>The type of extendedLocation.</p>
@@ -5700,7 +6189,26 @@ ExtendedLocationType
 <h3 id="storage.azure.com/v1api20230101.ExtendedLocationType_STATUS">ExtendedLocationType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>, <a href="#storage.azure.com/v1api20230101.ExtendedLocation_STATUS_ARM">ExtendedLocation_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>)
+</p>
+<div>
+<p>The type of extendedLocation.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;EdgeZone&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ExtendedLocationType_STATUS_ARM">ExtendedLocationType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ExtendedLocation_STATUS_ARM">ExtendedLocation_STATUS_ARM</a>)
 </p>
 <div>
 <p>The type of extendedLocation.</p>
@@ -5747,8 +6255,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ExtendedLocationType">
-ExtendedLocationType
+<a href="#storage.azure.com/v1api20230101.ExtendedLocationType_ARM">
+ExtendedLocationType_ARM
 </a>
 </em>
 </td>
@@ -5831,8 +6339,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ExtendedLocationType_STATUS">
-ExtendedLocationType_STATUS
+<a href="#storage.azure.com/v1api20230101.ExtendedLocationType_STATUS_ARM">
+ExtendedLocationType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -5862,8 +6370,8 @@ ExtendedLocationType_STATUS
 <td>
 <code>accessTier</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.FileShareProperties_AccessTier">
-FileShareProperties_AccessTier
+<a href="#storage.azure.com/v1api20230101.FileShareProperties_AccessTier_ARM">
+FileShareProperties_AccessTier_ARM
 </a>
 </em>
 </td>
@@ -5876,8 +6384,8 @@ Cool. FileStorage account can choose Premium.</p>
 <td>
 <code>enabledProtocols</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.FileShareProperties_EnabledProtocols">
-FileShareProperties_EnabledProtocols
+<a href="#storage.azure.com/v1api20230101.FileShareProperties_EnabledProtocols_ARM">
+FileShareProperties_EnabledProtocols_ARM
 </a>
 </em>
 </td>
@@ -5901,8 +6409,8 @@ map[string]string
 <td>
 <code>rootSquash</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.FileShareProperties_RootSquash">
-FileShareProperties_RootSquash
+<a href="#storage.azure.com/v1api20230101.FileShareProperties_RootSquash_ARM">
+FileShareProperties_RootSquash_ARM
 </a>
 </em>
 </td>
@@ -5940,7 +6448,31 @@ For Large File Shares, the maximum size is 102400.</p>
 <h3 id="storage.azure.com/v1api20230101.FileShareProperties_AccessTier">FileShareProperties_AccessTier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_ARM">FileShareProperties_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_Spec">StorageAccounts_FileServices_Share_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_Spec">StorageAccounts_FileServices_Share_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Cool&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Hot&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TransactionOptimized&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.FileShareProperties_AccessTier_ARM">FileShareProperties_AccessTier_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_ARM">FileShareProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -5964,7 +6496,31 @@ For Large File Shares, the maximum size is 102400.</p>
 <h3 id="storage.azure.com/v1api20230101.FileShareProperties_AccessTier_STATUS">FileShareProperties_AccessTier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Cool&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Hot&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TransactionOptimized&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.FileShareProperties_AccessTier_STATUS_ARM">FileShareProperties_AccessTier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -5988,7 +6544,27 @@ For Large File Shares, the maximum size is 102400.</p>
 <h3 id="storage.azure.com/v1api20230101.FileShareProperties_EnabledProtocols">FileShareProperties_EnabledProtocols
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_ARM">FileShareProperties_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_Spec">StorageAccounts_FileServices_Share_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_Spec">StorageAccounts_FileServices_Share_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NFS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SMB&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.FileShareProperties_EnabledProtocols_ARM">FileShareProperties_EnabledProtocols_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_ARM">FileShareProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -6008,7 +6584,27 @@ For Large File Shares, the maximum size is 102400.</p>
 <h3 id="storage.azure.com/v1api20230101.FileShareProperties_EnabledProtocols_STATUS">FileShareProperties_EnabledProtocols_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;NFS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SMB&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.FileShareProperties_EnabledProtocols_STATUS_ARM">FileShareProperties_EnabledProtocols_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6028,7 +6624,27 @@ For Large File Shares, the maximum size is 102400.</p>
 <h3 id="storage.azure.com/v1api20230101.FileShareProperties_LeaseDuration_STATUS">FileShareProperties_LeaseDuration_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Fixed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Infinite&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.FileShareProperties_LeaseDuration_STATUS_ARM">FileShareProperties_LeaseDuration_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6048,7 +6664,33 @@ For Large File Shares, the maximum size is 102400.</p>
 <h3 id="storage.azure.com/v1api20230101.FileShareProperties_LeaseState_STATUS">FileShareProperties_LeaseState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Available&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Breaking&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Broken&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Expired&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Leased&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.FileShareProperties_LeaseState_STATUS_ARM">FileShareProperties_LeaseState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6074,7 +6716,27 @@ For Large File Shares, the maximum size is 102400.</p>
 <h3 id="storage.azure.com/v1api20230101.FileShareProperties_LeaseStatus_STATUS">FileShareProperties_LeaseStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Locked&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unlocked&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.FileShareProperties_LeaseStatus_STATUS_ARM">FileShareProperties_LeaseStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6094,7 +6756,29 @@ For Large File Shares, the maximum size is 102400.</p>
 <h3 id="storage.azure.com/v1api20230101.FileShareProperties_RootSquash">FileShareProperties_RootSquash
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_ARM">FileShareProperties_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_Spec">StorageAccounts_FileServices_Share_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_Spec">StorageAccounts_FileServices_Share_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AllSquash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;NoRootSquash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RootSquash&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.FileShareProperties_RootSquash_ARM">FileShareProperties_RootSquash_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_ARM">FileShareProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -6116,7 +6800,29 @@ For Large File Shares, the maximum size is 102400.</p>
 <h3 id="storage.azure.com/v1api20230101.FileShareProperties_RootSquash_STATUS">FileShareProperties_RootSquash_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccounts_FileServices_Share_STATUS">StorageAccounts_FileServices_Share_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AllSquash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;NoRootSquash&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RootSquash&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.FileShareProperties_RootSquash_STATUS_ARM">FileShareProperties_RootSquash_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.FileShareProperties_STATUS_ARM">FileShareProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6155,8 +6861,8 @@ For Large File Shares, the maximum size is 102400.</p>
 <td>
 <code>accessTier</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.FileShareProperties_AccessTier_STATUS">
-FileShareProperties_AccessTier_STATUS
+<a href="#storage.azure.com/v1api20230101.FileShareProperties_AccessTier_STATUS_ARM">
+FileShareProperties_AccessTier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6213,8 +6919,8 @@ string
 <td>
 <code>enabledProtocols</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.FileShareProperties_EnabledProtocols_STATUS">
-FileShareProperties_EnabledProtocols_STATUS
+<a href="#storage.azure.com/v1api20230101.FileShareProperties_EnabledProtocols_STATUS_ARM">
+FileShareProperties_EnabledProtocols_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6238,8 +6944,8 @@ string
 <td>
 <code>leaseDuration</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.FileShareProperties_LeaseDuration_STATUS">
-FileShareProperties_LeaseDuration_STATUS
+<a href="#storage.azure.com/v1api20230101.FileShareProperties_LeaseDuration_STATUS_ARM">
+FileShareProperties_LeaseDuration_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6251,8 +6957,8 @@ FileShareProperties_LeaseDuration_STATUS
 <td>
 <code>leaseState</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.FileShareProperties_LeaseState_STATUS">
-FileShareProperties_LeaseState_STATUS
+<a href="#storage.azure.com/v1api20230101.FileShareProperties_LeaseState_STATUS_ARM">
+FileShareProperties_LeaseState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6264,8 +6970,8 @@ FileShareProperties_LeaseState_STATUS
 <td>
 <code>leaseStatus</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.FileShareProperties_LeaseStatus_STATUS">
-FileShareProperties_LeaseStatus_STATUS
+<a href="#storage.azure.com/v1api20230101.FileShareProperties_LeaseStatus_STATUS_ARM">
+FileShareProperties_LeaseStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6299,8 +7005,8 @@ int
 <td>
 <code>rootSquash</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.FileShareProperties_RootSquash_STATUS">
-FileShareProperties_RootSquash_STATUS
+<a href="#storage.azure.com/v1api20230101.FileShareProperties_RootSquash_STATUS_ARM">
+FileShareProperties_RootSquash_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6372,7 +7078,27 @@ string
 <h3 id="storage.azure.com/v1api20230101.GeoReplicationStats_PostFailoverRedundancy_STATUS">GeoReplicationStats_PostFailoverRedundancy_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS">GeoReplicationStats_STATUS</a>, <a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS_ARM">GeoReplicationStats_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS">GeoReplicationStats_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Standard_LRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_ZRS&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.GeoReplicationStats_PostFailoverRedundancy_STATUS_ARM">GeoReplicationStats_PostFailoverRedundancy_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS_ARM">GeoReplicationStats_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6392,7 +7118,31 @@ string
 <h3 id="storage.azure.com/v1api20230101.GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS">GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS">GeoReplicationStats_STATUS</a>, <a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS_ARM">GeoReplicationStats_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS">GeoReplicationStats_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Standard_GRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_GZRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_RAGRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_RAGZRS&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_ARM">GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS_ARM">GeoReplicationStats_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6565,8 +7315,8 @@ of LastSyncTime is not available, this can happen if secondary is offline or we 
 <td>
 <code>postFailoverRedundancy</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.GeoReplicationStats_PostFailoverRedundancy_STATUS">
-GeoReplicationStats_PostFailoverRedundancy_STATUS
+<a href="#storage.azure.com/v1api20230101.GeoReplicationStats_PostFailoverRedundancy_STATUS_ARM">
+GeoReplicationStats_PostFailoverRedundancy_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6578,8 +7328,8 @@ GeoReplicationStats_PostFailoverRedundancy_STATUS
 <td>
 <code>postPlannedFailoverRedundancy</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS">
-GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS
+<a href="#storage.azure.com/v1api20230101.GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_ARM">
+GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6591,8 +7341,8 @@ GeoReplicationStats_PostPlannedFailoverRedundancy_STATUS
 <td>
 <code>status</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.GeoReplicationStats_Status_STATUS">
-GeoReplicationStats_Status_STATUS
+<a href="#storage.azure.com/v1api20230101.GeoReplicationStats_Status_STATUS_ARM">
+GeoReplicationStats_Status_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6608,7 +7358,29 @@ secondary location is temporarily unavailable.</p>
 <h3 id="storage.azure.com/v1api20230101.GeoReplicationStats_Status_STATUS">GeoReplicationStats_Status_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS">GeoReplicationStats_STATUS</a>, <a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS_ARM">GeoReplicationStats_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS">GeoReplicationStats_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Bootstrap&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Live&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unavailable&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.GeoReplicationStats_Status_STATUS_ARM">GeoReplicationStats_Status_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.GeoReplicationStats_STATUS_ARM">GeoReplicationStats_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6689,8 +7461,8 @@ string
 <td>
 <code>action</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.IPRule_Action">
-IPRule_Action
+<a href="#storage.azure.com/v1api20230101.IPRule_Action_ARM">
+IPRule_Action_ARM
 </a>
 </em>
 </td>
@@ -6714,7 +7486,25 @@ string
 <h3 id="storage.azure.com/v1api20230101.IPRule_Action">IPRule_Action
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.IPRule">IPRule</a>, <a href="#storage.azure.com/v1api20230101.IPRule_ARM">IPRule_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.IPRule">IPRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.IPRule_Action_ARM">IPRule_Action_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.IPRule_ARM">IPRule_ARM</a>)
 </p>
 <div>
 </div>
@@ -6732,7 +7522,25 @@ string
 <h3 id="storage.azure.com/v1api20230101.IPRule_Action_STATUS">IPRule_Action_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.IPRule_STATUS">IPRule_STATUS</a>, <a href="#storage.azure.com/v1api20230101.IPRule_STATUS_ARM">IPRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.IPRule_STATUS">IPRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.IPRule_Action_STATUS_ARM">IPRule_Action_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.IPRule_STATUS_ARM">IPRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -6809,8 +7617,8 @@ string
 <td>
 <code>action</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.IPRule_Action_STATUS">
-IPRule_Action_STATUS
+<a href="#storage.azure.com/v1api20230101.IPRule_Action_STATUS_ARM">
+IPRule_Action_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6897,8 +7705,8 @@ identity is permitted here.</p>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.Identity_Type">
-Identity_Type
+<a href="#storage.azure.com/v1api20230101.Identity_Type_ARM">
+Identity_Type_ARM
 </a>
 </em>
 </td>
@@ -7030,8 +7838,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.Identity_Type_STATUS">
-Identity_Type_STATUS
+<a href="#storage.azure.com/v1api20230101.Identity_Type_STATUS_ARM">
+Identity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7059,7 +7867,31 @@ identity is permitted here.</p>
 <h3 id="storage.azure.com/v1api20230101.Identity_Type">Identity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Identity">Identity</a>, <a href="#storage.azure.com/v1api20230101.Identity_ARM">Identity_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Identity">Identity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.Identity_Type_ARM">Identity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Identity_ARM">Identity_ARM</a>)
 </p>
 <div>
 </div>
@@ -7083,7 +7915,31 @@ identity is permitted here.</p>
 <h3 id="storage.azure.com/v1api20230101.Identity_Type_STATUS">Identity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Identity_STATUS">Identity_STATUS</a>, <a href="#storage.azure.com/v1api20230101.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Identity_STATUS">Identity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned,UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.Identity_Type_STATUS_ARM">Identity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7316,8 +8172,8 @@ in days.</p>
 <td>
 <code>state</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ImmutabilityPolicyProperty_State_STATUS">
-ImmutabilityPolicyProperty_State_STATUS
+<a href="#storage.azure.com/v1api20230101.ImmutabilityPolicyProperty_State_STATUS_ARM">
+ImmutabilityPolicyProperty_State_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7330,7 +8186,27 @@ ImmutabilityPolicyProperty_State_STATUS
 <h3 id="storage.azure.com/v1api20230101.ImmutabilityPolicyProperty_State_STATUS">ImmutabilityPolicyProperty_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ImmutabilityPolicyProperties_STATUS">ImmutabilityPolicyProperties_STATUS</a>, <a href="#storage.azure.com/v1api20230101.ImmutabilityPolicyProperty_STATUS_ARM">ImmutabilityPolicyProperty_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ImmutabilityPolicyProperties_STATUS">ImmutabilityPolicyProperties_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Locked&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unlocked&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ImmutabilityPolicyProperty_State_STATUS_ARM">ImmutabilityPolicyProperty_State_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ImmutabilityPolicyProperty_STATUS_ARM">ImmutabilityPolicyProperty_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7592,7 +8468,27 @@ bool
 <h3 id="storage.azure.com/v1api20230101.ImmutableStorageWithVersioning_MigrationState_STATUS">ImmutableStorageWithVersioning_MigrationState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ImmutableStorageWithVersioning_STATUS">ImmutableStorageWithVersioning_STATUS</a>, <a href="#storage.azure.com/v1api20230101.ImmutableStorageWithVersioning_STATUS_ARM">ImmutableStorageWithVersioning_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ImmutableStorageWithVersioning_STATUS">ImmutableStorageWithVersioning_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Completed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;InProgress&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ImmutableStorageWithVersioning_MigrationState_STATUS_ARM">ImmutableStorageWithVersioning_MigrationState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ImmutableStorageWithVersioning_STATUS_ARM">ImmutableStorageWithVersioning_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7693,8 +8589,8 @@ bool
 <td>
 <code>migrationState</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ImmutableStorageWithVersioning_MigrationState_STATUS">
-ImmutableStorageWithVersioning_MigrationState_STATUS
+<a href="#storage.azure.com/v1api20230101.ImmutableStorageWithVersioning_MigrationState_STATUS_ARM">
+ImmutableStorageWithVersioning_MigrationState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -8288,8 +9184,8 @@ bool
 <td>
 <code>name</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_Name">
-LastAccessTimeTrackingPolicy_Name
+<a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_Name_ARM">
+LastAccessTimeTrackingPolicy_Name_ARM
 </a>
 </em>
 </td>
@@ -8314,7 +9210,25 @@ object should be tracked.This field is currently read only with value as 1</p>
 <h3 id="storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_Name">LastAccessTimeTrackingPolicy_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy">LastAccessTimeTrackingPolicy</a>, <a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_ARM">LastAccessTimeTrackingPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy">LastAccessTimeTrackingPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AccessTimeTracking&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_Name_ARM">LastAccessTimeTrackingPolicy_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_ARM">LastAccessTimeTrackingPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -8332,7 +9246,25 @@ object should be tracked.This field is currently read only with value as 1</p>
 <h3 id="storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_Name_STATUS">LastAccessTimeTrackingPolicy_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_STATUS">LastAccessTimeTrackingPolicy_STATUS</a>, <a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_STATUS_ARM">LastAccessTimeTrackingPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_STATUS">LastAccessTimeTrackingPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AccessTimeTracking&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_Name_STATUS_ARM">LastAccessTimeTrackingPolicy_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_STATUS_ARM">LastAccessTimeTrackingPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8456,8 +9388,8 @@ bool
 <td>
 <code>name</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_Name_STATUS">
-LastAccessTimeTrackingPolicy_Name_STATUS
+<a href="#storage.azure.com/v1api20230101.LastAccessTimeTrackingPolicy_Name_STATUS_ARM">
+LastAccessTimeTrackingPolicy_Name_STATUS_ARM
 </a>
 </em>
 </td>
@@ -9799,8 +10731,8 @@ unique within a policy.</p>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_Type">
-ManagementPolicyRule_Type
+<a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_Type_ARM">
+ManagementPolicyRule_Type_ARM
 </a>
 </em>
 </td>
@@ -9933,8 +10865,8 @@ unique within a policy.</p>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_Type_STATUS">
-ManagementPolicyRule_Type_STATUS
+<a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_Type_STATUS_ARM">
+ManagementPolicyRule_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -9947,7 +10879,25 @@ ManagementPolicyRule_Type_STATUS
 <h3 id="storage.azure.com/v1api20230101.ManagementPolicyRule_Type">ManagementPolicyRule_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ManagementPolicyRule">ManagementPolicyRule</a>, <a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_ARM">ManagementPolicyRule_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ManagementPolicyRule">ManagementPolicyRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Lifecycle&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ManagementPolicyRule_Type_ARM">ManagementPolicyRule_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_ARM">ManagementPolicyRule_ARM</a>)
 </p>
 <div>
 </div>
@@ -9965,7 +10915,25 @@ ManagementPolicyRule_Type_STATUS
 <h3 id="storage.azure.com/v1api20230101.ManagementPolicyRule_Type_STATUS">ManagementPolicyRule_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_STATUS">ManagementPolicyRule_STATUS</a>, <a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_STATUS_ARM">ManagementPolicyRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_STATUS">ManagementPolicyRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Lifecycle&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.ManagementPolicyRule_Type_STATUS_ARM">ManagementPolicyRule_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.ManagementPolicyRule_STATUS_ARM">ManagementPolicyRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11004,8 +11972,8 @@ NetworkRuleSet_DefaultAction
 <td>
 <code>bypass</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.NetworkRuleSet_Bypass">
-NetworkRuleSet_Bypass
+<a href="#storage.azure.com/v1api20230101.NetworkRuleSet_Bypass_ARM">
+NetworkRuleSet_Bypass_ARM
 </a>
 </em>
 </td>
@@ -11018,8 +11986,8 @@ Logging|Metrics|AzureServices (For example, &ldquo;Logging, Metrics&rdquo;), or 
 <td>
 <code>defaultAction</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.NetworkRuleSet_DefaultAction">
-NetworkRuleSet_DefaultAction
+<a href="#storage.azure.com/v1api20230101.NetworkRuleSet_DefaultAction_ARM">
+NetworkRuleSet_DefaultAction_ARM
 </a>
 </em>
 </td>
@@ -11071,7 +12039,31 @@ NetworkRuleSet_DefaultAction
 <h3 id="storage.azure.com/v1api20230101.NetworkRuleSet_Bypass">NetworkRuleSet_Bypass
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet">NetworkRuleSet</a>, <a href="#storage.azure.com/v1api20230101.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet">NetworkRuleSet</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Logging&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Metrics&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.NetworkRuleSet_Bypass_ARM">NetworkRuleSet_Bypass_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
 </p>
 <div>
 </div>
@@ -11095,7 +12087,31 @@ NetworkRuleSet_DefaultAction
 <h3 id="storage.azure.com/v1api20230101.NetworkRuleSet_Bypass_STATUS">NetworkRuleSet_Bypass_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>, <a href="#storage.azure.com/v1api20230101.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Logging&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Metrics&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.NetworkRuleSet_Bypass_STATUS_ARM">NetworkRuleSet_Bypass_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11119,7 +12135,27 @@ NetworkRuleSet_DefaultAction
 <h3 id="storage.azure.com/v1api20230101.NetworkRuleSet_DefaultAction">NetworkRuleSet_DefaultAction
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet">NetworkRuleSet</a>, <a href="#storage.azure.com/v1api20230101.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet">NetworkRuleSet</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deny&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.NetworkRuleSet_DefaultAction_ARM">NetworkRuleSet_DefaultAction_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
 </p>
 <div>
 </div>
@@ -11139,7 +12175,27 @@ NetworkRuleSet_DefaultAction
 <h3 id="storage.azure.com/v1api20230101.NetworkRuleSet_DefaultAction_STATUS">NetworkRuleSet_DefaultAction_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>, <a href="#storage.azure.com/v1api20230101.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deny&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.NetworkRuleSet_DefaultAction_STATUS_ARM">NetworkRuleSet_DefaultAction_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -11260,8 +12316,8 @@ NetworkRuleSet_DefaultAction_STATUS
 <td>
 <code>bypass</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.NetworkRuleSet_Bypass_STATUS">
-NetworkRuleSet_Bypass_STATUS
+<a href="#storage.azure.com/v1api20230101.NetworkRuleSet_Bypass_STATUS_ARM">
+NetworkRuleSet_Bypass_STATUS_ARM
 </a>
 </em>
 </td>
@@ -11274,8 +12330,8 @@ Logging|Metrics|AzureServices (For example, &ldquo;Logging, Metrics&rdquo;), or 
 <td>
 <code>defaultAction</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.NetworkRuleSet_DefaultAction_STATUS">
-NetworkRuleSet_DefaultAction_STATUS
+<a href="#storage.azure.com/v1api20230101.NetworkRuleSet_DefaultAction_STATUS_ARM">
+NetworkRuleSet_DefaultAction_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12120,8 +13176,8 @@ bool
 <td>
 <code>routingChoice</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.RoutingPreference_RoutingChoice">
-RoutingPreference_RoutingChoice
+<a href="#storage.azure.com/v1api20230101.RoutingPreference_RoutingChoice_ARM">
+RoutingPreference_RoutingChoice_ARM
 </a>
 </em>
 </td>
@@ -12134,7 +13190,27 @@ RoutingPreference_RoutingChoice
 <h3 id="storage.azure.com/v1api20230101.RoutingPreference_RoutingChoice">RoutingPreference_RoutingChoice
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.RoutingPreference">RoutingPreference</a>, <a href="#storage.azure.com/v1api20230101.RoutingPreference_ARM">RoutingPreference_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.RoutingPreference">RoutingPreference</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;InternetRouting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MicrosoftRouting&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.RoutingPreference_RoutingChoice_ARM">RoutingPreference_RoutingChoice_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.RoutingPreference_ARM">RoutingPreference_ARM</a>)
 </p>
 <div>
 </div>
@@ -12154,7 +13230,27 @@ RoutingPreference_RoutingChoice
 <h3 id="storage.azure.com/v1api20230101.RoutingPreference_RoutingChoice_STATUS">RoutingPreference_RoutingChoice_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.RoutingPreference_STATUS">RoutingPreference_STATUS</a>, <a href="#storage.azure.com/v1api20230101.RoutingPreference_STATUS_ARM">RoutingPreference_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.RoutingPreference_STATUS">RoutingPreference_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;InternetRouting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;MicrosoftRouting&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.RoutingPreference_RoutingChoice_STATUS_ARM">RoutingPreference_RoutingChoice_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.RoutingPreference_STATUS_ARM">RoutingPreference_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -12268,8 +13364,8 @@ bool
 <td>
 <code>routingChoice</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.RoutingPreference_RoutingChoice_STATUS">
-RoutingPreference_RoutingChoice_STATUS
+<a href="#storage.azure.com/v1api20230101.RoutingPreference_RoutingChoice_STATUS_ARM">
+RoutingPreference_RoutingChoice_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12341,8 +13437,8 @@ string
 <td>
 <code>expirationAction</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.SasPolicy_ExpirationAction">
-SasPolicy_ExpirationAction
+<a href="#storage.azure.com/v1api20230101.SasPolicy_ExpirationAction_ARM">
+SasPolicy_ExpirationAction_ARM
 </a>
 </em>
 </td>
@@ -12366,7 +13462,25 @@ string
 <h3 id="storage.azure.com/v1api20230101.SasPolicy_ExpirationAction">SasPolicy_ExpirationAction
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.SasPolicy">SasPolicy</a>, <a href="#storage.azure.com/v1api20230101.SasPolicy_ARM">SasPolicy_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.SasPolicy">SasPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Log&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.SasPolicy_ExpirationAction_ARM">SasPolicy_ExpirationAction_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.SasPolicy_ARM">SasPolicy_ARM</a>)
 </p>
 <div>
 </div>
@@ -12384,7 +13498,25 @@ string
 <h3 id="storage.azure.com/v1api20230101.SasPolicy_ExpirationAction_STATUS">SasPolicy_ExpirationAction_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.SasPolicy_STATUS">SasPolicy_STATUS</a>, <a href="#storage.azure.com/v1api20230101.SasPolicy_STATUS_ARM">SasPolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.SasPolicy_STATUS">SasPolicy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Log&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.SasPolicy_ExpirationAction_STATUS_ARM">SasPolicy_ExpirationAction_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.SasPolicy_STATUS_ARM">SasPolicy_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -12461,8 +13593,8 @@ string
 <td>
 <code>expirationAction</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.SasPolicy_ExpirationAction_STATUS">
-SasPolicy_ExpirationAction_STATUS
+<a href="#storage.azure.com/v1api20230101.SasPolicy_ExpirationAction_STATUS_ARM">
+SasPolicy_ExpirationAction_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12696,7 +13828,41 @@ Tier
 <h3 id="storage.azure.com/v1api20230101.SkuName">SkuName
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku">Sku</a>, <a href="#storage.azure.com/v1api20230101.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku">Sku</a>)
+</p>
+<div>
+<p>The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
+accountType.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Premium_LRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium_ZRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_GRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_GZRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_LRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_RAGRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_RAGZRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_ZRS&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.SkuName_ARM">SkuName_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
 <p>The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
@@ -12730,7 +13896,41 @@ accountType.</p>
 <h3 id="storage.azure.com/v1api20230101.SkuName_STATUS">SkuName_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku_STATUS">Sku_STATUS</a>, <a href="#storage.azure.com/v1api20230101.Sku_STATUS_ARM">Sku_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_STATUS">StorageAccountSkuConversionStatus_STATUS</a>, <a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_STATUS_ARM">StorageAccountSkuConversionStatus_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku_STATUS">Sku_STATUS</a>, <a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_STATUS">StorageAccountSkuConversionStatus_STATUS</a>)
+</p>
+<div>
+<p>The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
+accountType.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Premium_LRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium_ZRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_GRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_GZRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_LRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_RAGRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_RAGZRS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_ZRS&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.SkuName_STATUS_ARM">SkuName_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku_STATUS_ARM">Sku_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_STATUS_ARM">StorageAccountSkuConversionStatus_STATUS_ARM</a>)
 </p>
 <div>
 <p>The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
@@ -12781,8 +13981,8 @@ accountType.</p>
 <td>
 <code>name</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.SkuName">
-SkuName
+<a href="#storage.azure.com/v1api20230101.SkuName_ARM">
+SkuName_ARM
 </a>
 </em>
 </td>
@@ -12795,8 +13995,8 @@ accountType.</p>
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.Tier">
-Tier
+<a href="#storage.azure.com/v1api20230101.Tier_ARM">
+Tier_ARM
 </a>
 </em>
 </td>
@@ -12871,8 +14071,8 @@ Tier_STATUS
 <td>
 <code>name</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.SkuName_STATUS">
-SkuName_STATUS
+<a href="#storage.azure.com/v1api20230101.SkuName_STATUS_ARM">
+SkuName_STATUS_ARM
 </a>
 </em>
 </td>
@@ -12885,8 +14085,8 @@ accountType.</p>
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.Tier_STATUS">
-Tier_STATUS
+<a href="#storage.azure.com/v1api20230101.Tier_STATUS_ARM">
+Tier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -14268,8 +15468,8 @@ StorageAccountOperatorSecrets
 <td>
 <code>accessTier</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_AccessTier">
-StorageAccountPropertiesCreateParameters_AccessTier
+<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_AccessTier_ARM">
+StorageAccountPropertiesCreateParameters_AccessTier_ARM
 </a>
 </em>
 </td>
@@ -14321,8 +15521,8 @@ Active Directory (Azure AD). The default value is null, which is equivalent to t
 <td>
 <code>allowedCopyScope</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_AllowedCopyScope">
-StorageAccountPropertiesCreateParameters_AllowedCopyScope
+<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_AllowedCopyScope_ARM">
+StorageAccountPropertiesCreateParameters_AllowedCopyScope_ARM
 </a>
 </em>
 </td>
@@ -14374,8 +15574,8 @@ default interpretation is false for this property.</p>
 <td>
 <code>dnsEndpointType</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_DnsEndpointType">
-StorageAccountPropertiesCreateParameters_DnsEndpointType
+<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_DnsEndpointType_ARM">
+StorageAccountPropertiesCreateParameters_DnsEndpointType_ARM
 </a>
 </em>
 </td>
@@ -14473,8 +15673,8 @@ KeyPolicy_ARM
 <td>
 <code>largeFileSharesState</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_LargeFileSharesState">
-StorageAccountPropertiesCreateParameters_LargeFileSharesState
+<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_LargeFileSharesState_ARM">
+StorageAccountPropertiesCreateParameters_LargeFileSharesState_ARM
 </a>
 </em>
 </td>
@@ -14486,8 +15686,8 @@ StorageAccountPropertiesCreateParameters_LargeFileSharesState
 <td>
 <code>minimumTlsVersion</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_MinimumTlsVersion">
-StorageAccountPropertiesCreateParameters_MinimumTlsVersion
+<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_MinimumTlsVersion_ARM">
+StorageAccountPropertiesCreateParameters_MinimumTlsVersion_ARM
 </a>
 </em>
 </td>
@@ -14513,8 +15713,8 @@ NetworkRuleSet_ARM
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_PublicNetworkAccess">
-StorageAccountPropertiesCreateParameters_PublicNetworkAccess
+<a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_PublicNetworkAccess_ARM">
+StorageAccountPropertiesCreateParameters_PublicNetworkAccess_ARM
 </a>
 </em>
 </td>
@@ -14566,7 +15766,29 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_AccessTier">StorageAccountPropertiesCreateParameters_AccessTier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Cool&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Hot&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_AccessTier_ARM">StorageAccountPropertiesCreateParameters_AccessTier_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>)
 </p>
 <div>
 </div>
@@ -14588,7 +15810,27 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_AllowedCopyScope">StorageAccountPropertiesCreateParameters_AllowedCopyScope
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AAD&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PrivateLink&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_AllowedCopyScope_ARM">StorageAccountPropertiesCreateParameters_AllowedCopyScope_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>)
 </p>
 <div>
 </div>
@@ -14608,7 +15850,27 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_DnsEndpointType">StorageAccountPropertiesCreateParameters_DnsEndpointType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureDnsZone&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_DnsEndpointType_ARM">StorageAccountPropertiesCreateParameters_DnsEndpointType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>)
 </p>
 <div>
 </div>
@@ -14628,7 +15890,27 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_LargeFileSharesState">StorageAccountPropertiesCreateParameters_LargeFileSharesState
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_LargeFileSharesState_ARM">StorageAccountPropertiesCreateParameters_LargeFileSharesState_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>)
 </p>
 <div>
 </div>
@@ -14648,7 +15930,29 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_MinimumTlsVersion">StorageAccountPropertiesCreateParameters_MinimumTlsVersion
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;TLS1_0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TLS1_1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TLS1_2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_MinimumTlsVersion_ARM">StorageAccountPropertiesCreateParameters_MinimumTlsVersion_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>)
 </p>
 <div>
 </div>
@@ -14670,7 +15974,27 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_PublicNetworkAccess">StorageAccountPropertiesCreateParameters_PublicNetworkAccess
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_PublicNetworkAccess_ARM">StorageAccountPropertiesCreateParameters_PublicNetworkAccess_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountPropertiesCreateParameters_ARM">StorageAccountPropertiesCreateParameters_ARM</a>)
 </p>
 <div>
 </div>
@@ -14690,7 +16014,29 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_AccessTier_STATUS">StorageAccountProperties_AccessTier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Cool&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Hot&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_AccessTier_STATUS_ARM">StorageAccountProperties_AccessTier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -14712,7 +16058,27 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_AllowedCopyScope_STATUS">StorageAccountProperties_AllowedCopyScope_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AAD&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PrivateLink&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_AllowedCopyScope_STATUS_ARM">StorageAccountProperties_AllowedCopyScope_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -14732,7 +16098,27 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_DnsEndpointType_STATUS">StorageAccountProperties_DnsEndpointType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;AzureDnsZone&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_DnsEndpointType_STATUS_ARM">StorageAccountProperties_DnsEndpointType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -14752,7 +16138,27 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_LargeFileSharesState_STATUS">StorageAccountProperties_LargeFileSharesState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_LargeFileSharesState_STATUS_ARM">StorageAccountProperties_LargeFileSharesState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -14772,7 +16178,29 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_MinimumTlsVersion_STATUS">StorageAccountProperties_MinimumTlsVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;TLS1_0&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TLS1_1&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;TLS1_2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_MinimumTlsVersion_STATUS_ARM">StorageAccountProperties_MinimumTlsVersion_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -14794,7 +16222,29 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_ProvisioningState_STATUS">StorageAccountProperties_ProvisioningState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ResolvingDNS&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_ProvisioningState_STATUS_ARM">StorageAccountProperties_ProvisioningState_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -14816,7 +16266,27 @@ API version 2019-04-01.</p>
 <h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_PublicNetworkAccess_STATUS">StorageAccountProperties_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_PublicNetworkAccess_STATUS_ARM">StorageAccountProperties_PublicNetworkAccess_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -14853,8 +16323,8 @@ API version 2019-04-01.</p>
 <td>
 <code>accessTier</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_AccessTier_STATUS">
-StorageAccountProperties_AccessTier_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_AccessTier_STATUS_ARM">
+StorageAccountProperties_AccessTier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -14918,8 +16388,8 @@ Active Directory (Azure AD). The default value is null, which is equivalent to t
 <td>
 <code>allowedCopyScope</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_AllowedCopyScope_STATUS">
-StorageAccountProperties_AllowedCopyScope_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_AllowedCopyScope_STATUS_ARM">
+StorageAccountProperties_AllowedCopyScope_STATUS_ARM
 </a>
 </em>
 </td>
@@ -14993,8 +16463,8 @@ default interpretation is false for this property.</p>
 <td>
 <code>dnsEndpointType</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_DnsEndpointType_STATUS">
-StorageAccountProperties_DnsEndpointType_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_DnsEndpointType_STATUS_ARM">
+StorageAccountProperties_DnsEndpointType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15141,8 +16611,8 @@ KeyPolicy_STATUS_ARM
 <td>
 <code>largeFileSharesState</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_LargeFileSharesState_STATUS">
-StorageAccountProperties_LargeFileSharesState_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_LargeFileSharesState_STATUS_ARM">
+StorageAccountProperties_LargeFileSharesState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15167,8 +16637,8 @@ available if the accountType is Standard_GRS or Standard_RAGRS.</p>
 <td>
 <code>minimumTlsVersion</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_MinimumTlsVersion_STATUS">
-StorageAccountProperties_MinimumTlsVersion_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_MinimumTlsVersion_STATUS_ARM">
+StorageAccountProperties_MinimumTlsVersion_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15232,8 +16702,8 @@ string
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_ProvisioningState_STATUS">
-StorageAccountProperties_ProvisioningState_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_ProvisioningState_STATUS_ARM">
+StorageAccountProperties_ProvisioningState_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15245,8 +16715,8 @@ StorageAccountProperties_ProvisioningState_STATUS
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_PublicNetworkAccess_STATUS">
-StorageAccountProperties_PublicNetworkAccess_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_PublicNetworkAccess_STATUS_ARM">
+StorageAccountProperties_PublicNetworkAccess_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15311,8 +16781,8 @@ accountType is Standard_GRS or Standard_RAGRS.</p>
 <td>
 <code>statusOfPrimary</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_StatusOfPrimary_STATUS">
-StorageAccountProperties_StatusOfPrimary_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_StatusOfPrimary_STATUS_ARM">
+StorageAccountProperties_StatusOfPrimary_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15325,8 +16795,8 @@ unavailable.</p>
 <td>
 <code>statusOfSecondary</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_StatusOfSecondary_STATUS">
-StorageAccountProperties_StatusOfSecondary_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountProperties_StatusOfSecondary_STATUS_ARM">
+StorageAccountProperties_StatusOfSecondary_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15365,7 +16835,27 @@ bool
 <h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_StatusOfPrimary_STATUS">StorageAccountProperties_StatusOfPrimary_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;available&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;unavailable&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_StatusOfPrimary_STATUS_ARM">StorageAccountProperties_StatusOfPrimary_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -15385,7 +16875,27 @@ bool
 <h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_StatusOfSecondary_STATUS">StorageAccountProperties_StatusOfSecondary_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;available&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;unavailable&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountProperties_StatusOfSecondary_STATUS_ARM">StorageAccountProperties_StatusOfSecondary_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountProperties_STATUS_ARM">StorageAccountProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -15499,8 +17009,8 @@ string
 <td>
 <code>skuConversionStatus</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS">
-StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_ARM">
+StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15523,8 +17033,8 @@ string
 <td>
 <code>targetSkuName</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.SkuName_STATUS">
-SkuName_STATUS
+<a href="#storage.azure.com/v1api20230101.SkuName_STATUS_ARM">
+SkuName_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15537,7 +17047,29 @@ SkuName_STATUS
 <h3 id="storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS">StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_STATUS">StorageAccountSkuConversionStatus_STATUS</a>, <a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_STATUS_ARM">StorageAccountSkuConversionStatus_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_STATUS">StorageAccountSkuConversionStatus_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;InProgress&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_ARM">StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccountSkuConversionStatus_STATUS_ARM">StorageAccountSkuConversionStatus_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -15559,7 +17091,33 @@ SkuName_STATUS
 <h3 id="storage.azure.com/v1api20230101.StorageAccount_Kind_STATUS">StorageAccount_Kind_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS_ARM">StorageAccount_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS">StorageAccount_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BlobStorage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;BlockBlobStorage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;FileStorage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Storage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StorageV2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccount_Kind_STATUS_ARM">StorageAccount_Kind_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_STATUS_ARM">StorageAccount_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -15585,7 +17143,33 @@ SkuName_STATUS
 <h3 id="storage.azure.com/v1api20230101.StorageAccount_Kind_Spec">StorageAccount_Kind_Spec
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>, <a href="#storage.azure.com/v1api20230101.StorageAccount_Spec_ARM">StorageAccount_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_Spec">StorageAccount_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;BlobStorage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;BlockBlobStorage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;FileStorage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Storage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StorageV2&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.StorageAccount_Kind_Spec_ARM">StorageAccount_Kind_Spec_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.StorageAccount_Spec_ARM">StorageAccount_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -16313,8 +17897,8 @@ Identity_STATUS_ARM
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccount_Kind_STATUS">
-StorageAccount_Kind_STATUS
+<a href="#storage.azure.com/v1api20230101.StorageAccount_Kind_STATUS_ARM">
+StorageAccount_Kind_STATUS_ARM
 </a>
 </em>
 </td>
@@ -16871,8 +18455,8 @@ Identity_ARM
 <td>
 <code>kind</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.StorageAccount_Kind_Spec">
-StorageAccount_Kind_Spec
+<a href="#storage.azure.com/v1api20230101.StorageAccount_Kind_Spec_ARM">
+StorageAccount_Kind_Spec_ARM
 </a>
 </em>
 </td>
@@ -22321,7 +23905,28 @@ string
 <h3 id="storage.azure.com/v1api20230101.Tier">Tier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku">Sku</a>, <a href="#storage.azure.com/v1api20230101.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku">Sku</a>)
+</p>
+<div>
+<p>The SKU tier. This is based on the SKU name.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.Tier_ARM">Tier_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
 <p>The SKU tier. This is based on the SKU name.</p>
@@ -22342,7 +23947,28 @@ string
 <h3 id="storage.azure.com/v1api20230101.Tier_STATUS">Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku_STATUS">Sku_STATUS</a>, <a href="#storage.azure.com/v1api20230101.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku_STATUS">Sku_STATUS</a>)
+</p>
+<div>
+<p>The SKU tier. This is based on the SKU name.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.Tier_STATUS_ARM">Tier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
 <p>The SKU tier. This is based on the SKU name.</p>
@@ -22570,8 +24196,8 @@ string
 <td>
 <code>update</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.UpdateHistoryProperty_Update_STATUS">
-UpdateHistoryProperty_Update_STATUS
+<a href="#storage.azure.com/v1api20230101.UpdateHistoryProperty_Update_STATUS_ARM">
+UpdateHistoryProperty_Update_STATUS_ARM
 </a>
 </em>
 </td>
@@ -22595,7 +24221,29 @@ string
 <h3 id="storage.azure.com/v1api20230101.UpdateHistoryProperty_Update_STATUS">UpdateHistoryProperty_Update_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.UpdateHistoryProperty_STATUS">UpdateHistoryProperty_STATUS</a>, <a href="#storage.azure.com/v1api20230101.UpdateHistoryProperty_STATUS_ARM">UpdateHistoryProperty_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.UpdateHistoryProperty_STATUS">UpdateHistoryProperty_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;extend&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;lock&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;put&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.UpdateHistoryProperty_Update_STATUS_ARM">UpdateHistoryProperty_Update_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.UpdateHistoryProperty_STATUS_ARM">UpdateHistoryProperty_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -22810,8 +24458,8 @@ VirtualNetworkRule_State
 <td>
 <code>action</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_Action">
-VirtualNetworkRule_Action
+<a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_Action_ARM">
+VirtualNetworkRule_Action_ARM
 </a>
 </em>
 </td>
@@ -22833,8 +24481,8 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_State">
-VirtualNetworkRule_State
+<a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_State_ARM">
+VirtualNetworkRule_State_ARM
 </a>
 </em>
 </td>
@@ -22847,7 +24495,25 @@ VirtualNetworkRule_State
 <h3 id="storage.azure.com/v1api20230101.VirtualNetworkRule_Action">VirtualNetworkRule_Action
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule">VirtualNetworkRule</a>, <a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_ARM">VirtualNetworkRule_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule">VirtualNetworkRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.VirtualNetworkRule_Action_ARM">VirtualNetworkRule_Action_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_ARM">VirtualNetworkRule_ARM</a>)
 </p>
 <div>
 </div>
@@ -22865,7 +24531,25 @@ VirtualNetworkRule_State
 <h3 id="storage.azure.com/v1api20230101.VirtualNetworkRule_Action_STATUS">VirtualNetworkRule_Action_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_STATUS">VirtualNetworkRule_STATUS</a>, <a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_STATUS_ARM">VirtualNetworkRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_STATUS">VirtualNetworkRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.VirtualNetworkRule_Action_STATUS_ARM">VirtualNetworkRule_Action_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_STATUS_ARM">VirtualNetworkRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -22956,8 +24640,8 @@ VirtualNetworkRule_State_STATUS
 <td>
 <code>action</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_Action_STATUS">
-VirtualNetworkRule_Action_STATUS
+<a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_Action_STATUS_ARM">
+VirtualNetworkRule_Action_STATUS_ARM
 </a>
 </em>
 </td>
@@ -22981,8 +24665,8 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_State_STATUS">
-VirtualNetworkRule_State_STATUS
+<a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_State_STATUS_ARM">
+VirtualNetworkRule_State_STATUS_ARM
 </a>
 </em>
 </td>
@@ -22995,7 +24679,33 @@ VirtualNetworkRule_State_STATUS
 <h3 id="storage.azure.com/v1api20230101.VirtualNetworkRule_State">VirtualNetworkRule_State
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule">VirtualNetworkRule</a>, <a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_ARM">VirtualNetworkRule_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule">VirtualNetworkRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Deprovisioning&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;NetworkSourceDeleted&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Provisioning&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.VirtualNetworkRule_State_ARM">VirtualNetworkRule_State_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_ARM">VirtualNetworkRule_ARM</a>)
 </p>
 <div>
 </div>
@@ -23021,7 +24731,33 @@ VirtualNetworkRule_State_STATUS
 <h3 id="storage.azure.com/v1api20230101.VirtualNetworkRule_State_STATUS">VirtualNetworkRule_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_STATUS">VirtualNetworkRule_STATUS</a>, <a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_STATUS_ARM">VirtualNetworkRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_STATUS">VirtualNetworkRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Deprovisioning&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;NetworkSourceDeleted&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Provisioning&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1api20230101.VirtualNetworkRule_State_STATUS_ARM">VirtualNetworkRule_State_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1api20230101.VirtualNetworkRule_STATUS_ARM">VirtualNetworkRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>

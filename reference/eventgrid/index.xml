@@ -923,8 +923,8 @@ subscription.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType&#34;&gt;
-AzureFunctionEventSubscriptionDestination_EndpointType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_ARM&#34;&gt;
+AzureFunctionEventSubscriptionDestination_EndpointType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -950,7 +950,25 @@ AzureFunctionEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType&#34;&gt;AzureFunctionEventSubscriptionDestination_EndpointType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination&#34;&gt;AzureFunctionEventSubscriptionDestination&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_ARM&#34;&gt;AzureFunctionEventSubscriptionDestination_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination&#34;&gt;AzureFunctionEventSubscriptionDestination&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AzureFunction&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_ARM&#34;&gt;AzureFunctionEventSubscriptionDestination_EndpointType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_ARM&#34;&gt;AzureFunctionEventSubscriptionDestination_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -968,7 +986,25 @@ AzureFunctionEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;AzureFunctionEventSubscriptionDestination_EndpointType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS&#34;&gt;AzureFunctionEventSubscriptionDestination_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS_ARM&#34;&gt;AzureFunctionEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS&#34;&gt;AzureFunctionEventSubscriptionDestination_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AzureFunction&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS_ARM&#34;&gt;AzureFunctionEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1066,8 +1102,8 @@ subscription.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;
-AzureFunctionEventSubscriptionDestination_EndpointType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;
+AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1172,8 +1208,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType&#34;&gt;
-BoolEqualsAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_ARM&#34;&gt;
+BoolEqualsAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1197,7 +1233,25 @@ bool
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType&#34;&gt;BoolEqualsAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter&#34;&gt;BoolEqualsAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_ARM&#34;&gt;BoolEqualsAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter&#34;&gt;BoolEqualsAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BoolEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_ARM&#34;&gt;BoolEqualsAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_ARM&#34;&gt;BoolEqualsAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1215,7 +1269,25 @@ bool
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_STATUS&#34;&gt;BoolEqualsAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_STATUS&#34;&gt;BoolEqualsAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_STATUS_ARM&#34;&gt;BoolEqualsAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_STATUS&#34;&gt;BoolEqualsAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;BoolEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_STATUS_ARM&#34;&gt;BoolEqualsAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1312,8 +1384,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_STATUS&#34;&gt;
-BoolEqualsAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+BoolEqualsAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1651,8 +1723,8 @@ only if PublicNetworkAccess is enabled.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;inputSchema&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema&#34;&gt;
-DomainProperties_InputSchema
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_ARM&#34;&gt;
+DomainProperties_InputSchema_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1677,8 +1749,8 @@ InputSchemaMapping_ARM
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess&#34;&gt;
-DomainProperties_PublicNetworkAccess
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_ARM&#34;&gt;
+DomainProperties_PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1693,7 +1765,29 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPrope
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema&#34;&gt;DomainProperties_InputSchema
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_ARM&#34;&gt;DomainProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_Spec&#34;&gt;Domain_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_Spec&#34;&gt;Domain_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CloudEventSchemaV1_0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CustomEventSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventGridSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_ARM&#34;&gt;DomainProperties_InputSchema_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_ARM&#34;&gt;DomainProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1715,7 +1809,29 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPrope
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_STATUS&#34;&gt;DomainProperties_InputSchema_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM&#34;&gt;DomainProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_STATUS&#34;&gt;Domain_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_STATUS&#34;&gt;Domain_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CloudEventSchemaV1_0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CustomEventSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventGridSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_STATUS_ARM&#34;&gt;DomainProperties_InputSchema_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM&#34;&gt;DomainProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1737,7 +1853,35 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPrope
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_ProvisioningState_STATUS&#34;&gt;DomainProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM&#34;&gt;DomainProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_STATUS&#34;&gt;Domain_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_STATUS&#34;&gt;Domain_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_ProvisioningState_STATUS_ARM&#34;&gt;DomainProperties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM&#34;&gt;DomainProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1765,7 +1909,27 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPrope
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess&#34;&gt;DomainProperties_PublicNetworkAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_ARM&#34;&gt;DomainProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_Spec&#34;&gt;Domain_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_Spec&#34;&gt;Domain_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_ARM&#34;&gt;DomainProperties_PublicNetworkAccess_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_ARM&#34;&gt;DomainProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1785,7 +1949,27 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPrope
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_STATUS&#34;&gt;DomainProperties_PublicNetworkAccess_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM&#34;&gt;DomainProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_STATUS&#34;&gt;Domain_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domain_STATUS&#34;&gt;Domain_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;DomainProperties_PublicNetworkAccess_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_STATUS_ARM&#34;&gt;DomainProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1847,8 +2031,8 @@ only if PublicNetworkAccess is enabled.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;inputSchema&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_STATUS&#34;&gt;
-DomainProperties_InputSchema_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_InputSchema_STATUS_ARM&#34;&gt;
+DomainProperties_InputSchema_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1897,8 +2081,8 @@ string
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_ProvisioningState_STATUS&#34;&gt;
-DomainProperties_ProvisioningState_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_ProvisioningState_STATUS_ARM&#34;&gt;
+DomainProperties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1910,8 +2094,8 @@ DomainProperties_ProvisioningState_STATUS
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_STATUS&#34;&gt;
-DomainProperties_PublicNetworkAccess_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;
+DomainProperties_PublicNetworkAccess_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1926,7 +2110,35 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPrope
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainTopicProperties_ProvisioningState_STATUS&#34;&gt;DomainTopicProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainTopicProperties_STATUS_ARM&#34;&gt;DomainTopicProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domains_Topic_STATUS&#34;&gt;Domains_Topic_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Domains_Topic_STATUS&#34;&gt;Domains_Topic_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.DomainTopicProperties_ProvisioningState_STATUS_ARM&#34;&gt;DomainTopicProperties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainTopicProperties_STATUS_ARM&#34;&gt;DomainTopicProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -1971,8 +2183,8 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPrope
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainTopicProperties_ProvisioningState_STATUS&#34;&gt;
-DomainTopicProperties_ProvisioningState_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.DomainTopicProperties_ProvisioningState_STATUS_ARM&#34;&gt;
+DomainTopicProperties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2896,8 +3108,8 @@ string
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType&#34;&gt;
-EventHubEventSubscriptionDestination_EndpointType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_ARM&#34;&gt;
+EventHubEventSubscriptionDestination_EndpointType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2923,7 +3135,25 @@ EventHubEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType&#34;&gt;EventHubEventSubscriptionDestination_EndpointType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination&#34;&gt;EventHubEventSubscriptionDestination&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_ARM&#34;&gt;EventHubEventSubscriptionDestination_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination&#34;&gt;EventHubEventSubscriptionDestination&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_ARM&#34;&gt;EventHubEventSubscriptionDestination_EndpointType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_ARM&#34;&gt;EventHubEventSubscriptionDestination_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -2941,7 +3171,25 @@ EventHubEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;EventHubEventSubscriptionDestination_EndpointType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_STATUS&#34;&gt;EventHubEventSubscriptionDestination_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_STATUS_ARM&#34;&gt;EventHubEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_STATUS&#34;&gt;EventHubEventSubscriptionDestination_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventHub&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_STATUS_ARM&#34;&gt;EventHubEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -3016,8 +3264,8 @@ string
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;
-EventHubEventSubscriptionDestination_EndpointType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;
+EventHubEventSubscriptionDestination_EndpointType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4012,8 +4260,8 @@ EventSubscriptionDestination_ARM
 &lt;td&gt;
 &lt;code&gt;eventDeliverySchema&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema&#34;&gt;
-EventSubscriptionProperties_EventDeliverySchema
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_ARM&#34;&gt;
+EventSubscriptionProperties_EventDeliverySchema_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4075,7 +4323,29 @@ live for events.&lt;/p&gt;
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema&#34;&gt;EventSubscriptionProperties_EventDeliverySchema
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ARM&#34;&gt;EventSubscriptionProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscription_Spec&#34;&gt;EventSubscription_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscription_Spec&#34;&gt;EventSubscription_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CloudEventSchemaV1_0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CustomInputSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventGridSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_ARM&#34;&gt;EventSubscriptionProperties_EventDeliverySchema_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ARM&#34;&gt;EventSubscriptionProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4097,7 +4367,29 @@ live for events.&lt;/p&gt;
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_STATUS&#34;&gt;EventSubscriptionProperties_EventDeliverySchema_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_STATUS_ARM&#34;&gt;EventSubscriptionProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscription_STATUS&#34;&gt;EventSubscription_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscription_STATUS&#34;&gt;EventSubscription_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CloudEventSchemaV1_0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CustomInputSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventGridSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM&#34;&gt;EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_STATUS_ARM&#34;&gt;EventSubscriptionProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4119,7 +4411,37 @@ live for events.&lt;/p&gt;
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ProvisioningState_STATUS&#34;&gt;EventSubscriptionProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_STATUS_ARM&#34;&gt;EventSubscriptionProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscription_STATUS&#34;&gt;EventSubscription_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscription_STATUS&#34;&gt;EventSubscription_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;AwaitingManualAction&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ProvisioningState_STATUS_ARM&#34;&gt;EventSubscriptionProperties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_STATUS_ARM&#34;&gt;EventSubscriptionProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4192,8 +4514,8 @@ EventSubscriptionDestination_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;eventDeliverySchema&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_STATUS&#34;&gt;
-EventSubscriptionProperties_EventDeliverySchema_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM&#34;&gt;
+EventSubscriptionProperties_EventDeliverySchema_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4240,8 +4562,8 @@ EventSubscriptionFilter_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ProvisioningState_STATUS&#34;&gt;
-EventSubscriptionProperties_ProvisioningState_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.EventSubscriptionProperties_ProvisioningState_STATUS_ARM&#34;&gt;
+EventSubscriptionProperties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4827,8 +5149,8 @@ string
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType&#34;&gt;
-HybridConnectionEventSubscriptionDestination_EndpointType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_ARM&#34;&gt;
+HybridConnectionEventSubscriptionDestination_EndpointType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4854,7 +5176,25 @@ HybridConnectionEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType&#34;&gt;HybridConnectionEventSubscriptionDestination_EndpointType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination&#34;&gt;HybridConnectionEventSubscriptionDestination&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_ARM&#34;&gt;HybridConnectionEventSubscriptionDestination_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination&#34;&gt;HybridConnectionEventSubscriptionDestination&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;HybridConnection&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_ARM&#34;&gt;HybridConnectionEventSubscriptionDestination_EndpointType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_ARM&#34;&gt;HybridConnectionEventSubscriptionDestination_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4872,7 +5212,25 @@ HybridConnectionEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;HybridConnectionEventSubscriptionDestination_EndpointType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS&#34;&gt;HybridConnectionEventSubscriptionDestination_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS_ARM&#34;&gt;HybridConnectionEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS&#34;&gt;HybridConnectionEventSubscriptionDestination_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;HybridConnection&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS_ARM&#34;&gt;HybridConnectionEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -4947,8 +5305,8 @@ string
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;
-HybridConnectionEventSubscriptionDestination_EndpointType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;
+HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5031,8 +5389,8 @@ string
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_Action&#34;&gt;
-InboundIpRule_Action
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_Action_ARM&#34;&gt;
+InboundIpRule_Action_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5056,7 +5414,25 @@ string
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.InboundIpRule_Action&#34;&gt;InboundIpRule_Action
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule&#34;&gt;InboundIpRule&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_ARM&#34;&gt;InboundIpRule_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule&#34;&gt;InboundIpRule&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.InboundIpRule_Action_ARM&#34;&gt;InboundIpRule_Action_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_ARM&#34;&gt;InboundIpRule_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5074,7 +5450,25 @@ string
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.InboundIpRule_Action_STATUS&#34;&gt;InboundIpRule_Action_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_STATUS&#34;&gt;InboundIpRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_STATUS_ARM&#34;&gt;InboundIpRule_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_STATUS&#34;&gt;InboundIpRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Allow&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.InboundIpRule_Action_STATUS_ARM&#34;&gt;InboundIpRule_Action_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_STATUS_ARM&#34;&gt;InboundIpRule_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5149,8 +5543,8 @@ string
 &lt;td&gt;
 &lt;code&gt;action&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_Action_STATUS&#34;&gt;
-InboundIpRule_Action_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.InboundIpRule_Action_STATUS_ARM&#34;&gt;
+InboundIpRule_Action_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5924,8 +6318,8 @@ JsonField_STATUS_ARM
 &lt;td&gt;
 &lt;code&gt;inputSchemaMappingType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType&#34;&gt;
-JsonInputSchemaMapping_InputSchemaMappingType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_ARM&#34;&gt;
+JsonInputSchemaMapping_InputSchemaMappingType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5951,7 +6345,25 @@ JsonInputSchemaMappingProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType&#34;&gt;JsonInputSchemaMapping_InputSchemaMappingType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping&#34;&gt;JsonInputSchemaMapping&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_ARM&#34;&gt;JsonInputSchemaMapping_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping&#34;&gt;JsonInputSchemaMapping&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Json&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_ARM&#34;&gt;JsonInputSchemaMapping_InputSchemaMappingType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_ARM&#34;&gt;JsonInputSchemaMapping_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -5969,7 +6381,25 @@ JsonInputSchemaMappingProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_STATUS&#34;&gt;JsonInputSchemaMapping_InputSchemaMappingType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_STATUS&#34;&gt;JsonInputSchemaMapping_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_STATUS_ARM&#34;&gt;JsonInputSchemaMapping_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_STATUS&#34;&gt;JsonInputSchemaMapping_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Json&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM&#34;&gt;JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_STATUS_ARM&#34;&gt;JsonInputSchemaMapping_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6111,8 +6541,8 @@ JsonField_STATUS
 &lt;td&gt;
 &lt;code&gt;inputSchemaMappingType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_STATUS&#34;&gt;
-JsonInputSchemaMapping_InputSchemaMappingType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM&#34;&gt;
+JsonInputSchemaMapping_InputSchemaMappingType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6217,8 +6647,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType&#34;&gt;
-NumberGreaterThanAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_ARM&#34;&gt;
+NumberGreaterThanAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6242,7 +6672,25 @@ float64
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType&#34;&gt;NumberGreaterThanAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter&#34;&gt;NumberGreaterThanAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_ARM&#34;&gt;NumberGreaterThanAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter&#34;&gt;NumberGreaterThanAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberGreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_ARM&#34;&gt;NumberGreaterThanAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_ARM&#34;&gt;NumberGreaterThanAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6260,7 +6708,25 @@ float64
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_STATUS&#34;&gt;NumberGreaterThanAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_STATUS&#34;&gt;NumberGreaterThanAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_STATUS_ARM&#34;&gt;NumberGreaterThanAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_STATUS&#34;&gt;NumberGreaterThanAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberGreaterThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_STATUS_ARM&#34;&gt;NumberGreaterThanAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6357,8 +6823,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_STATUS&#34;&gt;
-NumberGreaterThanAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+NumberGreaterThanAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6461,8 +6927,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType&#34;&gt;
-NumberGreaterThanOrEqualsAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM&#34;&gt;
+NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6486,7 +6952,25 @@ float64
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_ARM&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberGreaterThanOrEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_ARM&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6504,7 +6988,25 @@ float64
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberGreaterThanOrEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM&#34;&gt;NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6601,8 +7103,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS&#34;&gt;
-NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6705,8 +7207,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType&#34;&gt;
-NumberInAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_ARM&#34;&gt;
+NumberInAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6730,7 +7232,25 @@ NumberInAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType&#34;&gt;NumberInAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter&#34;&gt;NumberInAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_ARM&#34;&gt;NumberInAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter&#34;&gt;NumberInAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberIn&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_ARM&#34;&gt;NumberInAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_ARM&#34;&gt;NumberInAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6748,7 +7268,25 @@ NumberInAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_STATUS&#34;&gt;NumberInAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_STATUS&#34;&gt;NumberInAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_STATUS_ARM&#34;&gt;NumberInAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_STATUS&#34;&gt;NumberInAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberIn&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;NumberInAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_STATUS_ARM&#34;&gt;NumberInAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6845,8 +7383,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_STATUS&#34;&gt;
-NumberInAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberInAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+NumberInAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6949,8 +7487,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType&#34;&gt;
-NumberLessThanAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_ARM&#34;&gt;
+NumberLessThanAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6974,7 +7512,25 @@ float64
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType&#34;&gt;NumberLessThanAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter&#34;&gt;NumberLessThanAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_ARM&#34;&gt;NumberLessThanAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter&#34;&gt;NumberLessThanAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberLessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_ARM&#34;&gt;NumberLessThanAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_ARM&#34;&gt;NumberLessThanAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -6992,7 +7548,25 @@ float64
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_STATUS&#34;&gt;NumberLessThanAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_STATUS&#34;&gt;NumberLessThanAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_STATUS_ARM&#34;&gt;NumberLessThanAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_STATUS&#34;&gt;NumberLessThanAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberLessThan&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_STATUS_ARM&#34;&gt;NumberLessThanAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7089,8 +7663,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_STATUS&#34;&gt;
-NumberLessThanAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+NumberLessThanAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7193,8 +7767,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType&#34;&gt;
-NumberLessThanOrEqualsAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM&#34;&gt;
+NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7218,7 +7792,25 @@ float64
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter&#34;&gt;NumberLessThanOrEqualsAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_ARM&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter&#34;&gt;NumberLessThanOrEqualsAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberLessThanOrEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_ARM&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7236,7 +7828,25 @@ float64
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberLessThanOrEquals&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM&#34;&gt;NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7333,8 +7943,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS&#34;&gt;
-NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7437,8 +8047,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType&#34;&gt;
-NumberNotInAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_ARM&#34;&gt;
+NumberNotInAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7462,7 +8072,25 @@ NumberNotInAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType&#34;&gt;NumberNotInAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter&#34;&gt;NumberNotInAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_ARM&#34;&gt;NumberNotInAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter&#34;&gt;NumberNotInAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberNotIn&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_ARM&#34;&gt;NumberNotInAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_ARM&#34;&gt;NumberNotInAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7480,7 +8108,25 @@ NumberNotInAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_STATUS&#34;&gt;NumberNotInAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_STATUS&#34;&gt;NumberNotInAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_STATUS_ARM&#34;&gt;NumberNotInAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_STATUS&#34;&gt;NumberNotInAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NumberNotIn&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;NumberNotInAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_STATUS_ARM&#34;&gt;NumberNotInAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -7577,8 +8223,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_STATUS&#34;&gt;
-NumberNotInAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.NumberNotInAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+NumberNotInAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7991,8 +8637,8 @@ string
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType&#34;&gt;
-ServiceBusQueueEventSubscriptionDestination_EndpointType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM&#34;&gt;
+ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8018,7 +8664,25 @@ ServiceBusQueueEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType&#34;&gt;ServiceBusQueueEventSubscriptionDestination_EndpointType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination&#34;&gt;ServiceBusQueueEventSubscriptionDestination&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_ARM&#34;&gt;ServiceBusQueueEventSubscriptionDestination_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination&#34;&gt;ServiceBusQueueEventSubscriptionDestination&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceBusQueue&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM&#34;&gt;ServiceBusQueueEventSubscriptionDestination_EndpointType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_ARM&#34;&gt;ServiceBusQueueEventSubscriptionDestination_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8036,7 +8700,25 @@ ServiceBusQueueEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS&#34;&gt;ServiceBusQueueEventSubscriptionDestination_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS_ARM&#34;&gt;ServiceBusQueueEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS&#34;&gt;ServiceBusQueueEventSubscriptionDestination_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceBusQueue&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS_ARM&#34;&gt;ServiceBusQueueEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8111,8 +8793,8 @@ string
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;
-ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;
+ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8256,8 +8938,8 @@ subscription.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType&#34;&gt;
-ServiceBusTopicEventSubscriptionDestination_EndpointType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM&#34;&gt;
+ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8283,7 +8965,25 @@ ServiceBusTopicEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType&#34;&gt;ServiceBusTopicEventSubscriptionDestination_EndpointType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination&#34;&gt;ServiceBusTopicEventSubscriptionDestination&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_ARM&#34;&gt;ServiceBusTopicEventSubscriptionDestination_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination&#34;&gt;ServiceBusTopicEventSubscriptionDestination&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceBusTopic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM&#34;&gt;ServiceBusTopicEventSubscriptionDestination_EndpointType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_ARM&#34;&gt;ServiceBusTopicEventSubscriptionDestination_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8301,7 +9001,25 @@ ServiceBusTopicEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS&#34;&gt;ServiceBusTopicEventSubscriptionDestination_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS_ARM&#34;&gt;ServiceBusTopicEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS&#34;&gt;ServiceBusTopicEventSubscriptionDestination_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ServiceBusTopic&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS_ARM&#34;&gt;ServiceBusTopicEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8377,8 +9095,8 @@ subscription.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;
-ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;
+ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8553,8 +9271,8 @@ string
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType&#34;&gt;
-StorageBlobDeadLetterDestination_EndpointType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_ARM&#34;&gt;
+StorageBlobDeadLetterDestination_EndpointType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8580,7 +9298,25 @@ StorageBlobDeadLetterDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType&#34;&gt;StorageBlobDeadLetterDestination_EndpointType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination&#34;&gt;StorageBlobDeadLetterDestination&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_ARM&#34;&gt;StorageBlobDeadLetterDestination_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination&#34;&gt;StorageBlobDeadLetterDestination&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StorageBlob&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_ARM&#34;&gt;StorageBlobDeadLetterDestination_EndpointType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_ARM&#34;&gt;StorageBlobDeadLetterDestination_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8598,7 +9334,25 @@ StorageBlobDeadLetterDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_STATUS&#34;&gt;StorageBlobDeadLetterDestination_EndpointType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_STATUS&#34;&gt;StorageBlobDeadLetterDestination_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_STATUS_ARM&#34;&gt;StorageBlobDeadLetterDestination_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_STATUS&#34;&gt;StorageBlobDeadLetterDestination_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StorageBlob&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM&#34;&gt;StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_STATUS_ARM&#34;&gt;StorageBlobDeadLetterDestination_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8684,8 +9438,8 @@ string
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_STATUS&#34;&gt;
-StorageBlobDeadLetterDestination_EndpointType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM&#34;&gt;
+StorageBlobDeadLetterDestination_EndpointType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8862,8 +9616,8 @@ subscription.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType&#34;&gt;
-StorageQueueEventSubscriptionDestination_EndpointType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_ARM&#34;&gt;
+StorageQueueEventSubscriptionDestination_EndpointType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8889,7 +9643,25 @@ StorageQueueEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType&#34;&gt;StorageQueueEventSubscriptionDestination_EndpointType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination&#34;&gt;StorageQueueEventSubscriptionDestination&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_ARM&#34;&gt;StorageQueueEventSubscriptionDestination_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination&#34;&gt;StorageQueueEventSubscriptionDestination&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StorageQueue&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_ARM&#34;&gt;StorageQueueEventSubscriptionDestination_EndpointType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_ARM&#34;&gt;StorageQueueEventSubscriptionDestination_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8907,7 +9679,25 @@ StorageQueueEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;StorageQueueEventSubscriptionDestination_EndpointType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_STATUS&#34;&gt;StorageQueueEventSubscriptionDestination_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_STATUS_ARM&#34;&gt;StorageQueueEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_STATUS&#34;&gt;StorageQueueEventSubscriptionDestination_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StorageQueue&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_STATUS_ARM&#34;&gt;StorageQueueEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -8994,8 +9784,8 @@ subscription.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;
-StorageQueueEventSubscriptionDestination_EndpointType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;
+StorageQueueEventSubscriptionDestination_EndpointType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9100,8 +9890,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType&#34;&gt;
-StringBeginsWithAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_ARM&#34;&gt;
+StringBeginsWithAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9125,7 +9915,25 @@ StringBeginsWithAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType&#34;&gt;StringBeginsWithAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter&#34;&gt;StringBeginsWithAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_ARM&#34;&gt;StringBeginsWithAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter&#34;&gt;StringBeginsWithAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringBeginsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_ARM&#34;&gt;StringBeginsWithAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_ARM&#34;&gt;StringBeginsWithAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9143,7 +9951,25 @@ StringBeginsWithAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_STATUS&#34;&gt;StringBeginsWithAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_STATUS&#34;&gt;StringBeginsWithAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_STATUS_ARM&#34;&gt;StringBeginsWithAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_STATUS&#34;&gt;StringBeginsWithAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringBeginsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_STATUS_ARM&#34;&gt;StringBeginsWithAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9240,8 +10066,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_STATUS&#34;&gt;
-StringBeginsWithAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+StringBeginsWithAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9344,8 +10170,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType&#34;&gt;
-StringContainsAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_ARM&#34;&gt;
+StringContainsAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9369,7 +10195,25 @@ StringContainsAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType&#34;&gt;StringContainsAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter&#34;&gt;StringContainsAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_ARM&#34;&gt;StringContainsAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter&#34;&gt;StringContainsAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringContains&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_ARM&#34;&gt;StringContainsAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_ARM&#34;&gt;StringContainsAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9387,7 +10231,25 @@ StringContainsAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_STATUS&#34;&gt;StringContainsAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_STATUS&#34;&gt;StringContainsAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_STATUS_ARM&#34;&gt;StringContainsAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_STATUS&#34;&gt;StringContainsAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringContains&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;StringContainsAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_STATUS_ARM&#34;&gt;StringContainsAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9484,8 +10346,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_STATUS&#34;&gt;
-StringContainsAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringContainsAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+StringContainsAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9588,8 +10450,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType&#34;&gt;
-StringEndsWithAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_ARM&#34;&gt;
+StringEndsWithAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9613,7 +10475,25 @@ StringEndsWithAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType&#34;&gt;StringEndsWithAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter&#34;&gt;StringEndsWithAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_ARM&#34;&gt;StringEndsWithAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter&#34;&gt;StringEndsWithAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringEndsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_ARM&#34;&gt;StringEndsWithAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_ARM&#34;&gt;StringEndsWithAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9631,7 +10511,25 @@ StringEndsWithAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_STATUS&#34;&gt;StringEndsWithAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_STATUS&#34;&gt;StringEndsWithAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_STATUS_ARM&#34;&gt;StringEndsWithAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_STATUS&#34;&gt;StringEndsWithAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringEndsWith&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_STATUS_ARM&#34;&gt;StringEndsWithAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9728,8 +10626,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_STATUS&#34;&gt;
-StringEndsWithAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+StringEndsWithAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9832,8 +10730,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType&#34;&gt;
-StringInAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_ARM&#34;&gt;
+StringInAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9857,7 +10755,25 @@ StringInAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType&#34;&gt;StringInAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter&#34;&gt;StringInAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_ARM&#34;&gt;StringInAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter&#34;&gt;StringInAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringIn&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_ARM&#34;&gt;StringInAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_ARM&#34;&gt;StringInAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9875,7 +10791,25 @@ StringInAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_STATUS&#34;&gt;StringInAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_STATUS&#34;&gt;StringInAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_STATUS_ARM&#34;&gt;StringInAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_STATUS&#34;&gt;StringInAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringIn&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;StringInAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_STATUS_ARM&#34;&gt;StringInAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -9972,8 +10906,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_STATUS&#34;&gt;
-StringInAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringInAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+StringInAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10076,8 +11010,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType&#34;&gt;
-StringNotInAdvancedFilter_OperatorType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_ARM&#34;&gt;
+StringNotInAdvancedFilter_OperatorType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10101,7 +11035,25 @@ StringNotInAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType&#34;&gt;StringNotInAdvancedFilter_OperatorType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter&#34;&gt;StringNotInAdvancedFilter&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_ARM&#34;&gt;StringNotInAdvancedFilter_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter&#34;&gt;StringNotInAdvancedFilter&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringNotIn&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_ARM&#34;&gt;StringNotInAdvancedFilter_OperatorType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_ARM&#34;&gt;StringNotInAdvancedFilter_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10119,7 +11071,25 @@ StringNotInAdvancedFilter_OperatorType
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_STATUS&#34;&gt;StringNotInAdvancedFilter_OperatorType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_STATUS&#34;&gt;StringNotInAdvancedFilter_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_STATUS_ARM&#34;&gt;StringNotInAdvancedFilter_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_STATUS&#34;&gt;StringNotInAdvancedFilter_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;StringNotIn&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;StringNotInAdvancedFilter_OperatorType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_STATUS_ARM&#34;&gt;StringNotInAdvancedFilter_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10216,8 +11186,8 @@ string
 &lt;td&gt;
 &lt;code&gt;operatorType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_STATUS&#34;&gt;
-StringNotInAdvancedFilter_OperatorType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.StringNotInAdvancedFilter_OperatorType_STATUS_ARM&#34;&gt;
+StringNotInAdvancedFilter_OperatorType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10241,7 +11211,31 @@ StringNotInAdvancedFilter_OperatorType_STATUS
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.SystemData_CreatedByType_STATUS&#34;&gt;SystemData_CreatedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.SystemData_CreatedByType_STATUS_ARM&#34;&gt;SystemData_CreatedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10265,7 +11259,31 @@ StringNotInAdvancedFilter_OperatorType_STATUS
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.SystemData_LastModifiedByType_STATUS&#34;&gt;SystemData_LastModifiedByType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;SystemData_LastModifiedByType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10416,8 +11434,8 @@ string
 &lt;td&gt;
 &lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_CreatedByType_STATUS&#34;&gt;
-SystemData_CreatedByType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_CreatedByType_STATUS_ARM&#34;&gt;
+SystemData_CreatedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10451,8 +11469,8 @@ string
 &lt;td&gt;
 &lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_LastModifiedByType_STATUS&#34;&gt;
-SystemData_LastModifiedByType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.SystemData_LastModifiedByType_STATUS_ARM&#34;&gt;
+SystemData_LastModifiedByType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10791,8 +11809,8 @@ only if PublicNetworkAccess is enabled.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;inputSchema&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema&#34;&gt;
-TopicProperties_InputSchema
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_ARM&#34;&gt;
+TopicProperties_InputSchema_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10818,8 +11836,8 @@ various properties of a source schema to various required properties of the Even
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess&#34;&gt;
-TopicProperties_PublicNetworkAccess
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_ARM&#34;&gt;
+TopicProperties_PublicNetworkAccess_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10834,7 +11852,29 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProper
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema&#34;&gt;TopicProperties_InputSchema
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_ARM&#34;&gt;TopicProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_Spec&#34;&gt;Topic_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_Spec&#34;&gt;Topic_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CloudEventSchemaV1_0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CustomEventSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventGridSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_ARM&#34;&gt;TopicProperties_InputSchema_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_ARM&#34;&gt;TopicProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10856,7 +11896,29 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProper
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_STATUS&#34;&gt;TopicProperties_InputSchema_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM&#34;&gt;TopicProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_STATUS&#34;&gt;Topic_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_STATUS&#34;&gt;Topic_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CloudEventSchemaV1_0&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;CustomEventSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;EventGridSchema&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_STATUS_ARM&#34;&gt;TopicProperties_InputSchema_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM&#34;&gt;TopicProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10878,7 +11940,35 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProper
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_ProvisioningState_STATUS&#34;&gt;TopicProperties_ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM&#34;&gt;TopicProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_STATUS&#34;&gt;Topic_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_STATUS&#34;&gt;Topic_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_ProvisioningState_STATUS_ARM&#34;&gt;TopicProperties_ProvisioningState_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM&#34;&gt;TopicProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10906,7 +11996,27 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProper
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess&#34;&gt;TopicProperties_PublicNetworkAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_ARM&#34;&gt;TopicProperties_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_Spec&#34;&gt;Topic_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_Spec&#34;&gt;Topic_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_ARM&#34;&gt;TopicProperties_PublicNetworkAccess_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_ARM&#34;&gt;TopicProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10926,7 +12036,27 @@ cref=&#34;P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProper
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_STATUS&#34;&gt;TopicProperties_PublicNetworkAccess_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM&#34;&gt;TopicProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_STATUS&#34;&gt;Topic_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_STATUS&#34;&gt;Topic_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Disabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Enabled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;TopicProperties_PublicNetworkAccess_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_STATUS_ARM&#34;&gt;TopicProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -10988,8 +12118,8 @@ only if PublicNetworkAccess is enabled.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;inputSchema&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_STATUS&#34;&gt;
-TopicProperties_InputSchema_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_InputSchema_STATUS_ARM&#34;&gt;
+TopicProperties_InputSchema_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11038,8 +12168,8 @@ string
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_ProvisioningState_STATUS&#34;&gt;
-TopicProperties_ProvisioningState_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_ProvisioningState_STATUS_ARM&#34;&gt;
+TopicProperties_ProvisioningState_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11051,8 +12181,8 @@ TopicProperties_ProvisioningState_STATUS
 &lt;td&gt;
 &lt;code&gt;publicNetworkAccess&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_STATUS&#34;&gt;
-TopicProperties_PublicNetworkAccess_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicProperties_PublicNetworkAccess_STATUS_ARM&#34;&gt;
+TopicProperties_PublicNetworkAccess_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11815,8 +12945,8 @@ int
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType&#34;&gt;
-WebHookEventSubscriptionDestination_EndpointType
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_ARM&#34;&gt;
+WebHookEventSubscriptionDestination_EndpointType_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11842,7 +12972,25 @@ WebHookEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType&#34;&gt;WebHookEventSubscriptionDestination_EndpointType
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination&#34;&gt;WebHookEventSubscriptionDestination&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_ARM&#34;&gt;WebHookEventSubscriptionDestination_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination&#34;&gt;WebHookEventSubscriptionDestination&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WebHook&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_ARM&#34;&gt;WebHookEventSubscriptionDestination_EndpointType_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_ARM&#34;&gt;WebHookEventSubscriptionDestination_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11860,7 +13008,25 @@ WebHookEventSubscriptionDestinationProperties_ARM
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;WebHookEventSubscriptionDestination_EndpointType_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_STATUS&#34;&gt;WebHookEventSubscriptionDestination_STATUS&lt;/a&gt;, &lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_STATUS_ARM&#34;&gt;WebHookEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_STATUS&#34;&gt;WebHookEventSubscriptionDestination_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;WebHook&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_STATUS_ARM&#34;&gt;WebHookEventSubscriptionDestination_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -11981,8 +13147,8 @@ int
 &lt;td&gt;
 &lt;code&gt;endpointType&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_STATUS&#34;&gt;
-WebHookEventSubscriptionDestination_EndpointType_STATUS
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM&#34;&gt;
+WebHookEventSubscriptionDestination_EndpointType_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
