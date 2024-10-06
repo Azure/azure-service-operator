@@ -18,7 +18,6 @@ import (
 type OneOfType struct {
 	swaggerName           string        // Name of the OneOf as defined in the Swagger file
 	propertyObjects       []*ObjectType // Object definitions used to specify the properties held by this OneOf. May be empty.
-	options               TypeNameSet   // References to the type names of the options for this OneOf. May be empty.
 	types                 TypeSet       // Set of all possible types
 	discriminatorProperty string        // Identifies the discriminatorProperty property
 	discriminatorValue    string        // Discriminator value used to identify this subtype
@@ -31,7 +30,6 @@ func NewOneOfType(name string, types ...Type) *OneOfType {
 	return &OneOfType{
 		swaggerName: name,
 		types:       MakeTypeSet(types...),
-		options:     NewTypeNameSet(),
 	}
 }
 
