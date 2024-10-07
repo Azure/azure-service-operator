@@ -28,6 +28,9 @@ type TestFileDefinition struct {
 var _ GoSourceFile = &TestFileDefinition{}
 
 // NewTestFileDefinition creates a file definition containing test cases from the specified definitions
+// packageRef is the package to which this file belongs.
+// definitions are the type definitions to include in this specific file.
+// generatedPackages is a map of all other packages being generated (to allow for cross-package references).
 func NewTestFileDefinition(
 	packageRef InternalPackageReference,
 	definitions []TypeDefinition,

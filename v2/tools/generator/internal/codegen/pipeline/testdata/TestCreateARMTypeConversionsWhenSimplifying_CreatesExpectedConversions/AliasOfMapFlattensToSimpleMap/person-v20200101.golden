@@ -5,6 +5,7 @@ package v20200101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/testing/person/v20200101/arm"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -23,7 +24,7 @@ func (person *Person) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if person == nil {
 		return nil, nil
 	}
-	result := &Person_ARM{}
+	result := &arm.Person{}
 
 	// Set property "Codes":
 	if person.Codes != nil {
@@ -41,14 +42,14 @@ func (person *Person) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (person *Person) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Person_ARM{}
+	return &arm.Person{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (person *Person) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Person_ARM)
+	typedInput, ok := armInput.(arm.Person)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Person_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Person, got %T", armInput)
 	}
 
 	// Set property "Codes":
@@ -65,14 +66,6 @@ func (person *Person) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 
 	// No error
 	return nil
-}
-
-type Person_ARM struct {
-	// Codes: Expect alias of map on CRD type to become map on ARM type
-	Codes map[string]string `json:"codes,omitempty"`
-
-	// FullName: As would be used to address mail
-	FullName string `json:"fullName,omitempty"`
 }
 
 type Codes map[string]string

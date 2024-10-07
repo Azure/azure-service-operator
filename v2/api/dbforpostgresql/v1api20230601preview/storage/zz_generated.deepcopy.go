@@ -171,6 +171,11 @@ func (in *DataEncryption) DeepCopyInto(out *DataEncryption) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.GeoBackupKeyURIFromConfig != nil {
+		in, out := &in.GeoBackupKeyURIFromConfig, &out.GeoBackupKeyURIFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.GeoBackupUserAssignedIdentityReference != nil {
 		in, out := &in.GeoBackupUserAssignedIdentityReference, &out.GeoBackupUserAssignedIdentityReference
 		*out = new(genruntime.ResourceReference)
@@ -184,6 +189,11 @@ func (in *DataEncryption) DeepCopyInto(out *DataEncryption) {
 	if in.PrimaryKeyURI != nil {
 		in, out := &in.PrimaryKeyURI, &out.PrimaryKeyURI
 		*out = new(string)
+		**out = **in
+	}
+	if in.PrimaryKeyURIFromConfig != nil {
+		in, out := &in.PrimaryKeyURIFromConfig, &out.PrimaryKeyURIFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 	if in.PrimaryUserAssignedIdentityReference != nil {

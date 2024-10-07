@@ -12,7 +12,7 @@ Workspace: Resource
 │   ├── ContainerRegistryReference: *genruntime.ResourceReference
 │   ├── Description: *string
 │   ├── DiscoveryUrl: *string
-│   ├── Encryption: *Object (4 properties)
+│   ├── Encryption: *Object (3 properties)
 │   │   ├── Identity: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UserAssignedIdentity: *string
@@ -21,8 +21,7 @@ Workspace: Resource
 │   │   │   ├── KeyIdentifier: *string
 │   │   │   ├── KeyVaultArmId: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Status: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── FriendlyName: *string
 │   ├── HbiWorkspace: *bool
 │   ├── Identity: *Object (3 properties)
@@ -193,9 +192,9 @@ WorkspacesCompute: Resource
 │   │   │   │   ├── LoadBalancerType: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── SslConfiguration: *Object (7 properties)
-│   │   │   │       ├── Cert: *string
+│   │   │   │       ├── Cert: *genruntime.SecretReference
 │   │   │   │       ├── Cname: *string
-│   │   │   │       ├── Key: *string
+│   │   │   │       ├── Key: *genruntime.SecretReference
 │   │   │   │       ├── LeafDomainLabel: *string
 │   │   │   │       ├── OverwriteExistingDomain: *bool
 │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
@@ -297,7 +296,7 @@ WorkspacesCompute: Resource
 │   │   │   ├── Description: *string
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── Properties: *Object (3 properties)
-│   │   │   │   ├── DatabricksAccessToken: *string
+│   │   │   │   ├── DatabricksAccessToken: *genruntime.SecretReference
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── WorkspaceUrl: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -311,9 +310,9 @@ WorkspacesCompute: Resource
 │   │   │   │   ├── Address: *string
 │   │   │   │   ├── AdministratorAccount: *Object (5 properties)
 │   │   │   │   │   ├── Password: *genruntime.SecretReference
-│   │   │   │   │   ├── PrivateKeyData: *string
+│   │   │   │   │   ├── PrivateKeyData: *genruntime.SecretReference
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── PublicKeyData: *string
+│   │   │   │   │   ├── PublicKeyData: *genruntime.SecretReference
 │   │   │   │   │   └── Username: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── SshPort: *int
@@ -378,9 +377,9 @@ WorkspacesCompute: Resource
 │   │       │   ├── Address: *string
 │   │       │   ├── AdministratorAccount: *Object (5 properties)
 │   │       │   │   ├── Password: *genruntime.SecretReference
-│   │       │   │   ├── PrivateKeyData: *string
+│   │       │   │   ├── PrivateKeyData: *genruntime.SecretReference
 │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │       │   │   ├── PublicKeyData: *string
+│   │       │   │   ├── PublicKeyData: *genruntime.SecretReference
 │   │       │   │   └── Username: *string
 │   │       │   ├── IsNotebookInstanceCompute: *bool
 │   │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -440,10 +439,8 @@ WorkspacesCompute: Resource
     │   │   │   ├── LoadBalancerSubnet: *string
     │   │   │   ├── LoadBalancerType: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── SslConfiguration: *Object (7 properties)
-    │   │   │   │   ├── Cert: *string
+    │   │   │   ├── SslConfiguration: *Object (5 properties)
     │   │   │   │   ├── Cname: *string
-    │   │   │   │   ├── Key: *string
     │   │   │   │   ├── LeafDomainLabel: *string
     │   │   │   │   ├── OverwriteExistingDomain: *bool
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -740,8 +737,7 @@ WorkspacesCompute: Resource
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── IsAttachedCompute: *bool
     │   │   ├── ModifiedOn: *string
-    │   │   ├── Properties: *Object (3 properties)
-    │   │   │   ├── DatabricksAccessToken: *string
+    │   │   ├── Properties: *Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── WorkspaceUrl: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -777,10 +773,8 @@ WorkspacesCompute: Resource
     │   │   ├── ModifiedOn: *string
     │   │   ├── Properties: *Object (4 properties)
     │   │   │   ├── Address: *string
-    │   │   │   ├── AdministratorAccount: *Object (4 properties)
-    │   │   │   │   ├── PrivateKeyData: *string
+    │   │   │   ├── AdministratorAccount: *Object (2 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   ├── PublicKeyData: *string
     │   │   │   │   └── Username: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── SshPort: *int
@@ -913,10 +907,8 @@ WorkspacesCompute: Resource
     │       ├── ModifiedOn: *string
     │       ├── Properties: *Object (6 properties)
     │       │   ├── Address: *string
-    │       │   ├── AdministratorAccount: *Object (4 properties)
-    │       │   │   ├── PrivateKeyData: *string
+    │       │   ├── AdministratorAccount: *Object (2 properties)
     │       │   │   ├── PropertyBag: genruntime.PropertyBag
-    │       │   │   ├── PublicKeyData: *string
     │       │   │   └── Username: *string
     │       │   ├── IsNotebookInstanceCompute: *bool
     │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -983,3 +975,120 @@ WorkspacesConnection: Resource
     ├── Type: *string
     ├── Value: *string
     └── ValueFormat: *string
+augmentConversionForAKS: Interface
+augmentConversionForAKS_Properties: Interface
+augmentConversionForAKS_Properties_STATUS: Interface
+augmentConversionForAKS_STATUS: Interface
+augmentConversionForAksNetworkingConfiguration: Interface
+augmentConversionForAksNetworkingConfiguration_STATUS: Interface
+augmentConversionForAmlCompute: Interface
+augmentConversionForAmlComputeProperties: Interface
+augmentConversionForAmlComputeProperties_STATUS: Interface
+augmentConversionForAmlCompute_STATUS: Interface
+augmentConversionForAssignedUser: Interface
+augmentConversionForAssignedUser_STATUS: Interface
+augmentConversionForAutoPauseProperties: Interface
+augmentConversionForAutoPauseProperties_STATUS: Interface
+augmentConversionForAutoScaleProperties: Interface
+augmentConversionForAutoScaleProperties_STATUS: Interface
+augmentConversionForCompute: Interface
+augmentConversionForComputeInstance: Interface
+augmentConversionForComputeInstanceApplication_STATUS: Interface
+augmentConversionForComputeInstanceConnectivityEndpoints_STATUS: Interface
+augmentConversionForComputeInstanceCreatedBy_STATUS: Interface
+augmentConversionForComputeInstanceLastOperation_STATUS: Interface
+augmentConversionForComputeInstanceProperties: Interface
+augmentConversionForComputeInstanceProperties_STATUS: Interface
+augmentConversionForComputeInstanceSshSettings: Interface
+augmentConversionForComputeInstanceSshSettings_STATUS: Interface
+augmentConversionForComputeInstance_STATUS: Interface
+augmentConversionForCompute_STATUS: Interface
+augmentConversionForCosmosDbSettings: Interface
+augmentConversionForCosmosDbSettings_STATUS: Interface
+augmentConversionForDataFactory: Interface
+augmentConversionForDataFactory_STATUS: Interface
+augmentConversionForDataLakeAnalytics: Interface
+augmentConversionForDataLakeAnalytics_Properties: Interface
+augmentConversionForDataLakeAnalytics_Properties_STATUS: Interface
+augmentConversionForDataLakeAnalytics_STATUS: Interface
+augmentConversionForDatabricks: Interface
+augmentConversionForDatabricksProperties: Interface
+augmentConversionForDatabricksProperties_STATUS: Interface
+augmentConversionForDatabricks_STATUS: Interface
+augmentConversionForEncryptionProperty: Interface
+augmentConversionForEncryptionProperty_STATUS: Interface
+augmentConversionForErrorAdditionalInfo_STATUS: Interface
+augmentConversionForErrorDetail_STATUS: Interface
+augmentConversionForErrorDetail_STATUS_Unrolled: Interface
+augmentConversionForErrorResponse_STATUS: Interface
+augmentConversionForHDInsight: Interface
+augmentConversionForHDInsightProperties: Interface
+augmentConversionForHDInsightProperties_STATUS: Interface
+augmentConversionForHDInsight_STATUS: Interface
+augmentConversionForIdentity: Interface
+augmentConversionForIdentityForCmk: Interface
+augmentConversionForIdentityForCmk_STATUS: Interface
+augmentConversionForIdentity_STATUS: Interface
+augmentConversionForInstanceTypeSchema: Interface
+augmentConversionForInstanceTypeSchema_Resources: Interface
+augmentConversionForInstanceTypeSchema_Resources_STATUS: Interface
+augmentConversionForInstanceTypeSchema_STATUS: Interface
+augmentConversionForKeyVaultProperties: Interface
+augmentConversionForKeyVaultProperties_STATUS: Interface
+augmentConversionForKubernetes: Interface
+augmentConversionForKubernetesProperties: Interface
+augmentConversionForKubernetesProperties_STATUS: Interface
+augmentConversionForKubernetes_STATUS: Interface
+augmentConversionForNodeStateCounts_STATUS: Interface
+augmentConversionForNotebookPreparationError_STATUS: Interface
+augmentConversionForNotebookResourceInfo_STATUS: Interface
+augmentConversionForPersonalComputeInstanceSettings: Interface
+augmentConversionForPersonalComputeInstanceSettings_STATUS: Interface
+augmentConversionForPrivateEndpointConnection_STATUS: Interface
+augmentConversionForResourceId: Interface
+augmentConversionForResourceId_STATUS: Interface
+augmentConversionForScaleSettings: Interface
+augmentConversionForScaleSettings_STATUS: Interface
+augmentConversionForScriptReference: Interface
+augmentConversionForScriptReference_STATUS: Interface
+augmentConversionForScriptsToExecute: Interface
+augmentConversionForScriptsToExecute_STATUS: Interface
+augmentConversionForServiceManagedResourcesSettings: Interface
+augmentConversionForServiceManagedResourcesSettings_STATUS: Interface
+augmentConversionForSetupScripts: Interface
+augmentConversionForSetupScripts_STATUS: Interface
+augmentConversionForSharedPrivateLinkResource: Interface
+augmentConversionForSharedPrivateLinkResource_STATUS: Interface
+augmentConversionForSku: Interface
+augmentConversionForSku_STATUS: Interface
+augmentConversionForSslConfiguration: Interface
+augmentConversionForSslConfiguration_STATUS: Interface
+augmentConversionForSynapseSpark: Interface
+augmentConversionForSynapseSpark_Properties: Interface
+augmentConversionForSynapseSpark_Properties_STATUS: Interface
+augmentConversionForSynapseSpark_STATUS: Interface
+augmentConversionForSystemData_STATUS: Interface
+augmentConversionForSystemService_STATUS: Interface
+augmentConversionForUserAccountCredentials: Interface
+augmentConversionForUserAccountCredentials_STATUS: Interface
+augmentConversionForUserAssignedIdentityDetails: Interface
+augmentConversionForUserAssignedIdentity_STATUS: Interface
+augmentConversionForVirtualMachine: Interface
+augmentConversionForVirtualMachineImage: Interface
+augmentConversionForVirtualMachineImage_STATUS: Interface
+augmentConversionForVirtualMachineSshCredentials: Interface
+augmentConversionForVirtualMachineSshCredentials_STATUS: Interface
+augmentConversionForVirtualMachine_Properties: Interface
+augmentConversionForVirtualMachine_Properties_STATUS: Interface
+augmentConversionForVirtualMachine_STATUS: Interface
+augmentConversionForWorkspace: Interface
+augmentConversionForWorkspaceOperatorSecrets: Interface
+augmentConversionForWorkspaceOperatorSpec: Interface
+augmentConversionForWorkspace_STATUS: Interface
+augmentConversionForWorkspace_Spec: Interface
+augmentConversionForWorkspacesCompute: Interface
+augmentConversionForWorkspacesConnection: Interface
+augmentConversionForWorkspaces_Compute_STATUS: Interface
+augmentConversionForWorkspaces_Compute_Spec: Interface
+augmentConversionForWorkspaces_Connection_STATUS: Interface
+augmentConversionForWorkspaces_Connection_Spec: Interface

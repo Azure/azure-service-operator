@@ -7,20 +7,19 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/go-logr/logr"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"os"
 	"reflect"
 	"regexp"
 	"strings"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/template"
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 )
 

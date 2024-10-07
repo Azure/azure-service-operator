@@ -53,6 +53,13 @@ spec:
     to:
     - ipBlock:
         cidr: {{ .Values.networkPolicies.postgresqlCIDR }}
+    # Required for communication with SQL servers when using SQL user object
+  - ports:
+      - port: 1433
+        protocol: TCP
+    to:
+      - ipBlock:
+          cidr: {{ .Values.networkPolicies.sqlCIDR }}
   podSelector:
     matchLabels:
       control-plane: controller-manager

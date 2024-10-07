@@ -8,7 +8,6 @@ package importresources
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"net/http"
 	"reflect"
 	"regexp"
@@ -22,9 +21,9 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/pkg/importreporter"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
@@ -41,8 +40,10 @@ type importableARMResource struct {
 	err      error                            // Any error we encountered during import
 }
 
-var _ ImportableResource = &importableARMResource{}
-var _ ImportedResource = &importableARMResource{}
+var (
+	_ ImportableResource = &importableARMResource{}
+	_ ImportedResource   = &importableARMResource{}
+)
 
 // NewImportableARMResource creates a new importable ARM resource
 // id is the ARM ID of the resource to import.

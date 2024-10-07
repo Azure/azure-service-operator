@@ -3,22 +3,19 @@
 // Licensed under the MIT license.
 package arm
 
-import (
-	v20200101 "github.com/Azure/azure-service-operator/testing/test/v1api20200101"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type A_Spec struct {
-	APIVersion v20200101.A_APIVersion_Spec `json:"apiVersion,omitempty"`
-	Name       string                      `json:"name,omitempty"`
-	Type       v20200101.A_Type_Spec       `json:"type,omitempty"`
+	APIVersion A_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Type       A_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &A_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (a A_Spec) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource
@@ -32,16 +29,16 @@ func (a *A_Spec) GetType() string {
 }
 
 type B_Spec struct {
-	APIVersion v20200101.B_APIVersion_Spec `json:"apiVersion,omitempty"`
-	Name       string                      `json:"name,omitempty"`
-	Type       v20200101.B_Type_Spec       `json:"type,omitempty"`
+	APIVersion B_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Type       B_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &B_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (b B_Spec) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource
@@ -55,16 +52,16 @@ func (b *B_Spec) GetType() string {
 }
 
 type C_Spec struct {
-	APIVersion v20200101.C_APIVersion_Spec `json:"apiVersion,omitempty"`
-	Name       string                      `json:"name,omitempty"`
-	Type       v20200101.C_Type_Spec       `json:"type,omitempty"`
+	APIVersion C_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Type       C_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &C_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (c C_Spec) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource
@@ -78,16 +75,16 @@ func (c *C_Spec) GetType() string {
 }
 
 type D_Spec struct {
-	APIVersion v20200101.D_APIVersion_Spec `json:"apiVersion,omitempty"`
-	Name       string                      `json:"name,omitempty"`
-	Type       v20200101.D_Type_Spec       `json:"type,omitempty"`
+	APIVersion D_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Type       D_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &D_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (d D_Spec) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetName returns the Name of the resource
@@ -98,4 +95,84 @@ func (d *D_Spec) GetName() string {
 // GetType returns the ARM Type of the resource. This is always ""
 func (d *D_Spec) GetType() string {
 	return ""
+}
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type A_APIVersion_Spec string
+
+const A_APIVersion_Spec_20200601 = A_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to A_APIVersion_Spec
+var a_APIVersion_Spec_Values = map[string]A_APIVersion_Spec{
+	"2020-06-01": A_APIVersion_Spec_20200601,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
+type A_Type_Spec string
+
+const A_Type_Spec_MicrosoftAzureA = A_Type_Spec("Microsoft.Azure/A")
+
+// Mapping from string to A_Type_Spec
+var a_Type_Spec_Values = map[string]A_Type_Spec{
+	"microsoft.azure/a": A_Type_Spec_MicrosoftAzureA,
+}
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type B_APIVersion_Spec string
+
+const B_APIVersion_Spec_20200601 = B_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to B_APIVersion_Spec
+var b_APIVersion_Spec_Values = map[string]B_APIVersion_Spec{
+	"2020-06-01": B_APIVersion_Spec_20200601,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
+type B_Type_Spec string
+
+const B_Type_Spec_MicrosoftAzureB = B_Type_Spec("Microsoft.Azure/B")
+
+// Mapping from string to B_Type_Spec
+var b_Type_Spec_Values = map[string]B_Type_Spec{
+	"microsoft.azure/b": B_Type_Spec_MicrosoftAzureB,
+}
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type C_APIVersion_Spec string
+
+const C_APIVersion_Spec_20200601 = C_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to C_APIVersion_Spec
+var c_APIVersion_Spec_Values = map[string]C_APIVersion_Spec{
+	"2020-06-01": C_APIVersion_Spec_20200601,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/C"}
+type C_Type_Spec string
+
+const C_Type_Spec_MicrosoftAzureC = C_Type_Spec("Microsoft.Azure/C")
+
+// Mapping from string to C_Type_Spec
+var c_Type_Spec_Values = map[string]C_Type_Spec{
+	"microsoft.azure/c": C_Type_Spec_MicrosoftAzureC,
+}
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type D_APIVersion_Spec string
+
+const D_APIVersion_Spec_20200601 = D_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to D_APIVersion_Spec
+var d_APIVersion_Spec_Values = map[string]D_APIVersion_Spec{
+	"2020-06-01": D_APIVersion_Spec_20200601,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/D"}
+type D_Type_Spec string
+
+const D_Type_Spec_MicrosoftAzureD = D_Type_Spec("Microsoft.Azure/D")
+
+// Mapping from string to D_Type_Spec
+var d_Type_Spec_Values = map[string]D_Type_Spec{
+	"microsoft.azure/d": D_Type_Spec_MicrosoftAzureD,
 }

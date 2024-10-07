@@ -901,8 +901,8 @@ bool
 <td>
 <code>keySource</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.Encryption_KeySource">
-Encryption_KeySource
+<a href="#servicebus.azure.com/v1api20210101preview.Encryption_KeySource_ARM">
+Encryption_KeySource_ARM
 </a>
 </em>
 </td>
@@ -939,7 +939,25 @@ bool
 <h3 id="servicebus.azure.com/v1api20210101preview.Encryption_KeySource">Encryption_KeySource
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Encryption">Encryption</a>, <a href="#servicebus.azure.com/v1api20210101preview.Encryption_ARM">Encryption_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Encryption">Encryption</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.KeyVault&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Encryption_KeySource_ARM">Encryption_KeySource_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Encryption_ARM">Encryption_ARM</a>)
 </p>
 <div>
 </div>
@@ -957,7 +975,25 @@ bool
 <h3 id="servicebus.azure.com/v1api20210101preview.Encryption_KeySource_STATUS">Encryption_KeySource_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Encryption_STATUS">Encryption_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Encryption_STATUS_ARM">Encryption_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Encryption_STATUS">Encryption_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.KeyVault&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Encryption_KeySource_STATUS_ARM">Encryption_KeySource_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Encryption_STATUS_ARM">Encryption_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1047,8 +1083,8 @@ bool
 <td>
 <code>keySource</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.Encryption_KeySource_STATUS">
-Encryption_KeySource_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.Encryption_KeySource_STATUS_ARM">
+Encryption_KeySource_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1085,7 +1121,42 @@ bool
 <h3 id="servicebus.azure.com/v1api20210101preview.EntityStatus_STATUS">EntityStatus_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Queue_STATUS">Namespaces_Queue_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topic_STATUS">Namespaces_Topic_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscription_STATUS">Namespaces_Topics_Subscription_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.SBQueueProperties_STATUS_ARM">SBQueueProperties_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.SBSubscriptionProperties_STATUS_ARM">SBSubscriptionProperties_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.SBTopicProperties_STATUS_ARM">SBTopicProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Queue_STATUS">Namespaces_Queue_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topic_STATUS">Namespaces_Topic_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscription_STATUS">Namespaces_Topics_Subscription_STATUS</a>)
+</p>
+<div>
+<p>Entity status.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Active&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ReceiveDisabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Renaming&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Restoring&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SendDisabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Unknown&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.EntityStatus_STATUS_ARM">EntityStatus_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBQueueProperties_STATUS_ARM">SBQueueProperties_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.SBSubscriptionProperties_STATUS_ARM">SBSubscriptionProperties_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.SBTopicProperties_STATUS_ARM">SBTopicProperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>Entity status.</p>
@@ -1120,7 +1191,28 @@ bool
 <h3 id="servicebus.azure.com/v1api20210101preview.FilterType">FilterType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscriptions_Rule_Spec">Namespaces_Topics_Subscriptions_Rule_Spec</a>, <a href="#servicebus.azure.com/v1api20210101preview.Ruleproperties_ARM">Ruleproperties_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscriptions_Rule_Spec">Namespaces_Topics_Subscriptions_Rule_Spec</a>)
+</p>
+<div>
+<p>Rule filter types</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CorrelationFilter&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SqlFilter&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.FilterType_ARM">FilterType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Ruleproperties_ARM">Ruleproperties_ARM</a>)
 </p>
 <div>
 <p>Rule filter types</p>
@@ -1141,7 +1233,28 @@ bool
 <h3 id="servicebus.azure.com/v1api20210101preview.FilterType_STATUS">FilterType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscriptions_Rule_STATUS">Namespaces_Topics_Subscriptions_Rule_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Ruleproperties_STATUS_ARM">Ruleproperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscriptions_Rule_STATUS">Namespaces_Topics_Subscriptions_Rule_STATUS</a>)
+</p>
+<div>
+<p>Rule filter types</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;CorrelationFilter&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SqlFilter&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.FilterType_STATUS_ARM">FilterType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Ruleproperties_STATUS_ARM">Ruleproperties_STATUS_ARM</a>)
 </p>
 <div>
 <p>Rule filter types</p>
@@ -1223,8 +1336,8 @@ Identity_Type
 <td>
 <code>type</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.Identity_Type">
-Identity_Type
+<a href="#servicebus.azure.com/v1api20210101preview.Identity_Type_ARM">
+Identity_Type_ARM
 </a>
 </em>
 </td>
@@ -1354,8 +1467,8 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.Identity_Type_STATUS">
-Identity_Type_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.Identity_Type_STATUS_ARM">
+Identity_Type_STATUS_ARM
 </a>
 </em>
 </td>
@@ -1381,7 +1494,31 @@ map[string]./api/servicebus/v1api20210101preview.DictionaryValue_STATUS_ARM
 <h3 id="servicebus.azure.com/v1api20210101preview.Identity_Type">Identity_Type
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Identity">Identity</a>, <a href="#servicebus.azure.com/v1api20210101preview.Identity_ARM">Identity_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Identity">Identity</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Identity_Type_ARM">Identity_Type_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Identity_ARM">Identity_ARM</a>)
 </p>
 <div>
 </div>
@@ -1405,7 +1542,31 @@ map[string]./api/servicebus/v1api20210101preview.DictionaryValue_STATUS_ARM
 <h3 id="servicebus.azure.com/v1api20210101preview.Identity_Type_STATUS">Identity_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Identity_STATUS">Identity_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Identity_STATUS">Identity_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Identity_Type_STATUS_ARM">Identity_Type_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3688,7 +3849,29 @@ Namespaces_Topics_Subscriptions_Rule_STATUS
 <h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_STATUS">Namespaces_AuthorizationRule_Properties_Rights_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_STATUS_ARM">Namespaces_AuthorizationRule_Properties_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_STATUS">Namespaces_AuthorizationRule_STATUS</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_STATUS">Namespaces_AuthorizationRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Listen&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Manage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Send&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM">Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_STATUS_ARM">Namespaces_AuthorizationRule_Properties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -3710,7 +3893,29 @@ Namespaces_Topics_Subscriptions_Rule_STATUS
 <h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_Spec">Namespaces_AuthorizationRule_Properties_Rights_Spec
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Spec_ARM">Namespaces_AuthorizationRule_Properties_Spec_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Spec">Namespaces_AuthorizationRule_Spec</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Spec">Namespaces_AuthorizationRule_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Listen&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Manage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Send&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM">Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Spec_ARM">Namespaces_AuthorizationRule_Properties_Spec_ARM</a>)
 </p>
 <div>
 </div>
@@ -3748,8 +3953,8 @@ Namespaces_Topics_Subscriptions_Rule_STATUS
 <td>
 <code>rights</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_STATUS">
-[]Namespaces_AuthorizationRule_Properties_Rights_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM">
+[]Namespaces_AuthorizationRule_Properties_Rights_STATUS_ARM
 </a>
 </em>
 </td>
@@ -3778,8 +3983,8 @@ Namespaces_Topics_Subscriptions_Rule_STATUS
 <td>
 <code>rights</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_Spec">
-[]Namespaces_AuthorizationRule_Properties_Rights_Spec
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM">
+[]Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM
 </a>
 </em>
 </td>
@@ -6212,8 +6417,8 @@ CorrelationFilter_ARM
 <td>
 <code>filterType</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.FilterType">
-FilterType
+<a href="#servicebus.azure.com/v1api20210101preview.FilterType_ARM">
+FilterType_ARM
 </a>
 </em>
 </td>
@@ -6283,8 +6488,8 @@ CorrelationFilter_STATUS_ARM
 <td>
 <code>filterType</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.FilterType_STATUS">
-FilterType_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.FilterType_STATUS_ARM">
+FilterType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6891,8 +7096,8 @@ int
 <td>
 <code>status</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.EntityStatus_STATUS">
-EntityStatus_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.EntityStatus_STATUS_ARM">
+EntityStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -6999,8 +7204,8 @@ int
 <td>
 <code>name</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.SBSku_Name">
-SBSku_Name
+<a href="#servicebus.azure.com/v1api20210101preview.SBSku_Name_ARM">
+SBSku_Name_ARM
 </a>
 </em>
 </td>
@@ -7012,8 +7217,8 @@ SBSku_Name
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.SBSku_Tier">
-SBSku_Tier
+<a href="#servicebus.azure.com/v1api20210101preview.SBSku_Tier_ARM">
+SBSku_Tier_ARM
 </a>
 </em>
 </td>
@@ -7026,7 +7231,29 @@ SBSku_Tier
 <h3 id="servicebus.azure.com/v1api20210101preview.SBSku_Name">SBSku_Name
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku">SBSku</a>, <a href="#servicebus.azure.com/v1api20210101preview.SBSku_ARM">SBSku_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku">SBSku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.SBSku_Name_ARM">SBSku_Name_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku_ARM">SBSku_ARM</a>)
 </p>
 <div>
 </div>
@@ -7048,7 +7275,29 @@ SBSku_Tier
 <h3 id="servicebus.azure.com/v1api20210101preview.SBSku_Name_STATUS">SBSku_Name_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku_STATUS">SBSku_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.SBSku_STATUS_ARM">SBSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku_STATUS">SBSku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.SBSku_Name_STATUS_ARM">SBSku_Name_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku_STATUS_ARM">SBSku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7153,8 +7402,8 @@ int
 <td>
 <code>name</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.SBSku_Name_STATUS">
-SBSku_Name_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.SBSku_Name_STATUS_ARM">
+SBSku_Name_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7166,8 +7415,8 @@ SBSku_Name_STATUS
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.SBSku_Tier_STATUS">
-SBSku_Tier_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.SBSku_Tier_STATUS_ARM">
+SBSku_Tier_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7180,7 +7429,29 @@ SBSku_Tier_STATUS
 <h3 id="servicebus.azure.com/v1api20210101preview.SBSku_Tier">SBSku_Tier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku">SBSku</a>, <a href="#servicebus.azure.com/v1api20210101preview.SBSku_ARM">SBSku_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku">SBSku</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.SBSku_Tier_ARM">SBSku_Tier_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku_ARM">SBSku_ARM</a>)
 </p>
 <div>
 </div>
@@ -7202,7 +7473,29 @@ SBSku_Tier_STATUS
 <h3 id="servicebus.azure.com/v1api20210101preview.SBSku_Tier_STATUS">SBSku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku_STATUS">SBSku_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.SBSku_STATUS_ARM">SBSku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku_STATUS">SBSku_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.SBSku_Tier_STATUS_ARM">SBSku_Tier_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SBSku_STATUS_ARM">SBSku_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -7559,8 +7852,8 @@ bool
 <td>
 <code>status</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.EntityStatus_STATUS">
-EntityStatus_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.EntityStatus_STATUS_ARM">
+EntityStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -7864,8 +8157,8 @@ int
 <td>
 <code>status</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.EntityStatus_STATUS">
-EntityStatus_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.EntityStatus_STATUS_ARM">
+EntityStatus_STATUS_ARM
 </a>
 </em>
 </td>
@@ -8119,7 +8412,31 @@ string
 <h3 id="servicebus.azure.com/v1api20210101preview.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS">SystemData_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.SystemData_CreatedByType_STATUS_ARM">SystemData_CreatedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8143,7 +8460,31 @@ string
 <h3 id="servicebus.azure.com/v1api20210101preview.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS">SystemData_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS">SystemData_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.SystemData_LastModifiedByType_STATUS_ARM">SystemData_LastModifiedByType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -8294,8 +8635,8 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.SystemData_CreatedByType_STATUS_ARM">
+SystemData_CreatedByType_STATUS_ARM
 </a>
 </em>
 </td>
@@ -8329,8 +8670,8 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#servicebus.azure.com/v1api20210101preview.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
+<a href="#servicebus.azure.com/v1api20210101preview.SystemData_LastModifiedByType_STATUS_ARM">
+SystemData_LastModifiedByType_STATUS_ARM
 </a>
 </em>
 </td>

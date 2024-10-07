@@ -96,3 +96,6 @@ RedisEnterpriseDatabase: Resource
     ├── ProvisioningState: *string
     ├── ResourceState: *string
     └── Type: *string
+augmentConversionForPrivateEndpointConnection_STATUS: Interface
+augmentConversionForSku: Interface
+augmentConversionForSku_STATUS: Interface

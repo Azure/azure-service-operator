@@ -5,8 +5,8 @@ package v1api20200101
 
 import (
 	"fmt"
-	v20200101a "github.com/Azure/azure-service-operator/testing/test/v1api20200101/arm"
-	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
+	arm "github.com/Azure/azure-service-operator/testing/test/v1api20200101/arm"
+	storage "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -44,7 +44,7 @@ var _ conversion.Convertible = &A{}
 
 // ConvertFrom populates our A from the provided hub A
 func (a *A) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200101s.A)
+	source, ok := hub.(*storage.A)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/A but received %T instead", hub)
 	}
@@ -54,7 +54,7 @@ func (a *A) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub A from our A
 func (a *A) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200101s.A)
+	destination, ok := hub.(*storage.A)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/A but received %T instead", hub)
 	}
@@ -94,7 +94,7 @@ func (a *A) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (a A) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -209,7 +209,7 @@ func (a *A) validateWriteOnceProperties(old runtime.Object) (admission.Warnings,
 }
 
 // AssignProperties_From_A populates our A from the provided source A
-func (a *A) AssignProperties_From_A(source *v20200101s.A) error {
+func (a *A) AssignProperties_From_A(source *storage.A) error {
 
 	// ObjectMeta
 	a.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -227,13 +227,13 @@ func (a *A) AssignProperties_From_A(source *v20200101s.A) error {
 }
 
 // AssignProperties_To_A populates the provided destination A from our A
-func (a *A) AssignProperties_To_A(destination *v20200101s.A) error {
+func (a *A) AssignProperties_To_A(destination *storage.A) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *a.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200101s.A_Spec
+	var spec storage.A_Spec
 	err := a.Spec.AssignProperties_To_A_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_A_Spec() to populate field Spec")
@@ -287,7 +287,7 @@ var _ conversion.Convertible = &B{}
 
 // ConvertFrom populates our B from the provided hub B
 func (b *B) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200101s.B)
+	source, ok := hub.(*storage.B)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/B but received %T instead", hub)
 	}
@@ -297,7 +297,7 @@ func (b *B) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub B from our B
 func (b *B) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200101s.B)
+	destination, ok := hub.(*storage.B)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/B but received %T instead", hub)
 	}
@@ -337,7 +337,7 @@ func (b *B) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (b B) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -452,7 +452,7 @@ func (b *B) validateWriteOnceProperties(old runtime.Object) (admission.Warnings,
 }
 
 // AssignProperties_From_B populates our B from the provided source B
-func (b *B) AssignProperties_From_B(source *v20200101s.B) error {
+func (b *B) AssignProperties_From_B(source *storage.B) error {
 
 	// ObjectMeta
 	b.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -470,13 +470,13 @@ func (b *B) AssignProperties_From_B(source *v20200101s.B) error {
 }
 
 // AssignProperties_To_B populates the provided destination B from our B
-func (b *B) AssignProperties_To_B(destination *v20200101s.B) error {
+func (b *B) AssignProperties_To_B(destination *storage.B) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *b.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200101s.B_Spec
+	var spec storage.B_Spec
 	err := b.Spec.AssignProperties_To_B_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_B_Spec() to populate field Spec")
@@ -530,7 +530,7 @@ var _ conversion.Convertible = &C{}
 
 // ConvertFrom populates our C from the provided hub C
 func (c *C) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200101s.C)
+	source, ok := hub.(*storage.C)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/C but received %T instead", hub)
 	}
@@ -540,7 +540,7 @@ func (c *C) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub C from our C
 func (c *C) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200101s.C)
+	destination, ok := hub.(*storage.C)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/C but received %T instead", hub)
 	}
@@ -580,7 +580,7 @@ func (c *C) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (c C) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -695,7 +695,7 @@ func (c *C) validateWriteOnceProperties(old runtime.Object) (admission.Warnings,
 }
 
 // AssignProperties_From_C populates our C from the provided source C
-func (c *C) AssignProperties_From_C(source *v20200101s.C) error {
+func (c *C) AssignProperties_From_C(source *storage.C) error {
 
 	// ObjectMeta
 	c.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -713,13 +713,13 @@ func (c *C) AssignProperties_From_C(source *v20200101s.C) error {
 }
 
 // AssignProperties_To_C populates the provided destination C from our C
-func (c *C) AssignProperties_To_C(destination *v20200101s.C) error {
+func (c *C) AssignProperties_To_C(destination *storage.C) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *c.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200101s.C_Spec
+	var spec storage.C_Spec
 	err := c.Spec.AssignProperties_To_C_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_C_Spec() to populate field Spec")
@@ -773,7 +773,7 @@ var _ conversion.Convertible = &D{}
 
 // ConvertFrom populates our D from the provided hub D
 func (d *D) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200101s.D)
+	source, ok := hub.(*storage.D)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/D but received %T instead", hub)
 	}
@@ -783,7 +783,7 @@ func (d *D) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub D from our D
 func (d *D) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200101s.D)
+	destination, ok := hub.(*storage.D)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101/storage/D but received %T instead", hub)
 	}
@@ -823,7 +823,7 @@ func (d *D) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (d D) GetAPIVersion() string {
-	return string(APIVersion_Value)
+	return "2020-01-01"
 }
 
 // GetResourceScope returns the scope of the resource
@@ -938,7 +938,7 @@ func (d *D) validateWriteOnceProperties(old runtime.Object) (admission.Warnings,
 }
 
 // AssignProperties_From_D populates our D from the provided source D
-func (d *D) AssignProperties_From_D(source *v20200101s.D) error {
+func (d *D) AssignProperties_From_D(source *storage.D) error {
 
 	// ObjectMeta
 	d.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -956,13 +956,13 @@ func (d *D) AssignProperties_From_D(source *v20200101s.D) error {
 }
 
 // AssignProperties_To_D populates the provided destination D from our D
-func (d *D) AssignProperties_To_D(destination *v20200101s.D) error {
+func (d *D) AssignProperties_To_D(destination *storage.D) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *d.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200101s.D_Spec
+	var spec storage.D_Spec
 	err := d.Spec.AssignProperties_To_D_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_D_Spec() to populate field Spec")
@@ -1015,33 +1015,39 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if a == nil {
 		return nil, nil
 	}
-	result := &A_Spec{}
+	result := &arm.A_Spec{}
 
 	// Set property "APIVersion":
-	result.APIVersion = a.APIVersion
+	var temp string
+	temp = string(a.APIVersion)
+	result.APIVersion = arm.A_APIVersion_Spec(temp)
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Type":
-	result.Type = a.Type
+	var typeTemp string
+	typeTemp = string(a.Type)
+	result.Type = arm.A_Type_Spec(typeTemp)
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (a *A_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &v20200101a.A_Spec{}
+	return &arm.A_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(A_Spec)
+	typedInput, ok := armInput.(arm.A_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.A_Spec, got %T", armInput)
 	}
 
 	// Set property "APIVersion":
-	a.APIVersion = typedInput.APIVersion
+	var temp string
+	temp = string(typedInput.APIVersion)
+	a.APIVersion = A_APIVersion_Spec(temp)
 
 	// Set property "AzureName":
 	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -1053,7 +1059,9 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	}
 
 	// Set property "Type":
-	a.Type = typedInput.Type
+	var typeTemp string
+	typeTemp = string(typedInput.Type)
+	a.Type = A_Type_Spec(typeTemp)
 
 	// No error
 	return nil
@@ -1063,14 +1071,14 @@ var _ genruntime.ConvertibleSpec = &A_Spec{}
 
 // ConvertSpecFrom populates our A_Spec from the provided source
 func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200101s.A_Spec)
+	src, ok := source.(*storage.A_Spec)
 	if ok {
 		// Populate our instance from source
 		return a.AssignProperties_From_A_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200101s.A_Spec{}
+	src = &storage.A_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -1087,14 +1095,14 @@ func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 
 // ConvertSpecTo populates the provided destination from our A_Spec
 func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200101s.A_Spec)
+	dst, ok := destination.(*storage.A_Spec)
 	if ok {
 		// Populate destination from our instance
 		return a.AssignProperties_To_A_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200101s.A_Spec{}
+	dst = &storage.A_Spec{}
 	err := a.AssignProperties_To_A_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -1110,11 +1118,12 @@ func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 }
 
 // AssignProperties_From_A_Spec populates our A_Spec from the provided source A_Spec
-func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
+func (a *A_Spec) AssignProperties_From_A_Spec(source *storage.A_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		a.APIVersion = A_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		a.APIVersion = genruntime.ToEnum(apiVersion, a_APIVersion_Spec_Values)
 	} else {
 		a.APIVersion = ""
 	}
@@ -1132,7 +1141,8 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		a.Type = A_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		a.Type = genruntime.ToEnum(typeVar, a_Type_Spec_Values)
 	} else {
 		a.Type = ""
 	}
@@ -1142,7 +1152,7 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 }
 
 // AssignProperties_To_A_Spec populates the provided destination A_Spec from our A_Spec
-func (a *A_Spec) AssignProperties_To_A_Spec(destination *v20200101s.A_Spec) error {
+func (a *A_Spec) AssignProperties_To_A_Spec(destination *storage.A_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1217,33 +1227,39 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if b == nil {
 		return nil, nil
 	}
-	result := &B_Spec{}
+	result := &arm.B_Spec{}
 
 	// Set property "APIVersion":
-	result.APIVersion = b.APIVersion
+	var temp string
+	temp = string(b.APIVersion)
+	result.APIVersion = arm.B_APIVersion_Spec(temp)
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Type":
-	result.Type = b.Type
+	var typeTemp string
+	typeTemp = string(b.Type)
+	result.Type = arm.B_Type_Spec(typeTemp)
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (b *B_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &v20200101a.B_Spec{}
+	return &arm.B_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(B_Spec)
+	typedInput, ok := armInput.(arm.B_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.B_Spec, got %T", armInput)
 	}
 
 	// Set property "APIVersion":
-	b.APIVersion = typedInput.APIVersion
+	var temp string
+	temp = string(typedInput.APIVersion)
+	b.APIVersion = B_APIVersion_Spec(temp)
 
 	// Set property "AzureName":
 	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -1255,7 +1271,9 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	}
 
 	// Set property "Type":
-	b.Type = typedInput.Type
+	var typeTemp string
+	typeTemp = string(typedInput.Type)
+	b.Type = B_Type_Spec(typeTemp)
 
 	// No error
 	return nil
@@ -1265,14 +1283,14 @@ var _ genruntime.ConvertibleSpec = &B_Spec{}
 
 // ConvertSpecFrom populates our B_Spec from the provided source
 func (b *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200101s.B_Spec)
+	src, ok := source.(*storage.B_Spec)
 	if ok {
 		// Populate our instance from source
 		return b.AssignProperties_From_B_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200101s.B_Spec{}
+	src = &storage.B_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -1289,14 +1307,14 @@ func (b *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 
 // ConvertSpecTo populates the provided destination from our B_Spec
 func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200101s.B_Spec)
+	dst, ok := destination.(*storage.B_Spec)
 	if ok {
 		// Populate destination from our instance
 		return b.AssignProperties_To_B_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200101s.B_Spec{}
+	dst = &storage.B_Spec{}
 	err := b.AssignProperties_To_B_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -1312,11 +1330,12 @@ func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 }
 
 // AssignProperties_From_B_Spec populates our B_Spec from the provided source B_Spec
-func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
+func (b *B_Spec) AssignProperties_From_B_Spec(source *storage.B_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		b.APIVersion = B_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		b.APIVersion = genruntime.ToEnum(apiVersion, b_APIVersion_Spec_Values)
 	} else {
 		b.APIVersion = ""
 	}
@@ -1334,7 +1353,8 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		b.Type = B_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		b.Type = genruntime.ToEnum(typeVar, b_Type_Spec_Values)
 	} else {
 		b.Type = ""
 	}
@@ -1344,7 +1364,7 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 }
 
 // AssignProperties_To_B_Spec populates the provided destination B_Spec from our B_Spec
-func (b *B_Spec) AssignProperties_To_B_Spec(destination *v20200101s.B_Spec) error {
+func (b *B_Spec) AssignProperties_To_B_Spec(destination *storage.B_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1414,33 +1434,39 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if c == nil {
 		return nil, nil
 	}
-	result := &C_Spec{}
+	result := &arm.C_Spec{}
 
 	// Set property "APIVersion":
-	result.APIVersion = c.APIVersion
+	var temp string
+	temp = string(c.APIVersion)
+	result.APIVersion = arm.C_APIVersion_Spec(temp)
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Type":
-	result.Type = c.Type
+	var typeTemp string
+	typeTemp = string(c.Type)
+	result.Type = arm.C_Type_Spec(typeTemp)
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (c *C_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &v20200101a.C_Spec{}
+	return &arm.C_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(C_Spec)
+	typedInput, ok := armInput.(arm.C_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.C_Spec, got %T", armInput)
 	}
 
 	// Set property "APIVersion":
-	c.APIVersion = typedInput.APIVersion
+	var temp string
+	temp = string(typedInput.APIVersion)
+	c.APIVersion = C_APIVersion_Spec(temp)
 
 	// Set property "AzureName":
 	c.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -1452,7 +1478,9 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	}
 
 	// Set property "Type":
-	c.Type = typedInput.Type
+	var typeTemp string
+	typeTemp = string(typedInput.Type)
+	c.Type = C_Type_Spec(typeTemp)
 
 	// No error
 	return nil
@@ -1462,14 +1490,14 @@ var _ genruntime.ConvertibleSpec = &C_Spec{}
 
 // ConvertSpecFrom populates our C_Spec from the provided source
 func (c *C_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200101s.C_Spec)
+	src, ok := source.(*storage.C_Spec)
 	if ok {
 		// Populate our instance from source
 		return c.AssignProperties_From_C_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200101s.C_Spec{}
+	src = &storage.C_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -1486,14 +1514,14 @@ func (c *C_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 
 // ConvertSpecTo populates the provided destination from our C_Spec
 func (c *C_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200101s.C_Spec)
+	dst, ok := destination.(*storage.C_Spec)
 	if ok {
 		// Populate destination from our instance
 		return c.AssignProperties_To_C_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200101s.C_Spec{}
+	dst = &storage.C_Spec{}
 	err := c.AssignProperties_To_C_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -1509,11 +1537,12 @@ func (c *C_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 }
 
 // AssignProperties_From_C_Spec populates our C_Spec from the provided source C_Spec
-func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
+func (c *C_Spec) AssignProperties_From_C_Spec(source *storage.C_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		c.APIVersion = C_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		c.APIVersion = genruntime.ToEnum(apiVersion, c_APIVersion_Spec_Values)
 	} else {
 		c.APIVersion = ""
 	}
@@ -1531,7 +1560,8 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		c.Type = C_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		c.Type = genruntime.ToEnum(typeVar, c_Type_Spec_Values)
 	} else {
 		c.Type = ""
 	}
@@ -1541,7 +1571,7 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 }
 
 // AssignProperties_To_C_Spec populates the provided destination C_Spec from our C_Spec
-func (c *C_Spec) AssignProperties_To_C_Spec(destination *v20200101s.C_Spec) error {
+func (c *C_Spec) AssignProperties_To_C_Spec(destination *storage.C_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1611,33 +1641,39 @@ func (d *D_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if d == nil {
 		return nil, nil
 	}
-	result := &D_Spec{}
+	result := &arm.D_Spec{}
 
 	// Set property "APIVersion":
-	result.APIVersion = d.APIVersion
+	var temp string
+	temp = string(d.APIVersion)
+	result.APIVersion = arm.D_APIVersion_Spec(temp)
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Type":
-	result.Type = d.Type
+	var typeTemp string
+	typeTemp = string(d.Type)
+	result.Type = arm.D_Type_Spec(typeTemp)
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (d *D_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &v20200101a.D_Spec{}
+	return &arm.D_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (d *D_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(D_Spec)
+	typedInput, ok := armInput.(arm.D_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected D_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.D_Spec, got %T", armInput)
 	}
 
 	// Set property "APIVersion":
-	d.APIVersion = typedInput.APIVersion
+	var temp string
+	temp = string(typedInput.APIVersion)
+	d.APIVersion = D_APIVersion_Spec(temp)
 
 	// Set property "AzureName":
 	d.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -1649,7 +1685,9 @@ func (d *D_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	}
 
 	// Set property "Type":
-	d.Type = typedInput.Type
+	var typeTemp string
+	typeTemp = string(typedInput.Type)
+	d.Type = D_Type_Spec(typeTemp)
 
 	// No error
 	return nil
@@ -1659,14 +1697,14 @@ var _ genruntime.ConvertibleSpec = &D_Spec{}
 
 // ConvertSpecFrom populates our D_Spec from the provided source
 func (d *D_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200101s.D_Spec)
+	src, ok := source.(*storage.D_Spec)
 	if ok {
 		// Populate our instance from source
 		return d.AssignProperties_From_D_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200101s.D_Spec{}
+	src = &storage.D_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -1683,14 +1721,14 @@ func (d *D_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 
 // ConvertSpecTo populates the provided destination from our D_Spec
 func (d *D_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200101s.D_Spec)
+	dst, ok := destination.(*storage.D_Spec)
 	if ok {
 		// Populate destination from our instance
 		return d.AssignProperties_To_D_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200101s.D_Spec{}
+	dst = &storage.D_Spec{}
 	err := d.AssignProperties_To_D_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -1706,11 +1744,12 @@ func (d *D_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 }
 
 // AssignProperties_From_D_Spec populates our D_Spec from the provided source D_Spec
-func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
+func (d *D_Spec) AssignProperties_From_D_Spec(source *storage.D_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		d.APIVersion = D_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		d.APIVersion = genruntime.ToEnum(apiVersion, d_APIVersion_Spec_Values)
 	} else {
 		d.APIVersion = ""
 	}
@@ -1728,7 +1767,8 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		d.Type = D_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		d.Type = genruntime.ToEnum(typeVar, d_Type_Spec_Values)
 	} else {
 		d.Type = ""
 	}
@@ -1738,7 +1778,7 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 }
 
 // AssignProperties_To_D_Spec populates the provided destination D_Spec from our D_Spec
-func (d *D_Spec) AssignProperties_To_D_Spec(destination *v20200101s.D_Spec) error {
+func (d *D_Spec) AssignProperties_To_D_Spec(destination *storage.D_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1788,40 +1828,80 @@ type A_APIVersion_Spec string
 
 const A_APIVersion_Spec_20200601 = A_APIVersion_Spec("2020-06-01")
 
+// Mapping from string to A_APIVersion_Spec
+var a_APIVersion_Spec_Values = map[string]A_APIVersion_Spec{
+	"2020-06-01": A_APIVersion_Spec_20200601,
+}
+
 // +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
 type A_Type_Spec string
 
 const A_Type_Spec_MicrosoftAzureA = A_Type_Spec("Microsoft.Azure/A")
+
+// Mapping from string to A_Type_Spec
+var a_Type_Spec_Values = map[string]A_Type_Spec{
+	"microsoft.azure/a": A_Type_Spec_MicrosoftAzureA,
+}
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type B_APIVersion_Spec string
 
 const B_APIVersion_Spec_20200601 = B_APIVersion_Spec("2020-06-01")
 
+// Mapping from string to B_APIVersion_Spec
+var b_APIVersion_Spec_Values = map[string]B_APIVersion_Spec{
+	"2020-06-01": B_APIVersion_Spec_20200601,
+}
+
 // +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
 type B_Type_Spec string
 
 const B_Type_Spec_MicrosoftAzureB = B_Type_Spec("Microsoft.Azure/B")
+
+// Mapping from string to B_Type_Spec
+var b_Type_Spec_Values = map[string]B_Type_Spec{
+	"microsoft.azure/b": B_Type_Spec_MicrosoftAzureB,
+}
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type C_APIVersion_Spec string
 
 const C_APIVersion_Spec_20200601 = C_APIVersion_Spec("2020-06-01")
 
+// Mapping from string to C_APIVersion_Spec
+var c_APIVersion_Spec_Values = map[string]C_APIVersion_Spec{
+	"2020-06-01": C_APIVersion_Spec_20200601,
+}
+
 // +kubebuilder:validation:Enum={"Microsoft.Azure/C"}
 type C_Type_Spec string
 
 const C_Type_Spec_MicrosoftAzureC = C_Type_Spec("Microsoft.Azure/C")
+
+// Mapping from string to C_Type_Spec
+var c_Type_Spec_Values = map[string]C_Type_Spec{
+	"microsoft.azure/c": C_Type_Spec_MicrosoftAzureC,
+}
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type D_APIVersion_Spec string
 
 const D_APIVersion_Spec_20200601 = D_APIVersion_Spec("2020-06-01")
 
+// Mapping from string to D_APIVersion_Spec
+var d_APIVersion_Spec_Values = map[string]D_APIVersion_Spec{
+	"2020-06-01": D_APIVersion_Spec_20200601,
+}
+
 // +kubebuilder:validation:Enum={"Microsoft.Azure/D"}
 type D_Type_Spec string
 
 const D_Type_Spec_MicrosoftAzureD = D_Type_Spec("Microsoft.Azure/D")
+
+// Mapping from string to D_Type_Spec
+var d_Type_Spec_Values = map[string]D_Type_Spec{
+	"microsoft.azure/d": D_Type_Spec_MicrosoftAzureD,
+}
 
 func init() {
 	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{}, &D{}, &DList{})

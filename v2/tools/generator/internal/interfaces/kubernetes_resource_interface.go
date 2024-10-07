@@ -20,46 +20,55 @@ import (
 )
 
 // AddKubernetesResourceInterfaceImpls adds the required interfaces for
-// the resource to be a Kubernetes resource
+// the resource to be a Kubernetes resource.
+// Returns a set of modified definitions.
 func AddKubernetesResourceInterfaceImpls(
 	resourceDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
 	definitions astmodel.TypeDefinitionSet,
 	log logr.Logger,
-) (*astmodel.ResourceType, error) {
+) (astmodel.TypeDefinitionSet, error) {
 	resolved, err := definitions.ResolveResourceSpecAndStatus(resourceDef)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
 	}
 
-	spec := resolved.SpecType
+	specDef := resolved.SpecDef
 	r := resolved.ResourceType
 
 	// Check the spec first to ensure it looks how we expect
 	if r.Scope() == astmodel.ResourceScopeResourceGroup || r.Scope() == astmodel.ResourceScopeExtension {
 		ownerProperty := idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported)
-		_, ok := spec.Property(ownerProperty)
+		_, ok := resolved.SpecType.Property(ownerProperty)
 		if !ok {
 			return nil, errors.Errorf("resource spec doesn't have %q property", ownerProperty)
 		}
 	}
 
-	azureNameProp, ok := spec.Property(astmodel.AzureNameProperty)
+	azureNameProp, ok := resolved.SpecType.Property(astmodel.AzureNameProperty)
 	if !ok {
 		return nil, errors.Errorf("resource spec doesn't have %q property", astmodel.AzureNameProperty)
 	}
 
-	getNameFunction, setNameFunction, err := getAzureNameFunctionsForType(
-		&r,
-		spec,
-		azureNameProp.PropertyType(),
-		definitions,
-		log)
+	nameFns, err := createAzureNameFunctionHandlersForType(azureNameProp.PropertyType(), definitions, log)
 	if err != nil {
 		return nil, err
 	}
 
-	getAzureNameProperty := functions.NewObjectFunction(astmodel.AzureNameProperty, idFactory, getNameFunction)
+	// Sometimes we need to remove the AzureName property from our Spec because the name is forced
+	if nameFns.removeAzureNameProperty {
+		// remove the AzureName property from the spec of the resource
+		remover := astmodel.NewPropertyRemover()
+		var updated astmodel.TypeDefinition
+		updated, err = remover.Remove(resolved.SpecDef, astmodel.AzureNameProperty)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to remove AzureName property from resource %s", resourceDef.Name())
+		}
+
+		specDef = updated
+	}
+
+	getAzureNameProperty := functions.NewObjectFunction(astmodel.AzureNameProperty, idFactory, nameFns.getNameFunction)
 	getAzureNameProperty.AddPackageReference(astmodel.GenRuntimeReference)
 
 	getOwnerProperty := functions.NewResourceFunction(
@@ -119,38 +128,40 @@ func AddKubernetesResourceInterfaceImpls(
 
 	kubernetesResourceImplementation := astmodel.NewInterfaceImplementation(astmodel.KubernetesResourceType, fns...)
 
-	r = r.WithInterface(kubernetesResourceImplementation)
-
-	if setNameFunction != nil {
-		// this function applies to Spec not the resource
-		// re-fetch the spec ObjectType since the getAzureNameFunctionsForType
-		// could have updated it
-		spec := r.SpecType()
-		spec, err = definitions.FullyResolve(spec)
-		if err != nil {
-			return nil, err
-		}
-
-		specObj := spec.(*astmodel.ObjectType)
-
-		setFn := functions.NewObjectFunction(astmodel.SetAzureNameFunc, idFactory, setNameFunction)
-		setFn.AddPackageReference(astmodel.GenRuntimeReference)
-
-		r = r.WithSpec(specObj.WithFunction(setFn))
+	interfaceInjector := astmodel.NewInterfaceInjector()
+	updatedResource, err := interfaceInjector.Inject(resolved.ResourceDef, kubernetesResourceImplementation)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to inject KubernetesResource interface into resource %s", resourceDef.Name())
 	}
 
-	return r, nil
+	if nameFns.setNameFunction != nil {
+		// this function applies to Spec not the resource
+		functionInjector := astmodel.NewFunctionInjector()
+
+		setFn := functions.NewObjectFunction(astmodel.SetAzureNameFunc, idFactory, nameFns.setNameFunction)
+		setFn.AddPackageReference(astmodel.GenRuntimeReference)
+
+		updated, err := functionInjector.Inject(specDef, setFn)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to inject SetAzureName function into resource %s", resourceDef.Name())
+		}
+
+		specDef = updated
+	}
+
+	result := astmodel.MakeTypeDefinitionSetFromDefinitions(
+		updatedResource,
+		specDef,
+	)
+
+	return result, nil
 }
 
-// note that this can, as a side effect, update the resource type
-// it is a bit ugly!
-func getAzureNameFunctionsForType(
-	r **astmodel.ResourceType,
-	spec *astmodel.ObjectType,
+func createAzureNameFunctionHandlersForType(
 	t astmodel.Type,
 	definitions astmodel.TypeDefinitionSet,
 	log logr.Logger,
-) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
+) (createAzureNameFunctionsForTypeResult, error) {
 	if opt, ok := astmodel.AsOptionalType(t); ok {
 		t = opt.BaseType()
 	}
@@ -159,36 +170,48 @@ func getAzureNameFunctionsForType(
 	switch azureNamePropType := t.(type) {
 	case *astmodel.ValidatedType:
 		if !astmodel.TypeEquals(azureNamePropType.ElementType(), astmodel.StringType) {
-			return nil, nil, errors.Errorf("unable to handle non-string validated definitions in AzureName property")
+			return createAzureNameFunctionsForTypeResult{},
+				errors.Errorf("unable to handle non-string validated definitions in AzureName property")
 		}
 
 		validations := azureNamePropType.Validations().(astmodel.StringValidations)
 		if len(validations.Patterns) != 0 {
 			if len(validations.Patterns) == 1 &&
 				validations.Patterns[0].String() == "^.*/default$" {
-				*r = (*r).WithSpec(spec.WithoutProperty(astmodel.AzureNameProperty))
-				return fixedValueGetAzureNameFunction("default"), nil, nil // no SetAzureName for this case
-			} else {
-				// ignoring for now:
-				log.V(1).Info("ignoring pattern validation on Name property", "pattern", validations.Patterns[0].String())
-				return getStringAzureNameFunction, setStringAzureNameFunction, nil
+				// Validation requires the resource be named exactly "default"
+				return createAzureNameFunctionsForTypeResult{
+					getNameFunction:         fixedValueGetAzureNameFunction("default"),
+					removeAzureNameProperty: true,
+				}, nil
 			}
-		} else {
-			// ignoring length validations for now
-			// return nil, errors.Errorf("unable to handle validations on Name property …TODO")
-			return getStringAzureNameFunction, setStringAzureNameFunction, nil
+
+			// ignoring for now:
+			log.V(1).Info("ignoring pattern validation on Name property", "pattern", validations.Patterns[0].String())
+			return createAzureNameFunctionsForTypeResult{
+				getNameFunction: getStringAzureNameFunction,
+				setNameFunction: setStringAzureNameFunction,
+			}, nil
 		}
+
+		// ignoring length validations for now
+		// return nil, errors.Errorf("unable to handle validations on Name property …TODO")
+		return createAzureNameFunctionsForTypeResult{
+			getNameFunction: getStringAzureNameFunction,
+			setNameFunction: setStringAzureNameFunction,
+		}, nil
 
 	case astmodel.TypeName:
 		// resolve property type if it is a typename
 		resolvedPropType, err := definitions.FullyResolve(azureNamePropType)
 		if err != nil {
-			return nil, nil, errors.Wrapf(err, "unable to resolve type of resource Name property: %s", azureNamePropType.String())
+			return createAzureNameFunctionsForTypeResult{},
+				errors.Wrapf(err, "unable to resolve type of resource Name property: %s", azureNamePropType.String())
 		}
 
 		if t, ok := resolvedPropType.(*astmodel.EnumType); ok {
 			if !astmodel.TypeEquals(t.BaseType(), astmodel.StringType) {
-				return nil, nil, errors.Errorf("unable to handle non-string enum base type in Name property")
+				return createAzureNameFunctionsForTypeResult{},
+					errors.Errorf("unable to handle non-string enum base type in Name property")
 			}
 
 			options := t.Options()
@@ -196,27 +219,44 @@ func getAzureNameFunctionsForType(
 				// if there is only one possible value,
 				// we make an AzureName function that returns it, and do not
 				// provide an AzureName property on the spec
-				*r = (*r).WithSpec(spec.WithoutProperty(astmodel.AzureNameProperty))
-				return fixedValueGetAzureNameFunction(options[0].Value), nil, nil // no SetAzureName for this case
-			} else {
-				// with multiple values, provide an AzureName function that casts from the
-				// enum-valued AzureName property:
-				return getEnumAzureNameFunction(azureNamePropType), setEnumAzureNameFunction(azureNamePropType), nil
+				return createAzureNameFunctionsForTypeResult{
+					getNameFunction:         fixedValueGetAzureNameFunction(options[0].Value),
+					removeAzureNameProperty: true,
+				}, nil
 			}
-		} else {
-			return nil, nil, errors.Errorf("unable to produce AzureName()/SetAzureName() for Name property with type %s", resolvedPropType.String())
+
+			// with multiple values, provide an AzureName function that casts from the
+			// enum-valued AzureName property:
+			return createAzureNameFunctionsForTypeResult{
+				getNameFunction: getEnumAzureNameFunction(azureNamePropType),
+				setNameFunction: setEnumAzureNameFunction(azureNamePropType),
+			}, nil
 		}
+
+		return createAzureNameFunctionsForTypeResult{},
+			errors.Errorf("unable to produce AzureName()/SetAzureName() for Name property with type %s", resolvedPropType.String())
 
 	case *astmodel.PrimitiveType:
 		if !astmodel.TypeEquals(azureNamePropType, astmodel.StringType) {
-			return nil, nil, errors.Errorf("cannot use type %s as type of AzureName property", azureNamePropType.String())
+			return createAzureNameFunctionsForTypeResult{},
+				errors.Errorf("cannot use type %s as type of AzureName property", azureNamePropType.String())
 		}
 
-		return getStringAzureNameFunction, setStringAzureNameFunction, nil
+		return createAzureNameFunctionsForTypeResult{
+			getNameFunction: getStringAzureNameFunction,
+			setNameFunction: setStringAzureNameFunction,
+		}, nil
 
 	default:
-		return nil, nil, errors.Errorf("unsupported type for AzureName property: %s", azureNamePropType.String())
+		return createAzureNameFunctionsForTypeResult{},
+			errors.Errorf("unsupported type for AzureName property: %s", azureNamePropType.String())
 	}
+}
+
+type createAzureNameFunctionsForTypeResult struct {
+	getNameFunction         functions.ObjectFunctionHandler
+	setNameFunction         functions.ObjectFunctionHandler
+	removeAzureNameProperty bool
 }
 
 // getEnumAzureNameFunction adds an AzureName() function that casts the AzureName property

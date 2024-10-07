@@ -231,7 +231,7 @@ func (server *FlexibleServer) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (server *FlexibleServer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateSecretDestinations, server.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateSecretDestinations, server.validateConfigMapDestinations, server.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -255,6 +255,9 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return server.validateConfigMapDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateOptionalConfigMapReferences()
+		},
 	}
 }
 
@@ -270,6 +273,15 @@ func (server *FlexibleServer) validateConfigMapDestinations() (admission.Warning
 		server.Spec.OperatorSpec.ConfigMaps.FullyQualifiedDomainName,
 	}
 	return configmaps.ValidateDestinations(toValidate)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (server *FlexibleServer) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&server.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -2839,7 +2851,10 @@ func (backup *Backup_STATUS) AssignProperties_To_Backup_STATUS(destination *stor
 // Data encryption properties of a server
 type DataEncryption struct {
 	// PrimaryKeyURI: URI for the key for data encryption for primary server.
-	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty"`
+	PrimaryKeyURI *string `json:"primaryKeyURI,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
+
+	// PrimaryKeyURIFromConfig: URI for the key for data encryption for primary server.
+	PrimaryKeyURIFromConfig *genruntime.ConfigMapReference `json:"primaryKeyURIFromConfig,omitempty" optionalConfigMapPair:"PrimaryKeyURI"`
 
 	// PrimaryUserAssignedIdentityReference: Resource Id for the User assigned identity to be used for data encryption for
 	// primary server.
@@ -2861,6 +2876,14 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 	// Set property "PrimaryKeyURI":
 	if encryption.PrimaryKeyURI != nil {
 		primaryKeyURI := *encryption.PrimaryKeyURI
+		result.PrimaryKeyURI = &primaryKeyURI
+	}
+	if encryption.PrimaryKeyURIFromConfig != nil {
+		primaryKeyURIValue, err := resolved.ResolvedConfigMaps.Lookup(*encryption.PrimaryKeyURIFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property PrimaryKeyURI")
+		}
+		primaryKeyURI := primaryKeyURIValue
 		result.PrimaryKeyURI = &primaryKeyURI
 	}
 
@@ -2902,6 +2925,8 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 		encryption.PrimaryKeyURI = &primaryKeyURI
 	}
 
+	// no assignment for property "PrimaryKeyURIFromConfig"
+
 	// no assignment for property "PrimaryUserAssignedIdentityReference"
 
 	// Set property "Type":
@@ -2921,6 +2946,14 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *s
 
 	// PrimaryKeyURI
 	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
+
+	// PrimaryKeyURIFromConfig
+	if source.PrimaryKeyURIFromConfig != nil {
+		primaryKeyURIFromConfig := source.PrimaryKeyURIFromConfig.Copy()
+		encryption.PrimaryKeyURIFromConfig = &primaryKeyURIFromConfig
+	} else {
+		encryption.PrimaryKeyURIFromConfig = nil
+	}
 
 	// PrimaryUserAssignedIdentityReference
 	if source.PrimaryUserAssignedIdentityReference != nil {
@@ -2950,6 +2983,14 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 
 	// PrimaryKeyURI
 	destination.PrimaryKeyURI = genruntime.ClonePointerToString(encryption.PrimaryKeyURI)
+
+	// PrimaryKeyURIFromConfig
+	if encryption.PrimaryKeyURIFromConfig != nil {
+		primaryKeyURIFromConfig := encryption.PrimaryKeyURIFromConfig.Copy()
+		destination.PrimaryKeyURIFromConfig = &primaryKeyURIFromConfig
+	} else {
+		destination.PrimaryKeyURIFromConfig = nil
+	}
 
 	// PrimaryUserAssignedIdentityReference
 	if encryption.PrimaryUserAssignedIdentityReference != nil {

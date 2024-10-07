@@ -18,19 +18,20 @@ func AddValidatorInterface(
 	definitions astmodel.TypeDefinitionSet,
 	validations map[functions.ValidationKind][]*functions.ResourceFunction,
 ) (astmodel.TypeDefinition, error) {
-	resolved, err := definitions.ResolveResourceSpecAndStatus(resourceDef)
-	if err != nil {
-		return astmodel.TypeDefinition{}, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
+	rt, ok := astmodel.AsResourceType(resourceDef.Type())
+	if !ok {
+		return astmodel.TypeDefinition{}, errors.Errorf("unable to resolve resource %s", resourceDef.Name())
 	}
 
-	validatorBuilder := functions.NewValidatorBuilder(resourceDef.Name(), resolved.ResourceType, idFactory)
+	validatorBuilder := functions.NewValidatorBuilder(resourceDef.Name(), rt, idFactory)
 	for validationKind, vs := range validations {
 		for _, validation := range vs {
 			validatorBuilder.AddValidation(validationKind, validation)
 		}
 	}
 
-	resourceType := resolved.ResourceType.WithInterface(validatorBuilder.ToInterfaceImplementation())
+	injector := astmodel.NewInterfaceInjector()
+	def, err := injector.Inject(resourceDef, validatorBuilder.ToInterfaceImplementation())
 
-	return resourceDef.WithType(resourceType), nil
+	return def, err
 }

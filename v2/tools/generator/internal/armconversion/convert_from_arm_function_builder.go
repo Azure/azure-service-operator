@@ -153,7 +153,7 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 	typeAssert := astbuilder.TypeAssert(
 		dst.NewIdent(dest),
 		dst.NewIdent(builder.inputIdent),
-		dst.NewIdent(builder.sourceTypeIdent()))
+		builder.sourceTypeIdent())
 
 	// Check the result of the type assert
 	// if !ok {
@@ -164,7 +164,7 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 			fmtPackage,
 			fmt.Sprintf("unexpected type supplied for %s() function. Expected %s, got %%T",
 				builder.methodName,
-				builder.sourceTypeIdent()),
+				builder.sourceTypeString()),
 			dst.NewIdent(builder.inputIdent)))
 
 	return astbuilder.Statements(typeAssert, returnIfNotOk)

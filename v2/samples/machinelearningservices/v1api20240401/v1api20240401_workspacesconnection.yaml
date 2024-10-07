@@ -1,0 +1,15 @@
+apiVersion: machinelearningservices.azure.com/v1api20240401
+kind: WorkspacesConnection
+metadata:
+  name: aso-sample-conn
+  namespace: default
+spec:
+  owner:
+    name: sampleworkspacesconnection
+  properties:
+    none:
+      authType: None
+      category: ContainerRegistry
+      target: www.microsoft.com
+      value: '{"foo":"bar", "baz":"bee"}'
+      valueFormat: JSON
