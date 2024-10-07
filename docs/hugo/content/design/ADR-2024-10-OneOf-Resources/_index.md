@@ -1,6 +1,6 @@
 ---
 title: '2024-10 OneOf Resouces'
-toc_hide: true
+toc_hide: false
 ---
 
 ## Context
@@ -105,48 +105,140 @@ Role *-- TeacherProperties : Teacher
 Role *-- MarkerProperties : Marker
 ```
 
-### Background
+### Background: Resource Structure
 
-## Requirements
+When we generate the ARM types for submission to Azure Resource Manager, we require each resource to have a `Name` property. 
 
-<!-- 
-## Options (optional) 
+If that name is missing, we get the following error:
 
-### Option 1: Foo
+```
+ error generating code: 
+ failed to execute stage 38: 
+ Create types for interaction with ARM: 
+ unable to create arm resource spec definition for resource <id>: 
+ resource spec doesn't have "Name" property"
+```
 
-**Pros:**
+### The Problem
 
-- Pro 1
+When importing resources from `Microsoft.Kusto` we have, for the first time, a resource using a _One-Of_ as a part of it's definition right at the root. There are two flavours of the `Database` resource, one for read/write, and another for following.
 
-**Cons:**
+``` mermaid
+classDiagram
 
-- Con 1
+class ClustersDatabase_Spec {
+    <<oneof>>
+    Name string
+}
 
-### Option 2: Bar
+class ReadWriteDatabase
+class ReadOnlyFollowingDatabase
 
-**Pros:**
+ClustersDatabase_Spec --> ReadWriteDatabase : ReadWrite
+ClustersDatabase_Spec --> ReadOnlyFollowingDatabase : ReadOnlyFollowing
+```
 
-- Pro 1
+When the OneOf is rendered according to our current rules, we end up with this structure:
 
-**Cons:**
+``` mermaid
+classDiagram
 
-- Con 1
+class ClustersDatabase_Spec {
+    <<oneof>>
+    ReadWrite ReadWriteDatabase
+    ReadOnlyFollowing ReadOnlyFollowingDatabase
+}
 
--->
+class ReadWriteDatabase {
+    Name string
+}
+
+class ReadOnlyFollowingDatabase {
+    Name string
+}
+
+ClustersDatabase_Spec *-- ReadWriteDatabase
+ClustersDatabase_Spec *-- ReadOnlyFollowingDatabase
+```
+
+This is correct according to our rules for OneOf, but it doesn't work for ARM Spec generation due to the lack of a Name.
+
+#### Other factors
+
+We also have an `AzureName` property for many our custom resources, to allow the name in Azure to differ from the name in the cluster, due to different naming rules in each environment.
+
+## Option 1: Do Nothing
+
+Accept that the current decisions mean that we have to decline to support the `Microsoft.Kusto` resources, and any future resources that use this pattern.
+
+### Pros
+
+* Easy
+
+### Cons
+
+* Distasteful to decline to support a resource due to a technical limitation.
+* No guarantee that Kusto will be the only affected resource.
+* Risk that resources we already support will use this pattern in a new API version, rendering us unable to upgrade.
+
+## Option 2: Loosen the rules on Name
+
+For the specific case where the top level `spec` is a one-of, permit the `Name` to be omitted from the top level as long as it's present on all of the leaf types (guaranteeing that a name will always be present).
+
+### Pros
+
+* Avoids making already complex one-of handling more complex
+
+### Cons
+
+* May be confusing to users
+* Changes the existing rules, potentially breaking other code
+
+### Questions
+
+* How much of the existing operation of the code generator relies on the presence of `Name` at the top level on the ARM spec?
+* Ditto for the controller?
+
+## Option 3: Change the rules for all OneOf Types
+
+At the moment, the only permitted properties at the root level of a one-of are the mutually exclusive properties that represent the available options. We could loosen this rule to permit other properties, those in common to all leaf types, to be present at the root level.
+
+### Pros 
+
+* Conceptually simpler
+
+### Conts
+
+* Changing already complex one-of handling to make it more complex.
+* Requires changing the way we serialize/deserialize one-of types in non-trivial ways.
+* Potentially large blast-radius if our changes impact on one-of types we've already generated and released.
+
+## Option 4: Special case root OneOf Types
+
+Preserve the existing rules for one-of types, but special case the root level of a resource spec to permit `Name` be specified alongside the one-of properties.
+
+### Pros
+
+* Limits the scope of impact of the change.
+
+### Cons
+
+* Need to change the generation of our JSON marshalling code to handle this special case.
+* Special casing is always a bit of a code smell.
+
+### Questions
+
+* Are there other properties that might be required at the root level of a resource spec in the future?
+* Do we special case `Name` by itself, or do just apply different rules for root one-of objects?
 
 ## Decision
 
-<!--
-### FAQ 
+Pending.
 
-Q: Q1
-
-A: A1
--->
 
 ## Status
 
-Proposed.
+Discussion.
 
 ## Consequences
 
