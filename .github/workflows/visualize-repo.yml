@@ -9,9 +9,15 @@ on:
     - cron: "35 17 * * 0"
 jobs:
   render:
+    
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
+
+    # Only run this scheduled job on the main repo, it can't work elsewhere
+    if: ${{ github.repository == 'Azure/azure-service-operator' }}
+
     steps:
       - name: Create token
         uses: actions/create-github-app-token@v1
