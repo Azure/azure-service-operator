@@ -10,9 +10,7 @@ assignees: ''
 
 _Please give a clear description of what you see and why you think it is a bug._
 
-### Azure Service Operator Version
-
-_What version of ASO are you using?_
+Azure Service Operator Version: _What version of ASO are you using?_
 
 <!--- 
 The version of the operator pod. 
@@ -22,13 +20,13 @@ ASO V1: `kubectl get deployment -n azureoperator-system azureoperator-controller
 ASO V2: `kubectl get deployment -n azureserviceoperator-system azureserviceoperator-controller-manager -o wide` and share the image being used by the manager container.   
 -->
 
-## To Reproduce
-
-_Describe the steps to recreate the issue._
-
 ## Expected behavior
 
 _A concise description of what you expected to happen._
+
+## To Reproduce
+
+_Describe the steps to recreate the issue._
 
 ## Screenshots
 

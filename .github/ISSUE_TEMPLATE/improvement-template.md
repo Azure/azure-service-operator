@@ -4,7 +4,6 @@ about: Request an improvement to an existing feature or behavior
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ## Describe the current behavior
