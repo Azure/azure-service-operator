@@ -7,14 +7,13 @@ package pipeline
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
-
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 func makeSynth(definitions ...astmodel.TypeDefinition) synthesizer {
