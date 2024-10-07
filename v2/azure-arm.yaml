@@ -2690,6 +2690,18 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         TenantId:
           $importConfigMapMode: optional
+      Registry:
+        $export: true
+        $supportedFrom: v2.10.0
+      PrivateEndpointResource:
+        SubnetArmId:
+          $armReference: true
+      ArmResourceId:
+        ResourceId:
+          $armReference: true
+      RegistryPrivateEndpointConnection:
+        Id:
+          $armReference: true
   monitor:
     2023-04-03:
       Account:

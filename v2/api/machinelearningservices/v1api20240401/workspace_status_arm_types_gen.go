@@ -37,63 +37,6 @@ type Workspace_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-// Managed service identity (system assigned and/or user assigned identities)
-type ManagedServiceIdentity_STATUS_ARM struct {
-	// PrincipalId: The service principal ID of the system assigned identity. This property will only be provided for a system
-	// assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of the system assigned identity. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-	Type                   *ManagedServiceIdentityType_STATUS_ARM     `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
-}
-
-// The resource model definition representing SKU
-type Sku_STATUS_ARM struct {
-	// Capacity: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible
-	// for the resource this may be omitted.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
-	Family *string `json:"family,omitempty"`
-
-	// Name: The name of the SKU. Ex - P3. It is typically a letter+number code
-	Name *string `json:"name,omitempty"`
-
-	// Size: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone
-	// code.
-	Size *string `json:"size,omitempty"`
-
-	// Tier: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is
-	// not  required on a PUT.
-	Tier *SkuTier_STATUS_ARM `json:"tier,omitempty"`
-}
-
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData_STATUS_ARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS_ARM `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
-}
-
 // The properties of a machine learning workspace.
 type WorkspaceProperties_STATUS_ARM struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
@@ -221,24 +164,6 @@ type ManagedNetworkSettings_STATUS_ARM struct {
 	Status *ManagedNetworkProvisionStatus_STATUS_ARM `json:"status,omitempty"`
 }
 
-// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-type ManagedServiceIdentityType_STATUS_ARM string
-
-const (
-	ManagedServiceIdentityType_STATUS_ARM_None                       = ManagedServiceIdentityType_STATUS_ARM("None")
-	ManagedServiceIdentityType_STATUS_ARM_SystemAssigned             = ManagedServiceIdentityType_STATUS_ARM("SystemAssigned")
-	ManagedServiceIdentityType_STATUS_ARM_SystemAssignedUserAssigned = ManagedServiceIdentityType_STATUS_ARM("SystemAssigned,UserAssigned")
-	ManagedServiceIdentityType_STATUS_ARM_UserAssigned               = ManagedServiceIdentityType_STATUS_ARM("UserAssigned")
-)
-
-// Mapping from string to ManagedServiceIdentityType_STATUS_ARM
-var managedServiceIdentityType_STATUS_ARM_Values = map[string]ManagedServiceIdentityType_STATUS_ARM{
-	"none":                        ManagedServiceIdentityType_STATUS_ARM_None,
-	"systemassigned":              ManagedServiceIdentityType_STATUS_ARM_SystemAssigned,
-	"systemassigned,userassigned": ManagedServiceIdentityType_STATUS_ARM_SystemAssignedUserAssigned,
-	"userassigned":                ManagedServiceIdentityType_STATUS_ARM_UserAssigned,
-}
-
 type NotebookResourceInfo_STATUS_ARM struct {
 	Fqdn *string `json:"fqdn,omitempty"`
 
@@ -277,68 +202,6 @@ type SharedPrivateLinkResource_STATUS_ARM struct {
 
 	// Properties: Resource properties.
 	Properties *SharedPrivateLinkResourceProperty_STATUS_ARM `json:"properties,omitempty"`
-}
-
-// This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not
-// required on a PUT.
-type SkuTier_STATUS_ARM string
-
-const (
-	SkuTier_STATUS_ARM_Basic    = SkuTier_STATUS_ARM("Basic")
-	SkuTier_STATUS_ARM_Free     = SkuTier_STATUS_ARM("Free")
-	SkuTier_STATUS_ARM_Premium  = SkuTier_STATUS_ARM("Premium")
-	SkuTier_STATUS_ARM_Standard = SkuTier_STATUS_ARM("Standard")
-)
-
-// Mapping from string to SkuTier_STATUS_ARM
-var skuTier_STATUS_ARM_Values = map[string]SkuTier_STATUS_ARM{
-	"basic":    SkuTier_STATUS_ARM_Basic,
-	"free":     SkuTier_STATUS_ARM_Free,
-	"premium":  SkuTier_STATUS_ARM_Premium,
-	"standard": SkuTier_STATUS_ARM_Standard,
-}
-
-type SystemData_CreatedByType_STATUS_ARM string
-
-const (
-	SystemData_CreatedByType_STATUS_ARM_Application     = SystemData_CreatedByType_STATUS_ARM("Application")
-	SystemData_CreatedByType_STATUS_ARM_Key             = SystemData_CreatedByType_STATUS_ARM("Key")
-	SystemData_CreatedByType_STATUS_ARM_ManagedIdentity = SystemData_CreatedByType_STATUS_ARM("ManagedIdentity")
-	SystemData_CreatedByType_STATUS_ARM_User            = SystemData_CreatedByType_STATUS_ARM("User")
-)
-
-// Mapping from string to SystemData_CreatedByType_STATUS_ARM
-var systemData_CreatedByType_STATUS_ARM_Values = map[string]SystemData_CreatedByType_STATUS_ARM{
-	"application":     SystemData_CreatedByType_STATUS_ARM_Application,
-	"key":             SystemData_CreatedByType_STATUS_ARM_Key,
-	"managedidentity": SystemData_CreatedByType_STATUS_ARM_ManagedIdentity,
-	"user":            SystemData_CreatedByType_STATUS_ARM_User,
-}
-
-type SystemData_LastModifiedByType_STATUS_ARM string
-
-const (
-	SystemData_LastModifiedByType_STATUS_ARM_Application     = SystemData_LastModifiedByType_STATUS_ARM("Application")
-	SystemData_LastModifiedByType_STATUS_ARM_Key             = SystemData_LastModifiedByType_STATUS_ARM("Key")
-	SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity = SystemData_LastModifiedByType_STATUS_ARM("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUS_ARM_User            = SystemData_LastModifiedByType_STATUS_ARM("User")
-)
-
-// Mapping from string to SystemData_LastModifiedByType_STATUS_ARM
-var systemData_LastModifiedByType_STATUS_ARM_Values = map[string]SystemData_LastModifiedByType_STATUS_ARM{
-	"application":     SystemData_LastModifiedByType_STATUS_ARM_Application,
-	"key":             SystemData_LastModifiedByType_STATUS_ARM_Key,
-	"managedidentity": SystemData_LastModifiedByType_STATUS_ARM_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_STATUS_ARM_User,
-}
-
-// User assigned identity properties
-type UserAssignedIdentity_STATUS_ARM struct {
-	// ClientId: The client ID of the assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal ID of the assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // WorkspaceHub's configuration object.

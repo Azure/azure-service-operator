@@ -11,6 +11,7 @@ Development of these new resources is complete and they will be available in the
 
 | Resource             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
 |----------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Registry             | 2024-04-01  | v1api20240401 | v2.10.0        | -                                                                                                                                                          |
 | Workspace            | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_workspace.yaml)            |
 | WorkspacesCompute    | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_workspacescompute.yaml)    |
 | WorkspacesConnection | 2024-04-01  | v1api20240401 | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api20240401/v1api20240401_workspacesconnection.yaml) |

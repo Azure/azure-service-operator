@@ -3,6 +3,320 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api2024
 ------------------------------------------------------------------------------------
 APIVersion: Enum (1 value)
 └── "2024-04-01"
+Registry: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (14 properties)
+│   ├── AzureName: Validated<string> (1 rule)
+│   │   └── Rule 0: Pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]{2,32}$"
+│   ├── DiscoveryUrl: *string
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │       └── Reference: genruntime.ResourceReference
+│   ├── IntellectualPropertyPublisher: *string
+│   ├── Kind: *string
+│   ├── Location: *string
+│   ├── ManagedResourceGroup: *Object (1 property)
+│   │   └── ResourceReference: *genruntime.ResourceReference
+│   ├── MlFlowRegistryUri: *string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PublicNetworkAccess: *string
+│   ├── RegionDetails: Object (3 properties)[]
+│   │   ├── AcrDetails: Object (2 properties)[]
+│   │   │   ├── SystemCreatedAcrAccount: *Object (3 properties)
+│   │   │   │   ├── AcrAccountName: *string
+│   │   │   │   ├── AcrAccountSku: *string
+│   │   │   │   └── ArmResourceId: *Object (1 property)
+│   │   │   │       └── ResourceReference: *genruntime.ResourceReference
+│   │   │   └── UserCreatedAcrAccount: *Object (1 property)
+│   │   │       └── ArmResourceId: *Object (1 property)
+│   │   │           └── ResourceReference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   └── StorageAccountDetails: Object (2 properties)[]
+│   │       ├── SystemCreatedStorageAccount: *Object (5 properties)
+│   │       │   ├── AllowBlobPublicAccess: *bool
+│   │       │   ├── ArmResourceId: *Object (1 property)
+│   │       │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │       │   ├── StorageAccountHnsEnabled: *bool
+│   │       │   ├── StorageAccountName: *string
+│   │       │   └── StorageAccountType: *string
+│   │       └── UserCreatedStorageAccount: *Object (1 property)
+│   │           └── ArmResourceId: *Object (1 property)
+│   │               └── ResourceReference: *genruntime.ResourceReference
+│   ├── RegistryPrivateEndpointConnections: Object (6 properties)[]
+│   │   ├── GroupIds: string[]
+│   │   ├── Location: *string
+│   │   ├── PrivateEndpoint: *Object (1 property)
+│   │   │   └── SubnetArmReference: *genruntime.ResourceReference
+│   │   ├── ProvisioningState: *string
+│   │   ├── Reference: *genruntime.ResourceReference
+│   │   └── RegistryPrivateLinkServiceConnectionState: *Object (3 properties)
+│   │       ├── ActionsRequired: *string
+│   │       ├── Description: *string
+│   │       └── Status: *Enum (4 values)
+│   │           ├── "Approved"
+│   │           ├── "Disconnected"
+│   │           ├── "Pending"
+│   │           └── "Rejected"
+│   ├── Sku: *Object (5 properties)
+│   │   ├── Capacity: *int
+│   │   ├── Family: *string
+│   │   ├── Name: *string
+│   │   ├── Size: *string
+│   │   └── Tier: *Enum (4 values)
+│   │       ├── "Basic"
+│   │       ├── "Free"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   └── Tags: map[string]string
+└── Status: Object (17 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── DiscoveryUrl: *string
+    ├── Id: *string
+    ├── Identity: *Object (4 properties)
+    │   ├── PrincipalId: *string
+    │   ├── TenantId: *string
+    │   ├── Type: *Enum (4 values)
+    │   │   ├── "None"
+    │   │   ├── "SystemAssigned"
+    │   │   ├── "SystemAssigned,UserAssigned"
+    │   │   └── "UserAssigned"
+    │   └── UserAssignedIdentities: map[string]Object (2 properties)
+    │       ├── ClientId: *string
+    │       └── PrincipalId: *string
+    ├── IntellectualPropertyPublisher: *string
+    ├── Kind: *string
+    ├── Location: *string
+    ├── ManagedResourceGroup: *Object (1 property)
+    │   └── ResourceId: *string
+    ├── MlFlowRegistryUri: *string
+    ├── Name: *string
+    ├── PublicNetworkAccess: *string
+    ├── RegionDetails: Object (3 properties)[]
+    │   ├── AcrDetails: Object (2 properties)[]
+    │   │   ├── SystemCreatedAcrAccount: *Object (3 properties)
+    │   │   │   ├── AcrAccountName: *string
+    │   │   │   ├── AcrAccountSku: *string
+    │   │   │   └── ArmResourceId: *Object (1 property)
+    │   │   │       └── ResourceId: *string
+    │   │   └── UserCreatedAcrAccount: *Object (1 property)
+    │   │       └── ArmResourceId: *Object (1 property)
+    │   │           └── ResourceId: *string
+    │   ├── Location: *string
+    │   └── StorageAccountDetails: Object (2 properties)[]
+    │       ├── SystemCreatedStorageAccount: *Object (5 properties)
+    │       │   ├── AllowBlobPublicAccess: *bool
+    │       │   ├── ArmResourceId: *Object (1 property)
+    │       │   │   └── ResourceId: *string
+    │       │   ├── StorageAccountHnsEnabled: *bool
+    │       │   ├── StorageAccountName: *string
+    │       │   └── StorageAccountType: *string
+    │       └── UserCreatedStorageAccount: *Object (1 property)
+    │           └── ArmResourceId: *Object (1 property)
+    │               └── ResourceId: *string
+    ├── RegistryPrivateEndpointConnections: Object (6 properties)[]
+    │   ├── GroupIds: string[]
+    │   ├── Id: *string
+    │   ├── Location: *string
+    │   ├── PrivateEndpoint: *Object (2 properties)
+    │   │   ├── Id: *string
+    │   │   └── SubnetArmId: *string
+    │   ├── ProvisioningState: *string
+    │   └── RegistryPrivateLinkServiceConnectionState: *Object (3 properties)
+    │       ├── ActionsRequired: *string
+    │       ├── Description: *string
+    │       └── Status: *Enum (4 values)
+    │           ├── "Approved"
+    │           ├── "Disconnected"
+    │           ├── "Pending"
+    │           └── "Rejected"
+    ├── Sku: *Object (5 properties)
+    │   ├── Capacity: *int
+    │   ├── Family: *string
+    │   ├── Name: *string
+    │   ├── Size: *string
+    │   └── Tier: *Enum (4 values)
+    │       ├── "Basic"
+    │       ├── "Free"
+    │       ├── "Premium"
+    │       └── "Standard"
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
+    ├── Tags: map[string]string
+    └── Type: *string
+RegistryTrackedResource_STATUS_ARM: Object (10 properties)
+├── Id: *string
+├── Identity: *Object (4 properties)
+│   ├── PrincipalId: *string
+│   ├── TenantId: *string
+│   ├── Type: *Enum (4 values)
+│   │   ├── "None"
+│   │   ├── "SystemAssigned"
+│   │   ├── "SystemAssigned,UserAssigned"
+│   │   └── "UserAssigned"
+│   └── UserAssignedIdentities: map[string]Object (2 properties)
+│       ├── ClientId: *string
+│       └── PrincipalId: *string
+├── Kind: *string
+├── Location: *string
+├── Name: *string
+├── Properties: *Object (7 properties)
+│   ├── DiscoveryUrl: *string
+│   ├── IntellectualPropertyPublisher: *string
+│   ├── ManagedResourceGroup: *Object (1 property)
+│   │   └── ResourceId: *string
+│   ├── MlFlowRegistryUri: *string
+│   ├── PublicNetworkAccess: *string
+│   ├── RegionDetails: Object (3 properties)[]
+│   │   ├── AcrDetails: Object (2 properties)[]
+│   │   │   ├── SystemCreatedAcrAccount: *Object (3 properties)
+│   │   │   │   ├── AcrAccountName: *string
+│   │   │   │   ├── AcrAccountSku: *string
+│   │   │   │   └── ArmResourceId: *Object (1 property)
+│   │   │   │       └── ResourceId: *string
+│   │   │   └── UserCreatedAcrAccount: *Object (1 property)
+│   │   │       └── ArmResourceId: *Object (1 property)
+│   │   │           └── ResourceId: *string
+│   │   ├── Location: *string
+│   │   └── StorageAccountDetails: Object (2 properties)[]
+│   │       ├── SystemCreatedStorageAccount: *Object (5 properties)
+│   │       │   ├── AllowBlobPublicAccess: *bool
+│   │       │   ├── ArmResourceId: *Object (1 property)
+│   │       │   │   └── ResourceId: *string
+│   │       │   ├── StorageAccountHnsEnabled: *bool
+│   │       │   ├── StorageAccountName: *string
+│   │       │   └── StorageAccountType: *string
+│   │       └── UserCreatedStorageAccount: *Object (1 property)
+│   │           └── ArmResourceId: *Object (1 property)
+│   │               └── ResourceId: *string
+│   └── RegistryPrivateEndpointConnections: Object (3 properties)[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       └── Properties: *Object (4 properties)
+│           ├── GroupIds: string[]
+│           ├── PrivateEndpoint: *Object (2 properties)
+│           │   ├── Id: *string
+│           │   └── SubnetArmId: *string
+│           ├── ProvisioningState: *string
+│           └── RegistryPrivateLinkServiceConnectionState: *Object (3 properties)
+│               ├── ActionsRequired: *string
+│               ├── Description: *string
+│               └── Status: *Enum (4 values)
+│                   ├── "Approved"
+│                   ├── "Disconnected"
+│                   ├── "Pending"
+│                   └── "Rejected"
+├── Sku: *Object (5 properties)
+│   ├── Capacity: *int
+│   ├── Family: *string
+│   ├── Name: *string
+│   ├── Size: *string
+│   └── Tier: *Enum (4 values)
+│       ├── "Basic"
+│       ├── "Free"
+│       ├── "Premium"
+│       └── "Standard"
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
+├── Tags: map[string]string
+└── Type: *string
+Registry_Spec_ARM: Object (7 properties)
+├── Identity: *Object (2 properties)
+│   ├── Type: *Enum (4 values)
+│   │   ├── "None"
+│   │   ├── "SystemAssigned"
+│   │   ├── "SystemAssigned,UserAssigned"
+│   │   └── "UserAssigned"
+│   └── UserAssignedIdentities: map[string]Object (0 properties)
+├── Kind: *string
+├── Location: *string
+├── Name: string
+├── Properties: *Object (7 properties)
+│   ├── DiscoveryUrl: *string
+│   ├── IntellectualPropertyPublisher: *string
+│   ├── ManagedResourceGroup: *Object (1 property)
+│   │   └── ResourceId: *string
+│   ├── MlFlowRegistryUri: *string
+│   ├── PublicNetworkAccess: *string
+│   ├── RegionDetails: Object (3 properties)[]
+│   │   ├── AcrDetails: Object (2 properties)[]
+│   │   │   ├── SystemCreatedAcrAccount: *Object (3 properties)
+│   │   │   │   ├── AcrAccountName: *string
+│   │   │   │   ├── AcrAccountSku: *string
+│   │   │   │   └── ArmResourceId: *Object (1 property)
+│   │   │   │       └── ResourceId: *string
+│   │   │   └── UserCreatedAcrAccount: *Object (1 property)
+│   │   │       └── ArmResourceId: *Object (1 property)
+│   │   │           └── ResourceId: *string
+│   │   ├── Location: *string
+│   │   └── StorageAccountDetails: Object (2 properties)[]
+│   │       ├── SystemCreatedStorageAccount: *Object (5 properties)
+│   │       │   ├── AllowBlobPublicAccess: *bool
+│   │       │   ├── ArmResourceId: *Object (1 property)
+│   │       │   │   └── ResourceId: *string
+│   │       │   ├── StorageAccountHnsEnabled: *bool
+│   │       │   ├── StorageAccountName: *string
+│   │       │   └── StorageAccountType: *string
+│   │       └── UserCreatedStorageAccount: *Object (1 property)
+│   │           └── ArmResourceId: *Object (1 property)
+│   │               └── ResourceId: *string
+│   └── RegistryPrivateEndpointConnections: Object (3 properties)[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       └── Properties: *Object (4 properties)
+│           ├── GroupIds: string[]
+│           ├── PrivateEndpoint: *Object (1 property)
+│           │   └── SubnetArmId: *string
+│           ├── ProvisioningState: *string
+│           └── RegistryPrivateLinkServiceConnectionState: *Object (3 properties)
+│               ├── ActionsRequired: *string
+│               ├── Description: *string
+│               └── Status: *Enum (4 values)
+│                   ├── "Approved"
+│                   ├── "Disconnected"
+│                   ├── "Pending"
+│                   └── "Rejected"
+├── Sku: *Object (5 properties)
+│   ├── Capacity: *int
+│   ├── Family: *string
+│   ├── Name: *string
+│   ├── Size: *string
+│   └── Tier: *Enum (4 values)
+│       ├── "Basic"
+│       ├── "Free"
+│       ├── "Premium"
+│       └── "Standard"
+└── Tags: map[string]string
 Workspace: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (31 properties)

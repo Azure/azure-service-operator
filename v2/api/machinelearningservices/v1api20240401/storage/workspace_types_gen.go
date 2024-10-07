@@ -138,12 +138,6 @@ type WorkspaceList struct {
 	Items           []Workspace `json:"items"`
 }
 
-// Storage version of v1api20240401.APIVersion
-// +kubebuilder:validation:Enum={"2024-04-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2024-04-01")
-
 // Storage version of v1api20240401.Workspace_Spec
 type Workspace_Spec struct {
 	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
@@ -341,24 +335,6 @@ type ManagedNetworkSettings_STATUS struct {
 	Status        *ManagedNetworkProvisionStatus_STATUS `json:"status,omitempty"`
 }
 
-// Storage version of v1api20240401.ManagedServiceIdentity
-// Managed service identity (system assigned and/or user assigned identities)
-type ManagedServiceIdentity struct {
-	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type                   *string                       `json:"type,omitempty"`
-	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v1api20240401.ManagedServiceIdentity_STATUS
-// Managed service identity (system assigned and/or user assigned identities)
-type ManagedServiceIdentity_STATUS struct {
-	PrincipalId            *string                                `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	TenantId               *string                                `json:"tenantId,omitempty"`
-	Type                   *string                                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
 // Storage version of v1api20240401.NotebookResourceInfo_STATUS
 type NotebookResourceInfo_STATUS struct {
 	Fqdn                     *string                          `json:"fqdn,omitempty"`
@@ -423,40 +399,6 @@ type SharedPrivateLinkResource_STATUS struct {
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RequestMessage        *string                `json:"requestMessage,omitempty"`
 	Status                *string                `json:"status,omitempty"`
-}
-
-// Storage version of v1api20240401.Sku
-// The resource model definition representing SKU
-type Sku struct {
-	Capacity    *int                   `json:"capacity,omitempty"`
-	Family      *string                `json:"family,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Size        *string                `json:"size,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
-// Storage version of v1api20240401.Sku_STATUS
-// The resource model definition representing SKU
-type Sku_STATUS struct {
-	Capacity    *int                   `json:"capacity,omitempty"`
-	Family      *string                `json:"family,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Size        *string                `json:"size,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
-// Storage version of v1api20240401.SystemData_STATUS
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData_STATUS struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceHubConfig
@@ -582,21 +524,6 @@ type OutboundRule_STATUS struct {
 	PrivateEndpoint *PrivateEndpointOutboundRule_STATUS `json:"privateEndpoint,omitempty"`
 	PropertyBag     genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 	ServiceTag      *ServiceTagOutboundRule_STATUS      `json:"serviceTag,omitempty"`
-}
-
-// Storage version of v1api20240401.UserAssignedIdentity_STATUS
-// User assigned identity properties
-type UserAssignedIdentity_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20240401.UserAssignedIdentityDetails
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20240401.WorkspaceOperatorSecrets
