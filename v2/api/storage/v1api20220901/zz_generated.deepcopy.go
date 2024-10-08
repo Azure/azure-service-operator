@@ -4909,7 +4909,7 @@ func (in *NetworkRuleSet) DeepCopyInto(out *NetworkRuleSet) {
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSet_Bypass)
+		*out = new(string)
 		**out = **in
 	}
 	if in.DefaultAction != nil {
@@ -4955,7 +4955,7 @@ func (in *NetworkRuleSet_ARM) DeepCopyInto(out *NetworkRuleSet_ARM) {
 	*out = *in
 	if in.Bypass != nil {
 		in, out := &in.Bypass, &out.Bypass
-		*out = new(NetworkRuleSet_Bypass_ARM)
+		*out = new(string)
 		**out = **in
 	}
 	if in.DefaultAction != nil {

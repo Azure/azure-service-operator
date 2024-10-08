@@ -125,7 +125,6 @@
 | Multichannel                                                         |               | v1api20220901 | v1api20230101 |
 | Multichannel_STATUS                                                  |               | v1api20220901 | v1api20230101 |
 | NetworkRuleSet                                                       | v1api20210401 | v1api20220901 | v1api20230101 |
-| NetworkRuleSet_Bypass                                                | v1api20210401 | v1api20220901 | v1api20230101 |
 | NetworkRuleSet_Bypass_STATUS                                         | v1api20210401 | v1api20220901 | v1api20230101 |
 | NetworkRuleSet_DefaultAction                                         | v1api20210401 | v1api20220901 | v1api20230101 |
 | NetworkRuleSet_DefaultAction_STATUS                                  | v1api20210401 | v1api20220901 | v1api20230101 |

@@ -881,11 +881,7 @@ func NetworkRuleSet_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet_ARM(gens map[string]gopter.Gen) {
-	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(
-		NetworkRuleSet_Bypass_ARM_AzureServices,
-		NetworkRuleSet_Bypass_ARM_Logging,
-		NetworkRuleSet_Bypass_ARM_Metrics,
-		NetworkRuleSet_Bypass_ARM_None))
+	gens["Bypass"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_DefaultAction_ARM_Allow, NetworkRuleSet_DefaultAction_ARM_Deny))
 }
 
