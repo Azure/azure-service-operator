@@ -237,7 +237,7 @@ type KeyPolicy_ARM struct {
 type NetworkRuleSet_ARM struct {
 	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
 	// Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
-	Bypass *NetworkRuleSet_Bypass_ARM `json:"bypass,omitempty"`
+	Bypass *string `json:"bypass,omitempty"`
 
 	// DefaultAction: Specifies the default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSet_DefaultAction_ARM `json:"defaultAction,omitempty"`
@@ -475,24 +475,6 @@ type KeyVaultProperties_ARM struct {
 
 	// Keyversion: The version of KeyVault key.
 	Keyversion *string `json:"keyversion,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"AzureServices","Logging","Metrics","None"}
-type NetworkRuleSet_Bypass_ARM string
-
-const (
-	NetworkRuleSet_Bypass_ARM_AzureServices = NetworkRuleSet_Bypass_ARM("AzureServices")
-	NetworkRuleSet_Bypass_ARM_Logging       = NetworkRuleSet_Bypass_ARM("Logging")
-	NetworkRuleSet_Bypass_ARM_Metrics       = NetworkRuleSet_Bypass_ARM("Metrics")
-	NetworkRuleSet_Bypass_ARM_None          = NetworkRuleSet_Bypass_ARM("None")
-)
-
-// Mapping from string to NetworkRuleSet_Bypass_ARM
-var networkRuleSet_Bypass_ARM_Values = map[string]NetworkRuleSet_Bypass_ARM{
-	"azureservices": NetworkRuleSet_Bypass_ARM_AzureServices,
-	"logging":       NetworkRuleSet_Bypass_ARM_Logging,
-	"metrics":       NetworkRuleSet_Bypass_ARM_Metrics,
-	"none":          NetworkRuleSet_Bypass_ARM_None,
 }
 
 // +kubebuilder:validation:Enum={"Allow","Deny"}

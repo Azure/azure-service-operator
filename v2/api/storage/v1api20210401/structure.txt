@@ -99,11 +99,7 @@ StorageAccount: Resource
 │   │   ├── "TLS1_1"
 │   │   └── "TLS1_2"
 │   ├── NetworkAcls: *Object (5 properties)
-│   │   ├── Bypass: *Enum (4 values)
-│   │   │   ├── "AzureServices"
-│   │   │   ├── "Logging"
-│   │   │   ├── "Metrics"
-│   │   │   └── "None"
+│   │   ├── Bypass: *string
 │   │   ├── DefaultAction: *Enum (2 values)
 │   │   │   ├── "Allow"
 │   │   │   └── "Deny"
@@ -721,11 +717,7 @@ StorageAccount_Spec_ARM: Object (8 properties)
 │   │   ├── "TLS1_1"
 │   │   └── "TLS1_2"
 │   ├── NetworkAcls: *Object (5 properties)
-│   │   ├── Bypass: *Enum (4 values)
-│   │   │   ├── "AzureServices"
-│   │   │   ├── "Logging"
-│   │   │   ├── "Metrics"
-│   │   │   └── "None"
+│   │   ├── Bypass: *string
 │   │   ├── DefaultAction: *Enum (2 values)
 │   │   │   ├── "Allow"
 │   │   │   └── "Deny"

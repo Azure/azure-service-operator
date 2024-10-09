@@ -487,6 +487,14 @@ typeTransformers:
     remove: true
     because: This property should have been marked readonly but wasn't.
 
+  - group: storage
+    name: NetworkRuleSet  # This type is subsequently flattened into NamespacesTopics_Spec
+    property: Bypass
+    target:
+      name: string
+      optional: true
+    because: The enum restrictions on this type are incomplete. Storage allows a,b,c but doesn't document that in the enum.
+
   - group: servicebus
     name: SBSubscriptionProperties  # This type is subsequently flattened into Namespaces_Topics_Subscription_Spec
     property: Status

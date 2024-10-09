@@ -5029,7 +5029,7 @@ func (policy *KeyPolicy_STATUS) AssignProperties_To_KeyPolicy_STATUS(destination
 type NetworkRuleSet struct {
 	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
 	// Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
-	Bypass *NetworkRuleSet_Bypass `json:"bypass,omitempty"`
+	Bypass *string `json:"bypass,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// DefaultAction: Specifies the default action of allow or deny when no other rules match.
@@ -5056,9 +5056,7 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property "Bypass":
 	if ruleSet.Bypass != nil {
-		var temp string
-		temp = string(*ruleSet.Bypass)
-		bypass := NetworkRuleSet_Bypass_ARM(temp)
+		bypass := *ruleSet.Bypass
 		result.Bypass = &bypass
 	}
 
@@ -5113,9 +5111,7 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property "Bypass":
 	if typedInput.Bypass != nil {
-		var temp string
-		temp = string(*typedInput.Bypass)
-		bypass := NetworkRuleSet_Bypass(temp)
+		bypass := *typedInput.Bypass
 		ruleSet.Bypass = &bypass
 	}
 
@@ -5165,13 +5161,7 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *storage.NetworkRuleSet) error {
 
 	// Bypass
-	if source.Bypass != nil {
-		bypass := *source.Bypass
-		bypassTemp := genruntime.ToEnum(bypass, networkRuleSet_Bypass_Values)
-		ruleSet.Bypass = &bypassTemp
-	} else {
-		ruleSet.Bypass = nil
-	}
+	ruleSet.Bypass = genruntime.ClonePointerToString(source.Bypass)
 
 	// DefaultAction
 	if source.DefaultAction != nil {
@@ -5246,12 +5236,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *s
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Bypass
-	if ruleSet.Bypass != nil {
-		bypass := string(*ruleSet.Bypass)
-		destination.Bypass = &bypass
-	} else {
-		destination.Bypass = nil
-	}
+	destination.Bypass = genruntime.ClonePointerToString(ruleSet.Bypass)
 
 	// DefaultAction
 	if ruleSet.DefaultAction != nil {
@@ -8208,24 +8193,6 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 
 	// No error
 	return nil
-}
-
-// +kubebuilder:validation:Enum={"AzureServices","Logging","Metrics","None"}
-type NetworkRuleSet_Bypass string
-
-const (
-	NetworkRuleSet_Bypass_AzureServices = NetworkRuleSet_Bypass("AzureServices")
-	NetworkRuleSet_Bypass_Logging       = NetworkRuleSet_Bypass("Logging")
-	NetworkRuleSet_Bypass_Metrics       = NetworkRuleSet_Bypass("Metrics")
-	NetworkRuleSet_Bypass_None          = NetworkRuleSet_Bypass("None")
-)
-
-// Mapping from string to NetworkRuleSet_Bypass
-var networkRuleSet_Bypass_Values = map[string]NetworkRuleSet_Bypass{
-	"azureservices": NetworkRuleSet_Bypass_AzureServices,
-	"logging":       NetworkRuleSet_Bypass_Logging,
-	"metrics":       NetworkRuleSet_Bypass_Metrics,
-	"none":          NetworkRuleSet_Bypass_None,
 }
 
 type NetworkRuleSet_Bypass_STATUS string
