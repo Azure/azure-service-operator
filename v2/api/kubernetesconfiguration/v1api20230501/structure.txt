@@ -255,3 +255,360 @@ Extension_Spec_ARM: Object (5 properties)
         ├── "Key"
         ├── "ManagedIdentity"
         └── "User"
+FluxConfiguration: Resource
+├── Spec: Object (13 properties)
+│   ├── AzureBlob: *Object (9 properties)
+│   │   ├── AccountKey: *genruntime.SecretReference
+│   │   ├── ContainerName: *string
+│   │   ├── LocalAuthRef: *string
+│   │   ├── ManagedIdentity: *Object (1 property)
+│   │   │   └── ClientId: *string
+│   │   ├── SasToken: *genruntime.SecretReference
+│   │   ├── ServicePrincipal: *Object (8 properties)
+│   │   │   ├── ClientCertificate: *genruntime.SecretReference
+│   │   │   ├── ClientCertificatePassword: *genruntime.SecretReference
+│   │   │   ├── ClientCertificateSendChain: *bool
+│   │   │   ├── ClientId: *string
+│   │   │   ├── ClientIdFromConfig: *genruntime.ConfigMapReference
+│   │   │   ├── ClientSecret: *genruntime.SecretReference
+│   │   │   ├── TenantId: *string
+│   │   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+│   │   ├── SyncIntervalInSeconds: *int
+│   │   ├── TimeoutInSeconds: *int
+│   │   └── Url: *string
+│   ├── AzureName: string
+│   ├── Bucket: *Object (7 properties)
+│   │   ├── AccessKey: *genruntime.SecretReference
+│   │   ├── BucketName: *string
+│   │   ├── Insecure: *bool
+│   │   ├── LocalAuthRef: *string
+│   │   ├── SyncIntervalInSeconds: *int
+│   │   ├── TimeoutInSeconds: *int
+│   │   └── Url: *string
+│   ├── ConfigurationProtectedSettings: *genruntime.SecretMapReference
+│   ├── GitRepository: *Object (8 properties)
+│   │   ├── HttpsCACert: *genruntime.SecretReference
+│   │   ├── HttpsUser: *string
+│   │   ├── LocalAuthRef: *string
+│   │   ├── RepositoryRef: *Object (4 properties)
+│   │   │   ├── Branch: *string
+│   │   │   ├── Commit: *string
+│   │   │   ├── Semver: *string
+│   │   │   └── Tag: *string
+│   │   ├── SshKnownHosts: *string
+│   │   ├── SyncIntervalInSeconds: *int
+│   │   ├── TimeoutInSeconds: *int
+│   │   └── Url: *string
+│   ├── Kustomizations: map[string]Object (9 properties)
+│   │   ├── DependsOn: string[]
+│   │   ├── Force: *bool
+│   │   ├── Path: *string
+│   │   ├── PostBuild: *Object (2 properties)
+│   │   │   ├── Substitute: map[string]string
+│   │   │   └── SubstituteFrom: Object (3 properties)[]
+│   │   │       ├── Kind: *string
+│   │   │       ├── Name: *string
+│   │   │       └── Optional: *bool
+│   │   ├── Prune: *bool
+│   │   ├── RetryIntervalInSeconds: *int
+│   │   ├── SyncIntervalInSeconds: *int
+│   │   ├── TimeoutInSeconds: *int
+│   │   └── Wait: *bool
+│   ├── Namespace: *string
+│   ├── Owner: *genruntime.ArbitraryOwnerReference
+│   ├── ReconciliationWaitDuration: *string
+│   ├── Scope: *Enum (2 values)
+│   │   ├── "cluster"
+│   │   └── "namespace"
+│   ├── SourceKind: *Enum (3 values)
+│   │   ├── "AzureBlob"
+│   │   ├── "Bucket"
+│   │   └── "GitRepository"
+│   ├── Suspend: *bool
+│   └── WaitForReconciliation: *bool
+└── Status: Object (23 properties)
+    ├── AzureBlob: *Object (7 properties)
+    │   ├── ContainerName: *string
+    │   ├── LocalAuthRef: *string
+    │   ├── ManagedIdentity: *Object (1 property)
+    │   │   └── ClientId: *string
+    │   ├── ServicePrincipal: *Object (3 properties)
+    │   │   ├── ClientCertificateSendChain: *bool
+    │   │   ├── ClientId: *string
+    │   │   └── TenantId: *string
+    │   ├── SyncIntervalInSeconds: *int
+    │   ├── TimeoutInSeconds: *int
+    │   └── Url: *string
+    ├── Bucket: *Object (6 properties)
+    │   ├── BucketName: *string
+    │   ├── Insecure: *bool
+    │   ├── LocalAuthRef: *string
+    │   ├── SyncIntervalInSeconds: *int
+    │   ├── TimeoutInSeconds: *int
+    │   └── Url: *string
+    ├── ComplianceState: *Enum (5 values)
+    │   ├── "Compliant"
+    │   ├── "Non-Compliant"
+    │   ├── "Pending"
+    │   ├── "Suspended"
+    │   └── "Unknown"
+    ├── Conditions: conditions.Condition[]
+    ├── ConfigurationProtectedSettings: map[string]string
+    ├── ErrorMessage: *string
+    ├── GitRepository: *Object (7 properties)
+    │   ├── HttpsUser: *string
+    │   ├── LocalAuthRef: *string
+    │   ├── RepositoryRef: *Object (4 properties)
+    │   │   ├── Branch: *string
+    │   │   ├── Commit: *string
+    │   │   ├── Semver: *string
+    │   │   └── Tag: *string
+    │   ├── SshKnownHosts: *string
+    │   ├── SyncIntervalInSeconds: *int
+    │   ├── TimeoutInSeconds: *int
+    │   └── Url: *string
+    ├── Id: *string
+    ├── Kustomizations: map[string]Object (10 properties)
+    │   ├── DependsOn: string[]
+    │   ├── Force: *bool
+    │   ├── Name: *string
+    │   ├── Path: *string
+    │   ├── PostBuild: *Object (2 properties)
+    │   │   ├── Substitute: map[string]string
+    │   │   └── SubstituteFrom: Object (3 properties)[]
+    │   │       ├── Kind: *string
+    │   │       ├── Name: *string
+    │   │       └── Optional: *bool
+    │   ├── Prune: *bool
+    │   ├── RetryIntervalInSeconds: *int
+    │   ├── SyncIntervalInSeconds: *int
+    │   ├── TimeoutInSeconds: *int
+    │   └── Wait: *bool
+    ├── Name: *string
+    ├── Namespace: *string
+    ├── ProvisioningState: *Enum (6 values)
+    │   ├── "Canceled"
+    │   ├── "Creating"
+    │   ├── "Deleting"
+    │   ├── "Failed"
+    │   ├── "Succeeded"
+    │   └── "Updating"
+    ├── ReconciliationWaitDuration: *string
+    ├── RepositoryPublicKey: *string
+    ├── Scope: *Enum (2 values)
+    │   ├── "cluster"
+    │   └── "namespace"
+    ├── SourceKind: *Enum (3 values)
+    │   ├── "AzureBlob"
+    │   ├── "Bucket"
+    │   └── "GitRepository"
+    ├── SourceSyncedCommitId: *string
+    ├── SourceUpdatedAt: *string
+    ├── StatusUpdatedAt: *string
+    ├── Statuses: Object (7 properties)[]
+    │   ├── AppliedBy: *Object (2 properties)
+    │   │   ├── Name: *string
+    │   │   └── Namespace: *string
+    │   ├── ComplianceState: *Enum (5 values)
+    │   │   ├── "Compliant"
+    │   │   ├── "Non-Compliant"
+    │   │   ├── "Pending"
+    │   │   ├── "Suspended"
+    │   │   └── "Unknown"
+    │   ├── HelmReleaseProperties: *Object (5 properties)
+    │   │   ├── FailureCount: *int
+    │   │   ├── HelmChartRef: *Object (2 properties)
+    │   │   │   ├── Name: *string
+    │   │   │   └── Namespace: *string
+    │   │   ├── InstallFailureCount: *int
+    │   │   ├── LastRevisionApplied: *int
+    │   │   └── UpgradeFailureCount: *int
+    │   ├── Kind: *string
+    │   ├── Name: *string
+    │   ├── Namespace: *string
+    │   └── StatusConditions: Object (5 properties)[]
+    │       ├── LastTransitionTime: *string
+    │       ├── Message: *string
+    │       ├── Reason: *string
+    │       ├── Status: *string
+    │       └── Type: *string
+    ├── Suspend: *bool
+    ├── Type: *string
+    └── WaitForReconciliation: *bool
+FluxConfiguration_STATUS_ARM: Object (4 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (19 properties)
+│   ├── AzureBlob: *Object (7 properties)
+│   │   ├── ContainerName: *string
+│   │   ├── LocalAuthRef: *string
+│   │   ├── ManagedIdentity: *Object (1 property)
+│   │   │   └── ClientId: *string
+│   │   ├── ServicePrincipal: *Object (3 properties)
+│   │   │   ├── ClientCertificateSendChain: *bool
+│   │   │   ├── ClientId: *string
+│   │   │   └── TenantId: *string
+│   │   ├── SyncIntervalInSeconds: *int
+│   │   ├── TimeoutInSeconds: *int
+│   │   └── Url: *string
+│   ├── Bucket: *Object (6 properties)
+│   │   ├── BucketName: *string
+│   │   ├── Insecure: *bool
+│   │   ├── LocalAuthRef: *string
+│   │   ├── SyncIntervalInSeconds: *int
+│   │   ├── TimeoutInSeconds: *int
+│   │   └── Url: *string
+│   ├── ComplianceState: *Enum (5 values)
+│   │   ├── "Compliant"
+│   │   ├── "Non-Compliant"
+│   │   ├── "Pending"
+│   │   ├── "Suspended"
+│   │   └── "Unknown"
+│   ├── ConfigurationProtectedSettings: map[string]string
+│   ├── ErrorMessage: *string
+│   ├── GitRepository: *Object (7 properties)
+│   │   ├── HttpsUser: *string
+│   │   ├── LocalAuthRef: *string
+│   │   ├── RepositoryRef: *Object (4 properties)
+│   │   │   ├── Branch: *string
+│   │   │   ├── Commit: *string
+│   │   │   ├── Semver: *string
+│   │   │   └── Tag: *string
+│   │   ├── SshKnownHosts: *string
+│   │   ├── SyncIntervalInSeconds: *int
+│   │   ├── TimeoutInSeconds: *int
+│   │   └── Url: *string
+│   ├── Kustomizations: map[string]Object (10 properties)
+│   │   ├── DependsOn: string[]
+│   │   ├── Force: *bool
+│   │   ├── Name: *string
+│   │   ├── Path: *string
+│   │   ├── PostBuild: *Object (2 properties)
+│   │   │   ├── Substitute: map[string]string
+│   │   │   └── SubstituteFrom: Object (3 properties)[]
+│   │   │       ├── Kind: *string
+│   │   │       ├── Name: *string
+│   │   │       └── Optional: *bool
+│   │   ├── Prune: *bool
+│   │   ├── RetryIntervalInSeconds: *int
+│   │   ├── SyncIntervalInSeconds: *int
+│   │   ├── TimeoutInSeconds: *int
+│   │   └── Wait: *bool
+│   ├── Namespace: *string
+│   ├── ProvisioningState: *Enum (6 values)
+│   │   ├── "Canceled"
+│   │   ├── "Creating"
+│   │   ├── "Deleting"
+│   │   ├── "Failed"
+│   │   ├── "Succeeded"
+│   │   └── "Updating"
+│   ├── ReconciliationWaitDuration: *string
+│   ├── RepositoryPublicKey: *string
+│   ├── Scope: *Enum (2 values)
+│   │   ├── "cluster"
+│   │   └── "namespace"
+│   ├── SourceKind: *Enum (3 values)
+│   │   ├── "AzureBlob"
+│   │   ├── "Bucket"
+│   │   └── "GitRepository"
+│   ├── SourceSyncedCommitId: *string
+│   ├── SourceUpdatedAt: *string
+│   ├── StatusUpdatedAt: *string
+│   ├── Statuses: Object (7 properties)[]
+│   │   ├── AppliedBy: *Object (2 properties)
+│   │   │   ├── Name: *string
+│   │   │   └── Namespace: *string
+│   │   ├── ComplianceState: *Enum (5 values)
+│   │   │   ├── "Compliant"
+│   │   │   ├── "Non-Compliant"
+│   │   │   ├── "Pending"
+│   │   │   ├── "Suspended"
+│   │   │   └── "Unknown"
+│   │   ├── HelmReleaseProperties: *Object (5 properties)
+│   │   │   ├── FailureCount: *int
+│   │   │   ├── HelmChartRef: *Object (2 properties)
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Namespace: *string
+│   │   │   ├── InstallFailureCount: *int
+│   │   │   ├── LastRevisionApplied: *int
+│   │   │   └── UpgradeFailureCount: *int
+│   │   ├── Kind: *string
+│   │   ├── Name: *string
+│   │   ├── Namespace: *string
+│   │   └── StatusConditions: Object (5 properties)[]
+│   │       ├── LastTransitionTime: *string
+│   │       ├── Message: *string
+│   │       ├── Reason: *string
+│   │       ├── Status: *string
+│   │       └── Type: *string
+│   ├── Suspend: *bool
+│   └── WaitForReconciliation: *bool
+└── Type: *string
+FluxConfiguration_Spec_ARM: Object (2 properties)
+├── Name: string
+└── Properties: *Object (11 properties)
+    ├── AzureBlob: *Object (9 properties)
+    │   ├── AccountKey: *string
+    │   ├── ContainerName: *string
+    │   ├── LocalAuthRef: *string
+    │   ├── ManagedIdentity: *Object (1 property)
+    │   │   └── ClientId: *string
+    │   ├── SasToken: *string
+    │   ├── ServicePrincipal: *Object (6 properties)
+    │   │   ├── ClientCertificate: *string
+    │   │   ├── ClientCertificatePassword: *string
+    │   │   ├── ClientCertificateSendChain: *bool
+    │   │   ├── ClientId: *string
+    │   │   ├── ClientSecret: *string
+    │   │   └── TenantId: *string
+    │   ├── SyncIntervalInSeconds: *int
+    │   ├── TimeoutInSeconds: *int
+    │   └── Url: *string
+    ├── Bucket: *Object (7 properties)
+    │   ├── AccessKey: *string
+    │   ├── BucketName: *string
+    │   ├── Insecure: *bool
+    │   ├── LocalAuthRef: *string
+    │   ├── SyncIntervalInSeconds: *int
+    │   ├── TimeoutInSeconds: *int
+    │   └── Url: *string
+    ├── ConfigurationProtectedSettings: map[string]string
+    ├── GitRepository: *Object (8 properties)
+    │   ├── HttpsCACert: *string
+    │   ├── HttpsUser: *string
+    │   ├── LocalAuthRef: *string
+    │   ├── RepositoryRef: *Object (4 properties)
+    │   │   ├── Branch: *string
+    │   │   ├── Commit: *string
+    │   │   ├── Semver: *string
+    │   │   └── Tag: *string
+    │   ├── SshKnownHosts: *string
+    │   ├── SyncIntervalInSeconds: *int
+    │   ├── TimeoutInSeconds: *int
+    │   └── Url: *string
+    ├── Kustomizations: map[string]Object (9 properties)
+    │   ├── DependsOn: string[]
+    │   ├── Force: *bool
+    │   ├── Path: *string
+    │   ├── PostBuild: *Object (2 properties)
+    │   │   ├── Substitute: map[string]string
+    │   │   └── SubstituteFrom: Object (3 properties)[]
+    │   │       ├── Kind: *string
+    │   │       ├── Name: *string
+    │   │       └── Optional: *bool
+    │   ├── Prune: *bool
+    │   ├── RetryIntervalInSeconds: *int
+    │   ├── SyncIntervalInSeconds: *int
+    │   ├── TimeoutInSeconds: *int
+    │   └── Wait: *bool
+    ├── Namespace: *string
+    ├── ReconciliationWaitDuration: *string
+    ├── Scope: *Enum (2 values)
+    │   ├── "cluster"
+    │   └── "namespace"
+    ├── SourceKind: *Enum (3 values)
+    │   ├── "AzureBlob"
+    │   ├── "Bucket"
+    │   └── "GitRepository"
+    ├── Suspend: *bool
+    └── WaitForReconciliation: *bool

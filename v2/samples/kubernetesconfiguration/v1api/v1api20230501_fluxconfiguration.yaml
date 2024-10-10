@@ -1,0 +1,18 @@
+apiVersion: kubernetesconfiguration.azure.com/v1api20230501
+kind: FluxConfiguration
+metadata:
+  name: aso-sample-flux
+  namespace: default
+spec:
+  gitRepository:
+    repositoryRef:
+      branch: master
+    url: https://github.com/Azure/arc-k8s-demo
+  kustomizations:
+    kustomization-1: {}
+  namespace: flux-ns
+  owner:
+    group: containerservice.azure.com
+    kind: ManagedCluster
+    name: aso-sample-mc
+  sourceKind: GitRepository
