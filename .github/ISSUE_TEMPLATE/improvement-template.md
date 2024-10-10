@@ -4,14 +4,16 @@ about: Request an improvement to an existing feature or behavior
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
-**Describe the current behavior**
-A description of how things are today.
+## Describe the current behavior
 
-**Describe the improvement**
-How should things be changed or improved?
+_A description of how things are today._
 
-**Additional context**
-Add any other context about the suggested improvement.
+## Describe the improvement
+
+_How should things be changed or improved?_
+
+## Additional context
+
+_Add any other context about the suggested improvement._

@@ -7,4 +7,4 @@ assignees: ''
 
 ---
 
-<Describe the feature request>
+_Describe the feature request._
