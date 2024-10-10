@@ -6,6 +6,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -16,9 +17,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
 
+const MountPath = "/etc/aso-controller-settings"
+
 // These are hardcoded because the init function that initializes them in azcore isn't in /cloud it's in /arm which
 // we don't import.
-
 var (
 	DefaultEndpoint                = "https://management.azure.com"
 	DefaultAudience                = "https://management.core.windows.net/"
@@ -226,8 +228,48 @@ func (v Values) Cloud() cloud.Configuration {
 // ReadFromEnvironment loads configuration values from the AZURE_*
 // environment variables.
 func ReadFromEnvironment() (Values, error) {
+	r := newEnvReader()
+	return read(r)
+}
+
+func ReadFromFile(path string) (Values, error) {
+	r := newMountedSecretReader(path)
+	return read(r)
+}
+
+func newEnvReader() *reader {
+	return &reader{
+		lookup: func(s string) (string, bool) {
+			return os.LookupEnv(s)
+		},
+	}
+}
+
+func newMountedSecretReader(path string) *reader {
+	return &reader{
+		lookup: func(s string) (string, bool) {
+			fullPath := filepath.Join(path, s)
+			bytes, err := os.ReadFile(fullPath)
+			ok := err == nil
+
+			return string(bytes), ok
+		},
+	}
+}
+
+type reader struct { // TODO: SHould this be an interface instead?
+	// get func(string) string
+	lookup func(string) (string, bool)
+}
+
+func (r *reader) get(s string) string {
+	result, _ := r.lookup(s)
+	return result
+}
+
+func read(r *reader) (Values, error) {
 	var result Values
-	modeValue := os.Getenv(config.OperatorMode)
+	modeValue := r.get(config.OperatorMode)
 	if modeValue == "" {
 		result.OperatorMode = OperatorModeBoth
 	} else {
@@ -240,36 +282,36 @@ func ReadFromEnvironment() (Values, error) {
 
 	var err error
 
-	result.SubscriptionID = os.Getenv(config.AzureSubscriptionID)
-	result.PodNamespace = os.Getenv(config.PodNamespace)
-	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(config.TargetNamespaces))
-	result.SyncPeriod, err = parseSyncPeriod()
+	result.SubscriptionID = r.get(config.AzureSubscriptionID)
+	result.PodNamespace = os.Getenv(config.PodNamespace) // This is always from env
+	result.TargetNamespaces = parseTargetNamespaces(r.get(config.TargetNamespaces))
+	result.SyncPeriod, err = parseSyncPeriod(r)
 	if err != nil {
 		return result, errors.Wrapf(err, "parsing %q", config.SyncPeriod)
 	}
 
-	result.ResourceManagerEndpoint = envOrDefault(config.ResourceManagerEndpoint, DefaultEndpoint)
-	result.ResourceManagerAudience = envOrDefault(config.ResourceManagerAudience, DefaultAudience)
-	result.AzureAuthorityHost = envOrDefault(config.AzureAuthorityHost, DefaultAADAuthorityHost)
-	result.ClientID = os.Getenv(config.AzureClientID)
-	result.TenantID = os.Getenv(config.AzureTenantID)
-	result.MaxConcurrentReconciles, err = envParseOrDefault(config.MaxConcurrentReconciles, DefaultMaxConcurrentReconciles)
+	result.ResourceManagerEndpoint = readOrDefault(r, config.ResourceManagerEndpoint, DefaultEndpoint)
+	result.ResourceManagerAudience = readOrDefault(r, config.ResourceManagerAudience, DefaultAudience)
+	result.AzureAuthorityHost = readOrDefault(r, config.AzureAuthorityHost, DefaultAADAuthorityHost)
+	result.ClientID = r.get(config.AzureClientID)
+	result.TenantID = r.get(config.AzureTenantID)
+	result.MaxConcurrentReconciles, err = readAndParseOrDefault(r, config.MaxConcurrentReconciles, DefaultMaxConcurrentReconciles)
 	if err != nil {
 		return result, err
 	}
 
 	// Ignoring error here, as any other value or empty value means we should default to false
-	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(os.Getenv(config.UseWorkloadIdentityAuth))
-	result.UserAgentSuffix = os.Getenv(config.UserAgentSuffix)
-	result.RateLimit.Mode, err = ParseRateLimitMode(envOrDefault(config.RateLimitMode, string(RateLimitModeDisabled)))
+	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(r.get(config.UseWorkloadIdentityAuth))
+	result.UserAgentSuffix = r.get(config.UserAgentSuffix)
+	result.RateLimit.Mode, err = ParseRateLimitMode(readOrDefault(r, config.RateLimitMode, string(RateLimitModeDisabled)))
 	if err != nil {
 		return result, err
 	}
-	result.RateLimit.QPS, err = envParseOrDefault(config.RateLimitQPS, 5.0)
+	result.RateLimit.QPS, err = readAndParseOrDefault(r, config.RateLimitQPS, 5.0)
 	if err != nil {
 		return result, err
 	}
-	result.RateLimit.BucketSize, err = envParseOrDefault(config.RateLimitBucketSize, 100)
+	result.RateLimit.BucketSize, err = readAndParseOrDefault(r, config.RateLimitBucketSize, 100)
 	if err != nil {
 		return result, err
 	}
@@ -282,7 +324,7 @@ func ReadFromEnvironment() (Values, error) {
 // ReadAndValidate loads the configuration values and checks that
 // they're consistent.
 func ReadAndValidate() (Values, error) {
-	result, err := ReadFromEnvironment()
+	result, err := ReadFromFile(MountPath)
 	if err != nil {
 		return Values{}, err
 	}
@@ -322,8 +364,8 @@ func parseTargetNamespaces(fromEnv string) []string {
 }
 
 // parseSyncPeriod parses the sync period from the environment
-func parseSyncPeriod() (*time.Duration, error) {
-	syncPeriodStr := envOrDefault(config.SyncPeriod, "1h")
+func parseSyncPeriod(r *reader) (*time.Duration, error) {
+	syncPeriodStr := readOrDefault(r, config.SyncPeriod, "1h")
 	if syncPeriodStr == "never" { // magical string that means no sync
 		return nil, nil
 	}
@@ -335,8 +377,20 @@ func parseSyncPeriod() (*time.Duration, error) {
 	return &syncPeriod, nil
 }
 
-func envParseOrDefault[T int | string | float64](env string, def T) (T, error) {
-	str, specified := os.LookupEnv(env)
+func readOrDefault(r *reader, key string, def string) string {
+	result, specified := r.lookup(key)
+	if !specified {
+		return def
+	}
+	if result == "" {
+		return def
+	}
+
+	return result
+}
+
+func readAndParseOrDefault[T int | string | float64](r *reader, key string, def T) (T, error) {
+	str, specified := r.lookup(key)
 	if !specified {
 		return def, nil
 	}
@@ -349,7 +403,7 @@ func envParseOrDefault[T int | string | float64](env string, def T) (T, error) {
 	case int:
 		parsedVal, err := strconv.Atoi(str)
 		if err != nil {
-			return def, errors.Wrapf(err, "failed to parse value %q for %q", str, env)
+			return def, errors.Wrapf(err, "failed to parse value %q for %q", str, key)
 		}
 		result = any(parsedVal).(T)
 	case string:
@@ -357,26 +411,12 @@ func envParseOrDefault[T int | string | float64](env string, def T) (T, error) {
 	case float64:
 		parsedVal, err := strconv.ParseFloat(str, 64)
 		if err != nil {
-			return def, errors.Wrapf(err, "failed to parse value %q for %q", str, env)
+			return def, errors.Wrapf(err, "failed to parse value %q for %q", str, key)
 		}
 		result = any(parsedVal).(T)
 	default:
-		return def, errors.Errorf("can't read unsupported type %T from env", def)
+		return def, errors.Errorf("can't lookup unsupported type %T from key", def)
 	}
 
 	return result, nil
-}
-
-// envOrDefault returns the value of the specified env variable or the default value if
-// the env variable was not set.
-func envOrDefault(env string, def string) string {
-	result, specified := os.LookupEnv(env)
-	if !specified {
-		return def
-	}
-	if result == "" {
-		return def
-	}
-
-	return result
 }
