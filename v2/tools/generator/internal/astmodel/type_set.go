@@ -17,6 +17,7 @@ type ReadonlyTypeSet interface {
 	ForEachError(func(t Type, ix int) error) error
 	Len() int
 	Single() (Type, bool)
+	AsSlice() []Type
 }
 
 var _ ReadonlyTypeSet = TypeSet{}

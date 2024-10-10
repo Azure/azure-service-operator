@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/storage"
 	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -48,22 +47,36 @@ var _ conversion.Convertible = &Redis{}
 
 // ConvertFrom populates our Redis from the provided hub Redis
 func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230401s.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230401/storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20230401s.Redis
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return redis.AssignProperties_From_Redis(source)
+	err = redis.AssignProperties_From_Redis(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to redis")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Redis from our Redis
 func (redis *Redis) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230401s.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20230401/storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20230401s.Redis
+	err := redis.AssignProperties_To_Redis(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from redis")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return redis.AssignProperties_To_Redis(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &Redis{}

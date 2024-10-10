@@ -12,6 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -884,35 +885,35 @@ func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel
 // makes an ObjectType for an AllOf type
 // We're all about synthesizing a new type, so we resolve TypeNames here
 func (s synthesizer) allOfObject(allOf *astmodel.AllOfType) (astmodel.Type, error) {
-	types := allOf.Types()
-	toMerge := make([]astmodel.Type, types.Len())
-	types.ForEach(func(t astmodel.Type, i int) {
-		toMerge[i] = t
-	})
-
+	toMerge := allOf.Types().AsSlice()
 	return s.allOfSlice(toMerge)
 }
 
 func (s synthesizer) allOfSlice(types []astmodel.Type) (astmodel.Type, error) {
-	toMerge := make([]astmodel.Type, len(types))
-	foundName := false
-	for i, t := range types {
-		// if we find a type name, resolve it to the underlying type
-		if tn, ok := astmodel.AsInternalTypeName(t); ok {
-			if def, ok := s.defs[tn]; ok {
-				toMerge[i] = def.Type()
-				foundName = true
-				continue
+	toMerge := s.simplifyAllOfTypeNames(types)
+
+	// When an ObjectType is merged with a OneOfType, two things happen. The properties on the object type are pushed
+	// down to all the "leaves" of the OneOfType, and the OneOfType is converted to an ObjectType.
+	// If we later try to merge another ObjectType with the OneOf-ObjectType, the properties from the new object end up
+	// merged onto the OneOf-ObjectType itself instead of being pushed down to the leaves.
+	// To avoid this from happening, we need to merge all the ObjectTypes first, before we merge them with the OneOf.
+	// We achieve this by ordering the types so that all ObjectTypes come first.
+	slices.SortFunc(
+		toMerge,
+		func(left astmodel.Type, right astmodel.Type) int {
+			_, leftIsObject := left.(*astmodel.ObjectType)
+			_, rightIsObject := right.(*astmodel.ObjectType)
+
+			if leftIsObject && !rightIsObject {
+				return -1
 			}
-		}
 
-		toMerge[i] = t
-	}
+			if !leftIsObject && rightIsObject {
+				return 1
+			}
 
-	if foundName {
-		// Found a type name, recursive call in case there are more
-		return s.allOfSlice(toMerge)
-	}
+			return 0
+		})
 
 	var result astmodel.Type = astmodel.AnyType
 	for _, t := range toMerge {
@@ -924,6 +925,32 @@ func (s synthesizer) allOfSlice(types []astmodel.Type) (astmodel.Type, error) {
 	}
 
 	return result, nil
+}
+
+// simplifyAllOfTypeNames converts any type names in the allOf slice to their underlying types
+// so that we can merge everything.
+// AllOf types will reference another type to "import" all of its properties.
+// It's possible for a TypeDefinition to be an alias for another, so we recurse to follow any chains.
+func (s synthesizer) simplifyAllOfTypeNames(types []astmodel.Type) []astmodel.Type {
+	foundName := false
+	result := make([]astmodel.Type, len(types))
+	for i, t := range types {
+		if tn, ok := astmodel.AsInternalTypeName(t); ok {
+			if def, ok := s.defs[tn]; ok {
+				result[i] = def.Type()
+				foundName = true
+				continue
+			}
+		}
+
+		result[i] = t
+	}
+
+	if foundName {
+		return s.simplifyAllOfTypeNames(result)
+	}
+
+	return result
 }
 
 func (s synthesizer) handleFlaggedType(left *astmodel.FlaggedType, right astmodel.Type) (astmodel.Type, error) {

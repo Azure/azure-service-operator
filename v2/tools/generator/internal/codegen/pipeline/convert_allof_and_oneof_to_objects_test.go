@@ -9,11 +9,11 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
-
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 func makeSynth(definitions ...astmodel.TypeDefinition) synthesizer {
@@ -712,4 +712,106 @@ func TestConversionOfSequentialOneOf_ReturnsExpectedResults(t *testing.T) {
 	for _, def := range finalState.definitions {
 		test.AssertDefinitionHasExpectedShape(t, def.Name().Name(), def)
 	}
+}
+
+// Checking a scenario discovered while importing the Kusto group.
+// When a resource spec contains an allOf that in turn contains a oneOf, we need all the properties pushed down
+// to the oneof leaves
+func TestConversionOfAllOf_WhenContainingOneOf_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
+	g := NewGomegaWithT(t)
+
+	idFactory := astmodel.NewIdentifierFactory()
+
+	readwriteDatabase := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "ReadWriteDatabase"),
+		astmodel.NewObjectType().
+			WithProperties(
+				astmodel.NewPropertyDefinition(
+					"KeyVaultURL",
+					"keyVaultUrl",
+					astmodel.StringType),
+				astmodel.NewPropertyDefinition(
+					"HotCachePeriod",
+					"hotCachePeriod",
+					astmodel.StringType),
+				astmodel.NewPropertyDefinition(
+					"Kind",
+					"kind",
+					astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("ReadWriteDatabase", "ReadWriteDatabase"))),
+				astmodel.NewPropertyDefinition(
+					"Location",
+					"location",
+					astmodel.StringType)),
+	)
+
+	readonlyFollowingDatabase := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "ReadOnlyFollowingDatabase"),
+		astmodel.NewObjectType().
+			WithProperties(
+				astmodel.NewPropertyDefinition(
+					"DatabaseShareOrigin",
+					"databaseShareOrigin",
+					astmodel.StringType),
+				astmodel.NewPropertyDefinition(
+					"HotCachePeriod",
+					"hotCachePeriod",
+					astmodel.StringType),
+				astmodel.NewPropertyDefinition(
+					"Kind",
+					"kind",
+					astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("ReadOnlyFollowingDatabase", "ReadOnlyFollowingDatabase"))),
+				astmodel.NewPropertyDefinition(
+					"Location",
+					"location",
+					astmodel.StringType)),
+	)
+
+	database := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Database"),
+		astmodel.NewOneOfType(
+			"database",
+			readwriteDatabase.Name(),
+			readonlyFollowingDatabase.Name()).
+			WithDiscriminatorProperty("Kind"),
+	)
+
+	clusters_database := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Clusters_Database"),
+		astmodel.NewResourceType(
+			astmodel.NewAllOfType(
+				database.Name(),
+				astmodel.NewObjectType().
+					WithProperty(
+						astmodel.NewPropertyDefinition(
+							"Name",
+							"name",
+							astmodel.NewValidatedType(
+								astmodel.StringType,
+								astmodel.StringValidations{
+									MaxLength: to.Ptr(int64(96)),
+								}))),
+				astmodel.NewObjectType().
+					WithProperty(
+						astmodel.NewPropertyDefinition(
+							"Name",
+							"name",
+							astmodel.StringType))),
+			astmodel.NewObjectType(),
+		))
+
+	defs := astmodel.MakeTypeDefinitionSetFromDefinitions(
+		readwriteDatabase,
+		readonlyFollowingDatabase,
+		database,
+		clusters_database)
+
+	state := NewState(defs)
+	stage := ConvertAllOfAndOneOfToObjects(idFactory)
+
+	finalState, err := stage.Run(context.TODO(), state)
+	g.Expect(err).To(BeNil())
+
+	test.AssertDefinitionsHaveExpectedShapes(t, "structure.txt", finalState.Definitions())
 }

@@ -326,8 +326,8 @@ string
 <td>
 <code>principalType</code><br/>
 <em>
-<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType">
-RoleAssignmentProperties_PrincipalType
+<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_ARM">
+RoleAssignmentProperties_PrincipalType_ARM
 </a>
 </em>
 </td>
@@ -350,7 +350,31 @@ string
 <h3 id="authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType">RoleAssignmentProperties_PrincipalType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_ARM">RoleAssignmentProperties_ARM</a>, <a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec">RoleAssignment_Spec</a>)
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_Spec">RoleAssignment_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ForeignGroup&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Group&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ServicePrincipal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_ARM">RoleAssignmentProperties_PrincipalType_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_ARM">RoleAssignmentProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -374,7 +398,31 @@ string
 <h3 id="authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS">RoleAssignmentProperties_PrincipalType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_STATUS_ARM">RoleAssignmentProperties_STATUS_ARM</a>, <a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_STATUS">RoleAssignment_STATUS</a>)
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignment_STATUS">RoleAssignment_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;ForeignGroup&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Group&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ServicePrincipal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS_ARM">RoleAssignmentProperties_PrincipalType_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_STATUS_ARM">RoleAssignmentProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -494,8 +542,8 @@ string
 <td>
 <code>principalType</code><br/>
 <em>
-<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS">
-RoleAssignmentProperties_PrincipalType_STATUS
+<a href="#authorization.azure.com/v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS_ARM">
+RoleAssignmentProperties_PrincipalType_STATUS_ARM
 </a>
 </em>
 </td>

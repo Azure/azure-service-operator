@@ -487,6 +487,14 @@ typeTransformers:
     remove: true
     because: This property should have been marked readonly but wasn't.
 
+  - group: storage
+    name: NetworkRuleSet  # This type is subsequently flattened into NamespacesTopics_Spec
+    property: Bypass
+    target:
+      name: string
+      optional: true
+    because: The enum restrictions on this type are incomplete. Storage allows a,b,c but doesn't document that in the enum.
+
   - group: servicebus
     name: SBSubscriptionProperties  # This type is subsequently flattened into Namespaces_Topics_Subscription_Spec
     property: Status
@@ -1236,6 +1244,31 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.3.0
+    2023-08-01:
+      Redis:
+        $export: true
+        $supportedFrom: v2.10.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - HostName
+          - Port
+          - SSLPort
+      RedisCreateProperties:
+        SubnetId:
+          $armReference: true
+      Redis_FirewallRule:
+        $exportAs: RedisFirewallRule
+        $supportedFrom: v2.10.0
+      Redis_LinkedServer:
+        $exportAs: RedisLinkedServer
+        $supportedFrom: v2.10.0
+      RedisLinkedServerCreateProperties:
+        LinkedRedisCacheId:
+          $armReference: true
+      Redis_PatchSchedule:
+        $exportAs: RedisPatchSchedule
+        $supportedFrom: v2.10.0
   cdn:
     2021-06-01:
       # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint

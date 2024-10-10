@@ -364,8 +364,8 @@ int
 <td>
 <code>Kind</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20180501preview.WebTestProperties_Kind">
-WebTestProperties_Kind
+<a href="#insights.azure.com/v1api20180501preview.WebTestProperties_Kind_ARM">
+WebTestProperties_Kind_ARM
 </a>
 </em>
 </td>
@@ -574,7 +574,31 @@ string
 <h3 id="insights.azure.com/v1api20180501preview.WebTestProperties_Kind">WebTestProperties_Kind
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20180501preview.WebTestProperties_ARM">WebTestProperties_ARM</a>, <a href="#insights.azure.com/v1api20180501preview.Webtest_Spec">Webtest_Spec</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20180501preview.Webtest_Spec">Webtest_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;multistep&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ping&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20180501preview.WebTestProperties_Kind_ARM">WebTestProperties_Kind_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20180501preview.WebTestProperties_ARM">WebTestProperties_ARM</a>)
 </p>
 <div>
 </div>
@@ -598,7 +622,31 @@ string
 <h3 id="insights.azure.com/v1api20180501preview.WebTestProperties_Kind_STATUS">WebTestProperties_Kind_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1api20180501preview.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>, <a href="#insights.azure.com/v1api20180501preview.Webtest_STATUS">Webtest_STATUS</a>)
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20180501preview.Webtest_STATUS">Webtest_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;basic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;multistep&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ping&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;standard&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="insights.azure.com/v1api20180501preview.WebTestProperties_Kind_STATUS_ARM">WebTestProperties_Kind_STATUS_ARM
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#insights.azure.com/v1api20180501preview.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1025,8 +1073,8 @@ int
 <td>
 <code>Kind</code><br/>
 <em>
-<a href="#insights.azure.com/v1api20180501preview.WebTestProperties_Kind_STATUS">
-WebTestProperties_Kind_STATUS
+<a href="#insights.azure.com/v1api20180501preview.WebTestProperties_Kind_STATUS_ARM">
+WebTestProperties_Kind_STATUS_ARM
 </a>
 </em>
 </td>

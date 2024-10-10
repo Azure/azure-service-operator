@@ -90,6 +90,20 @@ func AssertDefinitionHasExpectedShape(
 	filename string,
 	def astmodel.TypeDefinition,
 ) {
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.Add(def)
+	AssertDefinitionsHaveExpectedShapes(t, filename, defs)
+}
+
+// AssertDefinitionsHaveExpectedShapes fails the test if the given definition does not have the expected shape.
+// t is the current test.
+// filename is the name of the golden file to write.
+// def is the definition to be asserted.
+func AssertDefinitionsHaveExpectedShapes(
+	t *testing.T,
+	filename string,
+	defs astmodel.TypeDefinitionSet,
+) {
 	t.Helper()
 	g := goldie.New(t)
 
@@ -97,9 +111,6 @@ func AssertDefinitionHasExpectedShape(
 	if err != nil {
 		t.Fatalf("Unable to configure goldie output folder %s", err)
 	}
-
-	defs := make(astmodel.TypeDefinitionSet)
-	defs.Add(def)
 
 	buf := &bytes.Buffer{}
 	report := reporting.NewTypeCatalogReport(defs)
