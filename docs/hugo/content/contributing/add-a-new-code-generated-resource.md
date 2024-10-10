@@ -114,7 +114,49 @@ network:
         $armReference: false # the property IS NOT an ARM reference
 ```
 
-TODO: expand on other common errors
+### $export specified for type <type> but not consumed
+
+This error is produced when you've added configuration for a new resource to the `objectModelConfiguration` section of the configuration file, but that configuration had no effect. (ASO prefers to make configuration errors visible rather than silently continue while doing the wrong thing).
+
+The most likely cause of this error is a typo in the name of the group, version, or kind specified. ASO will try to help by listing the closest match - for example
+
+```
+version 2021-05-01-preview not seen (did you mean 2018-05-01-preview?)
+```
+
+Double check the names you've used and correct any typos.
+
+If you're importing a _preview_ version of a resource, you may need to modify the `typeFilters` section at the top of the file. Early in the development of ASO we discovered that some preview versions are poorly formed - filtering them out was a straightforward way to avoid problems.
+
+Type filters are applied in order, with the first matching filter being used. This one prunes all preview versions:
+
+``` yaml
+  - action: prune
+    version: '*preview'
+    because: preview SDK versions are excluded by default (they often do very strange things)
+```
+
+To allow a specific preview version, add a new filter to the list and make sure it appears before the `prune` filter (so it's applied first):
+
+``` yaml
+  - action: include
+    group: keyvault
+    version: v*20210401preview
+    because: We want to support keyvault which is only available in preview version
+```
+
+Be sure to give a good reason for including the preview version so that other maintainers know why it's there.
+
+If you have multiple preview versions for a single group, you can (and should) combine them together into a single filter. All of the filter fields allow using semicolons (;) to separate multiple values.
+
+``` yaml
+  - action: include
+    group: servicebus
+    version: v*20210101preview;v*20221001preview
+    because: We want to export these particular preview versions
+```
+
+**TODO: expand on other common errors**
 
 ## Examine the generated resource
 
