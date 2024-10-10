@@ -15,11 +15,9 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -671,7 +669,12 @@ func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ct
 	}
 
 	// Also check if the resource itself implements KubernetesExporter
-	exporter, ok := r.ObjAsKubernetesExporter()
+	versionedMeta, err := genruntime.ObjAsOriginalVersion(r.Obj, r.ResourceResolver.Scheme())
+	if err != nil {
+		return err
+	}
+
+	exporter, ok := versionedMeta.(genruntime.KubernetesExporter)
 	if ok {
 		var additionalResources []client.Object
 		additionalResources, err = exporter.ExportKubernetesResources(ctx, r.Obj, r.ARMConnection.Client(), r.Log)
@@ -713,52 +716,12 @@ func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ct
 	return nil
 }
 
-// ObjAsKubernetesExporter returns r.Obj as a genruntime.KubernetesExporter if it supports that interface, respecting
-// the original API version used to create the resource.
-func (r *azureDeploymentReconcilerInstance) ObjAsKubernetesExporter() (genruntime.KubernetesExporter, bool) {
-	resource := r.Obj
-	resourceGVK := resource.GetObjectKind().GroupVersionKind()
-
-	desiredGVK := genruntime.GetOriginalGVK(resource)
-	if resourceGVK != desiredGVK {
-		// Need to convert the hub resource we have to the original version used
-		scheme := r.ResourceResolver.Scheme()
-		versionedResource, err := genruntime.NewEmptyVersionedResourceFromGVK(scheme, desiredGVK)
-		if err != nil {
-			r.Log.V(Status).Info(
-				"Unable to create expected resource version",
-				"have", resourceGVK,
-				"desired", desiredGVK)
-			return nil, false
-		}
-
-		if convertible, ok := versionedResource.(conversion.Convertible); ok {
-			hub := resource.(conversion.Hub)
-			err := convertible.ConvertFrom(hub)
-			if err != nil {
-				r.Log.V(Status).Info(
-					"Unable to convert resource to expected version",
-					"original", resourceGVK,
-					"destination", desiredGVK)
-				return nil, false
-			}
-		}
-
-		resource = versionedResource
-	}
-
-	// Now test whether we support the interface
-	result, ok := resource.(genruntime.KubernetesExporter)
-	return result, ok
-}
-
 // ConvertResourceToARMResource converts a genruntime.ARMMetaObject (a Kubernetes representation of a resource) into
 // a genruntime.ARMResourceSpec - a specification which can be submitted to Azure for deployment
 func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx context.Context) (genruntime.ARMResource, error) {
 	metaObject := r.Obj
-	scheme := r.ResourceResolver.Scheme()
 
-	result, err := ConvertToARMResourceImpl(ctx, metaObject, scheme, r.ResourceResolver, r.ARMConnection.SubscriptionID())
+	result, err := ConvertToARMResourceImpl(ctx, metaObject, r.ResourceResolver, r.ARMConnection.SubscriptionID())
 	if err != nil {
 		return nil, err
 	}
@@ -772,21 +735,24 @@ func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx con
 func ConvertToARMResourceImpl(
 	ctx context.Context,
 	metaObject genruntime.ARMMetaObject,
-	scheme *runtime.Scheme,
 	resolver *resolver.Resolver,
 	subscriptionID string,
 ) (genruntime.ARMResource, error) {
-	spec, err := genruntime.GetVersionedSpec(metaObject, scheme)
+	// This calls ObjAsOriginalVersion which technically is doing more work than strictly needed, as it converts the spec,
+	// metadata, and status. We need the spec and metadata but don't strictly need the status converted at this point.
+	// We could look to do some future optimizations here to avoid conversion of status if it ever becomes an issue.
+	versionedMeta, err := genruntime.ObjAsOriginalVersion(metaObject, resolver.Scheme())
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
+		return nil, err
 	}
 
+	spec := versionedMeta.GetSpec()
 	armTransformer, ok := spec.(genruntime.ARMTransformer)
 	if !ok {
 		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
 	}
 
-	resourceHierarchy, resolvedDetails, err := resolver.ResolveAll(ctx, metaObject)
+	resourceHierarchy, resolvedDetails, err := resolver.ResolveAll(ctx, versionedMeta)
 	if err != nil {
 		return nil, reconcilers.ClassifyResolverError(err)
 	}

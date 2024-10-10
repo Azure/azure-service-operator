@@ -275,7 +275,6 @@ func CreateScheme() *runtime.Scheme {
 	_ = mysqlv1.AddToScheme(scheme)
 	_ = postgresqlv1.AddToScheme(scheme)
 	_ = azuresqlv1.AddToScheme(scheme)
-	scheme.AllKnownTypes()
 	return scheme
 }
 
