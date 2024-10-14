@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20211101
 
-type Namespaces_Eventhubs_AuthorizationRule_STATUS_ARM struct {
+type NamespacesEventhubsAuthorizationRule_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
