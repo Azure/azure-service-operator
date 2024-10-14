@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type BackupVaults_BackupInstance_Spec_ARM struct {
+type BackupVaultsBackupInstance_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: BackupInstanceResource properties
@@ -18,20 +18,20 @@ type BackupVaults_BackupInstance_Spec_ARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &BackupVaults_BackupInstance_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &BackupVaultsBackupInstance_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-11-01"
-func (instance BackupVaults_BackupInstance_Spec_ARM) GetAPIVersion() string {
+func (instance BackupVaultsBackupInstance_Spec_ARM) GetAPIVersion() string {
 	return "2023-11-01"
 }
 
 // GetName returns the Name of the resource
-func (instance *BackupVaults_BackupInstance_Spec_ARM) GetName() string {
+func (instance *BackupVaultsBackupInstance_Spec_ARM) GetName() string {
 	return instance.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DataProtection/backupVaults/backupInstances"
-func (instance *BackupVaults_BackupInstance_Spec_ARM) GetType() string {
+func (instance *BackupVaultsBackupInstance_Spec_ARM) GetType() string {
 	return "Microsoft.DataProtection/backupVaults/backupInstances"
 }
 

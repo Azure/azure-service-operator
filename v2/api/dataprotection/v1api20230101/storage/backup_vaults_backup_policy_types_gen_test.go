@@ -2376,36 +2376,36 @@ func BackupVaultsBackupPolicyGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy(gens map[string]gopter.Gen) {
-	gens["Spec"] = BackupVaults_BackupPolicy_SpecGenerator()
-	gens["Status"] = BackupVaults_BackupPolicy_STATUSGenerator()
+	gens["Spec"] = BackupVaultsBackupPolicy_SpecGenerator()
+	gens["Status"] = BackupVaultsBackupPolicy_STATUSGenerator()
 }
 
-func Test_BackupVaults_BackupPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_BackupVaultsBackupPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from BackupVaults_BackupPolicy_STATUS to BackupVaults_BackupPolicy_STATUS via AssignProperties_To_BackupVaults_BackupPolicy_STATUS & AssignProperties_From_BackupVaults_BackupPolicy_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBackupVaults_BackupPolicy_STATUS, BackupVaults_BackupPolicy_STATUSGenerator()))
+		"Round trip from BackupVaultsBackupPolicy_STATUS to BackupVaultsBackupPolicy_STATUS via AssignProperties_To_BackupVaultsBackupPolicy_STATUS & AssignProperties_From_BackupVaultsBackupPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBackupVaultsBackupPolicy_STATUS, BackupVaultsBackupPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackupVaults_BackupPolicy_STATUS tests if a specific instance of BackupVaults_BackupPolicy_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBackupVaults_BackupPolicy_STATUS(subject BackupVaults_BackupPolicy_STATUS) string {
+// RunPropertyAssignmentTestForBackupVaultsBackupPolicy_STATUS tests if a specific instance of BackupVaultsBackupPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForBackupVaultsBackupPolicy_STATUS(subject BackupVaultsBackupPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackupVaults_BackupPolicy_STATUS
-	err := copied.AssignProperties_To_BackupVaults_BackupPolicy_STATUS(&other)
+	var other storage.BackupVaultsBackupPolicy_STATUS
+	err := copied.AssignProperties_To_BackupVaultsBackupPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BackupVaults_BackupPolicy_STATUS
-	err = actual.AssignProperties_From_BackupVaults_BackupPolicy_STATUS(&other)
+	var actual BackupVaultsBackupPolicy_STATUS
+	err = actual.AssignProperties_From_BackupVaultsBackupPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2422,20 +2422,20 @@ func RunPropertyAssignmentTestForBackupVaults_BackupPolicy_STATUS(subject Backup
 	return ""
 }
 
-func Test_BackupVaults_BackupPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BackupVaultsBackupPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BackupVaults_BackupPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS, BackupVaults_BackupPolicy_STATUSGenerator()))
+		"Round trip of BackupVaultsBackupPolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultsBackupPolicy_STATUS, BackupVaultsBackupPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS runs a test to see if a specific instance of BackupVaults_BackupPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS(subject BackupVaults_BackupPolicy_STATUS) string {
+// RunJSONSerializationTestForBackupVaultsBackupPolicy_STATUS runs a test to see if a specific instance of BackupVaultsBackupPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultsBackupPolicy_STATUS(subject BackupVaultsBackupPolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2443,7 +2443,7 @@ func RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS(subject BackupV
 	}
 
 	// Deserialize back into memory
-	var actual BackupVaults_BackupPolicy_STATUS
+	var actual BackupVaultsBackupPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2461,71 +2461,71 @@ func RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS(subject BackupV
 	return ""
 }
 
-// Generator of BackupVaults_BackupPolicy_STATUS instances for property testing - lazily instantiated by
-// BackupVaults_BackupPolicy_STATUSGenerator()
-var backupVaults_BackupPolicy_STATUSGenerator gopter.Gen
+// Generator of BackupVaultsBackupPolicy_STATUS instances for property testing - lazily instantiated by
+// BackupVaultsBackupPolicy_STATUSGenerator()
+var backupVaultsBackupPolicy_STATUSGenerator gopter.Gen
 
-// BackupVaults_BackupPolicy_STATUSGenerator returns a generator of BackupVaults_BackupPolicy_STATUS instances for property testing.
-// We first initialize backupVaults_BackupPolicy_STATUSGenerator with a simplified generator based on the
+// BackupVaultsBackupPolicy_STATUSGenerator returns a generator of BackupVaultsBackupPolicy_STATUS instances for property testing.
+// We first initialize backupVaultsBackupPolicy_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func BackupVaults_BackupPolicy_STATUSGenerator() gopter.Gen {
-	if backupVaults_BackupPolicy_STATUSGenerator != nil {
-		return backupVaults_BackupPolicy_STATUSGenerator
+func BackupVaultsBackupPolicy_STATUSGenerator() gopter.Gen {
+	if backupVaultsBackupPolicy_STATUSGenerator != nil {
+		return backupVaultsBackupPolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS(generators)
-	backupVaults_BackupPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupPolicy_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS(generators)
+	backupVaultsBackupPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupPolicy_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS(generators)
-	AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS(generators)
-	backupVaults_BackupPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupPolicy_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS(generators)
+	AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS(generators)
+	backupVaultsBackupPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupPolicy_STATUS{}), generators)
 
-	return backupVaults_BackupPolicy_STATUSGenerator
+	return backupVaultsBackupPolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(BaseBackupPolicy_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_BackupVaults_BackupPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_BackupVaultsBackupPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from BackupVaults_BackupPolicy_Spec to BackupVaults_BackupPolicy_Spec via AssignProperties_To_BackupVaults_BackupPolicy_Spec & AssignProperties_From_BackupVaults_BackupPolicy_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBackupVaults_BackupPolicy_Spec, BackupVaults_BackupPolicy_SpecGenerator()))
+		"Round trip from BackupVaultsBackupPolicy_Spec to BackupVaultsBackupPolicy_Spec via AssignProperties_To_BackupVaultsBackupPolicy_Spec & AssignProperties_From_BackupVaultsBackupPolicy_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBackupVaultsBackupPolicy_Spec, BackupVaultsBackupPolicy_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackupVaults_BackupPolicy_Spec tests if a specific instance of BackupVaults_BackupPolicy_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBackupVaults_BackupPolicy_Spec(subject BackupVaults_BackupPolicy_Spec) string {
+// RunPropertyAssignmentTestForBackupVaultsBackupPolicy_Spec tests if a specific instance of BackupVaultsBackupPolicy_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForBackupVaultsBackupPolicy_Spec(subject BackupVaultsBackupPolicy_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackupVaults_BackupPolicy_Spec
-	err := copied.AssignProperties_To_BackupVaults_BackupPolicy_Spec(&other)
+	var other storage.BackupVaultsBackupPolicy_Spec
+	err := copied.AssignProperties_To_BackupVaultsBackupPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BackupVaults_BackupPolicy_Spec
-	err = actual.AssignProperties_From_BackupVaults_BackupPolicy_Spec(&other)
+	var actual BackupVaultsBackupPolicy_Spec
+	err = actual.AssignProperties_From_BackupVaultsBackupPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2542,20 +2542,20 @@ func RunPropertyAssignmentTestForBackupVaults_BackupPolicy_Spec(subject BackupVa
 	return ""
 }
 
-func Test_BackupVaults_BackupPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BackupVaultsBackupPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BackupVaults_BackupPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec, BackupVaults_BackupPolicy_SpecGenerator()))
+		"Round trip of BackupVaultsBackupPolicy_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultsBackupPolicy_Spec, BackupVaultsBackupPolicy_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec runs a test to see if a specific instance of BackupVaults_BackupPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec(subject BackupVaults_BackupPolicy_Spec) string {
+// RunJSONSerializationTestForBackupVaultsBackupPolicy_Spec runs a test to see if a specific instance of BackupVaultsBackupPolicy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultsBackupPolicy_Spec(subject BackupVaultsBackupPolicy_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2563,7 +2563,7 @@ func RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec(subject BackupVau
 	}
 
 	// Deserialize back into memory
-	var actual BackupVaults_BackupPolicy_Spec
+	var actual BackupVaultsBackupPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2581,40 +2581,40 @@ func RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec(subject BackupVau
 	return ""
 }
 
-// Generator of BackupVaults_BackupPolicy_Spec instances for property testing - lazily instantiated by
-// BackupVaults_BackupPolicy_SpecGenerator()
-var backupVaults_BackupPolicy_SpecGenerator gopter.Gen
+// Generator of BackupVaultsBackupPolicy_Spec instances for property testing - lazily instantiated by
+// BackupVaultsBackupPolicy_SpecGenerator()
+var backupVaultsBackupPolicy_SpecGenerator gopter.Gen
 
-// BackupVaults_BackupPolicy_SpecGenerator returns a generator of BackupVaults_BackupPolicy_Spec instances for property testing.
-// We first initialize backupVaults_BackupPolicy_SpecGenerator with a simplified generator based on the
+// BackupVaultsBackupPolicy_SpecGenerator returns a generator of BackupVaultsBackupPolicy_Spec instances for property testing.
+// We first initialize backupVaultsBackupPolicy_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func BackupVaults_BackupPolicy_SpecGenerator() gopter.Gen {
-	if backupVaults_BackupPolicy_SpecGenerator != nil {
-		return backupVaults_BackupPolicy_SpecGenerator
+func BackupVaultsBackupPolicy_SpecGenerator() gopter.Gen {
+	if backupVaultsBackupPolicy_SpecGenerator != nil {
+		return backupVaultsBackupPolicy_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_Spec(generators)
-	backupVaults_BackupPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupPolicy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_Spec(generators)
+	backupVaultsBackupPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupPolicy_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_Spec(generators)
-	AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_Spec(generators)
-	backupVaults_BackupPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupPolicy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_Spec(generators)
+	AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_Spec(generators)
+	backupVaultsBackupPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupPolicy_Spec{}), generators)
 
-	return backupVaults_BackupPolicy_SpecGenerator
+	return backupVaultsBackupPolicy_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["OriginalVersion"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(BaseBackupPolicyGenerator())
 }
 
