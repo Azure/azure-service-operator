@@ -826,12 +826,13 @@
     </li>
     <li><a href="#kubernetesconfiguration">KubernetesConfiguration</a>
       <ul>
+        <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#released-22">Released</a></li>
       </ul>
     </li>
     <li><a href="#machinelearningservices">MachineLearningServices</a>
       <ul>
-        <li><a href="#next-release-1">Next Release</a></li>
+        <li><a href="#next-release-2">Next Release</a></li>
         <li><a href="#released-23">Released</a></li>
       </ul>
     </li>
@@ -847,7 +848,7 @@
     </li>
     <li><a href="#network">Network</a>
       <ul>
-        <li><a href="#next-release-2">Next Release</a></li>
+        <li><a href="#next-release-3">Next Release</a></li>
         <li><a href="#released-26">Released</a></li>
       </ul>
     </li>
@@ -2608,6 +2609,28 @@ grouped by the originating ARM service.
 </table>
 <h2 id="kubernetesconfiguration">KubernetesConfiguration</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>kubernetesconfiguration.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release-1">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/#kubernetesconfiguration.azure.com/v1api20230501.FluxConfiguration">FluxConfiguration</a></td>
+<td>2023-05-01</td>
+<td>v1api20230501</td>
+<td>v2.10.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api/v1api20230501_fluxconfiguration.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h3 id="released-22">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
@@ -2632,7 +2655,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="machinelearningservices">MachineLearningServices</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>machinelearningservices.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-1">Next Release</h3>
+<h3 id="next-release-2">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 <thead>
@@ -2775,7 +2798,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="network">Network</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>network.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-2">Next Release</h3>
+<h3 id="next-release-3">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 <thead>
