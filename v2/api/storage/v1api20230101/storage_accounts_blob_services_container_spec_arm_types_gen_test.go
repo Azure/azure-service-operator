@@ -160,20 +160,20 @@ func AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning_ARM(gens 
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_StorageAccounts_BlobServices_Container_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccountsBlobServicesContainer_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccounts_BlobServices_Container_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_BlobServices_Container_Spec_ARM, StorageAccounts_BlobServices_Container_Spec_ARMGenerator()))
+		"Round trip of StorageAccountsBlobServicesContainer_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsBlobServicesContainer_Spec_ARM, StorageAccountsBlobServicesContainer_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccounts_BlobServices_Container_Spec_ARM runs a test to see if a specific instance of StorageAccounts_BlobServices_Container_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_BlobServices_Container_Spec_ARM(subject StorageAccounts_BlobServices_Container_Spec_ARM) string {
+// RunJSONSerializationTestForStorageAccountsBlobServicesContainer_Spec_ARM runs a test to see if a specific instance of StorageAccountsBlobServicesContainer_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsBlobServicesContainer_Spec_ARM(subject StorageAccountsBlobServicesContainer_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -181,7 +181,7 @@ func RunJSONSerializationTestForStorageAccounts_BlobServices_Container_Spec_ARM(
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccounts_BlobServices_Container_Spec_ARM
+	var actual StorageAccountsBlobServicesContainer_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -199,38 +199,38 @@ func RunJSONSerializationTestForStorageAccounts_BlobServices_Container_Spec_ARM(
 	return ""
 }
 
-// Generator of StorageAccounts_BlobServices_Container_Spec_ARM instances for property testing - lazily instantiated by
-// StorageAccounts_BlobServices_Container_Spec_ARMGenerator()
-var storageAccounts_BlobServices_Container_Spec_ARMGenerator gopter.Gen
+// Generator of StorageAccountsBlobServicesContainer_Spec_ARM instances for property testing - lazily instantiated by
+// StorageAccountsBlobServicesContainer_Spec_ARMGenerator()
+var storageAccountsBlobServicesContainer_Spec_ARMGenerator gopter.Gen
 
-// StorageAccounts_BlobServices_Container_Spec_ARMGenerator returns a generator of StorageAccounts_BlobServices_Container_Spec_ARM instances for property testing.
-// We first initialize storageAccounts_BlobServices_Container_Spec_ARMGenerator with a simplified generator based on the
+// StorageAccountsBlobServicesContainer_Spec_ARMGenerator returns a generator of StorageAccountsBlobServicesContainer_Spec_ARM instances for property testing.
+// We first initialize storageAccountsBlobServicesContainer_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_BlobServices_Container_Spec_ARMGenerator() gopter.Gen {
-	if storageAccounts_BlobServices_Container_Spec_ARMGenerator != nil {
-		return storageAccounts_BlobServices_Container_Spec_ARMGenerator
+func StorageAccountsBlobServicesContainer_Spec_ARMGenerator() gopter.Gen {
+	if storageAccountsBlobServicesContainer_Spec_ARMGenerator != nil {
+		return storageAccountsBlobServicesContainer_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec_ARM(generators)
-	storageAccounts_BlobServices_Container_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_BlobServices_Container_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec_ARM(generators)
+	storageAccountsBlobServicesContainer_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsBlobServicesContainer_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec_ARM(generators)
-	storageAccounts_BlobServices_Container_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_BlobServices_Container_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec_ARM(generators)
+	storageAccountsBlobServicesContainer_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsBlobServicesContainer_Spec_ARM{}), generators)
 
-	return storageAccounts_BlobServices_Container_Spec_ARMGenerator
+	return storageAccountsBlobServicesContainer_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_BlobServices_Container_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ContainerProperties_ARMGenerator())
 }

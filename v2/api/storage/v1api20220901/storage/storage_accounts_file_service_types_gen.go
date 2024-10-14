@@ -27,8 +27,8 @@ import (
 type StorageAccountsFileService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_FileService_Spec   `json:"spec,omitempty"`
-	Status            StorageAccounts_FileService_STATUS `json:"status,omitempty"`
+	Spec              StorageAccountsFileService_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsFileService_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsFileService{}
@@ -107,7 +107,7 @@ func (service *StorageAccountsFileService) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (service *StorageAccountsFileService) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccounts_FileService_STATUS{}
+	return &StorageAccountsFileService_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -119,13 +119,13 @@ func (service *StorageAccountsFileService) Owner() *genruntime.ResourceReference
 // SetStatus sets the status of this resource
 func (service *StorageAccountsFileService) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccounts_FileService_STATUS); ok {
+	if st, ok := status.(*StorageAccountsFileService_STATUS); ok {
 		service.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccounts_FileService_STATUS
+	var st StorageAccountsFileService_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -142,18 +142,18 @@ func (service *StorageAccountsFileService) AssignProperties_From_StorageAccounts
 	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccounts_FileService_Spec
-	err := spec.AssignProperties_From_StorageAccounts_FileService_Spec(&source.Spec)
+	var spec StorageAccountsFileService_Spec
+	err := spec.AssignProperties_From_StorageAccountsFileService_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_FileService_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsFileService_Spec() to populate field Spec")
 	}
 	service.Spec = spec
 
 	// Status
-	var status StorageAccounts_FileService_STATUS
-	err = status.AssignProperties_From_StorageAccounts_FileService_STATUS(&source.Status)
+	var status StorageAccountsFileService_STATUS
+	err = status.AssignProperties_From_StorageAccountsFileService_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_FileService_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsFileService_STATUS() to populate field Status")
 	}
 	service.Status = status
 
@@ -177,18 +177,18 @@ func (service *StorageAccountsFileService) AssignProperties_To_StorageAccountsFi
 	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.StorageAccounts_FileService_Spec
-	err := service.Spec.AssignProperties_To_StorageAccounts_FileService_Spec(&spec)
+	var spec storage.StorageAccountsFileService_Spec
+	err := service.Spec.AssignProperties_To_StorageAccountsFileService_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileService_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsFileService_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.StorageAccounts_FileService_STATUS
-	err = service.Status.AssignProperties_To_StorageAccounts_FileService_STATUS(&status)
+	var status storage.StorageAccountsFileService_STATUS
+	err = service.Status.AssignProperties_To_StorageAccountsFileService_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileService_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsFileService_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -230,8 +230,8 @@ type augmentConversionForStorageAccountsFileService interface {
 	AssignPropertiesTo(dst *storage.StorageAccountsFileService) error
 }
 
-// Storage version of v1api20220901.StorageAccounts_FileService_Spec
-type StorageAccounts_FileService_Spec struct {
+// Storage version of v1api20220901.StorageAccountsFileService_Spec
+type StorageAccountsFileService_Spec struct {
 	Cors            *CorsRules `json:"cors,omitempty"`
 	OriginalVersion string     `json:"originalVersion,omitempty"`
 
@@ -245,25 +245,25 @@ type StorageAccounts_FileService_Spec struct {
 	ShareDeleteRetentionPolicy *DeleteRetentionPolicy             `json:"shareDeleteRetentionPolicy,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_FileService_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsFileService_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_FileService_Spec from the provided source
-func (service *StorageAccounts_FileService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.StorageAccounts_FileService_Spec)
+// ConvertSpecFrom populates our StorageAccountsFileService_Spec from the provided source
+func (service *StorageAccountsFileService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.StorageAccountsFileService_Spec)
 	if ok {
 		// Populate our instance from source
-		return service.AssignProperties_From_StorageAccounts_FileService_Spec(src)
+		return service.AssignProperties_From_StorageAccountsFileService_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_FileService_Spec{}
+	src = &storage.StorageAccountsFileService_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = service.AssignProperties_From_StorageAccounts_FileService_Spec(src)
+	err = service.AssignProperties_From_StorageAccountsFileService_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -271,17 +271,17 @@ func (service *StorageAccounts_FileService_Spec) ConvertSpecFrom(source genrunti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_FileService_Spec
-func (service *StorageAccounts_FileService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.StorageAccounts_FileService_Spec)
+// ConvertSpecTo populates the provided destination from our StorageAccountsFileService_Spec
+func (service *StorageAccountsFileService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.StorageAccountsFileService_Spec)
 	if ok {
 		// Populate destination from our instance
-		return service.AssignProperties_To_StorageAccounts_FileService_Spec(dst)
+		return service.AssignProperties_To_StorageAccountsFileService_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_FileService_Spec{}
-	err := service.AssignProperties_To_StorageAccounts_FileService_Spec(dst)
+	dst = &storage.StorageAccountsFileService_Spec{}
+	err := service.AssignProperties_To_StorageAccountsFileService_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -295,8 +295,8 @@ func (service *StorageAccounts_FileService_Spec) ConvertSpecTo(destination genru
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_FileService_Spec populates our StorageAccounts_FileService_Spec from the provided source StorageAccounts_FileService_Spec
-func (service *StorageAccounts_FileService_Spec) AssignProperties_From_StorageAccounts_FileService_Spec(source *storage.StorageAccounts_FileService_Spec) error {
+// AssignProperties_From_StorageAccountsFileService_Spec populates our StorageAccountsFileService_Spec from the provided source StorageAccountsFileService_Spec
+func (service *StorageAccountsFileService_Spec) AssignProperties_From_StorageAccountsFileService_Spec(source *storage.StorageAccountsFileService_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -354,9 +354,9 @@ func (service *StorageAccounts_FileService_Spec) AssignProperties_From_StorageAc
 		service.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_FileService_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsFileService_Spec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
-	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_FileService_Spec); ok {
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsFileService_Spec); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -367,8 +367,8 @@ func (service *StorageAccounts_FileService_Spec) AssignProperties_From_StorageAc
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_FileService_Spec populates the provided destination StorageAccounts_FileService_Spec from our StorageAccounts_FileService_Spec
-func (service *StorageAccounts_FileService_Spec) AssignProperties_To_StorageAccounts_FileService_Spec(destination *storage.StorageAccounts_FileService_Spec) error {
+// AssignProperties_To_StorageAccountsFileService_Spec populates the provided destination StorageAccountsFileService_Spec from our StorageAccountsFileService_Spec
+func (service *StorageAccountsFileService_Spec) AssignProperties_To_StorageAccountsFileService_Spec(destination *storage.StorageAccountsFileService_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
@@ -426,9 +426,9 @@ func (service *StorageAccounts_FileService_Spec) AssignProperties_To_StorageAcco
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_FileService_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsFileService_Spec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
-	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_FileService_Spec); ok {
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsFileService_Spec); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -439,8 +439,8 @@ func (service *StorageAccounts_FileService_Spec) AssignProperties_To_StorageAcco
 	return nil
 }
 
-// Storage version of v1api20220901.StorageAccounts_FileService_STATUS
-type StorageAccounts_FileService_STATUS struct {
+// Storage version of v1api20220901.StorageAccountsFileService_STATUS
+type StorageAccountsFileService_STATUS struct {
 	Conditions                 []conditions.Condition        `json:"conditions,omitempty"`
 	Cors                       *CorsRules_STATUS             `json:"cors,omitempty"`
 	Id                         *string                       `json:"id,omitempty"`
@@ -452,25 +452,25 @@ type StorageAccounts_FileService_STATUS struct {
 	Type                       *string                       `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccounts_FileService_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsFileService_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccounts_FileService_STATUS from the provided source
-func (service *StorageAccounts_FileService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.StorageAccounts_FileService_STATUS)
+// ConvertStatusFrom populates our StorageAccountsFileService_STATUS from the provided source
+func (service *StorageAccountsFileService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.StorageAccountsFileService_STATUS)
 	if ok {
 		// Populate our instance from source
-		return service.AssignProperties_From_StorageAccounts_FileService_STATUS(src)
+		return service.AssignProperties_From_StorageAccountsFileService_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_FileService_STATUS{}
+	src = &storage.StorageAccountsFileService_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = service.AssignProperties_From_StorageAccounts_FileService_STATUS(src)
+	err = service.AssignProperties_From_StorageAccountsFileService_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -478,17 +478,17 @@ func (service *StorageAccounts_FileService_STATUS) ConvertStatusFrom(source genr
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccounts_FileService_STATUS
-func (service *StorageAccounts_FileService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.StorageAccounts_FileService_STATUS)
+// ConvertStatusTo populates the provided destination from our StorageAccountsFileService_STATUS
+func (service *StorageAccountsFileService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.StorageAccountsFileService_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return service.AssignProperties_To_StorageAccounts_FileService_STATUS(dst)
+		return service.AssignProperties_To_StorageAccountsFileService_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_FileService_STATUS{}
-	err := service.AssignProperties_To_StorageAccounts_FileService_STATUS(dst)
+	dst = &storage.StorageAccountsFileService_STATUS{}
+	err := service.AssignProperties_To_StorageAccountsFileService_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -502,8 +502,8 @@ func (service *StorageAccounts_FileService_STATUS) ConvertStatusTo(destination g
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_FileService_STATUS populates our StorageAccounts_FileService_STATUS from the provided source StorageAccounts_FileService_STATUS
-func (service *StorageAccounts_FileService_STATUS) AssignProperties_From_StorageAccounts_FileService_STATUS(source *storage.StorageAccounts_FileService_STATUS) error {
+// AssignProperties_From_StorageAccountsFileService_STATUS populates our StorageAccountsFileService_STATUS from the provided source StorageAccountsFileService_STATUS
+func (service *StorageAccountsFileService_STATUS) AssignProperties_From_StorageAccountsFileService_STATUS(source *storage.StorageAccountsFileService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -574,9 +574,9 @@ func (service *StorageAccounts_FileService_STATUS) AssignProperties_From_Storage
 		service.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_FileService_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsFileService_STATUS interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
-	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_FileService_STATUS); ok {
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsFileService_STATUS); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -587,8 +587,8 @@ func (service *StorageAccounts_FileService_STATUS) AssignProperties_From_Storage
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_FileService_STATUS populates the provided destination StorageAccounts_FileService_STATUS from our StorageAccounts_FileService_STATUS
-func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAccounts_FileService_STATUS(destination *storage.StorageAccounts_FileService_STATUS) error {
+// AssignProperties_To_StorageAccountsFileService_STATUS populates the provided destination StorageAccountsFileService_STATUS from our StorageAccountsFileService_STATUS
+func (service *StorageAccountsFileService_STATUS) AssignProperties_To_StorageAccountsFileService_STATUS(destination *storage.StorageAccountsFileService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
@@ -659,9 +659,9 @@ func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAc
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_FileService_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsFileService_STATUS interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
-	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_FileService_STATUS); ok {
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsFileService_STATUS); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -672,14 +672,14 @@ func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAc
 	return nil
 }
 
-type augmentConversionForStorageAccounts_FileService_Spec interface {
-	AssignPropertiesFrom(src *storage.StorageAccounts_FileService_Spec) error
-	AssignPropertiesTo(dst *storage.StorageAccounts_FileService_Spec) error
+type augmentConversionForStorageAccountsFileService_Spec interface {
+	AssignPropertiesFrom(src *storage.StorageAccountsFileService_Spec) error
+	AssignPropertiesTo(dst *storage.StorageAccountsFileService_Spec) error
 }
 
-type augmentConversionForStorageAccounts_FileService_STATUS interface {
-	AssignPropertiesFrom(src *storage.StorageAccounts_FileService_STATUS) error
-	AssignPropertiesTo(dst *storage.StorageAccounts_FileService_STATUS) error
+type augmentConversionForStorageAccountsFileService_STATUS interface {
+	AssignPropertiesFrom(src *storage.StorageAccountsFileService_STATUS) error
+	AssignPropertiesTo(dst *storage.StorageAccountsFileService_STATUS) error
 }
 
 // Storage version of v1api20220901.ProtocolSettings

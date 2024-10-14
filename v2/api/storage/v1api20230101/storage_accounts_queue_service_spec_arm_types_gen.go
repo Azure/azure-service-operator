@@ -5,27 +5,27 @@ package v1api20230101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type StorageAccounts_QueueService_Spec_ARM struct {
+type StorageAccountsQueueService_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Queue service.
 	Properties *StorageAccounts_QueueService_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueService_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &StorageAccountsQueueService_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-01-01"
-func (service StorageAccounts_QueueService_Spec_ARM) GetAPIVersion() string {
+func (service StorageAccountsQueueService_Spec_ARM) GetAPIVersion() string {
 	return "2023-01-01"
 }
 
 // GetName returns the Name of the resource
-func (service *StorageAccounts_QueueService_Spec_ARM) GetName() string {
+func (service *StorageAccountsQueueService_Spec_ARM) GetName() string {
 	return service.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices"
-func (service *StorageAccounts_QueueService_Spec_ARM) GetType() string {
+func (service *StorageAccountsQueueService_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 

@@ -257,20 +257,20 @@ func AddRelatedPropertyGeneratorsForSignedIdentifier_STATUS_ARM(gens map[string]
 	gens["AccessPolicy"] = gen.PtrOf(AccessPolicy_STATUS_ARMGenerator())
 }
 
-func Test_StorageAccounts_FileServices_Share_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccountsFileServicesShare_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccounts_FileServices_Share_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_FileServices_Share_STATUS_ARM, StorageAccounts_FileServices_Share_STATUS_ARMGenerator()))
+		"Round trip of StorageAccountsFileServicesShare_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsFileServicesShare_STATUS_ARM, StorageAccountsFileServicesShare_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccounts_FileServices_Share_STATUS_ARM runs a test to see if a specific instance of StorageAccounts_FileServices_Share_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_FileServices_Share_STATUS_ARM(subject StorageAccounts_FileServices_Share_STATUS_ARM) string {
+// RunJSONSerializationTestForStorageAccountsFileServicesShare_STATUS_ARM runs a test to see if a specific instance of StorageAccountsFileServicesShare_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsFileServicesShare_STATUS_ARM(subject StorageAccountsFileServicesShare_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -278,7 +278,7 @@ func RunJSONSerializationTestForStorageAccounts_FileServices_Share_STATUS_ARM(su
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccounts_FileServices_Share_STATUS_ARM
+	var actual StorageAccountsFileServicesShare_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -296,41 +296,41 @@ func RunJSONSerializationTestForStorageAccounts_FileServices_Share_STATUS_ARM(su
 	return ""
 }
 
-// Generator of StorageAccounts_FileServices_Share_STATUS_ARM instances for property testing - lazily instantiated by
-// StorageAccounts_FileServices_Share_STATUS_ARMGenerator()
-var storageAccounts_FileServices_Share_STATUS_ARMGenerator gopter.Gen
+// Generator of StorageAccountsFileServicesShare_STATUS_ARM instances for property testing - lazily instantiated by
+// StorageAccountsFileServicesShare_STATUS_ARMGenerator()
+var storageAccountsFileServicesShare_STATUS_ARMGenerator gopter.Gen
 
-// StorageAccounts_FileServices_Share_STATUS_ARMGenerator returns a generator of StorageAccounts_FileServices_Share_STATUS_ARM instances for property testing.
-// We first initialize storageAccounts_FileServices_Share_STATUS_ARMGenerator with a simplified generator based on the
+// StorageAccountsFileServicesShare_STATUS_ARMGenerator returns a generator of StorageAccountsFileServicesShare_STATUS_ARM instances for property testing.
+// We first initialize storageAccountsFileServicesShare_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_FileServices_Share_STATUS_ARMGenerator() gopter.Gen {
-	if storageAccounts_FileServices_Share_STATUS_ARMGenerator != nil {
-		return storageAccounts_FileServices_Share_STATUS_ARMGenerator
+func StorageAccountsFileServicesShare_STATUS_ARMGenerator() gopter.Gen {
+	if storageAccountsFileServicesShare_STATUS_ARMGenerator != nil {
+		return storageAccountsFileServicesShare_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_STATUS_ARM(generators)
-	storageAccounts_FileServices_Share_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileServices_Share_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS_ARM(generators)
+	storageAccountsFileServicesShare_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsFileServicesShare_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_STATUS_ARM(generators)
-	storageAccounts_FileServices_Share_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_FileServices_Share_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS_ARM(generators)
+	storageAccountsFileServicesShare_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsFileServicesShare_STATUS_ARM{}), generators)
 
-	return storageAccounts_FileServices_Share_STATUS_ARMGenerator
+	return storageAccountsFileServicesShare_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(FileShareProperties_STATUS_ARMGenerator())
 }
