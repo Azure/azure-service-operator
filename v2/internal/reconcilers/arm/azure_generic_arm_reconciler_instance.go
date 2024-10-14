@@ -317,6 +317,8 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 
 	// Try to create the resource
 	spec := armResource.Spec()
+	j, _ := json.Marshal(spec)
+	println(string(j))
 	pollerResp, err := r.ARMConnection.Client().BeginCreateOrUpdateByID(ctx, armResource.GetID(), spec.GetAPIVersion(), spec)
 	if err != nil {
 		return ctrl.Result{}, r.handleCreateOrUpdateFailed(err)

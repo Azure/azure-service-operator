@@ -27,20 +27,16 @@ Registry: Resource
 │   ├── PublicNetworkAccess: *string
 │   ├── RegionDetails: Object (3 properties)[]
 │   │   ├── AcrDetails: Object (2 properties)[]
-│   │   │   ├── SystemCreatedAcrAccount: *Object (3 properties)
+│   │   │   ├── SystemCreatedAcrAccount: *Object (2 properties)
 │   │   │   │   ├── AcrAccountName: *string
-│   │   │   │   ├── AcrAccountSku: *string
-│   │   │   │   └── ArmResourceId: *Object (1 property)
-│   │   │   │       └── ResourceReference: *genruntime.ResourceReference
+│   │   │   │   └── AcrAccountSku: *string
 │   │   │   └── UserCreatedAcrAccount: *Object (1 property)
 │   │   │       └── ArmResourceId: *Object (1 property)
 │   │   │           └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   └── StorageAccountDetails: Object (2 properties)[]
-│   │       ├── SystemCreatedStorageAccount: *Object (5 properties)
+│   │       ├── SystemCreatedStorageAccount: *Object (4 properties)
 │   │       │   ├── AllowBlobPublicAccess: *bool
-│   │       │   ├── ArmResourceId: *Object (1 property)
-│   │       │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │       │   ├── StorageAccountHnsEnabled: *bool
 │   │       │   ├── StorageAccountName: *string
 │   │       │   └── StorageAccountType: *string
@@ -270,20 +266,16 @@ Registry_Spec_ARM: Object (7 properties)
 │   ├── PublicNetworkAccess: *string
 │   ├── RegionDetails: Object (3 properties)[]
 │   │   ├── AcrDetails: Object (2 properties)[]
-│   │   │   ├── SystemCreatedAcrAccount: *Object (3 properties)
+│   │   │   ├── SystemCreatedAcrAccount: *Object (2 properties)
 │   │   │   │   ├── AcrAccountName: *string
-│   │   │   │   ├── AcrAccountSku: *string
-│   │   │   │   └── ArmResourceId: *Object (1 property)
-│   │   │   │       └── ResourceId: *string
+│   │   │   │   └── AcrAccountSku: *string
 │   │   │   └── UserCreatedAcrAccount: *Object (1 property)
 │   │   │       └── ArmResourceId: *Object (1 property)
 │   │   │           └── ResourceId: *string
 │   │   ├── Location: *string
 │   │   └── StorageAccountDetails: Object (2 properties)[]
-│   │       ├── SystemCreatedStorageAccount: *Object (5 properties)
+│   │       ├── SystemCreatedStorageAccount: *Object (4 properties)
 │   │       │   ├── AllowBlobPublicAccess: *bool
-│   │       │   ├── ArmResourceId: *Object (1 property)
-│   │       │   │   └── ResourceId: *string
 │   │       │   ├── StorageAccountHnsEnabled: *bool
 │   │       │   ├── StorageAccountName: *string
 │   │       │   └── StorageAccountType: *string

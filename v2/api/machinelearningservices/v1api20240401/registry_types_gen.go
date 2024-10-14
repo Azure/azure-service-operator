@@ -4708,9 +4708,6 @@ type SystemCreatedAcrAccount struct {
 
 	// AcrAccountSku: SKU of the ACR account
 	AcrAccountSku *string `json:"acrAccountSku,omitempty"`
-
-	// ArmResourceId: This is populated once the ACR account is created.
-	ArmResourceId *ArmResourceId `json:"armResourceId,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SystemCreatedAcrAccount{}
@@ -4732,16 +4729,6 @@ func (account *SystemCreatedAcrAccount) ConvertToARM(resolved genruntime.Convert
 	if account.AcrAccountSku != nil {
 		acrAccountSku := *account.AcrAccountSku
 		result.AcrAccountSku = &acrAccountSku
-	}
-
-	// Set property "ArmResourceId":
-	if account.ArmResourceId != nil {
-		armResourceId_ARM, err := (*account.ArmResourceId).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		armResourceId := *armResourceId_ARM.(*ArmResourceId_ARM)
-		result.ArmResourceId = &armResourceId
 	}
 	return result, nil
 }
@@ -4770,17 +4757,6 @@ func (account *SystemCreatedAcrAccount) PopulateFromARM(owner genruntime.Arbitra
 		account.AcrAccountSku = &acrAccountSku
 	}
 
-	// Set property "ArmResourceId":
-	if typedInput.ArmResourceId != nil {
-		var armResourceId1 ArmResourceId
-		err := armResourceId1.PopulateFromARM(owner, *typedInput.ArmResourceId)
-		if err != nil {
-			return err
-		}
-		armResourceId := armResourceId1
-		account.ArmResourceId = &armResourceId
-	}
-
 	// No error
 	return nil
 }
@@ -4793,18 +4769,6 @@ func (account *SystemCreatedAcrAccount) AssignProperties_From_SystemCreatedAcrAc
 
 	// AcrAccountSku
 	account.AcrAccountSku = genruntime.ClonePointerToString(source.AcrAccountSku)
-
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId
-		err := armResourceId.AssignProperties_From_ArmResourceId(source.ArmResourceId)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ArmResourceId() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
-	}
 
 	// No error
 	return nil
@@ -4820,18 +4784,6 @@ func (account *SystemCreatedAcrAccount) AssignProperties_To_SystemCreatedAcrAcco
 
 	// AcrAccountSku
 	destination.AcrAccountSku = genruntime.ClonePointerToString(account.AcrAccountSku)
-
-	// ArmResourceId
-	if account.ArmResourceId != nil {
-		var armResourceId storage.ArmResourceId
-		err := account.ArmResourceId.AssignProperties_To_ArmResourceId(&armResourceId)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ArmResourceId() to populate field ArmResourceId")
-		}
-		destination.ArmResourceId = &armResourceId
-	} else {
-		destination.ArmResourceId = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4852,18 +4804,6 @@ func (account *SystemCreatedAcrAccount) Initialize_From_SystemCreatedAcrAccount_
 
 	// AcrAccountSku
 	account.AcrAccountSku = genruntime.ClonePointerToString(source.AcrAccountSku)
-
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId
-		err := armResourceId.Initialize_From_ArmResourceId_STATUS(source.ArmResourceId)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ArmResourceId_STATUS() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
-	}
 
 	// No error
 	return nil
@@ -4984,9 +4924,6 @@ type SystemCreatedStorageAccount struct {
 	// AllowBlobPublicAccess: Public blob access allowed
 	AllowBlobPublicAccess *bool `json:"allowBlobPublicAccess,omitempty"`
 
-	// ArmResourceId: This is populated once the storage account is created.
-	ArmResourceId *ArmResourceId `json:"armResourceId,omitempty"`
-
 	// StorageAccountHnsEnabled: HNS enabled for storage account
 	StorageAccountHnsEnabled *bool `json:"storageAccountHnsEnabled,omitempty"`
 
@@ -5018,16 +4955,6 @@ func (account *SystemCreatedStorageAccount) ConvertToARM(resolved genruntime.Con
 	if account.AllowBlobPublicAccess != nil {
 		allowBlobPublicAccess := *account.AllowBlobPublicAccess
 		result.AllowBlobPublicAccess = &allowBlobPublicAccess
-	}
-
-	// Set property "ArmResourceId":
-	if account.ArmResourceId != nil {
-		armResourceId_ARM, err := (*account.ArmResourceId).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		armResourceId := *armResourceId_ARM.(*ArmResourceId_ARM)
-		result.ArmResourceId = &armResourceId
 	}
 
 	// Set property "StorageAccountHnsEnabled":
@@ -5068,17 +4995,6 @@ func (account *SystemCreatedStorageAccount) PopulateFromARM(owner genruntime.Arb
 		account.AllowBlobPublicAccess = &allowBlobPublicAccess
 	}
 
-	// Set property "ArmResourceId":
-	if typedInput.ArmResourceId != nil {
-		var armResourceId1 ArmResourceId
-		err := armResourceId1.PopulateFromARM(owner, *typedInput.ArmResourceId)
-		if err != nil {
-			return err
-		}
-		armResourceId := armResourceId1
-		account.ArmResourceId = &armResourceId
-	}
-
 	// Set property "StorageAccountHnsEnabled":
 	if typedInput.StorageAccountHnsEnabled != nil {
 		storageAccountHnsEnabled := *typedInput.StorageAccountHnsEnabled
@@ -5112,18 +5028,6 @@ func (account *SystemCreatedStorageAccount) AssignProperties_From_SystemCreatedS
 		account.AllowBlobPublicAccess = nil
 	}
 
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId
-		err := armResourceId.AssignProperties_From_ArmResourceId(source.ArmResourceId)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ArmResourceId() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
-	}
-
 	// StorageAccountHnsEnabled
 	if source.StorageAccountHnsEnabled != nil {
 		storageAccountHnsEnabled := *source.StorageAccountHnsEnabled
@@ -5153,18 +5057,6 @@ func (account *SystemCreatedStorageAccount) AssignProperties_To_SystemCreatedSto
 		destination.AllowBlobPublicAccess = &allowBlobPublicAccess
 	} else {
 		destination.AllowBlobPublicAccess = nil
-	}
-
-	// ArmResourceId
-	if account.ArmResourceId != nil {
-		var armResourceId storage.ArmResourceId
-		err := account.ArmResourceId.AssignProperties_To_ArmResourceId(&armResourceId)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ArmResourceId() to populate field ArmResourceId")
-		}
-		destination.ArmResourceId = &armResourceId
-	} else {
-		destination.ArmResourceId = nil
 	}
 
 	// StorageAccountHnsEnabled
@@ -5201,18 +5093,6 @@ func (account *SystemCreatedStorageAccount) Initialize_From_SystemCreatedStorage
 		account.AllowBlobPublicAccess = &allowBlobPublicAccess
 	} else {
 		account.AllowBlobPublicAccess = nil
-	}
-
-	// ArmResourceId
-	if source.ArmResourceId != nil {
-		var armResourceId ArmResourceId
-		err := armResourceId.Initialize_From_ArmResourceId_STATUS(source.ArmResourceId)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ArmResourceId_STATUS() to populate field ArmResourceId")
-		}
-		account.ArmResourceId = &armResourceId
-	} else {
-		account.ArmResourceId = nil
 	}
 
 	// StorageAccountHnsEnabled

@@ -223,17 +223,11 @@ type SystemCreatedAcrAccount_ARM struct {
 
 	// AcrAccountSku: SKU of the ACR account
 	AcrAccountSku *string `json:"acrAccountSku,omitempty"`
-
-	// ArmResourceId: This is populated once the ACR account is created.
-	ArmResourceId *ArmResourceId_ARM `json:"armResourceId,omitempty"`
 }
 
 type SystemCreatedStorageAccount_ARM struct {
 	// AllowBlobPublicAccess: Public blob access allowed
 	AllowBlobPublicAccess *bool `json:"allowBlobPublicAccess,omitempty"`
-
-	// ArmResourceId: This is populated once the storage account is created.
-	ArmResourceId *ArmResourceId_ARM `json:"armResourceId,omitempty"`
 
 	// StorageAccountHnsEnabled: HNS enabled for storage account
 	StorageAccountHnsEnabled *bool `json:"storageAccountHnsEnabled,omitempty"`

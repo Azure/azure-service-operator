@@ -436,7 +436,6 @@ type UserAssignedIdentityDetails struct {
 type SystemCreatedAcrAccount struct {
 	AcrAccountName *string                `json:"acrAccountName,omitempty"`
 	AcrAccountSku  *string                `json:"acrAccountSku,omitempty"`
-	ArmResourceId  *ArmResourceId         `json:"armResourceId,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
@@ -451,7 +450,6 @@ type SystemCreatedAcrAccount_STATUS struct {
 // Storage version of v1api20240401.SystemCreatedStorageAccount
 type SystemCreatedStorageAccount struct {
 	AllowBlobPublicAccess    *bool                  `json:"allowBlobPublicAccess,omitempty"`
-	ArmResourceId            *ArmResourceId         `json:"armResourceId,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageAccountHnsEnabled *bool                  `json:"storageAccountHnsEnabled,omitempty"`
 	StorageAccountName       *string                `json:"storageAccountName,omitempty"`

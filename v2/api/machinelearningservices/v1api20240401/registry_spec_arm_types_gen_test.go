@@ -910,9 +910,6 @@ func RunJSONSerializationTestForSystemCreatedAcrAccount_ARM(subject SystemCreate
 var systemCreatedAcrAccount_ARMGenerator gopter.Gen
 
 // SystemCreatedAcrAccount_ARMGenerator returns a generator of SystemCreatedAcrAccount_ARM instances for property testing.
-// We first initialize systemCreatedAcrAccount_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func SystemCreatedAcrAccount_ARMGenerator() gopter.Gen {
 	if systemCreatedAcrAccount_ARMGenerator != nil {
 		return systemCreatedAcrAccount_ARMGenerator
@@ -922,12 +919,6 @@ func SystemCreatedAcrAccount_ARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForSystemCreatedAcrAccount_ARM(generators)
 	systemCreatedAcrAccount_ARMGenerator = gen.Struct(reflect.TypeOf(SystemCreatedAcrAccount_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemCreatedAcrAccount_ARM(generators)
-	AddRelatedPropertyGeneratorsForSystemCreatedAcrAccount_ARM(generators)
-	systemCreatedAcrAccount_ARMGenerator = gen.Struct(reflect.TypeOf(SystemCreatedAcrAccount_ARM{}), generators)
-
 	return systemCreatedAcrAccount_ARMGenerator
 }
 
@@ -935,11 +926,6 @@ func SystemCreatedAcrAccount_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSystemCreatedAcrAccount_ARM(gens map[string]gopter.Gen) {
 	gens["AcrAccountName"] = gen.PtrOf(gen.AlphaString())
 	gens["AcrAccountSku"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSystemCreatedAcrAccount_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSystemCreatedAcrAccount_ARM(gens map[string]gopter.Gen) {
-	gens["ArmResourceId"] = gen.PtrOf(ArmResourceId_ARMGenerator())
 }
 
 func Test_SystemCreatedStorageAccount_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -986,9 +972,6 @@ func RunJSONSerializationTestForSystemCreatedStorageAccount_ARM(subject SystemCr
 var systemCreatedStorageAccount_ARMGenerator gopter.Gen
 
 // SystemCreatedStorageAccount_ARMGenerator returns a generator of SystemCreatedStorageAccount_ARM instances for property testing.
-// We first initialize systemCreatedStorageAccount_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func SystemCreatedStorageAccount_ARMGenerator() gopter.Gen {
 	if systemCreatedStorageAccount_ARMGenerator != nil {
 		return systemCreatedStorageAccount_ARMGenerator
@@ -996,12 +979,6 @@ func SystemCreatedStorageAccount_ARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForSystemCreatedStorageAccount_ARM(generators)
-	systemCreatedStorageAccount_ARMGenerator = gen.Struct(reflect.TypeOf(SystemCreatedStorageAccount_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemCreatedStorageAccount_ARM(generators)
-	AddRelatedPropertyGeneratorsForSystemCreatedStorageAccount_ARM(generators)
 	systemCreatedStorageAccount_ARMGenerator = gen.Struct(reflect.TypeOf(SystemCreatedStorageAccount_ARM{}), generators)
 
 	return systemCreatedStorageAccount_ARMGenerator
@@ -1013,11 +990,6 @@ func AddIndependentPropertyGeneratorsForSystemCreatedStorageAccount_ARM(gens map
 	gens["StorageAccountHnsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["StorageAccountName"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountType"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSystemCreatedStorageAccount_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSystemCreatedStorageAccount_ARM(gens map[string]gopter.Gen) {
-	gens["ArmResourceId"] = gen.PtrOf(ArmResourceId_ARMGenerator())
 }
 
 func Test_UserAssignedIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

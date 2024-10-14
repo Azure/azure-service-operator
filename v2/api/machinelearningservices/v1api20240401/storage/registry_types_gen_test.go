@@ -1496,9 +1496,6 @@ func RunJSONSerializationTestForSystemCreatedAcrAccount(subject SystemCreatedAcr
 var systemCreatedAcrAccountGenerator gopter.Gen
 
 // SystemCreatedAcrAccountGenerator returns a generator of SystemCreatedAcrAccount instances for property testing.
-// We first initialize systemCreatedAcrAccountGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func SystemCreatedAcrAccountGenerator() gopter.Gen {
 	if systemCreatedAcrAccountGenerator != nil {
 		return systemCreatedAcrAccountGenerator
@@ -1508,12 +1505,6 @@ func SystemCreatedAcrAccountGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForSystemCreatedAcrAccount(generators)
 	systemCreatedAcrAccountGenerator = gen.Struct(reflect.TypeOf(SystemCreatedAcrAccount{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemCreatedAcrAccount(generators)
-	AddRelatedPropertyGeneratorsForSystemCreatedAcrAccount(generators)
-	systemCreatedAcrAccountGenerator = gen.Struct(reflect.TypeOf(SystemCreatedAcrAccount{}), generators)
-
 	return systemCreatedAcrAccountGenerator
 }
 
@@ -1521,11 +1512,6 @@ func SystemCreatedAcrAccountGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSystemCreatedAcrAccount(gens map[string]gopter.Gen) {
 	gens["AcrAccountName"] = gen.PtrOf(gen.AlphaString())
 	gens["AcrAccountSku"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSystemCreatedAcrAccount is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSystemCreatedAcrAccount(gens map[string]gopter.Gen) {
-	gens["ArmResourceId"] = gen.PtrOf(ArmResourceIdGenerator())
 }
 
 func Test_SystemCreatedAcrAccount_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1648,9 +1634,6 @@ func RunJSONSerializationTestForSystemCreatedStorageAccount(subject SystemCreate
 var systemCreatedStorageAccountGenerator gopter.Gen
 
 // SystemCreatedStorageAccountGenerator returns a generator of SystemCreatedStorageAccount instances for property testing.
-// We first initialize systemCreatedStorageAccountGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func SystemCreatedStorageAccountGenerator() gopter.Gen {
 	if systemCreatedStorageAccountGenerator != nil {
 		return systemCreatedStorageAccountGenerator
@@ -1658,12 +1641,6 @@ func SystemCreatedStorageAccountGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForSystemCreatedStorageAccount(generators)
-	systemCreatedStorageAccountGenerator = gen.Struct(reflect.TypeOf(SystemCreatedStorageAccount{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemCreatedStorageAccount(generators)
-	AddRelatedPropertyGeneratorsForSystemCreatedStorageAccount(generators)
 	systemCreatedStorageAccountGenerator = gen.Struct(reflect.TypeOf(SystemCreatedStorageAccount{}), generators)
 
 	return systemCreatedStorageAccountGenerator
@@ -1675,11 +1652,6 @@ func AddIndependentPropertyGeneratorsForSystemCreatedStorageAccount(gens map[str
 	gens["StorageAccountHnsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["StorageAccountName"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountType"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSystemCreatedStorageAccount is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSystemCreatedStorageAccount(gens map[string]gopter.Gen) {
-	gens["ArmResourceId"] = gen.PtrOf(ArmResourceIdGenerator())
 }
 
 func Test_SystemCreatedStorageAccount_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

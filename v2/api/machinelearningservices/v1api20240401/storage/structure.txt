@@ -28,12 +28,9 @@ Registry: Resource
 │   ├── RegionDetails: Object (4 properties)[]
 │   │   ├── AcrDetails: Object (3 properties)[]
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── SystemCreatedAcrAccount: *Object (4 properties)
+│   │   │   ├── SystemCreatedAcrAccount: *Object (3 properties)
 │   │   │   │   ├── AcrAccountName: *string
 │   │   │   │   ├── AcrAccountSku: *string
-│   │   │   │   ├── ArmResourceId: *Object (2 properties)
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UserCreatedAcrAccount: *Object (2 properties)
 │   │   │       ├── ArmResourceId: *Object (2 properties)
@@ -44,11 +41,8 @@ Registry: Resource
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── StorageAccountDetails: Object (3 properties)[]
 │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │       ├── SystemCreatedStorageAccount: *Object (6 properties)
+│   │       ├── SystemCreatedStorageAccount: *Object (5 properties)
 │   │       │   ├── AllowBlobPublicAccess: *bool
-│   │       │   ├── ArmResourceId: *Object (2 properties)
-│   │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │       │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │       │   ├── PropertyBag: genruntime.PropertyBag
 │   │       │   ├── StorageAccountHnsEnabled: *bool
 │   │       │   ├── StorageAccountName: *string
