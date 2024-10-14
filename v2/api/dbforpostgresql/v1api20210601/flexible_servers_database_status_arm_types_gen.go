@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20210601
 
-type FlexibleServers_Database_STATUS_ARM struct {
+type FlexibleServersDatabase_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
