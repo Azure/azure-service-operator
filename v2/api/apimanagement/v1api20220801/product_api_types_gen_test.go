@@ -160,36 +160,36 @@ func ProductApiGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForProductApi is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForProductApi(gens map[string]gopter.Gen) {
-	gens["Spec"] = Service_Products_Api_SpecGenerator()
-	gens["Status"] = Service_Products_Api_STATUSGenerator()
+	gens["Spec"] = ProductApi_SpecGenerator()
+	gens["Status"] = ProductApi_STATUSGenerator()
 }
 
-func Test_Service_Products_Api_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ProductApi_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_Products_Api_STATUS to Service_Products_Api_STATUS via AssignProperties_To_Service_Products_Api_STATUS & AssignProperties_From_Service_Products_Api_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_Products_Api_STATUS, Service_Products_Api_STATUSGenerator()))
+		"Round trip from ProductApi_STATUS to ProductApi_STATUS via AssignProperties_To_ProductApi_STATUS & AssignProperties_From_ProductApi_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProductApi_STATUS, ProductApi_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Products_Api_STATUS tests if a specific instance of Service_Products_Api_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_Products_Api_STATUS(subject Service_Products_Api_STATUS) string {
+// RunPropertyAssignmentTestForProductApi_STATUS tests if a specific instance of ProductApi_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForProductApi_STATUS(subject ProductApi_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_Products_Api_STATUS
-	err := copied.AssignProperties_To_Service_Products_Api_STATUS(&other)
+	var other storage.ProductApi_STATUS
+	err := copied.AssignProperties_To_ProductApi_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_Products_Api_STATUS
-	err = actual.AssignProperties_From_Service_Products_Api_STATUS(&other)
+	var actual ProductApi_STATUS
+	err = actual.AssignProperties_From_ProductApi_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -206,20 +206,20 @@ func RunPropertyAssignmentTestForService_Products_Api_STATUS(subject Service_Pro
 	return ""
 }
 
-func Test_Service_Products_Api_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ProductApi_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Products_Api_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Products_Api_STATUS, Service_Products_Api_STATUSGenerator()))
+		"Round trip of ProductApi_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProductApi_STATUS, ProductApi_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Products_Api_STATUS runs a test to see if a specific instance of Service_Products_Api_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Products_Api_STATUS(subject Service_Products_Api_STATUS) string {
+// RunJSONSerializationTestForProductApi_STATUS runs a test to see if a specific instance of ProductApi_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForProductApi_STATUS(subject ProductApi_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -227,7 +227,7 @@ func RunJSONSerializationTestForService_Products_Api_STATUS(subject Service_Prod
 	}
 
 	// Deserialize back into memory
-	var actual Service_Products_Api_STATUS
+	var actual ProductApi_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -245,48 +245,47 @@ func RunJSONSerializationTestForService_Products_Api_STATUS(subject Service_Prod
 	return ""
 }
 
-// Generator of Service_Products_Api_STATUS instances for property testing - lazily instantiated by
-// Service_Products_Api_STATUSGenerator()
-var service_Products_Api_STATUSGenerator gopter.Gen
+// Generator of ProductApi_STATUS instances for property testing - lazily instantiated by ProductApi_STATUSGenerator()
+var productApi_STATUSGenerator gopter.Gen
 
-// Service_Products_Api_STATUSGenerator returns a generator of Service_Products_Api_STATUS instances for property testing.
-func Service_Products_Api_STATUSGenerator() gopter.Gen {
-	if service_Products_Api_STATUSGenerator != nil {
-		return service_Products_Api_STATUSGenerator
+// ProductApi_STATUSGenerator returns a generator of ProductApi_STATUS instances for property testing.
+func ProductApi_STATUSGenerator() gopter.Gen {
+	if productApi_STATUSGenerator != nil {
+		return productApi_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	service_Products_Api_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Products_Api_STATUS{}), generators)
+	productApi_STATUSGenerator = gen.Struct(reflect.TypeOf(ProductApi_STATUS{}), generators)
 
-	return service_Products_Api_STATUSGenerator
+	return productApi_STATUSGenerator
 }
 
-func Test_Service_Products_Api_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ProductApi_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_Products_Api_Spec to Service_Products_Api_Spec via AssignProperties_To_Service_Products_Api_Spec & AssignProperties_From_Service_Products_Api_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_Products_Api_Spec, Service_Products_Api_SpecGenerator()))
+		"Round trip from ProductApi_Spec to ProductApi_Spec via AssignProperties_To_ProductApi_Spec & AssignProperties_From_ProductApi_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProductApi_Spec, ProductApi_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Products_Api_Spec tests if a specific instance of Service_Products_Api_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_Products_Api_Spec(subject Service_Products_Api_Spec) string {
+// RunPropertyAssignmentTestForProductApi_Spec tests if a specific instance of ProductApi_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForProductApi_Spec(subject ProductApi_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_Products_Api_Spec
-	err := copied.AssignProperties_To_Service_Products_Api_Spec(&other)
+	var other storage.ProductApi_Spec
+	err := copied.AssignProperties_To_ProductApi_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_Products_Api_Spec
-	err = actual.AssignProperties_From_Service_Products_Api_Spec(&other)
+	var actual ProductApi_Spec
+	err = actual.AssignProperties_From_ProductApi_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -303,20 +302,20 @@ func RunPropertyAssignmentTestForService_Products_Api_Spec(subject Service_Produ
 	return ""
 }
 
-func Test_Service_Products_Api_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ProductApi_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Products_Api_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Products_Api_Spec, Service_Products_Api_SpecGenerator()))
+		"Round trip of ProductApi_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProductApi_Spec, ProductApi_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Products_Api_Spec runs a test to see if a specific instance of Service_Products_Api_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Products_Api_Spec(subject Service_Products_Api_Spec) string {
+// RunJSONSerializationTestForProductApi_Spec runs a test to see if a specific instance of ProductApi_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProductApi_Spec(subject ProductApi_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -324,7 +323,7 @@ func RunJSONSerializationTestForService_Products_Api_Spec(subject Service_Produc
 	}
 
 	// Deserialize back into memory
-	var actual Service_Products_Api_Spec
+	var actual ProductApi_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -342,24 +341,23 @@ func RunJSONSerializationTestForService_Products_Api_Spec(subject Service_Produc
 	return ""
 }
 
-// Generator of Service_Products_Api_Spec instances for property testing - lazily instantiated by
-// Service_Products_Api_SpecGenerator()
-var service_Products_Api_SpecGenerator gopter.Gen
+// Generator of ProductApi_Spec instances for property testing - lazily instantiated by ProductApi_SpecGenerator()
+var productApi_SpecGenerator gopter.Gen
 
-// Service_Products_Api_SpecGenerator returns a generator of Service_Products_Api_Spec instances for property testing.
-func Service_Products_Api_SpecGenerator() gopter.Gen {
-	if service_Products_Api_SpecGenerator != nil {
-		return service_Products_Api_SpecGenerator
+// ProductApi_SpecGenerator returns a generator of ProductApi_Spec instances for property testing.
+func ProductApi_SpecGenerator() gopter.Gen {
+	if productApi_SpecGenerator != nil {
+		return productApi_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Products_Api_Spec(generators)
-	service_Products_Api_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Products_Api_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForProductApi_Spec(generators)
+	productApi_SpecGenerator = gen.Struct(reflect.TypeOf(ProductApi_Spec{}), generators)
 
-	return service_Products_Api_SpecGenerator
+	return productApi_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_Products_Api_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Products_Api_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProductApi_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProductApi_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 }

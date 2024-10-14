@@ -74,24 +74,24 @@ func ApiVersionSetGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForApiVersionSet is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForApiVersionSet(gens map[string]gopter.Gen) {
-	gens["Spec"] = Service_ApiVersionSet_SpecGenerator()
-	gens["Status"] = Service_ApiVersionSet_STATUSGenerator()
+	gens["Spec"] = ApiVersionSet_SpecGenerator()
+	gens["Status"] = ApiVersionSet_STATUSGenerator()
 }
 
-func Test_Service_ApiVersionSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ApiVersionSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_ApiVersionSet_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_ApiVersionSet_STATUS, Service_ApiVersionSet_STATUSGenerator()))
+		"Round trip of ApiVersionSet_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiVersionSet_STATUS, ApiVersionSet_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_ApiVersionSet_STATUS runs a test to see if a specific instance of Service_ApiVersionSet_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_ApiVersionSet_STATUS(subject Service_ApiVersionSet_STATUS) string {
+// RunJSONSerializationTestForApiVersionSet_STATUS runs a test to see if a specific instance of ApiVersionSet_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiVersionSet_STATUS(subject ApiVersionSet_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForService_ApiVersionSet_STATUS(subject Service_Api
 	}
 
 	// Deserialize back into memory
-	var actual Service_ApiVersionSet_STATUS
+	var actual ApiVersionSet_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,25 +117,25 @@ func RunJSONSerializationTestForService_ApiVersionSet_STATUS(subject Service_Api
 	return ""
 }
 
-// Generator of Service_ApiVersionSet_STATUS instances for property testing - lazily instantiated by
-// Service_ApiVersionSet_STATUSGenerator()
-var service_ApiVersionSet_STATUSGenerator gopter.Gen
+// Generator of ApiVersionSet_STATUS instances for property testing - lazily instantiated by
+// ApiVersionSet_STATUSGenerator()
+var apiVersionSet_STATUSGenerator gopter.Gen
 
-// Service_ApiVersionSet_STATUSGenerator returns a generator of Service_ApiVersionSet_STATUS instances for property testing.
-func Service_ApiVersionSet_STATUSGenerator() gopter.Gen {
-	if service_ApiVersionSet_STATUSGenerator != nil {
-		return service_ApiVersionSet_STATUSGenerator
+// ApiVersionSet_STATUSGenerator returns a generator of ApiVersionSet_STATUS instances for property testing.
+func ApiVersionSet_STATUSGenerator() gopter.Gen {
+	if apiVersionSet_STATUSGenerator != nil {
+		return apiVersionSet_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_ApiVersionSet_STATUS(generators)
-	service_ApiVersionSet_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_ApiVersionSet_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForApiVersionSet_STATUS(generators)
+	apiVersionSet_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiVersionSet_STATUS{}), generators)
 
-	return service_ApiVersionSet_STATUSGenerator
+	return apiVersionSet_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_ApiVersionSet_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_ApiVersionSet_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForApiVersionSet_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApiVersionSet_STATUS(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -146,20 +146,20 @@ func AddIndependentPropertyGeneratorsForService_ApiVersionSet_STATUS(gens map[st
 	gens["VersioningScheme"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Service_ApiVersionSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ApiVersionSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_ApiVersionSet_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_ApiVersionSet_Spec, Service_ApiVersionSet_SpecGenerator()))
+		"Round trip of ApiVersionSet_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiVersionSet_Spec, ApiVersionSet_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_ApiVersionSet_Spec runs a test to see if a specific instance of Service_ApiVersionSet_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_ApiVersionSet_Spec(subject Service_ApiVersionSet_Spec) string {
+// RunJSONSerializationTestForApiVersionSet_Spec runs a test to see if a specific instance of ApiVersionSet_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiVersionSet_Spec(subject ApiVersionSet_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -167,7 +167,7 @@ func RunJSONSerializationTestForService_ApiVersionSet_Spec(subject Service_ApiVe
 	}
 
 	// Deserialize back into memory
-	var actual Service_ApiVersionSet_Spec
+	var actual ApiVersionSet_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -185,25 +185,24 @@ func RunJSONSerializationTestForService_ApiVersionSet_Spec(subject Service_ApiVe
 	return ""
 }
 
-// Generator of Service_ApiVersionSet_Spec instances for property testing - lazily instantiated by
-// Service_ApiVersionSet_SpecGenerator()
-var service_ApiVersionSet_SpecGenerator gopter.Gen
+// Generator of ApiVersionSet_Spec instances for property testing - lazily instantiated by ApiVersionSet_SpecGenerator()
+var apiVersionSet_SpecGenerator gopter.Gen
 
-// Service_ApiVersionSet_SpecGenerator returns a generator of Service_ApiVersionSet_Spec instances for property testing.
-func Service_ApiVersionSet_SpecGenerator() gopter.Gen {
-	if service_ApiVersionSet_SpecGenerator != nil {
-		return service_ApiVersionSet_SpecGenerator
+// ApiVersionSet_SpecGenerator returns a generator of ApiVersionSet_Spec instances for property testing.
+func ApiVersionSet_SpecGenerator() gopter.Gen {
+	if apiVersionSet_SpecGenerator != nil {
+		return apiVersionSet_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_ApiVersionSet_Spec(generators)
-	service_ApiVersionSet_SpecGenerator = gen.Struct(reflect.TypeOf(Service_ApiVersionSet_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForApiVersionSet_Spec(generators)
+	apiVersionSet_SpecGenerator = gen.Struct(reflect.TypeOf(ApiVersionSet_Spec{}), generators)
 
-	return service_ApiVersionSet_SpecGenerator
+	return apiVersionSet_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_ApiVersionSet_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_ApiVersionSet_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForApiVersionSet_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApiVersionSet_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())

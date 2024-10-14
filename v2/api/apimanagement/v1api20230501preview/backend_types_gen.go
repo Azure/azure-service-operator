@@ -29,8 +29,8 @@ import (
 type Backend struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Backend_Spec   `json:"spec,omitempty"`
-	Status            Service_Backend_STATUS `json:"status,omitempty"`
+	Spec              Backend_Spec   `json:"spec,omitempty"`
+	Status            Backend_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Backend{}
@@ -148,7 +148,7 @@ func (backend *Backend) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (backend *Backend) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Backend_STATUS{}
+	return &Backend_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -160,13 +160,13 @@ func (backend *Backend) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (backend *Backend) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Backend_STATUS); ok {
+	if st, ok := status.(*Backend_STATUS); ok {
 		backend.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Backend_STATUS
+	var st Backend_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,18 +264,18 @@ func (backend *Backend) AssignProperties_From_Backend(source *storage.Backend) e
 	backend.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_Backend_Spec
-	err := spec.AssignProperties_From_Service_Backend_Spec(&source.Spec)
+	var spec Backend_Spec
+	err := spec.AssignProperties_From_Backend_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Backend_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Backend_Spec() to populate field Spec")
 	}
 	backend.Spec = spec
 
 	// Status
-	var status Service_Backend_STATUS
-	err = status.AssignProperties_From_Service_Backend_STATUS(&source.Status)
+	var status Backend_STATUS
+	err = status.AssignProperties_From_Backend_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Backend_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Backend_STATUS() to populate field Status")
 	}
 	backend.Status = status
 
@@ -290,18 +290,18 @@ func (backend *Backend) AssignProperties_To_Backend(destination *storage.Backend
 	destination.ObjectMeta = *backend.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_Backend_Spec
-	err := backend.Spec.AssignProperties_To_Service_Backend_Spec(&spec)
+	var spec storage.Backend_Spec
+	err := backend.Spec.AssignProperties_To_Backend_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Backend_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Backend_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_Backend_STATUS
-	err = backend.Status.AssignProperties_To_Service_Backend_STATUS(&status)
+	var status storage.Backend_STATUS
+	err = backend.Status.AssignProperties_To_Backend_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Backend_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Backend_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -328,7 +328,7 @@ type BackendList struct {
 	Items           []Backend `json:"items"`
 }
 
-type Service_Backend_Spec struct {
+type Backend_Spec struct {
 	// +kubebuilder:validation:MaxLength=80
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -387,14 +387,14 @@ type Service_Backend_Spec struct {
 	Url *string `json:"url,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Service_Backend_Spec{}
+var _ genruntime.ARMTransformer = &Backend_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if backend == nil {
 		return nil, nil
 	}
-	result := &Service_Backend_Spec_ARM{}
+	result := &Backend_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -498,15 +498,15 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backend *Service_Backend_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Backend_Spec_ARM{}
+func (backend *Backend_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Backend_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (backend *Service_Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_Backend_Spec_ARM)
+func (backend *Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Backend_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Backend_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backend_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -657,25 +657,25 @@ func (backend *Service_Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Backend_Spec{}
+var _ genruntime.ConvertibleSpec = &Backend_Spec{}
 
-// ConvertSpecFrom populates our Service_Backend_Spec from the provided source
-func (backend *Service_Backend_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_Backend_Spec)
+// ConvertSpecFrom populates our Backend_Spec from the provided source
+func (backend *Backend_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.Backend_Spec)
 	if ok {
 		// Populate our instance from source
-		return backend.AssignProperties_From_Service_Backend_Spec(src)
+		return backend.AssignProperties_From_Backend_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Backend_Spec{}
+	src = &storage.Backend_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = backend.AssignProperties_From_Service_Backend_Spec(src)
+	err = backend.AssignProperties_From_Backend_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -683,17 +683,17 @@ func (backend *Service_Backend_Spec) ConvertSpecFrom(source genruntime.Convertib
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Backend_Spec
-func (backend *Service_Backend_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_Backend_Spec)
+// ConvertSpecTo populates the provided destination from our Backend_Spec
+func (backend *Backend_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.Backend_Spec)
 	if ok {
 		// Populate destination from our instance
-		return backend.AssignProperties_To_Service_Backend_Spec(dst)
+		return backend.AssignProperties_To_Backend_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Backend_Spec{}
-	err := backend.AssignProperties_To_Service_Backend_Spec(dst)
+	dst = &storage.Backend_Spec{}
+	err := backend.AssignProperties_To_Backend_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -707,8 +707,8 @@ func (backend *Service_Backend_Spec) ConvertSpecTo(destination genruntime.Conver
 	return nil
 }
 
-// AssignProperties_From_Service_Backend_Spec populates our Service_Backend_Spec from the provided source Service_Backend_Spec
-func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(source *storage.Service_Backend_Spec) error {
+// AssignProperties_From_Backend_Spec populates our Backend_Spec from the provided source Backend_Spec
+func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.Backend_Spec) error {
 
 	// AzureName
 	backend.AzureName = source.AzureName
@@ -847,8 +847,8 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 	return nil
 }
 
-// AssignProperties_To_Service_Backend_Spec populates the provided destination Service_Backend_Spec from our Service_Backend_Spec
-func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(destination *storage.Service_Backend_Spec) error {
+// AssignProperties_To_Backend_Spec populates the provided destination Backend_Spec from our Backend_Spec
+func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *storage.Backend_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -998,14 +998,14 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (backend *Service_Backend_Spec) OriginalVersion() string {
+func (backend *Backend_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (backend *Service_Backend_Spec) SetAzureName(azureName string) { backend.AzureName = azureName }
+func (backend *Backend_Spec) SetAzureName(azureName string) { backend.AzureName = azureName }
 
-type Service_Backend_STATUS struct {
+type Backend_STATUS struct {
 	// CircuitBreaker: Backend Circuit Breaker Configuration
 	CircuitBreaker *BackendCircuitBreaker_STATUS `json:"circuitBreaker,omitempty"`
 
@@ -1057,25 +1057,25 @@ type Service_Backend_STATUS struct {
 	Url *string `json:"url,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Backend_STATUS{}
+var _ genruntime.ConvertibleStatus = &Backend_STATUS{}
 
-// ConvertStatusFrom populates our Service_Backend_STATUS from the provided source
-func (backend *Service_Backend_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_Backend_STATUS)
+// ConvertStatusFrom populates our Backend_STATUS from the provided source
+func (backend *Backend_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.Backend_STATUS)
 	if ok {
 		// Populate our instance from source
-		return backend.AssignProperties_From_Service_Backend_STATUS(src)
+		return backend.AssignProperties_From_Backend_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Backend_STATUS{}
+	src = &storage.Backend_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = backend.AssignProperties_From_Service_Backend_STATUS(src)
+	err = backend.AssignProperties_From_Backend_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1083,17 +1083,17 @@ func (backend *Service_Backend_STATUS) ConvertStatusFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Backend_STATUS
-func (backend *Service_Backend_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_Backend_STATUS)
+// ConvertStatusTo populates the provided destination from our Backend_STATUS
+func (backend *Backend_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.Backend_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return backend.AssignProperties_To_Service_Backend_STATUS(dst)
+		return backend.AssignProperties_To_Backend_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Backend_STATUS{}
-	err := backend.AssignProperties_To_Service_Backend_STATUS(dst)
+	dst = &storage.Backend_STATUS{}
+	err := backend.AssignProperties_To_Backend_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1107,18 +1107,18 @@ func (backend *Service_Backend_STATUS) ConvertStatusTo(destination genruntime.Co
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Service_Backend_STATUS{}
+var _ genruntime.FromARMConverter = &Backend_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backend *Service_Backend_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Backend_STATUS_ARM{}
+func (backend *Backend_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Backend_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (backend *Service_Backend_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_Backend_STATUS_ARM)
+func (backend *Backend_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Backend_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Backend_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backend_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "CircuitBreaker":
@@ -1287,8 +1287,8 @@ func (backend *Service_Backend_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignProperties_From_Service_Backend_STATUS populates our Service_Backend_STATUS from the provided source Service_Backend_STATUS
-func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STATUS(source *storage.Service_Backend_STATUS) error {
+// AssignProperties_From_Backend_STATUS populates our Backend_STATUS from the provided source Backend_STATUS
+func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *storage.Backend_STATUS) error {
 
 	// CircuitBreaker
 	if source.CircuitBreaker != nil {
@@ -1408,8 +1408,8 @@ func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STA
 	return nil
 }
 
-// AssignProperties_To_Service_Backend_STATUS populates the provided destination Service_Backend_STATUS from our Service_Backend_STATUS
-func (backend *Service_Backend_STATUS) AssignProperties_To_Service_Backend_STATUS(destination *storage.Service_Backend_STATUS) error {
+// AssignProperties_To_Backend_STATUS populates the provided destination Backend_STATUS from our Backend_STATUS
+func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *storage.Backend_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

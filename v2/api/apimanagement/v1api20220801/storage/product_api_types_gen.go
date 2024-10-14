@@ -28,8 +28,8 @@ import (
 type ProductApi struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Products_Api_Spec   `json:"spec,omitempty"`
-	Status            Service_Products_Api_STATUS `json:"status,omitempty"`
+	Spec              ProductApi_Spec   `json:"spec,omitempty"`
+	Status            ProductApi_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProductApi{}
@@ -87,7 +87,7 @@ func (productApi *ProductApi) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (productApi *ProductApi) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Products_Api_STATUS{}
+	return &ProductApi_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (productApi *ProductApi) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (productApi *ProductApi) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Products_Api_STATUS); ok {
+	if st, ok := status.(*ProductApi_STATUS); ok {
 		productApi.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Products_Api_STATUS
+	var st ProductApi_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type ProductApiList struct {
 	Items           []ProductApi `json:"items"`
 }
 
-// Storage version of v1api20220801.Service_Products_Api_Spec
-type Service_Products_Api_Spec struct {
+// Storage version of v1api20220801.ProductApi_Spec
+type ProductApi_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -153,50 +153,50 @@ type Service_Products_Api_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Products_Api_Spec{}
+var _ genruntime.ConvertibleSpec = &ProductApi_Spec{}
 
-// ConvertSpecFrom populates our Service_Products_Api_Spec from the provided source
-func (productsApi *Service_Products_Api_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == productsApi {
+// ConvertSpecFrom populates our ProductApi_Spec from the provided source
+func (productApi *ProductApi_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == productApi {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(productsApi)
+	return source.ConvertSpecTo(productApi)
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Products_Api_Spec
-func (productsApi *Service_Products_Api_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == productsApi {
+// ConvertSpecTo populates the provided destination from our ProductApi_Spec
+func (productApi *ProductApi_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == productApi {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(productsApi)
+	return destination.ConvertSpecFrom(productApi)
 }
 
-// Storage version of v1api20220801.Service_Products_Api_STATUS
-type Service_Products_Api_STATUS struct {
+// Storage version of v1api20220801.ProductApi_STATUS
+type ProductApi_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Products_Api_STATUS{}
+var _ genruntime.ConvertibleStatus = &ProductApi_STATUS{}
 
-// ConvertStatusFrom populates our Service_Products_Api_STATUS from the provided source
-func (productsApi *Service_Products_Api_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == productsApi {
+// ConvertStatusFrom populates our ProductApi_STATUS from the provided source
+func (productApi *ProductApi_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == productApi {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(productsApi)
+	return source.ConvertStatusTo(productApi)
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Products_Api_STATUS
-func (productsApi *Service_Products_Api_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == productsApi {
+// ConvertStatusTo populates the provided destination from our ProductApi_STATUS
+func (productApi *ProductApi_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == productApi {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(productsApi)
+	return destination.ConvertStatusFrom(productApi)
 }
 
 func init() {

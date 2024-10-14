@@ -29,8 +29,8 @@ import (
 type Product struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Product_Spec   `json:"spec,omitempty"`
-	Status            Service_Product_STATUS `json:"status,omitempty"`
+	Spec              Product_Spec   `json:"spec,omitempty"`
+	Status            Product_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Product{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &Product{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (product *Product) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Service_Product_STATUS); ok {
-		return product.Spec.Initialize_From_Service_Product_STATUS(s)
+	if s, ok := status.(*Product_STATUS); ok {
+		return product.Spec.Initialize_From_Product_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Service_Product_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type Product_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Product{}
@@ -145,7 +145,7 @@ func (product *Product) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (product *Product) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Product_STATUS{}
+	return &Product_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -157,13 +157,13 @@ func (product *Product) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (product *Product) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Product_STATUS); ok {
+	if st, ok := status.(*Product_STATUS); ok {
 		product.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Product_STATUS
+	var st Product_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -261,18 +261,18 @@ func (product *Product) AssignProperties_From_Product(source *storage.Product) e
 	product.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_Product_Spec
-	err := spec.AssignProperties_From_Service_Product_Spec(&source.Spec)
+	var spec Product_Spec
+	err := spec.AssignProperties_From_Product_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Product_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Product_Spec() to populate field Spec")
 	}
 	product.Spec = spec
 
 	// Status
-	var status Service_Product_STATUS
-	err = status.AssignProperties_From_Service_Product_STATUS(&source.Status)
+	var status Product_STATUS
+	err = status.AssignProperties_From_Product_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Product_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Product_STATUS() to populate field Status")
 	}
 	product.Status = status
 
@@ -287,18 +287,18 @@ func (product *Product) AssignProperties_To_Product(destination *storage.Product
 	destination.ObjectMeta = *product.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_Product_Spec
-	err := product.Spec.AssignProperties_To_Service_Product_Spec(&spec)
+	var spec storage.Product_Spec
+	err := product.Spec.AssignProperties_To_Product_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Product_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Product_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_Product_STATUS
-	err = product.Status.AssignProperties_To_Service_Product_STATUS(&status)
+	var status storage.Product_STATUS
+	err = product.Status.AssignProperties_To_Product_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Product_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Product_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -325,7 +325,7 @@ type ProductList struct {
 	Items           []Product `json:"items"`
 }
 
-type Service_Product_Spec struct {
+type Product_Spec struct {
 	// ApprovalRequired: whether subscription approval is required. If false, new subscriptions will be approved automatically
 	// enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually
 	// approve the subscription before the developer can any of the product’s APIs. Can be present only if
@@ -376,14 +376,14 @@ type Service_Product_Spec struct {
 	Terms *string `json:"terms,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Service_Product_Spec{}
+var _ genruntime.ARMTransformer = &Product_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (product *Service_Product_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (product *Product_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if product == nil {
 		return nil, nil
 	}
-	result := &Service_Product_Spec_ARM{}
+	result := &Product_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -432,15 +432,15 @@ func (product *Service_Product_Spec) ConvertToARM(resolved genruntime.ConvertToA
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (product *Service_Product_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Product_Spec_ARM{}
+func (product *Product_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Product_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (product *Service_Product_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_Product_Spec_ARM)
+func (product *Product_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Product_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Product_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Product_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "ApprovalRequired":
@@ -521,25 +521,25 @@ func (product *Service_Product_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Product_Spec{}
+var _ genruntime.ConvertibleSpec = &Product_Spec{}
 
-// ConvertSpecFrom populates our Service_Product_Spec from the provided source
-func (product *Service_Product_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_Product_Spec)
+// ConvertSpecFrom populates our Product_Spec from the provided source
+func (product *Product_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.Product_Spec)
 	if ok {
 		// Populate our instance from source
-		return product.AssignProperties_From_Service_Product_Spec(src)
+		return product.AssignProperties_From_Product_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Product_Spec{}
+	src = &storage.Product_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = product.AssignProperties_From_Service_Product_Spec(src)
+	err = product.AssignProperties_From_Product_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -547,17 +547,17 @@ func (product *Service_Product_Spec) ConvertSpecFrom(source genruntime.Convertib
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Product_Spec
-func (product *Service_Product_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_Product_Spec)
+// ConvertSpecTo populates the provided destination from our Product_Spec
+func (product *Product_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.Product_Spec)
 	if ok {
 		// Populate destination from our instance
-		return product.AssignProperties_To_Service_Product_Spec(dst)
+		return product.AssignProperties_To_Product_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Product_Spec{}
-	err := product.AssignProperties_To_Service_Product_Spec(dst)
+	dst = &storage.Product_Spec{}
+	err := product.AssignProperties_To_Product_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -571,8 +571,8 @@ func (product *Service_Product_Spec) ConvertSpecTo(destination genruntime.Conver
 	return nil
 }
 
-// AssignProperties_From_Service_Product_Spec populates our Service_Product_Spec from the provided source Service_Product_Spec
-func (product *Service_Product_Spec) AssignProperties_From_Service_Product_Spec(source *storage.Service_Product_Spec) error {
+// AssignProperties_From_Product_Spec populates our Product_Spec from the provided source Product_Spec
+func (product *Product_Spec) AssignProperties_From_Product_Spec(source *storage.Product_Spec) error {
 
 	// ApprovalRequired
 	if source.ApprovalRequired != nil {
@@ -636,8 +636,8 @@ func (product *Service_Product_Spec) AssignProperties_From_Service_Product_Spec(
 	return nil
 }
 
-// AssignProperties_To_Service_Product_Spec populates the provided destination Service_Product_Spec from our Service_Product_Spec
-func (product *Service_Product_Spec) AssignProperties_To_Service_Product_Spec(destination *storage.Service_Product_Spec) error {
+// AssignProperties_To_Product_Spec populates the provided destination Product_Spec from our Product_Spec
+func (product *Product_Spec) AssignProperties_To_Product_Spec(destination *storage.Product_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -712,8 +712,8 @@ func (product *Service_Product_Spec) AssignProperties_To_Service_Product_Spec(de
 	return nil
 }
 
-// Initialize_From_Service_Product_STATUS populates our Service_Product_Spec from the provided source Service_Product_STATUS
-func (product *Service_Product_Spec) Initialize_From_Service_Product_STATUS(source *Service_Product_STATUS) error {
+// Initialize_From_Product_STATUS populates our Product_Spec from the provided source Product_STATUS
+func (product *Product_Spec) Initialize_From_Product_STATUS(source *Product_STATUS) error {
 
 	// ApprovalRequired
 	if source.ApprovalRequired != nil {
@@ -766,14 +766,14 @@ func (product *Service_Product_Spec) Initialize_From_Service_Product_STATUS(sour
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (product *Service_Product_Spec) OriginalVersion() string {
+func (product *Product_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (product *Service_Product_Spec) SetAzureName(azureName string) { product.AzureName = azureName }
+func (product *Product_Spec) SetAzureName(azureName string) { product.AzureName = azureName }
 
-type Service_Product_STATUS struct {
+type Product_STATUS struct {
 	// ApprovalRequired: whether subscription approval is required. If false, new subscriptions will be approved automatically
 	// enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually
 	// approve the subscription before the developer can any of the product’s APIs. Can be present only if
@@ -820,25 +820,25 @@ type Service_Product_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Product_STATUS{}
+var _ genruntime.ConvertibleStatus = &Product_STATUS{}
 
-// ConvertStatusFrom populates our Service_Product_STATUS from the provided source
-func (product *Service_Product_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_Product_STATUS)
+// ConvertStatusFrom populates our Product_STATUS from the provided source
+func (product *Product_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.Product_STATUS)
 	if ok {
 		// Populate our instance from source
-		return product.AssignProperties_From_Service_Product_STATUS(src)
+		return product.AssignProperties_From_Product_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Product_STATUS{}
+	src = &storage.Product_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = product.AssignProperties_From_Service_Product_STATUS(src)
+	err = product.AssignProperties_From_Product_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -846,17 +846,17 @@ func (product *Service_Product_STATUS) ConvertStatusFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Product_STATUS
-func (product *Service_Product_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_Product_STATUS)
+// ConvertStatusTo populates the provided destination from our Product_STATUS
+func (product *Product_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.Product_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return product.AssignProperties_To_Service_Product_STATUS(dst)
+		return product.AssignProperties_To_Product_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Product_STATUS{}
-	err := product.AssignProperties_To_Service_Product_STATUS(dst)
+	dst = &storage.Product_STATUS{}
+	err := product.AssignProperties_To_Product_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -870,18 +870,18 @@ func (product *Service_Product_STATUS) ConvertStatusTo(destination genruntime.Co
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Service_Product_STATUS{}
+var _ genruntime.FromARMConverter = &Product_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (product *Service_Product_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Product_STATUS_ARM{}
+func (product *Product_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Product_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (product *Service_Product_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_Product_STATUS_ARM)
+func (product *Product_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Product_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Product_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Product_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "ApprovalRequired":
@@ -973,8 +973,8 @@ func (product *Service_Product_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignProperties_From_Service_Product_STATUS populates our Service_Product_STATUS from the provided source Service_Product_STATUS
-func (product *Service_Product_STATUS) AssignProperties_From_Service_Product_STATUS(source *storage.Service_Product_STATUS) error {
+// AssignProperties_From_Product_STATUS populates our Product_STATUS from the provided source Product_STATUS
+func (product *Product_STATUS) AssignProperties_From_Product_STATUS(source *storage.Product_STATUS) error {
 
 	// ApprovalRequired
 	if source.ApprovalRequired != nil {
@@ -1029,8 +1029,8 @@ func (product *Service_Product_STATUS) AssignProperties_From_Service_Product_STA
 	return nil
 }
 
-// AssignProperties_To_Service_Product_STATUS populates the provided destination Service_Product_STATUS from our Service_Product_STATUS
-func (product *Service_Product_STATUS) AssignProperties_To_Service_Product_STATUS(destination *storage.Service_Product_STATUS) error {
+// AssignProperties_To_Product_STATUS populates the provided destination Product_STATUS from our Product_STATUS
+func (product *Product_STATUS) AssignProperties_To_Product_STATUS(destination *storage.Product_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

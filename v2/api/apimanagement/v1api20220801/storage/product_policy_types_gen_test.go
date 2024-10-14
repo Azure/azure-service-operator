@@ -74,24 +74,24 @@ func ProductPolicyGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForProductPolicy is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForProductPolicy(gens map[string]gopter.Gen) {
-	gens["Spec"] = Service_Products_Policy_SpecGenerator()
-	gens["Status"] = Service_Products_Policy_STATUSGenerator()
+	gens["Spec"] = ProductPolicy_SpecGenerator()
+	gens["Status"] = ProductPolicy_STATUSGenerator()
 }
 
-func Test_Service_Products_Policy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ProductPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Products_Policy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Products_Policy_STATUS, Service_Products_Policy_STATUSGenerator()))
+		"Round trip of ProductPolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProductPolicy_STATUS, ProductPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Products_Policy_STATUS runs a test to see if a specific instance of Service_Products_Policy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Products_Policy_STATUS(subject Service_Products_Policy_STATUS) string {
+// RunJSONSerializationTestForProductPolicy_STATUS runs a test to see if a specific instance of ProductPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForProductPolicy_STATUS(subject ProductPolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -99,7 +99,7 @@ func RunJSONSerializationTestForService_Products_Policy_STATUS(subject Service_P
 	}
 
 	// Deserialize back into memory
-	var actual Service_Products_Policy_STATUS
+	var actual ProductPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -117,25 +117,25 @@ func RunJSONSerializationTestForService_Products_Policy_STATUS(subject Service_P
 	return ""
 }
 
-// Generator of Service_Products_Policy_STATUS instances for property testing - lazily instantiated by
-// Service_Products_Policy_STATUSGenerator()
-var service_Products_Policy_STATUSGenerator gopter.Gen
+// Generator of ProductPolicy_STATUS instances for property testing - lazily instantiated by
+// ProductPolicy_STATUSGenerator()
+var productPolicy_STATUSGenerator gopter.Gen
 
-// Service_Products_Policy_STATUSGenerator returns a generator of Service_Products_Policy_STATUS instances for property testing.
-func Service_Products_Policy_STATUSGenerator() gopter.Gen {
-	if service_Products_Policy_STATUSGenerator != nil {
-		return service_Products_Policy_STATUSGenerator
+// ProductPolicy_STATUSGenerator returns a generator of ProductPolicy_STATUS instances for property testing.
+func ProductPolicy_STATUSGenerator() gopter.Gen {
+	if productPolicy_STATUSGenerator != nil {
+		return productPolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Products_Policy_STATUS(generators)
-	service_Products_Policy_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Products_Policy_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForProductPolicy_STATUS(generators)
+	productPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(ProductPolicy_STATUS{}), generators)
 
-	return service_Products_Policy_STATUSGenerator
+	return productPolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_Products_Policy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Products_Policy_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProductPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProductPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Format"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -143,20 +143,20 @@ func AddIndependentPropertyGeneratorsForService_Products_Policy_STATUS(gens map[
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Service_Products_Policy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ProductPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Products_Policy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Products_Policy_Spec, Service_Products_Policy_SpecGenerator()))
+		"Round trip of ProductPolicy_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProductPolicy_Spec, ProductPolicy_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Products_Policy_Spec runs a test to see if a specific instance of Service_Products_Policy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Products_Policy_Spec(subject Service_Products_Policy_Spec) string {
+// RunJSONSerializationTestForProductPolicy_Spec runs a test to see if a specific instance of ProductPolicy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProductPolicy_Spec(subject ProductPolicy_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -164,7 +164,7 @@ func RunJSONSerializationTestForService_Products_Policy_Spec(subject Service_Pro
 	}
 
 	// Deserialize back into memory
-	var actual Service_Products_Policy_Spec
+	var actual ProductPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -182,25 +182,24 @@ func RunJSONSerializationTestForService_Products_Policy_Spec(subject Service_Pro
 	return ""
 }
 
-// Generator of Service_Products_Policy_Spec instances for property testing - lazily instantiated by
-// Service_Products_Policy_SpecGenerator()
-var service_Products_Policy_SpecGenerator gopter.Gen
+// Generator of ProductPolicy_Spec instances for property testing - lazily instantiated by ProductPolicy_SpecGenerator()
+var productPolicy_SpecGenerator gopter.Gen
 
-// Service_Products_Policy_SpecGenerator returns a generator of Service_Products_Policy_Spec instances for property testing.
-func Service_Products_Policy_SpecGenerator() gopter.Gen {
-	if service_Products_Policy_SpecGenerator != nil {
-		return service_Products_Policy_SpecGenerator
+// ProductPolicy_SpecGenerator returns a generator of ProductPolicy_Spec instances for property testing.
+func ProductPolicy_SpecGenerator() gopter.Gen {
+	if productPolicy_SpecGenerator != nil {
+		return productPolicy_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Products_Policy_Spec(generators)
-	service_Products_Policy_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Products_Policy_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForProductPolicy_Spec(generators)
+	productPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(ProductPolicy_Spec{}), generators)
 
-	return service_Products_Policy_SpecGenerator
+	return productPolicy_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_Products_Policy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Products_Policy_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProductPolicy_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProductPolicy_Spec(gens map[string]gopter.Gen) {
 	gens["Format"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
