@@ -112,7 +112,7 @@ ServerFarm: Resource
     ├── Type: *string
     ├── WorkerTierName: *string
     └── ZoneRedundant: *bool
-Serverfarm_STATUS_ARM: Object (9 properties)
+ServerFarm_STATUS_ARM: Object (9 properties)
 ├── ExtendedLocation: *Object (2 properties)
 │   ├── Name: *string
 │   └── Type: *string
@@ -177,7 +177,7 @@ Serverfarm_STATUS_ARM: Object (9 properties)
 │   └── Tier: *string
 ├── Tags: map[string]string
 └── Type: *string
-Serverfarm_Spec_ARM: Object (7 properties)
+ServerFarm_Spec_ARM: Object (7 properties)
 ├── ExtendedLocation: *Object (1 property)
 │   └── Name: *string
 ├── Kind: *string

@@ -3,45 +3,53 @@
 // Licensed under the MIT license.
 package v1api20220301
 
-type Serverfarm_STATUS_ARM struct {
-	// ExtendedLocation: Extended Location.
-	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-	// Id: Resource Id.
-	Id *string `json:"id,omitempty"`
+type ServerFarm_Spec_ARM struct {
+	// ExtendedLocation: Extended Location.
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
 
 	// Location: Resource Location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Resource Name.
-	Name *string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: AppServicePlan resource specific properties
-	Properties *Serverfarm_Properties_STATUS_ARM `json:"properties,omitempty"`
+	Properties *Serverfarm_Properties_Spec_ARM `json:"properties,omitempty"`
 
 	// Sku: Description of a SKU for a scalable resource.
-	Sku *SkuDescription_STATUS_ARM `json:"sku,omitempty"`
+	Sku *SkuDescription_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
+}
 
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+var _ genruntime.ARMResourceSpec = &ServerFarm_Spec_ARM{}
+
+// GetAPIVersion returns the ARM API version of the resource. This is always "2022-03-01"
+func (farm ServerFarm_Spec_ARM) GetAPIVersion() string {
+	return "2022-03-01"
+}
+
+// GetName returns the Name of the resource
+func (farm *ServerFarm_Spec_ARM) GetName() string {
+	return farm.Name
+}
+
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Web/serverfarms"
+func (farm *ServerFarm_Spec_ARM) GetType() string {
+	return "Microsoft.Web/serverfarms"
 }
 
 // Extended Location.
-type ExtendedLocation_STATUS_ARM struct {
+type ExtendedLocation_ARM struct {
 	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
-
-	// Type: Type of extended location.
-	Type *string `json:"type,omitempty"`
 }
 
-type Serverfarm_Properties_STATUS_ARM struct {
+type Serverfarm_Properties_Spec_ARM struct {
 	// ElasticScaleEnabled: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was
 	// ElasticPremium sku
 	ElasticScaleEnabled *bool `json:"elasticScaleEnabled,omitempty"`
@@ -49,11 +57,8 @@ type Serverfarm_Properties_STATUS_ARM struct {
 	// FreeOfferExpirationTime: The time when the server farm free offer expires.
 	FreeOfferExpirationTime *string `json:"freeOfferExpirationTime,omitempty"`
 
-	// GeoRegion: Geographical location for the App Service plan.
-	GeoRegion *string `json:"geoRegion,omitempty"`
-
 	// HostingEnvironmentProfile: Specification for the App Service Environment to use for the App Service plan.
-	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUS_ARM `json:"hostingEnvironmentProfile,omitempty"`
+	HostingEnvironmentProfile *HostingEnvironmentProfile_ARM `json:"hostingEnvironmentProfile,omitempty"`
 
 	// HyperV: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
 	HyperV *bool `json:"hyperV,omitempty"`
@@ -65,41 +70,20 @@ type Serverfarm_Properties_STATUS_ARM struct {
 	IsXenon *bool `json:"isXenon,omitempty"`
 
 	// KubeEnvironmentProfile: Specification for the Kubernetes Environment to use for the App Service plan.
-	KubeEnvironmentProfile *KubeEnvironmentProfile_STATUS_ARM `json:"kubeEnvironmentProfile,omitempty"`
+	KubeEnvironmentProfile *KubeEnvironmentProfile_ARM `json:"kubeEnvironmentProfile,omitempty"`
 
 	// MaximumElasticWorkerCount: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
 	MaximumElasticWorkerCount *int `json:"maximumElasticWorkerCount,omitempty"`
-
-	// MaximumNumberOfWorkers: Maximum number of instances that can be assigned to this App Service plan.
-	MaximumNumberOfWorkers *int `json:"maximumNumberOfWorkers,omitempty"`
-
-	// NumberOfSites: Number of apps assigned to this App Service plan.
-	NumberOfSites *int `json:"numberOfSites,omitempty"`
-
-	// NumberOfWorkers: The number of instances that are assigned to this App Service plan.
-	NumberOfWorkers *int `json:"numberOfWorkers,omitempty"`
 
 	// PerSiteScaling: If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
 	// If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
 	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
 
-	// ProvisioningState: Provisioning state of the App Service Plan.
-	ProvisioningState *Serverfarm_Properties_ProvisioningState_STATUS_ARM `json:"provisioningState,omitempty"`
-
 	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
 	Reserved *bool `json:"reserved,omitempty"`
 
-	// ResourceGroup: Resource group of the App Service plan.
-	ResourceGroup *string `json:"resourceGroup,omitempty"`
-
 	// SpotExpirationTime: The time when the server farm expires. Valid only if it is a spot server farm.
 	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
-
-	// Status: App Service plan status.
-	Status *Serverfarm_Properties_Status_STATUS_ARM `json:"status,omitempty"`
-
-	// Subscription: App Service plan subscription.
-	Subscription *string `json:"subscription,omitempty"`
 
 	// TargetWorkerCount: Scaling worker count.
 	TargetWorkerCount *int `json:"targetWorkerCount,omitempty"`
@@ -116,9 +100,9 @@ type Serverfarm_Properties_STATUS_ARM struct {
 }
 
 // Description of a SKU for a scalable resource.
-type SkuDescription_STATUS_ARM struct {
+type SkuDescription_ARM struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
-	Capabilities []Capability_STATUS_ARM `json:"capabilities,omitempty"`
+	Capabilities []Capability_ARM `json:"capabilities,omitempty"`
 
 	// Capacity: Current number of instances assigned to the resource.
 	Capacity *int `json:"capacity,omitempty"`
@@ -136,14 +120,14 @@ type SkuDescription_STATUS_ARM struct {
 	Size *string `json:"size,omitempty"`
 
 	// SkuCapacity: Min, max, and default scale values of the SKU.
-	SkuCapacity *SkuCapacity_STATUS_ARM `json:"skuCapacity,omitempty"`
+	SkuCapacity *SkuCapacity_ARM `json:"skuCapacity,omitempty"`
 
 	// Tier: Service tier of the resource SKU.
 	Tier *string `json:"tier,omitempty"`
 }
 
 // Describes the capabilities/features allowed for a specific SKU.
-type Capability_STATUS_ARM struct {
+type Capability_ARM struct {
 	// Name: Name of the SKU capability.
 	Name *string `json:"name,omitempty"`
 
@@ -155,65 +139,17 @@ type Capability_STATUS_ARM struct {
 }
 
 // Specification for an App Service Environment to use for this resource.
-type HostingEnvironmentProfile_STATUS_ARM struct {
-	// Id: Resource ID of the App Service Environment.
+type HostingEnvironmentProfile_ARM struct {
 	Id *string `json:"id,omitempty"`
-
-	// Name: Name of the App Service Environment.
-	Name *string `json:"name,omitempty"`
-
-	// Type: Resource type of the App Service Environment.
-	Type *string `json:"type,omitempty"`
 }
 
 // Specification for a Kubernetes Environment to use for this resource.
-type KubeEnvironmentProfile_STATUS_ARM struct {
-	// Id: Resource ID of the Kubernetes Environment.
+type KubeEnvironmentProfile_ARM struct {
 	Id *string `json:"id,omitempty"`
-
-	// Name: Name of the Kubernetes Environment.
-	Name *string `json:"name,omitempty"`
-
-	// Type: Resource type of the Kubernetes Environment.
-	Type *string `json:"type,omitempty"`
-}
-
-type Serverfarm_Properties_ProvisioningState_STATUS_ARM string
-
-const (
-	Serverfarm_Properties_ProvisioningState_STATUS_ARM_Canceled   = Serverfarm_Properties_ProvisioningState_STATUS_ARM("Canceled")
-	Serverfarm_Properties_ProvisioningState_STATUS_ARM_Deleting   = Serverfarm_Properties_ProvisioningState_STATUS_ARM("Deleting")
-	Serverfarm_Properties_ProvisioningState_STATUS_ARM_Failed     = Serverfarm_Properties_ProvisioningState_STATUS_ARM("Failed")
-	Serverfarm_Properties_ProvisioningState_STATUS_ARM_InProgress = Serverfarm_Properties_ProvisioningState_STATUS_ARM("InProgress")
-	Serverfarm_Properties_ProvisioningState_STATUS_ARM_Succeeded  = Serverfarm_Properties_ProvisioningState_STATUS_ARM("Succeeded")
-)
-
-// Mapping from string to Serverfarm_Properties_ProvisioningState_STATUS_ARM
-var serverfarm_Properties_ProvisioningState_STATUS_ARM_Values = map[string]Serverfarm_Properties_ProvisioningState_STATUS_ARM{
-	"canceled":   Serverfarm_Properties_ProvisioningState_STATUS_ARM_Canceled,
-	"deleting":   Serverfarm_Properties_ProvisioningState_STATUS_ARM_Deleting,
-	"failed":     Serverfarm_Properties_ProvisioningState_STATUS_ARM_Failed,
-	"inprogress": Serverfarm_Properties_ProvisioningState_STATUS_ARM_InProgress,
-	"succeeded":  Serverfarm_Properties_ProvisioningState_STATUS_ARM_Succeeded,
-}
-
-type Serverfarm_Properties_Status_STATUS_ARM string
-
-const (
-	Serverfarm_Properties_Status_STATUS_ARM_Creating = Serverfarm_Properties_Status_STATUS_ARM("Creating")
-	Serverfarm_Properties_Status_STATUS_ARM_Pending  = Serverfarm_Properties_Status_STATUS_ARM("Pending")
-	Serverfarm_Properties_Status_STATUS_ARM_Ready    = Serverfarm_Properties_Status_STATUS_ARM("Ready")
-)
-
-// Mapping from string to Serverfarm_Properties_Status_STATUS_ARM
-var serverfarm_Properties_Status_STATUS_ARM_Values = map[string]Serverfarm_Properties_Status_STATUS_ARM{
-	"creating": Serverfarm_Properties_Status_STATUS_ARM_Creating,
-	"pending":  Serverfarm_Properties_Status_STATUS_ARM_Pending,
-	"ready":    Serverfarm_Properties_Status_STATUS_ARM_Ready,
 }
 
 // Description of the App Service plan scale options.
-type SkuCapacity_STATUS_ARM struct {
+type SkuCapacity_ARM struct {
 	// Default: Default number of workers for this App Service plan SKU.
 	Default *int `json:"default,omitempty"`
 

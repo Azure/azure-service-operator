@@ -268,6 +268,90 @@ func AddIndependentPropertyGeneratorsForKubeEnvironmentProfile_STATUS_ARM(gens m
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServerFarm_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerFarm_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerFarm_STATUS_ARM, ServerFarm_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerFarm_STATUS_ARM runs a test to see if a specific instance of ServerFarm_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerFarm_STATUS_ARM(subject ServerFarm_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerFarm_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerFarm_STATUS_ARM instances for property testing - lazily instantiated by
+// ServerFarm_STATUS_ARMGenerator()
+var serverFarm_STATUS_ARMGenerator gopter.Gen
+
+// ServerFarm_STATUS_ARMGenerator returns a generator of ServerFarm_STATUS_ARM instances for property testing.
+// We first initialize serverFarm_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServerFarm_STATUS_ARMGenerator() gopter.Gen {
+	if serverFarm_STATUS_ARMGenerator != nil {
+		return serverFarm_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerFarm_STATUS_ARM(generators)
+	serverFarm_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServerFarm_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerFarm_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForServerFarm_STATUS_ARM(generators)
+	serverFarm_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServerFarm_STATUS_ARM{}), generators)
+
+	return serverFarm_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerFarm_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerFarm_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Kind"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServerFarm_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerFarm_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(Serverfarm_Properties_STATUS_ARMGenerator())
+	gens["Sku"] = gen.PtrOf(SkuDescription_STATUS_ARMGenerator())
+}
+
 func Test_Serverfarm_Properties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -367,90 +451,6 @@ func AddIndependentPropertyGeneratorsForServerfarm_Properties_STATUS_ARM(gens ma
 func AddRelatedPropertyGeneratorsForServerfarm_Properties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["HostingEnvironmentProfile"] = gen.PtrOf(HostingEnvironmentProfile_STATUS_ARMGenerator())
 	gens["KubeEnvironmentProfile"] = gen.PtrOf(KubeEnvironmentProfile_STATUS_ARMGenerator())
-}
-
-func Test_Serverfarm_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Serverfarm_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerfarm_STATUS_ARM, Serverfarm_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServerfarm_STATUS_ARM runs a test to see if a specific instance of Serverfarm_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerfarm_STATUS_ARM(subject Serverfarm_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Serverfarm_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Serverfarm_STATUS_ARM instances for property testing - lazily instantiated by
-// Serverfarm_STATUS_ARMGenerator()
-var serverfarm_STATUS_ARMGenerator gopter.Gen
-
-// Serverfarm_STATUS_ARMGenerator returns a generator of Serverfarm_STATUS_ARM instances for property testing.
-// We first initialize serverfarm_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Serverfarm_STATUS_ARMGenerator() gopter.Gen {
-	if serverfarm_STATUS_ARMGenerator != nil {
-		return serverfarm_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerfarm_STATUS_ARM(generators)
-	serverfarm_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Serverfarm_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerfarm_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForServerfarm_STATUS_ARM(generators)
-	serverfarm_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Serverfarm_STATUS_ARM{}), generators)
-
-	return serverfarm_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServerfarm_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerfarm_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForServerfarm_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServerfarm_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
-	gens["Properties"] = gen.PtrOf(Serverfarm_Properties_STATUS_ARMGenerator())
-	gens["Sku"] = gen.PtrOf(SkuDescription_STATUS_ARMGenerator())
 }
 
 func Test_SkuCapacity_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
