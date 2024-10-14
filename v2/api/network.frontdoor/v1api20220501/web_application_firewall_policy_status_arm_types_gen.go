@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20220501
 
-type FrontDoorWebApplicationFirewallPolicy_STATUS_ARM struct {
+type WebApplicationFirewallPolicy_STATUS_ARM struct {
 	// Etag: Gets a unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
