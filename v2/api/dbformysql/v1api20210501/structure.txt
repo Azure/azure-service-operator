@@ -379,6 +379,33 @@ FlexibleServersDatabase: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
+FlexibleServersDatabase_STATUS_ARM: Object (5 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (2 properties)
+│   ├── Charset: *string
+│   └── Collation: *string
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
+└── Type: *string
+FlexibleServersDatabase_Spec_ARM: Object (2 properties)
+├── Name: string
+└── Properties: *Object (2 properties)
+    ├── Charset: *string
+    └── Collation: *string
 FlexibleServersFirewallRule: Resource
 ├── Owner: FlexibleServer
 ├── Spec: Object (4 properties)
@@ -410,34 +437,7 @@ FlexibleServersFirewallRule: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
-FlexibleServers_Database_STATUS_ARM: Object (5 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (2 properties)
-│   ├── Charset: *string
-│   └── Collation: *string
-├── SystemData: *Object (6 properties)
-│   ├── CreatedAt: *string
-│   ├── CreatedBy: *string
-│   ├── CreatedByType: *Enum (4 values)
-│   │   ├── "Application"
-│   │   ├── "Key"
-│   │   ├── "ManagedIdentity"
-│   │   └── "User"
-│   ├── LastModifiedAt: *string
-│   ├── LastModifiedBy: *string
-│   └── LastModifiedByType: *Enum (4 values)
-│       ├── "Application"
-│       ├── "Key"
-│       ├── "ManagedIdentity"
-│       └── "User"
-└── Type: *string
-FlexibleServers_Database_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (2 properties)
-    ├── Charset: *string
-    └── Collation: *string
-FlexibleServers_FirewallRule_STATUS_ARM: Object (5 properties)
+FlexibleServersFirewallRule_STATUS_ARM: Object (5 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (2 properties)
@@ -459,7 +459,7 @@ FlexibleServers_FirewallRule_STATUS_ARM: Object (5 properties)
 │       ├── "ManagedIdentity"
 │       └── "User"
 └── Type: *string
-FlexibleServers_FirewallRule_Spec_ARM: Object (2 properties)
+FlexibleServersFirewallRule_Spec_ARM: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (2 properties)
     ├── EndIpAddress: *string

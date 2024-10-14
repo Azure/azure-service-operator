@@ -71,9 +71,9 @@ FlexibleServersConfiguration: Resource
     ├── Type: *string
     └── Value: *string
 augmentConversionForFlexibleServersAdministrator: Interface
+augmentConversionForFlexibleServersAdministrator_STATUS: Interface
+augmentConversionForFlexibleServersAdministrator_Spec: Interface
 augmentConversionForFlexibleServersConfiguration: Interface
-augmentConversionForFlexibleServers_Administrator_STATUS: Interface
-augmentConversionForFlexibleServers_Administrator_Spec: Interface
-augmentConversionForFlexibleServers_Configuration_STATUS: Interface
-augmentConversionForFlexibleServers_Configuration_Spec: Interface
+augmentConversionForFlexibleServersConfiguration_STATUS: Interface
+augmentConversionForFlexibleServersConfiguration_Spec: Interface
 augmentConversionForSystemData_STATUS: Interface
