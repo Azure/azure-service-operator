@@ -28,8 +28,8 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Container_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlDatabases_Container_STATUS `json:"status,omitempty"`
+	Spec              SqlDatabaseContainer_Spec   `json:"spec,omitempty"`
+	Status            SqlDatabaseContainer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -87,7 +87,7 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlDatabases_Container_STATUS{}
+	return &SqlDatabaseContainer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Container_STATUS); ok {
+	if st, ok := status.(*SqlDatabaseContainer_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlDatabases_Container_STATUS
+	var st SqlDatabaseContainer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type SqlDatabaseContainerList struct {
 	Items           []SqlDatabaseContainer `json:"items"`
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabases_Container_Spec
-type DatabaseAccounts_SqlDatabases_Container_Spec struct {
+// Storage version of v1api20231115.SqlDatabaseContainer_Spec
+type SqlDatabaseContainer_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -157,10 +157,10 @@ type DatabaseAccounts_SqlDatabases_Container_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Container_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlDatabaseContainer_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Container_Spec from the provided source
-func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our SqlDatabaseContainer_Spec from the provided source
+func (container *SqlDatabaseContainer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -168,8 +168,8 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertSpecFrom(s
 	return source.ConvertSpecTo(container)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Container_Spec
-func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our SqlDatabaseContainer_Spec
+func (container *SqlDatabaseContainer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -177,8 +177,8 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertSpecTo(des
 	return destination.ConvertSpecFrom(container)
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabases_Container_STATUS
-type DatabaseAccounts_SqlDatabases_Container_STATUS struct {
+// Storage version of v1api20231115.SqlDatabaseContainer_STATUS
+type SqlDatabaseContainer_STATUS struct {
 	Conditions  []conditions.Condition                     `json:"conditions,omitempty"`
 	Id          *string                                    `json:"id,omitempty"`
 	Location    *string                                    `json:"location,omitempty"`
@@ -190,10 +190,10 @@ type DatabaseAccounts_SqlDatabases_Container_STATUS struct {
 	Type        *string                                    `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Container_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlDatabaseContainer_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Container_STATUS from the provided source
-func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SqlDatabaseContainer_STATUS from the provided source
+func (container *SqlDatabaseContainer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -201,8 +201,8 @@ func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) ConvertStatusFr
 	return source.ConvertStatusTo(container)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Container_STATUS
-func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SqlDatabaseContainer_STATUS
+func (container *SqlDatabaseContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

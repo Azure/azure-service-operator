@@ -28,8 +28,8 @@ import (
 type SqlRoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlRoleAssignment_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlRoleAssignment_STATUS `json:"status,omitempty"`
+	Spec              SqlRoleAssignment_Spec   `json:"spec,omitempty"`
+	Status            SqlRoleAssignment_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlRoleAssignment{}
@@ -87,7 +87,7 @@ func (assignment *SqlRoleAssignment) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (assignment *SqlRoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlRoleAssignment_STATUS{}
+	return &SqlRoleAssignment_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (assignment *SqlRoleAssignment) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (assignment *SqlRoleAssignment) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlRoleAssignment_STATUS); ok {
+	if st, ok := status.(*SqlRoleAssignment_STATUS); ok {
 		assignment.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlRoleAssignment_STATUS
+	var st SqlRoleAssignment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type SqlRoleAssignmentList struct {
 	Items           []SqlRoleAssignment `json:"items"`
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlRoleAssignment_Spec
-type DatabaseAccounts_SqlRoleAssignment_Spec struct {
+// Storage version of v1api20231115.SqlRoleAssignment_Spec
+type SqlRoleAssignment_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -157,10 +157,10 @@ type DatabaseAccounts_SqlRoleAssignment_Spec struct {
 	Scope                 *string                            `json:"scope,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlRoleAssignment_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlRoleAssignment_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlRoleAssignment_Spec from the provided source
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our SqlRoleAssignment_Spec from the provided source
+func (assignment *SqlRoleAssignment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == assignment {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -168,8 +168,8 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecFrom(sourc
 	return source.ConvertSpecTo(assignment)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlRoleAssignment_Spec
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our SqlRoleAssignment_Spec
+func (assignment *SqlRoleAssignment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == assignment {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -177,8 +177,8 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecTo(destina
 	return destination.ConvertSpecFrom(assignment)
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlRoleAssignment_STATUS
-type DatabaseAccounts_SqlRoleAssignment_STATUS struct {
+// Storage version of v1api20231115.SqlRoleAssignment_STATUS
+type SqlRoleAssignment_STATUS struct {
 	Conditions       []conditions.Condition `json:"conditions,omitempty"`
 	Id               *string                `json:"id,omitempty"`
 	Name             *string                `json:"name,omitempty"`
@@ -189,10 +189,10 @@ type DatabaseAccounts_SqlRoleAssignment_STATUS struct {
 	Type             *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlRoleAssignment_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlRoleAssignment_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlRoleAssignment_STATUS from the provided source
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SqlRoleAssignment_STATUS from the provided source
+func (assignment *SqlRoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == assignment {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -200,8 +200,8 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusFrom(s
 	return source.ConvertStatusTo(assignment)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlRoleAssignment_STATUS
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SqlRoleAssignment_STATUS
+func (assignment *SqlRoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == assignment {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

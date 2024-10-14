@@ -340,252 +340,6 @@ func AddRelatedPropertyGeneratorsForCreateUpdateOptions(gens map[string]gopter.G
 	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsGenerator())
 }
 
-func Test_DatabaseAccounts_MongodbDatabase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DatabaseAccounts_MongodbDatabase_STATUS to DatabaseAccounts_MongodbDatabase_STATUS via AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS & AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_STATUS, DatabaseAccounts_MongodbDatabase_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_STATUS tests if a specific instance of DatabaseAccounts_MongodbDatabase_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_STATUS(subject DatabaseAccounts_MongodbDatabase_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DatabaseAccounts_MongodbDatabase_STATUS
-	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DatabaseAccounts_MongodbDatabase_STATUS
-	err = actual.AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_DatabaseAccounts_MongodbDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DatabaseAccounts_MongodbDatabase_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_MongodbDatabase_STATUS, DatabaseAccounts_MongodbDatabase_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDatabaseAccounts_MongodbDatabase_STATUS runs a test to see if a specific instance of DatabaseAccounts_MongodbDatabase_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabase_STATUS(subject DatabaseAccounts_MongodbDatabase_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DatabaseAccounts_MongodbDatabase_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DatabaseAccounts_MongodbDatabase_STATUS instances for property testing - lazily instantiated by
-// DatabaseAccounts_MongodbDatabase_STATUSGenerator()
-var databaseAccounts_MongodbDatabase_STATUSGenerator gopter.Gen
-
-// DatabaseAccounts_MongodbDatabase_STATUSGenerator returns a generator of DatabaseAccounts_MongodbDatabase_STATUS instances for property testing.
-// We first initialize databaseAccounts_MongodbDatabase_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DatabaseAccounts_MongodbDatabase_STATUSGenerator() gopter.Gen {
-	if databaseAccounts_MongodbDatabase_STATUSGenerator != nil {
-		return databaseAccounts_MongodbDatabase_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_STATUS(generators)
-	databaseAccounts_MongodbDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabase_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_STATUS(generators)
-	databaseAccounts_MongodbDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabase_STATUS{}), generators)
-
-	return databaseAccounts_MongodbDatabase_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_STATUS(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(OptionsResource_STATUSGenerator())
-	gens["Resource"] = gen.PtrOf(MongoDBDatabaseGetProperties_Resource_STATUSGenerator())
-}
-
-func Test_DatabaseAccounts_MongodbDatabase_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DatabaseAccounts_MongodbDatabase_Spec to DatabaseAccounts_MongodbDatabase_Spec via AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec & AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_Spec, DatabaseAccounts_MongodbDatabase_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_Spec tests if a specific instance of DatabaseAccounts_MongodbDatabase_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_Spec(subject DatabaseAccounts_MongodbDatabase_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DatabaseAccounts_MongodbDatabase_Spec
-	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DatabaseAccounts_MongodbDatabase_Spec
-	err = actual.AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_DatabaseAccounts_MongodbDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DatabaseAccounts_MongodbDatabase_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_MongodbDatabase_Spec, DatabaseAccounts_MongodbDatabase_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDatabaseAccounts_MongodbDatabase_Spec runs a test to see if a specific instance of DatabaseAccounts_MongodbDatabase_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabase_Spec(subject DatabaseAccounts_MongodbDatabase_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DatabaseAccounts_MongodbDatabase_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DatabaseAccounts_MongodbDatabase_Spec instances for property testing - lazily instantiated by
-// DatabaseAccounts_MongodbDatabase_SpecGenerator()
-var databaseAccounts_MongodbDatabase_SpecGenerator gopter.Gen
-
-// DatabaseAccounts_MongodbDatabase_SpecGenerator returns a generator of DatabaseAccounts_MongodbDatabase_Spec instances for property testing.
-// We first initialize databaseAccounts_MongodbDatabase_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func DatabaseAccounts_MongodbDatabase_SpecGenerator() gopter.Gen {
-	if databaseAccounts_MongodbDatabase_SpecGenerator != nil {
-		return databaseAccounts_MongodbDatabase_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_Spec(generators)
-	databaseAccounts_MongodbDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabase_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_Spec(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_Spec(generators)
-	databaseAccounts_MongodbDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabase_Spec{}), generators)
-
-	return databaseAccounts_MongodbDatabase_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_Spec(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
-	gens["Resource"] = gen.PtrOf(MongoDBDatabaseResourceGenerator())
-}
-
 func Test_MongoDBDatabaseGetProperties_Resource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -967,8 +721,254 @@ func MongodbDatabaseGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForMongodbDatabase is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabase(gens map[string]gopter.Gen) {
-	gens["Spec"] = DatabaseAccounts_MongodbDatabase_SpecGenerator()
-	gens["Status"] = DatabaseAccounts_MongodbDatabase_STATUSGenerator()
+	gens["Spec"] = MongodbDatabase_SpecGenerator()
+	gens["Status"] = MongodbDatabase_STATUSGenerator()
+}
+
+func Test_MongodbDatabase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongodbDatabase_STATUS to MongodbDatabase_STATUS via AssignProperties_To_MongodbDatabase_STATUS & AssignProperties_From_MongodbDatabase_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongodbDatabase_STATUS, MongodbDatabase_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMongodbDatabase_STATUS tests if a specific instance of MongodbDatabase_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMongodbDatabase_STATUS(subject MongodbDatabase_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.MongodbDatabase_STATUS
+	err := copied.AssignProperties_To_MongodbDatabase_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MongodbDatabase_STATUS
+	err = actual.AssignProperties_From_MongodbDatabase_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MongodbDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MongodbDatabase_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongodbDatabase_STATUS, MongodbDatabase_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMongodbDatabase_STATUS runs a test to see if a specific instance of MongodbDatabase_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongodbDatabase_STATUS(subject MongodbDatabase_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MongodbDatabase_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MongodbDatabase_STATUS instances for property testing - lazily instantiated by
+// MongodbDatabase_STATUSGenerator()
+var mongodbDatabase_STATUSGenerator gopter.Gen
+
+// MongodbDatabase_STATUSGenerator returns a generator of MongodbDatabase_STATUS instances for property testing.
+// We first initialize mongodbDatabase_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func MongodbDatabase_STATUSGenerator() gopter.Gen {
+	if mongodbDatabase_STATUSGenerator != nil {
+		return mongodbDatabase_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMongodbDatabase_STATUS(generators)
+	mongodbDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(MongodbDatabase_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMongodbDatabase_STATUS(generators)
+	AddRelatedPropertyGeneratorsForMongodbDatabase_STATUS(generators)
+	mongodbDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(MongodbDatabase_STATUS{}), generators)
+
+	return mongodbDatabase_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMongodbDatabase_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongodbDatabase_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForMongodbDatabase_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongodbDatabase_STATUS(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(OptionsResource_STATUSGenerator())
+	gens["Resource"] = gen.PtrOf(MongoDBDatabaseGetProperties_Resource_STATUSGenerator())
+}
+
+func Test_MongodbDatabase_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongodbDatabase_Spec to MongodbDatabase_Spec via AssignProperties_To_MongodbDatabase_Spec & AssignProperties_From_MongodbDatabase_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongodbDatabase_Spec, MongodbDatabase_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMongodbDatabase_Spec tests if a specific instance of MongodbDatabase_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMongodbDatabase_Spec(subject MongodbDatabase_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.MongodbDatabase_Spec
+	err := copied.AssignProperties_To_MongodbDatabase_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MongodbDatabase_Spec
+	err = actual.AssignProperties_From_MongodbDatabase_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MongodbDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MongodbDatabase_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongodbDatabase_Spec, MongodbDatabase_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMongodbDatabase_Spec runs a test to see if a specific instance of MongodbDatabase_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongodbDatabase_Spec(subject MongodbDatabase_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MongodbDatabase_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MongodbDatabase_Spec instances for property testing - lazily instantiated by
+// MongodbDatabase_SpecGenerator()
+var mongodbDatabase_SpecGenerator gopter.Gen
+
+// MongodbDatabase_SpecGenerator returns a generator of MongodbDatabase_Spec instances for property testing.
+// We first initialize mongodbDatabase_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func MongodbDatabase_SpecGenerator() gopter.Gen {
+	if mongodbDatabase_SpecGenerator != nil {
+		return mongodbDatabase_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMongodbDatabase_Spec(generators)
+	mongodbDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(MongodbDatabase_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMongodbDatabase_Spec(generators)
+	AddRelatedPropertyGeneratorsForMongodbDatabase_Spec(generators)
+	mongodbDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(MongodbDatabase_Spec{}), generators)
+
+	return mongodbDatabase_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMongodbDatabase_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongodbDatabase_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForMongodbDatabase_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongodbDatabase_Spec(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
+	gens["Resource"] = gen.PtrOf(MongoDBDatabaseResourceGenerator())
 }
 
 func Test_OptionsResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

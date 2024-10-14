@@ -29,8 +29,8 @@ import (
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_MongodbDatabase_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_MongodbDatabase_STATUS `json:"status,omitempty"`
+	Spec              MongodbDatabase_Spec   `json:"spec,omitempty"`
+	Status            MongodbDatabase_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -147,7 +147,7 @@ func (database *MongodbDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_MongodbDatabase_STATUS{}
+	return &MongodbDatabase_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -159,13 +159,13 @@ func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_MongodbDatabase_STATUS); ok {
+	if st, ok := status.(*MongodbDatabase_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_MongodbDatabase_STATUS
+	var st MongodbDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,18 +263,18 @@ func (database *MongodbDatabase) AssignProperties_From_MongodbDatabase(source *s
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_MongodbDatabase_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec(&source.Spec)
+	var spec MongodbDatabase_Spec
+	err := spec.AssignProperties_From_MongodbDatabase_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_MongodbDatabase_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
 	// Status
-	var status DatabaseAccounts_MongodbDatabase_STATUS
-	err = status.AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS(&source.Status)
+	var status MongodbDatabase_STATUS
+	err = status.AssignProperties_From_MongodbDatabase_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_MongodbDatabase_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -289,18 +289,18 @@ func (database *MongodbDatabase) AssignProperties_To_MongodbDatabase(destination
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.DatabaseAccounts_MongodbDatabase_Spec
-	err := database.Spec.AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(&spec)
+	var spec storage.MongodbDatabase_Spec
+	err := database.Spec.AssignProperties_To_MongodbDatabase_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_MongodbDatabase_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.DatabaseAccounts_MongodbDatabase_STATUS
-	err = database.Status.AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(&status)
+	var status storage.MongodbDatabase_STATUS
+	err = database.Status.AssignProperties_To_MongodbDatabase_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_MongodbDatabase_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -327,7 +327,7 @@ type MongodbDatabaseList struct {
 	Items           []MongodbDatabase `json:"items"`
 }
 
-type DatabaseAccounts_MongodbDatabase_Spec struct {
+type MongodbDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -351,14 +351,14 @@ type DatabaseAccounts_MongodbDatabase_Spec struct {
 	Tags     map[string]string        `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccounts_MongodbDatabase_Spec{}
+var _ genruntime.ARMTransformer = &MongodbDatabase_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (database *MongodbDatabase_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if database == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccounts_MongodbDatabase_Spec_ARM{}
+	result := &MongodbDatabase_Spec_ARM{}
 
 	// Set property "Location":
 	if database.Location != nil {
@@ -401,15 +401,15 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertToARM(resolved gen
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (database *DatabaseAccounts_MongodbDatabase_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_MongodbDatabase_Spec_ARM{}
+func (database *MongodbDatabase_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &MongodbDatabase_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (database *DatabaseAccounts_MongodbDatabase_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabase_Spec_ARM)
+func (database *MongodbDatabase_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(MongodbDatabase_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabase_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongodbDatabase_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -467,25 +467,25 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) PopulateFromARM(owner gen
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabase_Spec{}
+var _ genruntime.ConvertibleSpec = &MongodbDatabase_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabase_Spec from the provided source
-func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.DatabaseAccounts_MongodbDatabase_Spec)
+// ConvertSpecFrom populates our MongodbDatabase_Spec from the provided source
+func (database *MongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.MongodbDatabase_Spec)
 	if ok {
 		// Populate our instance from source
-		return database.AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec(src)
+		return database.AssignProperties_From_MongodbDatabase_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_MongodbDatabase_Spec{}
+	src = &storage.MongodbDatabase_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec(src)
+	err = database.AssignProperties_From_MongodbDatabase_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -493,17 +493,17 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecFrom(source ge
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_Spec
-func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_MongodbDatabase_Spec)
+// ConvertSpecTo populates the provided destination from our MongodbDatabase_Spec
+func (database *MongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.MongodbDatabase_Spec)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(dst)
+		return database.AssignProperties_To_MongodbDatabase_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_MongodbDatabase_Spec{}
-	err := database.AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(dst)
+	dst = &storage.MongodbDatabase_Spec{}
+	err := database.AssignProperties_To_MongodbDatabase_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -517,8 +517,8 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecTo(destination
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec populates our DatabaseAccounts_MongodbDatabase_Spec from the provided source DatabaseAccounts_MongodbDatabase_Spec
-func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec(source *storage.DatabaseAccounts_MongodbDatabase_Spec) error {
+// AssignProperties_From_MongodbDatabase_Spec populates our MongodbDatabase_Spec from the provided source MongodbDatabase_Spec
+func (database *MongodbDatabase_Spec) AssignProperties_From_MongodbDatabase_Spec(source *storage.MongodbDatabase_Spec) error {
 
 	// AzureName
 	database.AzureName = source.AzureName
@@ -565,8 +565,8 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_From_Dat
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec populates the provided destination DatabaseAccounts_MongodbDatabase_Spec from our DatabaseAccounts_MongodbDatabase_Spec
-func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(destination *storage.DatabaseAccounts_MongodbDatabase_Spec) error {
+// AssignProperties_To_MongodbDatabase_Spec populates the provided destination MongodbDatabase_Spec from our MongodbDatabase_Spec
+func (database *MongodbDatabase_Spec) AssignProperties_To_MongodbDatabase_Spec(destination *storage.MongodbDatabase_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -626,16 +626,14 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_To_Datab
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (database *DatabaseAccounts_MongodbDatabase_Spec) OriginalVersion() string {
+func (database *MongodbDatabase_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (database *DatabaseAccounts_MongodbDatabase_Spec) SetAzureName(azureName string) {
-	database.AzureName = azureName
-}
+func (database *MongodbDatabase_Spec) SetAzureName(azureName string) { database.AzureName = azureName }
 
-type DatabaseAccounts_MongodbDatabase_STATUS struct {
+type MongodbDatabase_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -657,25 +655,25 @@ type DatabaseAccounts_MongodbDatabase_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabase_STATUS{}
+var _ genruntime.ConvertibleStatus = &MongodbDatabase_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabase_STATUS from the provided source
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.DatabaseAccounts_MongodbDatabase_STATUS)
+// ConvertStatusFrom populates our MongodbDatabase_STATUS from the provided source
+func (database *MongodbDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.MongodbDatabase_STATUS)
 	if ok {
 		// Populate our instance from source
-		return database.AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS(src)
+		return database.AssignProperties_From_MongodbDatabase_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_MongodbDatabase_STATUS{}
+	src = &storage.MongodbDatabase_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS(src)
+	err = database.AssignProperties_From_MongodbDatabase_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -683,17 +681,17 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusFrom(sourc
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_STATUS
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_MongodbDatabase_STATUS)
+// ConvertStatusTo populates the provided destination from our MongodbDatabase_STATUS
+func (database *MongodbDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.MongodbDatabase_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(dst)
+		return database.AssignProperties_To_MongodbDatabase_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_MongodbDatabase_STATUS{}
-	err := database.AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(dst)
+	dst = &storage.MongodbDatabase_STATUS{}
+	err := database.AssignProperties_To_MongodbDatabase_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -707,18 +705,18 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusTo(destina
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &DatabaseAccounts_MongodbDatabase_STATUS{}
+var _ genruntime.FromARMConverter = &MongodbDatabase_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_MongodbDatabase_STATUS_ARM{}
+func (database *MongodbDatabase_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &MongodbDatabase_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabase_STATUS_ARM)
+func (database *MongodbDatabase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(MongodbDatabase_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabase_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongodbDatabase_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -787,8 +785,8 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS populates our DatabaseAccounts_MongodbDatabase_STATUS from the provided source DatabaseAccounts_MongodbDatabase_STATUS
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS(source *storage.DatabaseAccounts_MongodbDatabase_STATUS) error {
+// AssignProperties_From_MongodbDatabase_STATUS populates our MongodbDatabase_STATUS from the provided source MongodbDatabase_STATUS
+func (database *MongodbDatabase_STATUS) AssignProperties_From_MongodbDatabase_STATUS(source *storage.MongodbDatabase_STATUS) error {
 
 	// Conditions
 	database.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -836,8 +834,8 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_From_D
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS populates the provided destination DatabaseAccounts_MongodbDatabase_STATUS from our DatabaseAccounts_MongodbDatabase_STATUS
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(destination *storage.DatabaseAccounts_MongodbDatabase_STATUS) error {
+// AssignProperties_To_MongodbDatabase_STATUS populates the provided destination MongodbDatabase_STATUS from our MongodbDatabase_STATUS
+func (database *MongodbDatabase_STATUS) AssignProperties_To_MongodbDatabase_STATUS(destination *storage.MongodbDatabase_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
