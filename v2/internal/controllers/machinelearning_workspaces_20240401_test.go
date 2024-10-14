@@ -111,7 +111,7 @@ func WorkspaceConnection_20240401_CRUD(tc *testcommon.KubePerTestContext, worksp
 
 	connection := &machinelearningservices.WorkspacesConnection{
 		ObjectMeta: tc.MakeObjectMeta("conn"),
-		Spec: machinelearningservices.Workspaces_Connection_Spec{
+		Spec: machinelearningservices.WorkspacesConnection_Spec{
 			Owner: testcommon.AsOwner(workspaces),
 			Properties: &machinelearningservices.WorkspaceConnectionPropertiesV2{
 				None: &machinelearningservices.NoneAuthTypeWorkspaceConnectionProperties{
@@ -161,7 +161,7 @@ func WorkspaceCompute_20240401_CRUD(tc *testcommon.KubePerTestContext, owner *ge
 func newWorkspacesCompute_20240401(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1api20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
 	wsCompute := &machinelearningservices.WorkspacesCompute{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("")),
-		Spec: machinelearningservices.Workspaces_Compute_Spec{
+		Spec: machinelearningservices.WorkspacesCompute_Spec{
 			Identity: &machinelearningservices.ManagedServiceIdentity{
 				Type: to.Ptr(machinelearningservices.ManagedServiceIdentityType_SystemAssigned),
 			},

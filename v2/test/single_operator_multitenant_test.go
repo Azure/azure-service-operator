@@ -219,7 +219,7 @@ func newManagedIdentity(tc *testcommon.KubePerTestContext, rg *resources.Resourc
 func newFederatedIdentityCredential(tc *testcommon.KubePerTestContext, umi *managedidentity.UserAssignedIdentity, issuer string) *managedidentity.FederatedIdentityCredential {
 	return &managedidentity.FederatedIdentityCredential{
 		ObjectMeta: tc.MakeObjectMetaWithName("fic"), // Safe to always use this name as it's per-mi
-		Spec: managedidentity.UserAssignedIdentities_FederatedIdentityCredential_Spec{
+		Spec: managedidentity.FederatedIdentityCredential_Spec{
 			Owner: testcommon.AsOwner(umi),
 			// For Workload Identity, Audiences should always be "api://AzureADTokenExchange"
 			Audiences: []string{

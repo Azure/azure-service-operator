@@ -188,7 +188,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) r
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: storage.StorageAccounts_BlobService_Spec{
+		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: &genruntime.KnownResourceReference{
 				Name: parentName,
 			},
@@ -208,7 +208,7 @@ func createChildResourceOwnedByARMID(armID string, name string) genruntime.ARMMe
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: storage.StorageAccounts_BlobService_Spec{
+		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: &genruntime.KnownResourceReference{
 				ARMID: armID,
 			},

@@ -139,7 +139,7 @@ func SQL_Server_ConnectionPolicy_CRUD(tc *testcommon.KubePerTestContext, server 
 	connectionType := sql.ServerConnectionPolicyProperties_ConnectionType_Default
 	policy := &sql.ServersConnectionPolicy{
 		ObjectMeta: tc.MakeObjectMeta("connpolicy"),
-		Spec: sql.Servers_ConnectionPolicy_Spec{
+		Spec: sql.ServersConnectionPolicy_Spec{
 			Owner:          testcommon.AsOwner(server),
 			ConnectionType: &connectionType,
 		},
@@ -157,7 +157,7 @@ func SQL_Server_AdvancedThreatProtection_CRUD(tc *testcommon.KubePerTestContext,
 	advancedThreatProtection := sql.AdvancedThreatProtectionProperties_State_Enabled
 	policy := &sql.ServersAdvancedThreatProtectionSetting{
 		ObjectMeta: tc.MakeObjectMeta("atp"),
-		Spec: sql.Servers_AdvancedThreatProtectionSetting_Spec{
+		Spec: sql.ServersAdvancedThreatProtectionSetting_Spec{
 			Owner: testcommon.AsOwner(server),
 			State: &advancedThreatProtection,
 		},
@@ -175,7 +175,7 @@ func SQL_Server_VulnerabilityAssessments_CRUD(tc *testcommon.KubePerTestContext,
 	enabled := sql.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Enabled
 	alertPolicy := &sql.ServersSecurityAlertPolicy{
 		ObjectMeta: tc.MakeObjectMeta("alertpolicy"),
-		Spec: sql.Servers_SecurityAlertPolicy_Spec{
+		Spec: sql.ServersSecurityAlertPolicy_Spec{
 			Owner: testcommon.AsOwner(server),
 			State: &enabled,
 		},
@@ -190,7 +190,7 @@ func SQL_Server_VulnerabilityAssessments_CRUD(tc *testcommon.KubePerTestContext,
 
 	vulnerabilityAssessment := &sql.ServersVulnerabilityAssessment{
 		ObjectMeta: tc.MakeObjectMeta("vulnassessment"),
-		Spec: sql.Servers_VulnerabilityAssessment_Spec{
+		Spec: sql.ServersVulnerabilityAssessment_Spec{
 			Owner: testcommon.AsOwner(server),
 			RecurringScans: &sql.VulnerabilityAssessmentRecurringScansProperties{
 				IsEnabled: to.Ptr(false),
@@ -221,7 +221,7 @@ func SQL_Server_VulnerabilityAssessments_CRUD(tc *testcommon.KubePerTestContext,
 func SQL_Server_FirewallRules_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server) {
 	firewall := &sql.ServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: sql.Servers_FirewallRule_Spec{
+		Spec: sql.ServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(server),
 			StartIpAddress: to.Ptr("0.0.0.0"),
 			EndIpAddress:   to.Ptr("0.0.0.0"),
@@ -240,7 +240,7 @@ func SQL_Server_FirewallRules_CRUD(tc *testcommon.KubePerTestContext, server *sq
 func SQL_Server_IPV6_FirewallRules_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server) {
 	firewall := &sql.ServersIPV6FirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: sql.Servers_Ipv6FirewallRule_Spec{
+		Spec: sql.ServersIPV6FirewallRule_Spec{
 			Owner:            testcommon.AsOwner(server),
 			StartIPv6Address: to.Ptr("2001:db8::"),
 			EndIPv6Address:   to.Ptr("2001:db8:0000:0000:0000:0000:00ff:ffff"),
@@ -263,7 +263,7 @@ func SQL_Server_AuditingSetting_CRUD(tc *testcommon.KubePerTestContext, server *
 	enabled := sql.ServerBlobAuditingPolicyProperties_State_Enabled
 	auditingSetting := &sql.ServersAuditingSetting{
 		ObjectMeta: tc.MakeObjectMeta("audit"),
-		Spec: sql.Servers_AuditingSetting_Spec{
+		Spec: sql.ServersAuditingSetting_Spec{
 			Owner:                        testcommon.AsOwner(server),
 			State:                        &enabled,
 			StorageAccountSubscriptionId: &tc.AzureSubscription, // TODO: Make this easier for users to set? Via configmap?
@@ -286,7 +286,7 @@ func SQL_Server_AuditingSetting_CRUD(tc *testcommon.KubePerTestContext, server *
 func SQL_Server_OutboundFirewallRule_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server) {
 	outboundRule := &sql.ServersOutboundFirewallRule{
 		ObjectMeta: tc.MakeObjectMetaWithName("outboundrule"),
-		Spec: sql.Servers_OutboundFirewallRule_Spec{
+		Spec: sql.ServersOutboundFirewallRule_Spec{
 			Owner:     testcommon.AsOwner(server),
 			AzureName: "server.database.windows.net",
 		},
@@ -367,7 +367,7 @@ func SQL_Server_OutboundFirewallRule_CRUD(tc *testcommon.KubePerTestContext, ser
 func SQL_Server_ElasticPool_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server) {
 	elasticPool := &sql.ServersElasticPool{
 		ObjectMeta: tc.MakeObjectMeta("pool"),
-		Spec: sql.Servers_ElasticPool_Spec{
+		Spec: sql.ServersElasticPool_Spec{
 			Owner:    testcommon.AsOwner(server),
 			Location: tc.AzureRegion,
 			Sku: &sql.Sku{
@@ -397,7 +397,7 @@ func SQL_Server_VirtualNetworkRule_CRUD(tc *testcommon.KubePerTestContext, serve
 
 	vnetRule := &sql.ServersVirtualNetworkRule{
 		ObjectMeta: tc.MakeObjectMeta("pool"),
-		Spec: sql.Servers_VirtualNetworkRule_Spec{
+		Spec: sql.ServersVirtualNetworkRule_Spec{
 			Owner:                         testcommon.AsOwner(server),
 			VirtualNetworkSubnetReference: tc.MakeReferenceFromResource(subnet),
 		},
@@ -417,7 +417,7 @@ func SQL_Server_VirtualNetworkRule_CRUD(tc *testcommon.KubePerTestContext, serve
 func SQL_Databases_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, storageDetails vulnStorageAccountDetails) {
 	db := &sql.ServersDatabase{
 		ObjectMeta: tc.MakeObjectMeta("db"),
-		Spec: sql.Servers_Database_Spec{
+		Spec: sql.ServersDatabase_Spec{
 			Owner:     testcommon.AsOwner(server),
 			Location:  tc.AzureRegion,
 			Collation: to.Ptr("SQL_Latin1_General_CP1_CI_AS"),
@@ -476,7 +476,7 @@ func SQL_Databases_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, s
 func SQL_BackupLongTermRetention_CRUD(tc *testcommon.KubePerTestContext, db *sql.ServersDatabase) {
 	policy := &sql.ServersDatabasesBackupLongTermRetentionPolicy{
 		ObjectMeta: tc.MakeObjectMeta("db"),
-		Spec: sql.Servers_Databases_BackupLongTermRetentionPolicy_Spec{
+		Spec: sql.ServersDatabasesBackupLongTermRetentionPolicy_Spec{
 			Owner:           testcommon.AsOwner(db),
 			WeeklyRetention: to.Ptr("P30D"),
 		},
@@ -490,7 +490,7 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 	enabled := sql.DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Enabled
 	securityAlertPolicy := &sql.ServersDatabasesSecurityAlertPolicy{
 		ObjectMeta: tc.MakeObjectMeta("alertpolicy"),
-		Spec: sql.Servers_Databases_SecurityAlertPolicy_Spec{
+		Spec: sql.ServersDatabasesSecurityAlertPolicy_Spec{
 			Owner: testcommon.AsOwner(db),
 			State: &enabled,
 		},
@@ -505,7 +505,7 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 
 	vulnerabilityAssessment := &sql.ServersDatabasesVulnerabilityAssessment{
 		ObjectMeta: tc.MakeObjectMeta("vulnassessment"),
-		Spec: sql.Servers_Databases_VulnerabilityAssessment_Spec{
+		Spec: sql.ServersDatabasesVulnerabilityAssessment_Spec{
 			Owner: testcommon.AsOwner(db),
 			RecurringScans: &sql.VulnerabilityAssessmentRecurringScansProperties{
 				IsEnabled: to.Ptr(false),
@@ -540,7 +540,7 @@ func SQL_Database_AuditingSetting_CRUD(tc *testcommon.KubePerTestContext, db *sq
 	enabled := sql.DatabaseBlobAuditingPolicyProperties_State_Enabled
 	auditingSetting := &sql.ServersDatabasesAuditingSetting{
 		ObjectMeta: tc.MakeObjectMeta("audit"),
-		Spec: sql.Servers_Databases_AuditingSetting_Spec{
+		Spec: sql.ServersDatabasesAuditingSetting_Spec{
 			Owner:                        testcommon.AsOwner(db),
 			State:                        &enabled,
 			StorageAccountSubscriptionId: &tc.AzureSubscription, // TODO: Make this easier for users to set? Via configmap?
@@ -564,7 +564,7 @@ func SQL_Database_TransparentDataEncryption_CRUD(tc *testcommon.KubePerTestConte
 	enabled := sql.TransparentDataEncryptionProperties_State_Enabled
 	transparentDataEncryption := &sql.ServersDatabasesTransparentDataEncryption{
 		ObjectMeta: tc.MakeObjectMeta("encrypt"),
-		Spec: sql.Servers_Databases_TransparentDataEncryption_Spec{
+		Spec: sql.ServersDatabasesTransparentDataEncryption_Spec{
 			Owner: testcommon.AsOwner(db),
 			State: &enabled,
 		},
@@ -582,7 +582,7 @@ func SQL_Database_AdvancedThreatProtection_CRUD(tc *testcommon.KubePerTestContex
 	enabled := sql.AdvancedThreatProtectionProperties_State_Enabled
 	advancedProtection := &sql.ServersDatabasesAdvancedThreatProtectionSetting{
 		ObjectMeta: tc.MakeObjectMeta("atp"),
-		Spec: sql.Servers_Databases_AdvancedThreatProtectionSetting_Spec{
+		Spec: sql.ServersDatabasesAdvancedThreatProtectionSetting_Spec{
 			Owner: testcommon.AsOwner(db),
 			State: &enabled,
 		},
@@ -641,13 +641,13 @@ func makeStorageAccountForSQLVulnerabilityAssessment(tc *testcommon.KubePerTestC
 	}
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccounts_BlobService_Spec{
+		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(vulnerabilityAssessmentsContainerName),
-		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
+		Spec: storage.StorageAccountsBlobServicesContainer_Spec{
 			Owner: testcommon.AsOwner(blobService),
 		},
 	}
@@ -678,7 +678,7 @@ func makeSubnetForSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Res
 
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworks_Subnet_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: to.Ptr("10.0.0.0/24"),
 			ServiceEndpoints: []network.ServiceEndpointPropertiesFormat{

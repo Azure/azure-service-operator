@@ -28,7 +28,7 @@ func Test_Networking_VirtualNetworkGateway_CRUD(t *testing.T) {
 	subnet := &network.VirtualNetworksSubnet{
 		// Name should always be 'gatewaysubnet'
 		ObjectMeta: tc.MakeObjectMetaWithName("gatewaysubnet"),
-		Spec: network.VirtualNetworks_Subnet_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: to.Ptr("10.0.0.0/24"),
 		},

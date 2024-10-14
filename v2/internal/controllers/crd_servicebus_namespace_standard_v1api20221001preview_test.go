@@ -89,7 +89,7 @@ func ServiceBus_AuthorizationRule_v1api20221001preview_CRUD(tc *testcommon.KubeP
 
 	rule := &servicebus.NamespacesAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("rule")),
-		Spec: servicebus.Namespaces_AuthorizationRule_Spec{
+		Spec: servicebus.NamespacesAuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(sbNamespace),
 			Rights: []servicebus.Namespaces_AuthorizationRule_Properties_Rights_Spec{
 				servicebus.Namespaces_AuthorizationRule_Properties_Rights_Spec_Listen,
@@ -130,7 +130,7 @@ func ServiceBus_AuthorizationRule_v1api20221001preview_CRUD(tc *testcommon.KubeP
 func ServiceBus_Topic_v1api20221001preview_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	topic := &servicebus.NamespacesTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
-		Spec: servicebus.Namespaces_Topic_Spec{
+		Spec: servicebus.NamespacesTopic_Spec{
 			Owner: testcommon.AsOwner(sbNamespace),
 		},
 	}
@@ -155,7 +155,7 @@ func ServiceBus_Topic_v1api20221001preview_CRUD(tc *testcommon.KubePerTestContex
 func ServiceBus_Subscription_v1api20221001preview_CRUD(tc *testcommon.KubePerTestContext, sbTopic client.Object) {
 	subscription := &servicebus.NamespacesTopicsSubscription{
 		ObjectMeta: tc.MakeObjectMeta("subscription"),
-		Spec: servicebus.Namespaces_Topics_Subscription_Spec{
+		Spec: servicebus.NamespacesTopicsSubscription_Spec{
 			Owner: testcommon.AsOwner(sbTopic),
 		},
 	}
@@ -182,7 +182,7 @@ func ServiceBus_Subscription_v1api20221001preview_CRUD(tc *testcommon.KubePerTes
 func ServiceBus_Subscriptions_Rule_v1api20221001preview_CRUD(tc *testcommon.KubePerTestContext, sbSubscription client.Object) {
 	rule := &servicebus.NamespacesTopicsSubscriptionsRule{
 		ObjectMeta: tc.MakeObjectMeta("subrule"),
-		Spec: servicebus.Namespaces_Topics_Subscriptions_Rule_Spec{
+		Spec: servicebus.NamespacesTopicsSubscriptionsRule_Spec{
 			Owner: testcommon.AsOwner(sbSubscription),
 		},
 	}

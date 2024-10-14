@@ -71,7 +71,7 @@ func Test_NetworkFrontDoorFirewallPolicy_CRUD(t *testing.T) {
 func newAFDFirewall(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *frontdoor.WebApplicationFirewallPolicy {
 	return &frontdoor.WebApplicationFirewallPolicy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("firewall")),
-		Spec: frontdoor.FrontDoorWebApplicationFirewallPolicy_Spec{
+		Spec: frontdoor.WebApplicationFirewallPolicy_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: to.Ptr("global"),
 			Sku: &frontdoor.Sku{
