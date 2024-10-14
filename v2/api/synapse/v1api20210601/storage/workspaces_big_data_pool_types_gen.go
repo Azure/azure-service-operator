@@ -28,8 +28,8 @@ import (
 type WorkspacesBigDataPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_BigDataPool_Spec   `json:"spec,omitempty"`
-	Status            Workspaces_BigDataPool_STATUS `json:"status,omitempty"`
+	Spec              WorkspacesBigDataPool_Spec   `json:"spec,omitempty"`
+	Status            WorkspacesBigDataPool_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesBigDataPool{}
@@ -87,7 +87,7 @@ func (pool *WorkspacesBigDataPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *WorkspacesBigDataPool) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Workspaces_BigDataPool_STATUS{}
+	return &WorkspacesBigDataPool_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (pool *WorkspacesBigDataPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *WorkspacesBigDataPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Workspaces_BigDataPool_STATUS); ok {
+	if st, ok := status.(*WorkspacesBigDataPool_STATUS); ok {
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Workspaces_BigDataPool_STATUS
+	var st WorkspacesBigDataPool_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type WorkspacesBigDataPoolList struct {
 	Items           []WorkspacesBigDataPool `json:"items"`
 }
 
-// Storage version of v1api20210601.Workspaces_BigDataPool_Spec
-type Workspaces_BigDataPool_Spec struct {
+// Storage version of v1api20210601.WorkspacesBigDataPool_Spec
+type WorkspacesBigDataPool_Spec struct {
 	AutoPause *AutoPauseProperties `json:"autoPause,omitempty"`
 	AutoScale *AutoScaleProperties `json:"autoScale,omitempty"`
 
@@ -173,10 +173,10 @@ type Workspaces_BigDataPool_Spec struct {
 	Tags                        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_BigDataPool_Spec{}
+var _ genruntime.ConvertibleSpec = &WorkspacesBigDataPool_Spec{}
 
-// ConvertSpecFrom populates our Workspaces_BigDataPool_Spec from the provided source
-func (pool *Workspaces_BigDataPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our WorkspacesBigDataPool_Spec from the provided source
+func (pool *WorkspacesBigDataPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -184,8 +184,8 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertSpecFrom(source genruntime.Conve
 	return source.ConvertSpecTo(pool)
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_BigDataPool_Spec
-func (pool *Workspaces_BigDataPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our WorkspacesBigDataPool_Spec
+func (pool *WorkspacesBigDataPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -193,8 +193,8 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertSpecTo(destination genruntime.Co
 	return destination.ConvertSpecFrom(pool)
 }
 
-// Storage version of v1api20210601.Workspaces_BigDataPool_STATUS
-type Workspaces_BigDataPool_STATUS struct {
+// Storage version of v1api20210601.WorkspacesBigDataPool_STATUS
+type WorkspacesBigDataPool_STATUS struct {
 	AutoPause                   *AutoPauseProperties_STATUS       `json:"autoPause,omitempty"`
 	AutoScale                   *AutoScaleProperties_STATUS       `json:"autoScale,omitempty"`
 	CacheSize                   *int                              `json:"cacheSize,omitempty"`
@@ -223,10 +223,10 @@ type Workspaces_BigDataPool_STATUS struct {
 	Type                        *string                           `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Workspaces_BigDataPool_STATUS{}
+var _ genruntime.ConvertibleStatus = &WorkspacesBigDataPool_STATUS{}
 
-// ConvertStatusFrom populates our Workspaces_BigDataPool_STATUS from the provided source
-func (pool *Workspaces_BigDataPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our WorkspacesBigDataPool_STATUS from the provided source
+func (pool *WorkspacesBigDataPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -234,8 +234,8 @@ func (pool *Workspaces_BigDataPool_STATUS) ConvertStatusFrom(source genruntime.C
 	return source.ConvertStatusTo(pool)
 }
 
-// ConvertStatusTo populates the provided destination from our Workspaces_BigDataPool_STATUS
-func (pool *Workspaces_BigDataPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our WorkspacesBigDataPool_STATUS
+func (pool *WorkspacesBigDataPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

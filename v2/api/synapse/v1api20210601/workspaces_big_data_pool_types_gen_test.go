@@ -1422,36 +1422,36 @@ func WorkspacesBigDataPoolGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForWorkspacesBigDataPool is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspacesBigDataPool(gens map[string]gopter.Gen) {
-	gens["Spec"] = Workspaces_BigDataPool_SpecGenerator()
-	gens["Status"] = Workspaces_BigDataPool_STATUSGenerator()
+	gens["Spec"] = WorkspacesBigDataPool_SpecGenerator()
+	gens["Status"] = WorkspacesBigDataPool_STATUSGenerator()
 }
 
-func Test_Workspaces_BigDataPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WorkspacesBigDataPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Workspaces_BigDataPool_STATUS to Workspaces_BigDataPool_STATUS via AssignProperties_To_Workspaces_BigDataPool_STATUS & AssignProperties_From_Workspaces_BigDataPool_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_BigDataPool_STATUS, Workspaces_BigDataPool_STATUSGenerator()))
+		"Round trip from WorkspacesBigDataPool_STATUS to WorkspacesBigDataPool_STATUS via AssignProperties_To_WorkspacesBigDataPool_STATUS & AssignProperties_From_WorkspacesBigDataPool_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspacesBigDataPool_STATUS, WorkspacesBigDataPool_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaces_BigDataPool_STATUS tests if a specific instance of Workspaces_BigDataPool_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWorkspaces_BigDataPool_STATUS(subject Workspaces_BigDataPool_STATUS) string {
+// RunPropertyAssignmentTestForWorkspacesBigDataPool_STATUS tests if a specific instance of WorkspacesBigDataPool_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForWorkspacesBigDataPool_STATUS(subject WorkspacesBigDataPool_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Workspaces_BigDataPool_STATUS
-	err := copied.AssignProperties_To_Workspaces_BigDataPool_STATUS(&other)
+	var other storage.WorkspacesBigDataPool_STATUS
+	err := copied.AssignProperties_To_WorkspacesBigDataPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Workspaces_BigDataPool_STATUS
-	err = actual.AssignProperties_From_Workspaces_BigDataPool_STATUS(&other)
+	var actual WorkspacesBigDataPool_STATUS
+	err = actual.AssignProperties_From_WorkspacesBigDataPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1468,20 +1468,20 @@ func RunPropertyAssignmentTestForWorkspaces_BigDataPool_STATUS(subject Workspace
 	return ""
 }
 
-func Test_Workspaces_BigDataPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WorkspacesBigDataPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Workspaces_BigDataPool_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaces_BigDataPool_STATUS, Workspaces_BigDataPool_STATUSGenerator()))
+		"Round trip of WorkspacesBigDataPool_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspacesBigDataPool_STATUS, WorkspacesBigDataPool_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspaces_BigDataPool_STATUS runs a test to see if a specific instance of Workspaces_BigDataPool_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaces_BigDataPool_STATUS(subject Workspaces_BigDataPool_STATUS) string {
+// RunJSONSerializationTestForWorkspacesBigDataPool_STATUS runs a test to see if a specific instance of WorkspacesBigDataPool_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspacesBigDataPool_STATUS(subject WorkspacesBigDataPool_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1489,7 +1489,7 @@ func RunJSONSerializationTestForWorkspaces_BigDataPool_STATUS(subject Workspaces
 	}
 
 	// Deserialize back into memory
-	var actual Workspaces_BigDataPool_STATUS
+	var actual WorkspacesBigDataPool_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1507,34 +1507,34 @@ func RunJSONSerializationTestForWorkspaces_BigDataPool_STATUS(subject Workspaces
 	return ""
 }
 
-// Generator of Workspaces_BigDataPool_STATUS instances for property testing - lazily instantiated by
-// Workspaces_BigDataPool_STATUSGenerator()
-var workspaces_BigDataPool_STATUSGenerator gopter.Gen
+// Generator of WorkspacesBigDataPool_STATUS instances for property testing - lazily instantiated by
+// WorkspacesBigDataPool_STATUSGenerator()
+var workspacesBigDataPool_STATUSGenerator gopter.Gen
 
-// Workspaces_BigDataPool_STATUSGenerator returns a generator of Workspaces_BigDataPool_STATUS instances for property testing.
-// We first initialize workspaces_BigDataPool_STATUSGenerator with a simplified generator based on the
+// WorkspacesBigDataPool_STATUSGenerator returns a generator of WorkspacesBigDataPool_STATUS instances for property testing.
+// We first initialize workspacesBigDataPool_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Workspaces_BigDataPool_STATUSGenerator() gopter.Gen {
-	if workspaces_BigDataPool_STATUSGenerator != nil {
-		return workspaces_BigDataPool_STATUSGenerator
+func WorkspacesBigDataPool_STATUSGenerator() gopter.Gen {
+	if workspacesBigDataPool_STATUSGenerator != nil {
+		return workspacesBigDataPool_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_STATUS(generators)
-	workspaces_BigDataPool_STATUSGenerator = gen.Struct(reflect.TypeOf(Workspaces_BigDataPool_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_STATUS(generators)
+	workspacesBigDataPool_STATUSGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_STATUS(generators)
-	AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_STATUS(generators)
-	workspaces_BigDataPool_STATUSGenerator = gen.Struct(reflect.TypeOf(Workspaces_BigDataPool_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_STATUS(generators)
+	AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_STATUS(generators)
+	workspacesBigDataPool_STATUSGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_STATUS{}), generators)
 
-	return workspaces_BigDataPool_STATUSGenerator
+	return workspacesBigDataPool_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_STATUS(gens map[string]gopter.Gen) {
 	gens["CacheSize"] = gen.PtrOf(gen.Int())
 	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultSparkLogFolder"] = gen.PtrOf(gen.AlphaString())
@@ -1568,8 +1568,8 @@ func AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_STATUS(gens map[s
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_STATUS(gens map[string]gopter.Gen) {
 	gens["AutoPause"] = gen.PtrOf(AutoPauseProperties_STATUSGenerator())
 	gens["AutoScale"] = gen.PtrOf(AutoScaleProperties_STATUSGenerator())
 	gens["CustomLibraries"] = gen.SliceOf(LibraryInfo_STATUSGenerator())
@@ -1578,32 +1578,32 @@ func AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_STATUS(gens map[strin
 	gens["SparkConfigProperties"] = gen.PtrOf(SparkConfigProperties_STATUSGenerator())
 }
 
-func Test_Workspaces_BigDataPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WorkspacesBigDataPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Workspaces_BigDataPool_Spec to Workspaces_BigDataPool_Spec via AssignProperties_To_Workspaces_BigDataPool_Spec & AssignProperties_From_Workspaces_BigDataPool_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_BigDataPool_Spec, Workspaces_BigDataPool_SpecGenerator()))
+		"Round trip from WorkspacesBigDataPool_Spec to WorkspacesBigDataPool_Spec via AssignProperties_To_WorkspacesBigDataPool_Spec & AssignProperties_From_WorkspacesBigDataPool_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspacesBigDataPool_Spec, WorkspacesBigDataPool_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaces_BigDataPool_Spec tests if a specific instance of Workspaces_BigDataPool_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForWorkspaces_BigDataPool_Spec(subject Workspaces_BigDataPool_Spec) string {
+// RunPropertyAssignmentTestForWorkspacesBigDataPool_Spec tests if a specific instance of WorkspacesBigDataPool_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForWorkspacesBigDataPool_Spec(subject WorkspacesBigDataPool_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Workspaces_BigDataPool_Spec
-	err := copied.AssignProperties_To_Workspaces_BigDataPool_Spec(&other)
+	var other storage.WorkspacesBigDataPool_Spec
+	err := copied.AssignProperties_To_WorkspacesBigDataPool_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Workspaces_BigDataPool_Spec
-	err = actual.AssignProperties_From_Workspaces_BigDataPool_Spec(&other)
+	var actual WorkspacesBigDataPool_Spec
+	err = actual.AssignProperties_From_WorkspacesBigDataPool_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1620,20 +1620,20 @@ func RunPropertyAssignmentTestForWorkspaces_BigDataPool_Spec(subject Workspaces_
 	return ""
 }
 
-func Test_Workspaces_BigDataPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WorkspacesBigDataPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Workspaces_BigDataPool_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWorkspaces_BigDataPool_Spec, Workspaces_BigDataPool_SpecGenerator()))
+		"Round trip of WorkspacesBigDataPool_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspacesBigDataPool_Spec, WorkspacesBigDataPool_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWorkspaces_BigDataPool_Spec runs a test to see if a specific instance of Workspaces_BigDataPool_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWorkspaces_BigDataPool_Spec(subject Workspaces_BigDataPool_Spec) string {
+// RunJSONSerializationTestForWorkspacesBigDataPool_Spec runs a test to see if a specific instance of WorkspacesBigDataPool_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspacesBigDataPool_Spec(subject WorkspacesBigDataPool_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1641,7 +1641,7 @@ func RunJSONSerializationTestForWorkspaces_BigDataPool_Spec(subject Workspaces_B
 	}
 
 	// Deserialize back into memory
-	var actual Workspaces_BigDataPool_Spec
+	var actual WorkspacesBigDataPool_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1659,34 +1659,34 @@ func RunJSONSerializationTestForWorkspaces_BigDataPool_Spec(subject Workspaces_B
 	return ""
 }
 
-// Generator of Workspaces_BigDataPool_Spec instances for property testing - lazily instantiated by
-// Workspaces_BigDataPool_SpecGenerator()
-var workspaces_BigDataPool_SpecGenerator gopter.Gen
+// Generator of WorkspacesBigDataPool_Spec instances for property testing - lazily instantiated by
+// WorkspacesBigDataPool_SpecGenerator()
+var workspacesBigDataPool_SpecGenerator gopter.Gen
 
-// Workspaces_BigDataPool_SpecGenerator returns a generator of Workspaces_BigDataPool_Spec instances for property testing.
-// We first initialize workspaces_BigDataPool_SpecGenerator with a simplified generator based on the
+// WorkspacesBigDataPool_SpecGenerator returns a generator of WorkspacesBigDataPool_Spec instances for property testing.
+// We first initialize workspacesBigDataPool_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Workspaces_BigDataPool_SpecGenerator() gopter.Gen {
-	if workspaces_BigDataPool_SpecGenerator != nil {
-		return workspaces_BigDataPool_SpecGenerator
+func WorkspacesBigDataPool_SpecGenerator() gopter.Gen {
+	if workspacesBigDataPool_SpecGenerator != nil {
+		return workspacesBigDataPool_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec(generators)
-	workspaces_BigDataPool_SpecGenerator = gen.Struct(reflect.TypeOf(Workspaces_BigDataPool_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec(generators)
+	workspacesBigDataPool_SpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec(generators)
-	AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec(generators)
-	workspaces_BigDataPool_SpecGenerator = gen.Struct(reflect.TypeOf(Workspaces_BigDataPool_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec(generators)
+	AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec(generators)
+	workspacesBigDataPool_SpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPool_Spec{}), generators)
 
-	return workspaces_BigDataPool_SpecGenerator
+	return workspacesBigDataPool_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWorkspacesBigDataPool_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["CacheSize"] = gen.PtrOf(gen.Int())
 	gens["DefaultSparkLogFolder"] = gen.PtrOf(gen.AlphaString())
@@ -1716,8 +1716,8 @@ func AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec(gens map[str
 		gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec(gens map[string]gopter.Gen) {
 	gens["AutoPause"] = gen.PtrOf(AutoPausePropertiesGenerator())
 	gens["AutoScale"] = gen.PtrOf(AutoScalePropertiesGenerator())
 	gens["CustomLibraries"] = gen.SliceOf(LibraryInfoGenerator())

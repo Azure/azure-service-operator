@@ -56,5 +56,5 @@
 | Workspace_STATUS                                    | v1api20210601 |
 | Workspace_Spec                                      | v1api20210601 |
 | WorkspacesBigDataPool                               | v1api20210601 |
-| Workspaces_BigDataPool_STATUS                       | v1api20210601 |
-| Workspaces_BigDataPool_Spec                         | v1api20210601 |
+| WorkspacesBigDataPool_STATUS                        | v1api20210601 |
+| WorkspacesBigDataPool_Spec                          | v1api20210601 |
