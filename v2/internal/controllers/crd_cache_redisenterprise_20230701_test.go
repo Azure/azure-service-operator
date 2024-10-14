@@ -85,7 +85,7 @@ func RedisEnterprise_Database_20230701_CRUD(tc *testcommon.KubePerTestContext, r
 		// The RP currently only allows one database, which must be
 		// named "default", in a cluster.
 		ObjectMeta: tc.MakeObjectMetaWithName("default"),
-		Spec: cache.RedisEnterprise_Database_Spec{
+		Spec: cache.RedisEnterpriseDatabase_Spec{
 			Owner:            testcommon.AsOwner(redis),
 			ClientProtocol:   &encrypted,
 			ClusteringPolicy: &enterpriseCluster,

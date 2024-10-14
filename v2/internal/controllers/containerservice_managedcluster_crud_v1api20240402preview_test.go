@@ -124,7 +124,7 @@ func AKS_ManagedCluster_AgentPool_20240402preview_CRUD(tc *testcommon.KubePerTes
 
 	agentPool := &aks.ManagedClustersAgentPool{
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
-		Spec: aks.ManagedClusters_AgentPool_Spec{
+		Spec: aks.ManagedClustersAgentPool_Spec{
 			Owner:  testcommon.AsOwner(cluster),
 			Count:  to.Ptr(1),
 			VmSize: to.Ptr("Standard_DS2_v2"),

@@ -120,7 +120,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 func LoadBalancer_InboundNatRule_CRUD(tc *testcommon.KubePerTestContext, lb *network.LoadBalancer, frontendIPConfigurationARMID string) {
 	natRule := &network.LoadBalancersInboundNatRule{
 		ObjectMeta: tc.MakeObjectMeta("rule"),
-		Spec: network.LoadBalancers_InboundNatRule_Spec{
+		Spec: network.LoadBalancersInboundNatRule_Spec{
 			BackendPort: to.Ptr(22),
 			FrontendIPConfiguration: &network.SubResource{
 				Reference: &genruntime.ResourceReference{

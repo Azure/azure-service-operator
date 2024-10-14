@@ -86,7 +86,7 @@ func Test_FuzzySetRoute(t *testing.T) {
 	properties.Property(
 		"all subnet types can be converted between non-embedded and embedded",
 		arbitraries.ForAll(
-			func(route *network.RouteTables_Route_Spec_ARM) (bool, error) {
+			func(route *network.RouteTablesRoute_Spec_ARM) (bool, error) {
 				val := reflect.New(embeddedType)
 				bytes, err := json.Marshal(route)
 				if err != nil {

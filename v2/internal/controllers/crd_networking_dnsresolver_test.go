@@ -72,7 +72,7 @@ func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolve
 
 	inbound := &network.DnsResolversInboundEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("inbound"),
-		Spec: network.DnsResolvers_InboundEndpoint_Spec{
+		Spec: network.DnsResolversInboundEndpoint_Spec{
 			IpConfigurations: []network.IpConfiguration{
 				{
 					PrivateIpAllocationMethod: to.Ptr(network.IpConfiguration_PrivateIpAllocationMethod_Dynamic),
@@ -134,7 +134,7 @@ func DnsResolver_OutboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolv
 func newDnsResolversOutboundEndpoint(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, subnet *v1api20201101.VirtualNetworksSubnet) *network.DnsResolversOutboundEndpoint {
 	outbound := &network.DnsResolversOutboundEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("outbound"),
-		Spec: network.DnsResolvers_OutboundEndpoint_Spec{
+		Spec: network.DnsResolversOutboundEndpoint_Spec{
 			Subnet:   &network.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(subnet)},
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(resolver),

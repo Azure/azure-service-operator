@@ -128,7 +128,7 @@ func Test_CDN_Profile_AFD_CRUD(t *testing.T) {
 func newAFDEndpoint(tc *testcommon.KubePerTestContext, profile *cdn.Profile) *cdn.AfdEndpoint {
 	return &cdn.AfdEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("cdn-endpoint"),
-		Spec: cdn.Profiles_AfdEndpoint_Spec{
+		Spec: cdn.AfdEndpoint_Spec{
 			Owner:        testcommon.AsOwner(profile),
 			Location:     to.Ptr("Global"),
 			EnabledState: to.Ptr(cdn.AFDEndpointProperties_EnabledState_Enabled),
@@ -139,7 +139,7 @@ func newAFDEndpoint(tc *testcommon.KubePerTestContext, profile *cdn.Profile) *cd
 func newAFDOriginGroup(tc *testcommon.KubePerTestContext, profile *cdn.Profile) *cdn.AfdOriginGroup {
 	return &cdn.AfdOriginGroup{
 		ObjectMeta: tc.MakeObjectMeta("origingroup"),
-		Spec: cdn.Profiles_OriginGroup_Spec{
+		Spec: cdn.AfdOriginGroup_Spec{
 			Owner: testcommon.AsOwner(profile),
 			LoadBalancingSettings: &cdn.LoadBalancingSettingsParameters{
 				SampleSize:                to.Ptr(4),
@@ -158,7 +158,7 @@ func newAFDOriginGroup(tc *testcommon.KubePerTestContext, profile *cdn.Profile) 
 func newAFDOrigin(tc *testcommon.KubePerTestContext, originGroup *cdn.AfdOriginGroup) *cdn.AfdOrigin {
 	return &cdn.AfdOrigin{
 		ObjectMeta: tc.MakeObjectMeta("origin"),
-		Spec: cdn.Profiles_OriginGroups_Origin_Spec{
+		Spec: cdn.AfdOrigin_Spec{
 			Owner:    testcommon.AsOwner(originGroup),
 			HostName: to.Ptr("example.com"),
 			HttpPort: to.Ptr(80),
@@ -169,7 +169,7 @@ func newAFDOrigin(tc *testcommon.KubePerTestContext, originGroup *cdn.AfdOriginG
 func newRoute(tc *testcommon.KubePerTestContext, endpoint *cdn.AfdEndpoint, originGroup *cdn.AfdOriginGroup, ruleSet *cdn.RuleSet) *cdn.Route {
 	return &cdn.Route{
 		ObjectMeta: tc.MakeObjectMeta("route"),
-		Spec: cdn.Profiles_AfdEndpoints_Route_Spec{
+		Spec: cdn.Route_Spec{
 			Owner: testcommon.AsOwner(endpoint),
 			OriginGroup: &cdn.ResourceReference{
 				Reference: tc.MakeReferenceFromResource(originGroup),
@@ -196,7 +196,7 @@ func newRoute(tc *testcommon.KubePerTestContext, endpoint *cdn.AfdEndpoint, orig
 func newAFDCustomDomain(tc *testcommon.KubePerTestContext, profile *cdn.Profile) *cdn.AfdCustomDomain {
 	return &cdn.AfdCustomDomain{
 		ObjectMeta: tc.MakeObjectMeta("custdomain"),
-		Spec: cdn.Profiles_CustomDomain_Spec{
+		Spec: cdn.AfdCustomDomain_Spec{
 			Owner:    testcommon.AsOwner(profile),
 			HostName: to.Ptr("example.com"),
 		},
@@ -206,7 +206,7 @@ func newAFDCustomDomain(tc *testcommon.KubePerTestContext, profile *cdn.Profile)
 func newSecurityPolicy(tc *testcommon.KubePerTestContext, profile *cdn.Profile, endpoint *cdn.AfdEndpoint, firewall *frontdoor.WebApplicationFirewallPolicy) *cdn.SecurityPolicy {
 	return &cdn.SecurityPolicy{
 		ObjectMeta: tc.MakeObjectMeta("securitypolicy"),
-		Spec: cdn.Profiles_SecurityPolicy_Spec{
+		Spec: cdn.SecurityPolicy_Spec{
 			Owner: testcommon.AsOwner(profile),
 			Parameters: &cdn.SecurityPolicyPropertiesParameters{
 				WebApplicationFirewall: &cdn.SecurityPolicyWebApplicationFirewallParameters{
@@ -235,7 +235,7 @@ func newSecurityPolicy(tc *testcommon.KubePerTestContext, profile *cdn.Profile, 
 func newRuleSet(tc *testcommon.KubePerTestContext, profile *cdn.Profile) *cdn.RuleSet {
 	return &cdn.RuleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("ruleset")),
-		Spec: cdn.Profiles_RuleSet_Spec{
+		Spec: cdn.RuleSet_Spec{
 			Owner: testcommon.AsOwner(profile),
 		},
 	}
@@ -244,7 +244,7 @@ func newRuleSet(tc *testcommon.KubePerTestContext, profile *cdn.Profile) *cdn.Ru
 func newRule(tc *testcommon.KubePerTestContext, rule *cdn.RuleSet) *cdn.Rule {
 	return &cdn.Rule{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("rule")),
-		Spec: cdn.Profiles_RuleSets_Rule_Spec{
+		Spec: cdn.Rule_Spec{
 			Owner: testcommon.AsOwner(rule),
 			RuleConditions: []cdn.DeliveryRuleCondition{
 				{

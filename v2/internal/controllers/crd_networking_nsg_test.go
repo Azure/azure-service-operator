@@ -70,7 +70,7 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 	direction := network.SecurityRuleDirection_Inbound
 	rule1 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
-		Spec: network.NetworkSecurityGroups_SecurityRule_Spec{
+		Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 			Owner:                    testcommon.AsOwner(nsg),
 			Protocol:                 &protocol,
 			SourcePortRange:          to.Ptr("23-45"),
@@ -87,7 +87,7 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 	deny := network.SecurityRuleAccess_Deny
 	rule2 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule2"),
-		Spec: network.NetworkSecurityGroups_SecurityRule_Spec{
+		Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 			Owner:    testcommon.AsOwner(nsg),
 			Protocol: &protocol,
 			SourcePortRanges: []string{

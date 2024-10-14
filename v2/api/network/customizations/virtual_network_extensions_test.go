@@ -99,7 +99,7 @@ func Test_FuzzySetSubnet(t *testing.T) {
 	properties.Property(
 		"all subnet types can be converted between non-embedded and embedded",
 		arbitraries.ForAll(
-			func(subnet *network.VirtualNetworks_Subnet_Spec_ARM) (bool, error) {
+			func(subnet *network.VirtualNetworksSubnet_Spec_ARM) (bool, error) {
 				val := reflect.New(embeddedType)
 
 				bytes, err := json.Marshal(subnet)

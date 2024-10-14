@@ -75,7 +75,7 @@ func Test_Networking_ForwardingRuleSet_CRUD(t *testing.T) {
 func DnsForwardingRuleset_ForwardingRules_CRUD(tc *testcommon.KubePerTestContext, set *network.DnsForwardingRuleset) {
 	rule := &network.DnsForwardingRuleSetsForwardingRule{
 		ObjectMeta: tc.MakeObjectMeta("rule"),
-		Spec: network.DnsForwardingRulesets_ForwardingRule_Spec{
+		Spec: network.DnsForwardingRuleSetsForwardingRule_Spec{
 			DomainName:          to.Ptr("test."),
 			ForwardingRuleState: to.Ptr(network.ForwardingRuleProperties_ForwardingRuleState_Disabled),
 			Owner:               testcommon.AsOwner(set),
