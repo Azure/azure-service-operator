@@ -28,8 +28,8 @@ import (
 type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Configuration_Spec   `json:"spec,omitempty"`
-	Status            Servers_Configuration_STATUS `json:"status,omitempty"`
+	Spec              Configuration_Spec   `json:"spec,omitempty"`
+	Status            Configuration_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Configuration{}
@@ -86,7 +86,7 @@ func (configuration *Configuration) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (configuration *Configuration) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Configuration_STATUS{}
+	return &Configuration_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -98,13 +98,13 @@ func (configuration *Configuration) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (configuration *Configuration) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Configuration_STATUS); ok {
+	if st, ok := status.(*Configuration_STATUS); ok {
 		configuration.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Configuration_STATUS
+	var st Configuration_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -143,8 +143,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-06-01")
 
-// Storage version of v1api20180601.Servers_Configuration_Spec
-type Servers_Configuration_Spec struct {
+// Storage version of v1api20180601.Configuration_Spec
+type Configuration_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -160,10 +160,10 @@ type Servers_Configuration_Spec struct {
 	Value       *string                            `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Configuration_Spec{}
+var _ genruntime.ConvertibleSpec = &Configuration_Spec{}
 
-// ConvertSpecFrom populates our Servers_Configuration_Spec from the provided source
-func (configuration *Servers_Configuration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Configuration_Spec from the provided source
+func (configuration *Configuration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == configuration {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -171,8 +171,8 @@ func (configuration *Servers_Configuration_Spec) ConvertSpecFrom(source genrunti
 	return source.ConvertSpecTo(configuration)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Configuration_Spec
-func (configuration *Servers_Configuration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Configuration_Spec
+func (configuration *Configuration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == configuration {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -180,8 +180,8 @@ func (configuration *Servers_Configuration_Spec) ConvertSpecTo(destination genru
 	return destination.ConvertSpecFrom(configuration)
 }
 
-// Storage version of v1api20180601.Servers_Configuration_STATUS
-type Servers_Configuration_STATUS struct {
+// Storage version of v1api20180601.Configuration_STATUS
+type Configuration_STATUS struct {
 	AllowedValues *string                `json:"allowedValues,omitempty"`
 	Conditions    []conditions.Condition `json:"conditions,omitempty"`
 	DataType      *string                `json:"dataType,omitempty"`
@@ -195,10 +195,10 @@ type Servers_Configuration_STATUS struct {
 	Value         *string                `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Configuration_STATUS{}
+var _ genruntime.ConvertibleStatus = &Configuration_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Configuration_STATUS from the provided source
-func (configuration *Servers_Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Configuration_STATUS from the provided source
+func (configuration *Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == configuration {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -206,8 +206,8 @@ func (configuration *Servers_Configuration_STATUS) ConvertStatusFrom(source genr
 	return source.ConvertStatusTo(configuration)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Configuration_STATUS
-func (configuration *Servers_Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Configuration_STATUS
+func (configuration *Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == configuration {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

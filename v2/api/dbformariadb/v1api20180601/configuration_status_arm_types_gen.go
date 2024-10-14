@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20180601
 
-type Servers_Configuration_STATUS_ARM struct {
+type Configuration_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`

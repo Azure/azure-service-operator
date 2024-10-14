@@ -79,20 +79,20 @@ func AddIndependentPropertyGeneratorsForDatabaseProperties_STATUS_ARM(gens map[s
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_Database_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Database_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Database_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Database_STATUS_ARM, Servers_Database_STATUS_ARMGenerator()))
+		"Round trip of Database_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabase_STATUS_ARM, Database_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Database_STATUS_ARM runs a test to see if a specific instance of Servers_Database_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Database_STATUS_ARM(subject Servers_Database_STATUS_ARM) string {
+// RunJSONSerializationTestForDatabase_STATUS_ARM runs a test to see if a specific instance of Database_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabase_STATUS_ARM(subject Database_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForServers_Database_STATUS_ARM(subject Servers_Data
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Database_STATUS_ARM
+	var actual Database_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,40 +118,40 @@ func RunJSONSerializationTestForServers_Database_STATUS_ARM(subject Servers_Data
 	return ""
 }
 
-// Generator of Servers_Database_STATUS_ARM instances for property testing - lazily instantiated by
-// Servers_Database_STATUS_ARMGenerator()
-var servers_Database_STATUS_ARMGenerator gopter.Gen
+// Generator of Database_STATUS_ARM instances for property testing - lazily instantiated by
+// Database_STATUS_ARMGenerator()
+var database_STATUS_ARMGenerator gopter.Gen
 
-// Servers_Database_STATUS_ARMGenerator returns a generator of Servers_Database_STATUS_ARM instances for property testing.
-// We first initialize servers_Database_STATUS_ARMGenerator with a simplified generator based on the
+// Database_STATUS_ARMGenerator returns a generator of Database_STATUS_ARM instances for property testing.
+// We first initialize database_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Servers_Database_STATUS_ARMGenerator() gopter.Gen {
-	if servers_Database_STATUS_ARMGenerator != nil {
-		return servers_Database_STATUS_ARMGenerator
+func Database_STATUS_ARMGenerator() gopter.Gen {
+	if database_STATUS_ARMGenerator != nil {
+		return database_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Database_STATUS_ARM(generators)
-	servers_Database_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_Database_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabase_STATUS_ARM(generators)
+	database_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Database_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Database_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForServers_Database_STATUS_ARM(generators)
-	servers_Database_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_Database_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabase_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForDatabase_STATUS_ARM(generators)
+	database_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Database_STATUS_ARM{}), generators)
 
-	return servers_Database_STATUS_ARMGenerator
+	return database_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Database_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Database_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabase_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabase_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForServers_Database_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_Database_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabase_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabase_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(DatabaseProperties_STATUS_ARMGenerator())
 }
