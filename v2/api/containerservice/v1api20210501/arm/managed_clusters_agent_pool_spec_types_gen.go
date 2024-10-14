@@ -5,27 +5,27 @@ package arm
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type ManagedClusters_AgentPool_Spec struct {
+type ManagedClustersAgentPool_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of an agent pool.
 	Properties *ManagedClusterAgentPoolProfileProperties `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &ManagedClusters_AgentPool_Spec{}
+var _ genruntime.ARMResourceSpec = &ManagedClustersAgentPool_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (pool ManagedClusters_AgentPool_Spec) GetAPIVersion() string {
+func (pool ManagedClustersAgentPool_Spec) GetAPIVersion() string {
 	return "2021-05-01"
 }
 
 // GetName returns the Name of the resource
-func (pool *ManagedClusters_AgentPool_Spec) GetName() string {
+func (pool *ManagedClustersAgentPool_Spec) GetName() string {
 	return pool.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
-func (pool *ManagedClusters_AgentPool_Spec) GetType() string {
+func (pool *ManagedClustersAgentPool_Spec) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 

@@ -93,11 +93,11 @@
 | Fleet_STATUS                                                                         |               |               | v1api20230315preview |               |                      |                      |
 | Fleet_Spec                                                                           |               |               | v1api20230315preview |               |                      |                      |
 | FleetsMember                                                                         |               |               | v1api20230315preview |               |                      |                      |
+| FleetsMember_STATUS                                                                  |               |               | v1api20230315preview |               |                      |                      |
+| FleetsMember_Spec                                                                    |               |               | v1api20230315preview |               |                      |                      |
 | FleetsUpdateRun                                                                      |               |               | v1api20230315preview |               |                      |                      |
-| Fleets_Member_STATUS                                                                 |               |               | v1api20230315preview |               |                      |                      |
-| Fleets_Member_Spec                                                                   |               |               | v1api20230315preview |               |                      |                      |
-| Fleets_UpdateRun_STATUS                                                              |               |               | v1api20230315preview |               |                      |                      |
-| Fleets_UpdateRun_Spec                                                                |               |               | v1api20230315preview |               |                      |                      |
+| FleetsUpdateRun_STATUS                                                               |               |               | v1api20230315preview |               |                      |                      |
+| FleetsUpdateRun_Spec                                                                 |               |               | v1api20230315preview |               |                      |                      |
 | GPUInstanceProfile                                                                   | v1api20210501 | v1api20230201 |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
 | GPUInstanceProfile_STATUS                                                            | v1api20210501 | v1api20230201 |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
 | IPTag                                                                                |               |               |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
@@ -287,10 +287,8 @@
 | ManagedCluster_STATUS                                                                | v1api20210501 | v1api20230201 |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
 | ManagedCluster_Spec                                                                  | v1api20210501 | v1api20230201 |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
 | ManagedClustersAgentPool                                                             | v1api20210501 | v1api20230201 |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
-| ManagedClusters_AgentPool_STATUS                                                     | v1api20210501 | v1api20230201 |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
-| ManagedClusters_AgentPool_Spec                                                       | v1api20210501 | v1api20230201 |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
-| ManagedClusters_TrustedAccessRoleBinding_STATUS                                      |               |               |                      | v1api20231001 |                      | v1api20240402preview |
-| ManagedClusters_TrustedAccessRoleBinding_Spec                                        |               |               |                      | v1api20231001 |                      | v1api20240402preview |
+| ManagedClustersAgentPool_STATUS                                                      | v1api20210501 | v1api20230201 |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
+| ManagedClustersAgentPool_Spec                                                        | v1api20210501 | v1api20230201 |                      | v1api20231001 | v1api20231102preview | v1api20240402preview |
 | ManualScaleProfile                                                                   |               |               |                      |               | v1api20231102preview | v1api20240402preview |
 | ManualScaleProfile_STATUS                                                            |               |               |                      |               | v1api20231102preview | v1api20240402preview |
 | MemberUpdateStatus_STATUS                                                            |               |               | v1api20230315preview |               |                      |                      |
@@ -353,6 +351,8 @@
 | TrustedAccessRoleBindingProperties                                                   |               |               |                      | v1api20231001 |                      | v1api20240402preview |
 | TrustedAccessRoleBindingProperties_ProvisioningState_STATUS                          |               |               |                      | v1api20231001 |                      | v1api20240402preview |
 | TrustedAccessRoleBindingProperties_STATUS                                            |               |               |                      | v1api20231001 |                      | v1api20240402preview |
+| TrustedAccessRoleBinding_STATUS                                                      |               |               |                      | v1api20231001 |                      | v1api20240402preview |
+| TrustedAccessRoleBinding_Spec                                                        |               |               |                      | v1api20231001 |                      | v1api20240402preview |
 | UpdateGroup                                                                          |               |               | v1api20230315preview |               |                      |                      |
 | UpdateGroupStatus_STATUS                                                             |               |               | v1api20230315preview |               |                      |                      |
 | UpdateGroup_STATUS                                                                   |               |               | v1api20230315preview |               |                      |                      |

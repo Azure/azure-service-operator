@@ -5,27 +5,27 @@ package arm
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type ManagedClusters_TrustedAccessRoleBinding_Spec struct {
+type TrustedAccessRoleBinding_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties for trusted access role binding
 	Properties *TrustedAccessRoleBindingProperties `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &ManagedClusters_TrustedAccessRoleBinding_Spec{}
+var _ genruntime.ARMResourceSpec = &TrustedAccessRoleBinding_Spec{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2024-04-02-preview"
-func (binding ManagedClusters_TrustedAccessRoleBinding_Spec) GetAPIVersion() string {
-	return "2024-04-02-preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2023-10-01"
+func (binding TrustedAccessRoleBinding_Spec) GetAPIVersion() string {
+	return "2023-10-01"
 }
 
 // GetName returns the Name of the resource
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) GetName() string {
+func (binding *TrustedAccessRoleBinding_Spec) GetName() string {
 	return binding.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/trustedAccessRoleBindings"
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) GetType() string {
+func (binding *TrustedAccessRoleBinding_Spec) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/trustedAccessRoleBindings"
 }
 
