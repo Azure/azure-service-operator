@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20230131
 
-type UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM struct {
+type FederatedIdentityCredential_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. E.g.
 	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`

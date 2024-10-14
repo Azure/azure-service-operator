@@ -37,7 +37,7 @@ FederatedIdentityCredential: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
-UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM: Object (5 properties)
+FederatedIdentityCredential_STATUS_ARM: Object (5 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (3 properties)
@@ -60,7 +60,7 @@ UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM: Object (5 propert
 │       ├── "ManagedIdentity"
 │       └── "User"
 └── Type: *string
-UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM: Object (2 properties)
+FederatedIdentityCredential_Spec_ARM: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (3 properties)
     ├── Audiences: string[]
