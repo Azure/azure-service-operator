@@ -244,20 +244,20 @@ func AddRelatedPropertyGeneratorsForVirtualMachineExtensionProperties(gens map[s
 	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReferenceGenerator())
 }
 
-func Test_VirtualMachines_Extension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachinesExtension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachines_Extension_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachines_Extension_Spec, VirtualMachines_Extension_SpecGenerator()))
+		"Round trip of VirtualMachinesExtension_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachinesExtension_Spec, VirtualMachinesExtension_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachines_Extension_Spec runs a test to see if a specific instance of VirtualMachines_Extension_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachines_Extension_Spec(subject VirtualMachines_Extension_Spec) string {
+// RunJSONSerializationTestForVirtualMachinesExtension_Spec runs a test to see if a specific instance of VirtualMachinesExtension_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachinesExtension_Spec(subject VirtualMachinesExtension_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -265,7 +265,7 @@ func RunJSONSerializationTestForVirtualMachines_Extension_Spec(subject VirtualMa
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachines_Extension_Spec
+	var actual VirtualMachinesExtension_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -283,34 +283,34 @@ func RunJSONSerializationTestForVirtualMachines_Extension_Spec(subject VirtualMa
 	return ""
 }
 
-// Generator of VirtualMachines_Extension_Spec instances for property testing - lazily instantiated by
-// VirtualMachines_Extension_SpecGenerator()
-var virtualMachines_Extension_SpecGenerator gopter.Gen
+// Generator of VirtualMachinesExtension_Spec instances for property testing - lazily instantiated by
+// VirtualMachinesExtension_SpecGenerator()
+var virtualMachinesExtension_SpecGenerator gopter.Gen
 
-// VirtualMachines_Extension_SpecGenerator returns a generator of VirtualMachines_Extension_Spec instances for property testing.
-// We first initialize virtualMachines_Extension_SpecGenerator with a simplified generator based on the
+// VirtualMachinesExtension_SpecGenerator returns a generator of VirtualMachinesExtension_Spec instances for property testing.
+// We first initialize virtualMachinesExtension_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachines_Extension_SpecGenerator() gopter.Gen {
-	if virtualMachines_Extension_SpecGenerator != nil {
-		return virtualMachines_Extension_SpecGenerator
+func VirtualMachinesExtension_SpecGenerator() gopter.Gen {
+	if virtualMachinesExtension_SpecGenerator != nil {
+		return virtualMachinesExtension_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachines_Extension_Spec(generators)
-	virtualMachines_Extension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Extension_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachinesExtension_Spec(generators)
+	virtualMachinesExtension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachinesExtension_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachines_Extension_Spec(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachines_Extension_Spec(generators)
-	virtualMachines_Extension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Extension_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachinesExtension_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachinesExtension_Spec(generators)
+	virtualMachinesExtension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachinesExtension_Spec{}), generators)
 
-	return virtualMachines_Extension_SpecGenerator
+	return virtualMachinesExtension_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachines_Extension_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachines_Extension_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachinesExtension_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachinesExtension_Spec(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(
@@ -318,7 +318,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachines_Extension_Spec(gens map[
 		gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachines_Extension_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachines_Extension_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualMachinesExtension_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachinesExtension_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VirtualMachineExtensionPropertiesGenerator())
 }

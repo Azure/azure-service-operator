@@ -177,20 +177,20 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties(ge
 	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReferenceGenerator())
 }
 
-func Test_VirtualMachineScaleSets_Extension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetsExtension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Extension_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec, VirtualMachineScaleSets_Extension_SpecGenerator()))
+		"Round trip of VirtualMachineScaleSetsExtension_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsExtension_Spec, VirtualMachineScaleSetsExtension_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec runs a test to see if a specific instance of VirtualMachineScaleSets_Extension_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec(subject VirtualMachineScaleSets_Extension_Spec) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetsExtension_Spec runs a test to see if a specific instance of VirtualMachineScaleSetsExtension_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetsExtension_Spec(subject VirtualMachineScaleSetsExtension_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -198,7 +198,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec(subject V
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Extension_Spec
+	var actual VirtualMachineScaleSetsExtension_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -216,38 +216,38 @@ func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_Spec(subject V
 	return ""
 }
 
-// Generator of VirtualMachineScaleSets_Extension_Spec instances for property testing - lazily instantiated by
-// VirtualMachineScaleSets_Extension_SpecGenerator()
-var virtualMachineScaleSets_Extension_SpecGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetsExtension_Spec instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetsExtension_SpecGenerator()
+var virtualMachineScaleSetsExtension_SpecGenerator gopter.Gen
 
-// VirtualMachineScaleSets_Extension_SpecGenerator returns a generator of VirtualMachineScaleSets_Extension_Spec instances for property testing.
-// We first initialize virtualMachineScaleSets_Extension_SpecGenerator with a simplified generator based on the
+// VirtualMachineScaleSetsExtension_SpecGenerator returns a generator of VirtualMachineScaleSetsExtension_Spec instances for property testing.
+// We first initialize virtualMachineScaleSetsExtension_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSets_Extension_SpecGenerator() gopter.Gen {
-	if virtualMachineScaleSets_Extension_SpecGenerator != nil {
-		return virtualMachineScaleSets_Extension_SpecGenerator
+func VirtualMachineScaleSetsExtension_SpecGenerator() gopter.Gen {
+	if virtualMachineScaleSetsExtension_SpecGenerator != nil {
+		return virtualMachineScaleSetsExtension_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(generators)
-	virtualMachineScaleSets_Extension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec(generators)
+	virtualMachineScaleSetsExtension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetsExtension_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(generators)
-	virtualMachineScaleSets_Extension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec(generators)
+	virtualMachineScaleSetsExtension_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetsExtension_Spec{}), generators)
 
-	return virtualMachineScaleSets_Extension_SpecGenerator
+	return virtualMachineScaleSetsExtension_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetExtensionPropertiesGenerator())
 }

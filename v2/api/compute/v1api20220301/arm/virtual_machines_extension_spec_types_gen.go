@@ -8,7 +8,7 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-type VirtualMachines_Extension_Spec struct {
+type VirtualMachinesExtension_Spec struct {
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
@@ -20,20 +20,20 @@ type VirtualMachines_Extension_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualMachines_Extension_Spec{}
+var _ genruntime.ARMResourceSpec = &VirtualMachinesExtension_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-03-01"
-func (extension VirtualMachines_Extension_Spec) GetAPIVersion() string {
+func (extension VirtualMachinesExtension_Spec) GetAPIVersion() string {
 	return "2022-03-01"
 }
 
 // GetName returns the Name of the resource
-func (extension *VirtualMachines_Extension_Spec) GetName() string {
+func (extension *VirtualMachinesExtension_Spec) GetName() string {
 	return extension.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines/extensions"
-func (extension *VirtualMachines_Extension_Spec) GetType() string {
+func (extension *VirtualMachinesExtension_Spec) GetType() string {
 	return "Microsoft.Compute/virtualMachines/extensions"
 }
 

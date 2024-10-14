@@ -175,20 +175,20 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_ST
 	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReference_STATUSGenerator())
 }
 
-func Test_VirtualMachineScaleSets_Extension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetsExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Extension_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS, VirtualMachineScaleSets_Extension_STATUSGenerator()))
+		"Round trip of VirtualMachineScaleSetsExtension_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsExtension_STATUS, VirtualMachineScaleSetsExtension_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS runs a test to see if a specific instance of VirtualMachineScaleSets_Extension_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS(subject VirtualMachineScaleSets_Extension_STATUS) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetsExtension_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetsExtension_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetsExtension_STATUS(subject VirtualMachineScaleSetsExtension_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -196,7 +196,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS(subject
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Extension_STATUS
+	var actual VirtualMachineScaleSetsExtension_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -214,40 +214,40 @@ func RunJSONSerializationTestForVirtualMachineScaleSets_Extension_STATUS(subject
 	return ""
 }
 
-// Generator of VirtualMachineScaleSets_Extension_STATUS instances for property testing - lazily instantiated by
-// VirtualMachineScaleSets_Extension_STATUSGenerator()
-var virtualMachineScaleSets_Extension_STATUSGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetsExtension_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetsExtension_STATUSGenerator()
+var virtualMachineScaleSetsExtension_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSets_Extension_STATUSGenerator returns a generator of VirtualMachineScaleSets_Extension_STATUS instances for property testing.
-// We first initialize virtualMachineScaleSets_Extension_STATUSGenerator with a simplified generator based on the
+// VirtualMachineScaleSetsExtension_STATUSGenerator returns a generator of VirtualMachineScaleSetsExtension_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetsExtension_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSets_Extension_STATUSGenerator() gopter.Gen {
-	if virtualMachineScaleSets_Extension_STATUSGenerator != nil {
-		return virtualMachineScaleSets_Extension_STATUSGenerator
+func VirtualMachineScaleSetsExtension_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetsExtension_STATUSGenerator != nil {
+		return virtualMachineScaleSetsExtension_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(generators)
-	virtualMachineScaleSets_Extension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsExtension_STATUS(generators)
+	virtualMachineScaleSetsExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetsExtension_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(generators)
-	virtualMachineScaleSets_Extension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Extension_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsExtension_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_STATUS(generators)
+	virtualMachineScaleSetsExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetsExtension_STATUS{}), generators)
 
-	return virtualMachineScaleSets_Extension_STATUSGenerator
+	return virtualMachineScaleSetsExtension_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsExtension_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsExtension_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSets_Extension_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VirtualMachineScaleSetExtensionProperties_STATUSGenerator())
 }
