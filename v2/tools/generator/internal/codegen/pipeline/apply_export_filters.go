@@ -57,9 +57,29 @@ func filterTypes(
 		return nil, errors.Wrap(err, "finding types connected to resources marked for export")
 	}
 
-	// Find and apply renames
+	// Find and apply renames.
+	// If we rename a resource, we use that name for its spec and status as well.
 	renames := make(astmodel.TypeAssociation)
-	for n := range typesToExport {
+	addRename := func(name astmodel.InternalTypeName, newName string) {
+		if name.Name() == newName {
+			// Nothing to do
+			return
+		}
+
+		n := name.WithName(newName)
+		if _, ok := state.Definitions()[n]; ok {
+			// Can't rename, as we'd create a name collision
+			return
+		}
+
+		renames[name] = n
+		// Add an alias to the configuration so that we can use the new name to access the rest of the config
+		if configuration.ObjectModelConfiguration.IsTypeConfigured(name) {
+			configuration.ObjectModelConfiguration.AddTypeAlias(name, newName)
+		}
+	}
+
+	for n, def := range typesToExport {
 		newName := ""
 		if as, ok := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); ok {
 			newName = as
@@ -68,9 +88,17 @@ func filterTypes(
 		}
 
 		if newName != "" {
-			// Add an alias to the configuration so that we can use the new name to access the rest of the config
-			configuration.ObjectModelConfiguration.AddTypeAlias(n, newName)
-			renames[n] = n.WithName(newName)
+			addRename(n, newName)
+
+			// If this is a resource, we also need to rename the spec and status
+			if rt, ok := astmodel.AsResourceType(def.Type()); ok {
+				if spec, ok := astmodel.AsInternalTypeName(rt.SpecType()); ok {
+					addRename(spec, newName+astmodel.SpecSuffix)
+				}
+				if status, ok := astmodel.AsInternalTypeName(rt.StatusType()); ok {
+					addRename(status, newName+astmodel.StatusSuffix)
+				}
+			}
 		}
 	}
 
