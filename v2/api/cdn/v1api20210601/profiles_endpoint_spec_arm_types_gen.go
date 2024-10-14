@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type Profiles_Endpoint_Spec_ARM struct {
+type ProfilesEndpoint_Spec_ARM struct {
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
@@ -20,20 +20,20 @@ type Profiles_Endpoint_Spec_ARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Profiles_Endpoint_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &ProfilesEndpoint_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
-func (endpoint Profiles_Endpoint_Spec_ARM) GetAPIVersion() string {
+func (endpoint ProfilesEndpoint_Spec_ARM) GetAPIVersion() string {
 	return "2021-06-01"
 }
 
 // GetName returns the Name of the resource
-func (endpoint *Profiles_Endpoint_Spec_ARM) GetName() string {
+func (endpoint *ProfilesEndpoint_Spec_ARM) GetName() string {
 	return endpoint.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles/endpoints"
-func (endpoint *Profiles_Endpoint_Spec_ARM) GetType() string {
+func (endpoint *ProfilesEndpoint_Spec_ARM) GetType() string {
 	return "Microsoft.Cdn/profiles/endpoints"
 }
 

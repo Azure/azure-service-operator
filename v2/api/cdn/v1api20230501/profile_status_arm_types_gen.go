@@ -100,45 +100,6 @@ type Sku_STATUS_ARM struct {
 	Name *Sku_Name_STATUS_ARM `json:"name,omitempty"`
 }
 
-// Read only system data
-type SystemData_STATUS_ARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC)
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: An identifier for the identity that created the resource
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource
-	CreatedByType *IdentityType_STATUS_ARM `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: An identifier for the identity that last modified the resource
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource
-	LastModifiedByType *IdentityType_STATUS_ARM `json:"lastModifiedByType,omitempty"`
-}
-
-// The type of identity that creates/modifies resources
-type IdentityType_STATUS_ARM string
-
-const (
-	IdentityType_STATUS_ARM_Application     = IdentityType_STATUS_ARM("application")
-	IdentityType_STATUS_ARM_Key             = IdentityType_STATUS_ARM("key")
-	IdentityType_STATUS_ARM_ManagedIdentity = IdentityType_STATUS_ARM("managedIdentity")
-	IdentityType_STATUS_ARM_User            = IdentityType_STATUS_ARM("user")
-)
-
-// Mapping from string to IdentityType_STATUS_ARM
-var identityType_STATUS_ARM_Values = map[string]IdentityType_STATUS_ARM{
-	"application":     IdentityType_STATUS_ARM_Application,
-	"key":             IdentityType_STATUS_ARM_Key,
-	"managedidentity": IdentityType_STATUS_ARM_ManagedIdentity,
-	"user":            IdentityType_STATUS_ARM_User,
-}
-
 // Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
 type ManagedServiceIdentityType_STATUS_ARM string
 

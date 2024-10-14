@@ -28,8 +28,8 @@ import (
 type Rule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_RuleSets_Rule_Spec   `json:"spec,omitempty"`
-	Status            Profiles_RuleSets_Rule_STATUS `json:"status,omitempty"`
+	Spec              Rule_Spec   `json:"spec,omitempty"`
+	Status            Rule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Rule{}
@@ -87,7 +87,7 @@ func (rule *Rule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *Rule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_RuleSets_Rule_STATUS{}
+	return &Rule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (rule *Rule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *Rule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_RuleSets_Rule_STATUS); ok {
+	if st, ok := status.(*Rule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_RuleSets_Rule_STATUS
+	var st Rule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type RuleList struct {
 	Items           []Rule `json:"items"`
 }
 
-// Storage version of v1api20230501.Profiles_RuleSets_Rule_Spec
-type Profiles_RuleSets_Rule_Spec struct {
+// Storage version of v1api20230501.Rule_Spec
+type Rule_Spec struct {
 	Actions []DeliveryRuleAction `json:"actions,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -158,10 +158,10 @@ type Profiles_RuleSets_Rule_Spec struct {
 	RuleConditions []DeliveryRuleCondition            `json:"ruleconditions,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_RuleSets_Rule_Spec{}
+var _ genruntime.ConvertibleSpec = &Rule_Spec{}
 
-// ConvertSpecFrom populates our Profiles_RuleSets_Rule_Spec from the provided source
-func (rule *Profiles_RuleSets_Rule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our Rule_Spec from the provided source
+func (rule *Rule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -169,8 +169,8 @@ func (rule *Profiles_RuleSets_Rule_Spec) ConvertSpecFrom(source genruntime.Conve
 	return source.ConvertSpecTo(rule)
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_RuleSets_Rule_Spec
-func (rule *Profiles_RuleSets_Rule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our Rule_Spec
+func (rule *Rule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -178,8 +178,8 @@ func (rule *Profiles_RuleSets_Rule_Spec) ConvertSpecTo(destination genruntime.Co
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v1api20230501.Profiles_RuleSets_Rule_STATUS
-type Profiles_RuleSets_Rule_STATUS struct {
+// Storage version of v1api20230501.Rule_STATUS
+type Rule_STATUS struct {
 	Actions                 []DeliveryRuleAction_STATUS    `json:"actions,omitempty"`
 	Conditions              []conditions.Condition         `json:"conditions,omitempty"`
 	DeploymentStatus        *string                        `json:"deploymentStatus,omitempty"`
@@ -195,10 +195,10 @@ type Profiles_RuleSets_Rule_STATUS struct {
 	Type                    *string                        `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_RuleSets_Rule_STATUS{}
+var _ genruntime.ConvertibleStatus = &Rule_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_RuleSets_Rule_STATUS from the provided source
-func (rule *Profiles_RuleSets_Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Rule_STATUS from the provided source
+func (rule *Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -206,8 +206,8 @@ func (rule *Profiles_RuleSets_Rule_STATUS) ConvertStatusFrom(source genruntime.C
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_RuleSets_Rule_STATUS
-func (rule *Profiles_RuleSets_Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Rule_STATUS
+func (rule *Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

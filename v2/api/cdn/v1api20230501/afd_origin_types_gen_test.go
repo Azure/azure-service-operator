@@ -160,36 +160,36 @@ func AfdOriginGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForAfdOrigin is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAfdOrigin(gens map[string]gopter.Gen) {
-	gens["Spec"] = Profiles_OriginGroups_Origin_SpecGenerator()
-	gens["Status"] = Profiles_OriginGroups_Origin_STATUSGenerator()
+	gens["Spec"] = AfdOrigin_SpecGenerator()
+	gens["Status"] = AfdOrigin_STATUSGenerator()
 }
 
-func Test_Profiles_OriginGroups_Origin_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_AfdOrigin_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Profiles_OriginGroups_Origin_STATUS to Profiles_OriginGroups_Origin_STATUS via AssignProperties_To_Profiles_OriginGroups_Origin_STATUS & AssignProperties_From_Profiles_OriginGroups_Origin_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_STATUS, Profiles_OriginGroups_Origin_STATUSGenerator()))
+		"Round trip from AfdOrigin_STATUS to AfdOrigin_STATUS via AssignProperties_To_AfdOrigin_STATUS & AssignProperties_From_AfdOrigin_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOrigin_STATUS, AfdOrigin_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_STATUS tests if a specific instance of Profiles_OriginGroups_Origin_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_STATUS(subject Profiles_OriginGroups_Origin_STATUS) string {
+// RunPropertyAssignmentTestForAfdOrigin_STATUS tests if a specific instance of AfdOrigin_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOrigin_STATUS(subject AfdOrigin_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profiles_OriginGroups_Origin_STATUS
-	err := copied.AssignProperties_To_Profiles_OriginGroups_Origin_STATUS(&other)
+	var other storage.AfdOrigin_STATUS
+	err := copied.AssignProperties_To_AfdOrigin_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Profiles_OriginGroups_Origin_STATUS
-	err = actual.AssignProperties_From_Profiles_OriginGroups_Origin_STATUS(&other)
+	var actual AfdOrigin_STATUS
+	err = actual.AssignProperties_From_AfdOrigin_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -206,20 +206,20 @@ func RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_STATUS(subject Pro
 	return ""
 }
 
-func Test_Profiles_OriginGroups_Origin_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AfdOrigin_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Profiles_OriginGroups_Origin_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroups_Origin_STATUS, Profiles_OriginGroups_Origin_STATUSGenerator()))
+		"Round trip of AfdOrigin_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAfdOrigin_STATUS, AfdOrigin_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfiles_OriginGroups_Origin_STATUS runs a test to see if a specific instance of Profiles_OriginGroups_Origin_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_OriginGroups_Origin_STATUS(subject Profiles_OriginGroups_Origin_STATUS) string {
+// RunJSONSerializationTestForAfdOrigin_STATUS runs a test to see if a specific instance of AfdOrigin_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAfdOrigin_STATUS(subject AfdOrigin_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -227,7 +227,7 @@ func RunJSONSerializationTestForProfiles_OriginGroups_Origin_STATUS(subject Prof
 	}
 
 	// Deserialize back into memory
-	var actual Profiles_OriginGroups_Origin_STATUS
+	var actual AfdOrigin_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -245,34 +245,33 @@ func RunJSONSerializationTestForProfiles_OriginGroups_Origin_STATUS(subject Prof
 	return ""
 }
 
-// Generator of Profiles_OriginGroups_Origin_STATUS instances for property testing - lazily instantiated by
-// Profiles_OriginGroups_Origin_STATUSGenerator()
-var profiles_OriginGroups_Origin_STATUSGenerator gopter.Gen
+// Generator of AfdOrigin_STATUS instances for property testing - lazily instantiated by AfdOrigin_STATUSGenerator()
+var afdOrigin_STATUSGenerator gopter.Gen
 
-// Profiles_OriginGroups_Origin_STATUSGenerator returns a generator of Profiles_OriginGroups_Origin_STATUS instances for property testing.
-// We first initialize profiles_OriginGroups_Origin_STATUSGenerator with a simplified generator based on the
+// AfdOrigin_STATUSGenerator returns a generator of AfdOrigin_STATUS instances for property testing.
+// We first initialize afdOrigin_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Profiles_OriginGroups_Origin_STATUSGenerator() gopter.Gen {
-	if profiles_OriginGroups_Origin_STATUSGenerator != nil {
-		return profiles_OriginGroups_Origin_STATUSGenerator
+func AfdOrigin_STATUSGenerator() gopter.Gen {
+	if afdOrigin_STATUSGenerator != nil {
+		return afdOrigin_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_STATUS(generators)
-	profiles_OriginGroups_Origin_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroups_Origin_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForAfdOrigin_STATUS(generators)
+	afdOrigin_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdOrigin_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_STATUS(generators)
-	AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_STATUS(generators)
-	profiles_OriginGroups_Origin_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroups_Origin_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForAfdOrigin_STATUS(generators)
+	AddRelatedPropertyGeneratorsForAfdOrigin_STATUS(generators)
+	afdOrigin_STATUSGenerator = gen.Struct(reflect.TypeOf(AfdOrigin_STATUS{}), generators)
 
-	return profiles_OriginGroups_Origin_STATUSGenerator
+	return afdOrigin_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAfdOrigin_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAfdOrigin_STATUS(gens map[string]gopter.Gen) {
 	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
 		AFDOriginProperties_DeploymentStatus_STATUS_Failed,
 		AFDOriginProperties_DeploymentStatus_STATUS_InProgress,
@@ -298,39 +297,39 @@ func AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_STATUS(gens
 	gens["Weight"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAfdOrigin_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAfdOrigin_STATUS(gens map[string]gopter.Gen) {
 	gens["AzureOrigin"] = gen.PtrOf(ResourceReference_STATUSGenerator())
 	gens["SharedPrivateLinkResource"] = gen.PtrOf(SharedPrivateLinkResourceProperties_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_Profiles_OriginGroups_Origin_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_AfdOrigin_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Profiles_OriginGroups_Origin_Spec to Profiles_OriginGroups_Origin_Spec via AssignProperties_To_Profiles_OriginGroups_Origin_Spec & AssignProperties_From_Profiles_OriginGroups_Origin_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec, Profiles_OriginGroups_Origin_SpecGenerator()))
+		"Round trip from AfdOrigin_Spec to AfdOrigin_Spec via AssignProperties_To_AfdOrigin_Spec & AssignProperties_From_AfdOrigin_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOrigin_Spec, AfdOrigin_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec tests if a specific instance of Profiles_OriginGroups_Origin_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec(subject Profiles_OriginGroups_Origin_Spec) string {
+// RunPropertyAssignmentTestForAfdOrigin_Spec tests if a specific instance of AfdOrigin_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOrigin_Spec(subject AfdOrigin_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profiles_OriginGroups_Origin_Spec
-	err := copied.AssignProperties_To_Profiles_OriginGroups_Origin_Spec(&other)
+	var other storage.AfdOrigin_Spec
+	err := copied.AssignProperties_To_AfdOrigin_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Profiles_OriginGroups_Origin_Spec
-	err = actual.AssignProperties_From_Profiles_OriginGroups_Origin_Spec(&other)
+	var actual AfdOrigin_Spec
+	err = actual.AssignProperties_From_AfdOrigin_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -347,20 +346,20 @@ func RunPropertyAssignmentTestForProfiles_OriginGroups_Origin_Spec(subject Profi
 	return ""
 }
 
-func Test_Profiles_OriginGroups_Origin_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AfdOrigin_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Profiles_OriginGroups_Origin_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec, Profiles_OriginGroups_Origin_SpecGenerator()))
+		"Round trip of AfdOrigin_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAfdOrigin_Spec, AfdOrigin_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec runs a test to see if a specific instance of Profiles_OriginGroups_Origin_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec(subject Profiles_OriginGroups_Origin_Spec) string {
+// RunJSONSerializationTestForAfdOrigin_Spec runs a test to see if a specific instance of AfdOrigin_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAfdOrigin_Spec(subject AfdOrigin_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -368,7 +367,7 @@ func RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec(subject Profil
 	}
 
 	// Deserialize back into memory
-	var actual Profiles_OriginGroups_Origin_Spec
+	var actual AfdOrigin_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -386,34 +385,33 @@ func RunJSONSerializationTestForProfiles_OriginGroups_Origin_Spec(subject Profil
 	return ""
 }
 
-// Generator of Profiles_OriginGroups_Origin_Spec instances for property testing - lazily instantiated by
-// Profiles_OriginGroups_Origin_SpecGenerator()
-var profiles_OriginGroups_Origin_SpecGenerator gopter.Gen
+// Generator of AfdOrigin_Spec instances for property testing - lazily instantiated by AfdOrigin_SpecGenerator()
+var afdOrigin_SpecGenerator gopter.Gen
 
-// Profiles_OriginGroups_Origin_SpecGenerator returns a generator of Profiles_OriginGroups_Origin_Spec instances for property testing.
-// We first initialize profiles_OriginGroups_Origin_SpecGenerator with a simplified generator based on the
+// AfdOrigin_SpecGenerator returns a generator of AfdOrigin_Spec instances for property testing.
+// We first initialize afdOrigin_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Profiles_OriginGroups_Origin_SpecGenerator() gopter.Gen {
-	if profiles_OriginGroups_Origin_SpecGenerator != nil {
-		return profiles_OriginGroups_Origin_SpecGenerator
+func AfdOrigin_SpecGenerator() gopter.Gen {
+	if afdOrigin_SpecGenerator != nil {
+		return afdOrigin_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(generators)
-	profiles_OriginGroups_Origin_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroups_Origin_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForAfdOrigin_Spec(generators)
+	afdOrigin_SpecGenerator = gen.Struct(reflect.TypeOf(AfdOrigin_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(generators)
-	AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(generators)
-	profiles_OriginGroups_Origin_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_OriginGroups_Origin_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForAfdOrigin_Spec(generators)
+	AddRelatedPropertyGeneratorsForAfdOrigin_Spec(generators)
+	afdOrigin_SpecGenerator = gen.Struct(reflect.TypeOf(AfdOrigin_Spec{}), generators)
 
-	return profiles_OriginGroups_Origin_SpecGenerator
+	return afdOrigin_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAfdOrigin_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAfdOrigin_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(AFDOriginProperties_EnabledState_Disabled, AFDOriginProperties_EnabledState_Enabled))
 	gens["EnforceCertificateNameCheck"] = gen.PtrOf(gen.Bool())
@@ -425,8 +423,8 @@ func AddIndependentPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(gens m
 	gens["Weight"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_OriginGroups_Origin_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAfdOrigin_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAfdOrigin_Spec(gens map[string]gopter.Gen) {
 	gens["AzureOrigin"] = gen.PtrOf(ResourceReferenceGenerator())
 	gens["SharedPrivateLinkResource"] = gen.PtrOf(SharedPrivateLinkResourcePropertiesGenerator())
 }

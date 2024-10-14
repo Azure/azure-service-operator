@@ -29,8 +29,8 @@ import (
 type RuleSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_RuleSet_Spec   `json:"spec,omitempty"`
-	Status            Profiles_RuleSet_STATUS `json:"status,omitempty"`
+	Spec              RuleSet_Spec   `json:"spec,omitempty"`
+	Status            RuleSet_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RuleSet{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &RuleSet{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (ruleSet *RuleSet) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Profiles_RuleSet_STATUS); ok {
-		return ruleSet.Spec.Initialize_From_Profiles_RuleSet_STATUS(s)
+	if s, ok := status.(*RuleSet_STATUS); ok {
+		return ruleSet.Spec.Initialize_From_RuleSet_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Profiles_RuleSet_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type RuleSet_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RuleSet{}
@@ -144,7 +144,7 @@ func (ruleSet *RuleSet) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (ruleSet *RuleSet) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_RuleSet_STATUS{}
+	return &RuleSet_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (ruleSet *RuleSet) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (ruleSet *RuleSet) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_RuleSet_STATUS); ok {
+	if st, ok := status.(*RuleSet_STATUS); ok {
 		ruleSet.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_RuleSet_STATUS
+	var st RuleSet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (ruleSet *RuleSet) AssignProperties_From_RuleSet(source *storage.RuleSet) e
 	ruleSet.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_RuleSet_Spec
-	err := spec.AssignProperties_From_Profiles_RuleSet_Spec(&source.Spec)
+	var spec RuleSet_Spec
+	err := spec.AssignProperties_From_RuleSet_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_RuleSet_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_RuleSet_Spec() to populate field Spec")
 	}
 	ruleSet.Spec = spec
 
 	// Status
-	var status Profiles_RuleSet_STATUS
-	err = status.AssignProperties_From_Profiles_RuleSet_STATUS(&source.Status)
+	var status RuleSet_STATUS
+	err = status.AssignProperties_From_RuleSet_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_RuleSet_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_RuleSet_STATUS() to populate field Status")
 	}
 	ruleSet.Status = status
 
@@ -286,18 +286,18 @@ func (ruleSet *RuleSet) AssignProperties_To_RuleSet(destination *storage.RuleSet
 	destination.ObjectMeta = *ruleSet.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Profiles_RuleSet_Spec
-	err := ruleSet.Spec.AssignProperties_To_Profiles_RuleSet_Spec(&spec)
+	var spec storage.RuleSet_Spec
+	err := ruleSet.Spec.AssignProperties_To_RuleSet_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_RuleSet_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_RuleSet_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Profiles_RuleSet_STATUS
-	err = ruleSet.Status.AssignProperties_To_Profiles_RuleSet_STATUS(&status)
+	var status storage.RuleSet_STATUS
+	err = ruleSet.Status.AssignProperties_To_RuleSet_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_RuleSet_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_RuleSet_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type RuleSetList struct {
 	Items           []RuleSet `json:"items"`
 }
 
-type Profiles_RuleSet_Spec struct {
+type RuleSet_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -336,14 +336,14 @@ type Profiles_RuleSet_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"cdn.azure.com" json:"owner,omitempty" kind:"Profile"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_RuleSet_Spec{}
+var _ genruntime.ARMTransformer = &RuleSet_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (ruleSet *Profiles_RuleSet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (ruleSet *RuleSet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if ruleSet == nil {
 		return nil, nil
 	}
-	result := &Profiles_RuleSet_Spec_ARM{}
+	result := &RuleSet_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -351,15 +351,15 @@ func (ruleSet *Profiles_RuleSet_Spec) ConvertToARM(resolved genruntime.ConvertTo
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ruleSet *Profiles_RuleSet_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_RuleSet_Spec_ARM{}
+func (ruleSet *RuleSet_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RuleSet_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ruleSet *Profiles_RuleSet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_RuleSet_Spec_ARM)
+func (ruleSet *RuleSet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RuleSet_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_RuleSet_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RuleSet_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -375,25 +375,25 @@ func (ruleSet *Profiles_RuleSet_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_RuleSet_Spec{}
+var _ genruntime.ConvertibleSpec = &RuleSet_Spec{}
 
-// ConvertSpecFrom populates our Profiles_RuleSet_Spec from the provided source
-func (ruleSet *Profiles_RuleSet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Profiles_RuleSet_Spec)
+// ConvertSpecFrom populates our RuleSet_Spec from the provided source
+func (ruleSet *RuleSet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.RuleSet_Spec)
 	if ok {
 		// Populate our instance from source
-		return ruleSet.AssignProperties_From_Profiles_RuleSet_Spec(src)
+		return ruleSet.AssignProperties_From_RuleSet_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_RuleSet_Spec{}
+	src = &storage.RuleSet_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = ruleSet.AssignProperties_From_Profiles_RuleSet_Spec(src)
+	err = ruleSet.AssignProperties_From_RuleSet_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -401,17 +401,17 @@ func (ruleSet *Profiles_RuleSet_Spec) ConvertSpecFrom(source genruntime.Converti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_RuleSet_Spec
-func (ruleSet *Profiles_RuleSet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Profiles_RuleSet_Spec)
+// ConvertSpecTo populates the provided destination from our RuleSet_Spec
+func (ruleSet *RuleSet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.RuleSet_Spec)
 	if ok {
 		// Populate destination from our instance
-		return ruleSet.AssignProperties_To_Profiles_RuleSet_Spec(dst)
+		return ruleSet.AssignProperties_To_RuleSet_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_RuleSet_Spec{}
-	err := ruleSet.AssignProperties_To_Profiles_RuleSet_Spec(dst)
+	dst = &storage.RuleSet_Spec{}
+	err := ruleSet.AssignProperties_To_RuleSet_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -425,8 +425,8 @@ func (ruleSet *Profiles_RuleSet_Spec) ConvertSpecTo(destination genruntime.Conve
 	return nil
 }
 
-// AssignProperties_From_Profiles_RuleSet_Spec populates our Profiles_RuleSet_Spec from the provided source Profiles_RuleSet_Spec
-func (ruleSet *Profiles_RuleSet_Spec) AssignProperties_From_Profiles_RuleSet_Spec(source *storage.Profiles_RuleSet_Spec) error {
+// AssignProperties_From_RuleSet_Spec populates our RuleSet_Spec from the provided source RuleSet_Spec
+func (ruleSet *RuleSet_Spec) AssignProperties_From_RuleSet_Spec(source *storage.RuleSet_Spec) error {
 
 	// AzureName
 	ruleSet.AzureName = source.AzureName
@@ -443,8 +443,8 @@ func (ruleSet *Profiles_RuleSet_Spec) AssignProperties_From_Profiles_RuleSet_Spe
 	return nil
 }
 
-// AssignProperties_To_Profiles_RuleSet_Spec populates the provided destination Profiles_RuleSet_Spec from our Profiles_RuleSet_Spec
-func (ruleSet *Profiles_RuleSet_Spec) AssignProperties_To_Profiles_RuleSet_Spec(destination *storage.Profiles_RuleSet_Spec) error {
+// AssignProperties_To_RuleSet_Spec populates the provided destination RuleSet_Spec from our RuleSet_Spec
+func (ruleSet *RuleSet_Spec) AssignProperties_To_RuleSet_Spec(destination *storage.RuleSet_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -473,22 +473,22 @@ func (ruleSet *Profiles_RuleSet_Spec) AssignProperties_To_Profiles_RuleSet_Spec(
 	return nil
 }
 
-// Initialize_From_Profiles_RuleSet_STATUS populates our Profiles_RuleSet_Spec from the provided source Profiles_RuleSet_STATUS
-func (ruleSet *Profiles_RuleSet_Spec) Initialize_From_Profiles_RuleSet_STATUS(source *Profiles_RuleSet_STATUS) error {
+// Initialize_From_RuleSet_STATUS populates our RuleSet_Spec from the provided source RuleSet_STATUS
+func (ruleSet *RuleSet_Spec) Initialize_From_RuleSet_STATUS(source *RuleSet_STATUS) error {
 
 	// No error
 	return nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (ruleSet *Profiles_RuleSet_Spec) OriginalVersion() string {
+func (ruleSet *RuleSet_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (ruleSet *Profiles_RuleSet_Spec) SetAzureName(azureName string) { ruleSet.AzureName = azureName }
+func (ruleSet *RuleSet_Spec) SetAzureName(azureName string) { ruleSet.AzureName = azureName }
 
-type Profiles_RuleSet_STATUS struct {
+type RuleSet_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions       []conditions.Condition                     `json:"conditions,omitempty"`
 	DeploymentStatus *RuleSetProperties_DeploymentStatus_STATUS `json:"deploymentStatus,omitempty"`
@@ -512,25 +512,25 @@ type Profiles_RuleSet_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_RuleSet_STATUS{}
+var _ genruntime.ConvertibleStatus = &RuleSet_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_RuleSet_STATUS from the provided source
-func (ruleSet *Profiles_RuleSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Profiles_RuleSet_STATUS)
+// ConvertStatusFrom populates our RuleSet_STATUS from the provided source
+func (ruleSet *RuleSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.RuleSet_STATUS)
 	if ok {
 		// Populate our instance from source
-		return ruleSet.AssignProperties_From_Profiles_RuleSet_STATUS(src)
+		return ruleSet.AssignProperties_From_RuleSet_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_RuleSet_STATUS{}
+	src = &storage.RuleSet_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = ruleSet.AssignProperties_From_Profiles_RuleSet_STATUS(src)
+	err = ruleSet.AssignProperties_From_RuleSet_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -538,17 +538,17 @@ func (ruleSet *Profiles_RuleSet_STATUS) ConvertStatusFrom(source genruntime.Conv
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_RuleSet_STATUS
-func (ruleSet *Profiles_RuleSet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Profiles_RuleSet_STATUS)
+// ConvertStatusTo populates the provided destination from our RuleSet_STATUS
+func (ruleSet *RuleSet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.RuleSet_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return ruleSet.AssignProperties_To_Profiles_RuleSet_STATUS(dst)
+		return ruleSet.AssignProperties_To_RuleSet_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_RuleSet_STATUS{}
-	err := ruleSet.AssignProperties_To_Profiles_RuleSet_STATUS(dst)
+	dst = &storage.RuleSet_STATUS{}
+	err := ruleSet.AssignProperties_To_RuleSet_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -562,18 +562,18 @@ func (ruleSet *Profiles_RuleSet_STATUS) ConvertStatusTo(destination genruntime.C
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Profiles_RuleSet_STATUS{}
+var _ genruntime.FromARMConverter = &RuleSet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ruleSet *Profiles_RuleSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_RuleSet_STATUS_ARM{}
+func (ruleSet *RuleSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RuleSet_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (ruleSet *Profiles_RuleSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_RuleSet_STATUS_ARM)
+func (ruleSet *RuleSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RuleSet_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_RuleSet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RuleSet_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -642,8 +642,8 @@ func (ruleSet *Profiles_RuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignProperties_From_Profiles_RuleSet_STATUS populates our Profiles_RuleSet_STATUS from the provided source Profiles_RuleSet_STATUS
-func (ruleSet *Profiles_RuleSet_STATUS) AssignProperties_From_Profiles_RuleSet_STATUS(source *storage.Profiles_RuleSet_STATUS) error {
+// AssignProperties_From_RuleSet_STATUS populates our RuleSet_STATUS from the provided source RuleSet_STATUS
+func (ruleSet *RuleSet_STATUS) AssignProperties_From_RuleSet_STATUS(source *storage.RuleSet_STATUS) error {
 
 	// Conditions
 	ruleSet.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -694,8 +694,8 @@ func (ruleSet *Profiles_RuleSet_STATUS) AssignProperties_From_Profiles_RuleSet_S
 	return nil
 }
 
-// AssignProperties_To_Profiles_RuleSet_STATUS populates the provided destination Profiles_RuleSet_STATUS from our Profiles_RuleSet_STATUS
-func (ruleSet *Profiles_RuleSet_STATUS) AssignProperties_To_Profiles_RuleSet_STATUS(destination *storage.Profiles_RuleSet_STATUS) error {
+// AssignProperties_To_RuleSet_STATUS populates the provided destination RuleSet_STATUS from our RuleSet_STATUS
+func (ruleSet *RuleSet_STATUS) AssignProperties_To_RuleSet_STATUS(destination *storage.RuleSet_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

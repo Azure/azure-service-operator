@@ -36,9 +36,17 @@
 | ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded  |               | v1api20230501 |
 | ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded      |               | v1api20230501 |
 | AfdCustomDomain                                                                    |               | v1api20230501 |
+| AfdCustomDomain_STATUS                                                             |               | v1api20230501 |
+| AfdCustomDomain_Spec                                                               |               | v1api20230501 |
 | AfdEndpoint                                                                        |               | v1api20230501 |
+| AfdEndpoint_STATUS                                                                 |               | v1api20230501 |
+| AfdEndpoint_Spec                                                                   |               | v1api20230501 |
 | AfdOrigin                                                                          |               | v1api20230501 |
 | AfdOriginGroup                                                                     |               | v1api20230501 |
+| AfdOriginGroup_STATUS                                                              |               | v1api20230501 |
+| AfdOriginGroup_Spec                                                                |               | v1api20230501 |
+| AfdOrigin_STATUS                                                                   |               | v1api20230501 |
+| AfdOrigin_Spec                                                                     |               | v1api20230501 |
 | AfdRouteCacheConfiguration                                                         |               | v1api20230501 |
 | AfdRouteCacheConfiguration_QueryStringCachingBehavior                              |               | v1api20230501 |
 | AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS                       |               | v1api20230501 |
@@ -292,26 +300,8 @@
 | Profile_STATUS                                                                     | v1api20210601 | v1api20230501 |
 | Profile_Spec                                                                       | v1api20210601 | v1api20230501 |
 | ProfilesEndpoint                                                                   | v1api20210601 |               |
-| Profiles_AfdEndpoint_STATUS                                                        |               | v1api20230501 |
-| Profiles_AfdEndpoint_Spec                                                          |               | v1api20230501 |
-| Profiles_AfdEndpoints_Route_STATUS                                                 |               | v1api20230501 |
-| Profiles_AfdEndpoints_Route_Spec                                                   |               | v1api20230501 |
-| Profiles_CustomDomain_STATUS                                                       |               | v1api20230501 |
-| Profiles_CustomDomain_Spec                                                         |               | v1api20230501 |
-| Profiles_Endpoint_STATUS                                                           | v1api20210601 |               |
-| Profiles_Endpoint_Spec                                                             | v1api20210601 |               |
-| Profiles_OriginGroup_STATUS                                                        |               | v1api20230501 |
-| Profiles_OriginGroup_Spec                                                          |               | v1api20230501 |
-| Profiles_OriginGroups_Origin_STATUS                                                |               | v1api20230501 |
-| Profiles_OriginGroups_Origin_Spec                                                  |               | v1api20230501 |
-| Profiles_RuleSet_STATUS                                                            |               | v1api20230501 |
-| Profiles_RuleSet_Spec                                                              |               | v1api20230501 |
-| Profiles_RuleSets_Rule_STATUS                                                      |               | v1api20230501 |
-| Profiles_RuleSets_Rule_Spec                                                        |               | v1api20230501 |
-| Profiles_Secret_STATUS                                                             |               | v1api20230501 |
-| Profiles_Secret_Spec                                                               |               | v1api20230501 |
-| Profiles_SecurityPolicy_STATUS                                                     |               | v1api20230501 |
-| Profiles_SecurityPolicy_Spec                                                       |               | v1api20230501 |
+| ProfilesEndpoint_STATUS                                                            | v1api20210601 |               |
+| ProfilesEndpoint_Spec                                                              | v1api20210601 |               |
 | QueryStringCachingBehavior                                                         | v1api20210601 |               |
 | QueryStringCachingBehavior_STATUS                                                  | v1api20210601 |               |
 | QueryStringMatchConditionParameters                                                | v1api20210601 | v1api20230501 |
@@ -383,6 +373,8 @@
 | RouteProperties_LinkToDefaultDomain_STATUS                                         |               | v1api20230501 |
 | RouteProperties_ProvisioningState_STATUS                                           |               | v1api20230501 |
 | RouteProperties_STATUS                                                             |               | v1api20230501 |
+| Route_STATUS                                                                       |               | v1api20230501 |
+| Route_Spec                                                                         |               | v1api20230501 |
 | Rule                                                                               |               | v1api20230501 |
 | RuleProperties                                                                     |               | v1api20230501 |
 | RuleProperties_DeploymentStatus_STATUS                                             |               | v1api20230501 |
@@ -394,6 +386,10 @@
 | RuleSetProperties_DeploymentStatus_STATUS                                          |               | v1api20230501 |
 | RuleSetProperties_ProvisioningState_STATUS                                         |               | v1api20230501 |
 | RuleSetProperties_STATUS                                                           |               | v1api20230501 |
+| RuleSet_STATUS                                                                     |               | v1api20230501 |
+| RuleSet_Spec                                                                       |               | v1api20230501 |
+| Rule_STATUS                                                                        |               | v1api20230501 |
+| Rule_Spec                                                                          |               | v1api20230501 |
 | Secret                                                                             |               | v1api20230501 |
 | SecretParameters                                                                   |               | v1api20230501 |
 | SecretParameters_STATUS                                                            |               | v1api20230501 |
@@ -401,6 +397,8 @@
 | SecretProperties_DeploymentStatus_STATUS                                           |               | v1api20230501 |
 | SecretProperties_ProvisioningState_STATUS                                          |               | v1api20230501 |
 | SecretProperties_STATUS                                                            |               | v1api20230501 |
+| Secret_STATUS                                                                      |               | v1api20230501 |
+| Secret_Spec                                                                        |               | v1api20230501 |
 | SecurityPolicy                                                                     |               | v1api20230501 |
 | SecurityPolicyProperties                                                           |               | v1api20230501 |
 | SecurityPolicyPropertiesParameters                                                 |               | v1api20230501 |
@@ -414,6 +412,8 @@
 | SecurityPolicyWebApplicationFirewallParameters_STATUS                              |               | v1api20230501 |
 | SecurityPolicyWebApplicationFirewallParameters_Type                                |               | v1api20230501 |
 | SecurityPolicyWebApplicationFirewallParameters_Type_STATUS                         |               | v1api20230501 |
+| SecurityPolicy_STATUS                                                              |               | v1api20230501 |
+| SecurityPolicy_Spec                                                                |               | v1api20230501 |
 | ServerPortMatchConditionParameters                                                 | v1api20210601 | v1api20230501 |
 | ServerPortMatchConditionParameters_Operator                                        | v1api20210601 | v1api20230501 |
 | ServerPortMatchConditionParameters_Operator_STATUS                                 | v1api20210601 | v1api20230501 |

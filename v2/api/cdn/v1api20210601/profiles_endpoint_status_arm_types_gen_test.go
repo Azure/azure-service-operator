@@ -4012,20 +4012,20 @@ func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters_STATUS_
 	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(PostArgsMatchConditionParameters_TypeName_STATUS_ARM_DeliveryRulePostArgsConditionParameters))
 }
 
-func Test_Profiles_Endpoint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ProfilesEndpoint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Profiles_Endpoint_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_Endpoint_STATUS_ARM, Profiles_Endpoint_STATUS_ARMGenerator()))
+		"Round trip of ProfilesEndpoint_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfilesEndpoint_STATUS_ARM, ProfilesEndpoint_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfiles_Endpoint_STATUS_ARM runs a test to see if a specific instance of Profiles_Endpoint_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_Endpoint_STATUS_ARM(subject Profiles_Endpoint_STATUS_ARM) string {
+// RunJSONSerializationTestForProfilesEndpoint_STATUS_ARM runs a test to see if a specific instance of ProfilesEndpoint_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfilesEndpoint_STATUS_ARM(subject ProfilesEndpoint_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -4033,7 +4033,7 @@ func RunJSONSerializationTestForProfiles_Endpoint_STATUS_ARM(subject Profiles_En
 	}
 
 	// Deserialize back into memory
-	var actual Profiles_Endpoint_STATUS_ARM
+	var actual ProfilesEndpoint_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -4051,34 +4051,34 @@ func RunJSONSerializationTestForProfiles_Endpoint_STATUS_ARM(subject Profiles_En
 	return ""
 }
 
-// Generator of Profiles_Endpoint_STATUS_ARM instances for property testing - lazily instantiated by
-// Profiles_Endpoint_STATUS_ARMGenerator()
-var profiles_Endpoint_STATUS_ARMGenerator gopter.Gen
+// Generator of ProfilesEndpoint_STATUS_ARM instances for property testing - lazily instantiated by
+// ProfilesEndpoint_STATUS_ARMGenerator()
+var profilesEndpoint_STATUS_ARMGenerator gopter.Gen
 
-// Profiles_Endpoint_STATUS_ARMGenerator returns a generator of Profiles_Endpoint_STATUS_ARM instances for property testing.
-// We first initialize profiles_Endpoint_STATUS_ARMGenerator with a simplified generator based on the
+// ProfilesEndpoint_STATUS_ARMGenerator returns a generator of ProfilesEndpoint_STATUS_ARM instances for property testing.
+// We first initialize profilesEndpoint_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Profiles_Endpoint_STATUS_ARMGenerator() gopter.Gen {
-	if profiles_Endpoint_STATUS_ARMGenerator != nil {
-		return profiles_Endpoint_STATUS_ARMGenerator
+func ProfilesEndpoint_STATUS_ARMGenerator() gopter.Gen {
+	if profilesEndpoint_STATUS_ARMGenerator != nil {
+		return profilesEndpoint_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS_ARM(generators)
-	profiles_Endpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_Endpoint_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForProfilesEndpoint_STATUS_ARM(generators)
+	profilesEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ProfilesEndpoint_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForProfiles_Endpoint_STATUS_ARM(generators)
-	profiles_Endpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Profiles_Endpoint_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForProfilesEndpoint_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForProfilesEndpoint_STATUS_ARM(generators)
+	profilesEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ProfilesEndpoint_STATUS_ARM{}), generators)
 
-	return profiles_Endpoint_STATUS_ARMGenerator
+	return profilesEndpoint_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProfilesEndpoint_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfilesEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -4088,8 +4088,8 @@ func AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS_ARM(gens map[st
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForProfiles_Endpoint_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_Endpoint_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForProfilesEndpoint_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfilesEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(EndpointProperties_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }
