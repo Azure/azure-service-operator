@@ -29,8 +29,8 @@ import (
 type PrivateDnsZonesVirtualNetworkLink struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PrivateDnsZones_VirtualNetworkLink_Spec   `json:"spec,omitempty"`
-	Status            PrivateDnsZones_VirtualNetworkLink_STATUS `json:"status,omitempty"`
+	Spec              PrivateDnsZonesVirtualNetworkLink_Spec   `json:"spec,omitempty"`
+	Status            PrivateDnsZonesVirtualNetworkLink_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PrivateDnsZonesVirtualNetworkLink{}
@@ -88,7 +88,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (link *PrivateDnsZonesVirtualNetworkLink) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &PrivateDnsZones_VirtualNetworkLink_STATUS{}
+	return &PrivateDnsZonesVirtualNetworkLink_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -100,13 +100,13 @@ func (link *PrivateDnsZonesVirtualNetworkLink) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (link *PrivateDnsZonesVirtualNetworkLink) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*PrivateDnsZones_VirtualNetworkLink_STATUS); ok {
+	if st, ok := status.(*PrivateDnsZonesVirtualNetworkLink_STATUS); ok {
 		link.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st PrivateDnsZones_VirtualNetworkLink_STATUS
+	var st PrivateDnsZonesVirtualNetworkLink_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -139,8 +139,8 @@ type PrivateDnsZonesVirtualNetworkLinkList struct {
 	Items           []PrivateDnsZonesVirtualNetworkLink `json:"items"`
 }
 
-// Storage version of v1api20200601.PrivateDnsZones_VirtualNetworkLink_Spec
-type PrivateDnsZones_VirtualNetworkLink_Spec struct {
+// Storage version of v1api20200601.PrivateDnsZonesVirtualNetworkLink_Spec
+type PrivateDnsZonesVirtualNetworkLink_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -159,10 +159,10 @@ type PrivateDnsZones_VirtualNetworkLink_Spec struct {
 	VirtualNetwork      *SubResource                       `json:"virtualNetwork,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &PrivateDnsZones_VirtualNetworkLink_Spec{}
+var _ genruntime.ConvertibleSpec = &PrivateDnsZonesVirtualNetworkLink_Spec{}
 
-// ConvertSpecFrom populates our PrivateDnsZones_VirtualNetworkLink_Spec from the provided source
-func (link *PrivateDnsZones_VirtualNetworkLink_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our PrivateDnsZonesVirtualNetworkLink_Spec from the provided source
+func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == link {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -170,8 +170,8 @@ func (link *PrivateDnsZones_VirtualNetworkLink_Spec) ConvertSpecFrom(source genr
 	return source.ConvertSpecTo(link)
 }
 
-// ConvertSpecTo populates the provided destination from our PrivateDnsZones_VirtualNetworkLink_Spec
-func (link *PrivateDnsZones_VirtualNetworkLink_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our PrivateDnsZonesVirtualNetworkLink_Spec
+func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == link {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -179,8 +179,8 @@ func (link *PrivateDnsZones_VirtualNetworkLink_Spec) ConvertSpecTo(destination g
 	return destination.ConvertSpecFrom(link)
 }
 
-// Storage version of v1api20200601.PrivateDnsZones_VirtualNetworkLink_STATUS
-type PrivateDnsZones_VirtualNetworkLink_STATUS struct {
+// Storage version of v1api20200601.PrivateDnsZonesVirtualNetworkLink_STATUS
+type PrivateDnsZonesVirtualNetworkLink_STATUS struct {
 	Conditions              []conditions.Condition `json:"conditions,omitempty"`
 	Etag                    *string                `json:"etag,omitempty"`
 	Id                      *string                `json:"id,omitempty"`
@@ -195,10 +195,10 @@ type PrivateDnsZones_VirtualNetworkLink_STATUS struct {
 	VirtualNetworkLinkState *string                `json:"virtualNetworkLinkState,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &PrivateDnsZones_VirtualNetworkLink_STATUS{}
+var _ genruntime.ConvertibleStatus = &PrivateDnsZonesVirtualNetworkLink_STATUS{}
 
-// ConvertStatusFrom populates our PrivateDnsZones_VirtualNetworkLink_STATUS from the provided source
-func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our PrivateDnsZonesVirtualNetworkLink_STATUS from the provided source
+func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == link {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -206,8 +206,8 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) ConvertStatusFrom(source 
 	return source.ConvertStatusTo(link)
 }
 
-// ConvertStatusTo populates the provided destination from our PrivateDnsZones_VirtualNetworkLink_STATUS
-func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our PrivateDnsZonesVirtualNetworkLink_STATUS
+func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == link {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

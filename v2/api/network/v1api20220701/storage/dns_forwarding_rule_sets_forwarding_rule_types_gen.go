@@ -28,8 +28,8 @@ import (
 type DnsForwardingRuleSetsForwardingRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DnsForwardingRulesets_ForwardingRule_Spec   `json:"spec,omitempty"`
-	Status            DnsForwardingRulesets_ForwardingRule_STATUS `json:"status,omitempty"`
+	Spec              DnsForwardingRuleSetsForwardingRule_Spec   `json:"spec,omitempty"`
+	Status            DnsForwardingRuleSetsForwardingRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DnsForwardingRuleSetsForwardingRule{}
@@ -87,7 +87,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *DnsForwardingRuleSetsForwardingRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DnsForwardingRulesets_ForwardingRule_STATUS{}
+	return &DnsForwardingRuleSetsForwardingRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (rule *DnsForwardingRuleSetsForwardingRule) Owner() *genruntime.ResourceRef
 // SetStatus sets the status of this resource
 func (rule *DnsForwardingRuleSetsForwardingRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DnsForwardingRulesets_ForwardingRule_STATUS); ok {
+	if st, ok := status.(*DnsForwardingRuleSetsForwardingRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DnsForwardingRulesets_ForwardingRule_STATUS
+	var st DnsForwardingRuleSetsForwardingRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type DnsForwardingRuleSetsForwardingRuleList struct {
 	Items           []DnsForwardingRuleSetsForwardingRule `json:"items"`
 }
 
-// Storage version of v1api20220701.DnsForwardingRulesets_ForwardingRule_Spec
-type DnsForwardingRulesets_ForwardingRule_Spec struct {
+// Storage version of v1api20220701.DnsForwardingRuleSetsForwardingRule_Spec
+type DnsForwardingRuleSetsForwardingRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName           string            `json:"azureName,omitempty"`
@@ -157,10 +157,10 @@ type DnsForwardingRulesets_ForwardingRule_Spec struct {
 	TargetDnsServers []TargetDnsServer                  `json:"targetDnsServers,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DnsForwardingRulesets_ForwardingRule_Spec{}
+var _ genruntime.ConvertibleSpec = &DnsForwardingRuleSetsForwardingRule_Spec{}
 
-// ConvertSpecFrom populates our DnsForwardingRulesets_ForwardingRule_Spec from the provided source
-func (rule *DnsForwardingRulesets_ForwardingRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DnsForwardingRuleSetsForwardingRule_Spec from the provided source
+func (rule *DnsForwardingRuleSetsForwardingRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -168,8 +168,8 @@ func (rule *DnsForwardingRulesets_ForwardingRule_Spec) ConvertSpecFrom(source ge
 	return source.ConvertSpecTo(rule)
 }
 
-// ConvertSpecTo populates the provided destination from our DnsForwardingRulesets_ForwardingRule_Spec
-func (rule *DnsForwardingRulesets_ForwardingRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DnsForwardingRuleSetsForwardingRule_Spec
+func (rule *DnsForwardingRuleSetsForwardingRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -177,8 +177,8 @@ func (rule *DnsForwardingRulesets_ForwardingRule_Spec) ConvertSpecTo(destination
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS
-type DnsForwardingRulesets_ForwardingRule_STATUS struct {
+// Storage version of v1api20220701.DnsForwardingRuleSetsForwardingRule_STATUS
+type DnsForwardingRuleSetsForwardingRule_STATUS struct {
 	Conditions          []conditions.Condition   `json:"conditions,omitempty"`
 	DomainName          *string                  `json:"domainName,omitempty"`
 	Etag                *string                  `json:"etag,omitempty"`
@@ -193,10 +193,10 @@ type DnsForwardingRulesets_ForwardingRule_STATUS struct {
 	Type                *string                  `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DnsForwardingRulesets_ForwardingRule_STATUS{}
+var _ genruntime.ConvertibleStatus = &DnsForwardingRuleSetsForwardingRule_STATUS{}
 
-// ConvertStatusFrom populates our DnsForwardingRulesets_ForwardingRule_STATUS from the provided source
-func (rule *DnsForwardingRulesets_ForwardingRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our DnsForwardingRuleSetsForwardingRule_STATUS from the provided source
+func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -204,8 +204,8 @@ func (rule *DnsForwardingRulesets_ForwardingRule_STATUS) ConvertStatusFrom(sourc
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our DnsForwardingRulesets_ForwardingRule_STATUS
-func (rule *DnsForwardingRulesets_ForwardingRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our DnsForwardingRuleSetsForwardingRule_STATUS
+func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

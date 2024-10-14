@@ -29,8 +29,8 @@ import (
 type DnsZonesSRVRecord struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DnsZones_SRV_Spec   `json:"spec,omitempty"`
-	Status            DnsZones_SRV_STATUS `json:"status,omitempty"`
+	Spec              DnsZonesSRVRecord_Spec   `json:"spec,omitempty"`
+	Status            DnsZonesSRVRecord_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DnsZonesSRVRecord{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &DnsZonesSRVRecord{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (record *DnsZonesSRVRecord) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DnsZones_SRV_STATUS); ok {
-		return record.Spec.Initialize_From_DnsZones_SRV_STATUS(s)
+	if s, ok := status.(*DnsZonesSRVRecord_STATUS); ok {
+		return record.Spec.Initialize_From_DnsZonesSRVRecord_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type DnsZones_SRV_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type DnsZonesSRVRecord_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &DnsZonesSRVRecord{}
@@ -144,7 +144,7 @@ func (record *DnsZonesSRVRecord) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (record *DnsZonesSRVRecord) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DnsZones_SRV_STATUS{}
+	return &DnsZonesSRVRecord_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (record *DnsZonesSRVRecord) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (record *DnsZonesSRVRecord) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DnsZones_SRV_STATUS); ok {
+	if st, ok := status.(*DnsZonesSRVRecord_STATUS); ok {
 		record.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DnsZones_SRV_STATUS
+	var st DnsZonesSRVRecord_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (record *DnsZonesSRVRecord) AssignProperties_From_DnsZonesSRVRecord(source 
 	record.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DnsZones_SRV_Spec
-	err := spec.AssignProperties_From_DnsZones_SRV_Spec(&source.Spec)
+	var spec DnsZonesSRVRecord_Spec
+	err := spec.AssignProperties_From_DnsZonesSRVRecord_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsZones_SRV_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_DnsZonesSRVRecord_Spec() to populate field Spec")
 	}
 	record.Spec = spec
 
 	// Status
-	var status DnsZones_SRV_STATUS
-	err = status.AssignProperties_From_DnsZones_SRV_STATUS(&source.Status)
+	var status DnsZonesSRVRecord_STATUS
+	err = status.AssignProperties_From_DnsZonesSRVRecord_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsZones_SRV_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_DnsZonesSRVRecord_STATUS() to populate field Status")
 	}
 	record.Status = status
 
@@ -286,18 +286,18 @@ func (record *DnsZonesSRVRecord) AssignProperties_To_DnsZonesSRVRecord(destinati
 	destination.ObjectMeta = *record.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.DnsZones_SRV_Spec
-	err := record.Spec.AssignProperties_To_DnsZones_SRV_Spec(&spec)
+	var spec storage.DnsZonesSRVRecord_Spec
+	err := record.Spec.AssignProperties_To_DnsZonesSRVRecord_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsZones_SRV_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_DnsZonesSRVRecord_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.DnsZones_SRV_STATUS
-	err = record.Status.AssignProperties_To_DnsZones_SRV_STATUS(&status)
+	var status storage.DnsZonesSRVRecord_STATUS
+	err = record.Status.AssignProperties_To_DnsZonesSRVRecord_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsZones_SRV_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_DnsZonesSRVRecord_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type DnsZonesSRVRecordList struct {
 	Items           []DnsZonesSRVRecord `json:"items"`
 }
 
-type DnsZones_SRV_Spec struct {
+type DnsZonesSRVRecord_Spec struct {
 	// AAAARecords: The list of AAAA records in the record set.
 	AAAARecords []AaaaRecord `json:"AAAARecords,omitempty"`
 
@@ -375,118 +375,118 @@ type DnsZones_SRV_Spec struct {
 	TargetResource *SubResource `json:"targetResource,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DnsZones_SRV_Spec{}
+var _ genruntime.ARMTransformer = &DnsZonesSRVRecord_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (zonesSRV *DnsZones_SRV_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if zonesSRV == nil {
+func (record *DnsZonesSRVRecord_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if record == nil {
 		return nil, nil
 	}
-	result := &DnsZones_SRV_Spec_ARM{}
+	result := &DnsZonesSRVRecord_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
-	if zonesSRV.AAAARecords != nil ||
-		zonesSRV.ARecords != nil ||
-		zonesSRV.CNAMERecord != nil ||
-		zonesSRV.CaaRecords != nil ||
-		zonesSRV.MXRecords != nil ||
-		zonesSRV.Metadata != nil ||
-		zonesSRV.NSRecords != nil ||
-		zonesSRV.PTRRecords != nil ||
-		zonesSRV.SOARecord != nil ||
-		zonesSRV.SRVRecords != nil ||
-		zonesSRV.TTL != nil ||
-		zonesSRV.TXTRecords != nil ||
-		zonesSRV.TargetResource != nil {
+	if record.AAAARecords != nil ||
+		record.ARecords != nil ||
+		record.CNAMERecord != nil ||
+		record.CaaRecords != nil ||
+		record.MXRecords != nil ||
+		record.Metadata != nil ||
+		record.NSRecords != nil ||
+		record.PTRRecords != nil ||
+		record.SOARecord != nil ||
+		record.SRVRecords != nil ||
+		record.TTL != nil ||
+		record.TXTRecords != nil ||
+		record.TargetResource != nil {
 		result.Properties = &RecordSetProperties_ARM{}
 	}
-	for _, item := range zonesSRV.AAAARecords {
+	for _, item := range record.AAAARecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.AAAARecords = append(result.Properties.AAAARecords, *item_ARM.(*AaaaRecord_ARM))
 	}
-	for _, item := range zonesSRV.ARecords {
+	for _, item := range record.ARecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.ARecords = append(result.Properties.ARecords, *item_ARM.(*ARecord_ARM))
 	}
-	if zonesSRV.CNAMERecord != nil {
-		cnameRecord_ARM, err := (*zonesSRV.CNAMERecord).ConvertToARM(resolved)
+	if record.CNAMERecord != nil {
+		cnameRecord_ARM, err := (*record.CNAMERecord).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		cnameRecord := *cnameRecord_ARM.(*CnameRecord_ARM)
 		result.Properties.CNAMERecord = &cnameRecord
 	}
-	for _, item := range zonesSRV.CaaRecords {
+	for _, item := range record.CaaRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.CaaRecords = append(result.Properties.CaaRecords, *item_ARM.(*CaaRecord_ARM))
 	}
-	for _, item := range zonesSRV.MXRecords {
+	for _, item := range record.MXRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.MXRecords = append(result.Properties.MXRecords, *item_ARM.(*MxRecord_ARM))
 	}
-	if zonesSRV.Metadata != nil {
-		result.Properties.Metadata = make(map[string]string, len(zonesSRV.Metadata))
-		for key, value := range zonesSRV.Metadata {
+	if record.Metadata != nil {
+		result.Properties.Metadata = make(map[string]string, len(record.Metadata))
+		for key, value := range record.Metadata {
 			result.Properties.Metadata[key] = value
 		}
 	}
-	for _, item := range zonesSRV.NSRecords {
+	for _, item := range record.NSRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.NSRecords = append(result.Properties.NSRecords, *item_ARM.(*NsRecord_ARM))
 	}
-	for _, item := range zonesSRV.PTRRecords {
+	for _, item := range record.PTRRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.PTRRecords = append(result.Properties.PTRRecords, *item_ARM.(*PtrRecord_ARM))
 	}
-	if zonesSRV.SOARecord != nil {
-		soaRecord_ARM, err := (*zonesSRV.SOARecord).ConvertToARM(resolved)
+	if record.SOARecord != nil {
+		soaRecord_ARM, err := (*record.SOARecord).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		soaRecord := *soaRecord_ARM.(*SoaRecord_ARM)
 		result.Properties.SOARecord = &soaRecord
 	}
-	for _, item := range zonesSRV.SRVRecords {
+	for _, item := range record.SRVRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.SRVRecords = append(result.Properties.SRVRecords, *item_ARM.(*SrvRecord_ARM))
 	}
-	if zonesSRV.TTL != nil {
-		ttl := *zonesSRV.TTL
+	if record.TTL != nil {
+		ttl := *record.TTL
 		result.Properties.TTL = &ttl
 	}
-	for _, item := range zonesSRV.TXTRecords {
+	for _, item := range record.TXTRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.TXTRecords = append(result.Properties.TXTRecords, *item_ARM.(*TxtRecord_ARM))
 	}
-	if zonesSRV.TargetResource != nil {
-		targetResource_ARM, err := (*zonesSRV.TargetResource).ConvertToARM(resolved)
+	if record.TargetResource != nil {
+		targetResource_ARM, err := (*record.TargetResource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -497,15 +497,15 @@ func (zonesSRV *DnsZones_SRV_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (zonesSRV *DnsZones_SRV_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsZones_SRV_Spec_ARM{}
+func (record *DnsZonesSRVRecord_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DnsZonesSRVRecord_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsZones_SRV_Spec_ARM)
+func (record *DnsZonesSRVRecord_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DnsZonesSRVRecord_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZones_SRV_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZonesSRVRecord_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AAAARecords":
@@ -517,7 +517,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesSRV.AAAARecords = append(zonesSRV.AAAARecords, item1)
+			record.AAAARecords = append(record.AAAARecords, item1)
 		}
 	}
 
@@ -530,12 +530,12 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesSRV.ARecords = append(zonesSRV.ARecords, item1)
+			record.ARecords = append(record.ARecords, item1)
 		}
 	}
 
 	// Set property "AzureName":
-	zonesSRV.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	record.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "CNAMERecord":
 	// copying flattened property:
@@ -547,7 +547,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			cnameRecord := cnameRecord1
-			zonesSRV.CNAMERecord = &cnameRecord
+			record.CNAMERecord = &cnameRecord
 		}
 	}
 
@@ -560,7 +560,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesSRV.CaaRecords = append(zonesSRV.CaaRecords, item1)
+			record.CaaRecords = append(record.CaaRecords, item1)
 		}
 	}
 
@@ -573,7 +573,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesSRV.MXRecords = append(zonesSRV.MXRecords, item1)
+			record.MXRecords = append(record.MXRecords, item1)
 		}
 	}
 
@@ -581,9 +581,9 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			zonesSRV.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
+			record.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
-				zonesSRV.Metadata[key] = value
+				record.Metadata[key] = value
 			}
 		}
 	}
@@ -597,12 +597,12 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesSRV.NSRecords = append(zonesSRV.NSRecords, item1)
+			record.NSRecords = append(record.NSRecords, item1)
 		}
 	}
 
 	// Set property "Owner":
-	zonesSRV.Owner = &genruntime.KnownResourceReference{
+	record.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
 	}
@@ -616,7 +616,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesSRV.PTRRecords = append(zonesSRV.PTRRecords, item1)
+			record.PTRRecords = append(record.PTRRecords, item1)
 		}
 	}
 
@@ -630,7 +630,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			soaRecord := soaRecord1
-			zonesSRV.SOARecord = &soaRecord
+			record.SOARecord = &soaRecord
 		}
 	}
 
@@ -643,7 +643,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesSRV.SRVRecords = append(zonesSRV.SRVRecords, item1)
+			record.SRVRecords = append(record.SRVRecords, item1)
 		}
 	}
 
@@ -652,7 +652,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TTL != nil {
 			ttl := *typedInput.Properties.TTL
-			zonesSRV.TTL = &ttl
+			record.TTL = &ttl
 		}
 	}
 
@@ -665,7 +665,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesSRV.TXTRecords = append(zonesSRV.TXTRecords, item1)
+			record.TXTRecords = append(record.TXTRecords, item1)
 		}
 	}
 
@@ -679,7 +679,7 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			targetResource := targetResource1
-			zonesSRV.TargetResource = &targetResource
+			record.TargetResource = &targetResource
 		}
 	}
 
@@ -687,25 +687,25 @@ func (zonesSRV *DnsZones_SRV_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DnsZones_SRV_Spec{}
+var _ genruntime.ConvertibleSpec = &DnsZonesSRVRecord_Spec{}
 
-// ConvertSpecFrom populates our DnsZones_SRV_Spec from the provided source
-func (zonesSRV *DnsZones_SRV_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.DnsZones_SRV_Spec)
+// ConvertSpecFrom populates our DnsZonesSRVRecord_Spec from the provided source
+func (record *DnsZonesSRVRecord_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.DnsZonesSRVRecord_Spec)
 	if ok {
 		// Populate our instance from source
-		return zonesSRV.AssignProperties_From_DnsZones_SRV_Spec(src)
+		return record.AssignProperties_From_DnsZonesSRVRecord_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DnsZones_SRV_Spec{}
+	src = &storage.DnsZonesSRVRecord_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = zonesSRV.AssignProperties_From_DnsZones_SRV_Spec(src)
+	err = record.AssignProperties_From_DnsZonesSRVRecord_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -713,17 +713,17 @@ func (zonesSRV *DnsZones_SRV_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DnsZones_SRV_Spec
-func (zonesSRV *DnsZones_SRV_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.DnsZones_SRV_Spec)
+// ConvertSpecTo populates the provided destination from our DnsZonesSRVRecord_Spec
+func (record *DnsZonesSRVRecord_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.DnsZonesSRVRecord_Spec)
 	if ok {
 		// Populate destination from our instance
-		return zonesSRV.AssignProperties_To_DnsZones_SRV_Spec(dst)
+		return record.AssignProperties_To_DnsZonesSRVRecord_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DnsZones_SRV_Spec{}
-	err := zonesSRV.AssignProperties_To_DnsZones_SRV_Spec(dst)
+	dst = &storage.DnsZonesSRVRecord_Spec{}
+	err := record.AssignProperties_To_DnsZonesSRVRecord_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -737,8 +737,8 @@ func (zonesSRV *DnsZones_SRV_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignProperties_From_DnsZones_SRV_Spec populates our DnsZones_SRV_Spec from the provided source DnsZones_SRV_Spec
-func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(source *storage.DnsZones_SRV_Spec) error {
+// AssignProperties_From_DnsZonesSRVRecord_Spec populates our DnsZonesSRVRecord_Spec from the provided source DnsZonesSRVRecord_Spec
+func (record *DnsZonesSRVRecord_Spec) AssignProperties_From_DnsZonesSRVRecord_Spec(source *storage.DnsZonesSRVRecord_Spec) error {
 
 	// AAAARecords
 	if source.AAAARecords != nil {
@@ -753,9 +753,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 			}
 			aaaaRecordList[aaaaRecordIndex] = aaaaRecord
 		}
-		zonesSRV.AAAARecords = aaaaRecordList
+		record.AAAARecords = aaaaRecordList
 	} else {
-		zonesSRV.AAAARecords = nil
+		record.AAAARecords = nil
 	}
 
 	// ARecords
@@ -771,13 +771,13 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 			}
 			aRecordList[aRecordIndex] = aRecord
 		}
-		zonesSRV.ARecords = aRecordList
+		record.ARecords = aRecordList
 	} else {
-		zonesSRV.ARecords = nil
+		record.ARecords = nil
 	}
 
 	// AzureName
-	zonesSRV.AzureName = source.AzureName
+	record.AzureName = source.AzureName
 
 	// CNAMERecord
 	if source.CNAMERecord != nil {
@@ -786,9 +786,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_CnameRecord() to populate field CNAMERecord")
 		}
-		zonesSRV.CNAMERecord = &cnameRecord
+		record.CNAMERecord = &cnameRecord
 	} else {
-		zonesSRV.CNAMERecord = nil
+		record.CNAMERecord = nil
 	}
 
 	// CaaRecords
@@ -804,9 +804,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 			}
 			caaRecordList[caaRecordIndex] = caaRecord
 		}
-		zonesSRV.CaaRecords = caaRecordList
+		record.CaaRecords = caaRecordList
 	} else {
-		zonesSRV.CaaRecords = nil
+		record.CaaRecords = nil
 	}
 
 	// MXRecords
@@ -822,13 +822,13 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 			}
 			mxRecordList[mxRecordIndex] = mxRecord
 		}
-		zonesSRV.MXRecords = mxRecordList
+		record.MXRecords = mxRecordList
 	} else {
-		zonesSRV.MXRecords = nil
+		record.MXRecords = nil
 	}
 
 	// Metadata
-	zonesSRV.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	record.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// NSRecords
 	if source.NSRecords != nil {
@@ -843,17 +843,17 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 			}
 			nsRecordList[nsRecordIndex] = nsRecord
 		}
-		zonesSRV.NSRecords = nsRecordList
+		record.NSRecords = nsRecordList
 	} else {
-		zonesSRV.NSRecords = nil
+		record.NSRecords = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		zonesSRV.Owner = &owner
+		record.Owner = &owner
 	} else {
-		zonesSRV.Owner = nil
+		record.Owner = nil
 	}
 
 	// PTRRecords
@@ -869,9 +869,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 			}
 			ptrRecordList[ptrRecordIndex] = ptrRecord
 		}
-		zonesSRV.PTRRecords = ptrRecordList
+		record.PTRRecords = ptrRecordList
 	} else {
-		zonesSRV.PTRRecords = nil
+		record.PTRRecords = nil
 	}
 
 	// SOARecord
@@ -881,9 +881,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SoaRecord() to populate field SOARecord")
 		}
-		zonesSRV.SOARecord = &soaRecord
+		record.SOARecord = &soaRecord
 	} else {
-		zonesSRV.SOARecord = nil
+		record.SOARecord = nil
 	}
 
 	// SRVRecords
@@ -899,13 +899,13 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 			}
 			srvRecordList[srvRecordIndex] = srvRecord
 		}
-		zonesSRV.SRVRecords = srvRecordList
+		record.SRVRecords = srvRecordList
 	} else {
-		zonesSRV.SRVRecords = nil
+		record.SRVRecords = nil
 	}
 
 	// TTL
-	zonesSRV.TTL = genruntime.ClonePointerToInt(source.TTL)
+	record.TTL = genruntime.ClonePointerToInt(source.TTL)
 
 	// TXTRecords
 	if source.TXTRecords != nil {
@@ -920,9 +920,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 			}
 			txtRecordList[txtRecordIndex] = txtRecord
 		}
-		zonesSRV.TXTRecords = txtRecordList
+		record.TXTRecords = txtRecordList
 	} else {
-		zonesSRV.TXTRecords = nil
+		record.TXTRecords = nil
 	}
 
 	// TargetResource
@@ -932,24 +932,24 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_From_DnsZones_SRV_Spec(sourc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field TargetResource")
 		}
-		zonesSRV.TargetResource = &targetResource
+		record.TargetResource = &targetResource
 	} else {
-		zonesSRV.TargetResource = nil
+		record.TargetResource = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_DnsZones_SRV_Spec populates the provided destination DnsZones_SRV_Spec from our DnsZones_SRV_Spec
-func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destination *storage.DnsZones_SRV_Spec) error {
+// AssignProperties_To_DnsZonesSRVRecord_Spec populates the provided destination DnsZonesSRVRecord_Spec from our DnsZonesSRVRecord_Spec
+func (record *DnsZonesSRVRecord_Spec) AssignProperties_To_DnsZonesSRVRecord_Spec(destination *storage.DnsZonesSRVRecord_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AAAARecords
-	if zonesSRV.AAAARecords != nil {
-		aaaaRecordList := make([]storage.AaaaRecord, len(zonesSRV.AAAARecords))
-		for aaaaRecordIndex, aaaaRecordItem := range zonesSRV.AAAARecords {
+	if record.AAAARecords != nil {
+		aaaaRecordList := make([]storage.AaaaRecord, len(record.AAAARecords))
+		for aaaaRecordIndex, aaaaRecordItem := range record.AAAARecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
 			var aaaaRecord storage.AaaaRecord
@@ -965,9 +965,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// ARecords
-	if zonesSRV.ARecords != nil {
-		aRecordList := make([]storage.ARecord, len(zonesSRV.ARecords))
-		for aRecordIndex, aRecordItem := range zonesSRV.ARecords {
+	if record.ARecords != nil {
+		aRecordList := make([]storage.ARecord, len(record.ARecords))
+		for aRecordIndex, aRecordItem := range record.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
 			var aRecord storage.ARecord
@@ -983,12 +983,12 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// AzureName
-	destination.AzureName = zonesSRV.AzureName
+	destination.AzureName = record.AzureName
 
 	// CNAMERecord
-	if zonesSRV.CNAMERecord != nil {
+	if record.CNAMERecord != nil {
 		var cnameRecord storage.CnameRecord
-		err := zonesSRV.CNAMERecord.AssignProperties_To_CnameRecord(&cnameRecord)
+		err := record.CNAMERecord.AssignProperties_To_CnameRecord(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord() to populate field CNAMERecord")
 		}
@@ -998,9 +998,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// CaaRecords
-	if zonesSRV.CaaRecords != nil {
-		caaRecordList := make([]storage.CaaRecord, len(zonesSRV.CaaRecords))
-		for caaRecordIndex, caaRecordItem := range zonesSRV.CaaRecords {
+	if record.CaaRecords != nil {
+		caaRecordList := make([]storage.CaaRecord, len(record.CaaRecords))
+		for caaRecordIndex, caaRecordItem := range record.CaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			caaRecordItem := caaRecordItem
 			var caaRecord storage.CaaRecord
@@ -1016,9 +1016,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// MXRecords
-	if zonesSRV.MXRecords != nil {
-		mxRecordList := make([]storage.MxRecord, len(zonesSRV.MXRecords))
-		for mxRecordIndex, mxRecordItem := range zonesSRV.MXRecords {
+	if record.MXRecords != nil {
+		mxRecordList := make([]storage.MxRecord, len(record.MXRecords))
+		for mxRecordIndex, mxRecordItem := range record.MXRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
 			var mxRecord storage.MxRecord
@@ -1034,12 +1034,12 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// Metadata
-	destination.Metadata = genruntime.CloneMapOfStringToString(zonesSRV.Metadata)
+	destination.Metadata = genruntime.CloneMapOfStringToString(record.Metadata)
 
 	// NSRecords
-	if zonesSRV.NSRecords != nil {
-		nsRecordList := make([]storage.NsRecord, len(zonesSRV.NSRecords))
-		for nsRecordIndex, nsRecordItem := range zonesSRV.NSRecords {
+	if record.NSRecords != nil {
+		nsRecordList := make([]storage.NsRecord, len(record.NSRecords))
+		for nsRecordIndex, nsRecordItem := range record.NSRecords {
 			// Shadow the loop variable to avoid aliasing
 			nsRecordItem := nsRecordItem
 			var nsRecord storage.NsRecord
@@ -1055,20 +1055,20 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = zonesSRV.OriginalVersion()
+	destination.OriginalVersion = record.OriginalVersion()
 
 	// Owner
-	if zonesSRV.Owner != nil {
-		owner := zonesSRV.Owner.Copy()
+	if record.Owner != nil {
+		owner := record.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// PTRRecords
-	if zonesSRV.PTRRecords != nil {
-		ptrRecordList := make([]storage.PtrRecord, len(zonesSRV.PTRRecords))
-		for ptrRecordIndex, ptrRecordItem := range zonesSRV.PTRRecords {
+	if record.PTRRecords != nil {
+		ptrRecordList := make([]storage.PtrRecord, len(record.PTRRecords))
+		for ptrRecordIndex, ptrRecordItem := range record.PTRRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
 			var ptrRecord storage.PtrRecord
@@ -1084,9 +1084,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// SOARecord
-	if zonesSRV.SOARecord != nil {
+	if record.SOARecord != nil {
 		var soaRecord storage.SoaRecord
-		err := zonesSRV.SOARecord.AssignProperties_To_SoaRecord(&soaRecord)
+		err := record.SOARecord.AssignProperties_To_SoaRecord(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord() to populate field SOARecord")
 		}
@@ -1096,9 +1096,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// SRVRecords
-	if zonesSRV.SRVRecords != nil {
-		srvRecordList := make([]storage.SrvRecord, len(zonesSRV.SRVRecords))
-		for srvRecordIndex, srvRecordItem := range zonesSRV.SRVRecords {
+	if record.SRVRecords != nil {
+		srvRecordList := make([]storage.SrvRecord, len(record.SRVRecords))
+		for srvRecordIndex, srvRecordItem := range record.SRVRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
 			var srvRecord storage.SrvRecord
@@ -1114,12 +1114,12 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// TTL
-	destination.TTL = genruntime.ClonePointerToInt(zonesSRV.TTL)
+	destination.TTL = genruntime.ClonePointerToInt(record.TTL)
 
 	// TXTRecords
-	if zonesSRV.TXTRecords != nil {
-		txtRecordList := make([]storage.TxtRecord, len(zonesSRV.TXTRecords))
-		for txtRecordIndex, txtRecordItem := range zonesSRV.TXTRecords {
+	if record.TXTRecords != nil {
+		txtRecordList := make([]storage.TxtRecord, len(record.TXTRecords))
+		for txtRecordIndex, txtRecordItem := range record.TXTRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
 			var txtRecord storage.TxtRecord
@@ -1135,9 +1135,9 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	}
 
 	// TargetResource
-	if zonesSRV.TargetResource != nil {
+	if record.TargetResource != nil {
 		var targetResource storage.SubResource
-		err := zonesSRV.TargetResource.AssignProperties_To_SubResource(&targetResource)
+		err := record.TargetResource.AssignProperties_To_SubResource(&targetResource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field TargetResource")
 		}
@@ -1157,8 +1157,8 @@ func (zonesSRV *DnsZones_SRV_Spec) AssignProperties_To_DnsZones_SRV_Spec(destina
 	return nil
 }
 
-// Initialize_From_DnsZones_SRV_STATUS populates our DnsZones_SRV_Spec from the provided source DnsZones_SRV_STATUS
-func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *DnsZones_SRV_STATUS) error {
+// Initialize_From_DnsZonesSRVRecord_STATUS populates our DnsZonesSRVRecord_Spec from the provided source DnsZonesSRVRecord_STATUS
+func (record *DnsZonesSRVRecord_Spec) Initialize_From_DnsZonesSRVRecord_STATUS(source *DnsZonesSRVRecord_STATUS) error {
 
 	// AAAARecords
 	if source.AAAARecords != nil {
@@ -1173,9 +1173,9 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 			}
 			aaaaRecordList[aaaaRecordIndex] = aaaaRecord
 		}
-		zonesSRV.AAAARecords = aaaaRecordList
+		record.AAAARecords = aaaaRecordList
 	} else {
-		zonesSRV.AAAARecords = nil
+		record.AAAARecords = nil
 	}
 
 	// ARecords
@@ -1191,9 +1191,9 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 			}
 			aRecordList[aRecordIndex] = aRecord
 		}
-		zonesSRV.ARecords = aRecordList
+		record.ARecords = aRecordList
 	} else {
-		zonesSRV.ARecords = nil
+		record.ARecords = nil
 	}
 
 	// CNAMERecord
@@ -1203,9 +1203,9 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_CnameRecord_STATUS() to populate field CNAMERecord")
 		}
-		zonesSRV.CNAMERecord = &cnameRecord
+		record.CNAMERecord = &cnameRecord
 	} else {
-		zonesSRV.CNAMERecord = nil
+		record.CNAMERecord = nil
 	}
 
 	// CaaRecords
@@ -1221,9 +1221,9 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 			}
 			caaRecordList[caaRecordIndex] = caaRecord
 		}
-		zonesSRV.CaaRecords = caaRecordList
+		record.CaaRecords = caaRecordList
 	} else {
-		zonesSRV.CaaRecords = nil
+		record.CaaRecords = nil
 	}
 
 	// MXRecords
@@ -1239,13 +1239,13 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 			}
 			mxRecordList[mxRecordIndex] = mxRecord
 		}
-		zonesSRV.MXRecords = mxRecordList
+		record.MXRecords = mxRecordList
 	} else {
-		zonesSRV.MXRecords = nil
+		record.MXRecords = nil
 	}
 
 	// Metadata
-	zonesSRV.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	record.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// NSRecords
 	if source.NSRecords != nil {
@@ -1260,9 +1260,9 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 			}
 			nsRecordList[nsRecordIndex] = nsRecord
 		}
-		zonesSRV.NSRecords = nsRecordList
+		record.NSRecords = nsRecordList
 	} else {
-		zonesSRV.NSRecords = nil
+		record.NSRecords = nil
 	}
 
 	// PTRRecords
@@ -1278,9 +1278,9 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 			}
 			ptrRecordList[ptrRecordIndex] = ptrRecord
 		}
-		zonesSRV.PTRRecords = ptrRecordList
+		record.PTRRecords = ptrRecordList
 	} else {
-		zonesSRV.PTRRecords = nil
+		record.PTRRecords = nil
 	}
 
 	// SOARecord
@@ -1290,9 +1290,9 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_SoaRecord_STATUS() to populate field SOARecord")
 		}
-		zonesSRV.SOARecord = &soaRecord
+		record.SOARecord = &soaRecord
 	} else {
-		zonesSRV.SOARecord = nil
+		record.SOARecord = nil
 	}
 
 	// SRVRecords
@@ -1308,13 +1308,13 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 			}
 			srvRecordList[srvRecordIndex] = srvRecord
 		}
-		zonesSRV.SRVRecords = srvRecordList
+		record.SRVRecords = srvRecordList
 	} else {
-		zonesSRV.SRVRecords = nil
+		record.SRVRecords = nil
 	}
 
 	// TTL
-	zonesSRV.TTL = genruntime.ClonePointerToInt(source.TTL)
+	record.TTL = genruntime.ClonePointerToInt(source.TTL)
 
 	// TXTRecords
 	if source.TXTRecords != nil {
@@ -1329,9 +1329,9 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 			}
 			txtRecordList[txtRecordIndex] = txtRecord
 		}
-		zonesSRV.TXTRecords = txtRecordList
+		record.TXTRecords = txtRecordList
 	} else {
-		zonesSRV.TXTRecords = nil
+		record.TXTRecords = nil
 	}
 
 	// TargetResource
@@ -1341,9 +1341,9 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field TargetResource")
 		}
-		zonesSRV.TargetResource = &targetResource
+		record.TargetResource = &targetResource
 	} else {
-		zonesSRV.TargetResource = nil
+		record.TargetResource = nil
 	}
 
 	// No error
@@ -1351,14 +1351,14 @@ func (zonesSRV *DnsZones_SRV_Spec) Initialize_From_DnsZones_SRV_STATUS(source *D
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (zonesSRV *DnsZones_SRV_Spec) OriginalVersion() string {
+func (record *DnsZonesSRVRecord_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (zonesSRV *DnsZones_SRV_Spec) SetAzureName(azureName string) { zonesSRV.AzureName = azureName }
+func (record *DnsZonesSRVRecord_Spec) SetAzureName(azureName string) { record.AzureName = azureName }
 
-type DnsZones_SRV_STATUS struct {
+type DnsZonesSRVRecord_STATUS struct {
 	// AAAARecords: The list of AAAA records in the record set.
 	AAAARecords []AaaaRecord_STATUS `json:"AAAARecords,omitempty"`
 
@@ -1420,25 +1420,25 @@ type DnsZones_SRV_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DnsZones_SRV_STATUS{}
+var _ genruntime.ConvertibleStatus = &DnsZonesSRVRecord_STATUS{}
 
-// ConvertStatusFrom populates our DnsZones_SRV_STATUS from the provided source
-func (zonesSRV *DnsZones_SRV_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.DnsZones_SRV_STATUS)
+// ConvertStatusFrom populates our DnsZonesSRVRecord_STATUS from the provided source
+func (record *DnsZonesSRVRecord_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.DnsZonesSRVRecord_STATUS)
 	if ok {
 		// Populate our instance from source
-		return zonesSRV.AssignProperties_From_DnsZones_SRV_STATUS(src)
+		return record.AssignProperties_From_DnsZonesSRVRecord_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DnsZones_SRV_STATUS{}
+	src = &storage.DnsZonesSRVRecord_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = zonesSRV.AssignProperties_From_DnsZones_SRV_STATUS(src)
+	err = record.AssignProperties_From_DnsZonesSRVRecord_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1446,17 +1446,17 @@ func (zonesSRV *DnsZones_SRV_STATUS) ConvertStatusFrom(source genruntime.Convert
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DnsZones_SRV_STATUS
-func (zonesSRV *DnsZones_SRV_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.DnsZones_SRV_STATUS)
+// ConvertStatusTo populates the provided destination from our DnsZonesSRVRecord_STATUS
+func (record *DnsZonesSRVRecord_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.DnsZonesSRVRecord_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return zonesSRV.AssignProperties_To_DnsZones_SRV_STATUS(dst)
+		return record.AssignProperties_To_DnsZonesSRVRecord_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DnsZones_SRV_STATUS{}
-	err := zonesSRV.AssignProperties_To_DnsZones_SRV_STATUS(dst)
+	dst = &storage.DnsZonesSRVRecord_STATUS{}
+	err := record.AssignProperties_To_DnsZonesSRVRecord_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1470,18 +1470,18 @@ func (zonesSRV *DnsZones_SRV_STATUS) ConvertStatusTo(destination genruntime.Conv
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &DnsZones_SRV_STATUS{}
+var _ genruntime.FromARMConverter = &DnsZonesSRVRecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (zonesSRV *DnsZones_SRV_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsZones_SRV_STATUS_ARM{}
+func (record *DnsZonesSRVRecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DnsZonesSRVRecord_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsZones_SRV_STATUS_ARM)
+func (record *DnsZonesSRVRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DnsZonesSRVRecord_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZones_SRV_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZonesSRVRecord_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AAAARecords":
@@ -1493,7 +1493,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesSRV.AAAARecords = append(zonesSRV.AAAARecords, item1)
+			record.AAAARecords = append(record.AAAARecords, item1)
 		}
 	}
 
@@ -1506,7 +1506,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesSRV.ARecords = append(zonesSRV.ARecords, item1)
+			record.ARecords = append(record.ARecords, item1)
 		}
 	}
 
@@ -1520,7 +1520,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 				return err
 			}
 			cnameRecord := cnameRecord1
-			zonesSRV.CNAMERecord = &cnameRecord
+			record.CNAMERecord = &cnameRecord
 		}
 	}
 
@@ -1533,7 +1533,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesSRV.CaaRecords = append(zonesSRV.CaaRecords, item1)
+			record.CaaRecords = append(record.CaaRecords, item1)
 		}
 	}
 
@@ -1542,7 +1542,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
-		zonesSRV.Etag = &etag
+		record.Etag = &etag
 	}
 
 	// Set property "Fqdn":
@@ -1550,14 +1550,14 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Fqdn != nil {
 			fqdn := *typedInput.Properties.Fqdn
-			zonesSRV.Fqdn = &fqdn
+			record.Fqdn = &fqdn
 		}
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		zonesSRV.Id = &id
+		record.Id = &id
 	}
 
 	// Set property "MXRecords":
@@ -1569,7 +1569,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesSRV.MXRecords = append(zonesSRV.MXRecords, item1)
+			record.MXRecords = append(record.MXRecords, item1)
 		}
 	}
 
@@ -1577,9 +1577,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			zonesSRV.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
+			record.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
-				zonesSRV.Metadata[key] = value
+				record.Metadata[key] = value
 			}
 		}
 	}
@@ -1593,14 +1593,14 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesSRV.NSRecords = append(zonesSRV.NSRecords, item1)
+			record.NSRecords = append(record.NSRecords, item1)
 		}
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		zonesSRV.Name = &name
+		record.Name = &name
 	}
 
 	// Set property "PTRRecords":
@@ -1612,7 +1612,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesSRV.PTRRecords = append(zonesSRV.PTRRecords, item1)
+			record.PTRRecords = append(record.PTRRecords, item1)
 		}
 	}
 
@@ -1621,7 +1621,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
 			provisioningState := *typedInput.Properties.ProvisioningState
-			zonesSRV.ProvisioningState = &provisioningState
+			record.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -1635,7 +1635,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 				return err
 			}
 			soaRecord := soaRecord1
-			zonesSRV.SOARecord = &soaRecord
+			record.SOARecord = &soaRecord
 		}
 	}
 
@@ -1648,7 +1648,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesSRV.SRVRecords = append(zonesSRV.SRVRecords, item1)
+			record.SRVRecords = append(record.SRVRecords, item1)
 		}
 	}
 
@@ -1657,7 +1657,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TTL != nil {
 			ttl := *typedInput.Properties.TTL
-			zonesSRV.TTL = &ttl
+			record.TTL = &ttl
 		}
 	}
 
@@ -1670,7 +1670,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesSRV.TXTRecords = append(zonesSRV.TXTRecords, item1)
+			record.TXTRecords = append(record.TXTRecords, item1)
 		}
 	}
 
@@ -1684,22 +1684,22 @@ func (zonesSRV *DnsZones_SRV_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 				return err
 			}
 			targetResource := targetResource1
-			zonesSRV.TargetResource = &targetResource
+			record.TargetResource = &targetResource
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		zonesSRV.Type = &typeVar
+		record.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_DnsZones_SRV_STATUS populates our DnsZones_SRV_STATUS from the provided source DnsZones_SRV_STATUS
-func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(source *storage.DnsZones_SRV_STATUS) error {
+// AssignProperties_From_DnsZonesSRVRecord_STATUS populates our DnsZonesSRVRecord_STATUS from the provided source DnsZonesSRVRecord_STATUS
+func (record *DnsZonesSRVRecord_STATUS) AssignProperties_From_DnsZonesSRVRecord_STATUS(source *storage.DnsZonesSRVRecord_STATUS) error {
 
 	// AAAARecords
 	if source.AAAARecords != nil {
@@ -1714,9 +1714,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 			}
 			aaaaRecordList[aaaaRecordIndex] = aaaaRecord
 		}
-		zonesSRV.AAAARecords = aaaaRecordList
+		record.AAAARecords = aaaaRecordList
 	} else {
-		zonesSRV.AAAARecords = nil
+		record.AAAARecords = nil
 	}
 
 	// ARecords
@@ -1732,9 +1732,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 			}
 			aRecordList[aRecordIndex] = aRecord
 		}
-		zonesSRV.ARecords = aRecordList
+		record.ARecords = aRecordList
 	} else {
-		zonesSRV.ARecords = nil
+		record.ARecords = nil
 	}
 
 	// CNAMERecord
@@ -1744,9 +1744,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_CnameRecord_STATUS() to populate field CNAMERecord")
 		}
-		zonesSRV.CNAMERecord = &cnameRecord
+		record.CNAMERecord = &cnameRecord
 	} else {
-		zonesSRV.CNAMERecord = nil
+		record.CNAMERecord = nil
 	}
 
 	// CaaRecords
@@ -1762,22 +1762,22 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 			}
 			caaRecordList[caaRecordIndex] = caaRecord
 		}
-		zonesSRV.CaaRecords = caaRecordList
+		record.CaaRecords = caaRecordList
 	} else {
-		zonesSRV.CaaRecords = nil
+		record.CaaRecords = nil
 	}
 
 	// Conditions
-	zonesSRV.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	record.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Etag
-	zonesSRV.Etag = genruntime.ClonePointerToString(source.Etag)
+	record.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Fqdn
-	zonesSRV.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
+	record.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
 
 	// Id
-	zonesSRV.Id = genruntime.ClonePointerToString(source.Id)
+	record.Id = genruntime.ClonePointerToString(source.Id)
 
 	// MXRecords
 	if source.MXRecords != nil {
@@ -1792,13 +1792,13 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 			}
 			mxRecordList[mxRecordIndex] = mxRecord
 		}
-		zonesSRV.MXRecords = mxRecordList
+		record.MXRecords = mxRecordList
 	} else {
-		zonesSRV.MXRecords = nil
+		record.MXRecords = nil
 	}
 
 	// Metadata
-	zonesSRV.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	record.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// NSRecords
 	if source.NSRecords != nil {
@@ -1813,13 +1813,13 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 			}
 			nsRecordList[nsRecordIndex] = nsRecord
 		}
-		zonesSRV.NSRecords = nsRecordList
+		record.NSRecords = nsRecordList
 	} else {
-		zonesSRV.NSRecords = nil
+		record.NSRecords = nil
 	}
 
 	// Name
-	zonesSRV.Name = genruntime.ClonePointerToString(source.Name)
+	record.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PTRRecords
 	if source.PTRRecords != nil {
@@ -1834,13 +1834,13 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 			}
 			ptrRecordList[ptrRecordIndex] = ptrRecord
 		}
-		zonesSRV.PTRRecords = ptrRecordList
+		record.PTRRecords = ptrRecordList
 	} else {
-		zonesSRV.PTRRecords = nil
+		record.PTRRecords = nil
 	}
 
 	// ProvisioningState
-	zonesSRV.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	record.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// SOARecord
 	if source.SOARecord != nil {
@@ -1849,9 +1849,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SoaRecord_STATUS() to populate field SOARecord")
 		}
-		zonesSRV.SOARecord = &soaRecord
+		record.SOARecord = &soaRecord
 	} else {
-		zonesSRV.SOARecord = nil
+		record.SOARecord = nil
 	}
 
 	// SRVRecords
@@ -1867,13 +1867,13 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 			}
 			srvRecordList[srvRecordIndex] = srvRecord
 		}
-		zonesSRV.SRVRecords = srvRecordList
+		record.SRVRecords = srvRecordList
 	} else {
-		zonesSRV.SRVRecords = nil
+		record.SRVRecords = nil
 	}
 
 	// TTL
-	zonesSRV.TTL = genruntime.ClonePointerToInt(source.TTL)
+	record.TTL = genruntime.ClonePointerToInt(source.TTL)
 
 	// TXTRecords
 	if source.TXTRecords != nil {
@@ -1888,9 +1888,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 			}
 			txtRecordList[txtRecordIndex] = txtRecord
 		}
-		zonesSRV.TXTRecords = txtRecordList
+		record.TXTRecords = txtRecordList
 	} else {
-		zonesSRV.TXTRecords = nil
+		record.TXTRecords = nil
 	}
 
 	// TargetResource
@@ -1900,27 +1900,27 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_From_DnsZones_SRV_STATUS(s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field TargetResource")
 		}
-		zonesSRV.TargetResource = &targetResource
+		record.TargetResource = &targetResource
 	} else {
-		zonesSRV.TargetResource = nil
+		record.TargetResource = nil
 	}
 
 	// Type
-	zonesSRV.Type = genruntime.ClonePointerToString(source.Type)
+	record.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_DnsZones_SRV_STATUS populates the provided destination DnsZones_SRV_STATUS from our DnsZones_SRV_STATUS
-func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(destination *storage.DnsZones_SRV_STATUS) error {
+// AssignProperties_To_DnsZonesSRVRecord_STATUS populates the provided destination DnsZonesSRVRecord_STATUS from our DnsZonesSRVRecord_STATUS
+func (record *DnsZonesSRVRecord_STATUS) AssignProperties_To_DnsZonesSRVRecord_STATUS(destination *storage.DnsZonesSRVRecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AAAARecords
-	if zonesSRV.AAAARecords != nil {
-		aaaaRecordList := make([]storage.AaaaRecord_STATUS, len(zonesSRV.AAAARecords))
-		for aaaaRecordIndex, aaaaRecordItem := range zonesSRV.AAAARecords {
+	if record.AAAARecords != nil {
+		aaaaRecordList := make([]storage.AaaaRecord_STATUS, len(record.AAAARecords))
+		for aaaaRecordIndex, aaaaRecordItem := range record.AAAARecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
 			var aaaaRecord storage.AaaaRecord_STATUS
@@ -1936,9 +1936,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// ARecords
-	if zonesSRV.ARecords != nil {
-		aRecordList := make([]storage.ARecord_STATUS, len(zonesSRV.ARecords))
-		for aRecordIndex, aRecordItem := range zonesSRV.ARecords {
+	if record.ARecords != nil {
+		aRecordList := make([]storage.ARecord_STATUS, len(record.ARecords))
+		for aRecordIndex, aRecordItem := range record.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
 			var aRecord storage.ARecord_STATUS
@@ -1954,9 +1954,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// CNAMERecord
-	if zonesSRV.CNAMERecord != nil {
+	if record.CNAMERecord != nil {
 		var cnameRecord storage.CnameRecord_STATUS
-		err := zonesSRV.CNAMERecord.AssignProperties_To_CnameRecord_STATUS(&cnameRecord)
+		err := record.CNAMERecord.AssignProperties_To_CnameRecord_STATUS(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord_STATUS() to populate field CNAMERecord")
 		}
@@ -1966,9 +1966,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// CaaRecords
-	if zonesSRV.CaaRecords != nil {
-		caaRecordList := make([]storage.CaaRecord_STATUS, len(zonesSRV.CaaRecords))
-		for caaRecordIndex, caaRecordItem := range zonesSRV.CaaRecords {
+	if record.CaaRecords != nil {
+		caaRecordList := make([]storage.CaaRecord_STATUS, len(record.CaaRecords))
+		for caaRecordIndex, caaRecordItem := range record.CaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			caaRecordItem := caaRecordItem
 			var caaRecord storage.CaaRecord_STATUS
@@ -1984,21 +1984,21 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(zonesSRV.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(record.Conditions)
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(zonesSRV.Etag)
+	destination.Etag = genruntime.ClonePointerToString(record.Etag)
 
 	// Fqdn
-	destination.Fqdn = genruntime.ClonePointerToString(zonesSRV.Fqdn)
+	destination.Fqdn = genruntime.ClonePointerToString(record.Fqdn)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(zonesSRV.Id)
+	destination.Id = genruntime.ClonePointerToString(record.Id)
 
 	// MXRecords
-	if zonesSRV.MXRecords != nil {
-		mxRecordList := make([]storage.MxRecord_STATUS, len(zonesSRV.MXRecords))
-		for mxRecordIndex, mxRecordItem := range zonesSRV.MXRecords {
+	if record.MXRecords != nil {
+		mxRecordList := make([]storage.MxRecord_STATUS, len(record.MXRecords))
+		for mxRecordIndex, mxRecordItem := range record.MXRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
 			var mxRecord storage.MxRecord_STATUS
@@ -2014,12 +2014,12 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// Metadata
-	destination.Metadata = genruntime.CloneMapOfStringToString(zonesSRV.Metadata)
+	destination.Metadata = genruntime.CloneMapOfStringToString(record.Metadata)
 
 	// NSRecords
-	if zonesSRV.NSRecords != nil {
-		nsRecordList := make([]storage.NsRecord_STATUS, len(zonesSRV.NSRecords))
-		for nsRecordIndex, nsRecordItem := range zonesSRV.NSRecords {
+	if record.NSRecords != nil {
+		nsRecordList := make([]storage.NsRecord_STATUS, len(record.NSRecords))
+		for nsRecordIndex, nsRecordItem := range record.NSRecords {
 			// Shadow the loop variable to avoid aliasing
 			nsRecordItem := nsRecordItem
 			var nsRecord storage.NsRecord_STATUS
@@ -2035,12 +2035,12 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(zonesSRV.Name)
+	destination.Name = genruntime.ClonePointerToString(record.Name)
 
 	// PTRRecords
-	if zonesSRV.PTRRecords != nil {
-		ptrRecordList := make([]storage.PtrRecord_STATUS, len(zonesSRV.PTRRecords))
-		for ptrRecordIndex, ptrRecordItem := range zonesSRV.PTRRecords {
+	if record.PTRRecords != nil {
+		ptrRecordList := make([]storage.PtrRecord_STATUS, len(record.PTRRecords))
+		for ptrRecordIndex, ptrRecordItem := range record.PTRRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
 			var ptrRecord storage.PtrRecord_STATUS
@@ -2056,12 +2056,12 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(zonesSRV.ProvisioningState)
+	destination.ProvisioningState = genruntime.ClonePointerToString(record.ProvisioningState)
 
 	// SOARecord
-	if zonesSRV.SOARecord != nil {
+	if record.SOARecord != nil {
 		var soaRecord storage.SoaRecord_STATUS
-		err := zonesSRV.SOARecord.AssignProperties_To_SoaRecord_STATUS(&soaRecord)
+		err := record.SOARecord.AssignProperties_To_SoaRecord_STATUS(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord_STATUS() to populate field SOARecord")
 		}
@@ -2071,9 +2071,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// SRVRecords
-	if zonesSRV.SRVRecords != nil {
-		srvRecordList := make([]storage.SrvRecord_STATUS, len(zonesSRV.SRVRecords))
-		for srvRecordIndex, srvRecordItem := range zonesSRV.SRVRecords {
+	if record.SRVRecords != nil {
+		srvRecordList := make([]storage.SrvRecord_STATUS, len(record.SRVRecords))
+		for srvRecordIndex, srvRecordItem := range record.SRVRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
 			var srvRecord storage.SrvRecord_STATUS
@@ -2089,12 +2089,12 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// TTL
-	destination.TTL = genruntime.ClonePointerToInt(zonesSRV.TTL)
+	destination.TTL = genruntime.ClonePointerToInt(record.TTL)
 
 	// TXTRecords
-	if zonesSRV.TXTRecords != nil {
-		txtRecordList := make([]storage.TxtRecord_STATUS, len(zonesSRV.TXTRecords))
-		for txtRecordIndex, txtRecordItem := range zonesSRV.TXTRecords {
+	if record.TXTRecords != nil {
+		txtRecordList := make([]storage.TxtRecord_STATUS, len(record.TXTRecords))
+		for txtRecordIndex, txtRecordItem := range record.TXTRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
 			var txtRecord storage.TxtRecord_STATUS
@@ -2110,9 +2110,9 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// TargetResource
-	if zonesSRV.TargetResource != nil {
+	if record.TargetResource != nil {
 		var targetResource storage.SubResource_STATUS
-		err := zonesSRV.TargetResource.AssignProperties_To_SubResource_STATUS(&targetResource)
+		err := record.TargetResource.AssignProperties_To_SubResource_STATUS(&targetResource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field TargetResource")
 		}
@@ -2122,7 +2122,7 @@ func (zonesSRV *DnsZones_SRV_STATUS) AssignProperties_To_DnsZones_SRV_STATUS(des
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(zonesSRV.Type)
+	destination.Type = genruntime.ClonePointerToString(record.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

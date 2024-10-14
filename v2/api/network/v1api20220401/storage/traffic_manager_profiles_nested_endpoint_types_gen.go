@@ -28,8 +28,8 @@ import (
 type TrafficManagerProfilesNestedEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Trafficmanagerprofiles_NestedEndpoint_Spec   `json:"spec,omitempty"`
-	Status            Trafficmanagerprofiles_NestedEndpoint_STATUS `json:"status,omitempty"`
+	Spec              TrafficManagerProfilesNestedEndpoint_Spec   `json:"spec,omitempty"`
+	Status            TrafficManagerProfilesNestedEndpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &TrafficManagerProfilesNestedEndpoint{}
@@ -87,7 +87,7 @@ func (endpoint *TrafficManagerProfilesNestedEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *TrafficManagerProfilesNestedEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Trafficmanagerprofiles_NestedEndpoint_STATUS{}
+	return &TrafficManagerProfilesNestedEndpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (endpoint *TrafficManagerProfilesNestedEndpoint) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (endpoint *TrafficManagerProfilesNestedEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Trafficmanagerprofiles_NestedEndpoint_STATUS); ok {
+	if st, ok := status.(*TrafficManagerProfilesNestedEndpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Trafficmanagerprofiles_NestedEndpoint_STATUS
+	var st TrafficManagerProfilesNestedEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type TrafficManagerProfilesNestedEndpointList struct {
 	Items           []TrafficManagerProfilesNestedEndpoint `json:"items"`
 }
 
-// Storage version of v1api20220401.Trafficmanagerprofiles_NestedEndpoint_Spec
-type Trafficmanagerprofiles_NestedEndpoint_Spec struct {
+// Storage version of v1api20220401.TrafficManagerProfilesNestedEndpoint_Spec
+type TrafficManagerProfilesNestedEndpoint_Spec struct {
 	AlwaysServe *string `json:"alwaysServe,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -172,10 +172,10 @@ type Trafficmanagerprofiles_NestedEndpoint_Spec struct {
 	Weight                  *int                          `json:"weight,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Trafficmanagerprofiles_NestedEndpoint_Spec{}
+var _ genruntime.ConvertibleSpec = &TrafficManagerProfilesNestedEndpoint_Spec{}
 
-// ConvertSpecFrom populates our Trafficmanagerprofiles_NestedEndpoint_Spec from the provided source
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our TrafficManagerProfilesNestedEndpoint_Spec from the provided source
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -183,8 +183,8 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertSpecFrom(sour
 	return source.ConvertSpecTo(endpoint)
 }
 
-// ConvertSpecTo populates the provided destination from our Trafficmanagerprofiles_NestedEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our TrafficManagerProfilesNestedEndpoint_Spec
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -192,8 +192,8 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertSpecTo(destin
 	return destination.ConvertSpecFrom(endpoint)
 }
 
-// Storage version of v1api20220401.Trafficmanagerprofiles_NestedEndpoint_STATUS
-type Trafficmanagerprofiles_NestedEndpoint_STATUS struct {
+// Storage version of v1api20220401.TrafficManagerProfilesNestedEndpoint_STATUS
+type TrafficManagerProfilesNestedEndpoint_STATUS struct {
 	AlwaysServe           *string                                   `json:"alwaysServe,omitempty"`
 	Conditions            []conditions.Condition                    `json:"conditions,omitempty"`
 	CustomHeaders         []EndpointProperties_CustomHeaders_STATUS `json:"customHeaders,omitempty"`
@@ -215,10 +215,10 @@ type Trafficmanagerprofiles_NestedEndpoint_STATUS struct {
 	Weight                *int                                      `json:"weight,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Trafficmanagerprofiles_NestedEndpoint_STATUS{}
+var _ genruntime.ConvertibleStatus = &TrafficManagerProfilesNestedEndpoint_STATUS{}
 
-// ConvertStatusFrom populates our Trafficmanagerprofiles_NestedEndpoint_STATUS from the provided source
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our TrafficManagerProfilesNestedEndpoint_STATUS from the provided source
+func (endpoint *TrafficManagerProfilesNestedEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -226,8 +226,8 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) ConvertStatusFrom(
 	return source.ConvertStatusTo(endpoint)
 }
 
-// ConvertStatusTo populates the provided destination from our Trafficmanagerprofiles_NestedEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our TrafficManagerProfilesNestedEndpoint_STATUS
+func (endpoint *TrafficManagerProfilesNestedEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

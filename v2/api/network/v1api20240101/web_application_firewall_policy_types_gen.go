@@ -29,8 +29,8 @@ import (
 type WebApplicationFirewallPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ApplicationGatewayWebApplicationFirewallPolicy_Spec   `json:"spec,omitempty"`
-	Status            ApplicationGatewayWebApplicationFirewallPolicy_STATUS `json:"status,omitempty"`
+	Spec              WebApplicationFirewallPolicy_Spec   `json:"spec,omitempty"`
+	Status            WebApplicationFirewallPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WebApplicationFirewallPolicy{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &WebApplicationFirewallPolicy{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (policy *WebApplicationFirewallPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ApplicationGatewayWebApplicationFirewallPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(s)
+	if s, ok := status.(*WebApplicationFirewallPolicy_STATUS); ok {
+		return policy.Spec.Initialize_From_WebApplicationFirewallPolicy_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type ApplicationGatewayWebApplicationFirewallPolicy_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type WebApplicationFirewallPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &WebApplicationFirewallPolicy{}
@@ -144,7 +144,7 @@ func (policy *WebApplicationFirewallPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *WebApplicationFirewallPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ApplicationGatewayWebApplicationFirewallPolicy_STATUS{}
+	return &WebApplicationFirewallPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (policy *WebApplicationFirewallPolicy) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (policy *WebApplicationFirewallPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ApplicationGatewayWebApplicationFirewallPolicy_STATUS); ok {
+	if st, ok := status.(*WebApplicationFirewallPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ApplicationGatewayWebApplicationFirewallPolicy_STATUS
+	var st WebApplicationFirewallPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_From_WebApplication
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec ApplicationGatewayWebApplicationFirewallPolicy_Spec
-	err := spec.AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_Spec(&source.Spec)
+	var spec WebApplicationFirewallPolicy_Spec
+	err := spec.AssignProperties_From_WebApplicationFirewallPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
 	// Status
-	var status ApplicationGatewayWebApplicationFirewallPolicy_STATUS
-	err = status.AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(&source.Status)
+	var status WebApplicationFirewallPolicy_STATUS
+	err = status.AssignProperties_From_WebApplicationFirewallPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_WebApplicationFirewallPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -286,18 +286,18 @@ func (policy *WebApplicationFirewallPolicy) AssignProperties_To_WebApplicationFi
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.ApplicationGatewayWebApplicationFirewallPolicy_Spec
-	err := policy.Spec.AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_Spec(&spec)
+	var spec storage.WebApplicationFirewallPolicy_Spec
+	err := policy.Spec.AssignProperties_To_WebApplicationFirewallPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.ApplicationGatewayWebApplicationFirewallPolicy_STATUS
-	err = policy.Status.AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(&status)
+	var status storage.WebApplicationFirewallPolicy_STATUS
+	err = policy.Status.AssignProperties_To_WebApplicationFirewallPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_WebApplicationFirewallPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -329,7 +329,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2024-01-01")
 
-type ApplicationGatewayWebApplicationFirewallPolicy_Spec struct {
+type WebApplicationFirewallPolicy_Spec struct {
 	// +kubebuilder:validation:MaxLength=128
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -358,14 +358,14 @@ type ApplicationGatewayWebApplicationFirewallPolicy_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ApplicationGatewayWebApplicationFirewallPolicy_Spec{}
+var _ genruntime.ARMTransformer = &WebApplicationFirewallPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayWebApplicationFirewallPolicy_Spec_ARM{}
+	result := &WebApplicationFirewallPolicy_Spec_ARM{}
 
 	// Set property "Location":
 	if policy.Location != nil {
@@ -417,15 +417,15 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) ConvertToARM(
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayWebApplicationFirewallPolicy_Spec_ARM{}
+func (policy *WebApplicationFirewallPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &WebApplicationFirewallPolicy_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayWebApplicationFirewallPolicy_Spec_ARM)
+func (policy *WebApplicationFirewallPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(WebApplicationFirewallPolicy_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayWebApplicationFirewallPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebApplicationFirewallPolicy_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -496,25 +496,25 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) PopulateFromA
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &ApplicationGatewayWebApplicationFirewallPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &WebApplicationFirewallPolicy_Spec{}
 
-// ConvertSpecFrom populates our ApplicationGatewayWebApplicationFirewallPolicy_Spec from the provided source
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.ApplicationGatewayWebApplicationFirewallPolicy_Spec)
+// ConvertSpecFrom populates our WebApplicationFirewallPolicy_Spec from the provided source
+func (policy *WebApplicationFirewallPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.WebApplicationFirewallPolicy_Spec)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_Spec(src)
+		return policy.AssignProperties_From_WebApplicationFirewallPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.ApplicationGatewayWebApplicationFirewallPolicy_Spec{}
+	src = &storage.WebApplicationFirewallPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_Spec(src)
+	err = policy.AssignProperties_From_WebApplicationFirewallPolicy_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -522,17 +522,17 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) ConvertSpecFr
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our ApplicationGatewayWebApplicationFirewallPolicy_Spec
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.ApplicationGatewayWebApplicationFirewallPolicy_Spec)
+// ConvertSpecTo populates the provided destination from our WebApplicationFirewallPolicy_Spec
+func (policy *WebApplicationFirewallPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.WebApplicationFirewallPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_Spec(dst)
+		return policy.AssignProperties_To_WebApplicationFirewallPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.ApplicationGatewayWebApplicationFirewallPolicy_Spec{}
-	err := policy.AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_Spec(dst)
+	dst = &storage.WebApplicationFirewallPolicy_Spec{}
+	err := policy.AssignProperties_To_WebApplicationFirewallPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -546,8 +546,8 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) ConvertSpecTo
 	return nil
 }
 
-// AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_Spec populates our ApplicationGatewayWebApplicationFirewallPolicy_Spec from the provided source ApplicationGatewayWebApplicationFirewallPolicy_Spec
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_Spec(source *storage.ApplicationGatewayWebApplicationFirewallPolicy_Spec) error {
+// AssignProperties_From_WebApplicationFirewallPolicy_Spec populates our WebApplicationFirewallPolicy_Spec from the provided source WebApplicationFirewallPolicy_Spec
+func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_From_WebApplicationFirewallPolicy_Spec(source *storage.WebApplicationFirewallPolicy_Spec) error {
 
 	// AzureName
 	policy.AzureName = source.AzureName
@@ -612,8 +612,8 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) AssignPropert
 	return nil
 }
 
-// AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_Spec populates the provided destination ApplicationGatewayWebApplicationFirewallPolicy_Spec from our ApplicationGatewayWebApplicationFirewallPolicy_Spec
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_Spec(destination *storage.ApplicationGatewayWebApplicationFirewallPolicy_Spec) error {
+// AssignProperties_To_WebApplicationFirewallPolicy_Spec populates the provided destination WebApplicationFirewallPolicy_Spec from our WebApplicationFirewallPolicy_Spec
+func (policy *WebApplicationFirewallPolicy_Spec) AssignProperties_To_WebApplicationFirewallPolicy_Spec(destination *storage.WebApplicationFirewallPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -690,8 +690,8 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) AssignPropert
 	return nil
 }
 
-// Initialize_From_ApplicationGatewayWebApplicationFirewallPolicy_STATUS populates our ApplicationGatewayWebApplicationFirewallPolicy_Spec from the provided source ApplicationGatewayWebApplicationFirewallPolicy_STATUS
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) Initialize_From_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(source *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) error {
+// Initialize_From_WebApplicationFirewallPolicy_STATUS populates our WebApplicationFirewallPolicy_Spec from the provided source WebApplicationFirewallPolicy_STATUS
+func (policy *WebApplicationFirewallPolicy_Spec) Initialize_From_WebApplicationFirewallPolicy_STATUS(source *WebApplicationFirewallPolicy_STATUS) error {
 
 	// CustomRules
 	if source.CustomRules != nil {
@@ -746,16 +746,16 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) Initialize_Fr
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) OriginalVersion() string {
+func (policy *WebApplicationFirewallPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_Spec) SetAzureName(azureName string) {
+func (policy *WebApplicationFirewallPolicy_Spec) SetAzureName(azureName string) {
 	policy.AzureName = azureName
 }
 
-type ApplicationGatewayWebApplicationFirewallPolicy_STATUS struct {
+type WebApplicationFirewallPolicy_STATUS struct {
 	// ApplicationGateways: A collection of references to application gateways.
 	ApplicationGateways []ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded `json:"applicationGateways,omitempty"`
 
@@ -802,25 +802,25 @@ type ApplicationGatewayWebApplicationFirewallPolicy_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ApplicationGatewayWebApplicationFirewallPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &WebApplicationFirewallPolicy_STATUS{}
 
-// ConvertStatusFrom populates our ApplicationGatewayWebApplicationFirewallPolicy_STATUS from the provided source
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.ApplicationGatewayWebApplicationFirewallPolicy_STATUS)
+// ConvertStatusFrom populates our WebApplicationFirewallPolicy_STATUS from the provided source
+func (policy *WebApplicationFirewallPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.WebApplicationFirewallPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(src)
+		return policy.AssignProperties_From_WebApplicationFirewallPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.ApplicationGatewayWebApplicationFirewallPolicy_STATUS{}
+	src = &storage.WebApplicationFirewallPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(src)
+	err = policy.AssignProperties_From_WebApplicationFirewallPolicy_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -828,17 +828,17 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) ConvertStat
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our ApplicationGatewayWebApplicationFirewallPolicy_STATUS
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.ApplicationGatewayWebApplicationFirewallPolicy_STATUS)
+// ConvertStatusTo populates the provided destination from our WebApplicationFirewallPolicy_STATUS
+func (policy *WebApplicationFirewallPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.WebApplicationFirewallPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(dst)
+		return policy.AssignProperties_To_WebApplicationFirewallPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.ApplicationGatewayWebApplicationFirewallPolicy_STATUS{}
-	err := policy.AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(dst)
+	dst = &storage.WebApplicationFirewallPolicy_STATUS{}
+	err := policy.AssignProperties_To_WebApplicationFirewallPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -852,18 +852,18 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) ConvertStat
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &ApplicationGatewayWebApplicationFirewallPolicy_STATUS{}
+var _ genruntime.FromARMConverter = &WebApplicationFirewallPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayWebApplicationFirewallPolicy_STATUS_ARM{}
+func (policy *WebApplicationFirewallPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &WebApplicationFirewallPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayWebApplicationFirewallPolicy_STATUS_ARM)
+func (policy *WebApplicationFirewallPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(WebApplicationFirewallPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayWebApplicationFirewallPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebApplicationFirewallPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "ApplicationGateways":
@@ -1012,8 +1012,8 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) PopulateFro
 	return nil
 }
 
-// AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_STATUS populates our ApplicationGatewayWebApplicationFirewallPolicy_STATUS from the provided source ApplicationGatewayWebApplicationFirewallPolicy_STATUS
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) AssignProperties_From_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(source *storage.ApplicationGatewayWebApplicationFirewallPolicy_STATUS) error {
+// AssignProperties_From_WebApplicationFirewallPolicy_STATUS populates our WebApplicationFirewallPolicy_STATUS from the provided source WebApplicationFirewallPolicy_STATUS
+func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_From_WebApplicationFirewallPolicy_STATUS(source *storage.WebApplicationFirewallPolicy_STATUS) error {
 
 	// ApplicationGateways
 	if source.ApplicationGateways != nil {
@@ -1154,8 +1154,8 @@ func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) AssignPrope
 	return nil
 }
 
-// AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_STATUS populates the provided destination ApplicationGatewayWebApplicationFirewallPolicy_STATUS from our ApplicationGatewayWebApplicationFirewallPolicy_STATUS
-func (policy *ApplicationGatewayWebApplicationFirewallPolicy_STATUS) AssignProperties_To_ApplicationGatewayWebApplicationFirewallPolicy_STATUS(destination *storage.ApplicationGatewayWebApplicationFirewallPolicy_STATUS) error {
+// AssignProperties_To_WebApplicationFirewallPolicy_STATUS populates the provided destination WebApplicationFirewallPolicy_STATUS from our WebApplicationFirewallPolicy_STATUS
+func (policy *WebApplicationFirewallPolicy_STATUS) AssignProperties_To_WebApplicationFirewallPolicy_STATUS(destination *storage.WebApplicationFirewallPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

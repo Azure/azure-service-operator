@@ -28,8 +28,8 @@ import (
 type VirtualNetworksSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworks_Subnet_Spec   `json:"spec,omitempty"`
-	Status            VirtualNetworks_Subnet_STATUS `json:"status,omitempty"`
+	Spec              VirtualNetworksSubnet_Spec   `json:"spec,omitempty"`
+	Status            VirtualNetworksSubnet_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetworksSubnet{}
@@ -87,7 +87,7 @@ func (subnet *VirtualNetworksSubnet) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subnet *VirtualNetworksSubnet) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VirtualNetworks_Subnet_STATUS{}
+	return &VirtualNetworksSubnet_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (subnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (subnet *VirtualNetworksSubnet) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VirtualNetworks_Subnet_STATUS); ok {
+	if st, ok := status.(*VirtualNetworksSubnet_STATUS); ok {
 		subnet.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VirtualNetworks_Subnet_STATUS
+	var st VirtualNetworksSubnet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type VirtualNetworksSubnetList struct {
 	Items           []VirtualNetworksSubnet `json:"items"`
 }
 
-// Storage version of v1api20201101.VirtualNetworks_Subnet_Spec
-type VirtualNetworks_Subnet_Spec struct {
+// Storage version of v1api20201101.VirtualNetworksSubnet_Spec
+type VirtualNetworksSubnet_Spec struct {
 	AddressPrefix                      *string                                                                        `json:"addressPrefix,omitempty"`
 	AddressPrefixes                    []string                                                                       `json:"addressPrefixes,omitempty"`
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded `json:"applicationGatewayIpConfigurations,omitempty"`
@@ -166,10 +166,10 @@ type VirtualNetworks_Subnet_Spec struct {
 	ServiceEndpoints                  []ServiceEndpointPropertiesFormat                                      `json:"serviceEndpoints,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualNetworks_Subnet_Spec{}
+var _ genruntime.ConvertibleSpec = &VirtualNetworksSubnet_Spec{}
 
-// ConvertSpecFrom populates our VirtualNetworks_Subnet_Spec from the provided source
-func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our VirtualNetworksSubnet_Spec from the provided source
+func (subnet *VirtualNetworksSubnet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -177,8 +177,8 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecFrom(source genruntime.Con
 	return source.ConvertSpecTo(subnet)
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualNetworks_Subnet_Spec
-func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our VirtualNetworksSubnet_Spec
+func (subnet *VirtualNetworksSubnet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -186,8 +186,8 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecTo(destination genruntime.
 	return destination.ConvertSpecFrom(subnet)
 }
 
-// Storage version of v1api20201101.VirtualNetworks_Subnet_STATUS
-type VirtualNetworks_Subnet_STATUS struct {
+// Storage version of v1api20201101.VirtualNetworksSubnet_STATUS
+type VirtualNetworksSubnet_STATUS struct {
 	AddressPrefix                      *string                                                                               `json:"addressPrefix,omitempty"`
 	AddressPrefixes                    []string                                                                              `json:"addressPrefixes,omitempty"`
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded `json:"applicationGatewayIpConfigurations,omitempty"`
@@ -215,10 +215,10 @@ type VirtualNetworks_Subnet_STATUS struct {
 	Type                               *string                                                                               `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VirtualNetworks_Subnet_STATUS{}
+var _ genruntime.ConvertibleStatus = &VirtualNetworksSubnet_STATUS{}
 
-// ConvertStatusFrom populates our VirtualNetworks_Subnet_STATUS from the provided source
-func (subnet *VirtualNetworks_Subnet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our VirtualNetworksSubnet_STATUS from the provided source
+func (subnet *VirtualNetworksSubnet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -226,8 +226,8 @@ func (subnet *VirtualNetworks_Subnet_STATUS) ConvertStatusFrom(source genruntime
 	return source.ConvertStatusTo(subnet)
 }
 
-// ConvertStatusTo populates the provided destination from our VirtualNetworks_Subnet_STATUS
-func (subnet *VirtualNetworks_Subnet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our VirtualNetworksSubnet_STATUS
+func (subnet *VirtualNetworksSubnet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

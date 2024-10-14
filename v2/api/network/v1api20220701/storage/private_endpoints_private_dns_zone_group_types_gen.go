@@ -28,8 +28,8 @@ import (
 type PrivateEndpointsPrivateDnsZoneGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PrivateEndpoints_PrivateDnsZoneGroup_Spec   `json:"spec,omitempty"`
-	Status            PrivateEndpoints_PrivateDnsZoneGroup_STATUS `json:"status,omitempty"`
+	Spec              PrivateEndpointsPrivateDnsZoneGroup_Spec   `json:"spec,omitempty"`
+	Status            PrivateEndpointsPrivateDnsZoneGroup_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PrivateEndpointsPrivateDnsZoneGroup{}
@@ -87,7 +87,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *PrivateEndpointsPrivateDnsZoneGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &PrivateEndpoints_PrivateDnsZoneGroup_STATUS{}
+	return &PrivateEndpointsPrivateDnsZoneGroup_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) Owner() *genruntime.ResourceRe
 // SetStatus sets the status of this resource
 func (group *PrivateEndpointsPrivateDnsZoneGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*PrivateEndpoints_PrivateDnsZoneGroup_STATUS); ok {
+	if st, ok := status.(*PrivateEndpointsPrivateDnsZoneGroup_STATUS); ok {
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st PrivateEndpoints_PrivateDnsZoneGroup_STATUS
+	var st PrivateEndpointsPrivateDnsZoneGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type PrivateEndpointsPrivateDnsZoneGroupList struct {
 	Items           []PrivateEndpointsPrivateDnsZoneGroup `json:"items"`
 }
 
-// Storage version of v1api20220701.PrivateEndpoints_PrivateDnsZoneGroup_Spec
-type PrivateEndpoints_PrivateDnsZoneGroup_Spec struct {
+// Storage version of v1api20220701.PrivateEndpointsPrivateDnsZoneGroup_Spec
+type PrivateEndpointsPrivateDnsZoneGroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -154,10 +154,10 @@ type PrivateEndpoints_PrivateDnsZoneGroup_Spec struct {
 	PropertyBag           genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &PrivateEndpoints_PrivateDnsZoneGroup_Spec{}
+var _ genruntime.ConvertibleSpec = &PrivateEndpointsPrivateDnsZoneGroup_Spec{}
 
-// ConvertSpecFrom populates our PrivateEndpoints_PrivateDnsZoneGroup_Spec from the provided source
-func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our PrivateEndpointsPrivateDnsZoneGroup_Spec from the provided source
+func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -165,8 +165,8 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) ConvertSpecFrom(source g
 	return source.ConvertSpecTo(group)
 }
 
-// ConvertSpecTo populates the provided destination from our PrivateEndpoints_PrivateDnsZoneGroup_Spec
-func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our PrivateEndpointsPrivateDnsZoneGroup_Spec
+func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -174,8 +174,8 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) ConvertSpecTo(destinatio
 	return destination.ConvertSpecFrom(group)
 }
 
-// Storage version of v1api20220701.PrivateEndpoints_PrivateDnsZoneGroup_STATUS
-type PrivateEndpoints_PrivateDnsZoneGroup_STATUS struct {
+// Storage version of v1api20220701.PrivateEndpointsPrivateDnsZoneGroup_STATUS
+type PrivateEndpointsPrivateDnsZoneGroup_STATUS struct {
 	Conditions            []conditions.Condition        `json:"conditions,omitempty"`
 	Etag                  *string                       `json:"etag,omitempty"`
 	Id                    *string                       `json:"id,omitempty"`
@@ -185,10 +185,10 @@ type PrivateEndpoints_PrivateDnsZoneGroup_STATUS struct {
 	ProvisioningState     *string                       `json:"provisioningState,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &PrivateEndpoints_PrivateDnsZoneGroup_STATUS{}
+var _ genruntime.ConvertibleStatus = &PrivateEndpointsPrivateDnsZoneGroup_STATUS{}
 
-// ConvertStatusFrom populates our PrivateEndpoints_PrivateDnsZoneGroup_STATUS from the provided source
-func (group *PrivateEndpoints_PrivateDnsZoneGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our PrivateEndpointsPrivateDnsZoneGroup_STATUS from the provided source
+func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -196,8 +196,8 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_STATUS) ConvertStatusFrom(sour
 	return source.ConvertStatusTo(group)
 }
 
-// ConvertStatusTo populates the provided destination from our PrivateEndpoints_PrivateDnsZoneGroup_STATUS
-func (group *PrivateEndpoints_PrivateDnsZoneGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our PrivateEndpointsPrivateDnsZoneGroup_STATUS
+func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

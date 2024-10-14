@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DnsResolvers_OutboundEndpoint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsResolversOutboundEndpoint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsResolvers_OutboundEndpoint_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_STATUS_ARM, DnsResolvers_OutboundEndpoint_STATUS_ARMGenerator()))
+		"Round trip of DnsResolversOutboundEndpoint_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsResolversOutboundEndpoint_STATUS_ARM, DnsResolversOutboundEndpoint_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_STATUS_ARM runs a test to see if a specific instance of DnsResolvers_OutboundEndpoint_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_STATUS_ARM(subject DnsResolvers_OutboundEndpoint_STATUS_ARM) string {
+// RunJSONSerializationTestForDnsResolversOutboundEndpoint_STATUS_ARM runs a test to see if a specific instance of DnsResolversOutboundEndpoint_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsResolversOutboundEndpoint_STATUS_ARM(subject DnsResolversOutboundEndpoint_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_STATUS_ARM(subject
 	}
 
 	// Deserialize back into memory
-	var actual DnsResolvers_OutboundEndpoint_STATUS_ARM
+	var actual DnsResolversOutboundEndpoint_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForDnsResolvers_OutboundEndpoint_STATUS_ARM(subject
 	return ""
 }
 
-// Generator of DnsResolvers_OutboundEndpoint_STATUS_ARM instances for property testing - lazily instantiated by
-// DnsResolvers_OutboundEndpoint_STATUS_ARMGenerator()
-var dnsResolvers_OutboundEndpoint_STATUS_ARMGenerator gopter.Gen
+// Generator of DnsResolversOutboundEndpoint_STATUS_ARM instances for property testing - lazily instantiated by
+// DnsResolversOutboundEndpoint_STATUS_ARMGenerator()
+var dnsResolversOutboundEndpoint_STATUS_ARMGenerator gopter.Gen
 
-// DnsResolvers_OutboundEndpoint_STATUS_ARMGenerator returns a generator of DnsResolvers_OutboundEndpoint_STATUS_ARM instances for property testing.
-// We first initialize dnsResolvers_OutboundEndpoint_STATUS_ARMGenerator with a simplified generator based on the
+// DnsResolversOutboundEndpoint_STATUS_ARMGenerator returns a generator of DnsResolversOutboundEndpoint_STATUS_ARM instances for property testing.
+// We first initialize dnsResolversOutboundEndpoint_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DnsResolvers_OutboundEndpoint_STATUS_ARMGenerator() gopter.Gen {
-	if dnsResolvers_OutboundEndpoint_STATUS_ARMGenerator != nil {
-		return dnsResolvers_OutboundEndpoint_STATUS_ARMGenerator
+func DnsResolversOutboundEndpoint_STATUS_ARMGenerator() gopter.Gen {
+	if dnsResolversOutboundEndpoint_STATUS_ARMGenerator != nil {
+		return dnsResolversOutboundEndpoint_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS_ARM(generators)
-	dnsResolvers_OutboundEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsResolvers_OutboundEndpoint_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDnsResolversOutboundEndpoint_STATUS_ARM(generators)
+	dnsResolversOutboundEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsResolversOutboundEndpoint_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS_ARM(generators)
-	dnsResolvers_OutboundEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsResolvers_OutboundEndpoint_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDnsResolversOutboundEndpoint_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForDnsResolversOutboundEndpoint_STATUS_ARM(generators)
+	dnsResolversOutboundEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsResolversOutboundEndpoint_STATUS_ARM{}), generators)
 
-	return dnsResolvers_OutboundEndpoint_STATUS_ARMGenerator
+	return dnsResolversOutboundEndpoint_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsResolversOutboundEndpoint_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsResolversOutboundEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -94,8 +94,8 @@ func AddIndependentPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS_ARM
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsResolvers_OutboundEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsResolversOutboundEndpoint_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsResolversOutboundEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(OutboundEndpointProperties_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }

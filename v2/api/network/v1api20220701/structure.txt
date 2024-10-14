@@ -1361,6 +1361,53 @@ DnsForwardingRuleSetsForwardingRule: Resource
     │   ├── IpAddress: *string
     │   └── Port: *int
     └── Type: *string
+DnsForwardingRuleSetsForwardingRule_STATUS_ARM: Object (6 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (5 properties)
+│   ├── DomainName: *string
+│   ├── ForwardingRuleState: *Enum (2 values)
+│   │   ├── "Disabled"
+│   │   └── "Enabled"
+│   ├── Metadata: map[string]string
+│   ├── ProvisioningState: *Enum (6 values)
+│   │   ├── "Canceled"
+│   │   ├── "Creating"
+│   │   ├── "Deleting"
+│   │   ├── "Failed"
+│   │   ├── "Succeeded"
+│   │   └── "Updating"
+│   └── TargetDnsServers: Object (2 properties)[]
+│       ├── IpAddress: *string
+│       └── Port: *int
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
+└── Type: *string
+DnsForwardingRuleSetsForwardingRule_Spec_ARM: Object (2 properties)
+├── Name: string
+└── Properties: *Object (4 properties)
+    ├── DomainName: *string
+    ├── ForwardingRuleState: *Enum (2 values)
+    │   ├── "Disabled"
+    │   └── "Enabled"
+    ├── Metadata: map[string]string
+    └── TargetDnsServers: Object (2 properties)[]
+        ├── IpAddress: *string
+        └── Port: *int
 DnsForwardingRuleset: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (5 properties)
@@ -1443,53 +1490,6 @@ DnsForwardingRuleset_Spec_ARM: Object (4 properties)
 │   └── DnsResolverOutboundEndpoints: Object (1 property)[]
 │       └── Id: *string
 └── Tags: map[string]string
-DnsForwardingRulesets_ForwardingRule_STATUS_ARM: Object (6 properties)
-├── Etag: *string
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (5 properties)
-│   ├── DomainName: *string
-│   ├── ForwardingRuleState: *Enum (2 values)
-│   │   ├── "Disabled"
-│   │   └── "Enabled"
-│   ├── Metadata: map[string]string
-│   ├── ProvisioningState: *Enum (6 values)
-│   │   ├── "Canceled"
-│   │   ├── "Creating"
-│   │   ├── "Deleting"
-│   │   ├── "Failed"
-│   │   ├── "Succeeded"
-│   │   └── "Updating"
-│   └── TargetDnsServers: Object (2 properties)[]
-│       ├── IpAddress: *string
-│       └── Port: *int
-├── SystemData: *Object (6 properties)
-│   ├── CreatedAt: *string
-│   ├── CreatedBy: *string
-│   ├── CreatedByType: *Enum (4 values)
-│   │   ├── "Application"
-│   │   ├── "Key"
-│   │   ├── "ManagedIdentity"
-│   │   └── "User"
-│   ├── LastModifiedAt: *string
-│   ├── LastModifiedBy: *string
-│   └── LastModifiedByType: *Enum (4 values)
-│       ├── "Application"
-│       ├── "Key"
-│       ├── "ManagedIdentity"
-│       └── "User"
-└── Type: *string
-DnsForwardingRulesets_ForwardingRule_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (4 properties)
-    ├── DomainName: *string
-    ├── ForwardingRuleState: *Enum (2 values)
-    │   ├── "Disabled"
-    │   └── "Enabled"
-    ├── Metadata: map[string]string
-    └── TargetDnsServers: Object (2 properties)[]
-        ├── IpAddress: *string
-        └── Port: *int
 DnsResolver: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (5 properties)
@@ -1630,6 +1630,56 @@ DnsResolversInboundEndpoint: Resource
     │       └── "User"
     ├── Tags: map[string]string
     └── Type: *string
+DnsResolversInboundEndpoint_STATUS_ARM: Object (8 properties)
+├── Etag: *string
+├── Id: *string
+├── Location: *string
+├── Name: *string
+├── Properties: *Object (3 properties)
+│   ├── IpConfigurations: Object (3 properties)[]
+│   │   ├── PrivateIpAddress: *string
+│   │   ├── PrivateIpAllocationMethod: *Enum (2 values)
+│   │   │   ├── "Dynamic"
+│   │   │   └── "Static"
+│   │   └── Subnet: *Object (1 property)
+│   │       └── Id: *string
+│   ├── ProvisioningState: *Enum (6 values)
+│   │   ├── "Canceled"
+│   │   ├── "Creating"
+│   │   ├── "Deleting"
+│   │   ├── "Failed"
+│   │   ├── "Succeeded"
+│   │   └── "Updating"
+│   └── ResourceGuid: *string
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
+├── Tags: map[string]string
+└── Type: *string
+DnsResolversInboundEndpoint_Spec_ARM: Object (4 properties)
+├── Location: *string
+├── Name: string
+├── Properties: *Object (1 property)
+│   └── IpConfigurations: Object (3 properties)[]
+│       ├── PrivateIpAddress: *string
+│       ├── PrivateIpAllocationMethod: *Enum (2 values)
+│       │   ├── "Dynamic"
+│       │   └── "Static"
+│       └── Subnet: *Object (1 property)
+│           └── Id: *string
+└── Tags: map[string]string
 DnsResolversOutboundEndpoint: Resource
 ├── Owner: DnsResolver
 ├── Spec: Object (5 properties)
@@ -1672,57 +1722,7 @@ DnsResolversOutboundEndpoint: Resource
     │       └── "User"
     ├── Tags: map[string]string
     └── Type: *string
-DnsResolvers_InboundEndpoint_STATUS_ARM: Object (8 properties)
-├── Etag: *string
-├── Id: *string
-├── Location: *string
-├── Name: *string
-├── Properties: *Object (3 properties)
-│   ├── IpConfigurations: Object (3 properties)[]
-│   │   ├── PrivateIpAddress: *string
-│   │   ├── PrivateIpAllocationMethod: *Enum (2 values)
-│   │   │   ├── "Dynamic"
-│   │   │   └── "Static"
-│   │   └── Subnet: *Object (1 property)
-│   │       └── Id: *string
-│   ├── ProvisioningState: *Enum (6 values)
-│   │   ├── "Canceled"
-│   │   ├── "Creating"
-│   │   ├── "Deleting"
-│   │   ├── "Failed"
-│   │   ├── "Succeeded"
-│   │   └── "Updating"
-│   └── ResourceGuid: *string
-├── SystemData: *Object (6 properties)
-│   ├── CreatedAt: *string
-│   ├── CreatedBy: *string
-│   ├── CreatedByType: *Enum (4 values)
-│   │   ├── "Application"
-│   │   ├── "Key"
-│   │   ├── "ManagedIdentity"
-│   │   └── "User"
-│   ├── LastModifiedAt: *string
-│   ├── LastModifiedBy: *string
-│   └── LastModifiedByType: *Enum (4 values)
-│       ├── "Application"
-│       ├── "Key"
-│       ├── "ManagedIdentity"
-│       └── "User"
-├── Tags: map[string]string
-└── Type: *string
-DnsResolvers_InboundEndpoint_Spec_ARM: Object (4 properties)
-├── Location: *string
-├── Name: string
-├── Properties: *Object (1 property)
-│   └── IpConfigurations: Object (3 properties)[]
-│       ├── PrivateIpAddress: *string
-│       ├── PrivateIpAllocationMethod: *Enum (2 values)
-│       │   ├── "Dynamic"
-│       │   └── "Static"
-│       └── Subnet: *Object (1 property)
-│           └── Id: *string
-└── Tags: map[string]string
-DnsResolvers_OutboundEndpoint_STATUS_ARM: Object (8 properties)
+DnsResolversOutboundEndpoint_STATUS_ARM: Object (8 properties)
 ├── Etag: *string
 ├── Id: *string
 ├── Location: *string
@@ -1755,7 +1755,7 @@ DnsResolvers_OutboundEndpoint_STATUS_ARM: Object (8 properties)
 │       └── "User"
 ├── Tags: map[string]string
 └── Type: *string
-DnsResolvers_OutboundEndpoint_Spec_ARM: Object (4 properties)
+DnsResolversOutboundEndpoint_Spec_ARM: Object (4 properties)
 ├── Location: *string
 ├── Name: string
 ├── Properties: *Object (1 property)
@@ -2095,7 +2095,7 @@ PrivateEndpointsPrivateDnsZoneGroup: Resource
         ├── "Failed"
         ├── "Succeeded"
         └── "Updating"
-PrivateEndpoints_PrivateDnsZoneGroup_STATUS_ARM: Object (4 properties)
+PrivateEndpointsPrivateDnsZoneGroup_STATUS_ARM: Object (4 properties)
 ├── Etag: *string
 ├── Id: *string
 ├── Name: *string
@@ -2120,7 +2120,7 @@ PrivateEndpoints_PrivateDnsZoneGroup_STATUS_ARM: Object (4 properties)
         ├── "Failed"
         ├── "Succeeded"
         └── "Updating"
-PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM: Object (2 properties)
+PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (1 property)
     └── PrivateDnsZoneConfigs: Object (2 properties)[]

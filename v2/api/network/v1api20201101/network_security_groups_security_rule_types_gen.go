@@ -29,8 +29,8 @@ import (
 type NetworkSecurityGroupsSecurityRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkSecurityGroups_SecurityRule_Spec   `json:"spec,omitempty"`
-	Status            NetworkSecurityGroups_SecurityRule_STATUS `json:"status,omitempty"`
+	Spec              NetworkSecurityGroupsSecurityRule_Spec   `json:"spec,omitempty"`
+	Status            NetworkSecurityGroupsSecurityRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NetworkSecurityGroupsSecurityRule{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &NetworkSecurityGroupsSecurityRule{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (rule *NetworkSecurityGroupsSecurityRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NetworkSecurityGroups_SecurityRule_STATUS); ok {
-		return rule.Spec.Initialize_From_NetworkSecurityGroups_SecurityRule_STATUS(s)
+	if s, ok := status.(*NetworkSecurityGroupsSecurityRule_STATUS); ok {
+		return rule.Spec.Initialize_From_NetworkSecurityGroupsSecurityRule_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type NetworkSecurityGroups_SecurityRule_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type NetworkSecurityGroupsSecurityRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NetworkSecurityGroupsSecurityRule{}
@@ -144,7 +144,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NetworkSecurityGroupsSecurityRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NetworkSecurityGroups_SecurityRule_STATUS{}
+	return &NetworkSecurityGroupsSecurityRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (rule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (rule *NetworkSecurityGroupsSecurityRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NetworkSecurityGroups_SecurityRule_STATUS); ok {
+	if st, ok := status.(*NetworkSecurityGroupsSecurityRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NetworkSecurityGroups_SecurityRule_STATUS
+	var st NetworkSecurityGroupsSecurityRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (rule *NetworkSecurityGroupsSecurityRule) AssignProperties_From_NetworkSecu
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec NetworkSecurityGroups_SecurityRule_Spec
-	err := spec.AssignProperties_From_NetworkSecurityGroups_SecurityRule_Spec(&source.Spec)
+	var spec NetworkSecurityGroupsSecurityRule_Spec
+	err := spec.AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroups_SecurityRule_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
 	// Status
-	var status NetworkSecurityGroups_SecurityRule_STATUS
-	err = status.AssignProperties_From_NetworkSecurityGroups_SecurityRule_STATUS(&source.Status)
+	var status NetworkSecurityGroupsSecurityRule_STATUS
+	err = status.AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroups_SecurityRule_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -286,18 +286,18 @@ func (rule *NetworkSecurityGroupsSecurityRule) AssignProperties_To_NetworkSecuri
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.NetworkSecurityGroups_SecurityRule_Spec
-	err := rule.Spec.AssignProperties_To_NetworkSecurityGroups_SecurityRule_Spec(&spec)
+	var spec storage.NetworkSecurityGroupsSecurityRule_Spec
+	err := rule.Spec.AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroups_SecurityRule_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.NetworkSecurityGroups_SecurityRule_STATUS
-	err = rule.Status.AssignProperties_To_NetworkSecurityGroups_SecurityRule_STATUS(&status)
+	var status storage.NetworkSecurityGroupsSecurityRule_STATUS
+	err = rule.Status.AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroups_SecurityRule_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type NetworkSecurityGroupsSecurityRuleList struct {
 	Items           []NetworkSecurityGroupsSecurityRule `json:"items"`
 }
 
-type NetworkSecurityGroups_SecurityRule_Spec struct {
+type NetworkSecurityGroupsSecurityRule_Spec struct {
 	// +kubebuilder:validation:Required
 	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess `json:"access,omitempty"`
@@ -390,14 +390,14 @@ type NetworkSecurityGroups_SecurityRule_Spec struct {
 	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &NetworkSecurityGroups_SecurityRule_Spec{}
+var _ genruntime.ARMTransformer = &NetworkSecurityGroupsSecurityRule_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if rule == nil {
 		return nil, nil
 	}
-	result := &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
+	result := &NetworkSecurityGroupsSecurityRule_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -492,15 +492,15 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkSecurityGroupsSecurityRule_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroups_SecurityRule_Spec_ARM)
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkSecurityGroupsSecurityRule_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroups_SecurityRule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroupsSecurityRule_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "Access":
@@ -661,25 +661,25 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &NetworkSecurityGroups_SecurityRule_Spec{}
+var _ genruntime.ConvertibleSpec = &NetworkSecurityGroupsSecurityRule_Spec{}
 
-// ConvertSpecFrom populates our NetworkSecurityGroups_SecurityRule_Spec from the provided source
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.NetworkSecurityGroups_SecurityRule_Spec)
+// ConvertSpecFrom populates our NetworkSecurityGroupsSecurityRule_Spec from the provided source
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.NetworkSecurityGroupsSecurityRule_Spec)
 	if ok {
 		// Populate our instance from source
-		return rule.AssignProperties_From_NetworkSecurityGroups_SecurityRule_Spec(src)
+		return rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.NetworkSecurityGroups_SecurityRule_Spec{}
+	src = &storage.NetworkSecurityGroupsSecurityRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = rule.AssignProperties_From_NetworkSecurityGroups_SecurityRule_Spec(src)
+	err = rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -687,17 +687,17 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertSpecFrom(source genr
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our NetworkSecurityGroups_SecurityRule_Spec
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.NetworkSecurityGroups_SecurityRule_Spec)
+// ConvertSpecTo populates the provided destination from our NetworkSecurityGroupsSecurityRule_Spec
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.NetworkSecurityGroupsSecurityRule_Spec)
 	if ok {
 		// Populate destination from our instance
-		return rule.AssignProperties_To_NetworkSecurityGroups_SecurityRule_Spec(dst)
+		return rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.NetworkSecurityGroups_SecurityRule_Spec{}
-	err := rule.AssignProperties_To_NetworkSecurityGroups_SecurityRule_Spec(dst)
+	dst = &storage.NetworkSecurityGroupsSecurityRule_Spec{}
+	err := rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -711,8 +711,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertSpecTo(destination g
 	return nil
 }
 
-// AssignProperties_From_NetworkSecurityGroups_SecurityRule_Spec populates our NetworkSecurityGroups_SecurityRule_Spec from the provided source NetworkSecurityGroups_SecurityRule_Spec
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_NetworkSecurityGroups_SecurityRule_Spec(source *storage.NetworkSecurityGroups_SecurityRule_Spec) error {
+// AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec populates our NetworkSecurityGroupsSecurityRule_Spec from the provided source NetworkSecurityGroupsSecurityRule_Spec
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_From_NetworkSecurityGroupsSecurityRule_Spec(source *storage.NetworkSecurityGroupsSecurityRule_Spec) error {
 
 	// Access
 	if source.Access != nil {
@@ -822,8 +822,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 	return nil
 }
 
-// AssignProperties_To_NetworkSecurityGroups_SecurityRule_Spec populates the provided destination NetworkSecurityGroups_SecurityRule_Spec from our NetworkSecurityGroups_SecurityRule_Spec
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_NetworkSecurityGroups_SecurityRule_Spec(destination *storage.NetworkSecurityGroups_SecurityRule_Spec) error {
+// AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec populates the provided destination NetworkSecurityGroupsSecurityRule_Spec from our NetworkSecurityGroupsSecurityRule_Spec
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) AssignProperties_To_NetworkSecurityGroupsSecurityRule_Spec(destination *storage.NetworkSecurityGroupsSecurityRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -942,8 +942,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_To_Network
 	return nil
 }
 
-// Initialize_From_NetworkSecurityGroups_SecurityRule_STATUS populates our NetworkSecurityGroups_SecurityRule_Spec from the provided source NetworkSecurityGroups_SecurityRule_STATUS
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) Initialize_From_NetworkSecurityGroups_SecurityRule_STATUS(source *NetworkSecurityGroups_SecurityRule_STATUS) error {
+// Initialize_From_NetworkSecurityGroupsSecurityRule_STATUS populates our NetworkSecurityGroupsSecurityRule_Spec from the provided source NetworkSecurityGroupsSecurityRule_STATUS
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) Initialize_From_NetworkSecurityGroupsSecurityRule_STATUS(source *NetworkSecurityGroupsSecurityRule_STATUS) error {
 
 	// Access
 	if source.Access != nil {
@@ -1040,16 +1040,16 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) Initialize_From_NetworkSecu
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) OriginalVersion() string {
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (rule *NetworkSecurityGroups_SecurityRule_Spec) SetAzureName(azureName string) {
+func (rule *NetworkSecurityGroupsSecurityRule_Spec) SetAzureName(azureName string) {
 	rule.AzureName = azureName
 }
 
-type NetworkSecurityGroups_SecurityRule_STATUS struct {
+type NetworkSecurityGroupsSecurityRule_STATUS struct {
 	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_STATUS `json:"access,omitempty"`
 
@@ -1120,25 +1120,25 @@ type NetworkSecurityGroups_SecurityRule_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NetworkSecurityGroups_SecurityRule_STATUS{}
+var _ genruntime.ConvertibleStatus = &NetworkSecurityGroupsSecurityRule_STATUS{}
 
-// ConvertStatusFrom populates our NetworkSecurityGroups_SecurityRule_STATUS from the provided source
-func (rule *NetworkSecurityGroups_SecurityRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.NetworkSecurityGroups_SecurityRule_STATUS)
+// ConvertStatusFrom populates our NetworkSecurityGroupsSecurityRule_STATUS from the provided source
+func (rule *NetworkSecurityGroupsSecurityRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.NetworkSecurityGroupsSecurityRule_STATUS)
 	if ok {
 		// Populate our instance from source
-		return rule.AssignProperties_From_NetworkSecurityGroups_SecurityRule_STATUS(src)
+		return rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.NetworkSecurityGroups_SecurityRule_STATUS{}
+	src = &storage.NetworkSecurityGroupsSecurityRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = rule.AssignProperties_From_NetworkSecurityGroups_SecurityRule_STATUS(src)
+	err = rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1146,17 +1146,17 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) ConvertStatusFrom(source 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our NetworkSecurityGroups_SecurityRule_STATUS
-func (rule *NetworkSecurityGroups_SecurityRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.NetworkSecurityGroups_SecurityRule_STATUS)
+// ConvertStatusTo populates the provided destination from our NetworkSecurityGroupsSecurityRule_STATUS
+func (rule *NetworkSecurityGroupsSecurityRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.NetworkSecurityGroupsSecurityRule_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return rule.AssignProperties_To_NetworkSecurityGroups_SecurityRule_STATUS(dst)
+		return rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.NetworkSecurityGroups_SecurityRule_STATUS{}
-	err := rule.AssignProperties_To_NetworkSecurityGroups_SecurityRule_STATUS(dst)
+	dst = &storage.NetworkSecurityGroupsSecurityRule_STATUS{}
+	err := rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1170,18 +1170,18 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) ConvertStatusTo(destinati
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &NetworkSecurityGroups_SecurityRule_STATUS{}
+var _ genruntime.FromARMConverter = &NetworkSecurityGroupsSecurityRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *NetworkSecurityGroups_SecurityRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroups_SecurityRule_STATUS_ARM{}
+func (rule *NetworkSecurityGroupsSecurityRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkSecurityGroupsSecurityRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroups_SecurityRule_STATUS_ARM)
+func (rule *NetworkSecurityGroupsSecurityRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkSecurityGroupsSecurityRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroups_SecurityRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroupsSecurityRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "Access":
@@ -1370,8 +1370,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignProperties_From_NetworkSecurityGroups_SecurityRule_STATUS populates our NetworkSecurityGroups_SecurityRule_STATUS from the provided source NetworkSecurityGroups_SecurityRule_STATUS
-func (rule *NetworkSecurityGroups_SecurityRule_STATUS) AssignProperties_From_NetworkSecurityGroups_SecurityRule_STATUS(source *storage.NetworkSecurityGroups_SecurityRule_STATUS) error {
+// AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS populates our NetworkSecurityGroupsSecurityRule_STATUS from the provided source NetworkSecurityGroupsSecurityRule_STATUS
+func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_From_NetworkSecurityGroupsSecurityRule_STATUS(source *storage.NetworkSecurityGroupsSecurityRule_STATUS) error {
 
 	// Access
 	if source.Access != nil {
@@ -1494,8 +1494,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) AssignProperties_From_Net
 	return nil
 }
 
-// AssignProperties_To_NetworkSecurityGroups_SecurityRule_STATUS populates the provided destination NetworkSecurityGroups_SecurityRule_STATUS from our NetworkSecurityGroups_SecurityRule_STATUS
-func (rule *NetworkSecurityGroups_SecurityRule_STATUS) AssignProperties_To_NetworkSecurityGroups_SecurityRule_STATUS(destination *storage.NetworkSecurityGroups_SecurityRule_STATUS) error {
+// AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS populates the provided destination NetworkSecurityGroupsSecurityRule_STATUS from our NetworkSecurityGroupsSecurityRule_STATUS
+func (rule *NetworkSecurityGroupsSecurityRule_STATUS) AssignProperties_To_NetworkSecurityGroupsSecurityRule_STATUS(destination *storage.NetworkSecurityGroupsSecurityRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

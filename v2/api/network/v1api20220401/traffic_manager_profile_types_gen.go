@@ -34,8 +34,8 @@ import (
 type TrafficManagerProfile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Trafficmanagerprofile_Spec   `json:"spec,omitempty"`
-	Status            Trafficmanagerprofile_STATUS `json:"status,omitempty"`
+	Spec              TrafficManagerProfile_Spec   `json:"spec,omitempty"`
+	Status            TrafficManagerProfile_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &TrafficManagerProfile{}
@@ -99,11 +99,11 @@ var _ genruntime.ImportableResource = &TrafficManagerProfile{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (profile *TrafficManagerProfile) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Trafficmanagerprofile_STATUS); ok {
-		return profile.Spec.Initialize_From_Trafficmanagerprofile_STATUS(s)
+	if s, ok := status.(*TrafficManagerProfile_STATUS); ok {
+		return profile.Spec.Initialize_From_TrafficManagerProfile_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Trafficmanagerprofile_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type TrafficManagerProfile_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesExporter = &TrafficManagerProfile{}
@@ -168,7 +168,7 @@ func (profile *TrafficManagerProfile) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (profile *TrafficManagerProfile) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Trafficmanagerprofile_STATUS{}
+	return &TrafficManagerProfile_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -180,13 +180,13 @@ func (profile *TrafficManagerProfile) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (profile *TrafficManagerProfile) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Trafficmanagerprofile_STATUS); ok {
+	if st, ok := status.(*TrafficManagerProfile_STATUS); ok {
 		profile.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Trafficmanagerprofile_STATUS
+	var st TrafficManagerProfile_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -301,18 +301,18 @@ func (profile *TrafficManagerProfile) AssignProperties_From_TrafficManagerProfil
 	profile.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Trafficmanagerprofile_Spec
-	err := spec.AssignProperties_From_Trafficmanagerprofile_Spec(&source.Spec)
+	var spec TrafficManagerProfile_Spec
+	err := spec.AssignProperties_From_TrafficManagerProfile_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Trafficmanagerprofile_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfile_Spec() to populate field Spec")
 	}
 	profile.Spec = spec
 
 	// Status
-	var status Trafficmanagerprofile_STATUS
-	err = status.AssignProperties_From_Trafficmanagerprofile_STATUS(&source.Status)
+	var status TrafficManagerProfile_STATUS
+	err = status.AssignProperties_From_TrafficManagerProfile_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Trafficmanagerprofile_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfile_STATUS() to populate field Status")
 	}
 	profile.Status = status
 
@@ -327,18 +327,18 @@ func (profile *TrafficManagerProfile) AssignProperties_To_TrafficManagerProfile(
 	destination.ObjectMeta = *profile.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Trafficmanagerprofile_Spec
-	err := profile.Spec.AssignProperties_To_Trafficmanagerprofile_Spec(&spec)
+	var spec storage.TrafficManagerProfile_Spec
+	err := profile.Spec.AssignProperties_To_TrafficManagerProfile_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofile_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfile_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Trafficmanagerprofile_STATUS
-	err = profile.Status.AssignProperties_To_Trafficmanagerprofile_STATUS(&status)
+	var status storage.TrafficManagerProfile_STATUS
+	err = profile.Status.AssignProperties_To_TrafficManagerProfile_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofile_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfile_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -370,7 +370,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-04-01")
 
-type Trafficmanagerprofile_Spec struct {
+type TrafficManagerProfile_Spec struct {
 	// AllowedEndpointRecordTypes: The list of allowed endpoint record types.
 	AllowedEndpointRecordTypes []AllowedEndpointRecordType `json:"allowedEndpointRecordTypes,omitempty"`
 
@@ -417,18 +417,18 @@ type Trafficmanagerprofile_Spec struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Trafficmanagerprofile_Spec{}
+var _ genruntime.ARMTransformer = &TrafficManagerProfile_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if trafficmanagerprofile == nil {
+func (profile *TrafficManagerProfile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
 		return nil, nil
 	}
-	result := &Trafficmanagerprofile_Spec_ARM{}
+	result := &TrafficManagerProfile_Spec_ARM{}
 
 	// Set property "Location":
-	if trafficmanagerprofile.Location != nil {
-		location := *trafficmanagerprofile.Location
+	if profile.Location != nil {
+		location := *profile.Location
 		result.Location = &location
 	}
 
@@ -436,85 +436,85 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertToARM(resolved g
 	result.Name = resolved.Name
 
 	// Set property "Properties":
-	if trafficmanagerprofile.AllowedEndpointRecordTypes != nil ||
-		trafficmanagerprofile.DnsConfig != nil ||
-		trafficmanagerprofile.MaxReturn != nil ||
-		trafficmanagerprofile.MonitorConfig != nil ||
-		trafficmanagerprofile.ProfileStatus != nil ||
-		trafficmanagerprofile.TrafficRoutingMethod != nil ||
-		trafficmanagerprofile.TrafficViewEnrollmentStatus != nil {
+	if profile.AllowedEndpointRecordTypes != nil ||
+		profile.DnsConfig != nil ||
+		profile.MaxReturn != nil ||
+		profile.MonitorConfig != nil ||
+		profile.ProfileStatus != nil ||
+		profile.TrafficRoutingMethod != nil ||
+		profile.TrafficViewEnrollmentStatus != nil {
 		result.Properties = &ProfileProperties_ARM{}
 	}
-	for _, item := range trafficmanagerprofile.AllowedEndpointRecordTypes {
+	for _, item := range profile.AllowedEndpointRecordTypes {
 		var temp string
 		temp = string(item)
 		result.Properties.AllowedEndpointRecordTypes = append(result.Properties.AllowedEndpointRecordTypes, AllowedEndpointRecordType_ARM(temp))
 	}
-	if trafficmanagerprofile.DnsConfig != nil {
-		dnsConfig_ARM, err := (*trafficmanagerprofile.DnsConfig).ConvertToARM(resolved)
+	if profile.DnsConfig != nil {
+		dnsConfig_ARM, err := (*profile.DnsConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		dnsConfig := *dnsConfig_ARM.(*DnsConfig_ARM)
 		result.Properties.DnsConfig = &dnsConfig
 	}
-	if trafficmanagerprofile.MaxReturn != nil {
-		maxReturn := *trafficmanagerprofile.MaxReturn
+	if profile.MaxReturn != nil {
+		maxReturn := *profile.MaxReturn
 		result.Properties.MaxReturn = &maxReturn
 	}
-	if trafficmanagerprofile.MonitorConfig != nil {
-		monitorConfig_ARM, err := (*trafficmanagerprofile.MonitorConfig).ConvertToARM(resolved)
+	if profile.MonitorConfig != nil {
+		monitorConfig_ARM, err := (*profile.MonitorConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		monitorConfig := *monitorConfig_ARM.(*MonitorConfig_ARM)
 		result.Properties.MonitorConfig = &monitorConfig
 	}
-	if trafficmanagerprofile.ProfileStatus != nil {
+	if profile.ProfileStatus != nil {
 		var temp string
-		temp = string(*trafficmanagerprofile.ProfileStatus)
+		temp = string(*profile.ProfileStatus)
 		profileStatus := ProfileProperties_ProfileStatus_ARM(temp)
 		result.Properties.ProfileStatus = &profileStatus
 	}
-	if trafficmanagerprofile.TrafficRoutingMethod != nil {
+	if profile.TrafficRoutingMethod != nil {
 		var temp string
-		temp = string(*trafficmanagerprofile.TrafficRoutingMethod)
+		temp = string(*profile.TrafficRoutingMethod)
 		trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod_ARM(temp)
 		result.Properties.TrafficRoutingMethod = &trafficRoutingMethod
 	}
-	if trafficmanagerprofile.TrafficViewEnrollmentStatus != nil {
+	if profile.TrafficViewEnrollmentStatus != nil {
 		var temp string
-		temp = string(*trafficmanagerprofile.TrafficViewEnrollmentStatus)
+		temp = string(*profile.TrafficViewEnrollmentStatus)
 		trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus_ARM(temp)
 		result.Properties.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 	}
 
 	// Set property "Tags":
-	if trafficmanagerprofile.Tags != nil {
-		result.Tags = make(map[string]string, len(trafficmanagerprofile.Tags))
-		for key, value := range trafficmanagerprofile.Tags {
+	if profile.Tags != nil {
+		result.Tags = make(map[string]string, len(profile.Tags))
+		for key, value := range profile.Tags {
 			result.Tags[key] = value
 		}
 	}
 
 	// Set property "Type":
-	if trafficmanagerprofile.Type != nil {
-		typeVar := *trafficmanagerprofile.Type
+	if profile.Type != nil {
+		typeVar := *profile.Type
 		result.Type = &typeVar
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Trafficmanagerprofile_Spec_ARM{}
+func (profile *TrafficManagerProfile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &TrafficManagerProfile_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Trafficmanagerprofile_Spec_ARM)
+func (profile *TrafficManagerProfile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(TrafficManagerProfile_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Trafficmanagerprofile_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfile_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AllowedEndpointRecordTypes":
@@ -523,12 +523,12 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 		for _, item := range typedInput.Properties.AllowedEndpointRecordTypes {
 			var temp string
 			temp = string(item)
-			trafficmanagerprofile.AllowedEndpointRecordTypes = append(trafficmanagerprofile.AllowedEndpointRecordTypes, AllowedEndpointRecordType(temp))
+			profile.AllowedEndpointRecordTypes = append(profile.AllowedEndpointRecordTypes, AllowedEndpointRecordType(temp))
 		}
 	}
 
 	// Set property "AzureName":
-	trafficmanagerprofile.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	profile.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "DnsConfig":
 	// copying flattened property:
@@ -540,14 +540,14 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 				return err
 			}
 			dnsConfig := dnsConfig1
-			trafficmanagerprofile.DnsConfig = &dnsConfig
+			profile.DnsConfig = &dnsConfig
 		}
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		trafficmanagerprofile.Location = &location
+		profile.Location = &location
 	}
 
 	// Set property "MaxReturn":
@@ -555,7 +555,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxReturn != nil {
 			maxReturn := *typedInput.Properties.MaxReturn
-			trafficmanagerprofile.MaxReturn = &maxReturn
+			profile.MaxReturn = &maxReturn
 		}
 	}
 
@@ -569,14 +569,14 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 				return err
 			}
 			monitorConfig := monitorConfig1
-			trafficmanagerprofile.MonitorConfig = &monitorConfig
+			profile.MonitorConfig = &monitorConfig
 		}
 	}
 
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	trafficmanagerprofile.Owner = &genruntime.KnownResourceReference{
+	profile.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
 	}
@@ -588,15 +588,15 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 			var temp string
 			temp = string(*typedInput.Properties.ProfileStatus)
 			profileStatus := ProfileProperties_ProfileStatus(temp)
-			trafficmanagerprofile.ProfileStatus = &profileStatus
+			profile.ProfileStatus = &profileStatus
 		}
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		trafficmanagerprofile.Tags = make(map[string]string, len(typedInput.Tags))
+		profile.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			trafficmanagerprofile.Tags[key] = value
+			profile.Tags[key] = value
 		}
 	}
 
@@ -607,7 +607,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 			var temp string
 			temp = string(*typedInput.Properties.TrafficRoutingMethod)
 			trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod(temp)
-			trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethod
+			profile.TrafficRoutingMethod = &trafficRoutingMethod
 		}
 	}
 
@@ -618,39 +618,39 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) PopulateFromARM(owner g
 			var temp string
 			temp = string(*typedInput.Properties.TrafficViewEnrollmentStatus)
 			trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus(temp)
-			trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
+			profile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		trafficmanagerprofile.Type = &typeVar
+		profile.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Trafficmanagerprofile_Spec{}
+var _ genruntime.ConvertibleSpec = &TrafficManagerProfile_Spec{}
 
-// ConvertSpecFrom populates our Trafficmanagerprofile_Spec from the provided source
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Trafficmanagerprofile_Spec)
+// ConvertSpecFrom populates our TrafficManagerProfile_Spec from the provided source
+func (profile *TrafficManagerProfile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.TrafficManagerProfile_Spec)
 	if ok {
 		// Populate our instance from source
-		return trafficmanagerprofile.AssignProperties_From_Trafficmanagerprofile_Spec(src)
+		return profile.AssignProperties_From_TrafficManagerProfile_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Trafficmanagerprofile_Spec{}
+	src = &storage.TrafficManagerProfile_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = trafficmanagerprofile.AssignProperties_From_Trafficmanagerprofile_Spec(src)
+	err = profile.AssignProperties_From_TrafficManagerProfile_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -658,17 +658,17 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertSpecFrom(source 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Trafficmanagerprofile_Spec
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Trafficmanagerprofile_Spec)
+// ConvertSpecTo populates the provided destination from our TrafficManagerProfile_Spec
+func (profile *TrafficManagerProfile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.TrafficManagerProfile_Spec)
 	if ok {
 		// Populate destination from our instance
-		return trafficmanagerprofile.AssignProperties_To_Trafficmanagerprofile_Spec(dst)
+		return profile.AssignProperties_To_TrafficManagerProfile_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Trafficmanagerprofile_Spec{}
-	err := trafficmanagerprofile.AssignProperties_To_Trafficmanagerprofile_Spec(dst)
+	dst = &storage.TrafficManagerProfile_Spec{}
+	err := profile.AssignProperties_To_TrafficManagerProfile_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -682,8 +682,8 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) ConvertSpecTo(destinati
 	return nil
 }
 
-// AssignProperties_From_Trafficmanagerprofile_Spec populates our Trafficmanagerprofile_Spec from the provided source Trafficmanagerprofile_Spec
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_Trafficmanagerprofile_Spec(source *storage.Trafficmanagerprofile_Spec) error {
+// AssignProperties_From_TrafficManagerProfile_Spec populates our TrafficManagerProfile_Spec from the provided source TrafficManagerProfile_Spec
+func (profile *TrafficManagerProfile_Spec) AssignProperties_From_TrafficManagerProfile_Spec(source *storage.TrafficManagerProfile_Spec) error {
 
 	// AllowedEndpointRecordTypes
 	if source.AllowedEndpointRecordTypes != nil {
@@ -693,13 +693,13 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_T
 			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = genruntime.ToEnum(allowedEndpointRecordTypeItem, allowedEndpointRecordType_Values)
 		}
-		trafficmanagerprofile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
+		profile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
 	} else {
-		trafficmanagerprofile.AllowedEndpointRecordTypes = nil
+		profile.AllowedEndpointRecordTypes = nil
 	}
 
 	// AzureName
-	trafficmanagerprofile.AzureName = source.AzureName
+	profile.AzureName = source.AzureName
 
 	// DnsConfig
 	if source.DnsConfig != nil {
@@ -708,16 +708,16 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_T
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_DnsConfig() to populate field DnsConfig")
 		}
-		trafficmanagerprofile.DnsConfig = &dnsConfig
+		profile.DnsConfig = &dnsConfig
 	} else {
-		trafficmanagerprofile.DnsConfig = nil
+		profile.DnsConfig = nil
 	}
 
 	// Location
-	trafficmanagerprofile.Location = genruntime.ClonePointerToString(source.Location)
+	profile.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaxReturn
-	trafficmanagerprofile.MaxReturn = genruntime.ClonePointerToInt(source.MaxReturn)
+	profile.MaxReturn = genruntime.ClonePointerToInt(source.MaxReturn)
 
 	// MonitorConfig
 	if source.MonitorConfig != nil {
@@ -726,9 +726,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_T
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_MonitorConfig() to populate field MonitorConfig")
 		}
-		trafficmanagerprofile.MonitorConfig = &monitorConfig
+		profile.MonitorConfig = &monitorConfig
 	} else {
-		trafficmanagerprofile.MonitorConfig = nil
+		profile.MonitorConfig = nil
 	}
 
 	// OperatorSpec
@@ -738,65 +738,65 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_T
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfileOperatorSpec() to populate field OperatorSpec")
 		}
-		trafficmanagerprofile.OperatorSpec = &operatorSpec
+		profile.OperatorSpec = &operatorSpec
 	} else {
-		trafficmanagerprofile.OperatorSpec = nil
+		profile.OperatorSpec = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		trafficmanagerprofile.Owner = &owner
+		profile.Owner = &owner
 	} else {
-		trafficmanagerprofile.Owner = nil
+		profile.Owner = nil
 	}
 
 	// ProfileStatus
 	if source.ProfileStatus != nil {
 		profileStatus := *source.ProfileStatus
 		profileStatusTemp := genruntime.ToEnum(profileStatus, profileProperties_ProfileStatus_Values)
-		trafficmanagerprofile.ProfileStatus = &profileStatusTemp
+		profile.ProfileStatus = &profileStatusTemp
 	} else {
-		trafficmanagerprofile.ProfileStatus = nil
+		profile.ProfileStatus = nil
 	}
 
 	// Tags
-	trafficmanagerprofile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TrafficRoutingMethod
 	if source.TrafficRoutingMethod != nil {
 		trafficRoutingMethod := *source.TrafficRoutingMethod
 		trafficRoutingMethodTemp := genruntime.ToEnum(trafficRoutingMethod, profileProperties_TrafficRoutingMethod_Values)
-		trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethodTemp
+		profile.TrafficRoutingMethod = &trafficRoutingMethodTemp
 	} else {
-		trafficmanagerprofile.TrafficRoutingMethod = nil
+		profile.TrafficRoutingMethod = nil
 	}
 
 	// TrafficViewEnrollmentStatus
 	if source.TrafficViewEnrollmentStatus != nil {
 		trafficViewEnrollmentStatus := *source.TrafficViewEnrollmentStatus
 		trafficViewEnrollmentStatusTemp := genruntime.ToEnum(trafficViewEnrollmentStatus, profileProperties_TrafficViewEnrollmentStatus_Values)
-		trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatusTemp
+		profile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatusTemp
 	} else {
-		trafficmanagerprofile.TrafficViewEnrollmentStatus = nil
+		profile.TrafficViewEnrollmentStatus = nil
 	}
 
 	// Type
-	trafficmanagerprofile.Type = genruntime.ClonePointerToString(source.Type)
+	profile.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Trafficmanagerprofile_Spec populates the provided destination Trafficmanagerprofile_Spec from our Trafficmanagerprofile_Spec
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Trafficmanagerprofile_Spec(destination *storage.Trafficmanagerprofile_Spec) error {
+// AssignProperties_To_TrafficManagerProfile_Spec populates the provided destination TrafficManagerProfile_Spec from our TrafficManagerProfile_Spec
+func (profile *TrafficManagerProfile_Spec) AssignProperties_To_TrafficManagerProfile_Spec(destination *storage.TrafficManagerProfile_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllowedEndpointRecordTypes
-	if trafficmanagerprofile.AllowedEndpointRecordTypes != nil {
-		allowedEndpointRecordTypeList := make([]string, len(trafficmanagerprofile.AllowedEndpointRecordTypes))
-		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range trafficmanagerprofile.AllowedEndpointRecordTypes {
+	if profile.AllowedEndpointRecordTypes != nil {
+		allowedEndpointRecordTypeList := make([]string, len(profile.AllowedEndpointRecordTypes))
+		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range profile.AllowedEndpointRecordTypes {
 			// Shadow the loop variable to avoid aliasing
 			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = string(allowedEndpointRecordTypeItem)
@@ -807,12 +807,12 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Tra
 	}
 
 	// AzureName
-	destination.AzureName = trafficmanagerprofile.AzureName
+	destination.AzureName = profile.AzureName
 
 	// DnsConfig
-	if trafficmanagerprofile.DnsConfig != nil {
+	if profile.DnsConfig != nil {
 		var dnsConfig storage.DnsConfig
-		err := trafficmanagerprofile.DnsConfig.AssignProperties_To_DnsConfig(&dnsConfig)
+		err := profile.DnsConfig.AssignProperties_To_DnsConfig(&dnsConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DnsConfig() to populate field DnsConfig")
 		}
@@ -822,15 +822,15 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Tra
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(trafficmanagerprofile.Location)
+	destination.Location = genruntime.ClonePointerToString(profile.Location)
 
 	// MaxReturn
-	destination.MaxReturn = genruntime.ClonePointerToInt(trafficmanagerprofile.MaxReturn)
+	destination.MaxReturn = genruntime.ClonePointerToInt(profile.MaxReturn)
 
 	// MonitorConfig
-	if trafficmanagerprofile.MonitorConfig != nil {
+	if profile.MonitorConfig != nil {
 		var monitorConfig storage.MonitorConfig
-		err := trafficmanagerprofile.MonitorConfig.AssignProperties_To_MonitorConfig(&monitorConfig)
+		err := profile.MonitorConfig.AssignProperties_To_MonitorConfig(&monitorConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MonitorConfig() to populate field MonitorConfig")
 		}
@@ -840,9 +840,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Tra
 	}
 
 	// OperatorSpec
-	if trafficmanagerprofile.OperatorSpec != nil {
+	if profile.OperatorSpec != nil {
 		var operatorSpec storage.TrafficManagerProfileOperatorSpec
-		err := trafficmanagerprofile.OperatorSpec.AssignProperties_To_TrafficManagerProfileOperatorSpec(&operatorSpec)
+		err := profile.OperatorSpec.AssignProperties_To_TrafficManagerProfileOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfileOperatorSpec() to populate field OperatorSpec")
 		}
@@ -852,45 +852,45 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Tra
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = trafficmanagerprofile.OriginalVersion()
+	destination.OriginalVersion = profile.OriginalVersion()
 
 	// Owner
-	if trafficmanagerprofile.Owner != nil {
-		owner := trafficmanagerprofile.Owner.Copy()
+	if profile.Owner != nil {
+		owner := profile.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// ProfileStatus
-	if trafficmanagerprofile.ProfileStatus != nil {
-		profileStatus := string(*trafficmanagerprofile.ProfileStatus)
+	if profile.ProfileStatus != nil {
+		profileStatus := string(*profile.ProfileStatus)
 		destination.ProfileStatus = &profileStatus
 	} else {
 		destination.ProfileStatus = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(trafficmanagerprofile.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(profile.Tags)
 
 	// TrafficRoutingMethod
-	if trafficmanagerprofile.TrafficRoutingMethod != nil {
-		trafficRoutingMethod := string(*trafficmanagerprofile.TrafficRoutingMethod)
+	if profile.TrafficRoutingMethod != nil {
+		trafficRoutingMethod := string(*profile.TrafficRoutingMethod)
 		destination.TrafficRoutingMethod = &trafficRoutingMethod
 	} else {
 		destination.TrafficRoutingMethod = nil
 	}
 
 	// TrafficViewEnrollmentStatus
-	if trafficmanagerprofile.TrafficViewEnrollmentStatus != nil {
-		trafficViewEnrollmentStatus := string(*trafficmanagerprofile.TrafficViewEnrollmentStatus)
+	if profile.TrafficViewEnrollmentStatus != nil {
+		trafficViewEnrollmentStatus := string(*profile.TrafficViewEnrollmentStatus)
 		destination.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 	} else {
 		destination.TrafficViewEnrollmentStatus = nil
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(trafficmanagerprofile.Type)
+	destination.Type = genruntime.ClonePointerToString(profile.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -903,8 +903,8 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_To_Tra
 	return nil
 }
 
-// Initialize_From_Trafficmanagerprofile_STATUS populates our Trafficmanagerprofile_Spec from the provided source Trafficmanagerprofile_STATUS
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) Initialize_From_Trafficmanagerprofile_STATUS(source *Trafficmanagerprofile_STATUS) error {
+// Initialize_From_TrafficManagerProfile_STATUS populates our TrafficManagerProfile_Spec from the provided source TrafficManagerProfile_STATUS
+func (profile *TrafficManagerProfile_Spec) Initialize_From_TrafficManagerProfile_STATUS(source *TrafficManagerProfile_STATUS) error {
 
 	// AllowedEndpointRecordTypes
 	if source.AllowedEndpointRecordTypes != nil {
@@ -915,9 +915,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) Initialize_From_Traffic
 			allowedEndpointRecordType := genruntime.ToEnum(string(allowedEndpointRecordTypeItem), allowedEndpointRecordType_Values)
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = allowedEndpointRecordType
 		}
-		trafficmanagerprofile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
+		profile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
 	} else {
-		trafficmanagerprofile.AllowedEndpointRecordTypes = nil
+		profile.AllowedEndpointRecordTypes = nil
 	}
 
 	// DnsConfig
@@ -927,16 +927,16 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) Initialize_From_Traffic
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_DnsConfig_STATUS() to populate field DnsConfig")
 		}
-		trafficmanagerprofile.DnsConfig = &dnsConfig
+		profile.DnsConfig = &dnsConfig
 	} else {
-		trafficmanagerprofile.DnsConfig = nil
+		profile.DnsConfig = nil
 	}
 
 	// Location
-	trafficmanagerprofile.Location = genruntime.ClonePointerToString(source.Location)
+	profile.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaxReturn
-	trafficmanagerprofile.MaxReturn = genruntime.ClonePointerToInt(source.MaxReturn)
+	profile.MaxReturn = genruntime.ClonePointerToInt(source.MaxReturn)
 
 	// MonitorConfig
 	if source.MonitorConfig != nil {
@@ -945,56 +945,56 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) Initialize_From_Traffic
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_MonitorConfig_STATUS() to populate field MonitorConfig")
 		}
-		trafficmanagerprofile.MonitorConfig = &monitorConfig
+		profile.MonitorConfig = &monitorConfig
 	} else {
-		trafficmanagerprofile.MonitorConfig = nil
+		profile.MonitorConfig = nil
 	}
 
 	// ProfileStatus
 	if source.ProfileStatus != nil {
 		profileStatus := genruntime.ToEnum(string(*source.ProfileStatus), profileProperties_ProfileStatus_Values)
-		trafficmanagerprofile.ProfileStatus = &profileStatus
+		profile.ProfileStatus = &profileStatus
 	} else {
-		trafficmanagerprofile.ProfileStatus = nil
+		profile.ProfileStatus = nil
 	}
 
 	// Tags
-	trafficmanagerprofile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TrafficRoutingMethod
 	if source.TrafficRoutingMethod != nil {
 		trafficRoutingMethod := genruntime.ToEnum(string(*source.TrafficRoutingMethod), profileProperties_TrafficRoutingMethod_Values)
-		trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethod
+		profile.TrafficRoutingMethod = &trafficRoutingMethod
 	} else {
-		trafficmanagerprofile.TrafficRoutingMethod = nil
+		profile.TrafficRoutingMethod = nil
 	}
 
 	// TrafficViewEnrollmentStatus
 	if source.TrafficViewEnrollmentStatus != nil {
 		trafficViewEnrollmentStatus := genruntime.ToEnum(string(*source.TrafficViewEnrollmentStatus), profileProperties_TrafficViewEnrollmentStatus_Values)
-		trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
+		profile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 	} else {
-		trafficmanagerprofile.TrafficViewEnrollmentStatus = nil
+		profile.TrafficViewEnrollmentStatus = nil
 	}
 
 	// Type
-	trafficmanagerprofile.Type = genruntime.ClonePointerToString(source.Type)
+	profile.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) OriginalVersion() string {
+func (profile *TrafficManagerProfile_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (trafficmanagerprofile *Trafficmanagerprofile_Spec) SetAzureName(azureName string) {
-	trafficmanagerprofile.AzureName = azureName
+func (profile *TrafficManagerProfile_Spec) SetAzureName(azureName string) {
+	profile.AzureName = azureName
 }
 
-type Trafficmanagerprofile_STATUS struct {
+type TrafficManagerProfile_STATUS struct {
 	// AllowedEndpointRecordTypes: The list of allowed endpoint record types.
 	AllowedEndpointRecordTypes []AllowedEndpointRecordType_STATUS `json:"allowedEndpointRecordTypes,omitempty"`
 
@@ -1040,25 +1040,25 @@ type Trafficmanagerprofile_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Trafficmanagerprofile_STATUS{}
+var _ genruntime.ConvertibleStatus = &TrafficManagerProfile_STATUS{}
 
-// ConvertStatusFrom populates our Trafficmanagerprofile_STATUS from the provided source
-func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Trafficmanagerprofile_STATUS)
+// ConvertStatusFrom populates our TrafficManagerProfile_STATUS from the provided source
+func (profile *TrafficManagerProfile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.TrafficManagerProfile_STATUS)
 	if ok {
 		// Populate our instance from source
-		return trafficmanagerprofile.AssignProperties_From_Trafficmanagerprofile_STATUS(src)
+		return profile.AssignProperties_From_TrafficManagerProfile_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Trafficmanagerprofile_STATUS{}
+	src = &storage.TrafficManagerProfile_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = trafficmanagerprofile.AssignProperties_From_Trafficmanagerprofile_STATUS(src)
+	err = profile.AssignProperties_From_TrafficManagerProfile_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1066,17 +1066,17 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) ConvertStatusFrom(sou
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Trafficmanagerprofile_STATUS
-func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Trafficmanagerprofile_STATUS)
+// ConvertStatusTo populates the provided destination from our TrafficManagerProfile_STATUS
+func (profile *TrafficManagerProfile_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.TrafficManagerProfile_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return trafficmanagerprofile.AssignProperties_To_Trafficmanagerprofile_STATUS(dst)
+		return profile.AssignProperties_To_TrafficManagerProfile_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Trafficmanagerprofile_STATUS{}
-	err := trafficmanagerprofile.AssignProperties_To_Trafficmanagerprofile_STATUS(dst)
+	dst = &storage.TrafficManagerProfile_STATUS{}
+	err := profile.AssignProperties_To_TrafficManagerProfile_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1090,18 +1090,18 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) ConvertStatusTo(desti
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Trafficmanagerprofile_STATUS{}
+var _ genruntime.FromARMConverter = &TrafficManagerProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Trafficmanagerprofile_STATUS_ARM{}
+func (profile *TrafficManagerProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &TrafficManagerProfile_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Trafficmanagerprofile_STATUS_ARM)
+func (profile *TrafficManagerProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(TrafficManagerProfile_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Trafficmanagerprofile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfile_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AllowedEndpointRecordTypes":
@@ -1110,7 +1110,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 		for _, item := range typedInput.Properties.AllowedEndpointRecordTypes {
 			var temp string
 			temp = string(item)
-			trafficmanagerprofile.AllowedEndpointRecordTypes = append(trafficmanagerprofile.AllowedEndpointRecordTypes, AllowedEndpointRecordType_STATUS(temp))
+			profile.AllowedEndpointRecordTypes = append(profile.AllowedEndpointRecordTypes, AllowedEndpointRecordType_STATUS(temp))
 		}
 	}
 
@@ -1126,7 +1126,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 				return err
 			}
 			dnsConfig := dnsConfig1
-			trafficmanagerprofile.DnsConfig = &dnsConfig
+			profile.DnsConfig = &dnsConfig
 		}
 	}
 
@@ -1139,20 +1139,20 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 			if err != nil {
 				return err
 			}
-			trafficmanagerprofile.Endpoints = append(trafficmanagerprofile.Endpoints, item1)
+			profile.Endpoints = append(profile.Endpoints, item1)
 		}
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		trafficmanagerprofile.Id = &id
+		profile.Id = &id
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		trafficmanagerprofile.Location = &location
+		profile.Location = &location
 	}
 
 	// Set property "MaxReturn":
@@ -1160,7 +1160,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxReturn != nil {
 			maxReturn := *typedInput.Properties.MaxReturn
-			trafficmanagerprofile.MaxReturn = &maxReturn
+			profile.MaxReturn = &maxReturn
 		}
 	}
 
@@ -1174,14 +1174,14 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 				return err
 			}
 			monitorConfig := monitorConfig1
-			trafficmanagerprofile.MonitorConfig = &monitorConfig
+			profile.MonitorConfig = &monitorConfig
 		}
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		trafficmanagerprofile.Name = &name
+		profile.Name = &name
 	}
 
 	// Set property "ProfileStatus":
@@ -1191,15 +1191,15 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 			var temp string
 			temp = string(*typedInput.Properties.ProfileStatus)
 			profileStatus := ProfileProperties_ProfileStatus_STATUS(temp)
-			trafficmanagerprofile.ProfileStatus = &profileStatus
+			profile.ProfileStatus = &profileStatus
 		}
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		trafficmanagerprofile.Tags = make(map[string]string, len(typedInput.Tags))
+		profile.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			trafficmanagerprofile.Tags[key] = value
+			profile.Tags[key] = value
 		}
 	}
 
@@ -1210,7 +1210,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 			var temp string
 			temp = string(*typedInput.Properties.TrafficRoutingMethod)
 			trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod_STATUS(temp)
-			trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethod
+			profile.TrafficRoutingMethod = &trafficRoutingMethod
 		}
 	}
 
@@ -1221,22 +1221,22 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) PopulateFromARM(owner
 			var temp string
 			temp = string(*typedInput.Properties.TrafficViewEnrollmentStatus)
 			trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus_STATUS(temp)
-			trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
+			profile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		trafficmanagerprofile.Type = &typeVar
+		profile.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_Trafficmanagerprofile_STATUS populates our Trafficmanagerprofile_STATUS from the provided source Trafficmanagerprofile_STATUS
-func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From_Trafficmanagerprofile_STATUS(source *storage.Trafficmanagerprofile_STATUS) error {
+// AssignProperties_From_TrafficManagerProfile_STATUS populates our TrafficManagerProfile_STATUS from the provided source TrafficManagerProfile_STATUS
+func (profile *TrafficManagerProfile_STATUS) AssignProperties_From_TrafficManagerProfile_STATUS(source *storage.TrafficManagerProfile_STATUS) error {
 
 	// AllowedEndpointRecordTypes
 	if source.AllowedEndpointRecordTypes != nil {
@@ -1246,13 +1246,13 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From
 			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = genruntime.ToEnum(allowedEndpointRecordTypeItem, allowedEndpointRecordType_STATUS_Values)
 		}
-		trafficmanagerprofile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
+		profile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
 	} else {
-		trafficmanagerprofile.AllowedEndpointRecordTypes = nil
+		profile.AllowedEndpointRecordTypes = nil
 	}
 
 	// Conditions
-	trafficmanagerprofile.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	profile.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DnsConfig
 	if source.DnsConfig != nil {
@@ -1261,9 +1261,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_DnsConfig_STATUS() to populate field DnsConfig")
 		}
-		trafficmanagerprofile.DnsConfig = &dnsConfig
+		profile.DnsConfig = &dnsConfig
 	} else {
-		trafficmanagerprofile.DnsConfig = nil
+		profile.DnsConfig = nil
 	}
 
 	// Endpoints
@@ -1279,19 +1279,19 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From
 			}
 			endpointList[endpointIndex] = endpoint
 		}
-		trafficmanagerprofile.Endpoints = endpointList
+		profile.Endpoints = endpointList
 	} else {
-		trafficmanagerprofile.Endpoints = nil
+		profile.Endpoints = nil
 	}
 
 	// Id
-	trafficmanagerprofile.Id = genruntime.ClonePointerToString(source.Id)
+	profile.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	trafficmanagerprofile.Location = genruntime.ClonePointerToString(source.Location)
+	profile.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaxReturn
-	trafficmanagerprofile.MaxReturn = genruntime.ClonePointerToInt(source.MaxReturn)
+	profile.MaxReturn = genruntime.ClonePointerToInt(source.MaxReturn)
 
 	// MonitorConfig
 	if source.MonitorConfig != nil {
@@ -1300,60 +1300,60 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_MonitorConfig_STATUS() to populate field MonitorConfig")
 		}
-		trafficmanagerprofile.MonitorConfig = &monitorConfig
+		profile.MonitorConfig = &monitorConfig
 	} else {
-		trafficmanagerprofile.MonitorConfig = nil
+		profile.MonitorConfig = nil
 	}
 
 	// Name
-	trafficmanagerprofile.Name = genruntime.ClonePointerToString(source.Name)
+	profile.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProfileStatus
 	if source.ProfileStatus != nil {
 		profileStatus := *source.ProfileStatus
 		profileStatusTemp := genruntime.ToEnum(profileStatus, profileProperties_ProfileStatus_STATUS_Values)
-		trafficmanagerprofile.ProfileStatus = &profileStatusTemp
+		profile.ProfileStatus = &profileStatusTemp
 	} else {
-		trafficmanagerprofile.ProfileStatus = nil
+		profile.ProfileStatus = nil
 	}
 
 	// Tags
-	trafficmanagerprofile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TrafficRoutingMethod
 	if source.TrafficRoutingMethod != nil {
 		trafficRoutingMethod := *source.TrafficRoutingMethod
 		trafficRoutingMethodTemp := genruntime.ToEnum(trafficRoutingMethod, profileProperties_TrafficRoutingMethod_STATUS_Values)
-		trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethodTemp
+		profile.TrafficRoutingMethod = &trafficRoutingMethodTemp
 	} else {
-		trafficmanagerprofile.TrafficRoutingMethod = nil
+		profile.TrafficRoutingMethod = nil
 	}
 
 	// TrafficViewEnrollmentStatus
 	if source.TrafficViewEnrollmentStatus != nil {
 		trafficViewEnrollmentStatus := *source.TrafficViewEnrollmentStatus
 		trafficViewEnrollmentStatusTemp := genruntime.ToEnum(trafficViewEnrollmentStatus, profileProperties_TrafficViewEnrollmentStatus_STATUS_Values)
-		trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatusTemp
+		profile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatusTemp
 	} else {
-		trafficmanagerprofile.TrafficViewEnrollmentStatus = nil
+		profile.TrafficViewEnrollmentStatus = nil
 	}
 
 	// Type
-	trafficmanagerprofile.Type = genruntime.ClonePointerToString(source.Type)
+	profile.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Trafficmanagerprofile_STATUS populates the provided destination Trafficmanagerprofile_STATUS from our Trafficmanagerprofile_STATUS
-func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_Trafficmanagerprofile_STATUS(destination *storage.Trafficmanagerprofile_STATUS) error {
+// AssignProperties_To_TrafficManagerProfile_STATUS populates the provided destination TrafficManagerProfile_STATUS from our TrafficManagerProfile_STATUS
+func (profile *TrafficManagerProfile_STATUS) AssignProperties_To_TrafficManagerProfile_STATUS(destination *storage.TrafficManagerProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllowedEndpointRecordTypes
-	if trafficmanagerprofile.AllowedEndpointRecordTypes != nil {
-		allowedEndpointRecordTypeList := make([]string, len(trafficmanagerprofile.AllowedEndpointRecordTypes))
-		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range trafficmanagerprofile.AllowedEndpointRecordTypes {
+	if profile.AllowedEndpointRecordTypes != nil {
+		allowedEndpointRecordTypeList := make([]string, len(profile.AllowedEndpointRecordTypes))
+		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range profile.AllowedEndpointRecordTypes {
 			// Shadow the loop variable to avoid aliasing
 			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
 			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = string(allowedEndpointRecordTypeItem)
@@ -1364,12 +1364,12 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_T
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(trafficmanagerprofile.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(profile.Conditions)
 
 	// DnsConfig
-	if trafficmanagerprofile.DnsConfig != nil {
+	if profile.DnsConfig != nil {
 		var dnsConfig storage.DnsConfig_STATUS
-		err := trafficmanagerprofile.DnsConfig.AssignProperties_To_DnsConfig_STATUS(&dnsConfig)
+		err := profile.DnsConfig.AssignProperties_To_DnsConfig_STATUS(&dnsConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DnsConfig_STATUS() to populate field DnsConfig")
 		}
@@ -1379,9 +1379,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_T
 	}
 
 	// Endpoints
-	if trafficmanagerprofile.Endpoints != nil {
-		endpointList := make([]storage.Endpoint_STATUS, len(trafficmanagerprofile.Endpoints))
-		for endpointIndex, endpointItem := range trafficmanagerprofile.Endpoints {
+	if profile.Endpoints != nil {
+		endpointList := make([]storage.Endpoint_STATUS, len(profile.Endpoints))
+		for endpointIndex, endpointItem := range profile.Endpoints {
 			// Shadow the loop variable to avoid aliasing
 			endpointItem := endpointItem
 			var endpoint storage.Endpoint_STATUS
@@ -1397,18 +1397,18 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_T
 	}
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(trafficmanagerprofile.Id)
+	destination.Id = genruntime.ClonePointerToString(profile.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(trafficmanagerprofile.Location)
+	destination.Location = genruntime.ClonePointerToString(profile.Location)
 
 	// MaxReturn
-	destination.MaxReturn = genruntime.ClonePointerToInt(trafficmanagerprofile.MaxReturn)
+	destination.MaxReturn = genruntime.ClonePointerToInt(profile.MaxReturn)
 
 	// MonitorConfig
-	if trafficmanagerprofile.MonitorConfig != nil {
+	if profile.MonitorConfig != nil {
 		var monitorConfig storage.MonitorConfig_STATUS
-		err := trafficmanagerprofile.MonitorConfig.AssignProperties_To_MonitorConfig_STATUS(&monitorConfig)
+		err := profile.MonitorConfig.AssignProperties_To_MonitorConfig_STATUS(&monitorConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MonitorConfig_STATUS() to populate field MonitorConfig")
 		}
@@ -1418,37 +1418,37 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_To_T
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(trafficmanagerprofile.Name)
+	destination.Name = genruntime.ClonePointerToString(profile.Name)
 
 	// ProfileStatus
-	if trafficmanagerprofile.ProfileStatus != nil {
-		profileStatus := string(*trafficmanagerprofile.ProfileStatus)
+	if profile.ProfileStatus != nil {
+		profileStatus := string(*profile.ProfileStatus)
 		destination.ProfileStatus = &profileStatus
 	} else {
 		destination.ProfileStatus = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(trafficmanagerprofile.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(profile.Tags)
 
 	// TrafficRoutingMethod
-	if trafficmanagerprofile.TrafficRoutingMethod != nil {
-		trafficRoutingMethod := string(*trafficmanagerprofile.TrafficRoutingMethod)
+	if profile.TrafficRoutingMethod != nil {
+		trafficRoutingMethod := string(*profile.TrafficRoutingMethod)
 		destination.TrafficRoutingMethod = &trafficRoutingMethod
 	} else {
 		destination.TrafficRoutingMethod = nil
 	}
 
 	// TrafficViewEnrollmentStatus
-	if trafficmanagerprofile.TrafficViewEnrollmentStatus != nil {
-		trafficViewEnrollmentStatus := string(*trafficmanagerprofile.TrafficViewEnrollmentStatus)
+	if profile.TrafficViewEnrollmentStatus != nil {
+		trafficViewEnrollmentStatus := string(*profile.TrafficViewEnrollmentStatus)
 		destination.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 	} else {
 		destination.TrafficViewEnrollmentStatus = nil
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(trafficmanagerprofile.Type)
+	destination.Type = genruntime.ClonePointerToString(profile.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

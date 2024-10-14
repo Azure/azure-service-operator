@@ -29,8 +29,8 @@ import (
 type DnsZonesAAAARecord struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DnsZones_AAAA_Spec   `json:"spec,omitempty"`
-	Status            DnsZones_AAAA_STATUS `json:"status,omitempty"`
+	Spec              DnsZonesAAAARecord_Spec   `json:"spec,omitempty"`
+	Status            DnsZonesAAAARecord_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DnsZonesAAAARecord{}
@@ -88,7 +88,7 @@ func (record *DnsZonesAAAARecord) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (record *DnsZonesAAAARecord) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DnsZones_AAAA_STATUS{}
+	return &DnsZonesAAAARecord_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -100,13 +100,13 @@ func (record *DnsZonesAAAARecord) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (record *DnsZonesAAAARecord) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DnsZones_AAAA_STATUS); ok {
+	if st, ok := status.(*DnsZonesAAAARecord_STATUS); ok {
 		record.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DnsZones_AAAA_STATUS
+	var st DnsZonesAAAARecord_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -139,8 +139,8 @@ type DnsZonesAAAARecordList struct {
 	Items           []DnsZonesAAAARecord `json:"items"`
 }
 
-// Storage version of v1api20180501.DnsZones_AAAA_Spec
-type DnsZones_AAAA_Spec struct {
+// Storage version of v1api20180501.DnsZonesAAAARecord_Spec
+type DnsZonesAAAARecord_Spec struct {
 	AAAARecords []AaaaRecord `json:"AAAARecords,omitempty"`
 	ARecords    []ARecord    `json:"ARecords,omitempty"`
 
@@ -168,28 +168,28 @@ type DnsZones_AAAA_Spec struct {
 	TargetResource *SubResource                       `json:"targetResource,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DnsZones_AAAA_Spec{}
+var _ genruntime.ConvertibleSpec = &DnsZonesAAAARecord_Spec{}
 
-// ConvertSpecFrom populates our DnsZones_AAAA_Spec from the provided source
-func (aaaa *DnsZones_AAAA_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == aaaa {
+// ConvertSpecFrom populates our DnsZonesAAAARecord_Spec from the provided source
+func (record *DnsZonesAAAARecord_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == record {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(aaaa)
+	return source.ConvertSpecTo(record)
 }
 
-// ConvertSpecTo populates the provided destination from our DnsZones_AAAA_Spec
-func (aaaa *DnsZones_AAAA_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == aaaa {
+// ConvertSpecTo populates the provided destination from our DnsZonesAAAARecord_Spec
+func (record *DnsZonesAAAARecord_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == record {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(aaaa)
+	return destination.ConvertSpecFrom(record)
 }
 
-// Storage version of v1api20180501.DnsZones_AAAA_STATUS
-type DnsZones_AAAA_STATUS struct {
+// Storage version of v1api20180501.DnsZonesAAAARecord_STATUS
+type DnsZonesAAAARecord_STATUS struct {
 	AAAARecords       []AaaaRecord_STATUS    `json:"AAAARecords,omitempty"`
 	ARecords          []ARecord_STATUS       `json:"ARecords,omitempty"`
 	CNAMERecord       *CnameRecord_STATUS    `json:"CNAMERecord,omitempty"`
@@ -213,24 +213,24 @@ type DnsZones_AAAA_STATUS struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DnsZones_AAAA_STATUS{}
+var _ genruntime.ConvertibleStatus = &DnsZonesAAAARecord_STATUS{}
 
-// ConvertStatusFrom populates our DnsZones_AAAA_STATUS from the provided source
-func (aaaa *DnsZones_AAAA_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == aaaa {
+// ConvertStatusFrom populates our DnsZonesAAAARecord_STATUS from the provided source
+func (record *DnsZonesAAAARecord_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == record {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(aaaa)
+	return source.ConvertStatusTo(record)
 }
 
-// ConvertStatusTo populates the provided destination from our DnsZones_AAAA_STATUS
-func (aaaa *DnsZones_AAAA_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == aaaa {
+// ConvertStatusTo populates the provided destination from our DnsZonesAAAARecord_STATUS
+func (record *DnsZonesAAAARecord_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == record {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(aaaa)
+	return destination.ConvertStatusFrom(record)
 }
 
 // Storage version of v1api20180501.AaaaRecord

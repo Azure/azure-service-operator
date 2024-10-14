@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DnsResolvers_InboundEndpoint_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsResolversInboundEndpoint_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsResolvers_InboundEndpoint_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsResolvers_InboundEndpoint_Spec_ARM, DnsResolvers_InboundEndpoint_Spec_ARMGenerator()))
+		"Round trip of DnsResolversInboundEndpoint_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsResolversInboundEndpoint_Spec_ARM, DnsResolversInboundEndpoint_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsResolvers_InboundEndpoint_Spec_ARM runs a test to see if a specific instance of DnsResolvers_InboundEndpoint_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsResolvers_InboundEndpoint_Spec_ARM(subject DnsResolvers_InboundEndpoint_Spec_ARM) string {
+// RunJSONSerializationTestForDnsResolversInboundEndpoint_Spec_ARM runs a test to see if a specific instance of DnsResolversInboundEndpoint_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsResolversInboundEndpoint_Spec_ARM(subject DnsResolversInboundEndpoint_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDnsResolvers_InboundEndpoint_Spec_ARM(subject Dn
 	}
 
 	// Deserialize back into memory
-	var actual DnsResolvers_InboundEndpoint_Spec_ARM
+	var actual DnsResolversInboundEndpoint_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForDnsResolvers_InboundEndpoint_Spec_ARM(subject Dn
 	return ""
 }
 
-// Generator of DnsResolvers_InboundEndpoint_Spec_ARM instances for property testing - lazily instantiated by
-// DnsResolvers_InboundEndpoint_Spec_ARMGenerator()
-var dnsResolvers_InboundEndpoint_Spec_ARMGenerator gopter.Gen
+// Generator of DnsResolversInboundEndpoint_Spec_ARM instances for property testing - lazily instantiated by
+// DnsResolversInboundEndpoint_Spec_ARMGenerator()
+var dnsResolversInboundEndpoint_Spec_ARMGenerator gopter.Gen
 
-// DnsResolvers_InboundEndpoint_Spec_ARMGenerator returns a generator of DnsResolvers_InboundEndpoint_Spec_ARM instances for property testing.
-// We first initialize dnsResolvers_InboundEndpoint_Spec_ARMGenerator with a simplified generator based on the
+// DnsResolversInboundEndpoint_Spec_ARMGenerator returns a generator of DnsResolversInboundEndpoint_Spec_ARM instances for property testing.
+// We first initialize dnsResolversInboundEndpoint_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DnsResolvers_InboundEndpoint_Spec_ARMGenerator() gopter.Gen {
-	if dnsResolvers_InboundEndpoint_Spec_ARMGenerator != nil {
-		return dnsResolvers_InboundEndpoint_Spec_ARMGenerator
+func DnsResolversInboundEndpoint_Spec_ARMGenerator() gopter.Gen {
+	if dnsResolversInboundEndpoint_Spec_ARMGenerator != nil {
+		return dnsResolversInboundEndpoint_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsResolvers_InboundEndpoint_Spec_ARM(generators)
-	dnsResolvers_InboundEndpoint_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsResolvers_InboundEndpoint_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDnsResolversInboundEndpoint_Spec_ARM(generators)
+	dnsResolversInboundEndpoint_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsResolversInboundEndpoint_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsResolvers_InboundEndpoint_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForDnsResolvers_InboundEndpoint_Spec_ARM(generators)
-	dnsResolvers_InboundEndpoint_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsResolvers_InboundEndpoint_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDnsResolversInboundEndpoint_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForDnsResolversInboundEndpoint_Spec_ARM(generators)
+	dnsResolversInboundEndpoint_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsResolversInboundEndpoint_Spec_ARM{}), generators)
 
-	return dnsResolvers_InboundEndpoint_Spec_ARMGenerator
+	return dnsResolversInboundEndpoint_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsResolvers_InboundEndpoint_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsResolvers_InboundEndpoint_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsResolversInboundEndpoint_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsResolversInboundEndpoint_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(
@@ -91,8 +91,8 @@ func AddIndependentPropertyGeneratorsForDnsResolvers_InboundEndpoint_Spec_ARM(ge
 		gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDnsResolvers_InboundEndpoint_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsResolvers_InboundEndpoint_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsResolversInboundEndpoint_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsResolversInboundEndpoint_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(InboundEndpointProperties_ARMGenerator())
 }
 

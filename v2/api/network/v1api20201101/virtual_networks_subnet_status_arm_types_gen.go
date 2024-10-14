@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20201101
 
-type VirtualNetworks_Subnet_STATUS_ARM struct {
+type VirtualNetworksSubnet_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 

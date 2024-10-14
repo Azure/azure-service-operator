@@ -5,7 +5,7 @@ package v1api20220701
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM struct {
+type PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM struct {
 	// Name: Name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
 
@@ -13,20 +13,20 @@ type PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM struct {
 	Properties *PrivateDnsZoneGroupPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-07-01"
-func (group PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM) GetAPIVersion() string {
+func (group PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM) GetAPIVersion() string {
 	return "2022-07-01"
 }
 
 // GetName returns the Name of the resource
-func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM) GetName() string {
+func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM) GetName() string {
 	return group.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/privateEndpoints/privateDnsZoneGroups"
-func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM) GetType() string {
+func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM) GetType() string {
 	return "Microsoft.Network/privateEndpoints/privateDnsZoneGroups"
 }
 

@@ -214,20 +214,20 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZonePropertiesFormat_ARM(gens 
 	gens["PrivateDnsZoneId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM, PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator()))
+		"Round trip of PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM, PrivateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM runs a test to see if a specific instance of PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM(subject PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM) string {
+// RunJSONSerializationTestForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM runs a test to see if a specific instance of PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM(subject PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -235,7 +235,7 @@ func RunJSONSerializationTestForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM(su
 	}
 
 	// Deserialize back into memory
-	var actual PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM
+	var actual PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -253,38 +253,38 @@ func RunJSONSerializationTestForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM(su
 	return ""
 }
 
-// Generator of PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM instances for property testing - lazily instantiated by
-// PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator()
-var privateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator gopter.Gen
+// Generator of PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM instances for property testing - lazily instantiated by
+// PrivateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator()
+var privateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator gopter.Gen
 
-// PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator returns a generator of PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM instances for property testing.
-// We first initialize privateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator with a simplified generator based on the
+// PrivateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator returns a generator of PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM instances for property testing.
+// We first initialize privateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator() gopter.Gen {
-	if privateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator != nil {
-		return privateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator
+func PrivateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator() gopter.Gen {
+	if privateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator != nil {
+		return privateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM(generators)
-	privateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM(generators)
+	privateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM(generators)
-	privateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM(generators)
+	privateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM{}), generators)
 
-	return privateEndpoints_PrivateDnsZoneGroup_Spec_ARMGenerator
+	return privateEndpointsPrivateDnsZoneGroup_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpointsPrivateDnsZoneGroup_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(PrivateDnsZoneGroupPropertiesFormat_ARMGenerator())
 }

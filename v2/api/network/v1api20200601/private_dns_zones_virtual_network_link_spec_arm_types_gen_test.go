@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_PrivateDnsZones_VirtualNetworkLink_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateDnsZonesVirtualNetworkLink_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateDnsZones_VirtualNetworkLink_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_Spec_ARM, PrivateDnsZones_VirtualNetworkLink_Spec_ARMGenerator()))
+		"Round trip of PrivateDnsZonesVirtualNetworkLink_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateDnsZonesVirtualNetworkLink_Spec_ARM, PrivateDnsZonesVirtualNetworkLink_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_Spec_ARM runs a test to see if a specific instance of PrivateDnsZones_VirtualNetworkLink_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_Spec_ARM(subject PrivateDnsZones_VirtualNetworkLink_Spec_ARM) string {
+// RunJSONSerializationTestForPrivateDnsZonesVirtualNetworkLink_Spec_ARM runs a test to see if a specific instance of PrivateDnsZonesVirtualNetworkLink_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateDnsZonesVirtualNetworkLink_Spec_ARM(subject PrivateDnsZonesVirtualNetworkLink_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_Spec_ARM(subj
 	}
 
 	// Deserialize back into memory
-	var actual PrivateDnsZones_VirtualNetworkLink_Spec_ARM
+	var actual PrivateDnsZonesVirtualNetworkLink_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_Spec_ARM(subj
 	return ""
 }
 
-// Generator of PrivateDnsZones_VirtualNetworkLink_Spec_ARM instances for property testing - lazily instantiated by
-// PrivateDnsZones_VirtualNetworkLink_Spec_ARMGenerator()
-var privateDnsZones_VirtualNetworkLink_Spec_ARMGenerator gopter.Gen
+// Generator of PrivateDnsZonesVirtualNetworkLink_Spec_ARM instances for property testing - lazily instantiated by
+// PrivateDnsZonesVirtualNetworkLink_Spec_ARMGenerator()
+var privateDnsZonesVirtualNetworkLink_Spec_ARMGenerator gopter.Gen
 
-// PrivateDnsZones_VirtualNetworkLink_Spec_ARMGenerator returns a generator of PrivateDnsZones_VirtualNetworkLink_Spec_ARM instances for property testing.
-// We first initialize privateDnsZones_VirtualNetworkLink_Spec_ARMGenerator with a simplified generator based on the
+// PrivateDnsZonesVirtualNetworkLink_Spec_ARMGenerator returns a generator of PrivateDnsZonesVirtualNetworkLink_Spec_ARM instances for property testing.
+// We first initialize privateDnsZonesVirtualNetworkLink_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PrivateDnsZones_VirtualNetworkLink_Spec_ARMGenerator() gopter.Gen {
-	if privateDnsZones_VirtualNetworkLink_Spec_ARMGenerator != nil {
-		return privateDnsZones_VirtualNetworkLink_Spec_ARMGenerator
+func PrivateDnsZonesVirtualNetworkLink_Spec_ARMGenerator() gopter.Gen {
+	if privateDnsZonesVirtualNetworkLink_Spec_ARMGenerator != nil {
+		return privateDnsZonesVirtualNetworkLink_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec_ARM(generators)
-	privateDnsZones_VirtualNetworkLink_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_VirtualNetworkLink_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec_ARM(generators)
+	privateDnsZonesVirtualNetworkLink_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZonesVirtualNetworkLink_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec_ARM(generators)
-	privateDnsZones_VirtualNetworkLink_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_VirtualNetworkLink_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec_ARM(generators)
+	privateDnsZonesVirtualNetworkLink_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZonesVirtualNetworkLink_Spec_ARM{}), generators)
 
-	return privateDnsZones_VirtualNetworkLink_Spec_ARMGenerator
+	return privateDnsZonesVirtualNetworkLink_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
@@ -92,8 +92,8 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec_
 		gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VirtualNetworkLinkProperties_ARMGenerator())
 }
 
