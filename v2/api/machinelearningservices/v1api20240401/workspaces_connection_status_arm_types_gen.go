@@ -5,7 +5,7 @@ package v1api20240401
 
 import "encoding/json"
 
-type Workspaces_Connection_STATUS_ARM struct {
+type WorkspacesConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`

@@ -9,7 +9,7 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-type Workspaces_Compute_Spec_ARM struct {
+type WorkspacesCompute_Spec_ARM struct {
 	// Identity: The identity of the resource.
 	Identity *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
 
@@ -27,20 +27,20 @@ type Workspaces_Compute_Spec_ARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Workspaces_Compute_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &WorkspacesCompute_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-04-01"
-func (compute Workspaces_Compute_Spec_ARM) GetAPIVersion() string {
+func (compute WorkspacesCompute_Spec_ARM) GetAPIVersion() string {
 	return "2024-04-01"
 }
 
 // GetName returns the Name of the resource
-func (compute *Workspaces_Compute_Spec_ARM) GetName() string {
+func (compute *WorkspacesCompute_Spec_ARM) GetName() string {
 	return compute.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.MachineLearningServices/workspaces/computes"
-func (compute *Workspaces_Compute_Spec_ARM) GetType() string {
+func (compute *WorkspacesCompute_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces/computes"
 }
 

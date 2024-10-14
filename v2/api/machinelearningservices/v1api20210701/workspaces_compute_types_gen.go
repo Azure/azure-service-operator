@@ -30,8 +30,8 @@ import (
 type WorkspacesCompute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Compute_Spec   `json:"spec,omitempty"`
-	Status            Workspaces_Compute_STATUS `json:"status,omitempty"`
+	Spec              WorkspacesCompute_Spec   `json:"spec,omitempty"`
+	Status            WorkspacesCompute_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &WorkspacesCompute{}
@@ -148,7 +148,7 @@ func (compute *WorkspacesCompute) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (compute *WorkspacesCompute) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Workspaces_Compute_STATUS{}
+	return &WorkspacesCompute_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -160,13 +160,13 @@ func (compute *WorkspacesCompute) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (compute *WorkspacesCompute) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Workspaces_Compute_STATUS); ok {
+	if st, ok := status.(*WorkspacesCompute_STATUS); ok {
 		compute.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Workspaces_Compute_STATUS
+	var st WorkspacesCompute_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,18 +264,18 @@ func (compute *WorkspacesCompute) AssignProperties_From_WorkspacesCompute(source
 	compute.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Workspaces_Compute_Spec
-	err := spec.AssignProperties_From_Workspaces_Compute_Spec(&source.Spec)
+	var spec WorkspacesCompute_Spec
+	err := spec.AssignProperties_From_WorkspacesCompute_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Compute_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_WorkspacesCompute_Spec() to populate field Spec")
 	}
 	compute.Spec = spec
 
 	// Status
-	var status Workspaces_Compute_STATUS
-	err = status.AssignProperties_From_Workspaces_Compute_STATUS(&source.Status)
+	var status WorkspacesCompute_STATUS
+	err = status.AssignProperties_From_WorkspacesCompute_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Workspaces_Compute_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_WorkspacesCompute_STATUS() to populate field Status")
 	}
 	compute.Status = status
 
@@ -290,18 +290,18 @@ func (compute *WorkspacesCompute) AssignProperties_To_WorkspacesCompute(destinat
 	destination.ObjectMeta = *compute.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Workspaces_Compute_Spec
-	err := compute.Spec.AssignProperties_To_Workspaces_Compute_Spec(&spec)
+	var spec storage.WorkspacesCompute_Spec
+	err := compute.Spec.AssignProperties_To_WorkspacesCompute_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Compute_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_WorkspacesCompute_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Workspaces_Compute_STATUS
-	err = compute.Status.AssignProperties_To_Workspaces_Compute_STATUS(&status)
+	var status storage.WorkspacesCompute_STATUS
+	err = compute.Status.AssignProperties_To_WorkspacesCompute_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Compute_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_WorkspacesCompute_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -328,7 +328,7 @@ type WorkspacesComputeList struct {
 	Items           []WorkspacesCompute `json:"items"`
 }
 
-type Workspaces_Compute_Spec struct {
+type WorkspacesCompute_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -358,14 +358,14 @@ type Workspaces_Compute_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Workspaces_Compute_Spec{}
+var _ genruntime.ARMTransformer = &WorkspacesCompute_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (compute *WorkspacesCompute_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if compute == nil {
 		return nil, nil
 	}
-	result := &Workspaces_Compute_Spec_ARM{}
+	result := &WorkspacesCompute_Spec_ARM{}
 
 	// Set property "Identity":
 	if compute.Identity != nil {
@@ -427,15 +427,15 @@ func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.Convert
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (compute *Workspaces_Compute_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_Compute_Spec_ARM{}
+func (compute *WorkspacesCompute_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &WorkspacesCompute_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (compute *Workspaces_Compute_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_Compute_Spec_ARM)
+func (compute *WorkspacesCompute_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(WorkspacesCompute_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Compute_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspacesCompute_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -509,25 +509,25 @@ func (compute *Workspaces_Compute_Spec) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_Compute_Spec{}
+var _ genruntime.ConvertibleSpec = &WorkspacesCompute_Spec{}
 
-// ConvertSpecFrom populates our Workspaces_Compute_Spec from the provided source
-func (compute *Workspaces_Compute_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Workspaces_Compute_Spec)
+// ConvertSpecFrom populates our WorkspacesCompute_Spec from the provided source
+func (compute *WorkspacesCompute_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.WorkspacesCompute_Spec)
 	if ok {
 		// Populate our instance from source
-		return compute.AssignProperties_From_Workspaces_Compute_Spec(src)
+		return compute.AssignProperties_From_WorkspacesCompute_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Workspaces_Compute_Spec{}
+	src = &storage.WorkspacesCompute_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = compute.AssignProperties_From_Workspaces_Compute_Spec(src)
+	err = compute.AssignProperties_From_WorkspacesCompute_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -535,17 +535,17 @@ func (compute *Workspaces_Compute_Spec) ConvertSpecFrom(source genruntime.Conver
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_Compute_Spec
-func (compute *Workspaces_Compute_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Workspaces_Compute_Spec)
+// ConvertSpecTo populates the provided destination from our WorkspacesCompute_Spec
+func (compute *WorkspacesCompute_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.WorkspacesCompute_Spec)
 	if ok {
 		// Populate destination from our instance
-		return compute.AssignProperties_To_Workspaces_Compute_Spec(dst)
+		return compute.AssignProperties_To_WorkspacesCompute_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Workspaces_Compute_Spec{}
-	err := compute.AssignProperties_To_Workspaces_Compute_Spec(dst)
+	dst = &storage.WorkspacesCompute_Spec{}
+	err := compute.AssignProperties_To_WorkspacesCompute_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -559,8 +559,8 @@ func (compute *Workspaces_Compute_Spec) ConvertSpecTo(destination genruntime.Con
 	return nil
 }
 
-// AssignProperties_From_Workspaces_Compute_Spec populates our Workspaces_Compute_Spec from the provided source Workspaces_Compute_Spec
-func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute_Spec(source *storage.Workspaces_Compute_Spec) error {
+// AssignProperties_From_WorkspacesCompute_Spec populates our WorkspacesCompute_Spec from the provided source WorkspacesCompute_Spec
+func (compute *WorkspacesCompute_Spec) AssignProperties_From_WorkspacesCompute_Spec(source *storage.WorkspacesCompute_Spec) error {
 
 	// AzureName
 	compute.AzureName = source.AzureName
@@ -631,8 +631,8 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute
 	return nil
 }
 
-// AssignProperties_To_Workspaces_Compute_Spec populates the provided destination Workspaces_Compute_Spec from our Workspaces_Compute_Spec
-func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_Spec(destination *storage.Workspaces_Compute_Spec) error {
+// AssignProperties_To_WorkspacesCompute_Spec populates the provided destination WorkspacesCompute_Spec from our WorkspacesCompute_Spec
+func (compute *WorkspacesCompute_Spec) AssignProperties_To_WorkspacesCompute_Spec(destination *storage.WorkspacesCompute_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -716,14 +716,14 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (compute *Workspaces_Compute_Spec) OriginalVersion() string {
+func (compute *WorkspacesCompute_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (compute *Workspaces_Compute_Spec) SetAzureName(azureName string) { compute.AzureName = azureName }
+func (compute *WorkspacesCompute_Spec) SetAzureName(azureName string) { compute.AzureName = azureName }
 
-type Workspaces_Compute_STATUS struct {
+type WorkspacesCompute_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -756,25 +756,25 @@ type Workspaces_Compute_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Workspaces_Compute_STATUS{}
+var _ genruntime.ConvertibleStatus = &WorkspacesCompute_STATUS{}
 
-// ConvertStatusFrom populates our Workspaces_Compute_STATUS from the provided source
-func (compute *Workspaces_Compute_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Workspaces_Compute_STATUS)
+// ConvertStatusFrom populates our WorkspacesCompute_STATUS from the provided source
+func (compute *WorkspacesCompute_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.WorkspacesCompute_STATUS)
 	if ok {
 		// Populate our instance from source
-		return compute.AssignProperties_From_Workspaces_Compute_STATUS(src)
+		return compute.AssignProperties_From_WorkspacesCompute_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Workspaces_Compute_STATUS{}
+	src = &storage.WorkspacesCompute_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = compute.AssignProperties_From_Workspaces_Compute_STATUS(src)
+	err = compute.AssignProperties_From_WorkspacesCompute_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -782,17 +782,17 @@ func (compute *Workspaces_Compute_STATUS) ConvertStatusFrom(source genruntime.Co
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Workspaces_Compute_STATUS)
+// ConvertStatusTo populates the provided destination from our WorkspacesCompute_STATUS
+func (compute *WorkspacesCompute_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.WorkspacesCompute_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return compute.AssignProperties_To_Workspaces_Compute_STATUS(dst)
+		return compute.AssignProperties_To_WorkspacesCompute_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Workspaces_Compute_STATUS{}
-	err := compute.AssignProperties_To_Workspaces_Compute_STATUS(dst)
+	dst = &storage.WorkspacesCompute_STATUS{}
+	err := compute.AssignProperties_To_WorkspacesCompute_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -806,18 +806,18 @@ func (compute *Workspaces_Compute_STATUS) ConvertStatusTo(destination genruntime
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Workspaces_Compute_STATUS{}
+var _ genruntime.FromARMConverter = &WorkspacesCompute_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (compute *Workspaces_Compute_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspaces_Compute_STATUS_ARM{}
+func (compute *WorkspacesCompute_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &WorkspacesCompute_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (compute *Workspaces_Compute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspaces_Compute_STATUS_ARM)
+func (compute *WorkspacesCompute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(WorkspacesCompute_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Compute_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspacesCompute_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -902,8 +902,8 @@ func (compute *Workspaces_Compute_STATUS) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignProperties_From_Workspaces_Compute_STATUS populates our Workspaces_Compute_STATUS from the provided source Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compute_STATUS(source *storage.Workspaces_Compute_STATUS) error {
+// AssignProperties_From_WorkspacesCompute_STATUS populates our WorkspacesCompute_STATUS from the provided source WorkspacesCompute_STATUS
+func (compute *WorkspacesCompute_STATUS) AssignProperties_From_WorkspacesCompute_STATUS(source *storage.WorkspacesCompute_STATUS) error {
 
 	// Conditions
 	compute.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -975,8 +975,8 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compu
 	return nil
 }
 
-// AssignProperties_To_Workspaces_Compute_STATUS populates the provided destination Workspaces_Compute_STATUS from our Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute_STATUS(destination *storage.Workspaces_Compute_STATUS) error {
+// AssignProperties_To_WorkspacesCompute_STATUS populates the provided destination WorkspacesCompute_STATUS from our WorkspacesCompute_STATUS
+func (compute *WorkspacesCompute_STATUS) AssignProperties_To_WorkspacesCompute_STATUS(destination *storage.WorkspacesCompute_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

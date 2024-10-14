@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20210701
 
-type Workspaces_Connection_STATUS_ARM struct {
+type WorkspacesConnection_STATUS_ARM struct {
 	// Id: ResourceId of the workspace connection.
 	Id *string `json:"id,omitempty"`
 
