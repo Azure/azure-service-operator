@@ -2738,6 +2738,9 @@ objectModelConfiguration:
       Registry:
         $export: true
         $supportedFrom: v2.10.0
+        $generatedConfigs:
+          DiscoveryUrl: $.Status.DiscoveryUrl
+          MlFlowRegistryUri: $.Status.MlFlowRegistryUri
       PrivateEndpointResource:
         SubnetArmId:
           $armReference: true
@@ -3553,6 +3556,7 @@ objectModelConfiguration:
         $export: true
         $exportAs: WorkspacesBigDataPool
         $supportedFrom: v2.0.0
+
   web:
     2022-03-01:
       ApiManagementConfig:

@@ -4,11 +4,16 @@
 package storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=machinelearningservices.azure.com,resources=registries,verbs=get;list;watch;create;update;patch;delete
@@ -42,6 +47,28 @@ func (registry *Registry) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (registry *Registry) SetConditions(conditions conditions.Conditions) {
 	registry.Status.Conditions = conditions
+}
+
+var _ genruntime.KubernetesExporter = &Registry{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (registry *Registry) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(registry.Namespace)
+	if registry.Spec.OperatorSpec != nil && registry.Spec.OperatorSpec.ConfigMaps != nil {
+		if registry.Status.DiscoveryUrl != nil {
+			collector.AddValue(registry.Spec.OperatorSpec.ConfigMaps.DiscoveryUrl, *registry.Status.DiscoveryUrl)
+		}
+	}
+	if registry.Spec.OperatorSpec != nil && registry.Spec.OperatorSpec.ConfigMaps != nil {
+		if registry.Status.MlFlowRegistryUri != nil {
+			collector.AddValue(registry.Spec.OperatorSpec.ConfigMaps.MlFlowRegistryUri, *registry.Status.MlFlowRegistryUri)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Registry{}
@@ -156,6 +183,7 @@ type Registry_Spec struct {
 	Location                      *string                 `json:"location,omitempty"`
 	ManagedResourceGroup          *ArmResourceId          `json:"managedResourceGroup,omitempty"`
 	MlFlowRegistryUri             *string                 `json:"mlFlowRegistryUri,omitempty"`
+	OperatorSpec                  *RegistryOperatorSpec   `json:"operatorSpec,omitempty"`
 	OriginalVersion               string                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -270,6 +298,13 @@ type ManagedServiceIdentity_STATUS struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
+// Storage version of v1api20240401.RegistryOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RegistryOperatorSpec struct {
+	ConfigMaps  *RegistryOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1api20240401.RegistryPrivateEndpointConnection
 // Private endpoint connection definition.
 type RegistryPrivateEndpointConnection struct {
@@ -381,6 +416,13 @@ type PrivateEndpointResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SubnetArmId *string                `json:"subnetArmId,omitempty"`
+}
+
+// Storage version of v1api20240401.RegistryOperatorConfigMaps
+type RegistryOperatorConfigMaps struct {
+	DiscoveryUrl      *genruntime.ConfigMapDestination `json:"discoveryUrl,omitempty"`
+	MlFlowRegistryUri *genruntime.ConfigMapDestination `json:"mlFlowRegistryUri,omitempty"`
+	PropertyBag       genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20240401.RegistryPrivateLinkServiceConnectionState

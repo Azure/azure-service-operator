@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2024-04-01"
 Registry: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (16 properties)
+├── Spec: Object (17 properties)
 │   ├── AzureName: string
 │   ├── DiscoveryUrl: *string
 │   ├── Identity: *Object (3 properties)
@@ -21,6 +21,12 @@ Registry: Resource
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── ResourceReference: *genruntime.ResourceReference
 │   ├── MlFlowRegistryUri: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMaps: *Object (3 properties)
+│   │   │   ├── DiscoveryUrl: *genruntime.ConfigMapDestination
+│   │   │   ├── MlFlowRegistryUri: *genruntime.ConfigMapDestination
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag

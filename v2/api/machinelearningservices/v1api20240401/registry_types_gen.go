@@ -4,15 +4,20 @@
 package v1api20240401
 
 import (
+	"context"
 	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20240401/storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -99,6 +104,28 @@ func (registry *Registry) InitializeSpec(status genruntime.ConvertibleStatus) er
 	}
 
 	return fmt.Errorf("expected Status of type RegistryTrackedResource_STATUS but received %T instead", status)
+}
+
+var _ genruntime.KubernetesExporter = &Registry{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (registry *Registry) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(registry.Namespace)
+	if registry.Spec.OperatorSpec != nil && registry.Spec.OperatorSpec.ConfigMaps != nil {
+		if registry.Status.DiscoveryUrl != nil {
+			collector.AddValue(registry.Spec.OperatorSpec.ConfigMaps.DiscoveryUrl, *registry.Status.DiscoveryUrl)
+		}
+	}
+	if registry.Spec.OperatorSpec != nil && registry.Spec.OperatorSpec.ConfigMaps != nil {
+		if registry.Status.MlFlowRegistryUri != nil {
+			collector.AddValue(registry.Spec.OperatorSpec.ConfigMaps.MlFlowRegistryUri, *registry.Status.MlFlowRegistryUri)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Registry{}
@@ -208,7 +235,7 @@ func (registry *Registry) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (registry *Registry) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){registry.validateResourceReferences, registry.validateOwnerReference}
+	return []func() (admission.Warnings, error){registry.validateResourceReferences, registry.validateOwnerReference, registry.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +253,25 @@ func (registry *Registry) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return registry.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return registry.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (registry *Registry) validateConfigMapDestinations() (admission.Warnings, error) {
+	if registry.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if registry.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		registry.Spec.OperatorSpec.ConfigMaps.DiscoveryUrl,
+		registry.Spec.OperatorSpec.ConfigMaps.MlFlowRegistryUri,
+	}
+	return configmaps.ValidateDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -356,6 +401,10 @@ type Registry_Spec struct {
 
 	// MlFlowRegistryUri: MLFlow Registry URI for the Registry
 	MlFlowRegistryUri *string `json:"mlFlowRegistryUri,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RegistryOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -562,6 +611,8 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	registry.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -721,6 +772,18 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *stora
 	// MlFlowRegistryUri
 	registry.MlFlowRegistryUri = genruntime.ClonePointerToString(source.MlFlowRegistryUri)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RegistryOperatorSpec
+		err := operatorSpec.AssignProperties_From_RegistryOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RegistryOperatorSpec() to populate field OperatorSpec")
+		}
+		registry.OperatorSpec = &operatorSpec
+	} else {
+		registry.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -833,6 +896,18 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *st
 
 	// MlFlowRegistryUri
 	destination.MlFlowRegistryUri = genruntime.ClonePointerToString(registry.MlFlowRegistryUri)
+
+	// OperatorSpec
+	if registry.OperatorSpec != nil {
+		var operatorSpec storage.RegistryOperatorSpec
+		err := registry.OperatorSpec.AssignProperties_To_RegistryOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RegistryOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = registry.OriginalVersion()
@@ -2019,6 +2094,59 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 		destination.UserAssignedIdentities = userAssignedIdentityMap
 	} else {
 		destination.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RegistryOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *RegistryOperatorConfigMaps `json:"configMaps,omitempty"`
+}
+
+// AssignProperties_From_RegistryOperatorSpec populates our RegistryOperatorSpec from the provided source RegistryOperatorSpec
+func (operator *RegistryOperatorSpec) AssignProperties_From_RegistryOperatorSpec(source *storage.RegistryOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap RegistryOperatorConfigMaps
+		err := configMap.AssignProperties_From_RegistryOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RegistryOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RegistryOperatorSpec populates the provided destination RegistryOperatorSpec from our RegistryOperatorSpec
+func (operator *RegistryOperatorSpec) AssignProperties_To_RegistryOperatorSpec(destination *storage.RegistryOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap storage.RegistryOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_RegistryOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RegistryOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
 	}
 
 	// Update the property bag
@@ -3918,6 +4046,70 @@ func (resource *PrivateEndpointResource_STATUS) AssignProperties_To_PrivateEndpo
 
 	// SubnetArmId
 	destination.SubnetArmId = genruntime.ClonePointerToString(resource.SubnetArmId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type RegistryOperatorConfigMaps struct {
+	// DiscoveryUrl: indicates where the DiscoveryUrl config map should be placed. If omitted, no config map will be created.
+	DiscoveryUrl *genruntime.ConfigMapDestination `json:"discoveryUrl,omitempty"`
+
+	// MlFlowRegistryUri: indicates where the MlFlowRegistryUri config map should be placed. If omitted, no config map will be
+	// created.
+	MlFlowRegistryUri *genruntime.ConfigMapDestination `json:"mlFlowRegistryUri,omitempty"`
+}
+
+// AssignProperties_From_RegistryOperatorConfigMaps populates our RegistryOperatorConfigMaps from the provided source RegistryOperatorConfigMaps
+func (maps *RegistryOperatorConfigMaps) AssignProperties_From_RegistryOperatorConfigMaps(source *storage.RegistryOperatorConfigMaps) error {
+
+	// DiscoveryUrl
+	if source.DiscoveryUrl != nil {
+		discoveryUrl := source.DiscoveryUrl.Copy()
+		maps.DiscoveryUrl = &discoveryUrl
+	} else {
+		maps.DiscoveryUrl = nil
+	}
+
+	// MlFlowRegistryUri
+	if source.MlFlowRegistryUri != nil {
+		mlFlowRegistryUri := source.MlFlowRegistryUri.Copy()
+		maps.MlFlowRegistryUri = &mlFlowRegistryUri
+	} else {
+		maps.MlFlowRegistryUri = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RegistryOperatorConfigMaps populates the provided destination RegistryOperatorConfigMaps from our RegistryOperatorConfigMaps
+func (maps *RegistryOperatorConfigMaps) AssignProperties_To_RegistryOperatorConfigMaps(destination *storage.RegistryOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DiscoveryUrl
+	if maps.DiscoveryUrl != nil {
+		discoveryUrl := maps.DiscoveryUrl.Copy()
+		destination.DiscoveryUrl = &discoveryUrl
+	} else {
+		destination.DiscoveryUrl = nil
+	}
+
+	// MlFlowRegistryUri
+	if maps.MlFlowRegistryUri != nil {
+		mlFlowRegistryUri := maps.MlFlowRegistryUri.Copy()
+		destination.MlFlowRegistryUri = &mlFlowRegistryUri
+	} else {
+		destination.MlFlowRegistryUri = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
