@@ -29,7 +29,7 @@ import (
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_LinkedServer_Spec   `json:"spec,omitempty"`
+	Spec              RedisLinkedServer_Spec    `json:"spec,omitempty"`
 	Status            Redis_LinkedServer_STATUS `json:"status,omitempty"`
 }
 
@@ -263,10 +263,10 @@ func (server *RedisLinkedServer) AssignProperties_From_RedisLinkedServer(source 
 	server.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Redis_LinkedServer_Spec
-	err := spec.AssignProperties_From_Redis_LinkedServer_Spec(&source.Spec)
+	var spec RedisLinkedServer_Spec
+	err := spec.AssignProperties_From_RedisLinkedServer_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Redis_LinkedServer_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_RedisLinkedServer_Spec() to populate field Spec")
 	}
 	server.Spec = spec
 
@@ -289,10 +289,10 @@ func (server *RedisLinkedServer) AssignProperties_To_RedisLinkedServer(destinati
 	destination.ObjectMeta = *server.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Redis_LinkedServer_Spec
-	err := server.Spec.AssignProperties_To_Redis_LinkedServer_Spec(&spec)
+	var spec storage.RedisLinkedServer_Spec
+	err := server.Spec.AssignProperties_To_RedisLinkedServer_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Redis_LinkedServer_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_RedisLinkedServer_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -326,261 +326,6 @@ type RedisLinkedServerList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisLinkedServer `json:"items"`
 }
-
-type Redis_LinkedServer_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// LinkedRedisCacheLocation: Location of the linked redis cache.
-	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
-	LinkedRedisCacheReference *genruntime.ResourceReference `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a cache.azure.com/Redis resource
-	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
-
-	// +kubebuilder:validation:Required
-	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerCreateProperties_ServerRole `json:"serverRole,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Redis_LinkedServer_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if server == nil {
-		return nil, nil
-	}
-	result := &Redis_LinkedServer_Spec_ARM{}
-
-	// Set property "Name":
-	result.Name = resolved.Name
-
-	// Set property "Properties":
-	if server.LinkedRedisCacheLocation != nil ||
-		server.LinkedRedisCacheReference != nil ||
-		server.ServerRole != nil {
-		result.Properties = &RedisLinkedServerCreateProperties_ARM{}
-	}
-	if server.LinkedRedisCacheLocation != nil {
-		linkedRedisCacheLocation := *server.LinkedRedisCacheLocation
-		result.Properties.LinkedRedisCacheLocation = &linkedRedisCacheLocation
-	}
-	if server.LinkedRedisCacheReference != nil {
-		linkedRedisCacheIdARMID, err := resolved.ResolvedReferences.Lookup(*server.LinkedRedisCacheReference)
-		if err != nil {
-			return nil, err
-		}
-		linkedRedisCacheId := linkedRedisCacheIdARMID
-		result.Properties.LinkedRedisCacheId = &linkedRedisCacheId
-	}
-	if server.ServerRole != nil {
-		var temp string
-		temp = string(*server.ServerRole)
-		serverRole := RedisLinkedServerCreateProperties_ServerRole_ARM(temp)
-		result.Properties.ServerRole = &serverRole
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (server *Redis_LinkedServer_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Redis_LinkedServer_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Redis_LinkedServer_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_LinkedServer_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property "AzureName":
-	server.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property "LinkedRedisCacheLocation":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LinkedRedisCacheLocation != nil {
-			linkedRedisCacheLocation := *typedInput.Properties.LinkedRedisCacheLocation
-			server.LinkedRedisCacheLocation = &linkedRedisCacheLocation
-		}
-	}
-
-	// no assignment for property "LinkedRedisCacheReference"
-
-	// Set property "Owner":
-	server.Owner = &genruntime.KnownResourceReference{
-		Name:  owner.Name,
-		ARMID: owner.ARMID,
-	}
-
-	// Set property "ServerRole":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ServerRole != nil {
-			var temp string
-			temp = string(*typedInput.Properties.ServerRole)
-			serverRole := RedisLinkedServerCreateProperties_ServerRole(temp)
-			server.ServerRole = &serverRole
-		}
-	}
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &Redis_LinkedServer_Spec{}
-
-// ConvertSpecFrom populates our Redis_LinkedServer_Spec from the provided source
-func (server *Redis_LinkedServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Redis_LinkedServer_Spec)
-	if ok {
-		// Populate our instance from source
-		return server.AssignProperties_From_Redis_LinkedServer_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &storage.Redis_LinkedServer_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = server.AssignProperties_From_Redis_LinkedServer_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Redis_LinkedServer_Spec
-func (server *Redis_LinkedServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Redis_LinkedServer_Spec)
-	if ok {
-		// Populate destination from our instance
-		return server.AssignProperties_To_Redis_LinkedServer_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &storage.Redis_LinkedServer_Spec{}
-	err := server.AssignProperties_To_Redis_LinkedServer_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Redis_LinkedServer_Spec populates our Redis_LinkedServer_Spec from the provided source Redis_LinkedServer_Spec
-func (server *Redis_LinkedServer_Spec) AssignProperties_From_Redis_LinkedServer_Spec(source *storage.Redis_LinkedServer_Spec) error {
-
-	// AzureName
-	server.AzureName = source.AzureName
-
-	// LinkedRedisCacheLocation
-	server.LinkedRedisCacheLocation = genruntime.ClonePointerToString(source.LinkedRedisCacheLocation)
-
-	// LinkedRedisCacheReference
-	if source.LinkedRedisCacheReference != nil {
-		linkedRedisCacheReference := source.LinkedRedisCacheReference.Copy()
-		server.LinkedRedisCacheReference = &linkedRedisCacheReference
-	} else {
-		server.LinkedRedisCacheReference = nil
-	}
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		server.Owner = &owner
-	} else {
-		server.Owner = nil
-	}
-
-	// ServerRole
-	if source.ServerRole != nil {
-		serverRole := *source.ServerRole
-		serverRoleTemp := genruntime.ToEnum(serverRole, redisLinkedServerCreateProperties_ServerRole_Values)
-		server.ServerRole = &serverRoleTemp
-	} else {
-		server.ServerRole = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Redis_LinkedServer_Spec populates the provided destination Redis_LinkedServer_Spec from our Redis_LinkedServer_Spec
-func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Spec(destination *storage.Redis_LinkedServer_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = server.AzureName
-
-	// LinkedRedisCacheLocation
-	destination.LinkedRedisCacheLocation = genruntime.ClonePointerToString(server.LinkedRedisCacheLocation)
-
-	// LinkedRedisCacheReference
-	if server.LinkedRedisCacheReference != nil {
-		linkedRedisCacheReference := server.LinkedRedisCacheReference.Copy()
-		destination.LinkedRedisCacheReference = &linkedRedisCacheReference
-	} else {
-		destination.LinkedRedisCacheReference = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = server.OriginalVersion()
-
-	// Owner
-	if server.Owner != nil {
-		owner := server.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// ServerRole
-	if server.ServerRole != nil {
-		serverRole := string(*server.ServerRole)
-		destination.ServerRole = &serverRole
-	} else {
-		destination.ServerRole = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (server *Redis_LinkedServer_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (server *Redis_LinkedServer_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
 
 type Redis_LinkedServer_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -816,6 +561,261 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_To_Redis_LinkedServer_
 	// No error
 	return nil
 }
+
+type RedisLinkedServer_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName string `json:"azureName,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// LinkedRedisCacheLocation: Location of the linked redis cache.
+	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
+	LinkedRedisCacheReference *genruntime.ResourceReference `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
+	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
+
+	// +kubebuilder:validation:Required
+	// ServerRole: Role of the linked server.
+	ServerRole *RedisLinkedServerCreateProperties_ServerRole `json:"serverRole,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &RedisLinkedServer_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (server *RedisLinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if server == nil {
+		return nil, nil
+	}
+	result := &RedisLinkedServer_Spec_ARM{}
+
+	// Set property "Name":
+	result.Name = resolved.Name
+
+	// Set property "Properties":
+	if server.LinkedRedisCacheLocation != nil ||
+		server.LinkedRedisCacheReference != nil ||
+		server.ServerRole != nil {
+		result.Properties = &RedisLinkedServerCreateProperties_ARM{}
+	}
+	if server.LinkedRedisCacheLocation != nil {
+		linkedRedisCacheLocation := *server.LinkedRedisCacheLocation
+		result.Properties.LinkedRedisCacheLocation = &linkedRedisCacheLocation
+	}
+	if server.LinkedRedisCacheReference != nil {
+		linkedRedisCacheIdARMID, err := resolved.ResolvedReferences.Lookup(*server.LinkedRedisCacheReference)
+		if err != nil {
+			return nil, err
+		}
+		linkedRedisCacheId := linkedRedisCacheIdARMID
+		result.Properties.LinkedRedisCacheId = &linkedRedisCacheId
+	}
+	if server.ServerRole != nil {
+		var temp string
+		temp = string(*server.ServerRole)
+		serverRole := RedisLinkedServerCreateProperties_ServerRole_ARM(temp)
+		result.Properties.ServerRole = &serverRole
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (server *RedisLinkedServer_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RedisLinkedServer_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (server *RedisLinkedServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RedisLinkedServer_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisLinkedServer_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property "AzureName":
+	server.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property "LinkedRedisCacheLocation":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LinkedRedisCacheLocation != nil {
+			linkedRedisCacheLocation := *typedInput.Properties.LinkedRedisCacheLocation
+			server.LinkedRedisCacheLocation = &linkedRedisCacheLocation
+		}
+	}
+
+	// no assignment for property "LinkedRedisCacheReference"
+
+	// Set property "Owner":
+	server.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
+
+	// Set property "ServerRole":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ServerRole != nil {
+			var temp string
+			temp = string(*typedInput.Properties.ServerRole)
+			serverRole := RedisLinkedServerCreateProperties_ServerRole(temp)
+			server.ServerRole = &serverRole
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &RedisLinkedServer_Spec{}
+
+// ConvertSpecFrom populates our RedisLinkedServer_Spec from the provided source
+func (server *RedisLinkedServer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.RedisLinkedServer_Spec)
+	if ok {
+		// Populate our instance from source
+		return server.AssignProperties_From_RedisLinkedServer_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &storage.RedisLinkedServer_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = server.AssignProperties_From_RedisLinkedServer_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our RedisLinkedServer_Spec
+func (server *RedisLinkedServer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.RedisLinkedServer_Spec)
+	if ok {
+		// Populate destination from our instance
+		return server.AssignProperties_To_RedisLinkedServer_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &storage.RedisLinkedServer_Spec{}
+	err := server.AssignProperties_To_RedisLinkedServer_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RedisLinkedServer_Spec populates our RedisLinkedServer_Spec from the provided source RedisLinkedServer_Spec
+func (server *RedisLinkedServer_Spec) AssignProperties_From_RedisLinkedServer_Spec(source *storage.RedisLinkedServer_Spec) error {
+
+	// AzureName
+	server.AzureName = source.AzureName
+
+	// LinkedRedisCacheLocation
+	server.LinkedRedisCacheLocation = genruntime.ClonePointerToString(source.LinkedRedisCacheLocation)
+
+	// LinkedRedisCacheReference
+	if source.LinkedRedisCacheReference != nil {
+		linkedRedisCacheReference := source.LinkedRedisCacheReference.Copy()
+		server.LinkedRedisCacheReference = &linkedRedisCacheReference
+	} else {
+		server.LinkedRedisCacheReference = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		server.Owner = &owner
+	} else {
+		server.Owner = nil
+	}
+
+	// ServerRole
+	if source.ServerRole != nil {
+		serverRole := *source.ServerRole
+		serverRoleTemp := genruntime.ToEnum(serverRole, redisLinkedServerCreateProperties_ServerRole_Values)
+		server.ServerRole = &serverRoleTemp
+	} else {
+		server.ServerRole = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisLinkedServer_Spec populates the provided destination RedisLinkedServer_Spec from our RedisLinkedServer_Spec
+func (server *RedisLinkedServer_Spec) AssignProperties_To_RedisLinkedServer_Spec(destination *storage.RedisLinkedServer_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AzureName
+	destination.AzureName = server.AzureName
+
+	// LinkedRedisCacheLocation
+	destination.LinkedRedisCacheLocation = genruntime.ClonePointerToString(server.LinkedRedisCacheLocation)
+
+	// LinkedRedisCacheReference
+	if server.LinkedRedisCacheReference != nil {
+		linkedRedisCacheReference := server.LinkedRedisCacheReference.Copy()
+		destination.LinkedRedisCacheReference = &linkedRedisCacheReference
+	} else {
+		destination.LinkedRedisCacheReference = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = server.OriginalVersion()
+
+	// Owner
+	if server.Owner != nil {
+		owner := server.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// ServerRole
+	if server.ServerRole != nil {
+		serverRole := string(*server.ServerRole)
+		destination.ServerRole = &serverRole
+	} else {
+		destination.ServerRole = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (server *RedisLinkedServer_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (server *RedisLinkedServer_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
 
 // +kubebuilder:validation:Enum={"Primary","Secondary"}
 type RedisLinkedServerCreateProperties_ServerRole string
