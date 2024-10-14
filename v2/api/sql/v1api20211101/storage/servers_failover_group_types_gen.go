@@ -28,8 +28,8 @@ import (
 type ServersFailoverGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_FailoverGroup_Spec   `json:"spec,omitempty"`
-	Status            Servers_FailoverGroup_STATUS `json:"status,omitempty"`
+	Spec              ServersFailoverGroup_Spec   `json:"spec,omitempty"`
+	Status            ServersFailoverGroup_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersFailoverGroup{}
@@ -87,7 +87,7 @@ func (group *ServersFailoverGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *ServersFailoverGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_FailoverGroup_STATUS{}
+	return &ServersFailoverGroup_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (group *ServersFailoverGroup) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (group *ServersFailoverGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_FailoverGroup_STATUS); ok {
+	if st, ok := status.(*ServersFailoverGroup_STATUS); ok {
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_FailoverGroup_STATUS
+	var st ServersFailoverGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type ServersFailoverGroupList struct {
 	Items           []ServersFailoverGroup `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_FailoverGroup_Spec
-type Servers_FailoverGroup_Spec struct {
+// Storage version of v1api20211101.ServersFailoverGroup_Spec
+type ServersFailoverGroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName           string                         `json:"azureName,omitempty"`
@@ -158,10 +158,10 @@ type Servers_FailoverGroup_Spec struct {
 	Tags              map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_FailoverGroup_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersFailoverGroup_Spec{}
 
-// ConvertSpecFrom populates our Servers_FailoverGroup_Spec from the provided source
-func (group *Servers_FailoverGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersFailoverGroup_Spec from the provided source
+func (group *ServersFailoverGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -169,8 +169,8 @@ func (group *Servers_FailoverGroup_Spec) ConvertSpecFrom(source genruntime.Conve
 	return source.ConvertSpecTo(group)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_FailoverGroup_Spec
-func (group *Servers_FailoverGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersFailoverGroup_Spec
+func (group *ServersFailoverGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -178,8 +178,8 @@ func (group *Servers_FailoverGroup_Spec) ConvertSpecTo(destination genruntime.Co
 	return destination.ConvertSpecFrom(group)
 }
 
-// Storage version of v1api20211101.Servers_FailoverGroup_STATUS
-type Servers_FailoverGroup_STATUS struct {
+// Storage version of v1api20211101.ServersFailoverGroup_STATUS
+type ServersFailoverGroup_STATUS struct {
 	Conditions        []conditions.Condition                 `json:"conditions,omitempty"`
 	Databases         []string                               `json:"databases,omitempty"`
 	Id                *string                                `json:"id,omitempty"`
@@ -195,10 +195,10 @@ type Servers_FailoverGroup_STATUS struct {
 	Type              *string                                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_FailoverGroup_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersFailoverGroup_STATUS{}
 
-// ConvertStatusFrom populates our Servers_FailoverGroup_STATUS from the provided source
-func (group *Servers_FailoverGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersFailoverGroup_STATUS from the provided source
+func (group *ServersFailoverGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -206,8 +206,8 @@ func (group *Servers_FailoverGroup_STATUS) ConvertStatusFrom(source genruntime.C
 	return source.ConvertStatusTo(group)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_FailoverGroup_STATUS
-func (group *Servers_FailoverGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersFailoverGroup_STATUS
+func (group *ServersFailoverGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

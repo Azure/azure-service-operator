@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20211101
 
-type Servers_Databases_BackupShortTermRetentionPolicy_STATUS_ARM struct {
+type ServersDatabasesBackupShortTermRetentionPolicy_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 

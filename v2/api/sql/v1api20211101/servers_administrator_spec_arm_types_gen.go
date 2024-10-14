@@ -5,27 +5,27 @@ package v1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Servers_Administrator_Spec_ARM struct {
+type ServersAdministrator_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Resource properties.
 	Properties *AdministratorProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Servers_Administrator_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &ServersAdministrator_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (administrator Servers_Administrator_Spec_ARM) GetAPIVersion() string {
+func (administrator ServersAdministrator_Spec_ARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (administrator *Servers_Administrator_Spec_ARM) GetName() string {
+func (administrator *ServersAdministrator_Spec_ARM) GetName() string {
 	return administrator.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/administrators"
-func (administrator *Servers_Administrator_Spec_ARM) GetType() string {
+func (administrator *ServersAdministrator_Spec_ARM) GetType() string {
 	return "Microsoft.Sql/servers/administrators"
 }
 

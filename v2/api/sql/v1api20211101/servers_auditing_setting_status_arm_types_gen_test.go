@@ -87,20 +87,20 @@ func AddIndependentPropertyGeneratorsForServerBlobAuditingPolicyProperties_STATU
 	gens["StorageEndpoint"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_AuditingSetting_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersAuditingSetting_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_AuditingSetting_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_AuditingSetting_STATUS_ARM, Servers_AuditingSetting_STATUS_ARMGenerator()))
+		"Round trip of ServersAuditingSetting_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersAuditingSetting_STATUS_ARM, ServersAuditingSetting_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_AuditingSetting_STATUS_ARM runs a test to see if a specific instance of Servers_AuditingSetting_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_AuditingSetting_STATUS_ARM(subject Servers_AuditingSetting_STATUS_ARM) string {
+// RunJSONSerializationTestForServersAuditingSetting_STATUS_ARM runs a test to see if a specific instance of ServersAuditingSetting_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersAuditingSetting_STATUS_ARM(subject ServersAuditingSetting_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -108,7 +108,7 @@ func RunJSONSerializationTestForServers_AuditingSetting_STATUS_ARM(subject Serve
 	}
 
 	// Deserialize back into memory
-	var actual Servers_AuditingSetting_STATUS_ARM
+	var actual ServersAuditingSetting_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -126,40 +126,40 @@ func RunJSONSerializationTestForServers_AuditingSetting_STATUS_ARM(subject Serve
 	return ""
 }
 
-// Generator of Servers_AuditingSetting_STATUS_ARM instances for property testing - lazily instantiated by
-// Servers_AuditingSetting_STATUS_ARMGenerator()
-var servers_AuditingSetting_STATUS_ARMGenerator gopter.Gen
+// Generator of ServersAuditingSetting_STATUS_ARM instances for property testing - lazily instantiated by
+// ServersAuditingSetting_STATUS_ARMGenerator()
+var serversAuditingSetting_STATUS_ARMGenerator gopter.Gen
 
-// Servers_AuditingSetting_STATUS_ARMGenerator returns a generator of Servers_AuditingSetting_STATUS_ARM instances for property testing.
-// We first initialize servers_AuditingSetting_STATUS_ARMGenerator with a simplified generator based on the
+// ServersAuditingSetting_STATUS_ARMGenerator returns a generator of ServersAuditingSetting_STATUS_ARM instances for property testing.
+// We first initialize serversAuditingSetting_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Servers_AuditingSetting_STATUS_ARMGenerator() gopter.Gen {
-	if servers_AuditingSetting_STATUS_ARMGenerator != nil {
-		return servers_AuditingSetting_STATUS_ARMGenerator
+func ServersAuditingSetting_STATUS_ARMGenerator() gopter.Gen {
+	if serversAuditingSetting_STATUS_ARMGenerator != nil {
+		return serversAuditingSetting_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_AuditingSetting_STATUS_ARM(generators)
-	servers_AuditingSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_AuditingSetting_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersAuditingSetting_STATUS_ARM(generators)
+	serversAuditingSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServersAuditingSetting_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_AuditingSetting_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForServers_AuditingSetting_STATUS_ARM(generators)
-	servers_AuditingSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_AuditingSetting_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersAuditingSetting_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForServersAuditingSetting_STATUS_ARM(generators)
+	serversAuditingSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServersAuditingSetting_STATUS_ARM{}), generators)
 
-	return servers_AuditingSetting_STATUS_ARMGenerator
+	return serversAuditingSetting_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_AuditingSetting_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_AuditingSetting_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersAuditingSetting_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersAuditingSetting_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForServers_AuditingSetting_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_AuditingSetting_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServersAuditingSetting_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersAuditingSetting_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ServerBlobAuditingPolicyProperties_STATUS_ARMGenerator())
 }

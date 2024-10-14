@@ -79,20 +79,20 @@ func AddIndependentPropertyGeneratorsForServerFirewallRuleProperties_ARM(gens ma
 	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_FirewallRule_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersFirewallRule_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_FirewallRule_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_FirewallRule_Spec_ARM, Servers_FirewallRule_Spec_ARMGenerator()))
+		"Round trip of ServersFirewallRule_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersFirewallRule_Spec_ARM, ServersFirewallRule_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_FirewallRule_Spec_ARM runs a test to see if a specific instance of Servers_FirewallRule_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_FirewallRule_Spec_ARM(subject Servers_FirewallRule_Spec_ARM) string {
+// RunJSONSerializationTestForServersFirewallRule_Spec_ARM runs a test to see if a specific instance of ServersFirewallRule_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersFirewallRule_Spec_ARM(subject ServersFirewallRule_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForServers_FirewallRule_Spec_ARM(subject Servers_Fi
 	}
 
 	// Deserialize back into memory
-	var actual Servers_FirewallRule_Spec_ARM
+	var actual ServersFirewallRule_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,38 +118,38 @@ func RunJSONSerializationTestForServers_FirewallRule_Spec_ARM(subject Servers_Fi
 	return ""
 }
 
-// Generator of Servers_FirewallRule_Spec_ARM instances for property testing - lazily instantiated by
-// Servers_FirewallRule_Spec_ARMGenerator()
-var servers_FirewallRule_Spec_ARMGenerator gopter.Gen
+// Generator of ServersFirewallRule_Spec_ARM instances for property testing - lazily instantiated by
+// ServersFirewallRule_Spec_ARMGenerator()
+var serversFirewallRule_Spec_ARMGenerator gopter.Gen
 
-// Servers_FirewallRule_Spec_ARMGenerator returns a generator of Servers_FirewallRule_Spec_ARM instances for property testing.
-// We first initialize servers_FirewallRule_Spec_ARMGenerator with a simplified generator based on the
+// ServersFirewallRule_Spec_ARMGenerator returns a generator of ServersFirewallRule_Spec_ARM instances for property testing.
+// We first initialize serversFirewallRule_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Servers_FirewallRule_Spec_ARMGenerator() gopter.Gen {
-	if servers_FirewallRule_Spec_ARMGenerator != nil {
-		return servers_FirewallRule_Spec_ARMGenerator
+func ServersFirewallRule_Spec_ARMGenerator() gopter.Gen {
+	if serversFirewallRule_Spec_ARMGenerator != nil {
+		return serversFirewallRule_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec_ARM(generators)
-	servers_FirewallRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_FirewallRule_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersFirewallRule_Spec_ARM(generators)
+	serversFirewallRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ServersFirewallRule_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForServers_FirewallRule_Spec_ARM(generators)
-	servers_FirewallRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_FirewallRule_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersFirewallRule_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForServersFirewallRule_Spec_ARM(generators)
+	serversFirewallRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ServersFirewallRule_Spec_ARM{}), generators)
 
-	return servers_FirewallRule_Spec_ARMGenerator
+	return serversFirewallRule_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_FirewallRule_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersFirewallRule_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersFirewallRule_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForServers_FirewallRule_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_FirewallRule_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServersFirewallRule_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersFirewallRule_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ServerFirewallRuleProperties_ARMGenerator())
 }

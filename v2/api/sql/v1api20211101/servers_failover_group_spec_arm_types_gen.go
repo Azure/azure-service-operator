@@ -5,7 +5,7 @@ package v1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Servers_FailoverGroup_Spec_ARM struct {
+type ServersFailoverGroup_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Resource properties.
@@ -15,20 +15,20 @@ type Servers_FailoverGroup_Spec_ARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Servers_FailoverGroup_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &ServersFailoverGroup_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (group Servers_FailoverGroup_Spec_ARM) GetAPIVersion() string {
+func (group ServersFailoverGroup_Spec_ARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (group *Servers_FailoverGroup_Spec_ARM) GetName() string {
+func (group *ServersFailoverGroup_Spec_ARM) GetName() string {
 	return group.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/failoverGroups"
-func (group *Servers_FailoverGroup_Spec_ARM) GetType() string {
+func (group *ServersFailoverGroup_Spec_ARM) GetType() string {
 	return "Microsoft.Sql/servers/failoverGroups"
 }
 

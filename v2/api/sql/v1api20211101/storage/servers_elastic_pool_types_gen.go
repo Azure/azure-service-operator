@@ -28,8 +28,8 @@ import (
 type ServersElasticPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_ElasticPool_Spec   `json:"spec,omitempty"`
-	Status            Servers_ElasticPool_STATUS `json:"status,omitempty"`
+	Spec              ServersElasticPool_Spec   `json:"spec,omitempty"`
+	Status            ServersElasticPool_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersElasticPool{}
@@ -87,7 +87,7 @@ func (pool *ServersElasticPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ServersElasticPool) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_ElasticPool_STATUS{}
+	return &ServersElasticPool_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (pool *ServersElasticPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ServersElasticPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_ElasticPool_STATUS); ok {
+	if st, ok := status.(*ServersElasticPool_STATUS); ok {
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_ElasticPool_STATUS
+	var st ServersElasticPool_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type ServersElasticPoolList struct {
 	Items           []ServersElasticPool `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_ElasticPool_Spec
-type Servers_ElasticPool_Spec struct {
+// Storage version of v1api20211101.ServersElasticPool_Spec
+type ServersElasticPool_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                    string   `json:"azureName,omitempty"`
@@ -163,10 +163,10 @@ type Servers_ElasticPool_Spec struct {
 	ZoneRedundant       *bool                              `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_ElasticPool_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersElasticPool_Spec{}
 
-// ConvertSpecFrom populates our Servers_ElasticPool_Spec from the provided source
-func (pool *Servers_ElasticPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersElasticPool_Spec from the provided source
+func (pool *ServersElasticPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -174,8 +174,8 @@ func (pool *Servers_ElasticPool_Spec) ConvertSpecFrom(source genruntime.Converti
 	return source.ConvertSpecTo(pool)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_ElasticPool_Spec
-func (pool *Servers_ElasticPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersElasticPool_Spec
+func (pool *ServersElasticPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -183,8 +183,8 @@ func (pool *Servers_ElasticPool_Spec) ConvertSpecTo(destination genruntime.Conve
 	return destination.ConvertSpecFrom(pool)
 }
 
-// Storage version of v1api20211101.Servers_ElasticPool_STATUS
-type Servers_ElasticPool_STATUS struct {
+// Storage version of v1api20211101.ServersElasticPool_STATUS
+type ServersElasticPool_STATUS struct {
 	Conditions                   []conditions.Condition                 `json:"conditions,omitempty"`
 	CreationDate                 *string                                `json:"creationDate,omitempty"`
 	HighAvailabilityReplicaCount *int                                   `json:"highAvailabilityReplicaCount,omitempty"`
@@ -205,10 +205,10 @@ type Servers_ElasticPool_STATUS struct {
 	ZoneRedundant                *bool                                  `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_ElasticPool_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersElasticPool_STATUS{}
 
-// ConvertStatusFrom populates our Servers_ElasticPool_STATUS from the provided source
-func (pool *Servers_ElasticPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersElasticPool_STATUS from the provided source
+func (pool *ServersElasticPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -216,8 +216,8 @@ func (pool *Servers_ElasticPool_STATUS) ConvertStatusFrom(source genruntime.Conv
 	return source.ConvertStatusTo(pool)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_ElasticPool_STATUS
-func (pool *Servers_ElasticPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersElasticPool_STATUS
+func (pool *ServersElasticPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20211101
 
-type Servers_AdvancedThreatProtectionSetting_STATUS_ARM struct {
+type ServersAdvancedThreatProtectionSetting_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 

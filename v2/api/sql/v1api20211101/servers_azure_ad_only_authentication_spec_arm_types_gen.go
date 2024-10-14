@@ -5,27 +5,27 @@ package v1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Servers_AzureADOnlyAuthentication_Spec_ARM struct {
+type ServersAzureADOnlyAuthentication_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Resource properties.
 	Properties *AzureADOnlyAuthProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Servers_AzureADOnlyAuthentication_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &ServersAzureADOnlyAuthentication_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (authentication Servers_AzureADOnlyAuthentication_Spec_ARM) GetAPIVersion() string {
+func (authentication ServersAzureADOnlyAuthentication_Spec_ARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (authentication *Servers_AzureADOnlyAuthentication_Spec_ARM) GetName() string {
+func (authentication *ServersAzureADOnlyAuthentication_Spec_ARM) GetName() string {
 	return authentication.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/azureADOnlyAuthentications"
-func (authentication *Servers_AzureADOnlyAuthentication_Spec_ARM) GetType() string {
+func (authentication *ServersAzureADOnlyAuthentication_Spec_ARM) GetType() string {
 	return "Microsoft.Sql/servers/azureADOnlyAuthentications"
 }
 
