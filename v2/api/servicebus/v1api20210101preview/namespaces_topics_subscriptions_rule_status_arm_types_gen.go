@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20210101preview
 
-type Namespaces_Topics_Subscriptions_Rule_STATUS_ARM struct {
+type NamespacesTopicsSubscriptionsRule_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 

@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Namespaces_Queue_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesQueue_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespaces_Queue_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Queue_Spec_ARM, Namespaces_Queue_Spec_ARMGenerator()))
+		"Round trip of NamespacesQueue_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesQueue_Spec_ARM, NamespacesQueue_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespaces_Queue_Spec_ARM runs a test to see if a specific instance of Namespaces_Queue_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Queue_Spec_ARM(subject Namespaces_Queue_Spec_ARM) string {
+// RunJSONSerializationTestForNamespacesQueue_Spec_ARM runs a test to see if a specific instance of NamespacesQueue_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesQueue_Spec_ARM(subject NamespacesQueue_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForNamespaces_Queue_Spec_ARM(subject Namespaces_Que
 	}
 
 	// Deserialize back into memory
-	var actual Namespaces_Queue_Spec_ARM
+	var actual NamespacesQueue_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,39 +56,39 @@ func RunJSONSerializationTestForNamespaces_Queue_Spec_ARM(subject Namespaces_Que
 	return ""
 }
 
-// Generator of Namespaces_Queue_Spec_ARM instances for property testing - lazily instantiated by
-// Namespaces_Queue_Spec_ARMGenerator()
-var namespaces_Queue_Spec_ARMGenerator gopter.Gen
+// Generator of NamespacesQueue_Spec_ARM instances for property testing - lazily instantiated by
+// NamespacesQueue_Spec_ARMGenerator()
+var namespacesQueue_Spec_ARMGenerator gopter.Gen
 
-// Namespaces_Queue_Spec_ARMGenerator returns a generator of Namespaces_Queue_Spec_ARM instances for property testing.
-// We first initialize namespaces_Queue_Spec_ARMGenerator with a simplified generator based on the
+// NamespacesQueue_Spec_ARMGenerator returns a generator of NamespacesQueue_Spec_ARM instances for property testing.
+// We first initialize namespacesQueue_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Namespaces_Queue_Spec_ARMGenerator() gopter.Gen {
-	if namespaces_Queue_Spec_ARMGenerator != nil {
-		return namespaces_Queue_Spec_ARMGenerator
+func NamespacesQueue_Spec_ARMGenerator() gopter.Gen {
+	if namespacesQueue_Spec_ARMGenerator != nil {
+		return namespacesQueue_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Queue_Spec_ARM(generators)
-	namespaces_Queue_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Queue_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesQueue_Spec_ARM(generators)
+	namespacesQueue_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(NamespacesQueue_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Queue_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForNamespaces_Queue_Spec_ARM(generators)
-	namespaces_Queue_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Queue_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesQueue_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForNamespacesQueue_Spec_ARM(generators)
+	namespacesQueue_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(NamespacesQueue_Spec_ARM{}), generators)
 
-	return namespaces_Queue_Spec_ARMGenerator
+	return namespacesQueue_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespaces_Queue_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Queue_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesQueue_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesQueue_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForNamespaces_Queue_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_Queue_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespacesQueue_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesQueue_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(SBQueueProperties_ARMGenerator())
 }
 

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20210101preview
 
-type Namespaces_Queue_STATUS_ARM struct {
+type NamespacesQueue_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 

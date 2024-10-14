@@ -151,20 +151,20 @@ func AddIndependentPropertyGeneratorsForCorrelationFilter_ARM(gens map[string]go
 	gens["To"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Namespaces_Topics_Subscriptions_Rule_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesTopicsSubscriptionsRule_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Namespaces_Topics_Subscriptions_Rule_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespaces_Topics_Subscriptions_Rule_Spec_ARM, Namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator()))
+		"Round trip of NamespacesTopicsSubscriptionsRule_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesTopicsSubscriptionsRule_Spec_ARM, NamespacesTopicsSubscriptionsRule_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespaces_Topics_Subscriptions_Rule_Spec_ARM runs a test to see if a specific instance of Namespaces_Topics_Subscriptions_Rule_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(subject Namespaces_Topics_Subscriptions_Rule_Spec_ARM) string {
+// RunJSONSerializationTestForNamespacesTopicsSubscriptionsRule_Spec_ARM runs a test to see if a specific instance of NamespacesTopicsSubscriptionsRule_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesTopicsSubscriptionsRule_Spec_ARM(subject NamespacesTopicsSubscriptionsRule_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -172,7 +172,7 @@ func RunJSONSerializationTestForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(su
 	}
 
 	// Deserialize back into memory
-	var actual Namespaces_Topics_Subscriptions_Rule_Spec_ARM
+	var actual NamespacesTopicsSubscriptionsRule_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -190,39 +190,39 @@ func RunJSONSerializationTestForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(su
 	return ""
 }
 
-// Generator of Namespaces_Topics_Subscriptions_Rule_Spec_ARM instances for property testing - lazily instantiated by
-// Namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator()
-var namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator gopter.Gen
+// Generator of NamespacesTopicsSubscriptionsRule_Spec_ARM instances for property testing - lazily instantiated by
+// NamespacesTopicsSubscriptionsRule_Spec_ARMGenerator()
+var namespacesTopicsSubscriptionsRule_Spec_ARMGenerator gopter.Gen
 
-// Namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator returns a generator of Namespaces_Topics_Subscriptions_Rule_Spec_ARM instances for property testing.
-// We first initialize namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator with a simplified generator based on the
+// NamespacesTopicsSubscriptionsRule_Spec_ARMGenerator returns a generator of NamespacesTopicsSubscriptionsRule_Spec_ARM instances for property testing.
+// We first initialize namespacesTopicsSubscriptionsRule_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator() gopter.Gen {
-	if namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator != nil {
-		return namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator
+func NamespacesTopicsSubscriptionsRule_Spec_ARMGenerator() gopter.Gen {
+	if namespacesTopicsSubscriptionsRule_Spec_ARMGenerator != nil {
+		return namespacesTopicsSubscriptionsRule_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(generators)
-	namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscriptions_Rule_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec_ARM(generators)
+	namespacesTopicsSubscriptionsRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(NamespacesTopicsSubscriptionsRule_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(generators)
-	namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscriptions_Rule_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec_ARM(generators)
+	namespacesTopicsSubscriptionsRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(NamespacesTopicsSubscriptionsRule_Spec_ARM{}), generators)
 
-	return namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator
+	return namespacesTopicsSubscriptionsRule_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(Ruleproperties_ARMGenerator())
 }
 
