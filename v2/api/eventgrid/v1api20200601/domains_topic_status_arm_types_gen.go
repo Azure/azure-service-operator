@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20200601
 
-type Domains_Topic_STATUS_ARM struct {
+type DomainsTopic_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
