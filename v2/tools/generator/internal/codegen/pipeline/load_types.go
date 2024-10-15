@@ -91,8 +91,7 @@ func LoadTypes(
 
 				// add on ARM Type, URI, and supported operations
 				resourceType = resourceType.WithARMType(resourceInfo.ARMType).WithARMURI(resourceInfo.ARMURI)
-				scope := categorizeResourceScope(resourceInfo.ARMURI)
-				resourceType = resourceType.WithScope(scope)
+				resourceType = resourceType.WithScope(resourceInfo.Scope)
 				resourceType = resourceType.WithSupportedOperations(resourceInfo.SupportedOperations)
 
 				resourceDefinition := astmodel.MakeTypeDefinition(resourceName, resourceType)
@@ -123,31 +122,6 @@ func LoadTypes(
 
 			return defs, nil
 		})
-}
-
-var (
-	resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/[^/]+/.*`)
-	locationScopeRegex      = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/.*`)
-)
-
-func categorizeResourceScope(armURI string) astmodel.ResourceScope {
-	// this is a bit of a hack, eventually we should have better scope support.
-	// at the moment we assume that a resource is an extension if it can be applied to
-	// any scope or if armURI contains more than 1 provider:
-	if strings.HasPrefix(armURI, "/{scope}/") || strings.Count(armURI, "providers") > 1 {
-		return astmodel.ResourceScopeExtension
-	}
-
-	if resourceGroupScopeRegex.MatchString(armURI) {
-		return astmodel.ResourceScopeResourceGroup
-	}
-
-	if locationScopeRegex.MatchString(armURI) {
-		return astmodel.ResourceScopeLocation
-	}
-
-	// TODO: Not currently possible to generate a resource with scope Location, we should fix that
-	return astmodel.ResourceScopeTenant
 }
 
 var requiredSpecFields = astmodel.NewObjectType().WithProperties(
@@ -593,6 +567,7 @@ func applyRenames(
 			ARMURI:              rt.ARMURI,
 			ARMType:             rt.ARMType,
 			SupportedOperations: rt.SupportedOperations,
+			Scope:               rt.Scope,
 		}
 	}
 
