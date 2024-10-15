@@ -406,17 +406,14 @@ type typesFromFile struct {
 	filePath string
 }
 
-type typesFromFilesSorter struct{ x []typesFromFile }
-
-var _ sort.Interface = typesFromFilesSorter{}
-
-func (s typesFromFilesSorter) Len() int           { return len(s.x) }
-func (s typesFromFilesSorter) Swap(i, j int)      { s.x[i], s.x[j] = s.x[j], s.x[i] }
-func (s typesFromFilesSorter) Less(i, j int) bool { return s.x[i].filePath < s.x[j].filePath }
-
 // mergeTypesForPackage merges the types for a single package from multiple files
 func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles []typesFromFile) jsonast.SwaggerTypes {
-	sort.Sort(typesFromFilesSorter{typesFromFiles})
+	// Sort into order by filePath so we're deterministic
+	slices.SortFunc(
+		typesFromFiles,
+		func(left typesFromFile, right typesFromFile) int {
+			return strings.Compare(left.filePath, right.filePath)
+		})
 
 	typeNameCounts := make(map[astmodel.InternalTypeName]int)
 	for _, typesFromFile := range typesFromFiles {
