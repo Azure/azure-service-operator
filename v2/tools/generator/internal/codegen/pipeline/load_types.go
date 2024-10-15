@@ -330,7 +330,7 @@ func loadSwaggerData(
 		"loaded", countLoaded,
 		"total", len(schemas))
 
-	return mergeSwaggerTypesByGroup(idFactory, typesByGroup)
+	return mergeSwaggerTypesByGroup(idFactory, typesByGroup, config)
 }
 
 var (
@@ -353,6 +353,7 @@ func logInfoSparse(log logr.Logger, message string, keysAndValues ...interface{}
 func mergeSwaggerTypesByGroup(
 	idFactory astmodel.IdentifierFactory,
 	m map[astmodel.LocalPackageReference][]typesFromFile,
+	cfg *config.Configuration,
 ) (jsonast.SwaggerTypes, error) {
 	result := jsonast.SwaggerTypes{
 		ResourceDefinitions: make(jsonast.ResourceDefinitionSet),
@@ -360,7 +361,7 @@ func mergeSwaggerTypesByGroup(
 	}
 
 	for pkg, group := range m {
-		merged, err := mergeTypesForPackage(group, idFactory)
+		merged, err := mergeTypesForPackage(group, idFactory, cfg)
 		if err != nil {
 			return result, errors.Wrapf(err, "merging swagger types for %s", pkg)
 		}
@@ -393,7 +394,8 @@ type typesFromFile struct {
 func mergeTypesForPackage(
 	typesFromFiles []typesFromFile,
 	idFactory astmodel.IdentifierFactory,
-) (jsonast.SwaggerTypes, error) {
+	cfg *config.Configuration,
+) (*jsonast.SwaggerTypes, error) {
 	// Sort into order by filePath so we're deterministic
 	slices.SortFunc(
 		typesFromFiles,
@@ -435,7 +437,7 @@ func mergeTypesForPackage(
 		}
 	}
 
-	mergedResult := jsonast.SwaggerTypes{
+	mergedResult := &jsonast.SwaggerTypes{
 		ResourceDefinitions: make(jsonast.ResourceDefinitionSet),
 		OtherDefinitions:    make(astmodel.TypeDefinitionSet),
 	}
@@ -462,10 +464,41 @@ func mergeTypesForPackage(
 					continue
 				}
 
+				// Check for renames and apply them if available
+				delete(mergedResult.ResourceDefinitions, rn)
+				newNameA, renamedA := tryRename(rn, rt, cfg)
+				newNameB, renamedB := tryRename(rn, foundRT, cfg)
+
+				if _, collides := mergedResult.ResourceDefinitions[newNameA]; collides {
+					err := errors.Errorf(
+						"merging file %s: renaming %s to %s resulted in a collision with an existing type",
+						typesFromFile.filePath,
+						rn.Name(),
+						newNameA.Name())
+					return nil, err
+				}
+
+				if _, collides := mergedResult.ResourceDefinitions[newNameB]; collides {
+					err := errors.Errorf(
+						"merging file %s: renaming %s to %s resulted in a collision with an existing type",
+						typesFromFile.filePath,
+						rn.Name(),
+						newNameB.Name())
+					return nil, err
+				}
+
+				if newNameA != newNameB && (renamedA || renamedB) {
+					// One or other or both was successfully renamed, we can keep going
+					mergedResult.ResourceDefinitions[newNameA] = rt
+					mergedResult.ResourceDefinitions[newNameB] = foundRT
+					continue
+				}
+
+				// Names are still the same. We have a collision.
 				err := errors.Errorf(
 					"merging file %s: duplicate resource types generated with name %s",
 					typesFromFile.filePath,
-					rn.String())
+					rn.Name())
 				return nil, err
 			}
 
@@ -474,6 +507,39 @@ func mergeTypesForPackage(
 	}
 
 	return mergedResult, nil
+}
+
+func tryRename(
+	name astmodel.InternalTypeName,
+	rsrc jsonast.ResourceDefinition,
+	cfg *config.Configuration,
+) (astmodel.InternalTypeName, bool) {
+	if cfg == nil {
+		// No renames configured
+		return name, false
+	}
+
+	for _, ren := range cfg.TypeLoaderRenames {
+		if !ren.AppliesToType(name) {
+			// Doesn't apply to us, not our name
+			continue
+		}
+
+		if ren.Scope != nil &&
+			!strings.EqualFold(*ren.Scope, string(rsrc.Scope)) {
+			// Doesn't apply to us, not our scope
+			continue
+		}
+
+		if ren.RenameTo == nil {
+			// No rename configured
+			return name, false
+		}
+
+		return name.WithName(*ren.RenameTo), true
+	}
+
+	return name, false
 }
 
 type typeAndSource struct {
