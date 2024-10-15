@@ -5,16 +5,17 @@ _Thanks for sending a pull request! Delete this text and tell us why we need thi
 
 <!--  
 
-Here are some tips for you:
+Here are some tips:
+
 If this PR closes another issue, add 'closes #<issue number>' somewhere in the PR summary. GitHub will automatically close that issue when this PR gets merged. 
 Alternatively, adding 'refs #<issue number>' will not close the issue, but help provide the reviewer more context.
 
 Closes #[issue number]
 -->
 
+<!--
 ### Special notes
 
-<!--
 _If there's anything complex or unusual about this PR that would help us review it, let us know here. Otherwise delete this section._
 -->
 
