@@ -450,6 +450,7 @@ func mergeTypesForPackage(
 			// but they might be structurally equal
 		}
 
+		defs := mergedResult.OtherDefinitions
 		for rn, rt := range typesFromFile.ResourceDefinitions {
 			if foundRT, ok := mergedResult.ResourceDefinitions[rn]; ok {
 				// We have two resources with the same name, if they have exact same structure, they're the same
