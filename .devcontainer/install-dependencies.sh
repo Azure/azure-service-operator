@@ -194,8 +194,8 @@ go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.16.
 #doc# | kind | v0.24.0 | https://kind.sigs.k8s.io/ |
 go-install kind sigs.k8s.io/kind@v0.24.0
 
-#doc# | kustomize | v5.4.3 | https://kustomize.io/ |
-go-install kustomize sigs.k8s.io/kustomize/kustomize/v5@v5.4.3
+#doc# | kustomize | v4.5.7 | https://kustomize.io/ |
+go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
 
