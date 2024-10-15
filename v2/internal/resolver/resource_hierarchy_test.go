@@ -102,7 +102,7 @@ func Test_ResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 	g.Expect(hierarchy.FullyQualifiedARMID("00000000-0000-0000-0000-000000000000")).To(Equal(expectedARMID))
 }
 
-func Test_ResourceHierarchy_ResourceGroup_NestedResource_MatchSubscriptionWithOwner(t *testing.T) {
+func Test_ResourceHierarchy_ResourceGroup_NestedResource_CanBeInDistinctSubscriptions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -114,7 +114,7 @@ func Test_ResourceHierarchy_ResourceGroup_NestedResource_MatchSubscriptionWithOw
 
 	uuid := uuid.New().String()
 	_, err := hierarchy.FullyQualifiedARMID(uuid)
-	g.Expect(err).To(MatchError(fmt.Sprintf("resource subscription \"%s\" does not match parent subscription \"00000000-0000-0000-0000-000000000000\"", uuid)))
+	g.Expect(err).To(BeNil())
 }
 
 func Test_ResourceHierarchy_ExtensionOnResourceGroup(t *testing.T) {

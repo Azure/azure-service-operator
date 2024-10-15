@@ -14,7 +14,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 type ResourceHierarchyRoot string
@@ -144,24 +143,6 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 			return "", err
 		}
 
-		root := h[0]
-
-		err = genruntime.VerifyResourceOwnerARMID(root)
-		if err != nil {
-			return "", err
-		}
-
-		// Safe to do it this way, Claimer makes sure the owner exists and is Ready and will always have an armId annotation before we reach here.
-		ownerARMID, err := genruntime.GetAndParseResourceID(root)
-		if err != nil {
-			return "", err
-		}
-
-		// Confirm that the subscription ID the user specified matches the subscription ID we're using from our credential
-		if ok := genruntime.CheckARMIDMatchesSubscription(subscriptionID, ownerARMID); !ok {
-			return "", core.NewSubscriptionMismatchError(ownerARMID.SubscriptionID, subscriptionID)
-		}
-
 		// Ensure that we have the same number of names and types
 		if len(remainingNames) != len(resourceTypes) {
 			return "", errors.Errorf(
@@ -216,16 +197,6 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 		err = genruntime.VerifyResourceOwnerARMID(root)
 		if err != nil {
 			return "", err
-		}
-
-		ownerARMID, err := arm.ParseResourceID(armIDStr)
-		if err != nil {
-			return "", err
-		}
-
-		// Confirm that the subscription ID the user specified matches the subscription ID we're using from our credential
-		if ok := genruntime.CheckARMIDMatchesSubscription(subscriptionID, ownerARMID); !ok {
-			return "", core.NewSubscriptionMismatchError(ownerARMID.SubscriptionID, subscriptionID)
 		}
 
 		// Rooting to an ARM ID means that some of the resourceTypes may not actually be included explicitly in our
