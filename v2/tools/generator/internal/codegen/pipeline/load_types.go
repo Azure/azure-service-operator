@@ -350,14 +350,21 @@ func logInfoSparse(log logr.Logger, message string, keysAndValues ...interface{}
 	}
 }
 
-func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmodel.LocalPackageReference][]typesFromFile) (jsonast.SwaggerTypes, error) {
+func mergeSwaggerTypesByGroup(
+	idFactory astmodel.IdentifierFactory,
+	m map[astmodel.LocalPackageReference][]typesFromFile,
+) (jsonast.SwaggerTypes, error) {
 	result := jsonast.SwaggerTypes{
 		ResourceDefinitions: make(jsonast.ResourceDefinitionSet),
 		OtherDefinitions:    make(astmodel.TypeDefinitionSet),
 	}
 
 	for pkg, group := range m {
-		merged := mergeTypesForPackage(idFactory, group)
+		merged, err := mergeTypesForPackage(group, idFactory)
+		if err != nil {
+			return result, errors.Wrapf(err, "merging swagger types for %s", pkg)
+		}
+
 		for rn, rt := range merged.ResourceDefinitions {
 			if _, ok := result.ResourceDefinitions[rn]; ok {
 				panic("duplicate resource generated")
@@ -366,7 +373,7 @@ func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmod
 			result.ResourceDefinitions[rn] = rt
 		}
 
-		err := result.OtherDefinitions.AddTypesAllowDuplicates(merged.OtherDefinitions)
+		err = result.OtherDefinitions.AddTypesAllowDuplicates(merged.OtherDefinitions)
 		if err != nil {
 			return result, errors.Wrapf(err, "when combining swagger types for %s", pkg)
 		}
@@ -380,8 +387,13 @@ type typesFromFile struct {
 	filePath string
 }
 
-// mergeTypesForPackage merges the types for a single package from multiple files
-func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles []typesFromFile) jsonast.SwaggerTypes {
+// mergeTypesForPackage merges the types for a single package from multiple files into our master set.
+// typesFromFiles is a slice of typesFromFile, each of which contains the types for a single file.
+// idFactory is used to generate new identifiers for types that collide.
+func mergeTypesForPackage(
+	typesFromFiles []typesFromFile,
+	idFactory astmodel.IdentifierFactory,
+) (jsonast.SwaggerTypes, error) {
 	// Sort into order by filePath so we're deterministic
 	slices.SortFunc(
 		typesFromFiles,
@@ -439,16 +451,28 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 		}
 
 		for rn, rt := range typesFromFile.ResourceDefinitions {
-			if foundRT, ok := mergedResult.ResourceDefinitions[rn]; ok &&
-				!(astmodel.TypeEquals(foundRT.SpecType, rt.SpecType) && astmodel.TypeEquals(foundRT.StatusType, rt.StatusType)) {
-				panic(fmt.Sprintf("While merging file %s: duplicate resource types generated", typesFromFile.filePath))
+			if foundRT, ok := mergedResult.ResourceDefinitions[rn]; ok {
+				// We have two resources with the same name, if they have exact same structure, they're the same
+				scopesEqual := foundRT.Scope == rt.Scope
+				specsEqual := structurallyIdentical(foundRT.SpecType, defs, rt.SpecType, defs)
+				statusesEqual := structurallyIdentical(foundRT.StatusType, defs, rt.StatusType, defs)
+				if scopesEqual && specsEqual && statusesEqual {
+					// They're the same resource, we're good.
+					continue
+				}
+
+				err := errors.Errorf(
+					"merging file %s: duplicate resource types generated with name %s",
+					typesFromFile.filePath,
+					rn.String())
+				return nil, err
 			}
 
 			mergedResult.ResourceDefinitions[rn] = rt
 		}
 	}
 
-	return mergedResult
+	return mergedResult, nil
 }
 
 type typeAndSource struct {
