@@ -1109,6 +1109,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsForwardingRuleSetsVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsForwardingRuleset)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolver)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolversInboundEndpoint)})
@@ -2001,6 +2002,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701.ApplicationGateway),
 		new(network_v20220701.BastionHost),
 		new(network_v20220701.DnsForwardingRuleSetsForwardingRule),
+		new(network_v20220701.DnsForwardingRuleSetsVirtualNetworkLink),
 		new(network_v20220701.DnsForwardingRuleset),
 		new(network_v20220701.DnsResolver),
 		new(network_v20220701.DnsResolversInboundEndpoint),
@@ -2015,6 +2017,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701s.ApplicationGateway),
 		new(network_v20220701s.BastionHost),
 		new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
+		new(network_v20220701s.DnsForwardingRuleSetsVirtualNetworkLink),
 		new(network_v20220701s.DnsForwardingRuleset),
 		new(network_v20220701s.DnsResolver),
 		new(network_v20220701s.DnsResolversInboundEndpoint),
@@ -2503,6 +2506,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.ApplicationGatewayExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
+	result = append(result, &network_customizations.DnsForwardingRuleSetsVirtualNetworkLinkExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
 	result = append(result, &network_customizations.DnsResolverExtension{})
 	result = append(result, &network_customizations.DnsResolversInboundEndpointExtension{})
