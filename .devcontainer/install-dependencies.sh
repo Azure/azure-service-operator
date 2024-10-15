@@ -104,7 +104,7 @@ GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
 GOVERREGEX=".*go1.([0-9]+).([0-9]+).*"
-GOVERREQUIRED="go1.22.*"
+GOVERREQUIRED="go1.23.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo "$ver"; })
 
 if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
