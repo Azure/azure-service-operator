@@ -10724,9 +10724,8 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMach
 // Storage version of v1api20210701.VirtualMachineSshCredentials_STATUS
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS struct {
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicKeyData *string                `json:"publicKeyData,omitempty"`
-	Username      *string                `json:"username,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Username    *string                `json:"username,omitempty"`
 }
 
 // AssignProperties_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials_STATUS from the provided source VirtualMachineSshCredentials_STATUS

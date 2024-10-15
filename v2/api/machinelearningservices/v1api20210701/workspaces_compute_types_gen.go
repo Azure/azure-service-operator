@@ -10143,16 +10143,6 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 	return nil
 }
 
-// Initialize_From_DatabricksProperties_STATUS populates our DatabricksProperties from the provided source DatabricksProperties_STATUS
-func (properties *DatabricksProperties) Initialize_From_DatabricksProperties_STATUS(source *DatabricksProperties_STATUS) error {
-
-	// WorkspaceUrl
-	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
-
-	// No error
-	return nil
-}
-
 // Properties of Databricks
 type DatabricksProperties_STATUS struct {
 	// WorkspaceUrl: Workspace Url
@@ -16013,24 +16003,8 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMach
 	return nil
 }
 
-// Initialize_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials from the provided source VirtualMachineSshCredentials_STATUS
-func (credentials *VirtualMachineSshCredentials) Initialize_From_VirtualMachineSshCredentials_STATUS(source *VirtualMachineSshCredentials_STATUS) error {
-
-	// PublicKeyData
-	credentials.PublicKeyData = genruntime.ClonePointerToString(source.PublicKeyData)
-
-	// Username
-	credentials.Username = genruntime.ClonePointerToString(source.Username)
-
-	// No error
-	return nil
-}
-
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS struct {
-	// PublicKeyData: Public key data
-	PublicKeyData *string `json:"publicKeyData,omitempty"`
-
 	// Username: Username of admin account
 	Username *string `json:"username,omitempty"`
 }
@@ -16049,12 +16023,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineSshCredentials_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property "PublicKeyData":
-	if typedInput.PublicKeyData != nil {
-		publicKeyData := *typedInput.PublicKeyData
-		credentials.PublicKeyData = &publicKeyData
-	}
-
 	// Set property "Username":
 	if typedInput.Username != nil {
 		username := *typedInput.Username
@@ -16068,9 +16036,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) PopulateFromARM(owner ge
 // AssignProperties_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials_STATUS from the provided source VirtualMachineSshCredentials_STATUS
 func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_VirtualMachineSshCredentials_STATUS(source *storage.VirtualMachineSshCredentials_STATUS) error {
 
-	// PublicKeyData
-	credentials.PublicKeyData = genruntime.ClonePointerToString(source.PublicKeyData)
-
 	// Username
 	credentials.Username = genruntime.ClonePointerToString(source.Username)
 
@@ -16082,9 +16047,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_Vi
 func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_To_VirtualMachineSshCredentials_STATUS(destination *storage.VirtualMachineSshCredentials_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// PublicKeyData
-	destination.PublicKeyData = genruntime.ClonePointerToString(credentials.PublicKeyData)
 
 	// Username
 	destination.Username = genruntime.ClonePointerToString(credentials.Username)

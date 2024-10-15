@@ -773,7 +773,7 @@ WorkspacesCompute: Resource
     │   │   ├── ModifiedOn: *string
     │   │   ├── Properties: *Object (4 properties)
     │   │   │   ├── Address: *string
-    │   │   │   ├── AdministratorAccount: *Object (3 properties)
+    │   │   │   ├── AdministratorAccount: *Object (2 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── Username: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -907,7 +907,7 @@ WorkspacesCompute: Resource
     │       ├── ModifiedOn: *string
     │       ├── Properties: *Object (6 properties)
     │       │   ├── Address: *string
-    │       │   ├── AdministratorAccount: *Object (3 properties)
+    │       │   ├── AdministratorAccount: *Object (2 properties)
     │       │   │   ├── PropertyBag: genruntime.PropertyBag
     │       │   │   └── Username: *string
     │       │   ├── IsNotebookInstanceCompute: *bool
