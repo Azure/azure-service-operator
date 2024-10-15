@@ -2395,8 +2395,6 @@ objectModelConfiguration:
         $generatedConfigs:
           ConnectionString: $.Status.ConnectionString
           InstrumentationKey: $.Status.InstrumentationKey
-        $azureGeneratedSecrets:
-          - HockeyAppToken
     2023-01-01:
       ActionGroup:
         $export: true
