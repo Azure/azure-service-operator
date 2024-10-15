@@ -1335,7 +1335,7 @@ objectModelConfiguration:
         $isResource: false
       DomainValidationProperties:
         ValidationToken:
-          $isSecret: false # This might be a secret, @theunrepentantgeek is not sure
+          $isSecret: false # Not a conventional secret; this is the token someone must provide to prove they own the domain
       Profile:
         $export: true
         $supportedFrom: v2.6.0
