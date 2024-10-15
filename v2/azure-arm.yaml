@@ -2403,10 +2403,6 @@ objectModelConfiguration:
       WebTestGeolocation:
         Id:
           $armReference: false
-    # 2021-05-01-preview:
-    #   DiagnosticSetting:
-    #     $export: true
-    #     $supportedFrom: v2.10.0
 
   keyvault:
     2021-04-01-preview:
