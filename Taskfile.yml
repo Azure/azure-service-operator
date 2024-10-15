@@ -239,7 +239,7 @@ tasks:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-      - golangci-lint run --verbose --fast=false
+      - golangci-lint run --verbose --fast=false --timeout 20m
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.

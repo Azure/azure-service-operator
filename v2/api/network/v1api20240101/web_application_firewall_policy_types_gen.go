@@ -324,11 +324,6 @@ type WebApplicationFirewallPolicyList struct {
 	Items           []WebApplicationFirewallPolicy `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2024-01-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2024-01-01")
-
 type ApplicationGatewayWebApplicationFirewallPolicy_Spec struct {
 	// +kubebuilder:validation:MaxLength=128
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -2571,24 +2566,6 @@ func (settings *PolicySettings_STATUS) AssignProperties_To_PolicySettings_STATUS
 
 	// No error
 	return nil
-}
-
-// The current provisioning state.
-type ProvisioningState_STATUS string
-
-const (
-	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to ProvisioningState_STATUS
-var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
-	"deleting":  ProvisioningState_STATUS_Deleting,
-	"failed":    ProvisioningState_STATUS_Failed,
-	"succeeded": ProvisioningState_STATUS_Succeeded,
-	"updating":  ProvisioningState_STATUS_Updating,
 }
 
 // Reference to another subresource.

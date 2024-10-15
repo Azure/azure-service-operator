@@ -309,6 +309,45 @@ ApplicationGatewayWebApplicationFirewallPolicy_Spec_ARM: Object (4 properties)
 │           ├── "Disabled"
 │           └── "Enabled"
 └── Tags: map[string]string
+ApplicationSecurityGroup: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (4 properties)
+│   ├── AzureName: string
+│   ├── Location: *string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── Tags: map[string]string
+└── Status: Object (9 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Etag: *string
+    ├── Id: *string
+    ├── Location: *string
+    ├── Name: *string
+    ├── ProvisioningState: *Enum (4 values)
+    │   ├── "Deleting"
+    │   ├── "Failed"
+    │   ├── "Succeeded"
+    │   └── "Updating"
+    ├── ResourceGuid: *string
+    ├── Tags: map[string]string
+    └── Type: *string
+ApplicationSecurityGroup_STATUS_ARM: Object (7 properties)
+├── Etag: *string
+├── Id: *string
+├── Location: *string
+├── Name: *string
+├── Properties: *Object (2 properties)
+│   ├── ProvisioningState: *Enum (4 values)
+│   │   ├── "Deleting"
+│   │   ├── "Failed"
+│   │   ├── "Succeeded"
+│   │   └── "Updating"
+│   └── ResourceGuid: *string
+├── Tags: map[string]string
+└── Type: *string
+ApplicationSecurityGroup_Spec_ARM: Object (3 properties)
+├── Location: *string
+├── Name: string
+└── Tags: map[string]string
 WebApplicationFirewallPolicy: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (7 properties)
