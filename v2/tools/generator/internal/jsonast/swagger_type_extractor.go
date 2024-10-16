@@ -959,7 +959,7 @@ func makeSchemaFromSimpleSchemaParam(param schemaAndValidations) *spec.Schema {
 var (
 	resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/[^/]+/.*`)
 	locationScopeRegex      = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/.*`)
-	resourceScopePrefixes   = []string{
+	extensionScopePrefixes  = []string{
 		"/{scope}/",
 		"/{resourceUri}/",
 	}
@@ -968,7 +968,7 @@ var (
 func categorizeResourceScope(armURI string) astmodel.ResourceScope {
 	// this is a bit of a hack, eventually we should have better scope support.
 	// at the moment we assume that a resource is an extension if it has a specific prefix
-	for _, prefix := range resourceScopePrefixes {
+	for _, prefix := range extensionScopePrefixes {
 		// Case-insensitive prefix check, as befits a heuristic
 		if strings.EqualFold(prefix, armURI[:len(prefix)]) {
 			return astmodel.ResourceScopeExtension
