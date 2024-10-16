@@ -2,3 +2,4 @@
 github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/customizations
 -------------------------------------------------------------------------------------
 ExtensionExtension: Object (0 properties)
+FluxConfigurationExtension: Object (0 properties)

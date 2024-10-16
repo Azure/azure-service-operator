@@ -179,13 +179,16 @@
 | DnsConfig                                                                                    |               |               |               |               | v1api20220401 |               |               |
 | DnsConfig_STATUS                                                                             |               |               |               |               | v1api20220401 |               |               |
 | DnsForwardingRuleSetsForwardingRule                                                          |               |               |               |               |               | v1api20220701 |               |
-| DnsForwardingRuleSetsForwardingRule_STATUS                                                   |               |               |               |               |               | v1api20220701 |               |
-| DnsForwardingRuleSetsForwardingRule_Spec                                                     |               |               |               |               |               | v1api20220701 |               |
+| DnsForwardingRuleSetsVirtualNetworkLink                                                      |               |               |               |               |               | v1api20220701 |               |
 | DnsForwardingRuleset                                                                         |               |               |               |               |               | v1api20220701 |               |
 | DnsForwardingRulesetProperties                                                               |               |               |               |               |               | v1api20220701 |               |
 | DnsForwardingRulesetProperties_STATUS                                                        |               |               |               |               |               | v1api20220701 |               |
 | DnsForwardingRuleset_STATUS                                                                  |               |               |               |               |               | v1api20220701 |               |
 | DnsForwardingRuleset_Spec                                                                    |               |               |               |               |               | v1api20220701 |               |
+| DnsForwardingRulesets_ForwardingRule_STATUS                                                  |               |               |               |               |               | v1api20220701 |               |
+| DnsForwardingRulesets_ForwardingRule_Spec                                                    |               |               |               |               |               | v1api20220701 |               |
+| DnsForwardingRulesets_VirtualNetworkLink_STATUS                                              |               |               |               |               |               | v1api20220701 |               |
+| DnsForwardingRulesets_VirtualNetworkLink_Spec                                                |               |               |               |               |               | v1api20220701 |               |
 | DnsResolver                                                                                  |               |               |               |               |               | v1api20220701 |               |
 | DnsResolverProperties                                                                        |               |               |               |               |               | v1api20220701 |               |
 | DnsResolverProperties_DnsResolverState_STATUS                                                |               |               |               |               |               | v1api20220701 |               |
@@ -685,9 +688,9 @@
 | VirtualNetworkGatewaySku_Tier_STATUS                                                         |               |               |               | v1api20201101 |               |               |               |
 | VirtualNetworkGateway_STATUS                                                                 |               |               |               | v1api20201101 |               |               |               |
 | VirtualNetworkGateway_Spec                                                                   |               |               |               | v1api20201101 |               |               |               |
-| VirtualNetworkLinkProperties                                                                 |               |               | v1api20200601 |               |               |               |               |
+| VirtualNetworkLinkProperties                                                                 |               |               | v1api20200601 |               |               | v1api20220701 |               |
 | VirtualNetworkLinkProperties_ProvisioningState_STATUS                                        |               |               | v1api20200601 |               |               |               |               |
-| VirtualNetworkLinkProperties_STATUS                                                          |               |               | v1api20200601 |               |               |               |               |
+| VirtualNetworkLinkProperties_STATUS                                                          |               |               | v1api20200601 |               |               | v1api20220701 |               |
 | VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS                                  |               |               | v1api20200601 |               |               |               |               |
 | VirtualNetworkPeering                                                                        |               |               |               | v1api20201101 |               |               |               |
 | VirtualNetworkPeeringPropertiesFormat                                                        |               |               |               | v1api20201101 |               |               |               |
