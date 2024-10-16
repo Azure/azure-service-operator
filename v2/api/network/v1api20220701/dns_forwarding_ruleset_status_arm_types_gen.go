@@ -44,9 +44,3 @@ type DnsForwardingRulesetProperties_STATUS_ARM struct {
 	// ResourceGuid: The resourceGuid for the DNS forwarding ruleset.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
-
-// Reference to another ARM resource.
-type DnsresolverSubResource_STATUS_ARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}

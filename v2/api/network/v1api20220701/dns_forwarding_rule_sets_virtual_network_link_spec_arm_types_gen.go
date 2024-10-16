@@ -5,27 +5,27 @@ package v1api20220701
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM struct {
+type DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network link.
 	Properties *VirtualNetworkLinkProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-07-01"
-func (link DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM) GetAPIVersion() string {
+func (link DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM) GetAPIVersion() string {
 	return "2022-07-01"
 }
 
 // GetName returns the Name of the resource
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM) GetName() string {
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM) GetName() string {
 	return link.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/dnsForwardingRulesets/virtualNetworkLinks"
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM) GetType() string {
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM) GetType() string {
 	return "Microsoft.Network/dnsForwardingRulesets/virtualNetworkLinks"
 }
 
@@ -36,4 +36,9 @@ type VirtualNetworkLinkProperties_ARM struct {
 
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
 	VirtualNetwork *DnsresolverSubResource_ARM `json:"virtualNetwork,omitempty"`
+}
+
+// Reference to another ARM resource.
+type DnsresolverSubResource_ARM struct {
+	Id *string `json:"id,omitempty"`
 }

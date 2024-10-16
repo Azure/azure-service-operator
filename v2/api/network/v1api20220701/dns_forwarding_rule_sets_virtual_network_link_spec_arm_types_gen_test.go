@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM, DnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator()))
+		"Round trip of DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM, DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM runs a test to see if a specific instance of DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM(subject DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM) string {
+// RunJSONSerializationTestForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM runs a test to see if a specific instance of DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM(subject DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_Spec_AR
 	}
 
 	// Deserialize back into memory
-	var actual DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM
+	var actual DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,40 +56,101 @@ func RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_Spec_AR
 	return ""
 }
 
-// Generator of DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM instances for property testing - lazily instantiated
-// by DnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator()
-var dnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator gopter.Gen
+// Generator of DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM instances for property testing - lazily instantiated by
+// DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator()
+var dnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator gopter.Gen
 
-// DnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator returns a generator of DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM instances for property testing.
-// We first initialize dnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator with a simplified generator based on the
+// DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator returns a generator of DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM instances for property testing.
+// We first initialize dnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator() gopter.Gen {
-	if dnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator != nil {
-		return dnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator
+func DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator() gopter.Gen {
+	if dnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator != nil {
+		return dnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM(generators)
-	dnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM(generators)
+	dnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM(generators)
-	dnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM(generators)
+	dnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM{}), generators)
 
-	return dnsForwardingRulesets_VirtualNetworkLink_Spec_ARMGenerator
+	return dnsForwardingRuleSetsVirtualNetworkLink_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VirtualNetworkLinkProperties_ARMGenerator())
+}
+
+func Test_DnsresolverSubResource_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsresolverSubResource_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsresolverSubResource_ARM, DnsresolverSubResource_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsresolverSubResource_ARM runs a test to see if a specific instance of DnsresolverSubResource_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsresolverSubResource_ARM(subject DnsresolverSubResource_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsresolverSubResource_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsresolverSubResource_ARM instances for property testing - lazily instantiated by
+// DnsresolverSubResource_ARMGenerator()
+var dnsresolverSubResource_ARMGenerator gopter.Gen
+
+// DnsresolverSubResource_ARMGenerator returns a generator of DnsresolverSubResource_ARM instances for property testing.
+func DnsresolverSubResource_ARMGenerator() gopter.Gen {
+	if dnsresolverSubResource_ARMGenerator != nil {
+		return dnsresolverSubResource_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsresolverSubResource_ARM(generators)
+	dnsresolverSubResource_ARMGenerator = gen.Struct(reflect.TypeOf(DnsresolverSubResource_ARM{}), generators)
+
+	return dnsresolverSubResource_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDnsresolverSubResource_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsresolverSubResource_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualNetworkLinkProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

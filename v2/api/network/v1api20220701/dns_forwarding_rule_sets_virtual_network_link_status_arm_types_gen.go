@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20220701
 
-type DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM struct {
+type DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM struct {
 	// Etag: ETag of the virtual network link.
 	Etag *string `json:"etag,omitempty"`
 
@@ -35,4 +35,10 @@ type VirtualNetworkLinkProperties_STATUS_ARM struct {
 
 	// VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.
 	VirtualNetwork *DnsresolverSubResource_STATUS_ARM `json:"virtualNetwork,omitempty"`
+}
+
+// Reference to another ARM resource.
+type DnsresolverSubResource_STATUS_ARM struct {
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 }

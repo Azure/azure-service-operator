@@ -112,7 +112,7 @@ func DnsForwardingRuleset_VirtualNetworkLink_CRUD(tc *testcommon.KubePerTestCont
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
 	link := &network.DnsForwardingRuleSetsVirtualNetworkLink{
 		ObjectMeta: tc.MakeObjectMeta("rule"),
-		Spec: network.DnsForwardingRulesets_VirtualNetworkLink_Spec{
+		Spec: network.DnsForwardingRuleSetsVirtualNetworkLink_Spec{
 			Owner: testcommon.AsOwner(set),
 			VirtualNetwork: &network.DnsresolverSubResource{
 				Reference: tc.MakeReferenceFromResource(vnet),

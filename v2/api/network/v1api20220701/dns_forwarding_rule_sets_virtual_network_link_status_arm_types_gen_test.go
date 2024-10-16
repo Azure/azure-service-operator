@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM, DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator()))
+		"Round trip of DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM, DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM runs a test to see if a specific instance of DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM(subject DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM) string {
+// RunJSONSerializationTestForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM runs a test to see if a specific instance of DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM(subject DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_STATUS_
 	}
 
 	// Deserialize back into memory
-	var actual DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM
+	var actual DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,44 +56,105 @@ func RunJSONSerializationTestForDnsForwardingRulesets_VirtualNetworkLink_STATUS_
 	return ""
 }
 
-// Generator of DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM instances for property testing - lazily instantiated
-// by DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator()
-var dnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator gopter.Gen
+// Generator of DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM instances for property testing - lazily instantiated
+// by DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator()
+var dnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator gopter.Gen
 
-// DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator returns a generator of DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM instances for property testing.
-// We first initialize dnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator with a simplified generator based on the
+// DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator returns a generator of DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM instances for property testing.
+// We first initialize dnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator() gopter.Gen {
-	if dnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator != nil {
-		return dnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator
+func DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator() gopter.Gen {
+	if dnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator != nil {
+		return dnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM(generators)
-	dnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM(generators)
+	dnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM(generators)
-	dnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM(generators)
+	dnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM{}), generators)
 
-	return dnsForwardingRulesets_VirtualNetworkLink_STATUS_ARMGenerator
+	return dnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VirtualNetworkLinkProperties_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
+}
+
+func Test_DnsresolverSubResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsresolverSubResource_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsresolverSubResource_STATUS_ARM, DnsresolverSubResource_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsresolverSubResource_STATUS_ARM runs a test to see if a specific instance of DnsresolverSubResource_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsresolverSubResource_STATUS_ARM(subject DnsresolverSubResource_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsresolverSubResource_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsresolverSubResource_STATUS_ARM instances for property testing - lazily instantiated by
+// DnsresolverSubResource_STATUS_ARMGenerator()
+var dnsresolverSubResource_STATUS_ARMGenerator gopter.Gen
+
+// DnsresolverSubResource_STATUS_ARMGenerator returns a generator of DnsresolverSubResource_STATUS_ARM instances for property testing.
+func DnsresolverSubResource_STATUS_ARMGenerator() gopter.Gen {
+	if dnsresolverSubResource_STATUS_ARMGenerator != nil {
+		return dnsresolverSubResource_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDnsresolverSubResource_STATUS_ARM(generators)
+	dnsresolverSubResource_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DnsresolverSubResource_STATUS_ARM{}), generators)
+
+	return dnsresolverSubResource_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDnsresolverSubResource_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsresolverSubResource_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualNetworkLinkProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
