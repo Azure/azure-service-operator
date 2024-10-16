@@ -3030,6 +3030,9 @@ objectModelConfiguration:
       DnsForwardingRuleSets_ForwardingRule:
         $exportAs: DnsForwardingRuleSetsForwardingRule
         $supportedFrom: v2.2.0
+      DnsForwardingRuleSets_VirtualNetworkLink:
+        $exportAs: DnsForwardingRuleSetsVirtualNetworkLink
+        $supportedFrom: v2.10.0
       TargetDnsServer:
         IpAddress:
           $importConfigMapMode: optional

@@ -1,0 +1,13 @@
+apiVersion: network.azure.com/v1api20220701
+kind: DnsForwardingRuleSetsVirtualNetworkLink
+metadata:
+  name: aso-sample-vnetlink
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-ruleset
+  virtualNetwork:
+    reference:
+      group: network.azure.com
+      kind: VirtualNetwork
+      name: aso-sample-vn

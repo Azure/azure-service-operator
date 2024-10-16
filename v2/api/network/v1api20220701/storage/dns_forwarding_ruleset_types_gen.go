@@ -213,23 +213,6 @@ func (ruleset *DnsForwardingRuleset_STATUS) ConvertStatusTo(destination genrunti
 	return destination.ConvertStatusFrom(ruleset)
 }
 
-// Storage version of v1api20220701.DnsresolverSubResource
-// Reference to another ARM resource.
-type DnsresolverSubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// Storage version of v1api20220701.DnsresolverSubResource_STATUS
-// Reference to another ARM resource.
-type DnsresolverSubResource_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 func init() {
 	SchemeBuilder.Register(&DnsForwardingRuleset{}, &DnsForwardingRulesetList{})
 }
