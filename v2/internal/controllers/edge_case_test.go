@@ -14,9 +14,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
@@ -315,52 +315,34 @@ func Test_Owner_IsMutableIfNotSuccessfullyCreated(t *testing.T) {
 	tc.DeleteResourceAndWait(acct)
 }
 
-func Test_CreateCosmosAccountWithSkipReconcile_SecretsAreWritten(t *testing.T) {
+func Test_CreateStorageAccountWithSkipReconcile_SecretsAreWritten(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-	cosmosSecret1 := "keys1"
+	secret1 := "keys1"
 
-	// Custom namer because cosmosdb accounts have stricter name
-	// requirements - no hyphens allowed.
-	// Create a Cosmos DB account
-	offerType := documentdb.DatabaseAccountOfferType_Standard
-	kind := documentdb.DatabaseAccount_Kind_Spec_GlobalDocumentDB
-	acct := &documentdb.DatabaseAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
-		Spec: documentdb.DatabaseAccount_Spec{
-			Location:                 tc.AzureRegion,
-			Owner:                    testcommon.AsOwner(rg),
-			Kind:                     &kind,
-			DatabaseAccountOfferType: &offerType,
-			Locations: []documentdb.Location{
-				{
-					LocationName: tc.AzureRegion,
-				},
-			},
-			OperatorSpec: &documentdb.DatabaseAccountOperatorSpec{
-				Secrets: &documentdb.DatabaseAccountOperatorSecrets{
-					DocumentEndpoint: &genruntime.SecretDestination{
-						Name: cosmosSecret1,
-						Key:  "endpoint",
-					},
-				},
+	acct := newStorageAccount(tc, rg)
+	acct.Spec.OperatorSpec = &storage.StorageAccountOperatorSpec{
+		Secrets: &storage.StorageAccountOperatorSecrets{
+			Key1: &genruntime.SecretDestination{
+				Name: secret1,
+				Key:  "key",
 			},
 		},
 	}
 
-	cosmosSecret2 := "keys2"
+	secret2 := "keys2"
 	skipAcct := acct.DeepCopy()
 	skipAcct.Spec.AzureName = skipAcct.Name
 	skipAcct.Name = skipAcct.Name + "-skip" // So we don't collide
-	skipAcct.Spec.OperatorSpec.Secrets.DocumentEndpoint.Name = cosmosSecret2
+	skipAcct.Spec.OperatorSpec.Secrets.Key1.Name = secret2
 	skipAcct.Annotations = map[string]string{
 		annotations.ReconcilePolicy: string(annotations.ReconcilePolicySkip),
 	}
 
 	tc.CreateResourcesAndWait(acct, skipAcct)
 
-	tc.ExpectSecretHasKeys(cosmosSecret1, "endpoint")
-	tc.ExpectSecretHasKeys(cosmosSecret2, "endpoint")
+	tc.ExpectSecretHasKeys(secret1, "key")
+	tc.ExpectSecretHasKeys(secret2, "key")
 }
