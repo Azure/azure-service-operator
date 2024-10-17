@@ -138,12 +138,6 @@ type WebApplicationFirewallPolicyList struct {
 	Items           []WebApplicationFirewallPolicy `json:"items"`
 }
 
-// Storage version of v1api20240101.APIVersion
-// +kubebuilder:validation:Enum={"2024-01-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2024-01-01")
-
 // Storage version of v1api20240101.WebApplicationFirewallPolicy_Spec
 type WebApplicationFirewallPolicy_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

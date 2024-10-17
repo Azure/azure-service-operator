@@ -108,24 +108,6 @@ type PolicySettings_STATUS_ARM struct {
 	State *PolicySettings_State_STATUS_ARM `json:"state,omitempty"`
 }
 
-// The current provisioning state.
-type ProvisioningState_STATUS_ARM string
-
-const (
-	ProvisioningState_STATUS_ARM_Deleting  = ProvisioningState_STATUS_ARM("Deleting")
-	ProvisioningState_STATUS_ARM_Failed    = ProvisioningState_STATUS_ARM("Failed")
-	ProvisioningState_STATUS_ARM_Succeeded = ProvisioningState_STATUS_ARM("Succeeded")
-	ProvisioningState_STATUS_ARM_Updating  = ProvisioningState_STATUS_ARM("Updating")
-)
-
-// Mapping from string to ProvisioningState_STATUS_ARM
-var provisioningState_STATUS_ARM_Values = map[string]ProvisioningState_STATUS_ARM{
-	"deleting":  ProvisioningState_STATUS_ARM_Deleting,
-	"failed":    ProvisioningState_STATUS_ARM_Failed,
-	"succeeded": ProvisioningState_STATUS_ARM_Succeeded,
-	"updating":  ProvisioningState_STATUS_ARM_Updating,
-}
-
 // Reference to another subresource.
 type SubResource_STATUS_ARM struct {
 	// Id: Resource ID.
