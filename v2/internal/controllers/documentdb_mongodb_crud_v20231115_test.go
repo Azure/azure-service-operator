@@ -35,9 +35,11 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
-			Capabilities: []documentdb.Capability{{
-				Name: to.Ptr("EnableMongo"),
-			}},
+			Capabilities: []documentdb.Capability{
+				{
+					Name: to.Ptr("EnableMongo"),
+				},
+			},
 			DatabaseAccountOfferType: &offerType,
 			Locations: []documentdb.Location{
 				{

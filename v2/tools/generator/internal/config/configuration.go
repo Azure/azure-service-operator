@@ -47,6 +47,8 @@ type Configuration struct {
 	AnyTypePackages []string `yaml:"anyTypePackages"`
 	// Filters used to control which types are created from the JSON schema
 	TypeFilters []*TypeFilter `yaml:"typeFilters"`
+	// Renamers used to resolve naming collisions during loading
+	TypeLoaderRenames []*TypeLoaderRename `yaml:"typeLoaderRenames"`
 	// Transformers used to remap types
 	Transformers []*TypeTransformer `yaml:"typeTransformers"`
 	// RootURL is the root URL for ASOv2 repo, paths are appended to this to generate resource links.

@@ -134,13 +134,17 @@
 | ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded |               |               |               |               |               |               | v1api20240101 |
 | ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded                             |               |               |               |               |               | v1api20220701 |               |
 | ApplicationGateway_Spec                                                                      |               |               |               |               |               | v1api20220701 |               |
+| ApplicationSecurityGroup                                                                     |               |               |               |               |               |               | v1api20240101 |
+| ApplicationSecurityGroupPropertiesFormat_STATUS                                              |               |               |               |               |               |               | v1api20240101 |
 | ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                            |               |               |               | v1api20201101 |               |               |               |
 | ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded                        |               |               |               | v1api20201101 |               |               |               |
 | ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded          |               |               |               | v1api20201101 |               |               |               |
 | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                             |               |               |               |               |               | v1api20220701 |               |
+| ApplicationSecurityGroup_STATUS                                                              |               |               |               |               |               |               | v1api20240101 |
 | ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                         |               |               |               | v1api20201101 |               |               |               |
 | ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded       |               |               |               | v1api20201101 |               |               |               |
 | ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded                          |               |               |               |               |               | v1api20220701 |               |
+| ApplicationSecurityGroup_Spec                                                                |               |               |               |               |               |               | v1api20240101 |
 | BackendAddressPoolPropertiesFormat                                                           |               |               |               | v1api20201101 |               |               |               |
 | BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded                   |               |               |               | v1api20201101 |               |               |               |
 | BackendAddressPool_LoadBalancer_SubResourceEmbedded                                          |               |               |               | v1api20201101 |               |               |               |

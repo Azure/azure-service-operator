@@ -2573,24 +2573,6 @@ func (settings *PolicySettings_STATUS) AssignProperties_To_PolicySettings_STATUS
 	return nil
 }
 
-// The current provisioning state.
-type ProvisioningState_STATUS string
-
-const (
-	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to ProvisioningState_STATUS
-var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
-	"deleting":  ProvisioningState_STATUS_Deleting,
-	"failed":    ProvisioningState_STATUS_Failed,
-	"succeeded": ProvisioningState_STATUS_Succeeded,
-	"updating":  ProvisioningState_STATUS_Updating,
-}
-
 // Reference to another subresource.
 type SubResource_STATUS struct {
 	// Id: Resource ID.

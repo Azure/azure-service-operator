@@ -20,9 +20,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_CosmosDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
+func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
+
+	// Capacity constraints
+	tc.AzureRegion = to.Ptr("australiaeast")
 
 	// Create our resource group
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -36,10 +39,11 @@ func Test_CosmosDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
 		Spec: documentdb.DatabaseAccount_Spec{
-			Location:                 to.Ptr("australiaeast"), // Capacity constraints // to.Ptr("australiaeast") // Capacity constraints // tc.AzureRegion
+			Location:                 tc.AzureRegion,
 			Owner:                    testcommon.AsOwner(rg),
 			Kind:                     &kind,
 			DatabaseAccountOfferType: &offerType,
+			DisableLocalAuth:         to.Ptr(true),
 			Locations: []documentdb.Location{
 				{
 					LocationName: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
