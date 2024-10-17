@@ -825,6 +825,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20240401s.Registry)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20240401s.Workspace),
 		Indexes: []registration.Index{
@@ -1890,11 +1891,13 @@ func getKnownTypes() []client.Object {
 		new(machinelearningservices_v20210701s.WorkspacesConnection))
 	result = append(
 		result,
+		new(machinelearningservices_v20240401.Registry),
 		new(machinelearningservices_v20240401.Workspace),
 		new(machinelearningservices_v20240401.WorkspacesCompute),
 		new(machinelearningservices_v20240401.WorkspacesConnection))
 	result = append(
 		result,
+		new(machinelearningservices_v20240401s.Registry),
 		new(machinelearningservices_v20240401s.Workspace),
 		new(machinelearningservices_v20240401s.WorkspacesCompute),
 		new(machinelearningservices_v20240401s.WorkspacesConnection))
@@ -2504,6 +2507,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.FluxConfigurationExtension{})
+	result = append(result, &machinelearningservices_customizations.RegistryExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})

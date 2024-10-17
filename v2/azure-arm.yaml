@@ -387,6 +387,18 @@ typeTransformers:
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
 
+  - group: machinelearningservices
+    name: SystemCreatedStorageAccount
+    property: ArmResourceId
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
+  - group: machinelearningservices
+    name: SystemCreatedAcrAccount
+    property: ArmResourceId
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
   - group: network
     name: RouteTables_Route_Spec
     property: Type
@@ -2761,6 +2773,21 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         TenantId:
           $importConfigMapMode: optional
+      Registry:
+        $export: true
+        $supportedFrom: v2.10.0
+        $generatedConfigs:
+          DiscoveryUrl: $.Status.DiscoveryUrl
+          MlFlowRegistryUri: $.Status.MlFlowRegistryUri
+      PrivateEndpointResource:
+        SubnetArmId:
+          $armReference: true
+      ArmResourceId:
+        ResourceId:
+          $armReference: true
+      RegistryPrivateEndpointConnection:
+        Id:
+          $armReference: true
   monitor:
     2023-04-03:
       Account:
@@ -3573,6 +3600,7 @@ objectModelConfiguration:
         $export: true
         $exportAs: WorkspacesBigDataPool
         $supportedFrom: v2.0.0
+
   web:
     2022-03-01:
       ApiManagementConfig:

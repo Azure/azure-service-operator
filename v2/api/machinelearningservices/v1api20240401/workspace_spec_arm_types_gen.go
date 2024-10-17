@@ -44,34 +44,6 @@ func (workspace *Workspace_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces"
 }
 
-// Managed service identity (system assigned and/or user assigned identities)
-type ManagedServiceIdentity_ARM struct {
-	// Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-	Type                   *ManagedServiceIdentityType_ARM            `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
-}
-
-// The resource model definition representing SKU
-type Sku_ARM struct {
-	// Capacity: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible
-	// for the resource this may be omitted.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
-	Family *string `json:"family,omitempty"`
-
-	// Name: The name of the SKU. Ex - P3. It is typically a letter+number code
-	Name *string `json:"name,omitempty"`
-
-	// Size: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone
-	// code.
-	Size *string `json:"size,omitempty"`
-
-	// Tier: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is
-	// not  required on a PUT.
-	Tier *SkuTier_ARM `json:"tier,omitempty"`
-}
-
 // The properties of a machine learning workspace.
 type WorkspaceProperties_ARM struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
@@ -154,25 +126,6 @@ type ManagedNetworkSettings_ARM struct {
 	Status *ManagedNetworkProvisionStatus_ARM `json:"status,omitempty"`
 }
 
-// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type ManagedServiceIdentityType_ARM string
-
-const (
-	ManagedServiceIdentityType_ARM_None                       = ManagedServiceIdentityType_ARM("None")
-	ManagedServiceIdentityType_ARM_SystemAssigned             = ManagedServiceIdentityType_ARM("SystemAssigned")
-	ManagedServiceIdentityType_ARM_SystemAssignedUserAssigned = ManagedServiceIdentityType_ARM("SystemAssigned,UserAssigned")
-	ManagedServiceIdentityType_ARM_UserAssigned               = ManagedServiceIdentityType_ARM("UserAssigned")
-)
-
-// Mapping from string to ManagedServiceIdentityType_ARM
-var managedServiceIdentityType_ARM_Values = map[string]ManagedServiceIdentityType_ARM{
-	"none":                        ManagedServiceIdentityType_ARM_None,
-	"systemassigned":              ManagedServiceIdentityType_ARM_SystemAssigned,
-	"systemassigned,userassigned": ManagedServiceIdentityType_ARM_SystemAssignedUserAssigned,
-	"userassigned":                ManagedServiceIdentityType_ARM_UserAssigned,
-}
-
 type ServerlessComputeSettings_ARM struct {
 	ServerlessComputeCustomSubnet *string `json:"serverlessComputeCustomSubnet,omitempty"`
 
@@ -192,30 +145,6 @@ type SharedPrivateLinkResource_ARM struct {
 
 	// Properties: Resource properties.
 	Properties *SharedPrivateLinkResourceProperty_ARM `json:"properties,omitempty"`
-}
-
-// This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not
-// required on a PUT.
-// +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
-type SkuTier_ARM string
-
-const (
-	SkuTier_ARM_Basic    = SkuTier_ARM("Basic")
-	SkuTier_ARM_Free     = SkuTier_ARM("Free")
-	SkuTier_ARM_Premium  = SkuTier_ARM("Premium")
-	SkuTier_ARM_Standard = SkuTier_ARM("Standard")
-)
-
-// Mapping from string to SkuTier_ARM
-var skuTier_ARM_Values = map[string]SkuTier_ARM{
-	"basic":    SkuTier_ARM_Basic,
-	"free":     SkuTier_ARM_Free,
-	"premium":  SkuTier_ARM_Premium,
-	"standard": SkuTier_ARM_Standard,
-}
-
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails_ARM struct {
 }
 
 // WorkspaceHub's configuration object.
