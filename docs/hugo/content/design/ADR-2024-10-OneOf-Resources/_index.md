@@ -107,7 +107,7 @@ Role *-- MarkerProperties : Marker
 
 ### Background: Resource Structure
 
-When we generate the ARM types for submission to Azure Resource Manager, we require each resource to have a `Name` property. 
+When we generate the ARM types for submission to Azure Resource Manager, we require each resource to have a `Name` property.
 
 If that name is missing, we get the following error:
 
@@ -121,7 +121,7 @@ If that name is missing, we get the following error:
 
 ### The Problem
 
-When importing resources from `Microsoft.Kusto` we have, for the first time, a resource using a _One-Of_ as a part of it's definition right at the root. There are two flavours of the `Database` resource, one for read/write, and another for following.
+When importing resources from `Microsoft.Kusto` we have, for the first time, a resource using a _One-Of_ as a part of it's definition right at the root. There are two flavours of the `Database` resource, one for a _read/write_ database, and another for a _following_ database.
 
 ``` mermaid
 classDiagram
@@ -161,7 +161,7 @@ ClustersDatabase_Spec *-- ReadWriteDatabase
 ClustersDatabase_Spec *-- ReadOnlyFollowingDatabase
 ```
 
-This is correct according to our rules for OneOf, but it doesn't work for ARM Spec generation due to the lack of a Name.
+This is correct according to our rules for OneOf, but it doesn't work for ARM Spec generation due to the lack of `Name`.
 
 #### Other factors
 
@@ -177,7 +177,7 @@ Accept that the current decisions mean that we have to decline to support the `M
 
 ### Cons
 
-* Distasteful to decline to support a resource due to a technical limitation.
+* Distasteful to decline to support a resource due to a technical limitation, especially since we have a customer ask for this resource.
 * No guarantee that Kusto will be the only affected resource.
 * Risk that resources we already support will use this pattern in a new API version, rendering us unable to upgrade.
 
@@ -187,12 +187,13 @@ For the specific case where the top level `spec` is a one-of, permit the `Name` 
 
 ### Pros
 
-* Avoids making already complex one-of handling more complex
+* Avoids making already complex one-of handling more complex.
 
 ### Cons
 
-* May be confusing to users
-* Changes the existing rules, potentially breaking other code
+* May be confusing to users.
+* Changes the existing rules, potentially breaking other code.
+* Requires changes to the code generator to handle implementation of `AzureName()` and `SetAzureName()` methods on one-of resource types.
 
 ### Questions
 
@@ -203,17 +204,17 @@ For the specific case where the top level `spec` is a one-of, permit the `Name` 
 
 At the moment, the only permitted properties at the root level of a one-of are the mutually exclusive properties that represent the available options. We could loosen this rule to permit other properties, those in common to all leaf types, to be present at the root level.
 
-### Pros 
+### Pros
 
 * Conceptually simpler
 
-### Conts
+### Cons
 
 * Changing already complex one-of handling to make it more complex.
 * Requires changing the way we serialize/deserialize one-of types in non-trivial ways.
 * Potentially large blast-radius if our changes impact on one-of types we've already generated and released.
 
-## Option 4: Special case root OneOf Types
+## Option 4: Special case Name for root OneOf Types
 
 Preserve the existing rules for one-of types, but special case the root level of a resource spec to permit `Name` be specified alongside the one-of properties.
 
@@ -231,10 +232,25 @@ Preserve the existing rules for one-of types, but special case the root level of
 * Are there other properties that might be required at the root level of a resource spec in the future?
 * Do we special case `Name` by itself, or do just apply different rules for root one-of objects?
 
+## Option 5: Split the resources
+
+Split the one-of resource into multiple variants, each representing one altnerative.
+
+For example, for `kusto` we'd replace `Database` with `ReadWriteDatabase` and `ReadOnlyFollowingDatabase`, two resources that happened to use the same ARM URL but have different properties.
+
+### Pros
+
+* Conceptually simple
+
+### Cons
+
+* Choosing good names for the split resources may be difficult to code
+* Increases the cognitive distance between ARM API and CRD structure, making it harder to understand
+* Issues with ownership of child resources
+
 ## Decision
 
-Pending.
-
+Proposed: Option 2: Loosen the rules on Name
 
 ## Status
 
