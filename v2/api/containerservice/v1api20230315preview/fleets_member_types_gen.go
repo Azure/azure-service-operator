@@ -30,8 +30,8 @@ import (
 type FleetsMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Fleets_Member_Spec   `json:"spec,omitempty"`
-	Status            Fleets_Member_STATUS `json:"status,omitempty"`
+	Spec              FleetsMember_Spec   `json:"spec,omitempty"`
+	Status            FleetsMember_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FleetsMember{}
@@ -95,11 +95,11 @@ var _ genruntime.ImportableResource = &FleetsMember{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (member *FleetsMember) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Fleets_Member_STATUS); ok {
-		return member.Spec.Initialize_From_Fleets_Member_STATUS(s)
+	if s, ok := status.(*FleetsMember_STATUS); ok {
+		return member.Spec.Initialize_From_FleetsMember_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Fleets_Member_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type FleetsMember_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FleetsMember{}
@@ -145,7 +145,7 @@ func (member *FleetsMember) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (member *FleetsMember) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Fleets_Member_STATUS{}
+	return &FleetsMember_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -157,13 +157,13 @@ func (member *FleetsMember) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (member *FleetsMember) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Fleets_Member_STATUS); ok {
+	if st, ok := status.(*FleetsMember_STATUS); ok {
 		member.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Fleets_Member_STATUS
+	var st FleetsMember_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -261,18 +261,18 @@ func (member *FleetsMember) AssignProperties_From_FleetsMember(source *storage.F
 	member.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Fleets_Member_Spec
-	err := spec.AssignProperties_From_Fleets_Member_Spec(&source.Spec)
+	var spec FleetsMember_Spec
+	err := spec.AssignProperties_From_FleetsMember_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Fleets_Member_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_FleetsMember_Spec() to populate field Spec")
 	}
 	member.Spec = spec
 
 	// Status
-	var status Fleets_Member_STATUS
-	err = status.AssignProperties_From_Fleets_Member_STATUS(&source.Status)
+	var status FleetsMember_STATUS
+	err = status.AssignProperties_From_FleetsMember_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Fleets_Member_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_FleetsMember_STATUS() to populate field Status")
 	}
 	member.Status = status
 
@@ -287,18 +287,18 @@ func (member *FleetsMember) AssignProperties_To_FleetsMember(destination *storag
 	destination.ObjectMeta = *member.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Fleets_Member_Spec
-	err := member.Spec.AssignProperties_To_Fleets_Member_Spec(&spec)
+	var spec storage.FleetsMember_Spec
+	err := member.Spec.AssignProperties_To_FleetsMember_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Fleets_Member_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_FleetsMember_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Fleets_Member_STATUS
-	err = member.Status.AssignProperties_To_Fleets_Member_STATUS(&status)
+	var status storage.FleetsMember_STATUS
+	err = member.Status.AssignProperties_To_FleetsMember_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Fleets_Member_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_FleetsMember_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -325,7 +325,7 @@ type FleetsMemberList struct {
 	Items           []FleetsMember `json:"items"`
 }
 
-type Fleets_Member_Spec struct {
+type FleetsMember_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Pattern="^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
@@ -352,14 +352,14 @@ type Fleets_Member_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"containerservice.azure.com" json:"owner,omitempty" kind:"Fleet"`
 }
 
-var _ genruntime.ARMTransformer = &Fleets_Member_Spec{}
+var _ genruntime.ARMTransformer = &FleetsMember_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (member *Fleets_Member_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (member *FleetsMember_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if member == nil {
 		return nil, nil
 	}
-	result := &arm.Fleets_Member_Spec{}
+	result := &arm.FleetsMember_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -384,15 +384,15 @@ func (member *Fleets_Member_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (member *Fleets_Member_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Fleets_Member_Spec{}
+func (member *FleetsMember_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.FleetsMember_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (member *Fleets_Member_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Fleets_Member_Spec)
+func (member *FleetsMember_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.FleetsMember_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Fleets_Member_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FleetsMember_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -419,25 +419,25 @@ func (member *Fleets_Member_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Fleets_Member_Spec{}
+var _ genruntime.ConvertibleSpec = &FleetsMember_Spec{}
 
-// ConvertSpecFrom populates our Fleets_Member_Spec from the provided source
-func (member *Fleets_Member_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Fleets_Member_Spec)
+// ConvertSpecFrom populates our FleetsMember_Spec from the provided source
+func (member *FleetsMember_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.FleetsMember_Spec)
 	if ok {
 		// Populate our instance from source
-		return member.AssignProperties_From_Fleets_Member_Spec(src)
+		return member.AssignProperties_From_FleetsMember_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Fleets_Member_Spec{}
+	src = &storage.FleetsMember_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = member.AssignProperties_From_Fleets_Member_Spec(src)
+	err = member.AssignProperties_From_FleetsMember_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -445,17 +445,17 @@ func (member *Fleets_Member_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Fleets_Member_Spec
-func (member *Fleets_Member_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Fleets_Member_Spec)
+// ConvertSpecTo populates the provided destination from our FleetsMember_Spec
+func (member *FleetsMember_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.FleetsMember_Spec)
 	if ok {
 		// Populate destination from our instance
-		return member.AssignProperties_To_Fleets_Member_Spec(dst)
+		return member.AssignProperties_To_FleetsMember_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Fleets_Member_Spec{}
-	err := member.AssignProperties_To_Fleets_Member_Spec(dst)
+	dst = &storage.FleetsMember_Spec{}
+	err := member.AssignProperties_To_FleetsMember_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -469,8 +469,8 @@ func (member *Fleets_Member_Spec) ConvertSpecTo(destination genruntime.Convertib
 	return nil
 }
 
-// AssignProperties_From_Fleets_Member_Spec populates our Fleets_Member_Spec from the provided source Fleets_Member_Spec
-func (member *Fleets_Member_Spec) AssignProperties_From_Fleets_Member_Spec(source *storage.Fleets_Member_Spec) error {
+// AssignProperties_From_FleetsMember_Spec populates our FleetsMember_Spec from the provided source FleetsMember_Spec
+func (member *FleetsMember_Spec) AssignProperties_From_FleetsMember_Spec(source *storage.FleetsMember_Spec) error {
 
 	// AzureName
 	member.AzureName = source.AzureName
@@ -503,8 +503,8 @@ func (member *Fleets_Member_Spec) AssignProperties_From_Fleets_Member_Spec(sourc
 	return nil
 }
 
-// AssignProperties_To_Fleets_Member_Spec populates the provided destination Fleets_Member_Spec from our Fleets_Member_Spec
-func (member *Fleets_Member_Spec) AssignProperties_To_Fleets_Member_Spec(destination *storage.Fleets_Member_Spec) error {
+// AssignProperties_To_FleetsMember_Spec populates the provided destination FleetsMember_Spec from our FleetsMember_Spec
+func (member *FleetsMember_Spec) AssignProperties_To_FleetsMember_Spec(destination *storage.FleetsMember_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -549,8 +549,8 @@ func (member *Fleets_Member_Spec) AssignProperties_To_Fleets_Member_Spec(destina
 	return nil
 }
 
-// Initialize_From_Fleets_Member_STATUS populates our Fleets_Member_Spec from the provided source Fleets_Member_STATUS
-func (member *Fleets_Member_Spec) Initialize_From_Fleets_Member_STATUS(source *Fleets_Member_STATUS) error {
+// Initialize_From_FleetsMember_STATUS populates our FleetsMember_Spec from the provided source FleetsMember_STATUS
+func (member *FleetsMember_Spec) Initialize_From_FleetsMember_STATUS(source *FleetsMember_STATUS) error {
 
 	// ClusterResourceReference
 	if source.ClusterResourceId != nil {
@@ -573,14 +573,14 @@ func (member *Fleets_Member_Spec) Initialize_From_Fleets_Member_STATUS(source *F
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (member *Fleets_Member_Spec) OriginalVersion() string {
+func (member *FleetsMember_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (member *Fleets_Member_Spec) SetAzureName(azureName string) { member.AzureName = azureName }
+func (member *FleetsMember_Spec) SetAzureName(azureName string) { member.AzureName = azureName }
 
-type Fleets_Member_STATUS struct {
+type FleetsMember_STATUS struct {
 	// ClusterResourceId: The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'.
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
@@ -614,25 +614,25 @@ type Fleets_Member_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Fleets_Member_STATUS{}
+var _ genruntime.ConvertibleStatus = &FleetsMember_STATUS{}
 
-// ConvertStatusFrom populates our Fleets_Member_STATUS from the provided source
-func (member *Fleets_Member_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Fleets_Member_STATUS)
+// ConvertStatusFrom populates our FleetsMember_STATUS from the provided source
+func (member *FleetsMember_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.FleetsMember_STATUS)
 	if ok {
 		// Populate our instance from source
-		return member.AssignProperties_From_Fleets_Member_STATUS(src)
+		return member.AssignProperties_From_FleetsMember_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Fleets_Member_STATUS{}
+	src = &storage.FleetsMember_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = member.AssignProperties_From_Fleets_Member_STATUS(src)
+	err = member.AssignProperties_From_FleetsMember_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -640,17 +640,17 @@ func (member *Fleets_Member_STATUS) ConvertStatusFrom(source genruntime.Converti
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Fleets_Member_STATUS
-func (member *Fleets_Member_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Fleets_Member_STATUS)
+// ConvertStatusTo populates the provided destination from our FleetsMember_STATUS
+func (member *FleetsMember_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.FleetsMember_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return member.AssignProperties_To_Fleets_Member_STATUS(dst)
+		return member.AssignProperties_To_FleetsMember_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Fleets_Member_STATUS{}
-	err := member.AssignProperties_To_Fleets_Member_STATUS(dst)
+	dst = &storage.FleetsMember_STATUS{}
+	err := member.AssignProperties_To_FleetsMember_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -664,18 +664,18 @@ func (member *Fleets_Member_STATUS) ConvertStatusTo(destination genruntime.Conve
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Fleets_Member_STATUS{}
+var _ genruntime.FromARMConverter = &FleetsMember_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (member *Fleets_Member_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Fleets_Member_STATUS{}
+func (member *FleetsMember_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.FleetsMember_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (member *Fleets_Member_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Fleets_Member_STATUS)
+func (member *FleetsMember_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.FleetsMember_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Fleets_Member_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FleetsMember_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClusterResourceId":
@@ -748,8 +748,8 @@ func (member *Fleets_Member_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignProperties_From_Fleets_Member_STATUS populates our Fleets_Member_STATUS from the provided source Fleets_Member_STATUS
-func (member *Fleets_Member_STATUS) AssignProperties_From_Fleets_Member_STATUS(source *storage.Fleets_Member_STATUS) error {
+// AssignProperties_From_FleetsMember_STATUS populates our FleetsMember_STATUS from the provided source FleetsMember_STATUS
+func (member *FleetsMember_STATUS) AssignProperties_From_FleetsMember_STATUS(source *storage.FleetsMember_STATUS) error {
 
 	// ClusterResourceId
 	member.ClusterResourceId = genruntime.ClonePointerToString(source.ClusterResourceId)
@@ -797,8 +797,8 @@ func (member *Fleets_Member_STATUS) AssignProperties_From_Fleets_Member_STATUS(s
 	return nil
 }
 
-// AssignProperties_To_Fleets_Member_STATUS populates the provided destination Fleets_Member_STATUS from our Fleets_Member_STATUS
-func (member *Fleets_Member_STATUS) AssignProperties_To_Fleets_Member_STATUS(destination *storage.Fleets_Member_STATUS) error {
+// AssignProperties_To_FleetsMember_STATUS populates the provided destination FleetsMember_STATUS from our FleetsMember_STATUS
+func (member *FleetsMember_STATUS) AssignProperties_To_FleetsMember_STATUS(destination *storage.FleetsMember_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

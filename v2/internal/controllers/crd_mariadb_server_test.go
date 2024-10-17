@@ -75,7 +75,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	configuration := mariadb.Configuration{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
-		Spec: mariadb.Servers_Configuration_Spec{
+		Spec: mariadb.Configuration_Spec{
 			AzureName: "query_cache_size",
 			Owner:     testcommon.AsOwner(&server),
 			Value:     to.Ptr("102400"),
@@ -88,7 +88,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	database := mariadb.Database{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
-		Spec: mariadb.Servers_Database_Spec{
+		Spec: mariadb.Database_Spec{
 			AzureName: *to.Ptr("adventureworks"),
 			Owner:     testcommon.AsOwner(&server),
 		},

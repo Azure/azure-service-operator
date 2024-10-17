@@ -774,275 +774,6 @@ func AddIndependentPropertyGeneratorsForCompressionSettings_STATUS(gens map[stri
 	gens["IsCompressionEnabled"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_Profiles_AfdEndpoints_Route_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Profiles_AfdEndpoints_Route_STATUS to Profiles_AfdEndpoints_Route_STATUS via AssignProperties_To_Profiles_AfdEndpoints_Route_STATUS & AssignProperties_From_Profiles_AfdEndpoints_Route_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProfiles_AfdEndpoints_Route_STATUS, Profiles_AfdEndpoints_Route_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForProfiles_AfdEndpoints_Route_STATUS tests if a specific instance of Profiles_AfdEndpoints_Route_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProfiles_AfdEndpoints_Route_STATUS(subject Profiles_AfdEndpoints_Route_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profiles_AfdEndpoints_Route_STATUS
-	err := copied.AssignProperties_To_Profiles_AfdEndpoints_Route_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Profiles_AfdEndpoints_Route_STATUS
-	err = actual.AssignProperties_From_Profiles_AfdEndpoints_Route_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Profiles_AfdEndpoints_Route_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_AfdEndpoints_Route_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_AfdEndpoints_Route_STATUS, Profiles_AfdEndpoints_Route_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_AfdEndpoints_Route_STATUS runs a test to see if a specific instance of Profiles_AfdEndpoints_Route_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_AfdEndpoints_Route_STATUS(subject Profiles_AfdEndpoints_Route_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_AfdEndpoints_Route_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_AfdEndpoints_Route_STATUS instances for property testing - lazily instantiated by
-// Profiles_AfdEndpoints_Route_STATUSGenerator()
-var profiles_AfdEndpoints_Route_STATUSGenerator gopter.Gen
-
-// Profiles_AfdEndpoints_Route_STATUSGenerator returns a generator of Profiles_AfdEndpoints_Route_STATUS instances for property testing.
-// We first initialize profiles_AfdEndpoints_Route_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_AfdEndpoints_Route_STATUSGenerator() gopter.Gen {
-	if profiles_AfdEndpoints_Route_STATUSGenerator != nil {
-		return profiles_AfdEndpoints_Route_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_AfdEndpoints_Route_STATUS(generators)
-	profiles_AfdEndpoints_Route_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_AfdEndpoints_Route_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_AfdEndpoints_Route_STATUS(generators)
-	AddRelatedPropertyGeneratorsForProfiles_AfdEndpoints_Route_STATUS(generators)
-	profiles_AfdEndpoints_Route_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_AfdEndpoints_Route_STATUS{}), generators)
-
-	return profiles_AfdEndpoints_Route_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_AfdEndpoints_Route_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_AfdEndpoints_Route_STATUS(gens map[string]gopter.Gen) {
-	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
-		RouteProperties_DeploymentStatus_STATUS_Failed,
-		RouteProperties_DeploymentStatus_STATUS_InProgress,
-		RouteProperties_DeploymentStatus_STATUS_NotStarted,
-		RouteProperties_DeploymentStatus_STATUS_Succeeded))
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(RouteProperties_EnabledState_STATUS_Disabled, RouteProperties_EnabledState_STATUS_Enabled))
-	gens["EndpointName"] = gen.PtrOf(gen.AlphaString())
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(RouteProperties_ForwardingProtocol_STATUS_HttpOnly, RouteProperties_ForwardingProtocol_STATUS_HttpsOnly, RouteProperties_ForwardingProtocol_STATUS_MatchRequest))
-	gens["HttpsRedirect"] = gen.PtrOf(gen.OneConstOf(RouteProperties_HttpsRedirect_STATUS_Disabled, RouteProperties_HttpsRedirect_STATUS_Enabled))
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["LinkToDefaultDomain"] = gen.PtrOf(gen.OneConstOf(RouteProperties_LinkToDefaultDomain_STATUS_Disabled, RouteProperties_LinkToDefaultDomain_STATUS_Enabled))
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
-	gens["PatternsToMatch"] = gen.SliceOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RouteProperties_ProvisioningState_STATUS_Creating,
-		RouteProperties_ProvisioningState_STATUS_Deleting,
-		RouteProperties_ProvisioningState_STATUS_Failed,
-		RouteProperties_ProvisioningState_STATUS_Succeeded,
-		RouteProperties_ProvisioningState_STATUS_Updating))
-	gens["SupportedProtocols"] = gen.SliceOf(gen.OneConstOf(AFDEndpointProtocols_STATUS_Http, AFDEndpointProtocols_STATUS_Https))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_AfdEndpoints_Route_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_AfdEndpoints_Route_STATUS(gens map[string]gopter.Gen) {
-	gens["CacheConfiguration"] = gen.PtrOf(AfdRouteCacheConfiguration_STATUSGenerator())
-	gens["CustomDomains"] = gen.SliceOf(ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbeddedGenerator())
-	gens["OriginGroup"] = gen.PtrOf(ResourceReference_STATUSGenerator())
-	gens["RuleSets"] = gen.SliceOf(ResourceReference_STATUSGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
-func Test_Profiles_AfdEndpoints_Route_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Profiles_AfdEndpoints_Route_Spec to Profiles_AfdEndpoints_Route_Spec via AssignProperties_To_Profiles_AfdEndpoints_Route_Spec & AssignProperties_From_Profiles_AfdEndpoints_Route_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProfiles_AfdEndpoints_Route_Spec, Profiles_AfdEndpoints_Route_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForProfiles_AfdEndpoints_Route_Spec tests if a specific instance of Profiles_AfdEndpoints_Route_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProfiles_AfdEndpoints_Route_Spec(subject Profiles_AfdEndpoints_Route_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profiles_AfdEndpoints_Route_Spec
-	err := copied.AssignProperties_To_Profiles_AfdEndpoints_Route_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Profiles_AfdEndpoints_Route_Spec
-	err = actual.AssignProperties_From_Profiles_AfdEndpoints_Route_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Profiles_AfdEndpoints_Route_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Profiles_AfdEndpoints_Route_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_AfdEndpoints_Route_Spec, Profiles_AfdEndpoints_Route_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForProfiles_AfdEndpoints_Route_Spec runs a test to see if a specific instance of Profiles_AfdEndpoints_Route_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_AfdEndpoints_Route_Spec(subject Profiles_AfdEndpoints_Route_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Profiles_AfdEndpoints_Route_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Profiles_AfdEndpoints_Route_Spec instances for property testing - lazily instantiated by
-// Profiles_AfdEndpoints_Route_SpecGenerator()
-var profiles_AfdEndpoints_Route_SpecGenerator gopter.Gen
-
-// Profiles_AfdEndpoints_Route_SpecGenerator returns a generator of Profiles_AfdEndpoints_Route_Spec instances for property testing.
-// We first initialize profiles_AfdEndpoints_Route_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Profiles_AfdEndpoints_Route_SpecGenerator() gopter.Gen {
-	if profiles_AfdEndpoints_Route_SpecGenerator != nil {
-		return profiles_AfdEndpoints_Route_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_AfdEndpoints_Route_Spec(generators)
-	profiles_AfdEndpoints_Route_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_AfdEndpoints_Route_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_AfdEndpoints_Route_Spec(generators)
-	AddRelatedPropertyGeneratorsForProfiles_AfdEndpoints_Route_Spec(generators)
-	profiles_AfdEndpoints_Route_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_AfdEndpoints_Route_Spec{}), generators)
-
-	return profiles_AfdEndpoints_Route_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForProfiles_AfdEndpoints_Route_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_AfdEndpoints_Route_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
-	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(RouteProperties_EnabledState_Disabled, RouteProperties_EnabledState_Enabled))
-	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(RouteProperties_ForwardingProtocol_HttpOnly, RouteProperties_ForwardingProtocol_HttpsOnly, RouteProperties_ForwardingProtocol_MatchRequest))
-	gens["HttpsRedirect"] = gen.PtrOf(gen.OneConstOf(RouteProperties_HttpsRedirect_Disabled, RouteProperties_HttpsRedirect_Enabled))
-	gens["LinkToDefaultDomain"] = gen.PtrOf(gen.OneConstOf(RouteProperties_LinkToDefaultDomain_Disabled, RouteProperties_LinkToDefaultDomain_Enabled))
-	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
-	gens["PatternsToMatch"] = gen.SliceOf(gen.AlphaString())
-	gens["SupportedProtocols"] = gen.SliceOf(gen.OneConstOf(AFDEndpointProtocols_Http, AFDEndpointProtocols_Https))
-}
-
-// AddRelatedPropertyGeneratorsForProfiles_AfdEndpoints_Route_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_AfdEndpoints_Route_Spec(gens map[string]gopter.Gen) {
-	gens["CacheConfiguration"] = gen.PtrOf(AfdRouteCacheConfigurationGenerator())
-	gens["CustomDomains"] = gen.SliceOf(ActivatedResourceReferenceGenerator())
-	gens["OriginGroup"] = gen.PtrOf(ResourceReferenceGenerator())
-	gens["RuleSets"] = gen.SliceOf(ResourceReferenceGenerator())
-}
-
 func Test_Route_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1185,6 +916,273 @@ func RouteGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRoute is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRoute(gens map[string]gopter.Gen) {
-	gens["Spec"] = Profiles_AfdEndpoints_Route_SpecGenerator()
-	gens["Status"] = Profiles_AfdEndpoints_Route_STATUSGenerator()
+	gens["Spec"] = Route_SpecGenerator()
+	gens["Status"] = Route_STATUSGenerator()
+}
+
+func Test_Route_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Route_STATUS to Route_STATUS via AssignProperties_To_Route_STATUS & AssignProperties_From_Route_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoute_STATUS, Route_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoute_STATUS tests if a specific instance of Route_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoute_STATUS(subject Route_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Route_STATUS
+	err := copied.AssignProperties_To_Route_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Route_STATUS
+	err = actual.AssignProperties_From_Route_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Route_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Route_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRoute_STATUS, Route_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRoute_STATUS runs a test to see if a specific instance of Route_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoute_STATUS(subject Route_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Route_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Route_STATUS instances for property testing - lazily instantiated by Route_STATUSGenerator()
+var route_STATUSGenerator gopter.Gen
+
+// Route_STATUSGenerator returns a generator of Route_STATUS instances for property testing.
+// We first initialize route_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Route_STATUSGenerator() gopter.Gen {
+	if route_STATUSGenerator != nil {
+		return route_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoute_STATUS(generators)
+	route_STATUSGenerator = gen.Struct(reflect.TypeOf(Route_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoute_STATUS(generators)
+	AddRelatedPropertyGeneratorsForRoute_STATUS(generators)
+	route_STATUSGenerator = gen.Struct(reflect.TypeOf(Route_STATUS{}), generators)
+
+	return route_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRoute_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoute_STATUS(gens map[string]gopter.Gen) {
+	gens["DeploymentStatus"] = gen.PtrOf(gen.OneConstOf(
+		RouteProperties_DeploymentStatus_STATUS_Failed,
+		RouteProperties_DeploymentStatus_STATUS_InProgress,
+		RouteProperties_DeploymentStatus_STATUS_NotStarted,
+		RouteProperties_DeploymentStatus_STATUS_Succeeded))
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(RouteProperties_EnabledState_STATUS_Disabled, RouteProperties_EnabledState_STATUS_Enabled))
+	gens["EndpointName"] = gen.PtrOf(gen.AlphaString())
+	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(RouteProperties_ForwardingProtocol_STATUS_HttpOnly, RouteProperties_ForwardingProtocol_STATUS_HttpsOnly, RouteProperties_ForwardingProtocol_STATUS_MatchRequest))
+	gens["HttpsRedirect"] = gen.PtrOf(gen.OneConstOf(RouteProperties_HttpsRedirect_STATUS_Disabled, RouteProperties_HttpsRedirect_STATUS_Enabled))
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["LinkToDefaultDomain"] = gen.PtrOf(gen.OneConstOf(RouteProperties_LinkToDefaultDomain_STATUS_Disabled, RouteProperties_LinkToDefaultDomain_STATUS_Enabled))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
+	gens["PatternsToMatch"] = gen.SliceOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		RouteProperties_ProvisioningState_STATUS_Creating,
+		RouteProperties_ProvisioningState_STATUS_Deleting,
+		RouteProperties_ProvisioningState_STATUS_Failed,
+		RouteProperties_ProvisioningState_STATUS_Succeeded,
+		RouteProperties_ProvisioningState_STATUS_Updating))
+	gens["SupportedProtocols"] = gen.SliceOf(gen.OneConstOf(AFDEndpointProtocols_STATUS_Http, AFDEndpointProtocols_STATUS_Https))
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRoute_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRoute_STATUS(gens map[string]gopter.Gen) {
+	gens["CacheConfiguration"] = gen.PtrOf(AfdRouteCacheConfiguration_STATUSGenerator())
+	gens["CustomDomains"] = gen.SliceOf(ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbeddedGenerator())
+	gens["OriginGroup"] = gen.PtrOf(ResourceReference_STATUSGenerator())
+	gens["RuleSets"] = gen.SliceOf(ResourceReference_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Route_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Route_Spec to Route_Spec via AssignProperties_To_Route_Spec & AssignProperties_From_Route_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoute_Spec, Route_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoute_Spec tests if a specific instance of Route_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoute_Spec(subject Route_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Route_Spec
+	err := copied.AssignProperties_To_Route_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Route_Spec
+	err = actual.AssignProperties_From_Route_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Route_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Route_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRoute_Spec, Route_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRoute_Spec runs a test to see if a specific instance of Route_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoute_Spec(subject Route_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Route_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Route_Spec instances for property testing - lazily instantiated by Route_SpecGenerator()
+var route_SpecGenerator gopter.Gen
+
+// Route_SpecGenerator returns a generator of Route_Spec instances for property testing.
+// We first initialize route_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Route_SpecGenerator() gopter.Gen {
+	if route_SpecGenerator != nil {
+		return route_SpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoute_Spec(generators)
+	route_SpecGenerator = gen.Struct(reflect.TypeOf(Route_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoute_Spec(generators)
+	AddRelatedPropertyGeneratorsForRoute_Spec(generators)
+	route_SpecGenerator = gen.Struct(reflect.TypeOf(Route_Spec{}), generators)
+
+	return route_SpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRoute_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoute_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(RouteProperties_EnabledState_Disabled, RouteProperties_EnabledState_Enabled))
+	gens["ForwardingProtocol"] = gen.PtrOf(gen.OneConstOf(RouteProperties_ForwardingProtocol_HttpOnly, RouteProperties_ForwardingProtocol_HttpsOnly, RouteProperties_ForwardingProtocol_MatchRequest))
+	gens["HttpsRedirect"] = gen.PtrOf(gen.OneConstOf(RouteProperties_HttpsRedirect_Disabled, RouteProperties_HttpsRedirect_Enabled))
+	gens["LinkToDefaultDomain"] = gen.PtrOf(gen.OneConstOf(RouteProperties_LinkToDefaultDomain_Disabled, RouteProperties_LinkToDefaultDomain_Enabled))
+	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
+	gens["PatternsToMatch"] = gen.SliceOf(gen.AlphaString())
+	gens["SupportedProtocols"] = gen.SliceOf(gen.OneConstOf(AFDEndpointProtocols_Http, AFDEndpointProtocols_Https))
+}
+
+// AddRelatedPropertyGeneratorsForRoute_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRoute_Spec(gens map[string]gopter.Gen) {
+	gens["CacheConfiguration"] = gen.PtrOf(AfdRouteCacheConfigurationGenerator())
+	gens["CustomDomains"] = gen.SliceOf(ActivatedResourceReferenceGenerator())
+	gens["OriginGroup"] = gen.PtrOf(ResourceReferenceGenerator())
+	gens["RuleSets"] = gen.SliceOf(ResourceReferenceGenerator())
 }

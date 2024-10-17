@@ -27,8 +27,8 @@ import (
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabase_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlDatabase_STATUS `json:"status,omitempty"`
+	Spec              SqlDatabase_Spec   `json:"spec,omitempty"`
+	Status            SqlDatabase_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabase{}
@@ -108,7 +108,7 @@ func (database *SqlDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlDatabase_STATUS{}
+	return &SqlDatabase_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -120,13 +120,13 @@ func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlDatabase_STATUS); ok {
+	if st, ok := status.(*SqlDatabase_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlDatabase_STATUS
+	var st SqlDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -143,18 +143,18 @@ func (database *SqlDatabase) AssignProperties_From_SqlDatabase(source *storage.S
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_SqlDatabase_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabase_Spec(&source.Spec)
+	var spec SqlDatabase_Spec
+	err := spec.AssignProperties_From_SqlDatabase_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabase_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabase_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
 	// Status
-	var status DatabaseAccounts_SqlDatabase_STATUS
-	err = status.AssignProperties_From_DatabaseAccounts_SqlDatabase_STATUS(&source.Status)
+	var status SqlDatabase_STATUS
+	err = status.AssignProperties_From_SqlDatabase_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabase_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabase_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -178,18 +178,18 @@ func (database *SqlDatabase) AssignProperties_To_SqlDatabase(destination *storag
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.DatabaseAccounts_SqlDatabase_Spec
-	err := database.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabase_Spec(&spec)
+	var spec storage.SqlDatabase_Spec
+	err := database.Spec.AssignProperties_To_SqlDatabase_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabase_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabase_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.DatabaseAccounts_SqlDatabase_STATUS
-	err = database.Status.AssignProperties_To_DatabaseAccounts_SqlDatabase_STATUS(&status)
+	var status storage.SqlDatabase_STATUS
+	err = database.Status.AssignProperties_To_SqlDatabase_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabase_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabase_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -231,8 +231,8 @@ type augmentConversionForSqlDatabase interface {
 	AssignPropertiesTo(dst *storage.SqlDatabase) error
 }
 
-// Storage version of v1api20210515.DatabaseAccounts_SqlDatabase_Spec
-type DatabaseAccounts_SqlDatabase_Spec struct {
+// Storage version of v1api20210515.SqlDatabase_Spec
+type SqlDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -250,25 +250,25 @@ type DatabaseAccounts_SqlDatabase_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabase_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlDatabase_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabase_Spec from the provided source
-func (database *DatabaseAccounts_SqlDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.DatabaseAccounts_SqlDatabase_Spec)
+// ConvertSpecFrom populates our SqlDatabase_Spec from the provided source
+func (database *SqlDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.SqlDatabase_Spec)
 	if ok {
 		// Populate our instance from source
-		return database.AssignProperties_From_DatabaseAccounts_SqlDatabase_Spec(src)
+		return database.AssignProperties_From_SqlDatabase_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_SqlDatabase_Spec{}
+	src = &storage.SqlDatabase_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignProperties_From_DatabaseAccounts_SqlDatabase_Spec(src)
+	err = database.AssignProperties_From_SqlDatabase_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -276,17 +276,17 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) ConvertSpecFrom(source genrun
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabase_Spec
-func (database *DatabaseAccounts_SqlDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_SqlDatabase_Spec)
+// ConvertSpecTo populates the provided destination from our SqlDatabase_Spec
+func (database *SqlDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.SqlDatabase_Spec)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignProperties_To_DatabaseAccounts_SqlDatabase_Spec(dst)
+		return database.AssignProperties_To_SqlDatabase_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_SqlDatabase_Spec{}
-	err := database.AssignProperties_To_DatabaseAccounts_SqlDatabase_Spec(dst)
+	dst = &storage.SqlDatabase_Spec{}
+	err := database.AssignProperties_To_SqlDatabase_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -300,8 +300,8 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) ConvertSpecTo(destination gen
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabase_Spec populates our DatabaseAccounts_SqlDatabase_Spec from the provided source DatabaseAccounts_SqlDatabase_Spec
-func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabase_Spec(source *storage.DatabaseAccounts_SqlDatabase_Spec) error {
+// AssignProperties_From_SqlDatabase_Spec populates our SqlDatabase_Spec from the provided source SqlDatabase_Spec
+func (database *SqlDatabase_Spec) AssignProperties_From_SqlDatabase_Spec(source *storage.SqlDatabase_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -356,9 +356,9 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_From_Databas
 		database.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabase_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
-	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_Spec); ok {
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -369,8 +369,8 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_From_Databas
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabase_Spec populates the provided destination DatabaseAccounts_SqlDatabase_Spec from our DatabaseAccounts_SqlDatabase_Spec
-func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabase_Spec(destination *storage.DatabaseAccounts_SqlDatabase_Spec) error {
+// AssignProperties_To_SqlDatabase_Spec populates the provided destination SqlDatabase_Spec from our SqlDatabase_Spec
+func (database *SqlDatabase_Spec) AssignProperties_To_SqlDatabase_Spec(destination *storage.SqlDatabase_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
@@ -425,9 +425,9 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_To_DatabaseA
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabase_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
-	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_Spec); ok {
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -438,8 +438,8 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_To_DatabaseA
 	return nil
 }
 
-// Storage version of v1api20210515.DatabaseAccounts_SqlDatabase_STATUS
-type DatabaseAccounts_SqlDatabase_STATUS struct {
+// Storage version of v1api20210515.SqlDatabase_STATUS
+type SqlDatabase_STATUS struct {
 	Conditions  []conditions.Condition                    `json:"conditions,omitempty"`
 	Id          *string                                   `json:"id,omitempty"`
 	Location    *string                                   `json:"location,omitempty"`
@@ -451,25 +451,25 @@ type DatabaseAccounts_SqlDatabase_STATUS struct {
 	Type        *string                                   `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabase_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlDatabase_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabase_STATUS from the provided source
-func (database *DatabaseAccounts_SqlDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.DatabaseAccounts_SqlDatabase_STATUS)
+// ConvertStatusFrom populates our SqlDatabase_STATUS from the provided source
+func (database *SqlDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.SqlDatabase_STATUS)
 	if ok {
 		// Populate our instance from source
-		return database.AssignProperties_From_DatabaseAccounts_SqlDatabase_STATUS(src)
+		return database.AssignProperties_From_SqlDatabase_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_SqlDatabase_STATUS{}
+	src = &storage.SqlDatabase_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignProperties_From_DatabaseAccounts_SqlDatabase_STATUS(src)
+	err = database.AssignProperties_From_SqlDatabase_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -477,17 +477,17 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) ConvertStatusFrom(source ge
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabase_STATUS
-func (database *DatabaseAccounts_SqlDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_SqlDatabase_STATUS)
+// ConvertStatusTo populates the provided destination from our SqlDatabase_STATUS
+func (database *SqlDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.SqlDatabase_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignProperties_To_DatabaseAccounts_SqlDatabase_STATUS(dst)
+		return database.AssignProperties_To_SqlDatabase_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_SqlDatabase_STATUS{}
-	err := database.AssignProperties_To_DatabaseAccounts_SqlDatabase_STATUS(dst)
+	dst = &storage.SqlDatabase_STATUS{}
+	err := database.AssignProperties_To_SqlDatabase_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -501,8 +501,8 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) ConvertStatusTo(destination
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabase_STATUS populates our DatabaseAccounts_SqlDatabase_STATUS from the provided source DatabaseAccounts_SqlDatabase_STATUS
-func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_From_DatabaseAccounts_SqlDatabase_STATUS(source *storage.DatabaseAccounts_SqlDatabase_STATUS) error {
+// AssignProperties_From_SqlDatabase_STATUS populates our SqlDatabase_STATUS from the provided source SqlDatabase_STATUS
+func (database *SqlDatabase_STATUS) AssignProperties_From_SqlDatabase_STATUS(source *storage.SqlDatabase_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -555,9 +555,9 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_From_Datab
 		database.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabase_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
-	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_STATUS); ok {
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -568,8 +568,8 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_From_Datab
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabase_STATUS populates the provided destination DatabaseAccounts_SqlDatabase_STATUS from our DatabaseAccounts_SqlDatabase_STATUS
-func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_To_DatabaseAccounts_SqlDatabase_STATUS(destination *storage.DatabaseAccounts_SqlDatabase_STATUS) error {
+// AssignProperties_To_SqlDatabase_STATUS populates the provided destination SqlDatabase_STATUS from our SqlDatabase_STATUS
+func (database *SqlDatabase_STATUS) AssignProperties_To_SqlDatabase_STATUS(destination *storage.SqlDatabase_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
@@ -622,9 +622,9 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_To_Databas
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabase_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
-	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_STATUS); ok {
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -635,14 +635,14 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_To_Databas
 	return nil
 }
 
-type augmentConversionForDatabaseAccounts_SqlDatabase_Spec interface {
-	AssignPropertiesFrom(src *storage.DatabaseAccounts_SqlDatabase_Spec) error
-	AssignPropertiesTo(dst *storage.DatabaseAccounts_SqlDatabase_Spec) error
+type augmentConversionForSqlDatabase_Spec interface {
+	AssignPropertiesFrom(src *storage.SqlDatabase_Spec) error
+	AssignPropertiesTo(dst *storage.SqlDatabase_Spec) error
 }
 
-type augmentConversionForDatabaseAccounts_SqlDatabase_STATUS interface {
-	AssignPropertiesFrom(src *storage.DatabaseAccounts_SqlDatabase_STATUS) error
-	AssignPropertiesTo(dst *storage.DatabaseAccounts_SqlDatabase_STATUS) error
+type augmentConversionForSqlDatabase_STATUS interface {
+	AssignPropertiesFrom(src *storage.SqlDatabase_STATUS) error
+	AssignPropertiesTo(dst *storage.SqlDatabase_STATUS) error
 }
 
 // Storage version of v1api20210515.SqlDatabaseGetProperties_Resource_STATUS

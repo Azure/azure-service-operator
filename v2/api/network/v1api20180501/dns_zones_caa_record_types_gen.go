@@ -29,8 +29,8 @@ import (
 type DnsZonesCAARecord struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DnsZones_CAA_Spec   `json:"spec,omitempty"`
-	Status            DnsZones_CAA_STATUS `json:"status,omitempty"`
+	Spec              DnsZonesCAARecord_Spec   `json:"spec,omitempty"`
+	Status            DnsZonesCAARecord_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DnsZonesCAARecord{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &DnsZonesCAARecord{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (record *DnsZonesCAARecord) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DnsZones_CAA_STATUS); ok {
-		return record.Spec.Initialize_From_DnsZones_CAA_STATUS(s)
+	if s, ok := status.(*DnsZonesCAARecord_STATUS); ok {
+		return record.Spec.Initialize_From_DnsZonesCAARecord_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type DnsZones_CAA_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type DnsZonesCAARecord_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &DnsZonesCAARecord{}
@@ -144,7 +144,7 @@ func (record *DnsZonesCAARecord) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (record *DnsZonesCAARecord) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DnsZones_CAA_STATUS{}
+	return &DnsZonesCAARecord_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (record *DnsZonesCAARecord) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (record *DnsZonesCAARecord) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DnsZones_CAA_STATUS); ok {
+	if st, ok := status.(*DnsZonesCAARecord_STATUS); ok {
 		record.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DnsZones_CAA_STATUS
+	var st DnsZonesCAARecord_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (record *DnsZonesCAARecord) AssignProperties_From_DnsZonesCAARecord(source 
 	record.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DnsZones_CAA_Spec
-	err := spec.AssignProperties_From_DnsZones_CAA_Spec(&source.Spec)
+	var spec DnsZonesCAARecord_Spec
+	err := spec.AssignProperties_From_DnsZonesCAARecord_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsZones_CAA_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_DnsZonesCAARecord_Spec() to populate field Spec")
 	}
 	record.Spec = spec
 
 	// Status
-	var status DnsZones_CAA_STATUS
-	err = status.AssignProperties_From_DnsZones_CAA_STATUS(&source.Status)
+	var status DnsZonesCAARecord_STATUS
+	err = status.AssignProperties_From_DnsZonesCAARecord_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsZones_CAA_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_DnsZonesCAARecord_STATUS() to populate field Status")
 	}
 	record.Status = status
 
@@ -286,18 +286,18 @@ func (record *DnsZonesCAARecord) AssignProperties_To_DnsZonesCAARecord(destinati
 	destination.ObjectMeta = *record.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.DnsZones_CAA_Spec
-	err := record.Spec.AssignProperties_To_DnsZones_CAA_Spec(&spec)
+	var spec storage.DnsZonesCAARecord_Spec
+	err := record.Spec.AssignProperties_To_DnsZonesCAARecord_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsZones_CAA_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_DnsZonesCAARecord_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.DnsZones_CAA_STATUS
-	err = record.Status.AssignProperties_To_DnsZones_CAA_STATUS(&status)
+	var status storage.DnsZonesCAARecord_STATUS
+	err = record.Status.AssignProperties_To_DnsZonesCAARecord_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsZones_CAA_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_DnsZonesCAARecord_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type DnsZonesCAARecordList struct {
 	Items           []DnsZonesCAARecord `json:"items"`
 }
 
-type DnsZones_CAA_Spec struct {
+type DnsZonesCAARecord_Spec struct {
 	// AAAARecords: The list of AAAA records in the record set.
 	AAAARecords []AaaaRecord `json:"AAAARecords,omitempty"`
 
@@ -375,118 +375,118 @@ type DnsZones_CAA_Spec struct {
 	TargetResource *SubResource `json:"targetResource,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DnsZones_CAA_Spec{}
+var _ genruntime.ARMTransformer = &DnsZonesCAARecord_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (zonesCAA *DnsZones_CAA_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if zonesCAA == nil {
+func (record *DnsZonesCAARecord_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if record == nil {
 		return nil, nil
 	}
-	result := &DnsZones_CAA_Spec_ARM{}
+	result := &DnsZonesCAARecord_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
-	if zonesCAA.AAAARecords != nil ||
-		zonesCAA.ARecords != nil ||
-		zonesCAA.CNAMERecord != nil ||
-		zonesCAA.CaaRecords != nil ||
-		zonesCAA.MXRecords != nil ||
-		zonesCAA.Metadata != nil ||
-		zonesCAA.NSRecords != nil ||
-		zonesCAA.PTRRecords != nil ||
-		zonesCAA.SOARecord != nil ||
-		zonesCAA.SRVRecords != nil ||
-		zonesCAA.TTL != nil ||
-		zonesCAA.TXTRecords != nil ||
-		zonesCAA.TargetResource != nil {
+	if record.AAAARecords != nil ||
+		record.ARecords != nil ||
+		record.CNAMERecord != nil ||
+		record.CaaRecords != nil ||
+		record.MXRecords != nil ||
+		record.Metadata != nil ||
+		record.NSRecords != nil ||
+		record.PTRRecords != nil ||
+		record.SOARecord != nil ||
+		record.SRVRecords != nil ||
+		record.TTL != nil ||
+		record.TXTRecords != nil ||
+		record.TargetResource != nil {
 		result.Properties = &RecordSetProperties_ARM{}
 	}
-	for _, item := range zonesCAA.AAAARecords {
+	for _, item := range record.AAAARecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.AAAARecords = append(result.Properties.AAAARecords, *item_ARM.(*AaaaRecord_ARM))
 	}
-	for _, item := range zonesCAA.ARecords {
+	for _, item := range record.ARecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.ARecords = append(result.Properties.ARecords, *item_ARM.(*ARecord_ARM))
 	}
-	if zonesCAA.CNAMERecord != nil {
-		cnameRecord_ARM, err := (*zonesCAA.CNAMERecord).ConvertToARM(resolved)
+	if record.CNAMERecord != nil {
+		cnameRecord_ARM, err := (*record.CNAMERecord).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		cnameRecord := *cnameRecord_ARM.(*CnameRecord_ARM)
 		result.Properties.CNAMERecord = &cnameRecord
 	}
-	for _, item := range zonesCAA.CaaRecords {
+	for _, item := range record.CaaRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.CaaRecords = append(result.Properties.CaaRecords, *item_ARM.(*CaaRecord_ARM))
 	}
-	for _, item := range zonesCAA.MXRecords {
+	for _, item := range record.MXRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.MXRecords = append(result.Properties.MXRecords, *item_ARM.(*MxRecord_ARM))
 	}
-	if zonesCAA.Metadata != nil {
-		result.Properties.Metadata = make(map[string]string, len(zonesCAA.Metadata))
-		for key, value := range zonesCAA.Metadata {
+	if record.Metadata != nil {
+		result.Properties.Metadata = make(map[string]string, len(record.Metadata))
+		for key, value := range record.Metadata {
 			result.Properties.Metadata[key] = value
 		}
 	}
-	for _, item := range zonesCAA.NSRecords {
+	for _, item := range record.NSRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.NSRecords = append(result.Properties.NSRecords, *item_ARM.(*NsRecord_ARM))
 	}
-	for _, item := range zonesCAA.PTRRecords {
+	for _, item := range record.PTRRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.PTRRecords = append(result.Properties.PTRRecords, *item_ARM.(*PtrRecord_ARM))
 	}
-	if zonesCAA.SOARecord != nil {
-		soaRecord_ARM, err := (*zonesCAA.SOARecord).ConvertToARM(resolved)
+	if record.SOARecord != nil {
+		soaRecord_ARM, err := (*record.SOARecord).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		soaRecord := *soaRecord_ARM.(*SoaRecord_ARM)
 		result.Properties.SOARecord = &soaRecord
 	}
-	for _, item := range zonesCAA.SRVRecords {
+	for _, item := range record.SRVRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.SRVRecords = append(result.Properties.SRVRecords, *item_ARM.(*SrvRecord_ARM))
 	}
-	if zonesCAA.TTL != nil {
-		ttl := *zonesCAA.TTL
+	if record.TTL != nil {
+		ttl := *record.TTL
 		result.Properties.TTL = &ttl
 	}
-	for _, item := range zonesCAA.TXTRecords {
+	for _, item := range record.TXTRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.TXTRecords = append(result.Properties.TXTRecords, *item_ARM.(*TxtRecord_ARM))
 	}
-	if zonesCAA.TargetResource != nil {
-		targetResource_ARM, err := (*zonesCAA.TargetResource).ConvertToARM(resolved)
+	if record.TargetResource != nil {
+		targetResource_ARM, err := (*record.TargetResource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -497,15 +497,15 @@ func (zonesCAA *DnsZones_CAA_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (zonesCAA *DnsZones_CAA_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsZones_CAA_Spec_ARM{}
+func (record *DnsZonesCAARecord_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DnsZonesCAARecord_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsZones_CAA_Spec_ARM)
+func (record *DnsZonesCAARecord_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DnsZonesCAARecord_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZones_CAA_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZonesCAARecord_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AAAARecords":
@@ -517,7 +517,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesCAA.AAAARecords = append(zonesCAA.AAAARecords, item1)
+			record.AAAARecords = append(record.AAAARecords, item1)
 		}
 	}
 
@@ -530,12 +530,12 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesCAA.ARecords = append(zonesCAA.ARecords, item1)
+			record.ARecords = append(record.ARecords, item1)
 		}
 	}
 
 	// Set property "AzureName":
-	zonesCAA.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	record.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "CNAMERecord":
 	// copying flattened property:
@@ -547,7 +547,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			cnameRecord := cnameRecord1
-			zonesCAA.CNAMERecord = &cnameRecord
+			record.CNAMERecord = &cnameRecord
 		}
 	}
 
@@ -560,7 +560,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesCAA.CaaRecords = append(zonesCAA.CaaRecords, item1)
+			record.CaaRecords = append(record.CaaRecords, item1)
 		}
 	}
 
@@ -573,7 +573,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesCAA.MXRecords = append(zonesCAA.MXRecords, item1)
+			record.MXRecords = append(record.MXRecords, item1)
 		}
 	}
 
@@ -581,9 +581,9 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			zonesCAA.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
+			record.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
-				zonesCAA.Metadata[key] = value
+				record.Metadata[key] = value
 			}
 		}
 	}
@@ -597,12 +597,12 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesCAA.NSRecords = append(zonesCAA.NSRecords, item1)
+			record.NSRecords = append(record.NSRecords, item1)
 		}
 	}
 
 	// Set property "Owner":
-	zonesCAA.Owner = &genruntime.KnownResourceReference{
+	record.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
 	}
@@ -616,7 +616,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesCAA.PTRRecords = append(zonesCAA.PTRRecords, item1)
+			record.PTRRecords = append(record.PTRRecords, item1)
 		}
 	}
 
@@ -630,7 +630,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			soaRecord := soaRecord1
-			zonesCAA.SOARecord = &soaRecord
+			record.SOARecord = &soaRecord
 		}
 	}
 
@@ -643,7 +643,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesCAA.SRVRecords = append(zonesCAA.SRVRecords, item1)
+			record.SRVRecords = append(record.SRVRecords, item1)
 		}
 	}
 
@@ -652,7 +652,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TTL != nil {
 			ttl := *typedInput.Properties.TTL
-			zonesCAA.TTL = &ttl
+			record.TTL = &ttl
 		}
 	}
 
@@ -665,7 +665,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			if err != nil {
 				return err
 			}
-			zonesCAA.TXTRecords = append(zonesCAA.TXTRecords, item1)
+			record.TXTRecords = append(record.TXTRecords, item1)
 		}
 	}
 
@@ -679,7 +679,7 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			targetResource := targetResource1
-			zonesCAA.TargetResource = &targetResource
+			record.TargetResource = &targetResource
 		}
 	}
 
@@ -687,25 +687,25 @@ func (zonesCAA *DnsZones_CAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DnsZones_CAA_Spec{}
+var _ genruntime.ConvertibleSpec = &DnsZonesCAARecord_Spec{}
 
-// ConvertSpecFrom populates our DnsZones_CAA_Spec from the provided source
-func (zonesCAA *DnsZones_CAA_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.DnsZones_CAA_Spec)
+// ConvertSpecFrom populates our DnsZonesCAARecord_Spec from the provided source
+func (record *DnsZonesCAARecord_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.DnsZonesCAARecord_Spec)
 	if ok {
 		// Populate our instance from source
-		return zonesCAA.AssignProperties_From_DnsZones_CAA_Spec(src)
+		return record.AssignProperties_From_DnsZonesCAARecord_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DnsZones_CAA_Spec{}
+	src = &storage.DnsZonesCAARecord_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = zonesCAA.AssignProperties_From_DnsZones_CAA_Spec(src)
+	err = record.AssignProperties_From_DnsZonesCAARecord_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -713,17 +713,17 @@ func (zonesCAA *DnsZones_CAA_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DnsZones_CAA_Spec
-func (zonesCAA *DnsZones_CAA_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.DnsZones_CAA_Spec)
+// ConvertSpecTo populates the provided destination from our DnsZonesCAARecord_Spec
+func (record *DnsZonesCAARecord_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.DnsZonesCAARecord_Spec)
 	if ok {
 		// Populate destination from our instance
-		return zonesCAA.AssignProperties_To_DnsZones_CAA_Spec(dst)
+		return record.AssignProperties_To_DnsZonesCAARecord_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DnsZones_CAA_Spec{}
-	err := zonesCAA.AssignProperties_To_DnsZones_CAA_Spec(dst)
+	dst = &storage.DnsZonesCAARecord_Spec{}
+	err := record.AssignProperties_To_DnsZonesCAARecord_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -737,8 +737,8 @@ func (zonesCAA *DnsZones_CAA_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignProperties_From_DnsZones_CAA_Spec populates our DnsZones_CAA_Spec from the provided source DnsZones_CAA_Spec
-func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(source *storage.DnsZones_CAA_Spec) error {
+// AssignProperties_From_DnsZonesCAARecord_Spec populates our DnsZonesCAARecord_Spec from the provided source DnsZonesCAARecord_Spec
+func (record *DnsZonesCAARecord_Spec) AssignProperties_From_DnsZonesCAARecord_Spec(source *storage.DnsZonesCAARecord_Spec) error {
 
 	// AAAARecords
 	if source.AAAARecords != nil {
@@ -753,9 +753,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 			}
 			aaaaRecordList[aaaaRecordIndex] = aaaaRecord
 		}
-		zonesCAA.AAAARecords = aaaaRecordList
+		record.AAAARecords = aaaaRecordList
 	} else {
-		zonesCAA.AAAARecords = nil
+		record.AAAARecords = nil
 	}
 
 	// ARecords
@@ -771,13 +771,13 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 			}
 			aRecordList[aRecordIndex] = aRecord
 		}
-		zonesCAA.ARecords = aRecordList
+		record.ARecords = aRecordList
 	} else {
-		zonesCAA.ARecords = nil
+		record.ARecords = nil
 	}
 
 	// AzureName
-	zonesCAA.AzureName = source.AzureName
+	record.AzureName = source.AzureName
 
 	// CNAMERecord
 	if source.CNAMERecord != nil {
@@ -786,9 +786,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_CnameRecord() to populate field CNAMERecord")
 		}
-		zonesCAA.CNAMERecord = &cnameRecord
+		record.CNAMERecord = &cnameRecord
 	} else {
-		zonesCAA.CNAMERecord = nil
+		record.CNAMERecord = nil
 	}
 
 	// CaaRecords
@@ -804,9 +804,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 			}
 			caaRecordList[caaRecordIndex] = caaRecord
 		}
-		zonesCAA.CaaRecords = caaRecordList
+		record.CaaRecords = caaRecordList
 	} else {
-		zonesCAA.CaaRecords = nil
+		record.CaaRecords = nil
 	}
 
 	// MXRecords
@@ -822,13 +822,13 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 			}
 			mxRecordList[mxRecordIndex] = mxRecord
 		}
-		zonesCAA.MXRecords = mxRecordList
+		record.MXRecords = mxRecordList
 	} else {
-		zonesCAA.MXRecords = nil
+		record.MXRecords = nil
 	}
 
 	// Metadata
-	zonesCAA.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	record.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// NSRecords
 	if source.NSRecords != nil {
@@ -843,17 +843,17 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 			}
 			nsRecordList[nsRecordIndex] = nsRecord
 		}
-		zonesCAA.NSRecords = nsRecordList
+		record.NSRecords = nsRecordList
 	} else {
-		zonesCAA.NSRecords = nil
+		record.NSRecords = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		zonesCAA.Owner = &owner
+		record.Owner = &owner
 	} else {
-		zonesCAA.Owner = nil
+		record.Owner = nil
 	}
 
 	// PTRRecords
@@ -869,9 +869,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 			}
 			ptrRecordList[ptrRecordIndex] = ptrRecord
 		}
-		zonesCAA.PTRRecords = ptrRecordList
+		record.PTRRecords = ptrRecordList
 	} else {
-		zonesCAA.PTRRecords = nil
+		record.PTRRecords = nil
 	}
 
 	// SOARecord
@@ -881,9 +881,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SoaRecord() to populate field SOARecord")
 		}
-		zonesCAA.SOARecord = &soaRecord
+		record.SOARecord = &soaRecord
 	} else {
-		zonesCAA.SOARecord = nil
+		record.SOARecord = nil
 	}
 
 	// SRVRecords
@@ -899,13 +899,13 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 			}
 			srvRecordList[srvRecordIndex] = srvRecord
 		}
-		zonesCAA.SRVRecords = srvRecordList
+		record.SRVRecords = srvRecordList
 	} else {
-		zonesCAA.SRVRecords = nil
+		record.SRVRecords = nil
 	}
 
 	// TTL
-	zonesCAA.TTL = genruntime.ClonePointerToInt(source.TTL)
+	record.TTL = genruntime.ClonePointerToInt(source.TTL)
 
 	// TXTRecords
 	if source.TXTRecords != nil {
@@ -920,9 +920,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 			}
 			txtRecordList[txtRecordIndex] = txtRecord
 		}
-		zonesCAA.TXTRecords = txtRecordList
+		record.TXTRecords = txtRecordList
 	} else {
-		zonesCAA.TXTRecords = nil
+		record.TXTRecords = nil
 	}
 
 	// TargetResource
@@ -932,24 +932,24 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_From_DnsZones_CAA_Spec(sourc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field TargetResource")
 		}
-		zonesCAA.TargetResource = &targetResource
+		record.TargetResource = &targetResource
 	} else {
-		zonesCAA.TargetResource = nil
+		record.TargetResource = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_DnsZones_CAA_Spec populates the provided destination DnsZones_CAA_Spec from our DnsZones_CAA_Spec
-func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destination *storage.DnsZones_CAA_Spec) error {
+// AssignProperties_To_DnsZonesCAARecord_Spec populates the provided destination DnsZonesCAARecord_Spec from our DnsZonesCAARecord_Spec
+func (record *DnsZonesCAARecord_Spec) AssignProperties_To_DnsZonesCAARecord_Spec(destination *storage.DnsZonesCAARecord_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AAAARecords
-	if zonesCAA.AAAARecords != nil {
-		aaaaRecordList := make([]storage.AaaaRecord, len(zonesCAA.AAAARecords))
-		for aaaaRecordIndex, aaaaRecordItem := range zonesCAA.AAAARecords {
+	if record.AAAARecords != nil {
+		aaaaRecordList := make([]storage.AaaaRecord, len(record.AAAARecords))
+		for aaaaRecordIndex, aaaaRecordItem := range record.AAAARecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
 			var aaaaRecord storage.AaaaRecord
@@ -965,9 +965,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// ARecords
-	if zonesCAA.ARecords != nil {
-		aRecordList := make([]storage.ARecord, len(zonesCAA.ARecords))
-		for aRecordIndex, aRecordItem := range zonesCAA.ARecords {
+	if record.ARecords != nil {
+		aRecordList := make([]storage.ARecord, len(record.ARecords))
+		for aRecordIndex, aRecordItem := range record.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
 			var aRecord storage.ARecord
@@ -983,12 +983,12 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// AzureName
-	destination.AzureName = zonesCAA.AzureName
+	destination.AzureName = record.AzureName
 
 	// CNAMERecord
-	if zonesCAA.CNAMERecord != nil {
+	if record.CNAMERecord != nil {
 		var cnameRecord storage.CnameRecord
-		err := zonesCAA.CNAMERecord.AssignProperties_To_CnameRecord(&cnameRecord)
+		err := record.CNAMERecord.AssignProperties_To_CnameRecord(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord() to populate field CNAMERecord")
 		}
@@ -998,9 +998,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// CaaRecords
-	if zonesCAA.CaaRecords != nil {
-		caaRecordList := make([]storage.CaaRecord, len(zonesCAA.CaaRecords))
-		for caaRecordIndex, caaRecordItem := range zonesCAA.CaaRecords {
+	if record.CaaRecords != nil {
+		caaRecordList := make([]storage.CaaRecord, len(record.CaaRecords))
+		for caaRecordIndex, caaRecordItem := range record.CaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			caaRecordItem := caaRecordItem
 			var caaRecord storage.CaaRecord
@@ -1016,9 +1016,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// MXRecords
-	if zonesCAA.MXRecords != nil {
-		mxRecordList := make([]storage.MxRecord, len(zonesCAA.MXRecords))
-		for mxRecordIndex, mxRecordItem := range zonesCAA.MXRecords {
+	if record.MXRecords != nil {
+		mxRecordList := make([]storage.MxRecord, len(record.MXRecords))
+		for mxRecordIndex, mxRecordItem := range record.MXRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
 			var mxRecord storage.MxRecord
@@ -1034,12 +1034,12 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// Metadata
-	destination.Metadata = genruntime.CloneMapOfStringToString(zonesCAA.Metadata)
+	destination.Metadata = genruntime.CloneMapOfStringToString(record.Metadata)
 
 	// NSRecords
-	if zonesCAA.NSRecords != nil {
-		nsRecordList := make([]storage.NsRecord, len(zonesCAA.NSRecords))
-		for nsRecordIndex, nsRecordItem := range zonesCAA.NSRecords {
+	if record.NSRecords != nil {
+		nsRecordList := make([]storage.NsRecord, len(record.NSRecords))
+		for nsRecordIndex, nsRecordItem := range record.NSRecords {
 			// Shadow the loop variable to avoid aliasing
 			nsRecordItem := nsRecordItem
 			var nsRecord storage.NsRecord
@@ -1055,20 +1055,20 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = zonesCAA.OriginalVersion()
+	destination.OriginalVersion = record.OriginalVersion()
 
 	// Owner
-	if zonesCAA.Owner != nil {
-		owner := zonesCAA.Owner.Copy()
+	if record.Owner != nil {
+		owner := record.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// PTRRecords
-	if zonesCAA.PTRRecords != nil {
-		ptrRecordList := make([]storage.PtrRecord, len(zonesCAA.PTRRecords))
-		for ptrRecordIndex, ptrRecordItem := range zonesCAA.PTRRecords {
+	if record.PTRRecords != nil {
+		ptrRecordList := make([]storage.PtrRecord, len(record.PTRRecords))
+		for ptrRecordIndex, ptrRecordItem := range record.PTRRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
 			var ptrRecord storage.PtrRecord
@@ -1084,9 +1084,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// SOARecord
-	if zonesCAA.SOARecord != nil {
+	if record.SOARecord != nil {
 		var soaRecord storage.SoaRecord
-		err := zonesCAA.SOARecord.AssignProperties_To_SoaRecord(&soaRecord)
+		err := record.SOARecord.AssignProperties_To_SoaRecord(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord() to populate field SOARecord")
 		}
@@ -1096,9 +1096,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// SRVRecords
-	if zonesCAA.SRVRecords != nil {
-		srvRecordList := make([]storage.SrvRecord, len(zonesCAA.SRVRecords))
-		for srvRecordIndex, srvRecordItem := range zonesCAA.SRVRecords {
+	if record.SRVRecords != nil {
+		srvRecordList := make([]storage.SrvRecord, len(record.SRVRecords))
+		for srvRecordIndex, srvRecordItem := range record.SRVRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
 			var srvRecord storage.SrvRecord
@@ -1114,12 +1114,12 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// TTL
-	destination.TTL = genruntime.ClonePointerToInt(zonesCAA.TTL)
+	destination.TTL = genruntime.ClonePointerToInt(record.TTL)
 
 	// TXTRecords
-	if zonesCAA.TXTRecords != nil {
-		txtRecordList := make([]storage.TxtRecord, len(zonesCAA.TXTRecords))
-		for txtRecordIndex, txtRecordItem := range zonesCAA.TXTRecords {
+	if record.TXTRecords != nil {
+		txtRecordList := make([]storage.TxtRecord, len(record.TXTRecords))
+		for txtRecordIndex, txtRecordItem := range record.TXTRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
 			var txtRecord storage.TxtRecord
@@ -1135,9 +1135,9 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	}
 
 	// TargetResource
-	if zonesCAA.TargetResource != nil {
+	if record.TargetResource != nil {
 		var targetResource storage.SubResource
-		err := zonesCAA.TargetResource.AssignProperties_To_SubResource(&targetResource)
+		err := record.TargetResource.AssignProperties_To_SubResource(&targetResource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field TargetResource")
 		}
@@ -1157,8 +1157,8 @@ func (zonesCAA *DnsZones_CAA_Spec) AssignProperties_To_DnsZones_CAA_Spec(destina
 	return nil
 }
 
-// Initialize_From_DnsZones_CAA_STATUS populates our DnsZones_CAA_Spec from the provided source DnsZones_CAA_STATUS
-func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *DnsZones_CAA_STATUS) error {
+// Initialize_From_DnsZonesCAARecord_STATUS populates our DnsZonesCAARecord_Spec from the provided source DnsZonesCAARecord_STATUS
+func (record *DnsZonesCAARecord_Spec) Initialize_From_DnsZonesCAARecord_STATUS(source *DnsZonesCAARecord_STATUS) error {
 
 	// AAAARecords
 	if source.AAAARecords != nil {
@@ -1173,9 +1173,9 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 			}
 			aaaaRecordList[aaaaRecordIndex] = aaaaRecord
 		}
-		zonesCAA.AAAARecords = aaaaRecordList
+		record.AAAARecords = aaaaRecordList
 	} else {
-		zonesCAA.AAAARecords = nil
+		record.AAAARecords = nil
 	}
 
 	// ARecords
@@ -1191,9 +1191,9 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 			}
 			aRecordList[aRecordIndex] = aRecord
 		}
-		zonesCAA.ARecords = aRecordList
+		record.ARecords = aRecordList
 	} else {
-		zonesCAA.ARecords = nil
+		record.ARecords = nil
 	}
 
 	// CNAMERecord
@@ -1203,9 +1203,9 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_CnameRecord_STATUS() to populate field CNAMERecord")
 		}
-		zonesCAA.CNAMERecord = &cnameRecord
+		record.CNAMERecord = &cnameRecord
 	} else {
-		zonesCAA.CNAMERecord = nil
+		record.CNAMERecord = nil
 	}
 
 	// CaaRecords
@@ -1221,9 +1221,9 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 			}
 			caaRecordList[caaRecordIndex] = caaRecord
 		}
-		zonesCAA.CaaRecords = caaRecordList
+		record.CaaRecords = caaRecordList
 	} else {
-		zonesCAA.CaaRecords = nil
+		record.CaaRecords = nil
 	}
 
 	// MXRecords
@@ -1239,13 +1239,13 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 			}
 			mxRecordList[mxRecordIndex] = mxRecord
 		}
-		zonesCAA.MXRecords = mxRecordList
+		record.MXRecords = mxRecordList
 	} else {
-		zonesCAA.MXRecords = nil
+		record.MXRecords = nil
 	}
 
 	// Metadata
-	zonesCAA.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	record.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// NSRecords
 	if source.NSRecords != nil {
@@ -1260,9 +1260,9 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 			}
 			nsRecordList[nsRecordIndex] = nsRecord
 		}
-		zonesCAA.NSRecords = nsRecordList
+		record.NSRecords = nsRecordList
 	} else {
-		zonesCAA.NSRecords = nil
+		record.NSRecords = nil
 	}
 
 	// PTRRecords
@@ -1278,9 +1278,9 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 			}
 			ptrRecordList[ptrRecordIndex] = ptrRecord
 		}
-		zonesCAA.PTRRecords = ptrRecordList
+		record.PTRRecords = ptrRecordList
 	} else {
-		zonesCAA.PTRRecords = nil
+		record.PTRRecords = nil
 	}
 
 	// SOARecord
@@ -1290,9 +1290,9 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_SoaRecord_STATUS() to populate field SOARecord")
 		}
-		zonesCAA.SOARecord = &soaRecord
+		record.SOARecord = &soaRecord
 	} else {
-		zonesCAA.SOARecord = nil
+		record.SOARecord = nil
 	}
 
 	// SRVRecords
@@ -1308,13 +1308,13 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 			}
 			srvRecordList[srvRecordIndex] = srvRecord
 		}
-		zonesCAA.SRVRecords = srvRecordList
+		record.SRVRecords = srvRecordList
 	} else {
-		zonesCAA.SRVRecords = nil
+		record.SRVRecords = nil
 	}
 
 	// TTL
-	zonesCAA.TTL = genruntime.ClonePointerToInt(source.TTL)
+	record.TTL = genruntime.ClonePointerToInt(source.TTL)
 
 	// TXTRecords
 	if source.TXTRecords != nil {
@@ -1329,9 +1329,9 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 			}
 			txtRecordList[txtRecordIndex] = txtRecord
 		}
-		zonesCAA.TXTRecords = txtRecordList
+		record.TXTRecords = txtRecordList
 	} else {
-		zonesCAA.TXTRecords = nil
+		record.TXTRecords = nil
 	}
 
 	// TargetResource
@@ -1341,9 +1341,9 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field TargetResource")
 		}
-		zonesCAA.TargetResource = &targetResource
+		record.TargetResource = &targetResource
 	} else {
-		zonesCAA.TargetResource = nil
+		record.TargetResource = nil
 	}
 
 	// No error
@@ -1351,14 +1351,14 @@ func (zonesCAA *DnsZones_CAA_Spec) Initialize_From_DnsZones_CAA_STATUS(source *D
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (zonesCAA *DnsZones_CAA_Spec) OriginalVersion() string {
+func (record *DnsZonesCAARecord_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (zonesCAA *DnsZones_CAA_Spec) SetAzureName(azureName string) { zonesCAA.AzureName = azureName }
+func (record *DnsZonesCAARecord_Spec) SetAzureName(azureName string) { record.AzureName = azureName }
 
-type DnsZones_CAA_STATUS struct {
+type DnsZonesCAARecord_STATUS struct {
 	// AAAARecords: The list of AAAA records in the record set.
 	AAAARecords []AaaaRecord_STATUS `json:"AAAARecords,omitempty"`
 
@@ -1420,25 +1420,25 @@ type DnsZones_CAA_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DnsZones_CAA_STATUS{}
+var _ genruntime.ConvertibleStatus = &DnsZonesCAARecord_STATUS{}
 
-// ConvertStatusFrom populates our DnsZones_CAA_STATUS from the provided source
-func (zonesCAA *DnsZones_CAA_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.DnsZones_CAA_STATUS)
+// ConvertStatusFrom populates our DnsZonesCAARecord_STATUS from the provided source
+func (record *DnsZonesCAARecord_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.DnsZonesCAARecord_STATUS)
 	if ok {
 		// Populate our instance from source
-		return zonesCAA.AssignProperties_From_DnsZones_CAA_STATUS(src)
+		return record.AssignProperties_From_DnsZonesCAARecord_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DnsZones_CAA_STATUS{}
+	src = &storage.DnsZonesCAARecord_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = zonesCAA.AssignProperties_From_DnsZones_CAA_STATUS(src)
+	err = record.AssignProperties_From_DnsZonesCAARecord_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1446,17 +1446,17 @@ func (zonesCAA *DnsZones_CAA_STATUS) ConvertStatusFrom(source genruntime.Convert
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DnsZones_CAA_STATUS
-func (zonesCAA *DnsZones_CAA_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.DnsZones_CAA_STATUS)
+// ConvertStatusTo populates the provided destination from our DnsZonesCAARecord_STATUS
+func (record *DnsZonesCAARecord_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.DnsZonesCAARecord_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return zonesCAA.AssignProperties_To_DnsZones_CAA_STATUS(dst)
+		return record.AssignProperties_To_DnsZonesCAARecord_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DnsZones_CAA_STATUS{}
-	err := zonesCAA.AssignProperties_To_DnsZones_CAA_STATUS(dst)
+	dst = &storage.DnsZonesCAARecord_STATUS{}
+	err := record.AssignProperties_To_DnsZonesCAARecord_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1470,18 +1470,18 @@ func (zonesCAA *DnsZones_CAA_STATUS) ConvertStatusTo(destination genruntime.Conv
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &DnsZones_CAA_STATUS{}
+var _ genruntime.FromARMConverter = &DnsZonesCAARecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (zonesCAA *DnsZones_CAA_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsZones_CAA_STATUS_ARM{}
+func (record *DnsZonesCAARecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DnsZonesCAARecord_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsZones_CAA_STATUS_ARM)
+func (record *DnsZonesCAARecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DnsZonesCAARecord_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZones_CAA_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZonesCAARecord_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AAAARecords":
@@ -1493,7 +1493,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesCAA.AAAARecords = append(zonesCAA.AAAARecords, item1)
+			record.AAAARecords = append(record.AAAARecords, item1)
 		}
 	}
 
@@ -1506,7 +1506,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesCAA.ARecords = append(zonesCAA.ARecords, item1)
+			record.ARecords = append(record.ARecords, item1)
 		}
 	}
 
@@ -1520,7 +1520,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 				return err
 			}
 			cnameRecord := cnameRecord1
-			zonesCAA.CNAMERecord = &cnameRecord
+			record.CNAMERecord = &cnameRecord
 		}
 	}
 
@@ -1533,7 +1533,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesCAA.CaaRecords = append(zonesCAA.CaaRecords, item1)
+			record.CaaRecords = append(record.CaaRecords, item1)
 		}
 	}
 
@@ -1542,7 +1542,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
-		zonesCAA.Etag = &etag
+		record.Etag = &etag
 	}
 
 	// Set property "Fqdn":
@@ -1550,14 +1550,14 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Fqdn != nil {
 			fqdn := *typedInput.Properties.Fqdn
-			zonesCAA.Fqdn = &fqdn
+			record.Fqdn = &fqdn
 		}
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		zonesCAA.Id = &id
+		record.Id = &id
 	}
 
 	// Set property "MXRecords":
@@ -1569,7 +1569,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesCAA.MXRecords = append(zonesCAA.MXRecords, item1)
+			record.MXRecords = append(record.MXRecords, item1)
 		}
 	}
 
@@ -1577,9 +1577,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			zonesCAA.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
+			record.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
-				zonesCAA.Metadata[key] = value
+				record.Metadata[key] = value
 			}
 		}
 	}
@@ -1593,14 +1593,14 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesCAA.NSRecords = append(zonesCAA.NSRecords, item1)
+			record.NSRecords = append(record.NSRecords, item1)
 		}
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		zonesCAA.Name = &name
+		record.Name = &name
 	}
 
 	// Set property "PTRRecords":
@@ -1612,7 +1612,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesCAA.PTRRecords = append(zonesCAA.PTRRecords, item1)
+			record.PTRRecords = append(record.PTRRecords, item1)
 		}
 	}
 
@@ -1621,7 +1621,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
 			provisioningState := *typedInput.Properties.ProvisioningState
-			zonesCAA.ProvisioningState = &provisioningState
+			record.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -1635,7 +1635,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 				return err
 			}
 			soaRecord := soaRecord1
-			zonesCAA.SOARecord = &soaRecord
+			record.SOARecord = &soaRecord
 		}
 	}
 
@@ -1648,7 +1648,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesCAA.SRVRecords = append(zonesCAA.SRVRecords, item1)
+			record.SRVRecords = append(record.SRVRecords, item1)
 		}
 	}
 
@@ -1657,7 +1657,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TTL != nil {
 			ttl := *typedInput.Properties.TTL
-			zonesCAA.TTL = &ttl
+			record.TTL = &ttl
 		}
 	}
 
@@ -1670,7 +1670,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			if err != nil {
 				return err
 			}
-			zonesCAA.TXTRecords = append(zonesCAA.TXTRecords, item1)
+			record.TXTRecords = append(record.TXTRecords, item1)
 		}
 	}
 
@@ -1684,22 +1684,22 @@ func (zonesCAA *DnsZones_CAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 				return err
 			}
 			targetResource := targetResource1
-			zonesCAA.TargetResource = &targetResource
+			record.TargetResource = &targetResource
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		zonesCAA.Type = &typeVar
+		record.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_DnsZones_CAA_STATUS populates our DnsZones_CAA_STATUS from the provided source DnsZones_CAA_STATUS
-func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(source *storage.DnsZones_CAA_STATUS) error {
+// AssignProperties_From_DnsZonesCAARecord_STATUS populates our DnsZonesCAARecord_STATUS from the provided source DnsZonesCAARecord_STATUS
+func (record *DnsZonesCAARecord_STATUS) AssignProperties_From_DnsZonesCAARecord_STATUS(source *storage.DnsZonesCAARecord_STATUS) error {
 
 	// AAAARecords
 	if source.AAAARecords != nil {
@@ -1714,9 +1714,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 			}
 			aaaaRecordList[aaaaRecordIndex] = aaaaRecord
 		}
-		zonesCAA.AAAARecords = aaaaRecordList
+		record.AAAARecords = aaaaRecordList
 	} else {
-		zonesCAA.AAAARecords = nil
+		record.AAAARecords = nil
 	}
 
 	// ARecords
@@ -1732,9 +1732,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 			}
 			aRecordList[aRecordIndex] = aRecord
 		}
-		zonesCAA.ARecords = aRecordList
+		record.ARecords = aRecordList
 	} else {
-		zonesCAA.ARecords = nil
+		record.ARecords = nil
 	}
 
 	// CNAMERecord
@@ -1744,9 +1744,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_CnameRecord_STATUS() to populate field CNAMERecord")
 		}
-		zonesCAA.CNAMERecord = &cnameRecord
+		record.CNAMERecord = &cnameRecord
 	} else {
-		zonesCAA.CNAMERecord = nil
+		record.CNAMERecord = nil
 	}
 
 	// CaaRecords
@@ -1762,22 +1762,22 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 			}
 			caaRecordList[caaRecordIndex] = caaRecord
 		}
-		zonesCAA.CaaRecords = caaRecordList
+		record.CaaRecords = caaRecordList
 	} else {
-		zonesCAA.CaaRecords = nil
+		record.CaaRecords = nil
 	}
 
 	// Conditions
-	zonesCAA.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	record.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Etag
-	zonesCAA.Etag = genruntime.ClonePointerToString(source.Etag)
+	record.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Fqdn
-	zonesCAA.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
+	record.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
 
 	// Id
-	zonesCAA.Id = genruntime.ClonePointerToString(source.Id)
+	record.Id = genruntime.ClonePointerToString(source.Id)
 
 	// MXRecords
 	if source.MXRecords != nil {
@@ -1792,13 +1792,13 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 			}
 			mxRecordList[mxRecordIndex] = mxRecord
 		}
-		zonesCAA.MXRecords = mxRecordList
+		record.MXRecords = mxRecordList
 	} else {
-		zonesCAA.MXRecords = nil
+		record.MXRecords = nil
 	}
 
 	// Metadata
-	zonesCAA.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	record.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// NSRecords
 	if source.NSRecords != nil {
@@ -1813,13 +1813,13 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 			}
 			nsRecordList[nsRecordIndex] = nsRecord
 		}
-		zonesCAA.NSRecords = nsRecordList
+		record.NSRecords = nsRecordList
 	} else {
-		zonesCAA.NSRecords = nil
+		record.NSRecords = nil
 	}
 
 	// Name
-	zonesCAA.Name = genruntime.ClonePointerToString(source.Name)
+	record.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PTRRecords
 	if source.PTRRecords != nil {
@@ -1834,13 +1834,13 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 			}
 			ptrRecordList[ptrRecordIndex] = ptrRecord
 		}
-		zonesCAA.PTRRecords = ptrRecordList
+		record.PTRRecords = ptrRecordList
 	} else {
-		zonesCAA.PTRRecords = nil
+		record.PTRRecords = nil
 	}
 
 	// ProvisioningState
-	zonesCAA.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	record.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// SOARecord
 	if source.SOARecord != nil {
@@ -1849,9 +1849,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SoaRecord_STATUS() to populate field SOARecord")
 		}
-		zonesCAA.SOARecord = &soaRecord
+		record.SOARecord = &soaRecord
 	} else {
-		zonesCAA.SOARecord = nil
+		record.SOARecord = nil
 	}
 
 	// SRVRecords
@@ -1867,13 +1867,13 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 			}
 			srvRecordList[srvRecordIndex] = srvRecord
 		}
-		zonesCAA.SRVRecords = srvRecordList
+		record.SRVRecords = srvRecordList
 	} else {
-		zonesCAA.SRVRecords = nil
+		record.SRVRecords = nil
 	}
 
 	// TTL
-	zonesCAA.TTL = genruntime.ClonePointerToInt(source.TTL)
+	record.TTL = genruntime.ClonePointerToInt(source.TTL)
 
 	// TXTRecords
 	if source.TXTRecords != nil {
@@ -1888,9 +1888,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 			}
 			txtRecordList[txtRecordIndex] = txtRecord
 		}
-		zonesCAA.TXTRecords = txtRecordList
+		record.TXTRecords = txtRecordList
 	} else {
-		zonesCAA.TXTRecords = nil
+		record.TXTRecords = nil
 	}
 
 	// TargetResource
@@ -1900,27 +1900,27 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_From_DnsZones_CAA_STATUS(s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field TargetResource")
 		}
-		zonesCAA.TargetResource = &targetResource
+		record.TargetResource = &targetResource
 	} else {
-		zonesCAA.TargetResource = nil
+		record.TargetResource = nil
 	}
 
 	// Type
-	zonesCAA.Type = genruntime.ClonePointerToString(source.Type)
+	record.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_DnsZones_CAA_STATUS populates the provided destination DnsZones_CAA_STATUS from our DnsZones_CAA_STATUS
-func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(destination *storage.DnsZones_CAA_STATUS) error {
+// AssignProperties_To_DnsZonesCAARecord_STATUS populates the provided destination DnsZonesCAARecord_STATUS from our DnsZonesCAARecord_STATUS
+func (record *DnsZonesCAARecord_STATUS) AssignProperties_To_DnsZonesCAARecord_STATUS(destination *storage.DnsZonesCAARecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AAAARecords
-	if zonesCAA.AAAARecords != nil {
-		aaaaRecordList := make([]storage.AaaaRecord_STATUS, len(zonesCAA.AAAARecords))
-		for aaaaRecordIndex, aaaaRecordItem := range zonesCAA.AAAARecords {
+	if record.AAAARecords != nil {
+		aaaaRecordList := make([]storage.AaaaRecord_STATUS, len(record.AAAARecords))
+		for aaaaRecordIndex, aaaaRecordItem := range record.AAAARecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
 			var aaaaRecord storage.AaaaRecord_STATUS
@@ -1936,9 +1936,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// ARecords
-	if zonesCAA.ARecords != nil {
-		aRecordList := make([]storage.ARecord_STATUS, len(zonesCAA.ARecords))
-		for aRecordIndex, aRecordItem := range zonesCAA.ARecords {
+	if record.ARecords != nil {
+		aRecordList := make([]storage.ARecord_STATUS, len(record.ARecords))
+		for aRecordIndex, aRecordItem := range record.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
 			var aRecord storage.ARecord_STATUS
@@ -1954,9 +1954,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// CNAMERecord
-	if zonesCAA.CNAMERecord != nil {
+	if record.CNAMERecord != nil {
 		var cnameRecord storage.CnameRecord_STATUS
-		err := zonesCAA.CNAMERecord.AssignProperties_To_CnameRecord_STATUS(&cnameRecord)
+		err := record.CNAMERecord.AssignProperties_To_CnameRecord_STATUS(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord_STATUS() to populate field CNAMERecord")
 		}
@@ -1966,9 +1966,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// CaaRecords
-	if zonesCAA.CaaRecords != nil {
-		caaRecordList := make([]storage.CaaRecord_STATUS, len(zonesCAA.CaaRecords))
-		for caaRecordIndex, caaRecordItem := range zonesCAA.CaaRecords {
+	if record.CaaRecords != nil {
+		caaRecordList := make([]storage.CaaRecord_STATUS, len(record.CaaRecords))
+		for caaRecordIndex, caaRecordItem := range record.CaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			caaRecordItem := caaRecordItem
 			var caaRecord storage.CaaRecord_STATUS
@@ -1984,21 +1984,21 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(zonesCAA.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(record.Conditions)
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(zonesCAA.Etag)
+	destination.Etag = genruntime.ClonePointerToString(record.Etag)
 
 	// Fqdn
-	destination.Fqdn = genruntime.ClonePointerToString(zonesCAA.Fqdn)
+	destination.Fqdn = genruntime.ClonePointerToString(record.Fqdn)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(zonesCAA.Id)
+	destination.Id = genruntime.ClonePointerToString(record.Id)
 
 	// MXRecords
-	if zonesCAA.MXRecords != nil {
-		mxRecordList := make([]storage.MxRecord_STATUS, len(zonesCAA.MXRecords))
-		for mxRecordIndex, mxRecordItem := range zonesCAA.MXRecords {
+	if record.MXRecords != nil {
+		mxRecordList := make([]storage.MxRecord_STATUS, len(record.MXRecords))
+		for mxRecordIndex, mxRecordItem := range record.MXRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
 			var mxRecord storage.MxRecord_STATUS
@@ -2014,12 +2014,12 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// Metadata
-	destination.Metadata = genruntime.CloneMapOfStringToString(zonesCAA.Metadata)
+	destination.Metadata = genruntime.CloneMapOfStringToString(record.Metadata)
 
 	// NSRecords
-	if zonesCAA.NSRecords != nil {
-		nsRecordList := make([]storage.NsRecord_STATUS, len(zonesCAA.NSRecords))
-		for nsRecordIndex, nsRecordItem := range zonesCAA.NSRecords {
+	if record.NSRecords != nil {
+		nsRecordList := make([]storage.NsRecord_STATUS, len(record.NSRecords))
+		for nsRecordIndex, nsRecordItem := range record.NSRecords {
 			// Shadow the loop variable to avoid aliasing
 			nsRecordItem := nsRecordItem
 			var nsRecord storage.NsRecord_STATUS
@@ -2035,12 +2035,12 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(zonesCAA.Name)
+	destination.Name = genruntime.ClonePointerToString(record.Name)
 
 	// PTRRecords
-	if zonesCAA.PTRRecords != nil {
-		ptrRecordList := make([]storage.PtrRecord_STATUS, len(zonesCAA.PTRRecords))
-		for ptrRecordIndex, ptrRecordItem := range zonesCAA.PTRRecords {
+	if record.PTRRecords != nil {
+		ptrRecordList := make([]storage.PtrRecord_STATUS, len(record.PTRRecords))
+		for ptrRecordIndex, ptrRecordItem := range record.PTRRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
 			var ptrRecord storage.PtrRecord_STATUS
@@ -2056,12 +2056,12 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(zonesCAA.ProvisioningState)
+	destination.ProvisioningState = genruntime.ClonePointerToString(record.ProvisioningState)
 
 	// SOARecord
-	if zonesCAA.SOARecord != nil {
+	if record.SOARecord != nil {
 		var soaRecord storage.SoaRecord_STATUS
-		err := zonesCAA.SOARecord.AssignProperties_To_SoaRecord_STATUS(&soaRecord)
+		err := record.SOARecord.AssignProperties_To_SoaRecord_STATUS(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord_STATUS() to populate field SOARecord")
 		}
@@ -2071,9 +2071,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// SRVRecords
-	if zonesCAA.SRVRecords != nil {
-		srvRecordList := make([]storage.SrvRecord_STATUS, len(zonesCAA.SRVRecords))
-		for srvRecordIndex, srvRecordItem := range zonesCAA.SRVRecords {
+	if record.SRVRecords != nil {
+		srvRecordList := make([]storage.SrvRecord_STATUS, len(record.SRVRecords))
+		for srvRecordIndex, srvRecordItem := range record.SRVRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
 			var srvRecord storage.SrvRecord_STATUS
@@ -2089,12 +2089,12 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// TTL
-	destination.TTL = genruntime.ClonePointerToInt(zonesCAA.TTL)
+	destination.TTL = genruntime.ClonePointerToInt(record.TTL)
 
 	// TXTRecords
-	if zonesCAA.TXTRecords != nil {
-		txtRecordList := make([]storage.TxtRecord_STATUS, len(zonesCAA.TXTRecords))
-		for txtRecordIndex, txtRecordItem := range zonesCAA.TXTRecords {
+	if record.TXTRecords != nil {
+		txtRecordList := make([]storage.TxtRecord_STATUS, len(record.TXTRecords))
+		for txtRecordIndex, txtRecordItem := range record.TXTRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
 			var txtRecord storage.TxtRecord_STATUS
@@ -2110,9 +2110,9 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// TargetResource
-	if zonesCAA.TargetResource != nil {
+	if record.TargetResource != nil {
 		var targetResource storage.SubResource_STATUS
-		err := zonesCAA.TargetResource.AssignProperties_To_SubResource_STATUS(&targetResource)
+		err := record.TargetResource.AssignProperties_To_SubResource_STATUS(&targetResource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field TargetResource")
 		}
@@ -2122,7 +2122,7 @@ func (zonesCAA *DnsZones_CAA_STATUS) AssignProperties_To_DnsZones_CAA_STATUS(des
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(zonesCAA.Type)
+	destination.Type = genruntime.ClonePointerToString(record.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

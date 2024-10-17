@@ -5,7 +5,7 @@ package v1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type VirtualNetworks_Subnet_Spec_ARM struct {
+type VirtualNetworksSubnet_Spec_ARM struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
 
@@ -13,20 +13,20 @@ type VirtualNetworks_Subnet_Spec_ARM struct {
 	Properties *SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualNetworks_Subnet_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &VirtualNetworksSubnet_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (subnet VirtualNetworks_Subnet_Spec_ARM) GetAPIVersion() string {
+func (subnet VirtualNetworksSubnet_Spec_ARM) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
-func (subnet *VirtualNetworks_Subnet_Spec_ARM) GetName() string {
+func (subnet *VirtualNetworksSubnet_Spec_ARM) GetName() string {
 	return subnet.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/subnets"
-func (subnet *VirtualNetworks_Subnet_Spec_ARM) GetType() string {
+func (subnet *VirtualNetworksSubnet_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
 }
 

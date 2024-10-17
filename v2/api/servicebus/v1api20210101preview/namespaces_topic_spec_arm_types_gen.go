@@ -5,27 +5,27 @@ package v1api20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Namespaces_Topic_Spec_ARM struct {
+type NamespacesTopic_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of topic resource.
 	Properties *SBTopicProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Topic_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &NamespacesTopic_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
-func (topic Namespaces_Topic_Spec_ARM) GetAPIVersion() string {
+func (topic NamespacesTopic_Spec_ARM) GetAPIVersion() string {
 	return "2021-01-01-preview"
 }
 
 // GetName returns the Name of the resource
-func (topic *Namespaces_Topic_Spec_ARM) GetName() string {
+func (topic *NamespacesTopic_Spec_ARM) GetName() string {
 	return topic.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
-func (topic *Namespaces_Topic_Spec_ARM) GetType() string {
+func (topic *NamespacesTopic_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 

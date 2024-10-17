@@ -2349,36 +2349,36 @@ func StorageAccountsManagementPolicyGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy(gens map[string]gopter.Gen) {
-	gens["Spec"] = StorageAccounts_ManagementPolicy_SpecGenerator()
-	gens["Status"] = StorageAccounts_ManagementPolicy_STATUSGenerator()
+	gens["Spec"] = StorageAccountsManagementPolicy_SpecGenerator()
+	gens["Status"] = StorageAccountsManagementPolicy_STATUSGenerator()
 }
 
-func Test_StorageAccounts_ManagementPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_StorageAccountsManagementPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageAccounts_ManagementPolicy_STATUS to StorageAccounts_ManagementPolicy_STATUS via AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS & AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_STATUS, StorageAccounts_ManagementPolicy_STATUSGenerator()))
+		"Round trip from StorageAccountsManagementPolicy_STATUS to StorageAccountsManagementPolicy_STATUS via AssignProperties_To_StorageAccountsManagementPolicy_STATUS & AssignProperties_From_StorageAccountsManagementPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccountsManagementPolicy_STATUS, StorageAccountsManagementPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_STATUS tests if a specific instance of StorageAccounts_ManagementPolicy_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_STATUS(subject StorageAccounts_ManagementPolicy_STATUS) string {
+// RunPropertyAssignmentTestForStorageAccountsManagementPolicy_STATUS tests if a specific instance of StorageAccountsManagementPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccountsManagementPolicy_STATUS(subject StorageAccountsManagementPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220901s.StorageAccounts_ManagementPolicy_STATUS
-	err := copied.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(&other)
+	var other v20220901s.StorageAccountsManagementPolicy_STATUS
+	err := copied.AssignProperties_To_StorageAccountsManagementPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageAccounts_ManagementPolicy_STATUS
-	err = actual.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(&other)
+	var actual StorageAccountsManagementPolicy_STATUS
+	err = actual.AssignProperties_From_StorageAccountsManagementPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2395,20 +2395,20 @@ func RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_STATUS(subject
 	return ""
 }
 
-func Test_StorageAccounts_ManagementPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccountsManagementPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccounts_ManagementPolicy_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_ManagementPolicy_STATUS, StorageAccounts_ManagementPolicy_STATUSGenerator()))
+		"Round trip of StorageAccountsManagementPolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsManagementPolicy_STATUS, StorageAccountsManagementPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccounts_ManagementPolicy_STATUS runs a test to see if a specific instance of StorageAccounts_ManagementPolicy_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_ManagementPolicy_STATUS(subject StorageAccounts_ManagementPolicy_STATUS) string {
+// RunJSONSerializationTestForStorageAccountsManagementPolicy_STATUS runs a test to see if a specific instance of StorageAccountsManagementPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsManagementPolicy_STATUS(subject StorageAccountsManagementPolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2416,7 +2416,7 @@ func RunJSONSerializationTestForStorageAccounts_ManagementPolicy_STATUS(subject 
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccounts_ManagementPolicy_STATUS
+	var actual StorageAccountsManagementPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2434,71 +2434,71 @@ func RunJSONSerializationTestForStorageAccounts_ManagementPolicy_STATUS(subject 
 	return ""
 }
 
-// Generator of StorageAccounts_ManagementPolicy_STATUS instances for property testing - lazily instantiated by
-// StorageAccounts_ManagementPolicy_STATUSGenerator()
-var storageAccounts_ManagementPolicy_STATUSGenerator gopter.Gen
+// Generator of StorageAccountsManagementPolicy_STATUS instances for property testing - lazily instantiated by
+// StorageAccountsManagementPolicy_STATUSGenerator()
+var storageAccountsManagementPolicy_STATUSGenerator gopter.Gen
 
-// StorageAccounts_ManagementPolicy_STATUSGenerator returns a generator of StorageAccounts_ManagementPolicy_STATUS instances for property testing.
-// We first initialize storageAccounts_ManagementPolicy_STATUSGenerator with a simplified generator based on the
+// StorageAccountsManagementPolicy_STATUSGenerator returns a generator of StorageAccountsManagementPolicy_STATUS instances for property testing.
+// We first initialize storageAccountsManagementPolicy_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_ManagementPolicy_STATUSGenerator() gopter.Gen {
-	if storageAccounts_ManagementPolicy_STATUSGenerator != nil {
-		return storageAccounts_ManagementPolicy_STATUSGenerator
+func StorageAccountsManagementPolicy_STATUSGenerator() gopter.Gen {
+	if storageAccountsManagementPolicy_STATUSGenerator != nil {
+		return storageAccountsManagementPolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_STATUS(generators)
-	storageAccounts_ManagementPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_ManagementPolicy_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS(generators)
+	storageAccountsManagementPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccountsManagementPolicy_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_STATUS(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_ManagementPolicy_STATUS(generators)
-	storageAccounts_ManagementPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_ManagementPolicy_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS(generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS(generators)
+	storageAccountsManagementPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccountsManagementPolicy_STATUS{}), generators)
 
-	return storageAccounts_ManagementPolicy_STATUSGenerator
+	return storageAccountsManagementPolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccounts_ManagementPolicy_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_ManagementPolicy_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Policy"] = gen.PtrOf(ManagementPolicySchema_STATUSGenerator())
 }
 
-func Test_StorageAccounts_ManagementPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_StorageAccountsManagementPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageAccounts_ManagementPolicy_Spec to StorageAccounts_ManagementPolicy_Spec via AssignProperties_To_StorageAccounts_ManagementPolicy_Spec & AssignProperties_From_StorageAccounts_ManagementPolicy_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_Spec, StorageAccounts_ManagementPolicy_SpecGenerator()))
+		"Round trip from StorageAccountsManagementPolicy_Spec to StorageAccountsManagementPolicy_Spec via AssignProperties_To_StorageAccountsManagementPolicy_Spec & AssignProperties_From_StorageAccountsManagementPolicy_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccountsManagementPolicy_Spec, StorageAccountsManagementPolicy_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_Spec tests if a specific instance of StorageAccounts_ManagementPolicy_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_Spec(subject StorageAccounts_ManagementPolicy_Spec) string {
+// RunPropertyAssignmentTestForStorageAccountsManagementPolicy_Spec tests if a specific instance of StorageAccountsManagementPolicy_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccountsManagementPolicy_Spec(subject StorageAccountsManagementPolicy_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220901s.StorageAccounts_ManagementPolicy_Spec
-	err := copied.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(&other)
+	var other v20220901s.StorageAccountsManagementPolicy_Spec
+	err := copied.AssignProperties_To_StorageAccountsManagementPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageAccounts_ManagementPolicy_Spec
-	err = actual.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(&other)
+	var actual StorageAccountsManagementPolicy_Spec
+	err = actual.AssignProperties_From_StorageAccountsManagementPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2515,20 +2515,20 @@ func RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_Spec(subject S
 	return ""
 }
 
-func Test_StorageAccounts_ManagementPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccountsManagementPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccounts_ManagementPolicy_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_ManagementPolicy_Spec, StorageAccounts_ManagementPolicy_SpecGenerator()))
+		"Round trip of StorageAccountsManagementPolicy_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsManagementPolicy_Spec, StorageAccountsManagementPolicy_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccounts_ManagementPolicy_Spec runs a test to see if a specific instance of StorageAccounts_ManagementPolicy_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_ManagementPolicy_Spec(subject StorageAccounts_ManagementPolicy_Spec) string {
+// RunJSONSerializationTestForStorageAccountsManagementPolicy_Spec runs a test to see if a specific instance of StorageAccountsManagementPolicy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsManagementPolicy_Spec(subject StorageAccountsManagementPolicy_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2536,7 +2536,7 @@ func RunJSONSerializationTestForStorageAccounts_ManagementPolicy_Spec(subject St
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccounts_ManagementPolicy_Spec
+	var actual StorageAccountsManagementPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2554,25 +2554,25 @@ func RunJSONSerializationTestForStorageAccounts_ManagementPolicy_Spec(subject St
 	return ""
 }
 
-// Generator of StorageAccounts_ManagementPolicy_Spec instances for property testing - lazily instantiated by
-// StorageAccounts_ManagementPolicy_SpecGenerator()
-var storageAccounts_ManagementPolicy_SpecGenerator gopter.Gen
+// Generator of StorageAccountsManagementPolicy_Spec instances for property testing - lazily instantiated by
+// StorageAccountsManagementPolicy_SpecGenerator()
+var storageAccountsManagementPolicy_SpecGenerator gopter.Gen
 
-// StorageAccounts_ManagementPolicy_SpecGenerator returns a generator of StorageAccounts_ManagementPolicy_Spec instances for property testing.
-func StorageAccounts_ManagementPolicy_SpecGenerator() gopter.Gen {
-	if storageAccounts_ManagementPolicy_SpecGenerator != nil {
-		return storageAccounts_ManagementPolicy_SpecGenerator
+// StorageAccountsManagementPolicy_SpecGenerator returns a generator of StorageAccountsManagementPolicy_Spec instances for property testing.
+func StorageAccountsManagementPolicy_SpecGenerator() gopter.Gen {
+	if storageAccountsManagementPolicy_SpecGenerator != nil {
+		return storageAccountsManagementPolicy_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec(generators)
-	storageAccounts_ManagementPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_ManagementPolicy_Spec{}), generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_Spec(generators)
+	storageAccountsManagementPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccountsManagementPolicy_Spec{}), generators)
 
-	return storageAccounts_ManagementPolicy_SpecGenerator
+	return storageAccountsManagementPolicy_SpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_Spec(gens map[string]gopter.Gen) {
 	gens["Policy"] = gen.PtrOf(ManagementPolicySchemaGenerator())
 }
 

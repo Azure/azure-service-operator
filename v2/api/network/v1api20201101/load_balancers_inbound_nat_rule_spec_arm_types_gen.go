@@ -5,7 +5,7 @@ package v1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type LoadBalancers_InboundNatRule_Spec_ARM struct {
+type LoadBalancersInboundNatRule_Spec_ARM struct {
 	// Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
 	// can be used to access the resource.
 	Name string `json:"name,omitempty"`
@@ -14,20 +14,20 @@ type LoadBalancers_InboundNatRule_Spec_ARM struct {
 	Properties *InboundNatRulePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &LoadBalancers_InboundNatRule_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &LoadBalancersInboundNatRule_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (rule LoadBalancers_InboundNatRule_Spec_ARM) GetAPIVersion() string {
+func (rule LoadBalancersInboundNatRule_Spec_ARM) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
-func (rule *LoadBalancers_InboundNatRule_Spec_ARM) GetName() string {
+func (rule *LoadBalancersInboundNatRule_Spec_ARM) GetName() string {
 	return rule.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/loadBalancers/inboundNatRules"
-func (rule *LoadBalancers_InboundNatRule_Spec_ARM) GetType() string {
+func (rule *LoadBalancersInboundNatRule_Spec_ARM) GetType() string {
 	return "Microsoft.Network/loadBalancers/inboundNatRules"
 }
 

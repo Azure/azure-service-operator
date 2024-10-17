@@ -75,24 +75,24 @@ func ServersDatabasesTransparentDataEncryptionGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForServersDatabasesTransparentDataEncryption is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServersDatabasesTransparentDataEncryption(gens map[string]gopter.Gen) {
-	gens["Spec"] = Servers_Databases_TransparentDataEncryption_SpecGenerator()
-	gens["Status"] = Servers_Databases_TransparentDataEncryption_STATUSGenerator()
+	gens["Spec"] = ServersDatabasesTransparentDataEncryption_SpecGenerator()
+	gens["Status"] = ServersDatabasesTransparentDataEncryption_STATUSGenerator()
 }
 
-func Test_Servers_Databases_TransparentDataEncryption_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersDatabasesTransparentDataEncryption_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Databases_TransparentDataEncryption_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_STATUS, Servers_Databases_TransparentDataEncryption_STATUSGenerator()))
+		"Round trip of ServersDatabasesTransparentDataEncryption_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersDatabasesTransparentDataEncryption_STATUS, ServersDatabasesTransparentDataEncryption_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_STATUS runs a test to see if a specific instance of Servers_Databases_TransparentDataEncryption_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_STATUS(subject Servers_Databases_TransparentDataEncryption_STATUS) string {
+// RunJSONSerializationTestForServersDatabasesTransparentDataEncryption_STATUS runs a test to see if a specific instance of ServersDatabasesTransparentDataEncryption_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersDatabasesTransparentDataEncryption_STATUS(subject ServersDatabasesTransparentDataEncryption_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_STAT
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Databases_TransparentDataEncryption_STATUS
+	var actual ServersDatabasesTransparentDataEncryption_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,45 +118,45 @@ func RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_STAT
 	return ""
 }
 
-// Generator of Servers_Databases_TransparentDataEncryption_STATUS instances for property testing - lazily instantiated
-// by Servers_Databases_TransparentDataEncryption_STATUSGenerator()
-var servers_Databases_TransparentDataEncryption_STATUSGenerator gopter.Gen
+// Generator of ServersDatabasesTransparentDataEncryption_STATUS instances for property testing - lazily instantiated by
+// ServersDatabasesTransparentDataEncryption_STATUSGenerator()
+var serversDatabasesTransparentDataEncryption_STATUSGenerator gopter.Gen
 
-// Servers_Databases_TransparentDataEncryption_STATUSGenerator returns a generator of Servers_Databases_TransparentDataEncryption_STATUS instances for property testing.
-func Servers_Databases_TransparentDataEncryption_STATUSGenerator() gopter.Gen {
-	if servers_Databases_TransparentDataEncryption_STATUSGenerator != nil {
-		return servers_Databases_TransparentDataEncryption_STATUSGenerator
+// ServersDatabasesTransparentDataEncryption_STATUSGenerator returns a generator of ServersDatabasesTransparentDataEncryption_STATUS instances for property testing.
+func ServersDatabasesTransparentDataEncryption_STATUSGenerator() gopter.Gen {
+	if serversDatabasesTransparentDataEncryption_STATUSGenerator != nil {
+		return serversDatabasesTransparentDataEncryption_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Databases_TransparentDataEncryption_STATUS(generators)
-	servers_Databases_TransparentDataEncryption_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_Databases_TransparentDataEncryption_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_STATUS(generators)
+	serversDatabasesTransparentDataEncryption_STATUSGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesTransparentDataEncryption_STATUS{}), generators)
 
-	return servers_Databases_TransparentDataEncryption_STATUSGenerator
+	return serversDatabasesTransparentDataEncryption_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Databases_TransparentDataEncryption_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Databases_TransparentDataEncryption_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_Databases_TransparentDataEncryption_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersDatabasesTransparentDataEncryption_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Databases_TransparentDataEncryption_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_Spec, Servers_Databases_TransparentDataEncryption_SpecGenerator()))
+		"Round trip of ServersDatabasesTransparentDataEncryption_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersDatabasesTransparentDataEncryption_Spec, ServersDatabasesTransparentDataEncryption_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_Spec runs a test to see if a specific instance of Servers_Databases_TransparentDataEncryption_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_Spec(subject Servers_Databases_TransparentDataEncryption_Spec) string {
+// RunJSONSerializationTestForServersDatabasesTransparentDataEncryption_Spec runs a test to see if a specific instance of ServersDatabasesTransparentDataEncryption_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersDatabasesTransparentDataEncryption_Spec(subject ServersDatabasesTransparentDataEncryption_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -164,7 +164,7 @@ func RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_Spec
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Databases_TransparentDataEncryption_Spec
+	var actual ServersDatabasesTransparentDataEncryption_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -182,25 +182,25 @@ func RunJSONSerializationTestForServers_Databases_TransparentDataEncryption_Spec
 	return ""
 }
 
-// Generator of Servers_Databases_TransparentDataEncryption_Spec instances for property testing - lazily instantiated by
-// Servers_Databases_TransparentDataEncryption_SpecGenerator()
-var servers_Databases_TransparentDataEncryption_SpecGenerator gopter.Gen
+// Generator of ServersDatabasesTransparentDataEncryption_Spec instances for property testing - lazily instantiated by
+// ServersDatabasesTransparentDataEncryption_SpecGenerator()
+var serversDatabasesTransparentDataEncryption_SpecGenerator gopter.Gen
 
-// Servers_Databases_TransparentDataEncryption_SpecGenerator returns a generator of Servers_Databases_TransparentDataEncryption_Spec instances for property testing.
-func Servers_Databases_TransparentDataEncryption_SpecGenerator() gopter.Gen {
-	if servers_Databases_TransparentDataEncryption_SpecGenerator != nil {
-		return servers_Databases_TransparentDataEncryption_SpecGenerator
+// ServersDatabasesTransparentDataEncryption_SpecGenerator returns a generator of ServersDatabasesTransparentDataEncryption_Spec instances for property testing.
+func ServersDatabasesTransparentDataEncryption_SpecGenerator() gopter.Gen {
+	if serversDatabasesTransparentDataEncryption_SpecGenerator != nil {
+		return serversDatabasesTransparentDataEncryption_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Databases_TransparentDataEncryption_Spec(generators)
-	servers_Databases_TransparentDataEncryption_SpecGenerator = gen.Struct(reflect.TypeOf(Servers_Databases_TransparentDataEncryption_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec(generators)
+	serversDatabasesTransparentDataEncryption_SpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesTransparentDataEncryption_Spec{}), generators)
 
-	return servers_Databases_TransparentDataEncryption_SpecGenerator
+	return serversDatabasesTransparentDataEncryption_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Databases_TransparentDataEncryption_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Databases_TransparentDataEncryption_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec(gens map[string]gopter.Gen) {
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 }

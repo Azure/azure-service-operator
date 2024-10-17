@@ -49,7 +49,7 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, location string) *v1api20220301.ServerFarm {
 	serverFarm := &v1api20220301.ServerFarm{
 		ObjectMeta: tc.MakeObjectMeta("appservice"),
-		Spec: v1api20220301.Serverfarm_Spec{
+		Spec: v1api20220301.ServerFarm_Spec{
 			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &v1api20220301.SkuDescription{

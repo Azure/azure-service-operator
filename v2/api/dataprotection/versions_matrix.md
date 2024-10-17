@@ -61,11 +61,11 @@
 | BackupVault_SecureScore_STATUS                                |               | v1api20231101 |
 | BackupVault_Spec                                              | v1api20230101 | v1api20231101 |
 | BackupVaultsBackupInstance                                    |               | v1api20231101 |
+| BackupVaultsBackupInstance_STATUS                             |               | v1api20231101 |
+| BackupVaultsBackupInstance_Spec                               |               | v1api20231101 |
 | BackupVaultsBackupPolicy                                      | v1api20230101 | v1api20231101 |
-| BackupVaults_BackupInstance_STATUS                            |               | v1api20231101 |
-| BackupVaults_BackupInstance_Spec                              |               | v1api20231101 |
-| BackupVaults_BackupPolicy_STATUS                              | v1api20230101 | v1api20231101 |
-| BackupVaults_BackupPolicy_Spec                                | v1api20230101 | v1api20231101 |
+| BackupVaultsBackupPolicy_STATUS                               | v1api20230101 | v1api20231101 |
+| BackupVaultsBackupPolicy_Spec                                 | v1api20230101 | v1api20231101 |
 | BaseBackupPolicy                                              | v1api20230101 | v1api20231101 |
 | BaseBackupPolicy_STATUS                                       | v1api20230101 | v1api20231101 |
 | BasePolicyRule                                                | v1api20230101 | v1api20231101 |

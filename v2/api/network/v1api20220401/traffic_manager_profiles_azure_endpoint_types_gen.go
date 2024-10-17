@@ -29,8 +29,8 @@ import (
 type TrafficManagerProfilesAzureEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Trafficmanagerprofiles_AzureEndpoint_Spec   `json:"spec,omitempty"`
-	Status            Trafficmanagerprofiles_AzureEndpoint_STATUS `json:"status,omitempty"`
+	Spec              TrafficManagerProfilesAzureEndpoint_Spec   `json:"spec,omitempty"`
+	Status            TrafficManagerProfilesAzureEndpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &TrafficManagerProfilesAzureEndpoint{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &TrafficManagerProfilesAzureEndpoint{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (endpoint *TrafficManagerProfilesAzureEndpoint) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Trafficmanagerprofiles_AzureEndpoint_STATUS); ok {
-		return endpoint.Spec.Initialize_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(s)
+	if s, ok := status.(*TrafficManagerProfilesAzureEndpoint_STATUS); ok {
+		return endpoint.Spec.Initialize_From_TrafficManagerProfilesAzureEndpoint_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Trafficmanagerprofiles_AzureEndpoint_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type TrafficManagerProfilesAzureEndpoint_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &TrafficManagerProfilesAzureEndpoint{}
@@ -144,7 +144,7 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *TrafficManagerProfilesAzureEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Trafficmanagerprofiles_AzureEndpoint_STATUS{}
+	return &TrafficManagerProfilesAzureEndpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) Owner() *genruntime.Resourc
 // SetStatus sets the status of this resource
 func (endpoint *TrafficManagerProfilesAzureEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Trafficmanagerprofiles_AzureEndpoint_STATUS); ok {
+	if st, ok := status.(*TrafficManagerProfilesAzureEndpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Trafficmanagerprofiles_AzureEndpoint_STATUS
+	var st TrafficManagerProfilesAzureEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_From_Traff
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Trafficmanagerprofiles_AzureEndpoint_Spec
-	err := spec.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec(&source.Spec)
+	var spec TrafficManagerProfilesAzureEndpoint_Spec
+	err := spec.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec() to populate field Spec")
 	}
 	endpoint.Spec = spec
 
 	// Status
-	var status Trafficmanagerprofiles_AzureEndpoint_STATUS
-	err = status.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(&source.Status)
+	var status TrafficManagerProfilesAzureEndpoint_STATUS
+	err = status.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -286,18 +286,18 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) AssignProperties_To_Traffic
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Trafficmanagerprofiles_AzureEndpoint_Spec
-	err := endpoint.Spec.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(&spec)
+	var spec storage.TrafficManagerProfilesAzureEndpoint_Spec
+	err := endpoint.Spec.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Trafficmanagerprofiles_AzureEndpoint_STATUS
-	err = endpoint.Status.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(&status)
+	var status storage.TrafficManagerProfilesAzureEndpoint_STATUS
+	err = endpoint.Status.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type TrafficManagerProfilesAzureEndpointList struct {
 	Items           []TrafficManagerProfilesAzureEndpoint `json:"items"`
 }
 
-type Trafficmanagerprofiles_AzureEndpoint_Spec struct {
+type TrafficManagerProfilesAzureEndpoint_Spec struct {
 	// AlwaysServe: If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in
 	// the traffic routing method.
 	AlwaysServe *EndpointProperties_AlwaysServe `json:"alwaysServe,omitempty"`
@@ -395,14 +395,14 @@ type Trafficmanagerprofiles_AzureEndpoint_Spec struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Trafficmanagerprofiles_AzureEndpoint_Spec{}
+var _ genruntime.ARMTransformer = &TrafficManagerProfilesAzureEndpoint_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if endpoint == nil {
 		return nil, nil
 	}
-	result := &Trafficmanagerprofiles_AzureEndpoint_Spec_ARM{}
+	result := &TrafficManagerProfilesAzureEndpoint_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -505,15 +505,15 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertToARM(resolved
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Trafficmanagerprofiles_AzureEndpoint_Spec_ARM{}
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &TrafficManagerProfilesAzureEndpoint_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Trafficmanagerprofiles_AzureEndpoint_Spec_ARM)
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(TrafficManagerProfilesAzureEndpoint_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Trafficmanagerprofiles_AzureEndpoint_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfilesAzureEndpoint_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AlwaysServe":
@@ -667,25 +667,25 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) PopulateFromARM(owner
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Trafficmanagerprofiles_AzureEndpoint_Spec{}
+var _ genruntime.ConvertibleSpec = &TrafficManagerProfilesAzureEndpoint_Spec{}
 
-// ConvertSpecFrom populates our Trafficmanagerprofiles_AzureEndpoint_Spec from the provided source
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Trafficmanagerprofiles_AzureEndpoint_Spec)
+// ConvertSpecFrom populates our TrafficManagerProfilesAzureEndpoint_Spec from the provided source
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.TrafficManagerProfilesAzureEndpoint_Spec)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec(src)
+		return endpoint.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Trafficmanagerprofiles_AzureEndpoint_Spec{}
+	src = &storage.TrafficManagerProfilesAzureEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec(src)
+	err = endpoint.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -693,17 +693,17 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertSpecFrom(sourc
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Trafficmanagerprofiles_AzureEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Trafficmanagerprofiles_AzureEndpoint_Spec)
+// ConvertSpecTo populates the provided destination from our TrafficManagerProfilesAzureEndpoint_Spec
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.TrafficManagerProfilesAzureEndpoint_Spec)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(dst)
+		return endpoint.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Trafficmanagerprofiles_AzureEndpoint_Spec{}
-	err := endpoint.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(dst)
+	dst = &storage.TrafficManagerProfilesAzureEndpoint_Spec{}
+	err := endpoint.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -717,8 +717,8 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) ConvertSpecTo(destina
 	return nil
 }
 
-// AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec populates our Trafficmanagerprofiles_AzureEndpoint_Spec from the provided source Trafficmanagerprofiles_AzureEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_Spec(source *storage.Trafficmanagerprofiles_AzureEndpoint_Spec) error {
+// AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec populates our TrafficManagerProfilesAzureEndpoint_Spec from the provided source TrafficManagerProfilesAzureEndpoint_Spec
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) AssignProperties_From_TrafficManagerProfilesAzureEndpoint_Spec(source *storage.TrafficManagerProfilesAzureEndpoint_Spec) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -833,8 +833,8 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec populates the provided destination Trafficmanagerprofiles_AzureEndpoint_Spec from our Trafficmanagerprofiles_AzureEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_Spec(destination *storage.Trafficmanagerprofiles_AzureEndpoint_Spec) error {
+// AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec populates the provided destination TrafficManagerProfilesAzureEndpoint_Spec from our TrafficManagerProfilesAzureEndpoint_Spec
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) AssignProperties_To_TrafficManagerProfilesAzureEndpoint_Spec(destination *storage.TrafficManagerProfilesAzureEndpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -958,8 +958,8 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_To_T
 	return nil
 }
 
-// Initialize_From_Trafficmanagerprofiles_AzureEndpoint_STATUS populates our Trafficmanagerprofiles_AzureEndpoint_Spec from the provided source Trafficmanagerprofiles_AzureEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) Initialize_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(source *Trafficmanagerprofiles_AzureEndpoint_STATUS) error {
+// Initialize_From_TrafficManagerProfilesAzureEndpoint_STATUS populates our TrafficManagerProfilesAzureEndpoint_Spec from the provided source TrafficManagerProfilesAzureEndpoint_STATUS
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) Initialize_From_TrafficManagerProfilesAzureEndpoint_STATUS(source *TrafficManagerProfilesAzureEndpoint_STATUS) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -1061,16 +1061,16 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) Initialize_From_Traff
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) OriginalVersion() string {
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) SetAzureName(azureName string) {
+func (endpoint *TrafficManagerProfilesAzureEndpoint_Spec) SetAzureName(azureName string) {
 	endpoint.AzureName = azureName
 }
 
-type Trafficmanagerprofiles_AzureEndpoint_STATUS struct {
+type TrafficManagerProfilesAzureEndpoint_STATUS struct {
 	// AlwaysServe: If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in
 	// the traffic routing method.
 	AlwaysServe *EndpointProperties_AlwaysServe_STATUS `json:"alwaysServe,omitempty"`
@@ -1140,25 +1140,25 @@ type Trafficmanagerprofiles_AzureEndpoint_STATUS struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Trafficmanagerprofiles_AzureEndpoint_STATUS{}
+var _ genruntime.ConvertibleStatus = &TrafficManagerProfilesAzureEndpoint_STATUS{}
 
-// ConvertStatusFrom populates our Trafficmanagerprofiles_AzureEndpoint_STATUS from the provided source
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Trafficmanagerprofiles_AzureEndpoint_STATUS)
+// ConvertStatusFrom populates our TrafficManagerProfilesAzureEndpoint_STATUS from the provided source
+func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.TrafficManagerProfilesAzureEndpoint_STATUS)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(src)
+		return endpoint.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Trafficmanagerprofiles_AzureEndpoint_STATUS{}
+	src = &storage.TrafficManagerProfilesAzureEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(src)
+	err = endpoint.AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1166,17 +1166,17 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) ConvertStatusFrom(s
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Trafficmanagerprofiles_AzureEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Trafficmanagerprofiles_AzureEndpoint_STATUS)
+// ConvertStatusTo populates the provided destination from our TrafficManagerProfilesAzureEndpoint_STATUS
+func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.TrafficManagerProfilesAzureEndpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(dst)
+		return endpoint.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Trafficmanagerprofiles_AzureEndpoint_STATUS{}
-	err := endpoint.AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(dst)
+	dst = &storage.TrafficManagerProfilesAzureEndpoint_STATUS{}
+	err := endpoint.AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1190,18 +1190,18 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) ConvertStatusTo(des
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Trafficmanagerprofiles_AzureEndpoint_STATUS{}
+var _ genruntime.FromARMConverter = &TrafficManagerProfilesAzureEndpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM{}
+func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &TrafficManagerProfilesAzureEndpoint_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM)
+func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(TrafficManagerProfilesAzureEndpoint_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Trafficmanagerprofiles_AzureEndpoint_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfilesAzureEndpoint_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AlwaysServe":
@@ -1367,8 +1367,8 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) PopulateFromARM(own
 	return nil
 }
 
-// AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS populates our Trafficmanagerprofiles_AzureEndpoint_STATUS from the provided source Trafficmanagerprofiles_AzureEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_From_Trafficmanagerprofiles_AzureEndpoint_STATUS(source *storage.Trafficmanagerprofiles_AzureEndpoint_STATUS) error {
+// AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS populates our TrafficManagerProfilesAzureEndpoint_STATUS from the provided source TrafficManagerProfilesAzureEndpoint_STATUS
+func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) AssignProperties_From_TrafficManagerProfilesAzureEndpoint_STATUS(source *storage.TrafficManagerProfilesAzureEndpoint_STATUS) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -1476,8 +1476,8 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_Fr
 	return nil
 }
 
-// AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS populates the provided destination Trafficmanagerprofiles_AzureEndpoint_STATUS from our Trafficmanagerprofiles_AzureEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_To_Trafficmanagerprofiles_AzureEndpoint_STATUS(destination *storage.Trafficmanagerprofiles_AzureEndpoint_STATUS) error {
+// AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS populates the provided destination TrafficManagerProfilesAzureEndpoint_STATUS from our TrafficManagerProfilesAzureEndpoint_STATUS
+func (endpoint *TrafficManagerProfilesAzureEndpoint_STATUS) AssignProperties_To_TrafficManagerProfilesAzureEndpoint_STATUS(destination *storage.TrafficManagerProfilesAzureEndpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,27 +5,27 @@ package v1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Namespaces_Topics_Subscription_Spec_ARM struct {
+type NamespacesTopicsSubscription_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of subscriptions resource.
 	Properties *SBSubscriptionProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Topics_Subscription_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &NamespacesTopicsSubscription_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (subscription Namespaces_Topics_Subscription_Spec_ARM) GetAPIVersion() string {
+func (subscription NamespacesTopicsSubscription_Spec_ARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (subscription *Namespaces_Topics_Subscription_Spec_ARM) GetName() string {
+func (subscription *NamespacesTopicsSubscription_Spec_ARM) GetName() string {
 	return subscription.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics/subscriptions"
-func (subscription *Namespaces_Topics_Subscription_Spec_ARM) GetType() string {
+func (subscription *NamespacesTopicsSubscription_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics/subscriptions"
 }
 

@@ -36,3 +36,21 @@ type ApplicationSecurityGroupPropertiesFormat_STATUS_ARM struct {
 	// even if the user changes its name or migrate the resource across subscriptions or resource groups.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
+
+// The current provisioning state.
+type ProvisioningState_STATUS_ARM string
+
+const (
+	ProvisioningState_STATUS_ARM_Deleting  = ProvisioningState_STATUS_ARM("Deleting")
+	ProvisioningState_STATUS_ARM_Failed    = ProvisioningState_STATUS_ARM("Failed")
+	ProvisioningState_STATUS_ARM_Succeeded = ProvisioningState_STATUS_ARM("Succeeded")
+	ProvisioningState_STATUS_ARM_Updating  = ProvisioningState_STATUS_ARM("Updating")
+)
+
+// Mapping from string to ProvisioningState_STATUS_ARM
+var provisioningState_STATUS_ARM_Values = map[string]ProvisioningState_STATUS_ARM{
+	"deleting":  ProvisioningState_STATUS_ARM_Deleting,
+	"failed":    ProvisioningState_STATUS_ARM_Failed,
+	"succeeded": ProvisioningState_STATUS_ARM_Succeeded,
+	"updating":  ProvisioningState_STATUS_ARM_Updating,
+}

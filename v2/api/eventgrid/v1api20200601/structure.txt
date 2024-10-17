@@ -235,7 +235,7 @@ DomainsTopic: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
-Domains_Topic_STATUS_ARM: Object (5 properties)
+DomainsTopic_STATUS_ARM: Object (5 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (1 property)
@@ -262,7 +262,7 @@ Domains_Topic_STATUS_ARM: Object (5 properties)
 │       ├── "ManagedIdentity"
 │       └── "User"
 └── Type: *string
-Domains_Topic_Spec_ARM: Object (1 property)
+DomainsTopic_Spec_ARM: Object (1 property)
 └── Name: string
 EventSubscription: Resource
 ├── Spec: Object (9 properties)

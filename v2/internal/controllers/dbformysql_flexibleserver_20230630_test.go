@@ -130,7 +130,7 @@ func MySQLFlexibleServer_Database_20230630_CRUD(tc *testcommon.KubePerTestContex
 	// although it doesn't give nice errors to point this out
 	database := &mysql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
-		Spec: mysql.FlexibleServers_Database_Spec{
+		Spec: mysql.FlexibleServersDatabase_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
 			Charset: to.Ptr("utf8mb4"),
 		},
@@ -144,7 +144,7 @@ func MySQLFlexibleServer_Database_20230630_CRUD(tc *testcommon.KubePerTestContex
 func MySQLFlexibleServer_FirewallRule_20230630_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	rule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
-		Spec: mysql.FlexibleServers_FirewallRule_Spec{
+		Spec: mysql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.Ptr("1.2.3.4"),
 			EndIpAddress:   to.Ptr("1.2.3.4"),
@@ -210,7 +210,7 @@ func MySQLFlexibleServer_AADAdmin_20230630_CRUD(tc *testcommon.KubePerTestContex
 	aadAdmin := mysql.AdministratorProperties_AdministratorType_ActiveDirectory
 	admin := &mysql.FlexibleServersAdministrator{
 		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
-		Spec: mysql.FlexibleServers_Administrator_Spec{
+		Spec: mysql.FlexibleServersAdministrator_Spec{
 			Owner:             testcommon.AsOwner(server),
 			AdministratorType: &aadAdmin,
 			Login:             &mi.Name,
@@ -235,7 +235,7 @@ func MySQLFlexibleServer_AADAdmin_20230630_CRUD(tc *testcommon.KubePerTestContex
 func MySQLFlexibleServer_Configuration_20230630_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	configuration := &mysql.FlexibleServersConfiguration{
 		ObjectMeta: tc.MakeObjectMetaWithName("maxconnections"),
-		Spec: mysql.FlexibleServers_Configuration_Spec{
+		Spec: mysql.FlexibleServersConfiguration_Spec{
 			AzureName: "max_connections",
 			Owner:     testcommon.AsOwner(flexibleServer),
 			Source:    to.Ptr(mysql.ConfigurationProperties_Source_UserOverride),

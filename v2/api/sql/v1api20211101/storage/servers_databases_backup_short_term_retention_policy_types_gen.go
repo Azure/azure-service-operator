@@ -28,8 +28,8 @@ import (
 type ServersDatabasesBackupShortTermRetentionPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Databases_BackupShortTermRetentionPolicy_Spec   `json:"spec,omitempty"`
-	Status            Servers_Databases_BackupShortTermRetentionPolicy_STATUS `json:"status,omitempty"`
+	Spec              ServersDatabasesBackupShortTermRetentionPolicy_Spec   `json:"spec,omitempty"`
+	Status            ServersDatabasesBackupShortTermRetentionPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersDatabasesBackupShortTermRetentionPolicy{}
@@ -86,7 +86,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Databases_BackupShortTermRetentionPolicy_STATUS{}
+	return &ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -98,13 +98,13 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) Owner() *genruntim
 // SetStatus sets the status of this resource
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Databases_BackupShortTermRetentionPolicy_STATUS); ok {
+	if st, ok := status.(*ServersDatabasesBackupShortTermRetentionPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Databases_BackupShortTermRetentionPolicy_STATUS
+	var st ServersDatabasesBackupShortTermRetentionPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type ServersDatabasesBackupShortTermRetentionPolicyList struct {
 	Items           []ServersDatabasesBackupShortTermRetentionPolicy `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_Databases_BackupShortTermRetentionPolicy_Spec
-type Servers_Databases_BackupShortTermRetentionPolicy_Spec struct {
+// Storage version of v1api20211101.ServersDatabasesBackupShortTermRetentionPolicy_Spec
+type ServersDatabasesBackupShortTermRetentionPolicy_Spec struct {
 	DiffBackupIntervalInHours *int   `json:"diffBackupIntervalInHours,omitempty"`
 	OriginalVersion           string `json:"originalVersion,omitempty"`
 
@@ -151,10 +151,10 @@ type Servers_Databases_BackupShortTermRetentionPolicy_Spec struct {
 	RetentionDays *int                               `json:"retentionDays,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Databases_BackupShortTermRetentionPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
 
-// ConvertSpecFrom populates our Servers_Databases_BackupShortTermRetentionPolicy_Spec from the provided source
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersDatabasesBackupShortTermRetentionPolicy_Spec from the provided source
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -162,8 +162,8 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertSpec
 	return source.ConvertSpecTo(policy)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Databases_BackupShortTermRetentionPolicy_Spec
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersDatabasesBackupShortTermRetentionPolicy_Spec
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -171,8 +171,8 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertSpec
 	return destination.ConvertSpecFrom(policy)
 }
 
-// Storage version of v1api20211101.Servers_Databases_BackupShortTermRetentionPolicy_STATUS
-type Servers_Databases_BackupShortTermRetentionPolicy_STATUS struct {
+// Storage version of v1api20211101.ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+type ServersDatabasesBackupShortTermRetentionPolicy_STATUS struct {
 	Conditions                []conditions.Condition `json:"conditions,omitempty"`
 	DiffBackupIntervalInHours *int                   `json:"diffBackupIntervalInHours,omitempty"`
 	Id                        *string                `json:"id,omitempty"`
@@ -182,10 +182,10 @@ type Servers_Databases_BackupShortTermRetentionPolicy_STATUS struct {
 	Type                      *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Databases_BackupShortTermRetentionPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Databases_BackupShortTermRetentionPolicy_STATUS from the provided source
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersDatabasesBackupShortTermRetentionPolicy_STATUS from the provided source
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -193,8 +193,8 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) ConvertSt
 	return source.ConvertStatusTo(policy)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Databases_BackupShortTermRetentionPolicy_STATUS
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

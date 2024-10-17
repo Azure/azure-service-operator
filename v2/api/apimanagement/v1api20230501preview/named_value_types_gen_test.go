@@ -488,36 +488,36 @@ func NamedValueGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamedValue is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamedValue(gens map[string]gopter.Gen) {
-	gens["Spec"] = Service_NamedValue_SpecGenerator()
-	gens["Status"] = Service_NamedValue_STATUSGenerator()
+	gens["Spec"] = NamedValue_SpecGenerator()
+	gens["Status"] = NamedValue_STATUSGenerator()
 }
 
-func Test_Service_NamedValue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_NamedValue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_NamedValue_STATUS to Service_NamedValue_STATUS via AssignProperties_To_Service_NamedValue_STATUS & AssignProperties_From_Service_NamedValue_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_NamedValue_STATUS, Service_NamedValue_STATUSGenerator()))
+		"Round trip from NamedValue_STATUS to NamedValue_STATUS via AssignProperties_To_NamedValue_STATUS & AssignProperties_From_NamedValue_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamedValue_STATUS, NamedValue_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_NamedValue_STATUS tests if a specific instance of Service_NamedValue_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_NamedValue_STATUS(subject Service_NamedValue_STATUS) string {
+// RunPropertyAssignmentTestForNamedValue_STATUS tests if a specific instance of NamedValue_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamedValue_STATUS(subject NamedValue_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501ps.Service_NamedValue_STATUS
-	err := copied.AssignProperties_To_Service_NamedValue_STATUS(&other)
+	var other v20230501ps.NamedValue_STATUS
+	err := copied.AssignProperties_To_NamedValue_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_NamedValue_STATUS
-	err = actual.AssignProperties_From_Service_NamedValue_STATUS(&other)
+	var actual NamedValue_STATUS
+	err = actual.AssignProperties_From_NamedValue_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -534,20 +534,20 @@ func RunPropertyAssignmentTestForService_NamedValue_STATUS(subject Service_Named
 	return ""
 }
 
-func Test_Service_NamedValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamedValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_NamedValue_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_NamedValue_STATUS, Service_NamedValue_STATUSGenerator()))
+		"Round trip of NamedValue_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamedValue_STATUS, NamedValue_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_NamedValue_STATUS runs a test to see if a specific instance of Service_NamedValue_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_NamedValue_STATUS(subject Service_NamedValue_STATUS) string {
+// RunJSONSerializationTestForNamedValue_STATUS runs a test to see if a specific instance of NamedValue_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamedValue_STATUS(subject NamedValue_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -555,7 +555,7 @@ func RunJSONSerializationTestForService_NamedValue_STATUS(subject Service_NamedV
 	}
 
 	// Deserialize back into memory
-	var actual Service_NamedValue_STATUS
+	var actual NamedValue_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -573,34 +573,33 @@ func RunJSONSerializationTestForService_NamedValue_STATUS(subject Service_NamedV
 	return ""
 }
 
-// Generator of Service_NamedValue_STATUS instances for property testing - lazily instantiated by
-// Service_NamedValue_STATUSGenerator()
-var service_NamedValue_STATUSGenerator gopter.Gen
+// Generator of NamedValue_STATUS instances for property testing - lazily instantiated by NamedValue_STATUSGenerator()
+var namedValue_STATUSGenerator gopter.Gen
 
-// Service_NamedValue_STATUSGenerator returns a generator of Service_NamedValue_STATUS instances for property testing.
-// We first initialize service_NamedValue_STATUSGenerator with a simplified generator based on the
+// NamedValue_STATUSGenerator returns a generator of NamedValue_STATUS instances for property testing.
+// We first initialize namedValue_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Service_NamedValue_STATUSGenerator() gopter.Gen {
-	if service_NamedValue_STATUSGenerator != nil {
-		return service_NamedValue_STATUSGenerator
+func NamedValue_STATUSGenerator() gopter.Gen {
+	if namedValue_STATUSGenerator != nil {
+		return namedValue_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(generators)
-	service_NamedValue_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamedValue_STATUS(generators)
+	namedValue_STATUSGenerator = gen.Struct(reflect.TypeOf(NamedValue_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(generators)
-	AddRelatedPropertyGeneratorsForService_NamedValue_STATUS(generators)
-	service_NamedValue_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamedValue_STATUS(generators)
+	AddRelatedPropertyGeneratorsForNamedValue_STATUS(generators)
+	namedValue_STATUSGenerator = gen.Struct(reflect.TypeOf(NamedValue_STATUS{}), generators)
 
-	return service_NamedValue_STATUSGenerator
+	return namedValue_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_NamedValue_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamedValue_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamedValue_STATUS(gens map[string]gopter.Gen) {
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -611,37 +610,37 @@ func AddIndependentPropertyGeneratorsForService_NamedValue_STATUS(gens map[strin
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForService_NamedValue_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_NamedValue_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamedValue_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamedValue_STATUS(gens map[string]gopter.Gen) {
 	gens["KeyVault"] = gen.PtrOf(KeyVaultContractProperties_STATUSGenerator())
 }
 
-func Test_Service_NamedValue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_NamedValue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_NamedValue_Spec to Service_NamedValue_Spec via AssignProperties_To_Service_NamedValue_Spec & AssignProperties_From_Service_NamedValue_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_NamedValue_Spec, Service_NamedValue_SpecGenerator()))
+		"Round trip from NamedValue_Spec to NamedValue_Spec via AssignProperties_To_NamedValue_Spec & AssignProperties_From_NamedValue_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamedValue_Spec, NamedValue_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_NamedValue_Spec tests if a specific instance of Service_NamedValue_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_NamedValue_Spec(subject Service_NamedValue_Spec) string {
+// RunPropertyAssignmentTestForNamedValue_Spec tests if a specific instance of NamedValue_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamedValue_Spec(subject NamedValue_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501ps.Service_NamedValue_Spec
-	err := copied.AssignProperties_To_Service_NamedValue_Spec(&other)
+	var other v20230501ps.NamedValue_Spec
+	err := copied.AssignProperties_To_NamedValue_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_NamedValue_Spec
-	err = actual.AssignProperties_From_Service_NamedValue_Spec(&other)
+	var actual NamedValue_Spec
+	err = actual.AssignProperties_From_NamedValue_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -658,20 +657,20 @@ func RunPropertyAssignmentTestForService_NamedValue_Spec(subject Service_NamedVa
 	return ""
 }
 
-func Test_Service_NamedValue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamedValue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_NamedValue_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_NamedValue_Spec, Service_NamedValue_SpecGenerator()))
+		"Round trip of NamedValue_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamedValue_Spec, NamedValue_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_NamedValue_Spec runs a test to see if a specific instance of Service_NamedValue_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_NamedValue_Spec(subject Service_NamedValue_Spec) string {
+// RunJSONSerializationTestForNamedValue_Spec runs a test to see if a specific instance of NamedValue_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamedValue_Spec(subject NamedValue_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -679,7 +678,7 @@ func RunJSONSerializationTestForService_NamedValue_Spec(subject Service_NamedVal
 	}
 
 	// Deserialize back into memory
-	var actual Service_NamedValue_Spec
+	var actual NamedValue_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -697,34 +696,33 @@ func RunJSONSerializationTestForService_NamedValue_Spec(subject Service_NamedVal
 	return ""
 }
 
-// Generator of Service_NamedValue_Spec instances for property testing - lazily instantiated by
-// Service_NamedValue_SpecGenerator()
-var service_NamedValue_SpecGenerator gopter.Gen
+// Generator of NamedValue_Spec instances for property testing - lazily instantiated by NamedValue_SpecGenerator()
+var namedValue_SpecGenerator gopter.Gen
 
-// Service_NamedValue_SpecGenerator returns a generator of Service_NamedValue_Spec instances for property testing.
-// We first initialize service_NamedValue_SpecGenerator with a simplified generator based on the
+// NamedValue_SpecGenerator returns a generator of NamedValue_Spec instances for property testing.
+// We first initialize namedValue_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Service_NamedValue_SpecGenerator() gopter.Gen {
-	if service_NamedValue_SpecGenerator != nil {
-		return service_NamedValue_SpecGenerator
+func NamedValue_SpecGenerator() gopter.Gen {
+	if namedValue_SpecGenerator != nil {
+		return namedValue_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_Spec(generators)
-	service_NamedValue_SpecGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamedValue_Spec(generators)
+	namedValue_SpecGenerator = gen.Struct(reflect.TypeOf(NamedValue_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_NamedValue_Spec(generators)
-	AddRelatedPropertyGeneratorsForService_NamedValue_Spec(generators)
-	service_NamedValue_SpecGenerator = gen.Struct(reflect.TypeOf(Service_NamedValue_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamedValue_Spec(generators)
+	AddRelatedPropertyGeneratorsForNamedValue_Spec(generators)
+	namedValue_SpecGenerator = gen.Struct(reflect.TypeOf(NamedValue_Spec{}), generators)
 
-	return service_NamedValue_SpecGenerator
+	return namedValue_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_NamedValue_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_NamedValue_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamedValue_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamedValue_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["Secret"] = gen.PtrOf(gen.Bool())
@@ -732,7 +730,7 @@ func AddIndependentPropertyGeneratorsForService_NamedValue_Spec(gens map[string]
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForService_NamedValue_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_NamedValue_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamedValue_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamedValue_Spec(gens map[string]gopter.Gen) {
 	gens["KeyVault"] = gen.PtrOf(KeyVaultContractCreatePropertiesGenerator())
 }

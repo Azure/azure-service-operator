@@ -80,20 +80,20 @@ func AddIndependentPropertyGeneratorsForConfigurationProperties_ARM(gens map[str
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_FlexibleServers_Configuration_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FlexibleServersConfiguration_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of FlexibleServers_Configuration_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServers_Configuration_Spec_ARM, FlexibleServers_Configuration_Spec_ARMGenerator()))
+		"Round trip of FlexibleServersConfiguration_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServersConfiguration_Spec_ARM, FlexibleServersConfiguration_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFlexibleServers_Configuration_Spec_ARM runs a test to see if a specific instance of FlexibleServers_Configuration_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServers_Configuration_Spec_ARM(subject FlexibleServers_Configuration_Spec_ARM) string {
+// RunJSONSerializationTestForFlexibleServersConfiguration_Spec_ARM runs a test to see if a specific instance of FlexibleServersConfiguration_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServersConfiguration_Spec_ARM(subject FlexibleServersConfiguration_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -101,7 +101,7 @@ func RunJSONSerializationTestForFlexibleServers_Configuration_Spec_ARM(subject F
 	}
 
 	// Deserialize back into memory
-	var actual FlexibleServers_Configuration_Spec_ARM
+	var actual FlexibleServersConfiguration_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -119,38 +119,38 @@ func RunJSONSerializationTestForFlexibleServers_Configuration_Spec_ARM(subject F
 	return ""
 }
 
-// Generator of FlexibleServers_Configuration_Spec_ARM instances for property testing - lazily instantiated by
-// FlexibleServers_Configuration_Spec_ARMGenerator()
-var flexibleServers_Configuration_Spec_ARMGenerator gopter.Gen
+// Generator of FlexibleServersConfiguration_Spec_ARM instances for property testing - lazily instantiated by
+// FlexibleServersConfiguration_Spec_ARMGenerator()
+var flexibleServersConfiguration_Spec_ARMGenerator gopter.Gen
 
-// FlexibleServers_Configuration_Spec_ARMGenerator returns a generator of FlexibleServers_Configuration_Spec_ARM instances for property testing.
-// We first initialize flexibleServers_Configuration_Spec_ARMGenerator with a simplified generator based on the
+// FlexibleServersConfiguration_Spec_ARMGenerator returns a generator of FlexibleServersConfiguration_Spec_ARM instances for property testing.
+// We first initialize flexibleServersConfiguration_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FlexibleServers_Configuration_Spec_ARMGenerator() gopter.Gen {
-	if flexibleServers_Configuration_Spec_ARMGenerator != nil {
-		return flexibleServers_Configuration_Spec_ARMGenerator
+func FlexibleServersConfiguration_Spec_ARMGenerator() gopter.Gen {
+	if flexibleServersConfiguration_Spec_ARMGenerator != nil {
+		return flexibleServersConfiguration_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServers_Configuration_Spec_ARM(generators)
-	flexibleServers_Configuration_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_Configuration_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_Spec_ARM(generators)
+	flexibleServersConfiguration_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServersConfiguration_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServers_Configuration_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServers_Configuration_Spec_ARM(generators)
-	flexibleServers_Configuration_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_Configuration_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_Spec_ARM(generators)
+	flexibleServersConfiguration_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServersConfiguration_Spec_ARM{}), generators)
 
-	return flexibleServers_Configuration_Spec_ARMGenerator
+	return flexibleServersConfiguration_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFlexibleServers_Configuration_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServers_Configuration_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForFlexibleServers_Configuration_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServers_Configuration_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ConfigurationProperties_ARMGenerator())
 }

@@ -27,8 +27,8 @@ import (
 type BackupVaultsBackupPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BackupVaults_BackupPolicy_Spec   `json:"spec,omitempty"`
-	Status            BackupVaults_BackupPolicy_STATUS `json:"status,omitempty"`
+	Spec              BackupVaultsBackupPolicy_Spec   `json:"spec,omitempty"`
+	Status            BackupVaultsBackupPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &BackupVaultsBackupPolicy{}
@@ -108,7 +108,7 @@ func (policy *BackupVaultsBackupPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *BackupVaultsBackupPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BackupVaults_BackupPolicy_STATUS{}
+	return &BackupVaultsBackupPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -120,13 +120,13 @@ func (policy *BackupVaultsBackupPolicy) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (policy *BackupVaultsBackupPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BackupVaults_BackupPolicy_STATUS); ok {
+	if st, ok := status.(*BackupVaultsBackupPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BackupVaults_BackupPolicy_STATUS
+	var st BackupVaultsBackupPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -143,18 +143,18 @@ func (policy *BackupVaultsBackupPolicy) AssignProperties_From_BackupVaultsBackup
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec BackupVaults_BackupPolicy_Spec
-	err := spec.AssignProperties_From_BackupVaults_BackupPolicy_Spec(&source.Spec)
+	var spec BackupVaultsBackupPolicy_Spec
+	err := spec.AssignProperties_From_BackupVaultsBackupPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BackupVaults_BackupPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
 	// Status
-	var status BackupVaults_BackupPolicy_STATUS
-	err = status.AssignProperties_From_BackupVaults_BackupPolicy_STATUS(&source.Status)
+	var status BackupVaultsBackupPolicy_STATUS
+	err = status.AssignProperties_From_BackupVaultsBackupPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BackupVaults_BackupPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -178,18 +178,18 @@ func (policy *BackupVaultsBackupPolicy) AssignProperties_To_BackupVaultsBackupPo
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.BackupVaults_BackupPolicy_Spec
-	err := policy.Spec.AssignProperties_To_BackupVaults_BackupPolicy_Spec(&spec)
+	var spec storage.BackupVaultsBackupPolicy_Spec
+	err := policy.Spec.AssignProperties_To_BackupVaultsBackupPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BackupVaults_BackupPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.BackupVaults_BackupPolicy_STATUS
-	err = policy.Status.AssignProperties_To_BackupVaults_BackupPolicy_STATUS(&status)
+	var status storage.BackupVaultsBackupPolicy_STATUS
+	err = policy.Status.AssignProperties_To_BackupVaultsBackupPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BackupVaults_BackupPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -231,8 +231,8 @@ type augmentConversionForBackupVaultsBackupPolicy interface {
 	AssignPropertiesTo(dst *storage.BackupVaultsBackupPolicy) error
 }
 
-// Storage version of v1api20230101.BackupVaults_BackupPolicy_Spec
-type BackupVaults_BackupPolicy_Spec struct {
+// Storage version of v1api20230101.BackupVaultsBackupPolicy_Spec
+type BackupVaultsBackupPolicy_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -247,25 +247,25 @@ type BackupVaults_BackupPolicy_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &BackupVaults_BackupPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &BackupVaultsBackupPolicy_Spec{}
 
-// ConvertSpecFrom populates our BackupVaults_BackupPolicy_Spec from the provided source
-func (policy *BackupVaults_BackupPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.BackupVaults_BackupPolicy_Spec)
+// ConvertSpecFrom populates our BackupVaultsBackupPolicy_Spec from the provided source
+func (policy *BackupVaultsBackupPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.BackupVaultsBackupPolicy_Spec)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_BackupVaults_BackupPolicy_Spec(src)
+		return policy.AssignProperties_From_BackupVaultsBackupPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.BackupVaults_BackupPolicy_Spec{}
+	src = &storage.BackupVaultsBackupPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_BackupVaults_BackupPolicy_Spec(src)
+	err = policy.AssignProperties_From_BackupVaultsBackupPolicy_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -273,17 +273,17 @@ func (policy *BackupVaults_BackupPolicy_Spec) ConvertSpecFrom(source genruntime.
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our BackupVaults_BackupPolicy_Spec
-func (policy *BackupVaults_BackupPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.BackupVaults_BackupPolicy_Spec)
+// ConvertSpecTo populates the provided destination from our BackupVaultsBackupPolicy_Spec
+func (policy *BackupVaultsBackupPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.BackupVaultsBackupPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_BackupVaults_BackupPolicy_Spec(dst)
+		return policy.AssignProperties_To_BackupVaultsBackupPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.BackupVaults_BackupPolicy_Spec{}
-	err := policy.AssignProperties_To_BackupVaults_BackupPolicy_Spec(dst)
+	dst = &storage.BackupVaultsBackupPolicy_Spec{}
+	err := policy.AssignProperties_To_BackupVaultsBackupPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -297,8 +297,8 @@ func (policy *BackupVaults_BackupPolicy_Spec) ConvertSpecTo(destination genrunti
 	return nil
 }
 
-// AssignProperties_From_BackupVaults_BackupPolicy_Spec populates our BackupVaults_BackupPolicy_Spec from the provided source BackupVaults_BackupPolicy_Spec
-func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_From_BackupVaults_BackupPolicy_Spec(source *storage.BackupVaults_BackupPolicy_Spec) error {
+// AssignProperties_From_BackupVaultsBackupPolicy_Spec populates our BackupVaultsBackupPolicy_Spec from the provided source BackupVaultsBackupPolicy_Spec
+func (policy *BackupVaultsBackupPolicy_Spec) AssignProperties_From_BackupVaultsBackupPolicy_Spec(source *storage.BackupVaultsBackupPolicy_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -335,9 +335,9 @@ func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_From_BackupVaults
 		policy.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForBackupVaults_BackupPolicy_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForBackupVaultsBackupPolicy_Spec interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
-	if augmentedPolicy, ok := policyAsAny.(augmentConversionForBackupVaults_BackupPolicy_Spec); ok {
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForBackupVaultsBackupPolicy_Spec); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -348,8 +348,8 @@ func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_From_BackupVaults
 	return nil
 }
 
-// AssignProperties_To_BackupVaults_BackupPolicy_Spec populates the provided destination BackupVaults_BackupPolicy_Spec from our BackupVaults_BackupPolicy_Spec
-func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_To_BackupVaults_BackupPolicy_Spec(destination *storage.BackupVaults_BackupPolicy_Spec) error {
+// AssignProperties_To_BackupVaultsBackupPolicy_Spec populates the provided destination BackupVaultsBackupPolicy_Spec from our BackupVaultsBackupPolicy_Spec
+func (policy *BackupVaultsBackupPolicy_Spec) AssignProperties_To_BackupVaultsBackupPolicy_Spec(destination *storage.BackupVaultsBackupPolicy_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -386,9 +386,9 @@ func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_To_BackupVaults_B
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForBackupVaults_BackupPolicy_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForBackupVaultsBackupPolicy_Spec interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
-	if augmentedPolicy, ok := policyAsAny.(augmentConversionForBackupVaults_BackupPolicy_Spec); ok {
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForBackupVaultsBackupPolicy_Spec); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -399,8 +399,8 @@ func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_To_BackupVaults_B
 	return nil
 }
 
-// Storage version of v1api20230101.BackupVaults_BackupPolicy_STATUS
-type BackupVaults_BackupPolicy_STATUS struct {
+// Storage version of v1api20230101.BackupVaultsBackupPolicy_STATUS
+type BackupVaultsBackupPolicy_STATUS struct {
 	Conditions  []conditions.Condition   `json:"conditions,omitempty"`
 	Id          *string                  `json:"id,omitempty"`
 	Name        *string                  `json:"name,omitempty"`
@@ -410,25 +410,25 @@ type BackupVaults_BackupPolicy_STATUS struct {
 	Type        *string                  `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BackupVaults_BackupPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &BackupVaultsBackupPolicy_STATUS{}
 
-// ConvertStatusFrom populates our BackupVaults_BackupPolicy_STATUS from the provided source
-func (policy *BackupVaults_BackupPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.BackupVaults_BackupPolicy_STATUS)
+// ConvertStatusFrom populates our BackupVaultsBackupPolicy_STATUS from the provided source
+func (policy *BackupVaultsBackupPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.BackupVaultsBackupPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_BackupVaults_BackupPolicy_STATUS(src)
+		return policy.AssignProperties_From_BackupVaultsBackupPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.BackupVaults_BackupPolicy_STATUS{}
+	src = &storage.BackupVaultsBackupPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_BackupVaults_BackupPolicy_STATUS(src)
+	err = policy.AssignProperties_From_BackupVaultsBackupPolicy_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -436,17 +436,17 @@ func (policy *BackupVaults_BackupPolicy_STATUS) ConvertStatusFrom(source genrunt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our BackupVaults_BackupPolicy_STATUS
-func (policy *BackupVaults_BackupPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.BackupVaults_BackupPolicy_STATUS)
+// ConvertStatusTo populates the provided destination from our BackupVaultsBackupPolicy_STATUS
+func (policy *BackupVaultsBackupPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.BackupVaultsBackupPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_BackupVaults_BackupPolicy_STATUS(dst)
+		return policy.AssignProperties_To_BackupVaultsBackupPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.BackupVaults_BackupPolicy_STATUS{}
-	err := policy.AssignProperties_To_BackupVaults_BackupPolicy_STATUS(dst)
+	dst = &storage.BackupVaultsBackupPolicy_STATUS{}
+	err := policy.AssignProperties_To_BackupVaultsBackupPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -460,8 +460,8 @@ func (policy *BackupVaults_BackupPolicy_STATUS) ConvertStatusTo(destination genr
 	return nil
 }
 
-// AssignProperties_From_BackupVaults_BackupPolicy_STATUS populates our BackupVaults_BackupPolicy_STATUS from the provided source BackupVaults_BackupPolicy_STATUS
-func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_From_BackupVaults_BackupPolicy_STATUS(source *storage.BackupVaults_BackupPolicy_STATUS) error {
+// AssignProperties_From_BackupVaultsBackupPolicy_STATUS populates our BackupVaultsBackupPolicy_STATUS from the provided source BackupVaultsBackupPolicy_STATUS
+func (policy *BackupVaultsBackupPolicy_STATUS) AssignProperties_From_BackupVaultsBackupPolicy_STATUS(source *storage.BackupVaultsBackupPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -508,9 +508,9 @@ func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_From_BackupVaul
 		policy.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForBackupVaults_BackupPolicy_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForBackupVaultsBackupPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
-	if augmentedPolicy, ok := policyAsAny.(augmentConversionForBackupVaults_BackupPolicy_STATUS); ok {
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForBackupVaultsBackupPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -521,8 +521,8 @@ func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_From_BackupVaul
 	return nil
 }
 
-// AssignProperties_To_BackupVaults_BackupPolicy_STATUS populates the provided destination BackupVaults_BackupPolicy_STATUS from our BackupVaults_BackupPolicy_STATUS
-func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_To_BackupVaults_BackupPolicy_STATUS(destination *storage.BackupVaults_BackupPolicy_STATUS) error {
+// AssignProperties_To_BackupVaultsBackupPolicy_STATUS populates the provided destination BackupVaultsBackupPolicy_STATUS from our BackupVaultsBackupPolicy_STATUS
+func (policy *BackupVaultsBackupPolicy_STATUS) AssignProperties_To_BackupVaultsBackupPolicy_STATUS(destination *storage.BackupVaultsBackupPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -569,9 +569,9 @@ func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_To_BackupVaults
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForBackupVaults_BackupPolicy_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForBackupVaultsBackupPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
-	if augmentedPolicy, ok := policyAsAny.(augmentConversionForBackupVaults_BackupPolicy_STATUS); ok {
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForBackupVaultsBackupPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -582,14 +582,14 @@ func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_To_BackupVaults
 	return nil
 }
 
-type augmentConversionForBackupVaults_BackupPolicy_Spec interface {
-	AssignPropertiesFrom(src *storage.BackupVaults_BackupPolicy_Spec) error
-	AssignPropertiesTo(dst *storage.BackupVaults_BackupPolicy_Spec) error
+type augmentConversionForBackupVaultsBackupPolicy_Spec interface {
+	AssignPropertiesFrom(src *storage.BackupVaultsBackupPolicy_Spec) error
+	AssignPropertiesTo(dst *storage.BackupVaultsBackupPolicy_Spec) error
 }
 
-type augmentConversionForBackupVaults_BackupPolicy_STATUS interface {
-	AssignPropertiesFrom(src *storage.BackupVaults_BackupPolicy_STATUS) error
-	AssignPropertiesTo(dst *storage.BackupVaults_BackupPolicy_STATUS) error
+type augmentConversionForBackupVaultsBackupPolicy_STATUS interface {
+	AssignPropertiesFrom(src *storage.BackupVaultsBackupPolicy_STATUS) error
+	AssignPropertiesTo(dst *storage.BackupVaultsBackupPolicy_STATUS) error
 }
 
 // Storage version of v1api20230101.BaseBackupPolicy

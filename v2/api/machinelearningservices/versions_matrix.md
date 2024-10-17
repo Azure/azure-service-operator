@@ -425,8 +425,8 @@
 | Workspace_STATUS                                                         | v1api20210701 | v1api20240401 |
 | Workspace_Spec                                                           | v1api20210701 | v1api20240401 |
 | WorkspacesCompute                                                        | v1api20210701 | v1api20240401 |
+| WorkspacesCompute_STATUS                                                 | v1api20210701 | v1api20240401 |
+| WorkspacesCompute_Spec                                                   | v1api20210701 | v1api20240401 |
 | WorkspacesConnection                                                     | v1api20210701 | v1api20240401 |
-| Workspaces_Compute_STATUS                                                | v1api20210701 | v1api20240401 |
-| Workspaces_Compute_Spec                                                  | v1api20210701 | v1api20240401 |
-| Workspaces_Connection_STATUS                                             | v1api20210701 | v1api20240401 |
-| Workspaces_Connection_Spec                                               | v1api20210701 | v1api20240401 |
+| WorkspacesConnection_STATUS                                              | v1api20210701 | v1api20240401 |
+| WorkspacesConnection_Spec                                                | v1api20210701 | v1api20240401 |

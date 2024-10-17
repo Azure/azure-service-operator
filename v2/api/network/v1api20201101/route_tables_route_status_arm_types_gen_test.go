@@ -91,20 +91,20 @@ func AddIndependentPropertyGeneratorsForRoutePropertiesFormat_STATUS_ARM(gens ma
 		ProvisioningState_STATUS_ARM_Updating))
 }
 
-func Test_RouteTables_Route_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RouteTablesRoute_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RouteTables_Route_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteTables_Route_STATUS_ARM, RouteTables_Route_STATUS_ARMGenerator()))
+		"Round trip of RouteTablesRoute_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRouteTablesRoute_STATUS_ARM, RouteTablesRoute_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteTables_Route_STATUS_ARM runs a test to see if a specific instance of RouteTables_Route_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteTables_Route_STATUS_ARM(subject RouteTables_Route_STATUS_ARM) string {
+// RunJSONSerializationTestForRouteTablesRoute_STATUS_ARM runs a test to see if a specific instance of RouteTablesRoute_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTablesRoute_STATUS_ARM(subject RouteTablesRoute_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -112,7 +112,7 @@ func RunJSONSerializationTestForRouteTables_Route_STATUS_ARM(subject RouteTables
 	}
 
 	// Deserialize back into memory
-	var actual RouteTables_Route_STATUS_ARM
+	var actual RouteTablesRoute_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -130,41 +130,41 @@ func RunJSONSerializationTestForRouteTables_Route_STATUS_ARM(subject RouteTables
 	return ""
 }
 
-// Generator of RouteTables_Route_STATUS_ARM instances for property testing - lazily instantiated by
-// RouteTables_Route_STATUS_ARMGenerator()
-var routeTables_Route_STATUS_ARMGenerator gopter.Gen
+// Generator of RouteTablesRoute_STATUS_ARM instances for property testing - lazily instantiated by
+// RouteTablesRoute_STATUS_ARMGenerator()
+var routeTablesRoute_STATUS_ARMGenerator gopter.Gen
 
-// RouteTables_Route_STATUS_ARMGenerator returns a generator of RouteTables_Route_STATUS_ARM instances for property testing.
-// We first initialize routeTables_Route_STATUS_ARMGenerator with a simplified generator based on the
+// RouteTablesRoute_STATUS_ARMGenerator returns a generator of RouteTablesRoute_STATUS_ARM instances for property testing.
+// We first initialize routeTablesRoute_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RouteTables_Route_STATUS_ARMGenerator() gopter.Gen {
-	if routeTables_Route_STATUS_ARMGenerator != nil {
-		return routeTables_Route_STATUS_ARMGenerator
+func RouteTablesRoute_STATUS_ARMGenerator() gopter.Gen {
+	if routeTablesRoute_STATUS_ARMGenerator != nil {
+		return routeTablesRoute_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTables_Route_STATUS_ARM(generators)
-	routeTables_Route_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RouteTables_Route_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTablesRoute_STATUS_ARM(generators)
+	routeTablesRoute_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RouteTablesRoute_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTables_Route_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForRouteTables_Route_STATUS_ARM(generators)
-	routeTables_Route_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RouteTables_Route_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTablesRoute_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForRouteTablesRoute_STATUS_ARM(generators)
+	routeTablesRoute_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RouteTablesRoute_STATUS_ARM{}), generators)
 
-	return routeTables_Route_STATUS_ARMGenerator
+	return routeTablesRoute_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteTables_Route_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteTables_Route_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRouteTablesRoute_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTablesRoute_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRouteTables_Route_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRouteTables_Route_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRouteTablesRoute_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRouteTablesRoute_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(RoutePropertiesFormat_STATUS_ARMGenerator())
 }

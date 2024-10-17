@@ -73,6 +73,74 @@ PrivateDnsZonesAAAARecord: Resource
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
     └── Type: *string
+PrivateDnsZonesAAAARecord_STATUS_ARM: Object (5 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (12 properties)
+│   ├── ARecords: Object (1 property)[]
+│   │   └── Ipv4Address: *string
+│   ├── AaaaRecords: Object (1 property)[]
+│   │   └── Ipv6Address: *string
+│   ├── CnameRecord: *Object (1 property)
+│   │   └── Cname: *string
+│   ├── Fqdn: *string
+│   ├── IsAutoRegistered: *bool
+│   ├── Metadata: map[string]string
+│   ├── MxRecords: Object (2 properties)[]
+│   │   ├── Exchange: *string
+│   │   └── Preference: *int
+│   ├── PtrRecords: Object (1 property)[]
+│   │   └── Ptrdname: *string
+│   ├── SoaRecord: *Object (7 properties)
+│   │   ├── Email: *string
+│   │   ├── ExpireTime: *int
+│   │   ├── Host: *string
+│   │   ├── MinimumTtl: *int
+│   │   ├── RefreshTime: *int
+│   │   ├── RetryTime: *int
+│   │   └── SerialNumber: *int
+│   ├── SrvRecords: Object (4 properties)[]
+│   │   ├── Port: *int
+│   │   ├── Priority: *int
+│   │   ├── Target: *string
+│   │   └── Weight: *int
+│   ├── Ttl: *int
+│   └── TxtRecords: Object (1 property)[]
+│       └── Value: string[]
+└── Type: *string
+PrivateDnsZonesAAAARecord_Spec_ARM: Object (3 properties)
+├── Etag: *string
+├── Name: string
+└── Properties: *Object (10 properties)
+    ├── ARecords: Object (1 property)[]
+    │   └── Ipv4Address: *string
+    ├── AaaaRecords: Object (1 property)[]
+    │   └── Ipv6Address: *string
+    ├── CnameRecord: *Object (1 property)
+    │   └── Cname: *string
+    ├── Metadata: map[string]string
+    ├── MxRecords: Object (2 properties)[]
+    │   ├── Exchange: *string
+    │   └── Preference: *int
+    ├── PtrRecords: Object (1 property)[]
+    │   └── Ptrdname: *string
+    ├── SoaRecord: *Object (7 properties)
+    │   ├── Email: *string
+    │   ├── ExpireTime: *int
+    │   ├── Host: *string
+    │   ├── MinimumTtl: *int
+    │   ├── RefreshTime: *int
+    │   ├── RetryTime: *int
+    │   └── SerialNumber: *int
+    ├── SrvRecords: Object (4 properties)[]
+    │   ├── Port: *int
+    │   ├── Priority: *int
+    │   ├── Target: *string
+    │   └── Weight: *int
+    ├── Ttl: *int
+    └── TxtRecords: Object (1 property)[]
+        └── Value: string[]
 PrivateDnsZonesARecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (13 properties)
@@ -143,6 +211,74 @@ PrivateDnsZonesARecord: Resource
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
     └── Type: *string
+PrivateDnsZonesARecord_STATUS_ARM: Object (5 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (12 properties)
+│   ├── ARecords: Object (1 property)[]
+│   │   └── Ipv4Address: *string
+│   ├── AaaaRecords: Object (1 property)[]
+│   │   └── Ipv6Address: *string
+│   ├── CnameRecord: *Object (1 property)
+│   │   └── Cname: *string
+│   ├── Fqdn: *string
+│   ├── IsAutoRegistered: *bool
+│   ├── Metadata: map[string]string
+│   ├── MxRecords: Object (2 properties)[]
+│   │   ├── Exchange: *string
+│   │   └── Preference: *int
+│   ├── PtrRecords: Object (1 property)[]
+│   │   └── Ptrdname: *string
+│   ├── SoaRecord: *Object (7 properties)
+│   │   ├── Email: *string
+│   │   ├── ExpireTime: *int
+│   │   ├── Host: *string
+│   │   ├── MinimumTtl: *int
+│   │   ├── RefreshTime: *int
+│   │   ├── RetryTime: *int
+│   │   └── SerialNumber: *int
+│   ├── SrvRecords: Object (4 properties)[]
+│   │   ├── Port: *int
+│   │   ├── Priority: *int
+│   │   ├── Target: *string
+│   │   └── Weight: *int
+│   ├── Ttl: *int
+│   └── TxtRecords: Object (1 property)[]
+│       └── Value: string[]
+└── Type: *string
+PrivateDnsZonesARecord_Spec_ARM: Object (3 properties)
+├── Etag: *string
+├── Name: string
+└── Properties: *Object (10 properties)
+    ├── ARecords: Object (1 property)[]
+    │   └── Ipv4Address: *string
+    ├── AaaaRecords: Object (1 property)[]
+    │   └── Ipv6Address: *string
+    ├── CnameRecord: *Object (1 property)
+    │   └── Cname: *string
+    ├── Metadata: map[string]string
+    ├── MxRecords: Object (2 properties)[]
+    │   ├── Exchange: *string
+    │   └── Preference: *int
+    ├── PtrRecords: Object (1 property)[]
+    │   └── Ptrdname: *string
+    ├── SoaRecord: *Object (7 properties)
+    │   ├── Email: *string
+    │   ├── ExpireTime: *int
+    │   ├── Host: *string
+    │   ├── MinimumTtl: *int
+    │   ├── RefreshTime: *int
+    │   ├── RetryTime: *int
+    │   └── SerialNumber: *int
+    ├── SrvRecords: Object (4 properties)[]
+    │   ├── Port: *int
+    │   ├── Priority: *int
+    │   ├── Target: *string
+    │   └── Weight: *int
+    ├── Ttl: *int
+    └── TxtRecords: Object (1 property)[]
+        └── Value: string[]
 PrivateDnsZonesCNAMERecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (13 properties)
@@ -213,6 +349,74 @@ PrivateDnsZonesCNAMERecord: Resource
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
     └── Type: *string
+PrivateDnsZonesCNAMERecord_STATUS_ARM: Object (5 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (12 properties)
+│   ├── ARecords: Object (1 property)[]
+│   │   └── Ipv4Address: *string
+│   ├── AaaaRecords: Object (1 property)[]
+│   │   └── Ipv6Address: *string
+│   ├── CnameRecord: *Object (1 property)
+│   │   └── Cname: *string
+│   ├── Fqdn: *string
+│   ├── IsAutoRegistered: *bool
+│   ├── Metadata: map[string]string
+│   ├── MxRecords: Object (2 properties)[]
+│   │   ├── Exchange: *string
+│   │   └── Preference: *int
+│   ├── PtrRecords: Object (1 property)[]
+│   │   └── Ptrdname: *string
+│   ├── SoaRecord: *Object (7 properties)
+│   │   ├── Email: *string
+│   │   ├── ExpireTime: *int
+│   │   ├── Host: *string
+│   │   ├── MinimumTtl: *int
+│   │   ├── RefreshTime: *int
+│   │   ├── RetryTime: *int
+│   │   └── SerialNumber: *int
+│   ├── SrvRecords: Object (4 properties)[]
+│   │   ├── Port: *int
+│   │   ├── Priority: *int
+│   │   ├── Target: *string
+│   │   └── Weight: *int
+│   ├── Ttl: *int
+│   └── TxtRecords: Object (1 property)[]
+│       └── Value: string[]
+└── Type: *string
+PrivateDnsZonesCNAMERecord_Spec_ARM: Object (3 properties)
+├── Etag: *string
+├── Name: string
+└── Properties: *Object (10 properties)
+    ├── ARecords: Object (1 property)[]
+    │   └── Ipv4Address: *string
+    ├── AaaaRecords: Object (1 property)[]
+    │   └── Ipv6Address: *string
+    ├── CnameRecord: *Object (1 property)
+    │   └── Cname: *string
+    ├── Metadata: map[string]string
+    ├── MxRecords: Object (2 properties)[]
+    │   ├── Exchange: *string
+    │   └── Preference: *int
+    ├── PtrRecords: Object (1 property)[]
+    │   └── Ptrdname: *string
+    ├── SoaRecord: *Object (7 properties)
+    │   ├── Email: *string
+    │   ├── ExpireTime: *int
+    │   ├── Host: *string
+    │   ├── MinimumTtl: *int
+    │   ├── RefreshTime: *int
+    │   ├── RetryTime: *int
+    │   └── SerialNumber: *int
+    ├── SrvRecords: Object (4 properties)[]
+    │   ├── Port: *int
+    │   ├── Priority: *int
+    │   ├── Target: *string
+    │   └── Weight: *int
+    ├── Ttl: *int
+    └── TxtRecords: Object (1 property)[]
+        └── Value: string[]
 PrivateDnsZonesMXRecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (13 properties)
@@ -283,6 +487,74 @@ PrivateDnsZonesMXRecord: Resource
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
     └── Type: *string
+PrivateDnsZonesMXRecord_STATUS_ARM: Object (5 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (12 properties)
+│   ├── ARecords: Object (1 property)[]
+│   │   └── Ipv4Address: *string
+│   ├── AaaaRecords: Object (1 property)[]
+│   │   └── Ipv6Address: *string
+│   ├── CnameRecord: *Object (1 property)
+│   │   └── Cname: *string
+│   ├── Fqdn: *string
+│   ├── IsAutoRegistered: *bool
+│   ├── Metadata: map[string]string
+│   ├── MxRecords: Object (2 properties)[]
+│   │   ├── Exchange: *string
+│   │   └── Preference: *int
+│   ├── PtrRecords: Object (1 property)[]
+│   │   └── Ptrdname: *string
+│   ├── SoaRecord: *Object (7 properties)
+│   │   ├── Email: *string
+│   │   ├── ExpireTime: *int
+│   │   ├── Host: *string
+│   │   ├── MinimumTtl: *int
+│   │   ├── RefreshTime: *int
+│   │   ├── RetryTime: *int
+│   │   └── SerialNumber: *int
+│   ├── SrvRecords: Object (4 properties)[]
+│   │   ├── Port: *int
+│   │   ├── Priority: *int
+│   │   ├── Target: *string
+│   │   └── Weight: *int
+│   ├── Ttl: *int
+│   └── TxtRecords: Object (1 property)[]
+│       └── Value: string[]
+└── Type: *string
+PrivateDnsZonesMXRecord_Spec_ARM: Object (3 properties)
+├── Etag: *string
+├── Name: string
+└── Properties: *Object (10 properties)
+    ├── ARecords: Object (1 property)[]
+    │   └── Ipv4Address: *string
+    ├── AaaaRecords: Object (1 property)[]
+    │   └── Ipv6Address: *string
+    ├── CnameRecord: *Object (1 property)
+    │   └── Cname: *string
+    ├── Metadata: map[string]string
+    ├── MxRecords: Object (2 properties)[]
+    │   ├── Exchange: *string
+    │   └── Preference: *int
+    ├── PtrRecords: Object (1 property)[]
+    │   └── Ptrdname: *string
+    ├── SoaRecord: *Object (7 properties)
+    │   ├── Email: *string
+    │   ├── ExpireTime: *int
+    │   ├── Host: *string
+    │   ├── MinimumTtl: *int
+    │   ├── RefreshTime: *int
+    │   ├── RetryTime: *int
+    │   └── SerialNumber: *int
+    ├── SrvRecords: Object (4 properties)[]
+    │   ├── Port: *int
+    │   ├── Priority: *int
+    │   ├── Target: *string
+    │   └── Weight: *int
+    ├── Ttl: *int
+    └── TxtRecords: Object (1 property)[]
+        └── Value: string[]
 PrivateDnsZonesPTRRecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (13 properties)
@@ -353,6 +625,74 @@ PrivateDnsZonesPTRRecord: Resource
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
     └── Type: *string
+PrivateDnsZonesPTRRecord_STATUS_ARM: Object (5 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (12 properties)
+│   ├── ARecords: Object (1 property)[]
+│   │   └── Ipv4Address: *string
+│   ├── AaaaRecords: Object (1 property)[]
+│   │   └── Ipv6Address: *string
+│   ├── CnameRecord: *Object (1 property)
+│   │   └── Cname: *string
+│   ├── Fqdn: *string
+│   ├── IsAutoRegistered: *bool
+│   ├── Metadata: map[string]string
+│   ├── MxRecords: Object (2 properties)[]
+│   │   ├── Exchange: *string
+│   │   └── Preference: *int
+│   ├── PtrRecords: Object (1 property)[]
+│   │   └── Ptrdname: *string
+│   ├── SoaRecord: *Object (7 properties)
+│   │   ├── Email: *string
+│   │   ├── ExpireTime: *int
+│   │   ├── Host: *string
+│   │   ├── MinimumTtl: *int
+│   │   ├── RefreshTime: *int
+│   │   ├── RetryTime: *int
+│   │   └── SerialNumber: *int
+│   ├── SrvRecords: Object (4 properties)[]
+│   │   ├── Port: *int
+│   │   ├── Priority: *int
+│   │   ├── Target: *string
+│   │   └── Weight: *int
+│   ├── Ttl: *int
+│   └── TxtRecords: Object (1 property)[]
+│       └── Value: string[]
+└── Type: *string
+PrivateDnsZonesPTRRecord_Spec_ARM: Object (3 properties)
+├── Etag: *string
+├── Name: string
+└── Properties: *Object (10 properties)
+    ├── ARecords: Object (1 property)[]
+    │   └── Ipv4Address: *string
+    ├── AaaaRecords: Object (1 property)[]
+    │   └── Ipv6Address: *string
+    ├── CnameRecord: *Object (1 property)
+    │   └── Cname: *string
+    ├── Metadata: map[string]string
+    ├── MxRecords: Object (2 properties)[]
+    │   ├── Exchange: *string
+    │   └── Preference: *int
+    ├── PtrRecords: Object (1 property)[]
+    │   └── Ptrdname: *string
+    ├── SoaRecord: *Object (7 properties)
+    │   ├── Email: *string
+    │   ├── ExpireTime: *int
+    │   ├── Host: *string
+    │   ├── MinimumTtl: *int
+    │   ├── RefreshTime: *int
+    │   ├── RetryTime: *int
+    │   └── SerialNumber: *int
+    ├── SrvRecords: Object (4 properties)[]
+    │   ├── Port: *int
+    │   ├── Priority: *int
+    │   ├── Target: *string
+    │   └── Weight: *int
+    ├── Ttl: *int
+    └── TxtRecords: Object (1 property)[]
+        └── Value: string[]
 PrivateDnsZonesSRVRecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (13 properties)
@@ -423,6 +763,74 @@ PrivateDnsZonesSRVRecord: Resource
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
     └── Type: *string
+PrivateDnsZonesSRVRecord_STATUS_ARM: Object (5 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (12 properties)
+│   ├── ARecords: Object (1 property)[]
+│   │   └── Ipv4Address: *string
+│   ├── AaaaRecords: Object (1 property)[]
+│   │   └── Ipv6Address: *string
+│   ├── CnameRecord: *Object (1 property)
+│   │   └── Cname: *string
+│   ├── Fqdn: *string
+│   ├── IsAutoRegistered: *bool
+│   ├── Metadata: map[string]string
+│   ├── MxRecords: Object (2 properties)[]
+│   │   ├── Exchange: *string
+│   │   └── Preference: *int
+│   ├── PtrRecords: Object (1 property)[]
+│   │   └── Ptrdname: *string
+│   ├── SoaRecord: *Object (7 properties)
+│   │   ├── Email: *string
+│   │   ├── ExpireTime: *int
+│   │   ├── Host: *string
+│   │   ├── MinimumTtl: *int
+│   │   ├── RefreshTime: *int
+│   │   ├── RetryTime: *int
+│   │   └── SerialNumber: *int
+│   ├── SrvRecords: Object (4 properties)[]
+│   │   ├── Port: *int
+│   │   ├── Priority: *int
+│   │   ├── Target: *string
+│   │   └── Weight: *int
+│   ├── Ttl: *int
+│   └── TxtRecords: Object (1 property)[]
+│       └── Value: string[]
+└── Type: *string
+PrivateDnsZonesSRVRecord_Spec_ARM: Object (3 properties)
+├── Etag: *string
+├── Name: string
+└── Properties: *Object (10 properties)
+    ├── ARecords: Object (1 property)[]
+    │   └── Ipv4Address: *string
+    ├── AaaaRecords: Object (1 property)[]
+    │   └── Ipv6Address: *string
+    ├── CnameRecord: *Object (1 property)
+    │   └── Cname: *string
+    ├── Metadata: map[string]string
+    ├── MxRecords: Object (2 properties)[]
+    │   ├── Exchange: *string
+    │   └── Preference: *int
+    ├── PtrRecords: Object (1 property)[]
+    │   └── Ptrdname: *string
+    ├── SoaRecord: *Object (7 properties)
+    │   ├── Email: *string
+    │   ├── ExpireTime: *int
+    │   ├── Host: *string
+    │   ├── MinimumTtl: *int
+    │   ├── RefreshTime: *int
+    │   ├── RetryTime: *int
+    │   └── SerialNumber: *int
+    ├── SrvRecords: Object (4 properties)[]
+    │   ├── Port: *int
+    │   ├── Priority: *int
+    │   ├── Target: *string
+    │   └── Weight: *int
+    ├── Ttl: *int
+    └── TxtRecords: Object (1 property)[]
+        └── Value: string[]
 PrivateDnsZonesTXTRecord: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (13 properties)
@@ -493,6 +901,74 @@ PrivateDnsZonesTXTRecord: Resource
     ├── TxtRecords: Object (1 property)[]
     │   └── Value: string[]
     └── Type: *string
+PrivateDnsZonesTXTRecord_STATUS_ARM: Object (5 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (12 properties)
+│   ├── ARecords: Object (1 property)[]
+│   │   └── Ipv4Address: *string
+│   ├── AaaaRecords: Object (1 property)[]
+│   │   └── Ipv6Address: *string
+│   ├── CnameRecord: *Object (1 property)
+│   │   └── Cname: *string
+│   ├── Fqdn: *string
+│   ├── IsAutoRegistered: *bool
+│   ├── Metadata: map[string]string
+│   ├── MxRecords: Object (2 properties)[]
+│   │   ├── Exchange: *string
+│   │   └── Preference: *int
+│   ├── PtrRecords: Object (1 property)[]
+│   │   └── Ptrdname: *string
+│   ├── SoaRecord: *Object (7 properties)
+│   │   ├── Email: *string
+│   │   ├── ExpireTime: *int
+│   │   ├── Host: *string
+│   │   ├── MinimumTtl: *int
+│   │   ├── RefreshTime: *int
+│   │   ├── RetryTime: *int
+│   │   └── SerialNumber: *int
+│   ├── SrvRecords: Object (4 properties)[]
+│   │   ├── Port: *int
+│   │   ├── Priority: *int
+│   │   ├── Target: *string
+│   │   └── Weight: *int
+│   ├── Ttl: *int
+│   └── TxtRecords: Object (1 property)[]
+│       └── Value: string[]
+└── Type: *string
+PrivateDnsZonesTXTRecord_Spec_ARM: Object (3 properties)
+├── Etag: *string
+├── Name: string
+└── Properties: *Object (10 properties)
+    ├── ARecords: Object (1 property)[]
+    │   └── Ipv4Address: *string
+    ├── AaaaRecords: Object (1 property)[]
+    │   └── Ipv6Address: *string
+    ├── CnameRecord: *Object (1 property)
+    │   └── Cname: *string
+    ├── Metadata: map[string]string
+    ├── MxRecords: Object (2 properties)[]
+    │   ├── Exchange: *string
+    │   └── Preference: *int
+    ├── PtrRecords: Object (1 property)[]
+    │   └── Ptrdname: *string
+    ├── SoaRecord: *Object (7 properties)
+    │   ├── Email: *string
+    │   ├── ExpireTime: *int
+    │   ├── Host: *string
+    │   ├── MinimumTtl: *int
+    │   ├── RefreshTime: *int
+    │   ├── RetryTime: *int
+    │   └── SerialNumber: *int
+    ├── SrvRecords: Object (4 properties)[]
+    │   ├── Port: *int
+    │   ├── Priority: *int
+    │   ├── Target: *string
+    │   └── Weight: *int
+    ├── Ttl: *int
+    └── TxtRecords: Object (1 property)[]
+        └── Value: string[]
 PrivateDnsZonesVirtualNetworkLink: Resource
 ├── Owner: PrivateDnsZone
 ├── Spec: Object (7 properties)
@@ -525,483 +1001,7 @@ PrivateDnsZonesVirtualNetworkLink: Resource
     └── VirtualNetworkLinkState: *Enum (2 values)
         ├── "Completed"
         └── "InProgress"
-PrivateDnsZones_AAAA_STATUS_ARM: Object (5 properties)
-├── Etag: *string
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (12 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
-│   ├── AaaaRecords: Object (1 property)[]
-│   │   └── Ipv6Address: *string
-│   ├── CnameRecord: *Object (1 property)
-│   │   └── Cname: *string
-│   ├── Fqdn: *string
-│   ├── IsAutoRegistered: *bool
-│   ├── Metadata: map[string]string
-│   ├── MxRecords: Object (2 properties)[]
-│   │   ├── Exchange: *string
-│   │   └── Preference: *int
-│   ├── PtrRecords: Object (1 property)[]
-│   │   └── Ptrdname: *string
-│   ├── SoaRecord: *Object (7 properties)
-│   │   ├── Email: *string
-│   │   ├── ExpireTime: *int
-│   │   ├── Host: *string
-│   │   ├── MinimumTtl: *int
-│   │   ├── RefreshTime: *int
-│   │   ├── RetryTime: *int
-│   │   └── SerialNumber: *int
-│   ├── SrvRecords: Object (4 properties)[]
-│   │   ├── Port: *int
-│   │   ├── Priority: *int
-│   │   ├── Target: *string
-│   │   └── Weight: *int
-│   ├── Ttl: *int
-│   └── TxtRecords: Object (1 property)[]
-│       └── Value: string[]
-└── Type: *string
-PrivateDnsZones_AAAA_Spec_ARM: Object (3 properties)
-├── Etag: *string
-├── Name: string
-└── Properties: *Object (10 properties)
-    ├── ARecords: Object (1 property)[]
-    │   └── Ipv4Address: *string
-    ├── AaaaRecords: Object (1 property)[]
-    │   └── Ipv6Address: *string
-    ├── CnameRecord: *Object (1 property)
-    │   └── Cname: *string
-    ├── Metadata: map[string]string
-    ├── MxRecords: Object (2 properties)[]
-    │   ├── Exchange: *string
-    │   └── Preference: *int
-    ├── PtrRecords: Object (1 property)[]
-    │   └── Ptrdname: *string
-    ├── SoaRecord: *Object (7 properties)
-    │   ├── Email: *string
-    │   ├── ExpireTime: *int
-    │   ├── Host: *string
-    │   ├── MinimumTtl: *int
-    │   ├── RefreshTime: *int
-    │   ├── RetryTime: *int
-    │   └── SerialNumber: *int
-    ├── SrvRecords: Object (4 properties)[]
-    │   ├── Port: *int
-    │   ├── Priority: *int
-    │   ├── Target: *string
-    │   └── Weight: *int
-    ├── Ttl: *int
-    └── TxtRecords: Object (1 property)[]
-        └── Value: string[]
-PrivateDnsZones_A_STATUS_ARM: Object (5 properties)
-├── Etag: *string
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (12 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
-│   ├── AaaaRecords: Object (1 property)[]
-│   │   └── Ipv6Address: *string
-│   ├── CnameRecord: *Object (1 property)
-│   │   └── Cname: *string
-│   ├── Fqdn: *string
-│   ├── IsAutoRegistered: *bool
-│   ├── Metadata: map[string]string
-│   ├── MxRecords: Object (2 properties)[]
-│   │   ├── Exchange: *string
-│   │   └── Preference: *int
-│   ├── PtrRecords: Object (1 property)[]
-│   │   └── Ptrdname: *string
-│   ├── SoaRecord: *Object (7 properties)
-│   │   ├── Email: *string
-│   │   ├── ExpireTime: *int
-│   │   ├── Host: *string
-│   │   ├── MinimumTtl: *int
-│   │   ├── RefreshTime: *int
-│   │   ├── RetryTime: *int
-│   │   └── SerialNumber: *int
-│   ├── SrvRecords: Object (4 properties)[]
-│   │   ├── Port: *int
-│   │   ├── Priority: *int
-│   │   ├── Target: *string
-│   │   └── Weight: *int
-│   ├── Ttl: *int
-│   └── TxtRecords: Object (1 property)[]
-│       └── Value: string[]
-└── Type: *string
-PrivateDnsZones_A_Spec_ARM: Object (3 properties)
-├── Etag: *string
-├── Name: string
-└── Properties: *Object (10 properties)
-    ├── ARecords: Object (1 property)[]
-    │   └── Ipv4Address: *string
-    ├── AaaaRecords: Object (1 property)[]
-    │   └── Ipv6Address: *string
-    ├── CnameRecord: *Object (1 property)
-    │   └── Cname: *string
-    ├── Metadata: map[string]string
-    ├── MxRecords: Object (2 properties)[]
-    │   ├── Exchange: *string
-    │   └── Preference: *int
-    ├── PtrRecords: Object (1 property)[]
-    │   └── Ptrdname: *string
-    ├── SoaRecord: *Object (7 properties)
-    │   ├── Email: *string
-    │   ├── ExpireTime: *int
-    │   ├── Host: *string
-    │   ├── MinimumTtl: *int
-    │   ├── RefreshTime: *int
-    │   ├── RetryTime: *int
-    │   └── SerialNumber: *int
-    ├── SrvRecords: Object (4 properties)[]
-    │   ├── Port: *int
-    │   ├── Priority: *int
-    │   ├── Target: *string
-    │   └── Weight: *int
-    ├── Ttl: *int
-    └── TxtRecords: Object (1 property)[]
-        └── Value: string[]
-PrivateDnsZones_CNAME_STATUS_ARM: Object (5 properties)
-├── Etag: *string
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (12 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
-│   ├── AaaaRecords: Object (1 property)[]
-│   │   └── Ipv6Address: *string
-│   ├── CnameRecord: *Object (1 property)
-│   │   └── Cname: *string
-│   ├── Fqdn: *string
-│   ├── IsAutoRegistered: *bool
-│   ├── Metadata: map[string]string
-│   ├── MxRecords: Object (2 properties)[]
-│   │   ├── Exchange: *string
-│   │   └── Preference: *int
-│   ├── PtrRecords: Object (1 property)[]
-│   │   └── Ptrdname: *string
-│   ├── SoaRecord: *Object (7 properties)
-│   │   ├── Email: *string
-│   │   ├── ExpireTime: *int
-│   │   ├── Host: *string
-│   │   ├── MinimumTtl: *int
-│   │   ├── RefreshTime: *int
-│   │   ├── RetryTime: *int
-│   │   └── SerialNumber: *int
-│   ├── SrvRecords: Object (4 properties)[]
-│   │   ├── Port: *int
-│   │   ├── Priority: *int
-│   │   ├── Target: *string
-│   │   └── Weight: *int
-│   ├── Ttl: *int
-│   └── TxtRecords: Object (1 property)[]
-│       └── Value: string[]
-└── Type: *string
-PrivateDnsZones_CNAME_Spec_ARM: Object (3 properties)
-├── Etag: *string
-├── Name: string
-└── Properties: *Object (10 properties)
-    ├── ARecords: Object (1 property)[]
-    │   └── Ipv4Address: *string
-    ├── AaaaRecords: Object (1 property)[]
-    │   └── Ipv6Address: *string
-    ├── CnameRecord: *Object (1 property)
-    │   └── Cname: *string
-    ├── Metadata: map[string]string
-    ├── MxRecords: Object (2 properties)[]
-    │   ├── Exchange: *string
-    │   └── Preference: *int
-    ├── PtrRecords: Object (1 property)[]
-    │   └── Ptrdname: *string
-    ├── SoaRecord: *Object (7 properties)
-    │   ├── Email: *string
-    │   ├── ExpireTime: *int
-    │   ├── Host: *string
-    │   ├── MinimumTtl: *int
-    │   ├── RefreshTime: *int
-    │   ├── RetryTime: *int
-    │   └── SerialNumber: *int
-    ├── SrvRecords: Object (4 properties)[]
-    │   ├── Port: *int
-    │   ├── Priority: *int
-    │   ├── Target: *string
-    │   └── Weight: *int
-    ├── Ttl: *int
-    └── TxtRecords: Object (1 property)[]
-        └── Value: string[]
-PrivateDnsZones_MX_STATUS_ARM: Object (5 properties)
-├── Etag: *string
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (12 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
-│   ├── AaaaRecords: Object (1 property)[]
-│   │   └── Ipv6Address: *string
-│   ├── CnameRecord: *Object (1 property)
-│   │   └── Cname: *string
-│   ├── Fqdn: *string
-│   ├── IsAutoRegistered: *bool
-│   ├── Metadata: map[string]string
-│   ├── MxRecords: Object (2 properties)[]
-│   │   ├── Exchange: *string
-│   │   └── Preference: *int
-│   ├── PtrRecords: Object (1 property)[]
-│   │   └── Ptrdname: *string
-│   ├── SoaRecord: *Object (7 properties)
-│   │   ├── Email: *string
-│   │   ├── ExpireTime: *int
-│   │   ├── Host: *string
-│   │   ├── MinimumTtl: *int
-│   │   ├── RefreshTime: *int
-│   │   ├── RetryTime: *int
-│   │   └── SerialNumber: *int
-│   ├── SrvRecords: Object (4 properties)[]
-│   │   ├── Port: *int
-│   │   ├── Priority: *int
-│   │   ├── Target: *string
-│   │   └── Weight: *int
-│   ├── Ttl: *int
-│   └── TxtRecords: Object (1 property)[]
-│       └── Value: string[]
-└── Type: *string
-PrivateDnsZones_MX_Spec_ARM: Object (3 properties)
-├── Etag: *string
-├── Name: string
-└── Properties: *Object (10 properties)
-    ├── ARecords: Object (1 property)[]
-    │   └── Ipv4Address: *string
-    ├── AaaaRecords: Object (1 property)[]
-    │   └── Ipv6Address: *string
-    ├── CnameRecord: *Object (1 property)
-    │   └── Cname: *string
-    ├── Metadata: map[string]string
-    ├── MxRecords: Object (2 properties)[]
-    │   ├── Exchange: *string
-    │   └── Preference: *int
-    ├── PtrRecords: Object (1 property)[]
-    │   └── Ptrdname: *string
-    ├── SoaRecord: *Object (7 properties)
-    │   ├── Email: *string
-    │   ├── ExpireTime: *int
-    │   ├── Host: *string
-    │   ├── MinimumTtl: *int
-    │   ├── RefreshTime: *int
-    │   ├── RetryTime: *int
-    │   └── SerialNumber: *int
-    ├── SrvRecords: Object (4 properties)[]
-    │   ├── Port: *int
-    │   ├── Priority: *int
-    │   ├── Target: *string
-    │   └── Weight: *int
-    ├── Ttl: *int
-    └── TxtRecords: Object (1 property)[]
-        └── Value: string[]
-PrivateDnsZones_PTR_STATUS_ARM: Object (5 properties)
-├── Etag: *string
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (12 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
-│   ├── AaaaRecords: Object (1 property)[]
-│   │   └── Ipv6Address: *string
-│   ├── CnameRecord: *Object (1 property)
-│   │   └── Cname: *string
-│   ├── Fqdn: *string
-│   ├── IsAutoRegistered: *bool
-│   ├── Metadata: map[string]string
-│   ├── MxRecords: Object (2 properties)[]
-│   │   ├── Exchange: *string
-│   │   └── Preference: *int
-│   ├── PtrRecords: Object (1 property)[]
-│   │   └── Ptrdname: *string
-│   ├── SoaRecord: *Object (7 properties)
-│   │   ├── Email: *string
-│   │   ├── ExpireTime: *int
-│   │   ├── Host: *string
-│   │   ├── MinimumTtl: *int
-│   │   ├── RefreshTime: *int
-│   │   ├── RetryTime: *int
-│   │   └── SerialNumber: *int
-│   ├── SrvRecords: Object (4 properties)[]
-│   │   ├── Port: *int
-│   │   ├── Priority: *int
-│   │   ├── Target: *string
-│   │   └── Weight: *int
-│   ├── Ttl: *int
-│   └── TxtRecords: Object (1 property)[]
-│       └── Value: string[]
-└── Type: *string
-PrivateDnsZones_PTR_Spec_ARM: Object (3 properties)
-├── Etag: *string
-├── Name: string
-└── Properties: *Object (10 properties)
-    ├── ARecords: Object (1 property)[]
-    │   └── Ipv4Address: *string
-    ├── AaaaRecords: Object (1 property)[]
-    │   └── Ipv6Address: *string
-    ├── CnameRecord: *Object (1 property)
-    │   └── Cname: *string
-    ├── Metadata: map[string]string
-    ├── MxRecords: Object (2 properties)[]
-    │   ├── Exchange: *string
-    │   └── Preference: *int
-    ├── PtrRecords: Object (1 property)[]
-    │   └── Ptrdname: *string
-    ├── SoaRecord: *Object (7 properties)
-    │   ├── Email: *string
-    │   ├── ExpireTime: *int
-    │   ├── Host: *string
-    │   ├── MinimumTtl: *int
-    │   ├── RefreshTime: *int
-    │   ├── RetryTime: *int
-    │   └── SerialNumber: *int
-    ├── SrvRecords: Object (4 properties)[]
-    │   ├── Port: *int
-    │   ├── Priority: *int
-    │   ├── Target: *string
-    │   └── Weight: *int
-    ├── Ttl: *int
-    └── TxtRecords: Object (1 property)[]
-        └── Value: string[]
-PrivateDnsZones_SRV_STATUS_ARM: Object (5 properties)
-├── Etag: *string
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (12 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
-│   ├── AaaaRecords: Object (1 property)[]
-│   │   └── Ipv6Address: *string
-│   ├── CnameRecord: *Object (1 property)
-│   │   └── Cname: *string
-│   ├── Fqdn: *string
-│   ├── IsAutoRegistered: *bool
-│   ├── Metadata: map[string]string
-│   ├── MxRecords: Object (2 properties)[]
-│   │   ├── Exchange: *string
-│   │   └── Preference: *int
-│   ├── PtrRecords: Object (1 property)[]
-│   │   └── Ptrdname: *string
-│   ├── SoaRecord: *Object (7 properties)
-│   │   ├── Email: *string
-│   │   ├── ExpireTime: *int
-│   │   ├── Host: *string
-│   │   ├── MinimumTtl: *int
-│   │   ├── RefreshTime: *int
-│   │   ├── RetryTime: *int
-│   │   └── SerialNumber: *int
-│   ├── SrvRecords: Object (4 properties)[]
-│   │   ├── Port: *int
-│   │   ├── Priority: *int
-│   │   ├── Target: *string
-│   │   └── Weight: *int
-│   ├── Ttl: *int
-│   └── TxtRecords: Object (1 property)[]
-│       └── Value: string[]
-└── Type: *string
-PrivateDnsZones_SRV_Spec_ARM: Object (3 properties)
-├── Etag: *string
-├── Name: string
-└── Properties: *Object (10 properties)
-    ├── ARecords: Object (1 property)[]
-    │   └── Ipv4Address: *string
-    ├── AaaaRecords: Object (1 property)[]
-    │   └── Ipv6Address: *string
-    ├── CnameRecord: *Object (1 property)
-    │   └── Cname: *string
-    ├── Metadata: map[string]string
-    ├── MxRecords: Object (2 properties)[]
-    │   ├── Exchange: *string
-    │   └── Preference: *int
-    ├── PtrRecords: Object (1 property)[]
-    │   └── Ptrdname: *string
-    ├── SoaRecord: *Object (7 properties)
-    │   ├── Email: *string
-    │   ├── ExpireTime: *int
-    │   ├── Host: *string
-    │   ├── MinimumTtl: *int
-    │   ├── RefreshTime: *int
-    │   ├── RetryTime: *int
-    │   └── SerialNumber: *int
-    ├── SrvRecords: Object (4 properties)[]
-    │   ├── Port: *int
-    │   ├── Priority: *int
-    │   ├── Target: *string
-    │   └── Weight: *int
-    ├── Ttl: *int
-    └── TxtRecords: Object (1 property)[]
-        └── Value: string[]
-PrivateDnsZones_TXT_STATUS_ARM: Object (5 properties)
-├── Etag: *string
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (12 properties)
-│   ├── ARecords: Object (1 property)[]
-│   │   └── Ipv4Address: *string
-│   ├── AaaaRecords: Object (1 property)[]
-│   │   └── Ipv6Address: *string
-│   ├── CnameRecord: *Object (1 property)
-│   │   └── Cname: *string
-│   ├── Fqdn: *string
-│   ├── IsAutoRegistered: *bool
-│   ├── Metadata: map[string]string
-│   ├── MxRecords: Object (2 properties)[]
-│   │   ├── Exchange: *string
-│   │   └── Preference: *int
-│   ├── PtrRecords: Object (1 property)[]
-│   │   └── Ptrdname: *string
-│   ├── SoaRecord: *Object (7 properties)
-│   │   ├── Email: *string
-│   │   ├── ExpireTime: *int
-│   │   ├── Host: *string
-│   │   ├── MinimumTtl: *int
-│   │   ├── RefreshTime: *int
-│   │   ├── RetryTime: *int
-│   │   └── SerialNumber: *int
-│   ├── SrvRecords: Object (4 properties)[]
-│   │   ├── Port: *int
-│   │   ├── Priority: *int
-│   │   ├── Target: *string
-│   │   └── Weight: *int
-│   ├── Ttl: *int
-│   └── TxtRecords: Object (1 property)[]
-│       └── Value: string[]
-└── Type: *string
-PrivateDnsZones_TXT_Spec_ARM: Object (3 properties)
-├── Etag: *string
-├── Name: string
-└── Properties: *Object (10 properties)
-    ├── ARecords: Object (1 property)[]
-    │   └── Ipv4Address: *string
-    ├── AaaaRecords: Object (1 property)[]
-    │   └── Ipv6Address: *string
-    ├── CnameRecord: *Object (1 property)
-    │   └── Cname: *string
-    ├── Metadata: map[string]string
-    ├── MxRecords: Object (2 properties)[]
-    │   ├── Exchange: *string
-    │   └── Preference: *int
-    ├── PtrRecords: Object (1 property)[]
-    │   └── Ptrdname: *string
-    ├── SoaRecord: *Object (7 properties)
-    │   ├── Email: *string
-    │   ├── ExpireTime: *int
-    │   ├── Host: *string
-    │   ├── MinimumTtl: *int
-    │   ├── RefreshTime: *int
-    │   ├── RetryTime: *int
-    │   └── SerialNumber: *int
-    ├── SrvRecords: Object (4 properties)[]
-    │   ├── Port: *int
-    │   ├── Priority: *int
-    │   ├── Target: *string
-    │   └── Weight: *int
-    ├── Ttl: *int
-    └── TxtRecords: Object (1 property)[]
-        └── Value: string[]
-PrivateDnsZones_VirtualNetworkLink_STATUS_ARM: Object (7 properties)
+PrivateDnsZonesVirtualNetworkLink_STATUS_ARM: Object (7 properties)
 ├── Etag: *string
 ├── Id: *string
 ├── Location: *string
@@ -1022,7 +1022,7 @@ PrivateDnsZones_VirtualNetworkLink_STATUS_ARM: Object (7 properties)
 │       └── "InProgress"
 ├── Tags: map[string]string
 └── Type: *string
-PrivateDnsZones_VirtualNetworkLink_Spec_ARM: Object (5 properties)
+PrivateDnsZonesVirtualNetworkLink_Spec_ARM: Object (5 properties)
 ├── Etag: *string
 ├── Location: *string
 ├── Name: string

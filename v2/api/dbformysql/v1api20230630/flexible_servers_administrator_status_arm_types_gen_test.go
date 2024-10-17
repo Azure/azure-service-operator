@@ -82,20 +82,20 @@ func AddIndependentPropertyGeneratorsForAdministratorProperties_STATUS_ARM(gens 
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_FlexibleServers_Administrator_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FlexibleServersAdministrator_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of FlexibleServers_Administrator_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServers_Administrator_STATUS_ARM, FlexibleServers_Administrator_STATUS_ARMGenerator()))
+		"Round trip of FlexibleServersAdministrator_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServersAdministrator_STATUS_ARM, FlexibleServersAdministrator_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFlexibleServers_Administrator_STATUS_ARM runs a test to see if a specific instance of FlexibleServers_Administrator_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServers_Administrator_STATUS_ARM(subject FlexibleServers_Administrator_STATUS_ARM) string {
+// RunJSONSerializationTestForFlexibleServersAdministrator_STATUS_ARM runs a test to see if a specific instance of FlexibleServersAdministrator_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServersAdministrator_STATUS_ARM(subject FlexibleServersAdministrator_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -103,7 +103,7 @@ func RunJSONSerializationTestForFlexibleServers_Administrator_STATUS_ARM(subject
 	}
 
 	// Deserialize back into memory
-	var actual FlexibleServers_Administrator_STATUS_ARM
+	var actual FlexibleServersAdministrator_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -121,41 +121,41 @@ func RunJSONSerializationTestForFlexibleServers_Administrator_STATUS_ARM(subject
 	return ""
 }
 
-// Generator of FlexibleServers_Administrator_STATUS_ARM instances for property testing - lazily instantiated by
-// FlexibleServers_Administrator_STATUS_ARMGenerator()
-var flexibleServers_Administrator_STATUS_ARMGenerator gopter.Gen
+// Generator of FlexibleServersAdministrator_STATUS_ARM instances for property testing - lazily instantiated by
+// FlexibleServersAdministrator_STATUS_ARMGenerator()
+var flexibleServersAdministrator_STATUS_ARMGenerator gopter.Gen
 
-// FlexibleServers_Administrator_STATUS_ARMGenerator returns a generator of FlexibleServers_Administrator_STATUS_ARM instances for property testing.
-// We first initialize flexibleServers_Administrator_STATUS_ARMGenerator with a simplified generator based on the
+// FlexibleServersAdministrator_STATUS_ARMGenerator returns a generator of FlexibleServersAdministrator_STATUS_ARM instances for property testing.
+// We first initialize flexibleServersAdministrator_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FlexibleServers_Administrator_STATUS_ARMGenerator() gopter.Gen {
-	if flexibleServers_Administrator_STATUS_ARMGenerator != nil {
-		return flexibleServers_Administrator_STATUS_ARMGenerator
+func FlexibleServersAdministrator_STATUS_ARMGenerator() gopter.Gen {
+	if flexibleServersAdministrator_STATUS_ARMGenerator != nil {
+		return flexibleServersAdministrator_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServers_Administrator_STATUS_ARM(generators)
-	flexibleServers_Administrator_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_Administrator_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS_ARM(generators)
+	flexibleServersAdministrator_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdministrator_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServers_Administrator_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServers_Administrator_STATUS_ARM(generators)
-	flexibleServers_Administrator_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_Administrator_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_STATUS_ARM(generators)
+	flexibleServersAdministrator_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdministrator_STATUS_ARM{}), generators)
 
-	return flexibleServers_Administrator_STATUS_ARMGenerator
+	return flexibleServersAdministrator_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFlexibleServers_Administrator_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServers_Administrator_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForFlexibleServers_Administrator_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServers_Administrator_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(AdministratorProperties_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }

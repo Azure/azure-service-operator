@@ -29,8 +29,8 @@ import (
 type ProductApi struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Products_Api_Spec   `json:"spec,omitempty"`
-	Status            Service_Products_Api_STATUS `json:"status,omitempty"`
+	Spec              ProductApi_Spec   `json:"spec,omitempty"`
+	Status            ProductApi_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProductApi{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &ProductApi{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (productApi *ProductApi) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Service_Products_Api_STATUS); ok {
-		return productApi.Spec.Initialize_From_Service_Products_Api_STATUS(s)
+	if s, ok := status.(*ProductApi_STATUS); ok {
+		return productApi.Spec.Initialize_From_ProductApi_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Service_Products_Api_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ProductApi_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ProductApi{}
@@ -144,7 +144,7 @@ func (productApi *ProductApi) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (productApi *ProductApi) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Products_Api_STATUS{}
+	return &ProductApi_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (productApi *ProductApi) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (productApi *ProductApi) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Products_Api_STATUS); ok {
+	if st, ok := status.(*ProductApi_STATUS); ok {
 		productApi.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Products_Api_STATUS
+	var st ProductApi_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (productApi *ProductApi) AssignProperties_From_ProductApi(source *storage.P
 	productApi.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_Products_Api_Spec
-	err := spec.AssignProperties_From_Service_Products_Api_Spec(&source.Spec)
+	var spec ProductApi_Spec
+	err := spec.AssignProperties_From_ProductApi_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Products_Api_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ProductApi_Spec() to populate field Spec")
 	}
 	productApi.Spec = spec
 
 	// Status
-	var status Service_Products_Api_STATUS
-	err = status.AssignProperties_From_Service_Products_Api_STATUS(&source.Status)
+	var status ProductApi_STATUS
+	err = status.AssignProperties_From_ProductApi_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Products_Api_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ProductApi_STATUS() to populate field Status")
 	}
 	productApi.Status = status
 
@@ -286,18 +286,18 @@ func (productApi *ProductApi) AssignProperties_To_ProductApi(destination *storag
 	destination.ObjectMeta = *productApi.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_Products_Api_Spec
-	err := productApi.Spec.AssignProperties_To_Service_Products_Api_Spec(&spec)
+	var spec storage.ProductApi_Spec
+	err := productApi.Spec.AssignProperties_To_ProductApi_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Products_Api_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ProductApi_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_Products_Api_STATUS
-	err = productApi.Status.AssignProperties_To_Service_Products_Api_STATUS(&status)
+	var status storage.ProductApi_STATUS
+	err = productApi.Status.AssignProperties_To_ProductApi_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Products_Api_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ProductApi_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type ProductApiList struct {
 	Items           []ProductApi `json:"items"`
 }
 
-type Service_Products_Api_Spec struct {
+type ProductApi_Spec struct {
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Pattern="^[^*#&+:<>?]+$"
@@ -339,14 +339,14 @@ type Service_Products_Api_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Product"`
 }
 
-var _ genruntime.ARMTransformer = &Service_Products_Api_Spec{}
+var _ genruntime.ARMTransformer = &ProductApi_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (productsApi *Service_Products_Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if productsApi == nil {
+func (productApi *ProductApi_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if productApi == nil {
 		return nil, nil
 	}
-	result := &Service_Products_Api_Spec_ARM{}
+	result := &ProductApi_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -354,22 +354,22 @@ func (productsApi *Service_Products_Api_Spec) ConvertToARM(resolved genruntime.C
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (productsApi *Service_Products_Api_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Products_Api_Spec_ARM{}
+func (productApi *ProductApi_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ProductApi_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (productsApi *Service_Products_Api_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_Products_Api_Spec_ARM)
+func (productApi *ProductApi_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ProductApi_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Products_Api_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProductApi_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
-	productsApi.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	productApi.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	productsApi.Owner = &genruntime.KnownResourceReference{
+	productApi.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
 	}
@@ -378,25 +378,25 @@ func (productsApi *Service_Products_Api_Spec) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Products_Api_Spec{}
+var _ genruntime.ConvertibleSpec = &ProductApi_Spec{}
 
-// ConvertSpecFrom populates our Service_Products_Api_Spec from the provided source
-func (productsApi *Service_Products_Api_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_Products_Api_Spec)
+// ConvertSpecFrom populates our ProductApi_Spec from the provided source
+func (productApi *ProductApi_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ProductApi_Spec)
 	if ok {
 		// Populate our instance from source
-		return productsApi.AssignProperties_From_Service_Products_Api_Spec(src)
+		return productApi.AssignProperties_From_ProductApi_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Products_Api_Spec{}
+	src = &storage.ProductApi_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = productsApi.AssignProperties_From_Service_Products_Api_Spec(src)
+	err = productApi.AssignProperties_From_ProductApi_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -404,17 +404,17 @@ func (productsApi *Service_Products_Api_Spec) ConvertSpecFrom(source genruntime.
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Products_Api_Spec
-func (productsApi *Service_Products_Api_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_Products_Api_Spec)
+// ConvertSpecTo populates the provided destination from our ProductApi_Spec
+func (productApi *ProductApi_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ProductApi_Spec)
 	if ok {
 		// Populate destination from our instance
-		return productsApi.AssignProperties_To_Service_Products_Api_Spec(dst)
+		return productApi.AssignProperties_To_ProductApi_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Products_Api_Spec{}
-	err := productsApi.AssignProperties_To_Service_Products_Api_Spec(dst)
+	dst = &storage.ProductApi_Spec{}
+	err := productApi.AssignProperties_To_ProductApi_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -428,38 +428,38 @@ func (productsApi *Service_Products_Api_Spec) ConvertSpecTo(destination genrunti
 	return nil
 }
 
-// AssignProperties_From_Service_Products_Api_Spec populates our Service_Products_Api_Spec from the provided source Service_Products_Api_Spec
-func (productsApi *Service_Products_Api_Spec) AssignProperties_From_Service_Products_Api_Spec(source *storage.Service_Products_Api_Spec) error {
+// AssignProperties_From_ProductApi_Spec populates our ProductApi_Spec from the provided source ProductApi_Spec
+func (productApi *ProductApi_Spec) AssignProperties_From_ProductApi_Spec(source *storage.ProductApi_Spec) error {
 
 	// AzureName
-	productsApi.AzureName = source.AzureName
+	productApi.AzureName = source.AzureName
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		productsApi.Owner = &owner
+		productApi.Owner = &owner
 	} else {
-		productsApi.Owner = nil
+		productApi.Owner = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Service_Products_Api_Spec populates the provided destination Service_Products_Api_Spec from our Service_Products_Api_Spec
-func (productsApi *Service_Products_Api_Spec) AssignProperties_To_Service_Products_Api_Spec(destination *storage.Service_Products_Api_Spec) error {
+// AssignProperties_To_ProductApi_Spec populates the provided destination ProductApi_Spec from our ProductApi_Spec
+func (productApi *ProductApi_Spec) AssignProperties_To_ProductApi_Spec(destination *storage.ProductApi_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = productsApi.AzureName
+	destination.AzureName = productApi.AzureName
 
 	// OriginalVersion
-	destination.OriginalVersion = productsApi.OriginalVersion()
+	destination.OriginalVersion = productApi.OriginalVersion()
 
 	// Owner
-	if productsApi.Owner != nil {
-		owner := productsApi.Owner.Copy()
+	if productApi.Owner != nil {
+		owner := productApi.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
@@ -476,47 +476,45 @@ func (productsApi *Service_Products_Api_Spec) AssignProperties_To_Service_Produc
 	return nil
 }
 
-// Initialize_From_Service_Products_Api_STATUS populates our Service_Products_Api_Spec from the provided source Service_Products_Api_STATUS
-func (productsApi *Service_Products_Api_Spec) Initialize_From_Service_Products_Api_STATUS(source *Service_Products_Api_STATUS) error {
+// Initialize_From_ProductApi_STATUS populates our ProductApi_Spec from the provided source ProductApi_STATUS
+func (productApi *ProductApi_Spec) Initialize_From_ProductApi_STATUS(source *ProductApi_STATUS) error {
 
 	// No error
 	return nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (productsApi *Service_Products_Api_Spec) OriginalVersion() string {
+func (productApi *ProductApi_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (productsApi *Service_Products_Api_Spec) SetAzureName(azureName string) {
-	productsApi.AzureName = azureName
-}
+func (productApi *ProductApi_Spec) SetAzureName(azureName string) { productApi.AzureName = azureName }
 
-type Service_Products_Api_STATUS struct {
+type ProductApi_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Products_Api_STATUS{}
+var _ genruntime.ConvertibleStatus = &ProductApi_STATUS{}
 
-// ConvertStatusFrom populates our Service_Products_Api_STATUS from the provided source
-func (productsApi *Service_Products_Api_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_Products_Api_STATUS)
+// ConvertStatusFrom populates our ProductApi_STATUS from the provided source
+func (productApi *ProductApi_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ProductApi_STATUS)
 	if ok {
 		// Populate our instance from source
-		return productsApi.AssignProperties_From_Service_Products_Api_STATUS(src)
+		return productApi.AssignProperties_From_ProductApi_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Products_Api_STATUS{}
+	src = &storage.ProductApi_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = productsApi.AssignProperties_From_Service_Products_Api_STATUS(src)
+	err = productApi.AssignProperties_From_ProductApi_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -524,17 +522,17 @@ func (productsApi *Service_Products_Api_STATUS) ConvertStatusFrom(source genrunt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Products_Api_STATUS
-func (productsApi *Service_Products_Api_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_Products_Api_STATUS)
+// ConvertStatusTo populates the provided destination from our ProductApi_STATUS
+func (productApi *ProductApi_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ProductApi_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return productsApi.AssignProperties_To_Service_Products_Api_STATUS(dst)
+		return productApi.AssignProperties_To_ProductApi_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Products_Api_STATUS{}
-	err := productsApi.AssignProperties_To_Service_Products_Api_STATUS(dst)
+	dst = &storage.ProductApi_STATUS{}
+	err := productApi.AssignProperties_To_ProductApi_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -548,18 +546,18 @@ func (productsApi *Service_Products_Api_STATUS) ConvertStatusTo(destination genr
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Service_Products_Api_STATUS{}
+var _ genruntime.FromARMConverter = &ProductApi_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (productsApi *Service_Products_Api_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Products_Api_STATUS_ARM{}
+func (productApi *ProductApi_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ProductApi_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (productsApi *Service_Products_Api_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(Service_Products_Api_STATUS_ARM)
+func (productApi *ProductApi_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	_, ok := armInput.(ProductApi_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Products_Api_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProductApi_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -568,23 +566,23 @@ func (productsApi *Service_Products_Api_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignProperties_From_Service_Products_Api_STATUS populates our Service_Products_Api_STATUS from the provided source Service_Products_Api_STATUS
-func (productsApi *Service_Products_Api_STATUS) AssignProperties_From_Service_Products_Api_STATUS(source *storage.Service_Products_Api_STATUS) error {
+// AssignProperties_From_ProductApi_STATUS populates our ProductApi_STATUS from the provided source ProductApi_STATUS
+func (productApi *ProductApi_STATUS) AssignProperties_From_ProductApi_STATUS(source *storage.ProductApi_STATUS) error {
 
 	// Conditions
-	productsApi.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	productApi.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Service_Products_Api_STATUS populates the provided destination Service_Products_Api_STATUS from our Service_Products_Api_STATUS
-func (productsApi *Service_Products_Api_STATUS) AssignProperties_To_Service_Products_Api_STATUS(destination *storage.Service_Products_Api_STATUS) error {
+// AssignProperties_To_ProductApi_STATUS populates the provided destination ProductApi_STATUS from our ProductApi_STATUS
+func (productApi *ProductApi_STATUS) AssignProperties_To_ProductApi_STATUS(destination *storage.ProductApi_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(productsApi.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(productApi.Conditions)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

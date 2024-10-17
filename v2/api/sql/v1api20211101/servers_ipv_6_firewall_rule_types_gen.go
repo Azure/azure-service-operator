@@ -29,8 +29,8 @@ import (
 type ServersIPV6FirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Ipv6FirewallRule_Spec   `json:"spec,omitempty"`
-	Status            Servers_Ipv6FirewallRule_STATUS `json:"status,omitempty"`
+	Spec              ServersIPV6FirewallRule_Spec   `json:"spec,omitempty"`
+	Status            ServersIPV6FirewallRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersIPV6FirewallRule{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &ServersIPV6FirewallRule{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (rule *ServersIPV6FirewallRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Servers_Ipv6FirewallRule_STATUS); ok {
-		return rule.Spec.Initialize_From_Servers_Ipv6FirewallRule_STATUS(s)
+	if s, ok := status.(*ServersIPV6FirewallRule_STATUS); ok {
+		return rule.Spec.Initialize_From_ServersIPV6FirewallRule_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Servers_Ipv6FirewallRule_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServersIPV6FirewallRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersIPV6FirewallRule{}
@@ -144,7 +144,7 @@ func (rule *ServersIPV6FirewallRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *ServersIPV6FirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Ipv6FirewallRule_STATUS{}
+	return &ServersIPV6FirewallRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (rule *ServersIPV6FirewallRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *ServersIPV6FirewallRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Ipv6FirewallRule_STATUS); ok {
+	if st, ok := status.(*ServersIPV6FirewallRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Ipv6FirewallRule_STATUS
+	var st ServersIPV6FirewallRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (rule *ServersIPV6FirewallRule) AssignProperties_From_ServersIPV6FirewallRu
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_Ipv6FirewallRule_Spec
-	err := spec.AssignProperties_From_Servers_Ipv6FirewallRule_Spec(&source.Spec)
+	var spec ServersIPV6FirewallRule_Spec
+	err := spec.AssignProperties_From_ServersIPV6FirewallRule_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Ipv6FirewallRule_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersIPV6FirewallRule_Spec() to populate field Spec")
 	}
 	rule.Spec = spec
 
 	// Status
-	var status Servers_Ipv6FirewallRule_STATUS
-	err = status.AssignProperties_From_Servers_Ipv6FirewallRule_STATUS(&source.Status)
+	var status ServersIPV6FirewallRule_STATUS
+	err = status.AssignProperties_From_ServersIPV6FirewallRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Ipv6FirewallRule_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersIPV6FirewallRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -286,18 +286,18 @@ func (rule *ServersIPV6FirewallRule) AssignProperties_To_ServersIPV6FirewallRule
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Servers_Ipv6FirewallRule_Spec
-	err := rule.Spec.AssignProperties_To_Servers_Ipv6FirewallRule_Spec(&spec)
+	var spec storage.ServersIPV6FirewallRule_Spec
+	err := rule.Spec.AssignProperties_To_ServersIPV6FirewallRule_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Ipv6FirewallRule_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersIPV6FirewallRule_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Servers_Ipv6FirewallRule_STATUS
-	err = rule.Status.AssignProperties_To_Servers_Ipv6FirewallRule_STATUS(&status)
+	var status storage.ServersIPV6FirewallRule_STATUS
+	err = rule.Status.AssignProperties_To_ServersIPV6FirewallRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Ipv6FirewallRule_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersIPV6FirewallRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type ServersIPV6FirewallRuleList struct {
 	Items           []ServersIPV6FirewallRule `json:"items"`
 }
 
-type Servers_Ipv6FirewallRule_Spec struct {
+type ServersIPV6FirewallRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -343,14 +343,14 @@ type Servers_Ipv6FirewallRule_Spec struct {
 	StartIPv6Address *string `json:"startIPv6Address,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Servers_Ipv6FirewallRule_Spec{}
+var _ genruntime.ARMTransformer = &ServersIPV6FirewallRule_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rule *Servers_Ipv6FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (rule *ServersIPV6FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if rule == nil {
 		return nil, nil
 	}
-	result := &Servers_Ipv6FirewallRule_Spec_ARM{}
+	result := &ServersIPV6FirewallRule_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -371,15 +371,15 @@ func (rule *Servers_Ipv6FirewallRule_Spec) ConvertToARM(resolved genruntime.Conv
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *Servers_Ipv6FirewallRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Ipv6FirewallRule_Spec_ARM{}
+func (rule *ServersIPV6FirewallRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersIPV6FirewallRule_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *Servers_Ipv6FirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Ipv6FirewallRule_Spec_ARM)
+func (rule *ServersIPV6FirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersIPV6FirewallRule_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Ipv6FirewallRule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersIPV6FirewallRule_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -413,25 +413,25 @@ func (rule *Servers_Ipv6FirewallRule_Spec) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Ipv6FirewallRule_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersIPV6FirewallRule_Spec{}
 
-// ConvertSpecFrom populates our Servers_Ipv6FirewallRule_Spec from the provided source
-func (rule *Servers_Ipv6FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Servers_Ipv6FirewallRule_Spec)
+// ConvertSpecFrom populates our ServersIPV6FirewallRule_Spec from the provided source
+func (rule *ServersIPV6FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServersIPV6FirewallRule_Spec)
 	if ok {
 		// Populate our instance from source
-		return rule.AssignProperties_From_Servers_Ipv6FirewallRule_Spec(src)
+		return rule.AssignProperties_From_ServersIPV6FirewallRule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Ipv6FirewallRule_Spec{}
+	src = &storage.ServersIPV6FirewallRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = rule.AssignProperties_From_Servers_Ipv6FirewallRule_Spec(src)
+	err = rule.AssignProperties_From_ServersIPV6FirewallRule_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -439,17 +439,17 @@ func (rule *Servers_Ipv6FirewallRule_Spec) ConvertSpecFrom(source genruntime.Con
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Ipv6FirewallRule_Spec
-func (rule *Servers_Ipv6FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Servers_Ipv6FirewallRule_Spec)
+// ConvertSpecTo populates the provided destination from our ServersIPV6FirewallRule_Spec
+func (rule *ServersIPV6FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServersIPV6FirewallRule_Spec)
 	if ok {
 		// Populate destination from our instance
-		return rule.AssignProperties_To_Servers_Ipv6FirewallRule_Spec(dst)
+		return rule.AssignProperties_To_ServersIPV6FirewallRule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Ipv6FirewallRule_Spec{}
-	err := rule.AssignProperties_To_Servers_Ipv6FirewallRule_Spec(dst)
+	dst = &storage.ServersIPV6FirewallRule_Spec{}
+	err := rule.AssignProperties_To_ServersIPV6FirewallRule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -463,8 +463,8 @@ func (rule *Servers_Ipv6FirewallRule_Spec) ConvertSpecTo(destination genruntime.
 	return nil
 }
 
-// AssignProperties_From_Servers_Ipv6FirewallRule_Spec populates our Servers_Ipv6FirewallRule_Spec from the provided source Servers_Ipv6FirewallRule_Spec
-func (rule *Servers_Ipv6FirewallRule_Spec) AssignProperties_From_Servers_Ipv6FirewallRule_Spec(source *storage.Servers_Ipv6FirewallRule_Spec) error {
+// AssignProperties_From_ServersIPV6FirewallRule_Spec populates our ServersIPV6FirewallRule_Spec from the provided source ServersIPV6FirewallRule_Spec
+func (rule *ServersIPV6FirewallRule_Spec) AssignProperties_From_ServersIPV6FirewallRule_Spec(source *storage.ServersIPV6FirewallRule_Spec) error {
 
 	// AzureName
 	rule.AzureName = source.AzureName
@@ -487,8 +487,8 @@ func (rule *Servers_Ipv6FirewallRule_Spec) AssignProperties_From_Servers_Ipv6Fir
 	return nil
 }
 
-// AssignProperties_To_Servers_Ipv6FirewallRule_Spec populates the provided destination Servers_Ipv6FirewallRule_Spec from our Servers_Ipv6FirewallRule_Spec
-func (rule *Servers_Ipv6FirewallRule_Spec) AssignProperties_To_Servers_Ipv6FirewallRule_Spec(destination *storage.Servers_Ipv6FirewallRule_Spec) error {
+// AssignProperties_To_ServersIPV6FirewallRule_Spec populates the provided destination ServersIPV6FirewallRule_Spec from our ServersIPV6FirewallRule_Spec
+func (rule *ServersIPV6FirewallRule_Spec) AssignProperties_To_ServersIPV6FirewallRule_Spec(destination *storage.ServersIPV6FirewallRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -523,8 +523,8 @@ func (rule *Servers_Ipv6FirewallRule_Spec) AssignProperties_To_Servers_Ipv6Firew
 	return nil
 }
 
-// Initialize_From_Servers_Ipv6FirewallRule_STATUS populates our Servers_Ipv6FirewallRule_Spec from the provided source Servers_Ipv6FirewallRule_STATUS
-func (rule *Servers_Ipv6FirewallRule_Spec) Initialize_From_Servers_Ipv6FirewallRule_STATUS(source *Servers_Ipv6FirewallRule_STATUS) error {
+// Initialize_From_ServersIPV6FirewallRule_STATUS populates our ServersIPV6FirewallRule_Spec from the provided source ServersIPV6FirewallRule_STATUS
+func (rule *ServersIPV6FirewallRule_Spec) Initialize_From_ServersIPV6FirewallRule_STATUS(source *ServersIPV6FirewallRule_STATUS) error {
 
 	// EndIPv6Address
 	rule.EndIPv6Address = genruntime.ClonePointerToString(source.EndIPv6Address)
@@ -537,14 +537,14 @@ func (rule *Servers_Ipv6FirewallRule_Spec) Initialize_From_Servers_Ipv6FirewallR
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (rule *Servers_Ipv6FirewallRule_Spec) OriginalVersion() string {
+func (rule *ServersIPV6FirewallRule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (rule *Servers_Ipv6FirewallRule_Spec) SetAzureName(azureName string) { rule.AzureName = azureName }
+func (rule *ServersIPV6FirewallRule_Spec) SetAzureName(azureName string) { rule.AzureName = azureName }
 
-type Servers_Ipv6FirewallRule_STATUS struct {
+type ServersIPV6FirewallRule_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -565,25 +565,25 @@ type Servers_Ipv6FirewallRule_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Ipv6FirewallRule_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersIPV6FirewallRule_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Ipv6FirewallRule_STATUS from the provided source
-func (rule *Servers_Ipv6FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Servers_Ipv6FirewallRule_STATUS)
+// ConvertStatusFrom populates our ServersIPV6FirewallRule_STATUS from the provided source
+func (rule *ServersIPV6FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServersIPV6FirewallRule_STATUS)
 	if ok {
 		// Populate our instance from source
-		return rule.AssignProperties_From_Servers_Ipv6FirewallRule_STATUS(src)
+		return rule.AssignProperties_From_ServersIPV6FirewallRule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Ipv6FirewallRule_STATUS{}
+	src = &storage.ServersIPV6FirewallRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = rule.AssignProperties_From_Servers_Ipv6FirewallRule_STATUS(src)
+	err = rule.AssignProperties_From_ServersIPV6FirewallRule_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -591,17 +591,17 @@ func (rule *Servers_Ipv6FirewallRule_STATUS) ConvertStatusFrom(source genruntime
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Ipv6FirewallRule_STATUS
-func (rule *Servers_Ipv6FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Servers_Ipv6FirewallRule_STATUS)
+// ConvertStatusTo populates the provided destination from our ServersIPV6FirewallRule_STATUS
+func (rule *ServersIPV6FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServersIPV6FirewallRule_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return rule.AssignProperties_To_Servers_Ipv6FirewallRule_STATUS(dst)
+		return rule.AssignProperties_To_ServersIPV6FirewallRule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Ipv6FirewallRule_STATUS{}
-	err := rule.AssignProperties_To_Servers_Ipv6FirewallRule_STATUS(dst)
+	dst = &storage.ServersIPV6FirewallRule_STATUS{}
+	err := rule.AssignProperties_To_ServersIPV6FirewallRule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -615,18 +615,18 @@ func (rule *Servers_Ipv6FirewallRule_STATUS) ConvertStatusTo(destination genrunt
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Servers_Ipv6FirewallRule_STATUS{}
+var _ genruntime.FromARMConverter = &ServersIPV6FirewallRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *Servers_Ipv6FirewallRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Ipv6FirewallRule_STATUS_ARM{}
+func (rule *ServersIPV6FirewallRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersIPV6FirewallRule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *Servers_Ipv6FirewallRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Ipv6FirewallRule_STATUS_ARM)
+func (rule *ServersIPV6FirewallRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersIPV6FirewallRule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Ipv6FirewallRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersIPV6FirewallRule_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -671,8 +671,8 @@ func (rule *Servers_Ipv6FirewallRule_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignProperties_From_Servers_Ipv6FirewallRule_STATUS populates our Servers_Ipv6FirewallRule_STATUS from the provided source Servers_Ipv6FirewallRule_STATUS
-func (rule *Servers_Ipv6FirewallRule_STATUS) AssignProperties_From_Servers_Ipv6FirewallRule_STATUS(source *storage.Servers_Ipv6FirewallRule_STATUS) error {
+// AssignProperties_From_ServersIPV6FirewallRule_STATUS populates our ServersIPV6FirewallRule_STATUS from the provided source ServersIPV6FirewallRule_STATUS
+func (rule *ServersIPV6FirewallRule_STATUS) AssignProperties_From_ServersIPV6FirewallRule_STATUS(source *storage.ServersIPV6FirewallRule_STATUS) error {
 
 	// Conditions
 	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -696,8 +696,8 @@ func (rule *Servers_Ipv6FirewallRule_STATUS) AssignProperties_From_Servers_Ipv6F
 	return nil
 }
 
-// AssignProperties_To_Servers_Ipv6FirewallRule_STATUS populates the provided destination Servers_Ipv6FirewallRule_STATUS from our Servers_Ipv6FirewallRule_STATUS
-func (rule *Servers_Ipv6FirewallRule_STATUS) AssignProperties_To_Servers_Ipv6FirewallRule_STATUS(destination *storage.Servers_Ipv6FirewallRule_STATUS) error {
+// AssignProperties_To_ServersIPV6FirewallRule_STATUS populates the provided destination ServersIPV6FirewallRule_STATUS from our ServersIPV6FirewallRule_STATUS
+func (rule *ServersIPV6FirewallRule_STATUS) AssignProperties_To_ServersIPV6FirewallRule_STATUS(destination *storage.ServersIPV6FirewallRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

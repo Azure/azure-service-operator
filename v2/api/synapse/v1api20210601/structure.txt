@@ -365,7 +365,7 @@ WorkspacesBigDataPool: Resource
     ├── SparkVersion: *string
     ├── Tags: map[string]string
     └── Type: *string
-Workspaces_BigDataPool_STATUS_ARM: Object (6 properties)
+WorkspacesBigDataPool_STATUS_ARM: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
 ├── Name: *string
@@ -426,7 +426,7 @@ Workspaces_BigDataPool_STATUS_ARM: Object (6 properties)
 │   └── SparkVersion: *string
 ├── Tags: map[string]string
 └── Type: *string
-Workspaces_BigDataPool_Spec_ARM: Object (4 properties)
+WorkspacesBigDataPool_Spec_ARM: Object (4 properties)
 ├── Location: *string
 ├── Name: string
 ├── Properties: *Object (17 properties)

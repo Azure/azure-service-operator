@@ -28,8 +28,8 @@ import (
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_Database_Spec   `json:"spec,omitempty"`
-	Status            FlexibleServers_Database_STATUS `json:"status,omitempty"`
+	Spec              FlexibleServersDatabase_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServersDatabase_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersDatabase{}
@@ -87,7 +87,7 @@ func (database *FlexibleServersDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *FlexibleServersDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FlexibleServers_Database_STATUS{}
+	return &FlexibleServersDatabase_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (database *FlexibleServersDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *FlexibleServersDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FlexibleServers_Database_STATUS); ok {
+	if st, ok := status.(*FlexibleServersDatabase_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FlexibleServers_Database_STATUS
+	var st FlexibleServersDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type FlexibleServersDatabaseList struct {
 	Items           []FlexibleServersDatabase `json:"items"`
 }
 
-// Storage version of v1api20221201.FlexibleServers_Database_Spec
-type FlexibleServers_Database_Spec struct {
+// Storage version of v1api20221201.FlexibleServersDatabase_Spec
+type FlexibleServersDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -155,10 +155,10 @@ type FlexibleServers_Database_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_Database_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServersDatabase_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServers_Database_Spec from the provided source
-func (database *FlexibleServers_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our FlexibleServersDatabase_Spec from the provided source
+func (database *FlexibleServersDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -166,8 +166,8 @@ func (database *FlexibleServers_Database_Spec) ConvertSpecFrom(source genruntime
 	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_Database_Spec
-func (database *FlexibleServers_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our FlexibleServersDatabase_Spec
+func (database *FlexibleServersDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -175,8 +175,8 @@ func (database *FlexibleServers_Database_Spec) ConvertSpecTo(destination genrunt
 	return destination.ConvertSpecFrom(database)
 }
 
-// Storage version of v1api20221201.FlexibleServers_Database_STATUS
-type FlexibleServers_Database_STATUS struct {
+// Storage version of v1api20221201.FlexibleServersDatabase_STATUS
+type FlexibleServersDatabase_STATUS struct {
 	Charset     *string                `json:"charset,omitempty"`
 	Collation   *string                `json:"collation,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
@@ -187,10 +187,10 @@ type FlexibleServers_Database_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &FlexibleServers_Database_STATUS{}
+var _ genruntime.ConvertibleStatus = &FlexibleServersDatabase_STATUS{}
 
-// ConvertStatusFrom populates our FlexibleServers_Database_STATUS from the provided source
-func (database *FlexibleServers_Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our FlexibleServersDatabase_STATUS from the provided source
+func (database *FlexibleServersDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -198,8 +198,8 @@ func (database *FlexibleServers_Database_STATUS) ConvertStatusFrom(source genrun
 	return source.ConvertStatusTo(database)
 }
 
-// ConvertStatusTo populates the provided destination from our FlexibleServers_Database_STATUS
-func (database *FlexibleServers_Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our FlexibleServersDatabase_STATUS
+func (database *FlexibleServersDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

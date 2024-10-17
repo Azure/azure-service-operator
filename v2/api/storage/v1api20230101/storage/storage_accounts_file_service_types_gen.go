@@ -28,8 +28,8 @@ import (
 type StorageAccountsFileService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_FileService_Spec   `json:"spec,omitempty"`
-	Status            StorageAccounts_FileService_STATUS `json:"status,omitempty"`
+	Spec              StorageAccountsFileService_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsFileService_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsFileService{}
@@ -86,7 +86,7 @@ func (service *StorageAccountsFileService) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (service *StorageAccountsFileService) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccounts_FileService_STATUS{}
+	return &StorageAccountsFileService_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -98,13 +98,13 @@ func (service *StorageAccountsFileService) Owner() *genruntime.ResourceReference
 // SetStatus sets the status of this resource
 func (service *StorageAccountsFileService) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccounts_FileService_STATUS); ok {
+	if st, ok := status.(*StorageAccountsFileService_STATUS); ok {
 		service.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccounts_FileService_STATUS
+	var st StorageAccountsFileService_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type StorageAccountsFileServiceList struct {
 	Items           []StorageAccountsFileService `json:"items"`
 }
 
-// Storage version of v1api20230101.StorageAccounts_FileService_Spec
-type StorageAccounts_FileService_Spec struct {
+// Storage version of v1api20230101.StorageAccountsFileService_Spec
+type StorageAccountsFileService_Spec struct {
 	Cors            *CorsRules `json:"cors,omitempty"`
 	OriginalVersion string     `json:"originalVersion,omitempty"`
 
@@ -152,10 +152,10 @@ type StorageAccounts_FileService_Spec struct {
 	ShareDeleteRetentionPolicy *DeleteRetentionPolicy             `json:"shareDeleteRetentionPolicy,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_FileService_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsFileService_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_FileService_Spec from the provided source
-func (service *StorageAccounts_FileService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our StorageAccountsFileService_Spec from the provided source
+func (service *StorageAccountsFileService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -163,8 +163,8 @@ func (service *StorageAccounts_FileService_Spec) ConvertSpecFrom(source genrunti
 	return source.ConvertSpecTo(service)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_FileService_Spec
-func (service *StorageAccounts_FileService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our StorageAccountsFileService_Spec
+func (service *StorageAccountsFileService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -172,8 +172,8 @@ func (service *StorageAccounts_FileService_Spec) ConvertSpecTo(destination genru
 	return destination.ConvertSpecFrom(service)
 }
 
-// Storage version of v1api20230101.StorageAccounts_FileService_STATUS
-type StorageAccounts_FileService_STATUS struct {
+// Storage version of v1api20230101.StorageAccountsFileService_STATUS
+type StorageAccountsFileService_STATUS struct {
 	Conditions                 []conditions.Condition        `json:"conditions,omitempty"`
 	Cors                       *CorsRules_STATUS             `json:"cors,omitempty"`
 	Id                         *string                       `json:"id,omitempty"`
@@ -185,10 +185,10 @@ type StorageAccounts_FileService_STATUS struct {
 	Type                       *string                       `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccounts_FileService_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsFileService_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccounts_FileService_STATUS from the provided source
-func (service *StorageAccounts_FileService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our StorageAccountsFileService_STATUS from the provided source
+func (service *StorageAccountsFileService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -196,8 +196,8 @@ func (service *StorageAccounts_FileService_STATUS) ConvertStatusFrom(source genr
 	return source.ConvertStatusTo(service)
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccounts_FileService_STATUS
-func (service *StorageAccounts_FileService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our StorageAccountsFileService_STATUS
+func (service *StorageAccountsFileService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

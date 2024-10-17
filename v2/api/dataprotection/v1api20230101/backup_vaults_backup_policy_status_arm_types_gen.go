@@ -5,7 +5,7 @@ package v1api20230101
 
 import "encoding/json"
 
-type BackupVaults_BackupPolicy_STATUS_ARM struct {
+type BackupVaultsBackupPolicy_STATUS_ARM struct {
 	// Id: Resource Id represents the complete path to the resource.
 	Id *string `json:"id,omitempty"`
 

@@ -40,8 +40,3 @@ type DnsForwardingRulesetProperties_ARM struct {
 	// matching the forwarding rules in the ruleset to the target DNS servers.
 	DnsResolverOutboundEndpoints []DnsresolverSubResource_ARM `json:"dnsResolverOutboundEndpoints,omitempty"`
 }
-
-// Reference to another ARM resource.
-type DnsresolverSubResource_ARM struct {
-	Id *string `json:"id,omitempty"`
-}

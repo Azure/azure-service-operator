@@ -513,7 +513,7 @@ BackupVaultsBackupPolicy: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
-BackupVaults_BackupPolicy_STATUS_ARM: Object (5 properties)
+BackupVaultsBackupPolicy_STATUS_ARM: Object (5 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (1 property)
@@ -651,7 +651,7 @@ BackupVaults_BackupPolicy_STATUS_ARM: Object (5 properties)
 │       ├── "ManagedIdentity"
 │       └── "User"
 └── Type: *string
-BackupVaults_BackupPolicy_Spec_ARM: Object (2 properties)
+BackupVaultsBackupPolicy_Spec_ARM: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (1 property)
     └── BackupPolicy: *Object (3 properties)

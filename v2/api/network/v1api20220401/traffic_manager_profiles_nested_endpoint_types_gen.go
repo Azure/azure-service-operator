@@ -29,8 +29,8 @@ import (
 type TrafficManagerProfilesNestedEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Trafficmanagerprofiles_NestedEndpoint_Spec   `json:"spec,omitempty"`
-	Status            Trafficmanagerprofiles_NestedEndpoint_STATUS `json:"status,omitempty"`
+	Spec              TrafficManagerProfilesNestedEndpoint_Spec   `json:"spec,omitempty"`
+	Status            TrafficManagerProfilesNestedEndpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &TrafficManagerProfilesNestedEndpoint{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &TrafficManagerProfilesNestedEndpoint{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (endpoint *TrafficManagerProfilesNestedEndpoint) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Trafficmanagerprofiles_NestedEndpoint_STATUS); ok {
-		return endpoint.Spec.Initialize_From_Trafficmanagerprofiles_NestedEndpoint_STATUS(s)
+	if s, ok := status.(*TrafficManagerProfilesNestedEndpoint_STATUS); ok {
+		return endpoint.Spec.Initialize_From_TrafficManagerProfilesNestedEndpoint_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Trafficmanagerprofiles_NestedEndpoint_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type TrafficManagerProfilesNestedEndpoint_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &TrafficManagerProfilesNestedEndpoint{}
@@ -144,7 +144,7 @@ func (endpoint *TrafficManagerProfilesNestedEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *TrafficManagerProfilesNestedEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Trafficmanagerprofiles_NestedEndpoint_STATUS{}
+	return &TrafficManagerProfilesNestedEndpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (endpoint *TrafficManagerProfilesNestedEndpoint) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (endpoint *TrafficManagerProfilesNestedEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Trafficmanagerprofiles_NestedEndpoint_STATUS); ok {
+	if st, ok := status.(*TrafficManagerProfilesNestedEndpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Trafficmanagerprofiles_NestedEndpoint_STATUS
+	var st TrafficManagerProfilesNestedEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (endpoint *TrafficManagerProfilesNestedEndpoint) AssignProperties_From_Traf
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Trafficmanagerprofiles_NestedEndpoint_Spec
-	err := spec.AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_Spec(&source.Spec)
+	var spec TrafficManagerProfilesNestedEndpoint_Spec
+	err := spec.AssignProperties_From_TrafficManagerProfilesNestedEndpoint_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesNestedEndpoint_Spec() to populate field Spec")
 	}
 	endpoint.Spec = spec
 
 	// Status
-	var status Trafficmanagerprofiles_NestedEndpoint_STATUS
-	err = status.AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_STATUS(&source.Status)
+	var status TrafficManagerProfilesNestedEndpoint_STATUS
+	err = status.AssignProperties_From_TrafficManagerProfilesNestedEndpoint_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_TrafficManagerProfilesNestedEndpoint_STATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -286,18 +286,18 @@ func (endpoint *TrafficManagerProfilesNestedEndpoint) AssignProperties_To_Traffi
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Trafficmanagerprofiles_NestedEndpoint_Spec
-	err := endpoint.Spec.AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_Spec(&spec)
+	var spec storage.TrafficManagerProfilesNestedEndpoint_Spec
+	err := endpoint.Spec.AssignProperties_To_TrafficManagerProfilesNestedEndpoint_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesNestedEndpoint_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Trafficmanagerprofiles_NestedEndpoint_STATUS
-	err = endpoint.Status.AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_STATUS(&status)
+	var status storage.TrafficManagerProfilesNestedEndpoint_STATUS
+	err = endpoint.Status.AssignProperties_To_TrafficManagerProfilesNestedEndpoint_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_TrafficManagerProfilesNestedEndpoint_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type TrafficManagerProfilesNestedEndpointList struct {
 	Items           []TrafficManagerProfilesNestedEndpoint `json:"items"`
 }
 
-type Trafficmanagerprofiles_NestedEndpoint_Spec struct {
+type TrafficManagerProfilesNestedEndpoint_Spec struct {
 	// AlwaysServe: If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in
 	// the traffic routing method.
 	AlwaysServe *EndpointProperties_AlwaysServe `json:"alwaysServe,omitempty"`
@@ -395,14 +395,14 @@ type Trafficmanagerprofiles_NestedEndpoint_Spec struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Trafficmanagerprofiles_NestedEndpoint_Spec{}
+var _ genruntime.ARMTransformer = &TrafficManagerProfilesNestedEndpoint_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if endpoint == nil {
 		return nil, nil
 	}
-	result := &Trafficmanagerprofiles_NestedEndpoint_Spec_ARM{}
+	result := &TrafficManagerProfilesNestedEndpoint_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -505,15 +505,15 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertToARM(resolve
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Trafficmanagerprofiles_NestedEndpoint_Spec_ARM{}
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &TrafficManagerProfilesNestedEndpoint_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Trafficmanagerprofiles_NestedEndpoint_Spec_ARM)
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(TrafficManagerProfilesNestedEndpoint_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Trafficmanagerprofiles_NestedEndpoint_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfilesNestedEndpoint_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AlwaysServe":
@@ -667,25 +667,25 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) PopulateFromARM(owne
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Trafficmanagerprofiles_NestedEndpoint_Spec{}
+var _ genruntime.ConvertibleSpec = &TrafficManagerProfilesNestedEndpoint_Spec{}
 
-// ConvertSpecFrom populates our Trafficmanagerprofiles_NestedEndpoint_Spec from the provided source
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Trafficmanagerprofiles_NestedEndpoint_Spec)
+// ConvertSpecFrom populates our TrafficManagerProfilesNestedEndpoint_Spec from the provided source
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.TrafficManagerProfilesNestedEndpoint_Spec)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_Spec(src)
+		return endpoint.AssignProperties_From_TrafficManagerProfilesNestedEndpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Trafficmanagerprofiles_NestedEndpoint_Spec{}
+	src = &storage.TrafficManagerProfilesNestedEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_Spec(src)
+	err = endpoint.AssignProperties_From_TrafficManagerProfilesNestedEndpoint_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -693,17 +693,17 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertSpecFrom(sour
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Trafficmanagerprofiles_NestedEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Trafficmanagerprofiles_NestedEndpoint_Spec)
+// ConvertSpecTo populates the provided destination from our TrafficManagerProfilesNestedEndpoint_Spec
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.TrafficManagerProfilesNestedEndpoint_Spec)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_Spec(dst)
+		return endpoint.AssignProperties_To_TrafficManagerProfilesNestedEndpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Trafficmanagerprofiles_NestedEndpoint_Spec{}
-	err := endpoint.AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_Spec(dst)
+	dst = &storage.TrafficManagerProfilesNestedEndpoint_Spec{}
+	err := endpoint.AssignProperties_To_TrafficManagerProfilesNestedEndpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -717,8 +717,8 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) ConvertSpecTo(destin
 	return nil
 }
 
-// AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_Spec populates our Trafficmanagerprofiles_NestedEndpoint_Spec from the provided source Trafficmanagerprofiles_NestedEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_Spec(source *storage.Trafficmanagerprofiles_NestedEndpoint_Spec) error {
+// AssignProperties_From_TrafficManagerProfilesNestedEndpoint_Spec populates our TrafficManagerProfilesNestedEndpoint_Spec from the provided source TrafficManagerProfilesNestedEndpoint_Spec
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) AssignProperties_From_TrafficManagerProfilesNestedEndpoint_Spec(source *storage.TrafficManagerProfilesNestedEndpoint_Spec) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -833,8 +833,8 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) AssignProperties_Fro
 	return nil
 }
 
-// AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_Spec populates the provided destination Trafficmanagerprofiles_NestedEndpoint_Spec from our Trafficmanagerprofiles_NestedEndpoint_Spec
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_Spec(destination *storage.Trafficmanagerprofiles_NestedEndpoint_Spec) error {
+// AssignProperties_To_TrafficManagerProfilesNestedEndpoint_Spec populates the provided destination TrafficManagerProfilesNestedEndpoint_Spec from our TrafficManagerProfilesNestedEndpoint_Spec
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) AssignProperties_To_TrafficManagerProfilesNestedEndpoint_Spec(destination *storage.TrafficManagerProfilesNestedEndpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -958,8 +958,8 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) AssignProperties_To_
 	return nil
 }
 
-// Initialize_From_Trafficmanagerprofiles_NestedEndpoint_STATUS populates our Trafficmanagerprofiles_NestedEndpoint_Spec from the provided source Trafficmanagerprofiles_NestedEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) Initialize_From_Trafficmanagerprofiles_NestedEndpoint_STATUS(source *Trafficmanagerprofiles_NestedEndpoint_STATUS) error {
+// Initialize_From_TrafficManagerProfilesNestedEndpoint_STATUS populates our TrafficManagerProfilesNestedEndpoint_Spec from the provided source TrafficManagerProfilesNestedEndpoint_STATUS
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) Initialize_From_TrafficManagerProfilesNestedEndpoint_STATUS(source *TrafficManagerProfilesNestedEndpoint_STATUS) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -1061,16 +1061,16 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) Initialize_From_Traf
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) OriginalVersion() string {
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_Spec) SetAzureName(azureName string) {
+func (endpoint *TrafficManagerProfilesNestedEndpoint_Spec) SetAzureName(azureName string) {
 	endpoint.AzureName = azureName
 }
 
-type Trafficmanagerprofiles_NestedEndpoint_STATUS struct {
+type TrafficManagerProfilesNestedEndpoint_STATUS struct {
 	// AlwaysServe: If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in
 	// the traffic routing method.
 	AlwaysServe *EndpointProperties_AlwaysServe_STATUS `json:"alwaysServe,omitempty"`
@@ -1140,25 +1140,25 @@ type Trafficmanagerprofiles_NestedEndpoint_STATUS struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Trafficmanagerprofiles_NestedEndpoint_STATUS{}
+var _ genruntime.ConvertibleStatus = &TrafficManagerProfilesNestedEndpoint_STATUS{}
 
-// ConvertStatusFrom populates our Trafficmanagerprofiles_NestedEndpoint_STATUS from the provided source
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Trafficmanagerprofiles_NestedEndpoint_STATUS)
+// ConvertStatusFrom populates our TrafficManagerProfilesNestedEndpoint_STATUS from the provided source
+func (endpoint *TrafficManagerProfilesNestedEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.TrafficManagerProfilesNestedEndpoint_STATUS)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_STATUS(src)
+		return endpoint.AssignProperties_From_TrafficManagerProfilesNestedEndpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Trafficmanagerprofiles_NestedEndpoint_STATUS{}
+	src = &storage.TrafficManagerProfilesNestedEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_STATUS(src)
+	err = endpoint.AssignProperties_From_TrafficManagerProfilesNestedEndpoint_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1166,17 +1166,17 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) ConvertStatusFrom(
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Trafficmanagerprofiles_NestedEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Trafficmanagerprofiles_NestedEndpoint_STATUS)
+// ConvertStatusTo populates the provided destination from our TrafficManagerProfilesNestedEndpoint_STATUS
+func (endpoint *TrafficManagerProfilesNestedEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.TrafficManagerProfilesNestedEndpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_STATUS(dst)
+		return endpoint.AssignProperties_To_TrafficManagerProfilesNestedEndpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Trafficmanagerprofiles_NestedEndpoint_STATUS{}
-	err := endpoint.AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_STATUS(dst)
+	dst = &storage.TrafficManagerProfilesNestedEndpoint_STATUS{}
+	err := endpoint.AssignProperties_To_TrafficManagerProfilesNestedEndpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1190,18 +1190,18 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) ConvertStatusTo(de
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Trafficmanagerprofiles_NestedEndpoint_STATUS{}
+var _ genruntime.FromARMConverter = &TrafficManagerProfilesNestedEndpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Trafficmanagerprofiles_NestedEndpoint_STATUS_ARM{}
+func (endpoint *TrafficManagerProfilesNestedEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &TrafficManagerProfilesNestedEndpoint_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Trafficmanagerprofiles_NestedEndpoint_STATUS_ARM)
+func (endpoint *TrafficManagerProfilesNestedEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(TrafficManagerProfilesNestedEndpoint_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Trafficmanagerprofiles_NestedEndpoint_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfilesNestedEndpoint_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AlwaysServe":
@@ -1367,8 +1367,8 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) PopulateFromARM(ow
 	return nil
 }
 
-// AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_STATUS populates our Trafficmanagerprofiles_NestedEndpoint_STATUS from the provided source Trafficmanagerprofiles_NestedEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) AssignProperties_From_Trafficmanagerprofiles_NestedEndpoint_STATUS(source *storage.Trafficmanagerprofiles_NestedEndpoint_STATUS) error {
+// AssignProperties_From_TrafficManagerProfilesNestedEndpoint_STATUS populates our TrafficManagerProfilesNestedEndpoint_STATUS from the provided source TrafficManagerProfilesNestedEndpoint_STATUS
+func (endpoint *TrafficManagerProfilesNestedEndpoint_STATUS) AssignProperties_From_TrafficManagerProfilesNestedEndpoint_STATUS(source *storage.TrafficManagerProfilesNestedEndpoint_STATUS) error {
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
@@ -1476,8 +1476,8 @@ func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) AssignProperties_F
 	return nil
 }
 
-// AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_STATUS populates the provided destination Trafficmanagerprofiles_NestedEndpoint_STATUS from our Trafficmanagerprofiles_NestedEndpoint_STATUS
-func (endpoint *Trafficmanagerprofiles_NestedEndpoint_STATUS) AssignProperties_To_Trafficmanagerprofiles_NestedEndpoint_STATUS(destination *storage.Trafficmanagerprofiles_NestedEndpoint_STATUS) error {
+// AssignProperties_To_TrafficManagerProfilesNestedEndpoint_STATUS populates the provided destination TrafficManagerProfilesNestedEndpoint_STATUS from our TrafficManagerProfilesNestedEndpoint_STATUS
+func (endpoint *TrafficManagerProfilesNestedEndpoint_STATUS) AssignProperties_To_TrafficManagerProfilesNestedEndpoint_STATUS(destination *storage.TrafficManagerProfilesNestedEndpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

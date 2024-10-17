@@ -28,8 +28,8 @@ import (
 type ServersDatabasesTransparentDataEncryption struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Databases_TransparentDataEncryption_Spec   `json:"spec,omitempty"`
-	Status            Servers_Databases_TransparentDataEncryption_STATUS `json:"status,omitempty"`
+	Spec              ServersDatabasesTransparentDataEncryption_Spec   `json:"spec,omitempty"`
+	Status            ServersDatabasesTransparentDataEncryption_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersDatabasesTransparentDataEncryption{}
@@ -86,7 +86,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (encryption *ServersDatabasesTransparentDataEncryption) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Databases_TransparentDataEncryption_STATUS{}
+	return &ServersDatabasesTransparentDataEncryption_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -98,13 +98,13 @@ func (encryption *ServersDatabasesTransparentDataEncryption) Owner() *genruntime
 // SetStatus sets the status of this resource
 func (encryption *ServersDatabasesTransparentDataEncryption) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Databases_TransparentDataEncryption_STATUS); ok {
+	if st, ok := status.(*ServersDatabasesTransparentDataEncryption_STATUS); ok {
 		encryption.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Databases_TransparentDataEncryption_STATUS
+	var st ServersDatabasesTransparentDataEncryption_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type ServersDatabasesTransparentDataEncryptionList struct {
 	Items           []ServersDatabasesTransparentDataEncryption `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_Databases_TransparentDataEncryption_Spec
-type Servers_Databases_TransparentDataEncryption_Spec struct {
+// Storage version of v1api20211101.ServersDatabasesTransparentDataEncryption_Spec
+type ServersDatabasesTransparentDataEncryption_Spec struct {
 	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -150,10 +150,10 @@ type Servers_Databases_TransparentDataEncryption_Spec struct {
 	State       *string                            `json:"state,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Databases_TransparentDataEncryption_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersDatabasesTransparentDataEncryption_Spec{}
 
-// ConvertSpecFrom populates our Servers_Databases_TransparentDataEncryption_Spec from the provided source
-func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersDatabasesTransparentDataEncryption_Spec from the provided source
+func (encryption *ServersDatabasesTransparentDataEncryption_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == encryption {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -161,8 +161,8 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertSpecF
 	return source.ConvertSpecTo(encryption)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Databases_TransparentDataEncryption_Spec
-func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersDatabasesTransparentDataEncryption_Spec
+func (encryption *ServersDatabasesTransparentDataEncryption_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == encryption {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -170,8 +170,8 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertSpecT
 	return destination.ConvertSpecFrom(encryption)
 }
 
-// Storage version of v1api20211101.Servers_Databases_TransparentDataEncryption_STATUS
-type Servers_Databases_TransparentDataEncryption_STATUS struct {
+// Storage version of v1api20211101.ServersDatabasesTransparentDataEncryption_STATUS
+type ServersDatabasesTransparentDataEncryption_STATUS struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -180,10 +180,10 @@ type Servers_Databases_TransparentDataEncryption_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Databases_TransparentDataEncryption_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersDatabasesTransparentDataEncryption_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Databases_TransparentDataEncryption_STATUS from the provided source
-func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersDatabasesTransparentDataEncryption_STATUS from the provided source
+func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == encryption {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -191,8 +191,8 @@ func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) ConvertSta
 	return source.ConvertStatusTo(encryption)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Databases_TransparentDataEncryption_STATUS
-func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersDatabasesTransparentDataEncryption_STATUS
+func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == encryption {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

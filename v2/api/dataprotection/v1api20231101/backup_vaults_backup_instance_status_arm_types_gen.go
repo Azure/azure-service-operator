@@ -5,7 +5,7 @@ package v1api20231101
 
 import "encoding/json"
 
-type BackupVaults_BackupInstance_STATUS_ARM struct {
+type BackupVaultsBackupInstance_STATUS_ARM struct {
 	// Id: Proxy Resource Id represents the complete path to the resource.
 	Id *string `json:"id,omitempty"`
 

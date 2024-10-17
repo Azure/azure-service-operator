@@ -29,8 +29,8 @@ import (
 type DnsForwardingRuleSetsVirtualNetworkLink struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DnsForwardingRulesets_VirtualNetworkLink_Spec   `json:"spec,omitempty"`
-	Status            DnsForwardingRulesets_VirtualNetworkLink_STATUS `json:"status,omitempty"`
+	Spec              DnsForwardingRuleSetsVirtualNetworkLink_Spec   `json:"spec,omitempty"`
+	Status            DnsForwardingRuleSetsVirtualNetworkLink_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DnsForwardingRuleSetsVirtualNetworkLink{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &DnsForwardingRuleSetsVirtualNetworkLink{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (link *DnsForwardingRuleSetsVirtualNetworkLink) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DnsForwardingRulesets_VirtualNetworkLink_STATUS); ok {
-		return link.Spec.Initialize_From_DnsForwardingRulesets_VirtualNetworkLink_STATUS(s)
+	if s, ok := status.(*DnsForwardingRuleSetsVirtualNetworkLink_STATUS); ok {
+		return link.Spec.Initialize_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type DnsForwardingRulesets_VirtualNetworkLink_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type DnsForwardingRuleSetsVirtualNetworkLink_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &DnsForwardingRuleSetsVirtualNetworkLink{}
@@ -144,7 +144,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (link *DnsForwardingRuleSetsVirtualNetworkLink) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DnsForwardingRulesets_VirtualNetworkLink_STATUS{}
+	return &DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) Owner() *genruntime.Resourc
 // SetStatus sets the status of this resource
 func (link *DnsForwardingRuleSetsVirtualNetworkLink) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DnsForwardingRulesets_VirtualNetworkLink_STATUS); ok {
+	if st, ok := status.(*DnsForwardingRuleSetsVirtualNetworkLink_STATUS); ok {
 		link.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DnsForwardingRulesets_VirtualNetworkLink_STATUS
+	var st DnsForwardingRuleSetsVirtualNetworkLink_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) AssignProperties_From_DnsFo
 	link.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DnsForwardingRulesets_VirtualNetworkLink_Spec
-	err := spec.AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_Spec(&source.Spec)
+	var spec DnsForwardingRuleSetsVirtualNetworkLink_Spec
+	err := spec.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec() to populate field Spec")
 	}
 	link.Spec = spec
 
 	// Status
-	var status DnsForwardingRulesets_VirtualNetworkLink_STATUS
-	err = status.AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_STATUS(&source.Status)
+	var status DnsForwardingRuleSetsVirtualNetworkLink_STATUS
+	err = status.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS() to populate field Status")
 	}
 	link.Status = status
 
@@ -286,18 +286,18 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) AssignProperties_To_DnsForw
 	destination.ObjectMeta = *link.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.DnsForwardingRulesets_VirtualNetworkLink_Spec
-	err := link.Spec.AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_Spec(&spec)
+	var spec storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec
+	err := link.Spec.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.DnsForwardingRulesets_VirtualNetworkLink_STATUS
-	err = link.Status.AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_STATUS(&status)
+	var status storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS
+	err = link.Status.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type DnsForwardingRuleSetsVirtualNetworkLinkList struct {
 	Items           []DnsForwardingRuleSetsVirtualNetworkLink `json:"items"`
 }
 
-type DnsForwardingRulesets_VirtualNetworkLink_Spec struct {
+type DnsForwardingRuleSetsVirtualNetworkLink_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -343,14 +343,14 @@ type DnsForwardingRulesets_VirtualNetworkLink_Spec struct {
 	VirtualNetwork *DnsresolverSubResource `json:"virtualNetwork,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DnsForwardingRulesets_VirtualNetworkLink_Spec{}
+var _ genruntime.ARMTransformer = &DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if link == nil {
 		return nil, nil
 	}
-	result := &DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM{}
+	result := &DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -377,15 +377,15 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertToARM(resolved
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM{}
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM)
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsForwardingRulesets_VirtualNetworkLink_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -426,25 +426,25 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) PopulateFromARM(owner
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DnsForwardingRulesets_VirtualNetworkLink_Spec{}
+var _ genruntime.ConvertibleSpec = &DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
 
-// ConvertSpecFrom populates our DnsForwardingRulesets_VirtualNetworkLink_Spec from the provided source
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.DnsForwardingRulesets_VirtualNetworkLink_Spec)
+// ConvertSpecFrom populates our DnsForwardingRuleSetsVirtualNetworkLink_Spec from the provided source
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec)
 	if ok {
 		// Populate our instance from source
-		return link.AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_Spec(src)
+		return link.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DnsForwardingRulesets_VirtualNetworkLink_Spec{}
+	src = &storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = link.AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_Spec(src)
+	err = link.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -452,17 +452,17 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertSpecFrom(sourc
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DnsForwardingRulesets_VirtualNetworkLink_Spec
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.DnsForwardingRulesets_VirtualNetworkLink_Spec)
+// ConvertSpecTo populates the provided destination from our DnsForwardingRuleSetsVirtualNetworkLink_Spec
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec)
 	if ok {
 		// Populate destination from our instance
-		return link.AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_Spec(dst)
+		return link.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DnsForwardingRulesets_VirtualNetworkLink_Spec{}
-	err := link.AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_Spec(dst)
+	dst = &storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
+	err := link.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -476,8 +476,8 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertSpecTo(destina
 	return nil
 }
 
-// AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_Spec populates our DnsForwardingRulesets_VirtualNetworkLink_Spec from the provided source DnsForwardingRulesets_VirtualNetworkLink_Spec
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_Spec(source *storage.DnsForwardingRulesets_VirtualNetworkLink_Spec) error {
+// AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec populates our DnsForwardingRuleSetsVirtualNetworkLink_Spec from the provided source DnsForwardingRuleSetsVirtualNetworkLink_Spec
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_Spec(source *storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec) error {
 
 	// AzureName
 	link.AzureName = source.AzureName
@@ -509,8 +509,8 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_Spec populates the provided destination DnsForwardingRulesets_VirtualNetworkLink_Spec from our DnsForwardingRulesets_VirtualNetworkLink_Spec
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_Spec(destination *storage.DnsForwardingRulesets_VirtualNetworkLink_Spec) error {
+// AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec populates the provided destination DnsForwardingRuleSetsVirtualNetworkLink_Spec from our DnsForwardingRuleSetsVirtualNetworkLink_Spec
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_Spec(destination *storage.DnsForwardingRuleSetsVirtualNetworkLink_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -554,8 +554,8 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) AssignProperties_To_D
 	return nil
 }
 
-// Initialize_From_DnsForwardingRulesets_VirtualNetworkLink_STATUS populates our DnsForwardingRulesets_VirtualNetworkLink_Spec from the provided source DnsForwardingRulesets_VirtualNetworkLink_STATUS
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) Initialize_From_DnsForwardingRulesets_VirtualNetworkLink_STATUS(source *DnsForwardingRulesets_VirtualNetworkLink_STATUS) error {
+// Initialize_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS populates our DnsForwardingRuleSetsVirtualNetworkLink_Spec from the provided source DnsForwardingRuleSetsVirtualNetworkLink_STATUS
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) Initialize_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(source *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) error {
 
 	// Metadata
 	link.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
@@ -577,16 +577,16 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) Initialize_From_DnsFo
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) OriginalVersion() string {
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) SetAzureName(azureName string) {
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) SetAzureName(azureName string) {
 	link.AzureName = azureName
 }
 
-type DnsForwardingRulesets_VirtualNetworkLink_STATUS struct {
+type DnsForwardingRuleSetsVirtualNetworkLink_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -617,25 +617,25 @@ type DnsForwardingRulesets_VirtualNetworkLink_STATUS struct {
 	VirtualNetwork *DnsresolverSubResource_STATUS `json:"virtualNetwork,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DnsForwardingRulesets_VirtualNetworkLink_STATUS{}
+var _ genruntime.ConvertibleStatus = &DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
 
-// ConvertStatusFrom populates our DnsForwardingRulesets_VirtualNetworkLink_STATUS from the provided source
-func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.DnsForwardingRulesets_VirtualNetworkLink_STATUS)
+// ConvertStatusFrom populates our DnsForwardingRuleSetsVirtualNetworkLink_STATUS from the provided source
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS)
 	if ok {
 		// Populate our instance from source
-		return link.AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_STATUS(src)
+		return link.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DnsForwardingRulesets_VirtualNetworkLink_STATUS{}
+	src = &storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = link.AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_STATUS(src)
+	err = link.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -643,17 +643,17 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) ConvertStatusFrom(s
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DnsForwardingRulesets_VirtualNetworkLink_STATUS
-func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.DnsForwardingRulesets_VirtualNetworkLink_STATUS)
+// ConvertStatusTo populates the provided destination from our DnsForwardingRuleSetsVirtualNetworkLink_STATUS
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return link.AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_STATUS(dst)
+		return link.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DnsForwardingRulesets_VirtualNetworkLink_STATUS{}
-	err := link.AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_STATUS(dst)
+	dst = &storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
+	err := link.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -667,18 +667,18 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) ConvertStatusTo(des
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &DnsForwardingRulesets_VirtualNetworkLink_STATUS{}
+var _ genruntime.FromARMConverter = &DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM{}
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM)
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsForwardingRulesets_VirtualNetworkLink_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -758,8 +758,8 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) PopulateFromARM(own
 	return nil
 }
 
-// AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_STATUS populates our DnsForwardingRulesets_VirtualNetworkLink_STATUS from the provided source DnsForwardingRulesets_VirtualNetworkLink_STATUS
-func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) AssignProperties_From_DnsForwardingRulesets_VirtualNetworkLink_STATUS(source *storage.DnsForwardingRulesets_VirtualNetworkLink_STATUS) error {
+// AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS populates our DnsForwardingRuleSetsVirtualNetworkLink_STATUS from the provided source DnsForwardingRuleSetsVirtualNetworkLink_STATUS
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(source *storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS) error {
 
 	// Conditions
 	link.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -816,8 +816,8 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) AssignProperties_Fr
 	return nil
 }
 
-// AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_STATUS populates the provided destination DnsForwardingRulesets_VirtualNetworkLink_STATUS from our DnsForwardingRulesets_VirtualNetworkLink_STATUS
-func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) AssignProperties_To_DnsForwardingRulesets_VirtualNetworkLink_STATUS(destination *storage.DnsForwardingRulesets_VirtualNetworkLink_STATUS) error {
+// AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS populates the provided destination DnsForwardingRuleSetsVirtualNetworkLink_STATUS from our DnsForwardingRuleSetsVirtualNetworkLink_STATUS
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLink_STATUS(destination *storage.DnsForwardingRuleSetsVirtualNetworkLink_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

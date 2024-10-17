@@ -28,8 +28,8 @@ import (
 type TrustedAccessRoleBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClusters_TrustedAccessRoleBinding_Spec   `json:"spec,omitempty"`
-	Status            ManagedClusters_TrustedAccessRoleBinding_STATUS `json:"status,omitempty"`
+	Spec              TrustedAccessRoleBinding_Spec   `json:"spec,omitempty"`
+	Status            TrustedAccessRoleBinding_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &TrustedAccessRoleBinding{}
@@ -87,7 +87,7 @@ func (binding *TrustedAccessRoleBinding) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (binding *TrustedAccessRoleBinding) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ManagedClusters_TrustedAccessRoleBinding_STATUS{}
+	return &TrustedAccessRoleBinding_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (binding *TrustedAccessRoleBinding) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (binding *TrustedAccessRoleBinding) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ManagedClusters_TrustedAccessRoleBinding_STATUS); ok {
+	if st, ok := status.(*TrustedAccessRoleBinding_STATUS); ok {
 		binding.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ManagedClusters_TrustedAccessRoleBinding_STATUS
+	var st TrustedAccessRoleBinding_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type TrustedAccessRoleBindingList struct {
 	Items           []TrustedAccessRoleBinding `json:"items"`
 }
 
-// Storage version of v1api20231001.ManagedClusters_TrustedAccessRoleBinding_Spec
-type ManagedClusters_TrustedAccessRoleBinding_Spec struct {
+// Storage version of v1api20231001.TrustedAccessRoleBinding_Spec
+type TrustedAccessRoleBinding_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -158,10 +158,10 @@ type ManagedClusters_TrustedAccessRoleBinding_Spec struct {
 	SourceResourceReference *genruntime.ResourceReference `armReference:"SourceResourceId" json:"sourceResourceReference,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &ManagedClusters_TrustedAccessRoleBinding_Spec{}
+var _ genruntime.ConvertibleSpec = &TrustedAccessRoleBinding_Spec{}
 
-// ConvertSpecFrom populates our ManagedClusters_TrustedAccessRoleBinding_Spec from the provided source
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our TrustedAccessRoleBinding_Spec from the provided source
+func (binding *TrustedAccessRoleBinding_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == binding {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -169,8 +169,8 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecFrom(so
 	return source.ConvertSpecTo(binding)
 }
 
-// ConvertSpecTo populates the provided destination from our ManagedClusters_TrustedAccessRoleBinding_Spec
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our TrustedAccessRoleBinding_Spec
+func (binding *TrustedAccessRoleBinding_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == binding {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -178,8 +178,8 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecTo(dest
 	return destination.ConvertSpecFrom(binding)
 }
 
-// Storage version of v1api20231001.ManagedClusters_TrustedAccessRoleBinding_STATUS
-type ManagedClusters_TrustedAccessRoleBinding_STATUS struct {
+// Storage version of v1api20231001.TrustedAccessRoleBinding_STATUS
+type TrustedAccessRoleBinding_STATUS struct {
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
 	Id                *string                `json:"id,omitempty"`
 	Name              *string                `json:"name,omitempty"`
@@ -191,10 +191,10 @@ type ManagedClusters_TrustedAccessRoleBinding_STATUS struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ManagedClusters_TrustedAccessRoleBinding_STATUS{}
+var _ genruntime.ConvertibleStatus = &TrustedAccessRoleBinding_STATUS{}
 
-// ConvertStatusFrom populates our ManagedClusters_TrustedAccessRoleBinding_STATUS from the provided source
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our TrustedAccessRoleBinding_STATUS from the provided source
+func (binding *TrustedAccessRoleBinding_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == binding {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -202,8 +202,8 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusFro
 	return source.ConvertStatusTo(binding)
 }
 
-// ConvertStatusTo populates the provided destination from our ManagedClusters_TrustedAccessRoleBinding_STATUS
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our TrustedAccessRoleBinding_STATUS
+func (binding *TrustedAccessRoleBinding_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == binding {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

@@ -129,7 +129,7 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet, clusterArmID string) {
 	fltMember := &fleet.FleetsMember{
 		ObjectMeta: tc.MakeObjectMeta("fleetmember"),
-		Spec: fleet.Fleets_Member_Spec{
+		Spec: fleet.FleetsMember_Spec{
 			Owner: testcommon.AsOwner(flt),
 			ClusterResourceReference: &genruntime.ResourceReference{
 				ARMID: clusterArmID,
@@ -148,7 +148,7 @@ func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContex
 func AKS_Fleet_UpdateRun_20230315Preview_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet) {
 	updateRun := &fleet.FleetsUpdateRun{
 		ObjectMeta: tc.MakeObjectMeta("updaterun"),
-		Spec: fleet.Fleets_UpdateRun_Spec{
+		Spec: fleet.FleetsUpdateRun_Spec{
 			ManagedClusterUpdate: &fleet.ManagedClusterUpdate{
 				Upgrade: &fleet.ManagedClusterUpgradeSpec{
 					Type:              to.Ptr(fleet.ManagedClusterUpgradeType_Full),

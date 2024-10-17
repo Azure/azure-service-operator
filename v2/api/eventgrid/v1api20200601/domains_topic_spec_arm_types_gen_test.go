@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Domains_Topic_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DomainsTopic_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Domains_Topic_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDomains_Topic_Spec_ARM, Domains_Topic_Spec_ARMGenerator()))
+		"Round trip of DomainsTopic_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDomainsTopic_Spec_ARM, DomainsTopic_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDomains_Topic_Spec_ARM runs a test to see if a specific instance of Domains_Topic_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDomains_Topic_Spec_ARM(subject Domains_Topic_Spec_ARM) string {
+// RunJSONSerializationTestForDomainsTopic_Spec_ARM runs a test to see if a specific instance of DomainsTopic_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDomainsTopic_Spec_ARM(subject DomainsTopic_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForDomains_Topic_Spec_ARM(subject Domains_Topic_Spe
 	}
 
 	// Deserialize back into memory
-	var actual Domains_Topic_Spec_ARM
+	var actual DomainsTopic_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,24 +56,24 @@ func RunJSONSerializationTestForDomains_Topic_Spec_ARM(subject Domains_Topic_Spe
 	return ""
 }
 
-// Generator of Domains_Topic_Spec_ARM instances for property testing - lazily instantiated by
-// Domains_Topic_Spec_ARMGenerator()
-var domains_Topic_Spec_ARMGenerator gopter.Gen
+// Generator of DomainsTopic_Spec_ARM instances for property testing - lazily instantiated by
+// DomainsTopic_Spec_ARMGenerator()
+var domainsTopic_Spec_ARMGenerator gopter.Gen
 
-// Domains_Topic_Spec_ARMGenerator returns a generator of Domains_Topic_Spec_ARM instances for property testing.
-func Domains_Topic_Spec_ARMGenerator() gopter.Gen {
-	if domains_Topic_Spec_ARMGenerator != nil {
-		return domains_Topic_Spec_ARMGenerator
+// DomainsTopic_Spec_ARMGenerator returns a generator of DomainsTopic_Spec_ARM instances for property testing.
+func DomainsTopic_Spec_ARMGenerator() gopter.Gen {
+	if domainsTopic_Spec_ARMGenerator != nil {
+		return domainsTopic_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDomains_Topic_Spec_ARM(generators)
-	domains_Topic_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Domains_Topic_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDomainsTopic_Spec_ARM(generators)
+	domainsTopic_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(DomainsTopic_Spec_ARM{}), generators)
 
-	return domains_Topic_Spec_ARMGenerator
+	return domainsTopic_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDomains_Topic_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDomains_Topic_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDomainsTopic_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDomainsTopic_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }

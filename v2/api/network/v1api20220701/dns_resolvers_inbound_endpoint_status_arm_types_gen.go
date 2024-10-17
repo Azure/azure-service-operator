@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20220701
 
-type DnsResolvers_InboundEndpoint_STATUS_ARM struct {
+type DnsResolversInboundEndpoint_STATUS_ARM struct {
 	// Etag: ETag of the inbound endpoint.
 	Etag *string `json:"etag,omitempty"`
 

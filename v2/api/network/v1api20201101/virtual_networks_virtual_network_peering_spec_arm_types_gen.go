@@ -5,7 +5,7 @@ package v1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type VirtualNetworks_VirtualNetworkPeering_Spec_ARM struct {
+type VirtualNetworksVirtualNetworkPeering_Spec_ARM struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
 
@@ -13,20 +13,20 @@ type VirtualNetworks_VirtualNetworkPeering_Spec_ARM struct {
 	Properties *VirtualNetworkPeeringPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VirtualNetworks_VirtualNetworkPeering_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &VirtualNetworksVirtualNetworkPeering_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (peering VirtualNetworks_VirtualNetworkPeering_Spec_ARM) GetAPIVersion() string {
+func (peering VirtualNetworksVirtualNetworkPeering_Spec_ARM) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
-func (peering *VirtualNetworks_VirtualNetworkPeering_Spec_ARM) GetName() string {
+func (peering *VirtualNetworksVirtualNetworkPeering_Spec_ARM) GetName() string {
 	return peering.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
-func (peering *VirtualNetworks_VirtualNetworkPeering_Spec_ARM) GetType() string {
+func (peering *VirtualNetworksVirtualNetworkPeering_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 

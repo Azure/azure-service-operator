@@ -87,20 +87,20 @@ func AddIndependentPropertyGeneratorsForDatabaseBlobAuditingPolicyProperties_ARM
 	gens["StorageEndpoint"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_Databases_AuditingSetting_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersDatabasesAuditingSetting_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_Databases_AuditingSetting_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_Databases_AuditingSetting_Spec_ARM, Servers_Databases_AuditingSetting_Spec_ARMGenerator()))
+		"Round trip of ServersDatabasesAuditingSetting_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersDatabasesAuditingSetting_Spec_ARM, ServersDatabasesAuditingSetting_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_Databases_AuditingSetting_Spec_ARM runs a test to see if a specific instance of Servers_Databases_AuditingSetting_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_Databases_AuditingSetting_Spec_ARM(subject Servers_Databases_AuditingSetting_Spec_ARM) string {
+// RunJSONSerializationTestForServersDatabasesAuditingSetting_Spec_ARM runs a test to see if a specific instance of ServersDatabasesAuditingSetting_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersDatabasesAuditingSetting_Spec_ARM(subject ServersDatabasesAuditingSetting_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -108,7 +108,7 @@ func RunJSONSerializationTestForServers_Databases_AuditingSetting_Spec_ARM(subje
 	}
 
 	// Deserialize back into memory
-	var actual Servers_Databases_AuditingSetting_Spec_ARM
+	var actual ServersDatabasesAuditingSetting_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -126,38 +126,38 @@ func RunJSONSerializationTestForServers_Databases_AuditingSetting_Spec_ARM(subje
 	return ""
 }
 
-// Generator of Servers_Databases_AuditingSetting_Spec_ARM instances for property testing - lazily instantiated by
-// Servers_Databases_AuditingSetting_Spec_ARMGenerator()
-var servers_Databases_AuditingSetting_Spec_ARMGenerator gopter.Gen
+// Generator of ServersDatabasesAuditingSetting_Spec_ARM instances for property testing - lazily instantiated by
+// ServersDatabasesAuditingSetting_Spec_ARMGenerator()
+var serversDatabasesAuditingSetting_Spec_ARMGenerator gopter.Gen
 
-// Servers_Databases_AuditingSetting_Spec_ARMGenerator returns a generator of Servers_Databases_AuditingSetting_Spec_ARM instances for property testing.
-// We first initialize servers_Databases_AuditingSetting_Spec_ARMGenerator with a simplified generator based on the
+// ServersDatabasesAuditingSetting_Spec_ARMGenerator returns a generator of ServersDatabasesAuditingSetting_Spec_ARM instances for property testing.
+// We first initialize serversDatabasesAuditingSetting_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Servers_Databases_AuditingSetting_Spec_ARMGenerator() gopter.Gen {
-	if servers_Databases_AuditingSetting_Spec_ARMGenerator != nil {
-		return servers_Databases_AuditingSetting_Spec_ARMGenerator
+func ServersDatabasesAuditingSetting_Spec_ARMGenerator() gopter.Gen {
+	if serversDatabasesAuditingSetting_Spec_ARMGenerator != nil {
+		return serversDatabasesAuditingSetting_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_ARM(generators)
-	servers_Databases_AuditingSetting_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_Databases_AuditingSetting_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersDatabasesAuditingSetting_Spec_ARM(generators)
+	serversDatabasesAuditingSetting_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesAuditingSetting_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_ARM(generators)
-	servers_Databases_AuditingSetting_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_Databases_AuditingSetting_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersDatabasesAuditingSetting_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForServersDatabasesAuditingSetting_Spec_ARM(generators)
+	serversDatabasesAuditingSetting_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesAuditingSetting_Spec_ARM{}), generators)
 
-	return servers_Databases_AuditingSetting_Spec_ARMGenerator
+	return serversDatabasesAuditingSetting_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersDatabasesAuditingSetting_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersDatabasesAuditingSetting_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_Databases_AuditingSetting_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServersDatabasesAuditingSetting_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersDatabasesAuditingSetting_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(DatabaseBlobAuditingPolicyProperties_ARMGenerator())
 }

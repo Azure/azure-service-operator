@@ -53,7 +53,7 @@ func Test_Networking_DnsZone_CRUD(t *testing.T) {
 func DNSZones_CNAME_Record_Test(tc *testcommon.KubePerTestContext, zone *network.DnsZone) {
 	record := &network.DnsZonesCNAMERecord{
 		ObjectMeta: tc.MakeObjectMetaWithName("record"),
-		Spec: network.DnsZones_CNAME_Spec{
+		Spec: network.DnsZonesCNAMERecord_Spec{
 			CNAMERecord: &network.CnameRecord{Cname: to.Ptr("asotest.com")},
 			Owner:       testcommon.AsOwner(zone),
 			TTL:         to.Ptr(3600),

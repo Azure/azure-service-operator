@@ -29,8 +29,8 @@ import (
 type Secret struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_Secret_Spec   `json:"spec,omitempty"`
-	Status            Profiles_Secret_STATUS `json:"status,omitempty"`
+	Spec              Secret_Spec   `json:"spec,omitempty"`
+	Status            Secret_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Secret{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &Secret{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (secret *Secret) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Profiles_Secret_STATUS); ok {
-		return secret.Spec.Initialize_From_Profiles_Secret_STATUS(s)
+	if s, ok := status.(*Secret_STATUS); ok {
+		return secret.Spec.Initialize_From_Secret_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Profiles_Secret_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type Secret_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Secret{}
@@ -144,7 +144,7 @@ func (secret *Secret) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (secret *Secret) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_Secret_STATUS{}
+	return &Secret_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (secret *Secret) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (secret *Secret) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_Secret_STATUS); ok {
+	if st, ok := status.(*Secret_STATUS); ok {
 		secret.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_Secret_STATUS
+	var st Secret_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (secret *Secret) AssignProperties_From_Secret(source *storage.Secret) error
 	secret.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_Secret_Spec
-	err := spec.AssignProperties_From_Profiles_Secret_Spec(&source.Spec)
+	var spec Secret_Spec
+	err := spec.AssignProperties_From_Secret_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_Secret_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Secret_Spec() to populate field Spec")
 	}
 	secret.Spec = spec
 
 	// Status
-	var status Profiles_Secret_STATUS
-	err = status.AssignProperties_From_Profiles_Secret_STATUS(&source.Status)
+	var status Secret_STATUS
+	err = status.AssignProperties_From_Secret_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_Secret_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Secret_STATUS() to populate field Status")
 	}
 	secret.Status = status
 
@@ -286,18 +286,18 @@ func (secret *Secret) AssignProperties_To_Secret(destination *storage.Secret) er
 	destination.ObjectMeta = *secret.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Profiles_Secret_Spec
-	err := secret.Spec.AssignProperties_To_Profiles_Secret_Spec(&spec)
+	var spec storage.Secret_Spec
+	err := secret.Spec.AssignProperties_To_Secret_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Secret_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Secret_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Profiles_Secret_STATUS
-	err = secret.Status.AssignProperties_To_Profiles_Secret_STATUS(&status)
+	var status storage.Secret_STATUS
+	err = secret.Status.AssignProperties_To_Secret_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Secret_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Secret_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type SecretList struct {
 	Items           []Secret `json:"items"`
 }
 
-type Profiles_Secret_Spec struct {
+type Secret_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -339,14 +339,14 @@ type Profiles_Secret_Spec struct {
 	Parameters *SecretParameters `json:"parameters,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_Secret_Spec{}
+var _ genruntime.ARMTransformer = &Secret_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (secret *Profiles_Secret_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (secret *Secret_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if secret == nil {
 		return nil, nil
 	}
-	result := &Profiles_Secret_Spec_ARM{}
+	result := &Secret_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -367,15 +367,15 @@ func (secret *Profiles_Secret_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (secret *Profiles_Secret_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_Secret_Spec_ARM{}
+func (secret *Secret_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Secret_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (secret *Profiles_Secret_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_Secret_Spec_ARM)
+func (secret *Secret_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Secret_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Secret_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Secret_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -405,25 +405,25 @@ func (secret *Profiles_Secret_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_Secret_Spec{}
+var _ genruntime.ConvertibleSpec = &Secret_Spec{}
 
-// ConvertSpecFrom populates our Profiles_Secret_Spec from the provided source
-func (secret *Profiles_Secret_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Profiles_Secret_Spec)
+// ConvertSpecFrom populates our Secret_Spec from the provided source
+func (secret *Secret_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.Secret_Spec)
 	if ok {
 		// Populate our instance from source
-		return secret.AssignProperties_From_Profiles_Secret_Spec(src)
+		return secret.AssignProperties_From_Secret_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_Secret_Spec{}
+	src = &storage.Secret_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = secret.AssignProperties_From_Profiles_Secret_Spec(src)
+	err = secret.AssignProperties_From_Secret_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -431,17 +431,17 @@ func (secret *Profiles_Secret_Spec) ConvertSpecFrom(source genruntime.Convertibl
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_Secret_Spec
-func (secret *Profiles_Secret_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Profiles_Secret_Spec)
+// ConvertSpecTo populates the provided destination from our Secret_Spec
+func (secret *Secret_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.Secret_Spec)
 	if ok {
 		// Populate destination from our instance
-		return secret.AssignProperties_To_Profiles_Secret_Spec(dst)
+		return secret.AssignProperties_To_Secret_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_Secret_Spec{}
-	err := secret.AssignProperties_To_Profiles_Secret_Spec(dst)
+	dst = &storage.Secret_Spec{}
+	err := secret.AssignProperties_To_Secret_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -455,8 +455,8 @@ func (secret *Profiles_Secret_Spec) ConvertSpecTo(destination genruntime.Convert
 	return nil
 }
 
-// AssignProperties_From_Profiles_Secret_Spec populates our Profiles_Secret_Spec from the provided source Profiles_Secret_Spec
-func (secret *Profiles_Secret_Spec) AssignProperties_From_Profiles_Secret_Spec(source *storage.Profiles_Secret_Spec) error {
+// AssignProperties_From_Secret_Spec populates our Secret_Spec from the provided source Secret_Spec
+func (secret *Secret_Spec) AssignProperties_From_Secret_Spec(source *storage.Secret_Spec) error {
 
 	// AzureName
 	secret.AzureName = source.AzureName
@@ -485,8 +485,8 @@ func (secret *Profiles_Secret_Spec) AssignProperties_From_Profiles_Secret_Spec(s
 	return nil
 }
 
-// AssignProperties_To_Profiles_Secret_Spec populates the provided destination Profiles_Secret_Spec from our Profiles_Secret_Spec
-func (secret *Profiles_Secret_Spec) AssignProperties_To_Profiles_Secret_Spec(destination *storage.Profiles_Secret_Spec) error {
+// AssignProperties_To_Secret_Spec populates the provided destination Secret_Spec from our Secret_Spec
+func (secret *Secret_Spec) AssignProperties_To_Secret_Spec(destination *storage.Secret_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -527,8 +527,8 @@ func (secret *Profiles_Secret_Spec) AssignProperties_To_Profiles_Secret_Spec(des
 	return nil
 }
 
-// Initialize_From_Profiles_Secret_STATUS populates our Profiles_Secret_Spec from the provided source Profiles_Secret_STATUS
-func (secret *Profiles_Secret_Spec) Initialize_From_Profiles_Secret_STATUS(source *Profiles_Secret_STATUS) error {
+// Initialize_From_Secret_STATUS populates our Secret_Spec from the provided source Secret_STATUS
+func (secret *Secret_Spec) Initialize_From_Secret_STATUS(source *Secret_STATUS) error {
 
 	// Parameters
 	if source.Parameters != nil {
@@ -547,14 +547,14 @@ func (secret *Profiles_Secret_Spec) Initialize_From_Profiles_Secret_STATUS(sourc
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (secret *Profiles_Secret_Spec) OriginalVersion() string {
+func (secret *Secret_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (secret *Profiles_Secret_Spec) SetAzureName(azureName string) { secret.AzureName = azureName }
+func (secret *Secret_Spec) SetAzureName(azureName string) { secret.AzureName = azureName }
 
-type Profiles_Secret_STATUS struct {
+type Secret_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions       []conditions.Condition                    `json:"conditions,omitempty"`
 	DeploymentStatus *SecretProperties_DeploymentStatus_STATUS `json:"deploymentStatus,omitempty"`
@@ -581,25 +581,25 @@ type Profiles_Secret_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_Secret_STATUS{}
+var _ genruntime.ConvertibleStatus = &Secret_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_Secret_STATUS from the provided source
-func (secret *Profiles_Secret_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Profiles_Secret_STATUS)
+// ConvertStatusFrom populates our Secret_STATUS from the provided source
+func (secret *Secret_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.Secret_STATUS)
 	if ok {
 		// Populate our instance from source
-		return secret.AssignProperties_From_Profiles_Secret_STATUS(src)
+		return secret.AssignProperties_From_Secret_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_Secret_STATUS{}
+	src = &storage.Secret_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = secret.AssignProperties_From_Profiles_Secret_STATUS(src)
+	err = secret.AssignProperties_From_Secret_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -607,17 +607,17 @@ func (secret *Profiles_Secret_STATUS) ConvertStatusFrom(source genruntime.Conver
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_Secret_STATUS
-func (secret *Profiles_Secret_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Profiles_Secret_STATUS)
+// ConvertStatusTo populates the provided destination from our Secret_STATUS
+func (secret *Secret_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.Secret_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return secret.AssignProperties_To_Profiles_Secret_STATUS(dst)
+		return secret.AssignProperties_To_Secret_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_Secret_STATUS{}
-	err := secret.AssignProperties_To_Profiles_Secret_STATUS(dst)
+	dst = &storage.Secret_STATUS{}
+	err := secret.AssignProperties_To_Secret_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -631,18 +631,18 @@ func (secret *Profiles_Secret_STATUS) ConvertStatusTo(destination genruntime.Con
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Profiles_Secret_STATUS{}
+var _ genruntime.FromARMConverter = &Secret_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (secret *Profiles_Secret_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_Secret_STATUS_ARM{}
+func (secret *Secret_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Secret_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (secret *Profiles_Secret_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_Secret_STATUS_ARM)
+func (secret *Secret_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Secret_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Secret_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Secret_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -725,8 +725,8 @@ func (secret *Profiles_Secret_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignProperties_From_Profiles_Secret_STATUS populates our Profiles_Secret_STATUS from the provided source Profiles_Secret_STATUS
-func (secret *Profiles_Secret_STATUS) AssignProperties_From_Profiles_Secret_STATUS(source *storage.Profiles_Secret_STATUS) error {
+// AssignProperties_From_Secret_STATUS populates our Secret_STATUS from the provided source Secret_STATUS
+func (secret *Secret_STATUS) AssignProperties_From_Secret_STATUS(source *storage.Secret_STATUS) error {
 
 	// Conditions
 	secret.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -789,8 +789,8 @@ func (secret *Profiles_Secret_STATUS) AssignProperties_From_Profiles_Secret_STAT
 	return nil
 }
 
-// AssignProperties_To_Profiles_Secret_STATUS populates the provided destination Profiles_Secret_STATUS from our Profiles_Secret_STATUS
-func (secret *Profiles_Secret_STATUS) AssignProperties_To_Profiles_Secret_STATUS(destination *storage.Profiles_Secret_STATUS) error {
+// AssignProperties_To_Secret_STATUS populates the provided destination Secret_STATUS from our Secret_STATUS
+func (secret *Secret_STATUS) AssignProperties_To_Secret_STATUS(destination *storage.Secret_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

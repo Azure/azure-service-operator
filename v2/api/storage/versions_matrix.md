@@ -182,45 +182,45 @@
 | StorageAccount_STATUS                                                | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccount_Spec                                                  | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccountsBlobService                                           | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsBlobService_STATUS                                    | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsBlobService_Spec                                      | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccountsBlobServicesContainer                                 | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsBlobServicesContainer_STATUS                          | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsBlobServicesContainer_Spec                            | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccountsFileService                                           |               | v1api20220901 | v1api20230101 |
+| StorageAccountsFileService_STATUS                                    |               | v1api20220901 | v1api20230101 |
+| StorageAccountsFileService_Spec                                      |               | v1api20220901 | v1api20230101 |
 | StorageAccountsFileServicesShare                                     |               | v1api20220901 | v1api20230101 |
+| StorageAccountsFileServicesShare_STATUS                              |               | v1api20220901 | v1api20230101 |
+| StorageAccountsFileServicesShare_Spec                                |               | v1api20220901 | v1api20230101 |
 | StorageAccountsManagementPolicy                                      | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsManagementPolicy_STATUS                               | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsManagementPolicy_Spec                                 | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccountsQueueService                                          | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsQueueService_STATUS                                   | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsQueueService_Spec                                     | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccountsQueueServicesQueue                                    | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsQueueServicesQueue_STATUS                             | v1api20210401 | v1api20220901 | v1api20230101 |
+| StorageAccountsQueueServicesQueue_Spec                               | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccountsTableService                                          |               | v1api20220901 | v1api20230101 |
+| StorageAccountsTableService_STATUS                                   |               | v1api20220901 | v1api20230101 |
+| StorageAccountsTableService_Spec                                     |               | v1api20220901 | v1api20230101 |
 | StorageAccountsTableServicesTable                                    |               | v1api20220901 | v1api20230101 |
+| StorageAccountsTableServicesTable_STATUS                             |               | v1api20220901 | v1api20230101 |
+| StorageAccountsTableServicesTable_Spec                               |               | v1api20220901 | v1api20230101 |
 | StorageAccounts_BlobService_Name_Spec                                | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccounts_BlobService_Properties_STATUS                        | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccounts_BlobService_Properties_Spec                          | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_BlobService_STATUS                                   | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_BlobService_Spec                                     | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_BlobServices_Container_STATUS                        | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_BlobServices_Container_Spec                          | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccounts_FileService_Name_Spec                                |               | v1api20220901 | v1api20230101 |
 | StorageAccounts_FileService_Properties_STATUS                        |               | v1api20220901 | v1api20230101 |
 | StorageAccounts_FileService_Properties_Spec                          |               | v1api20220901 | v1api20230101 |
-| StorageAccounts_FileService_STATUS                                   |               | v1api20220901 | v1api20230101 |
-| StorageAccounts_FileService_Spec                                     |               | v1api20220901 | v1api20230101 |
-| StorageAccounts_FileServices_Share_STATUS                            |               | v1api20220901 | v1api20230101 |
-| StorageAccounts_FileServices_Share_Spec                              |               | v1api20220901 | v1api20230101 |
 | StorageAccounts_ManagementPolicy_Name_Spec                           | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_ManagementPolicy_STATUS                              | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_ManagementPolicy_Spec                                | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccounts_QueueService_Name_Spec                               | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccounts_QueueService_Properties_STATUS                       | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccounts_QueueService_Properties_Spec                         | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_QueueService_STATUS                                  | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_QueueService_Spec                                    | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_QueueServices_Queue_STATUS                           | v1api20210401 | v1api20220901 | v1api20230101 |
-| StorageAccounts_QueueServices_Queue_Spec                             | v1api20210401 | v1api20220901 | v1api20230101 |
 | StorageAccounts_TableService_Name_Spec                               |               | v1api20220901 | v1api20230101 |
 | StorageAccounts_TableService_Properties_STATUS                       |               | v1api20220901 | v1api20230101 |
 | StorageAccounts_TableService_Properties_Spec                         |               | v1api20220901 | v1api20230101 |
-| StorageAccounts_TableService_STATUS                                  |               | v1api20220901 | v1api20230101 |
-| StorageAccounts_TableService_Spec                                    |               | v1api20220901 | v1api20230101 |
-| StorageAccounts_TableServices_Table_STATUS                           |               | v1api20220901 | v1api20230101 |
-| StorageAccounts_TableServices_Table_Spec                             |               | v1api20220901 | v1api20230101 |
 | TableAccessPolicy                                                    |               | v1api20220901 | v1api20230101 |
 | TableAccessPolicy_STATUS                                             |               | v1api20220901 | v1api20230101 |
 | TableProperties                                                      |               | v1api20220901 | v1api20230101 |

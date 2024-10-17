@@ -56,7 +56,7 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 	dbName := tc.Namer.GenerateName("sqldb")
 	db := documentdb.SqlDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(dbName),
-		Spec: documentdb.DatabaseAccounts_SqlDatabase_Spec{
+		Spec: documentdb.SqlDatabase_Spec{
 			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Owner:    testcommon.AsOwner(&acct),
 			Options: &documentdb.CreateUpdateOptions{
@@ -107,7 +107,7 @@ func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db
 	hash := documentdb.ContainerPartitionKey_Kind_Hash
 	container := documentdb.SqlDatabaseContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Container_Spec{
+		Spec: documentdb.SqlDatabaseContainer_Spec{
 			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Options: &documentdb.CreateUpdateOptions{
 				Throughput: to.Ptr(400),
@@ -181,7 +181,7 @@ func CosmosDB_SQL_Trigger_v20231115_CRUD(tc *testcommon.KubePerTestContext, cont
 	create := documentdb.SqlTriggerResource_TriggerOperation_Create
 	trigger := documentdb.SqlDatabaseContainerTrigger{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{
+		Spec: documentdb.SqlDatabaseContainerTrigger_Spec{
 			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlTriggerResource{
@@ -224,7 +224,7 @@ func CosmosDB_SQL_StoredProcedure_v20231115_CRUD(tc *testcommon.KubePerTestConte
 	// Declare a stored procedure
 	storedProcedure := documentdb.SqlDatabaseContainerStoredProcedure{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec{
+		Spec: documentdb.SqlDatabaseContainerStoredProcedure_Spec{
 			Location: to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlStoredProcedureResource{
@@ -259,7 +259,7 @@ func CosmosDB_SQL_UserDefinedFunction_v20231115_CRUD(tc *testcommon.KubePerTestC
 	// Declare a user defined function
 	userDefinedFunction := documentdb.SqlDatabaseContainerUserDefinedFunction{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec{
+		Spec: documentdb.SqlDatabaseContainerUserDefinedFunction_Spec{
 			AzureName: name,
 			Location:  to.Ptr("australiaeast"), // Capacity constraints // tc.AzureRegion
 			Owner:     testcommon.AsOwner(container),
@@ -300,7 +300,7 @@ func CosmosDB_SQL_Database_ThroughputSettings_v20231115_CRUD(tc *testcommon.Kube
 	// Declare a throughput setting
 	throughputSettings := documentdb.SqlDatabaseThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec{
+		Spec: documentdb.SqlDatabaseThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.ThroughputSettingsResource{
 				// We cannot change this to be a fixed throughput as we already created the database using
@@ -337,7 +337,7 @@ func CosmosDB_SQL_Database_Container_ThroughputSettings_v20231115_CRUD(tc *testc
 	// Declare a throughput setting
 	throughputSettings := documentdb.SqlDatabaseContainerThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec{
+		Spec: documentdb.SqlDatabaseContainerThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(container),
 			Resource: &documentdb.ThroughputSettingsResource{
 				Throughput: to.Ptr(500),
@@ -406,7 +406,7 @@ func CosmosDB_SQL_RoleAssignment_v20231115_CRUD(tc *testcommon.KubePerTestContex
 	// Declare a role assignment
 	roleAssignment := &documentdb.SqlRoleAssignment{
 		ObjectMeta: tc.MakeObjectMeta("roleassignment"),
-		Spec: documentdb.DatabaseAccounts_SqlRoleAssignment_Spec{
+		Spec: documentdb.SqlRoleAssignment_Spec{
 			Owner: testcommon.AsOwner(acct),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
 				Name: configMapName,

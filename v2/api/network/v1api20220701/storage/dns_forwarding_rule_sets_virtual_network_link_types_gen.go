@@ -28,8 +28,8 @@ import (
 type DnsForwardingRuleSetsVirtualNetworkLink struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DnsForwardingRulesets_VirtualNetworkLink_Spec   `json:"spec,omitempty"`
-	Status            DnsForwardingRulesets_VirtualNetworkLink_STATUS `json:"status,omitempty"`
+	Spec              DnsForwardingRuleSetsVirtualNetworkLink_Spec   `json:"spec,omitempty"`
+	Status            DnsForwardingRuleSetsVirtualNetworkLink_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DnsForwardingRuleSetsVirtualNetworkLink{}
@@ -87,7 +87,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (link *DnsForwardingRuleSetsVirtualNetworkLink) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DnsForwardingRulesets_VirtualNetworkLink_STATUS{}
+	return &DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) Owner() *genruntime.Resourc
 // SetStatus sets the status of this resource
 func (link *DnsForwardingRuleSetsVirtualNetworkLink) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DnsForwardingRulesets_VirtualNetworkLink_STATUS); ok {
+	if st, ok := status.(*DnsForwardingRuleSetsVirtualNetworkLink_STATUS); ok {
 		link.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DnsForwardingRulesets_VirtualNetworkLink_STATUS
+	var st DnsForwardingRuleSetsVirtualNetworkLink_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type DnsForwardingRuleSetsVirtualNetworkLinkList struct {
 	Items           []DnsForwardingRuleSetsVirtualNetworkLink `json:"items"`
 }
 
-// Storage version of v1api20220701.DnsForwardingRulesets_VirtualNetworkLink_Spec
-type DnsForwardingRulesets_VirtualNetworkLink_Spec struct {
+// Storage version of v1api20220701.DnsForwardingRuleSetsVirtualNetworkLink_Spec
+type DnsForwardingRuleSetsVirtualNetworkLink_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string            `json:"azureName,omitempty"`
@@ -155,10 +155,10 @@ type DnsForwardingRulesets_VirtualNetworkLink_Spec struct {
 	VirtualNetwork *DnsresolverSubResource            `json:"virtualNetwork,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DnsForwardingRulesets_VirtualNetworkLink_Spec{}
+var _ genruntime.ConvertibleSpec = &DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
 
-// ConvertSpecFrom populates our DnsForwardingRulesets_VirtualNetworkLink_Spec from the provided source
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DnsForwardingRuleSetsVirtualNetworkLink_Spec from the provided source
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == link {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -166,8 +166,8 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertSpecFrom(sourc
 	return source.ConvertSpecTo(link)
 }
 
-// ConvertSpecTo populates the provided destination from our DnsForwardingRulesets_VirtualNetworkLink_Spec
-func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DnsForwardingRuleSetsVirtualNetworkLink_Spec
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == link {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -175,8 +175,8 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_Spec) ConvertSpecTo(destina
 	return destination.ConvertSpecFrom(link)
 }
 
-// Storage version of v1api20220701.DnsForwardingRulesets_VirtualNetworkLink_STATUS
-type DnsForwardingRulesets_VirtualNetworkLink_STATUS struct {
+// Storage version of v1api20220701.DnsForwardingRuleSetsVirtualNetworkLink_STATUS
+type DnsForwardingRuleSetsVirtualNetworkLink_STATUS struct {
 	Conditions        []conditions.Condition         `json:"conditions,omitempty"`
 	Etag              *string                        `json:"etag,omitempty"`
 	Id                *string                        `json:"id,omitempty"`
@@ -189,10 +189,10 @@ type DnsForwardingRulesets_VirtualNetworkLink_STATUS struct {
 	VirtualNetwork    *DnsresolverSubResource_STATUS `json:"virtualNetwork,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DnsForwardingRulesets_VirtualNetworkLink_STATUS{}
+var _ genruntime.ConvertibleStatus = &DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
 
-// ConvertStatusFrom populates our DnsForwardingRulesets_VirtualNetworkLink_STATUS from the provided source
-func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our DnsForwardingRuleSetsVirtualNetworkLink_STATUS from the provided source
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == link {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -200,8 +200,8 @@ func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) ConvertStatusFrom(s
 	return source.ConvertStatusTo(link)
 }
 
-// ConvertStatusTo populates the provided destination from our DnsForwardingRulesets_VirtualNetworkLink_STATUS
-func (link *DnsForwardingRulesets_VirtualNetworkLink_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our DnsForwardingRuleSetsVirtualNetworkLink_STATUS
+func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == link {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

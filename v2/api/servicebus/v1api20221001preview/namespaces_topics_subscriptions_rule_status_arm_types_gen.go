@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20221001preview
 
-type Namespaces_Topics_Subscriptions_Rule_STATUS_ARM struct {
+type NamespacesTopicsSubscriptionsRule_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`

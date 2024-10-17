@@ -31,8 +31,8 @@ import (
 type FleetsUpdateRun struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Fleets_UpdateRun_Spec   `json:"spec,omitempty"`
-	Status            Fleets_UpdateRun_STATUS `json:"status,omitempty"`
+	Spec              FleetsUpdateRun_Spec   `json:"spec,omitempty"`
+	Status            FleetsUpdateRun_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FleetsUpdateRun{}
@@ -96,11 +96,11 @@ var _ genruntime.ImportableResource = &FleetsUpdateRun{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (updateRun *FleetsUpdateRun) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Fleets_UpdateRun_STATUS); ok {
-		return updateRun.Spec.Initialize_From_Fleets_UpdateRun_STATUS(s)
+	if s, ok := status.(*FleetsUpdateRun_STATUS); ok {
+		return updateRun.Spec.Initialize_From_FleetsUpdateRun_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Fleets_UpdateRun_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type FleetsUpdateRun_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FleetsUpdateRun{}
@@ -146,7 +146,7 @@ func (updateRun *FleetsUpdateRun) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (updateRun *FleetsUpdateRun) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Fleets_UpdateRun_STATUS{}
+	return &FleetsUpdateRun_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -158,13 +158,13 @@ func (updateRun *FleetsUpdateRun) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (updateRun *FleetsUpdateRun) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Fleets_UpdateRun_STATUS); ok {
+	if st, ok := status.(*FleetsUpdateRun_STATUS); ok {
 		updateRun.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Fleets_UpdateRun_STATUS
+	var st FleetsUpdateRun_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -262,18 +262,18 @@ func (updateRun *FleetsUpdateRun) AssignProperties_From_FleetsUpdateRun(source *
 	updateRun.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Fleets_UpdateRun_Spec
-	err := spec.AssignProperties_From_Fleets_UpdateRun_Spec(&source.Spec)
+	var spec FleetsUpdateRun_Spec
+	err := spec.AssignProperties_From_FleetsUpdateRun_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Fleets_UpdateRun_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_FleetsUpdateRun_Spec() to populate field Spec")
 	}
 	updateRun.Spec = spec
 
 	// Status
-	var status Fleets_UpdateRun_STATUS
-	err = status.AssignProperties_From_Fleets_UpdateRun_STATUS(&source.Status)
+	var status FleetsUpdateRun_STATUS
+	err = status.AssignProperties_From_FleetsUpdateRun_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Fleets_UpdateRun_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_FleetsUpdateRun_STATUS() to populate field Status")
 	}
 	updateRun.Status = status
 
@@ -288,18 +288,18 @@ func (updateRun *FleetsUpdateRun) AssignProperties_To_FleetsUpdateRun(destinatio
 	destination.ObjectMeta = *updateRun.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Fleets_UpdateRun_Spec
-	err := updateRun.Spec.AssignProperties_To_Fleets_UpdateRun_Spec(&spec)
+	var spec storage.FleetsUpdateRun_Spec
+	err := updateRun.Spec.AssignProperties_To_FleetsUpdateRun_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Fleets_UpdateRun_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_FleetsUpdateRun_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Fleets_UpdateRun_STATUS
-	err = updateRun.Status.AssignProperties_To_Fleets_UpdateRun_STATUS(&status)
+	var status storage.FleetsUpdateRun_STATUS
+	err = updateRun.Status.AssignProperties_To_FleetsUpdateRun_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Fleets_UpdateRun_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_FleetsUpdateRun_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -326,7 +326,7 @@ type FleetsUpdateRunList struct {
 	Items           []FleetsUpdateRun `json:"items"`
 }
 
-type Fleets_UpdateRun_Spec struct {
+type FleetsUpdateRun_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Pattern="^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
@@ -352,14 +352,14 @@ type Fleets_UpdateRun_Spec struct {
 	Strategy *UpdateRunStrategy `json:"strategy,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Fleets_UpdateRun_Spec{}
+var _ genruntime.ARMTransformer = &FleetsUpdateRun_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (updateRun *Fleets_UpdateRun_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (updateRun *FleetsUpdateRun_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if updateRun == nil {
 		return nil, nil
 	}
-	result := &arm.Fleets_UpdateRun_Spec{}
+	result := &arm.FleetsUpdateRun_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -388,15 +388,15 @@ func (updateRun *Fleets_UpdateRun_Spec) ConvertToARM(resolved genruntime.Convert
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (updateRun *Fleets_UpdateRun_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Fleets_UpdateRun_Spec{}
+func (updateRun *FleetsUpdateRun_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.FleetsUpdateRun_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (updateRun *Fleets_UpdateRun_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Fleets_UpdateRun_Spec)
+func (updateRun *FleetsUpdateRun_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.FleetsUpdateRun_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Fleets_UpdateRun_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FleetsUpdateRun_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -440,25 +440,25 @@ func (updateRun *Fleets_UpdateRun_Spec) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Fleets_UpdateRun_Spec{}
+var _ genruntime.ConvertibleSpec = &FleetsUpdateRun_Spec{}
 
-// ConvertSpecFrom populates our Fleets_UpdateRun_Spec from the provided source
-func (updateRun *Fleets_UpdateRun_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Fleets_UpdateRun_Spec)
+// ConvertSpecFrom populates our FleetsUpdateRun_Spec from the provided source
+func (updateRun *FleetsUpdateRun_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.FleetsUpdateRun_Spec)
 	if ok {
 		// Populate our instance from source
-		return updateRun.AssignProperties_From_Fleets_UpdateRun_Spec(src)
+		return updateRun.AssignProperties_From_FleetsUpdateRun_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Fleets_UpdateRun_Spec{}
+	src = &storage.FleetsUpdateRun_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = updateRun.AssignProperties_From_Fleets_UpdateRun_Spec(src)
+	err = updateRun.AssignProperties_From_FleetsUpdateRun_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -466,17 +466,17 @@ func (updateRun *Fleets_UpdateRun_Spec) ConvertSpecFrom(source genruntime.Conver
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Fleets_UpdateRun_Spec
-func (updateRun *Fleets_UpdateRun_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Fleets_UpdateRun_Spec)
+// ConvertSpecTo populates the provided destination from our FleetsUpdateRun_Spec
+func (updateRun *FleetsUpdateRun_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.FleetsUpdateRun_Spec)
 	if ok {
 		// Populate destination from our instance
-		return updateRun.AssignProperties_To_Fleets_UpdateRun_Spec(dst)
+		return updateRun.AssignProperties_To_FleetsUpdateRun_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Fleets_UpdateRun_Spec{}
-	err := updateRun.AssignProperties_To_Fleets_UpdateRun_Spec(dst)
+	dst = &storage.FleetsUpdateRun_Spec{}
+	err := updateRun.AssignProperties_To_FleetsUpdateRun_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -490,8 +490,8 @@ func (updateRun *Fleets_UpdateRun_Spec) ConvertSpecTo(destination genruntime.Con
 	return nil
 }
 
-// AssignProperties_From_Fleets_UpdateRun_Spec populates our Fleets_UpdateRun_Spec from the provided source Fleets_UpdateRun_Spec
-func (updateRun *Fleets_UpdateRun_Spec) AssignProperties_From_Fleets_UpdateRun_Spec(source *storage.Fleets_UpdateRun_Spec) error {
+// AssignProperties_From_FleetsUpdateRun_Spec populates our FleetsUpdateRun_Spec from the provided source FleetsUpdateRun_Spec
+func (updateRun *FleetsUpdateRun_Spec) AssignProperties_From_FleetsUpdateRun_Spec(source *storage.FleetsUpdateRun_Spec) error {
 
 	// AzureName
 	updateRun.AzureName = source.AzureName
@@ -532,8 +532,8 @@ func (updateRun *Fleets_UpdateRun_Spec) AssignProperties_From_Fleets_UpdateRun_S
 	return nil
 }
 
-// AssignProperties_To_Fleets_UpdateRun_Spec populates the provided destination Fleets_UpdateRun_Spec from our Fleets_UpdateRun_Spec
-func (updateRun *Fleets_UpdateRun_Spec) AssignProperties_To_Fleets_UpdateRun_Spec(destination *storage.Fleets_UpdateRun_Spec) error {
+// AssignProperties_To_FleetsUpdateRun_Spec populates the provided destination FleetsUpdateRun_Spec from our FleetsUpdateRun_Spec
+func (updateRun *FleetsUpdateRun_Spec) AssignProperties_To_FleetsUpdateRun_Spec(destination *storage.FleetsUpdateRun_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -586,8 +586,8 @@ func (updateRun *Fleets_UpdateRun_Spec) AssignProperties_To_Fleets_UpdateRun_Spe
 	return nil
 }
 
-// Initialize_From_Fleets_UpdateRun_STATUS populates our Fleets_UpdateRun_Spec from the provided source Fleets_UpdateRun_STATUS
-func (updateRun *Fleets_UpdateRun_Spec) Initialize_From_Fleets_UpdateRun_STATUS(source *Fleets_UpdateRun_STATUS) error {
+// Initialize_From_FleetsUpdateRun_STATUS populates our FleetsUpdateRun_Spec from the provided source FleetsUpdateRun_STATUS
+func (updateRun *FleetsUpdateRun_Spec) Initialize_From_FleetsUpdateRun_STATUS(source *FleetsUpdateRun_STATUS) error {
 
 	// ManagedClusterUpdate
 	if source.ManagedClusterUpdate != nil {
@@ -618,16 +618,16 @@ func (updateRun *Fleets_UpdateRun_Spec) Initialize_From_Fleets_UpdateRun_STATUS(
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (updateRun *Fleets_UpdateRun_Spec) OriginalVersion() string {
+func (updateRun *FleetsUpdateRun_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (updateRun *Fleets_UpdateRun_Spec) SetAzureName(azureName string) {
+func (updateRun *FleetsUpdateRun_Spec) SetAzureName(azureName string) {
 	updateRun.AzureName = azureName
 }
 
-type Fleets_UpdateRun_STATUS struct {
+type FleetsUpdateRun_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -667,25 +667,25 @@ type Fleets_UpdateRun_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Fleets_UpdateRun_STATUS{}
+var _ genruntime.ConvertibleStatus = &FleetsUpdateRun_STATUS{}
 
-// ConvertStatusFrom populates our Fleets_UpdateRun_STATUS from the provided source
-func (updateRun *Fleets_UpdateRun_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Fleets_UpdateRun_STATUS)
+// ConvertStatusFrom populates our FleetsUpdateRun_STATUS from the provided source
+func (updateRun *FleetsUpdateRun_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.FleetsUpdateRun_STATUS)
 	if ok {
 		// Populate our instance from source
-		return updateRun.AssignProperties_From_Fleets_UpdateRun_STATUS(src)
+		return updateRun.AssignProperties_From_FleetsUpdateRun_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Fleets_UpdateRun_STATUS{}
+	src = &storage.FleetsUpdateRun_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = updateRun.AssignProperties_From_Fleets_UpdateRun_STATUS(src)
+	err = updateRun.AssignProperties_From_FleetsUpdateRun_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -693,17 +693,17 @@ func (updateRun *Fleets_UpdateRun_STATUS) ConvertStatusFrom(source genruntime.Co
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Fleets_UpdateRun_STATUS
-func (updateRun *Fleets_UpdateRun_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Fleets_UpdateRun_STATUS)
+// ConvertStatusTo populates the provided destination from our FleetsUpdateRun_STATUS
+func (updateRun *FleetsUpdateRun_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.FleetsUpdateRun_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return updateRun.AssignProperties_To_Fleets_UpdateRun_STATUS(dst)
+		return updateRun.AssignProperties_To_FleetsUpdateRun_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Fleets_UpdateRun_STATUS{}
-	err := updateRun.AssignProperties_To_Fleets_UpdateRun_STATUS(dst)
+	dst = &storage.FleetsUpdateRun_STATUS{}
+	err := updateRun.AssignProperties_To_FleetsUpdateRun_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -717,18 +717,18 @@ func (updateRun *Fleets_UpdateRun_STATUS) ConvertStatusTo(destination genruntime
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Fleets_UpdateRun_STATUS{}
+var _ genruntime.FromARMConverter = &FleetsUpdateRun_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (updateRun *Fleets_UpdateRun_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Fleets_UpdateRun_STATUS{}
+func (updateRun *FleetsUpdateRun_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.FleetsUpdateRun_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (updateRun *Fleets_UpdateRun_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Fleets_UpdateRun_STATUS)
+func (updateRun *FleetsUpdateRun_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.FleetsUpdateRun_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Fleets_UpdateRun_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FleetsUpdateRun_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -825,8 +825,8 @@ func (updateRun *Fleets_UpdateRun_STATUS) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignProperties_From_Fleets_UpdateRun_STATUS populates our Fleets_UpdateRun_STATUS from the provided source Fleets_UpdateRun_STATUS
-func (updateRun *Fleets_UpdateRun_STATUS) AssignProperties_From_Fleets_UpdateRun_STATUS(source *storage.Fleets_UpdateRun_STATUS) error {
+// AssignProperties_From_FleetsUpdateRun_STATUS populates our FleetsUpdateRun_STATUS from the provided source FleetsUpdateRun_STATUS
+func (updateRun *FleetsUpdateRun_STATUS) AssignProperties_From_FleetsUpdateRun_STATUS(source *storage.FleetsUpdateRun_STATUS) error {
 
 	// Conditions
 	updateRun.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -904,8 +904,8 @@ func (updateRun *Fleets_UpdateRun_STATUS) AssignProperties_From_Fleets_UpdateRun
 	return nil
 }
 
-// AssignProperties_To_Fleets_UpdateRun_STATUS populates the provided destination Fleets_UpdateRun_STATUS from our Fleets_UpdateRun_STATUS
-func (updateRun *Fleets_UpdateRun_STATUS) AssignProperties_To_Fleets_UpdateRun_STATUS(destination *storage.Fleets_UpdateRun_STATUS) error {
+// AssignProperties_To_FleetsUpdateRun_STATUS populates the provided destination FleetsUpdateRun_STATUS from our FleetsUpdateRun_STATUS
+func (updateRun *FleetsUpdateRun_STATUS) AssignProperties_To_FleetsUpdateRun_STATUS(destination *storage.FleetsUpdateRun_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -28,8 +28,8 @@ import (
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_FirewallRule_Spec   `json:"spec,omitempty"`
-	Status            FlexibleServers_FirewallRule_STATUS `json:"status,omitempty"`
+	Spec              FlexibleServersFirewallRule_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServersFirewallRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersFirewallRule{}
@@ -87,7 +87,7 @@ func (rule *FlexibleServersFirewallRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *FlexibleServersFirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FlexibleServers_FirewallRule_STATUS{}
+	return &FlexibleServersFirewallRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (rule *FlexibleServersFirewallRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *FlexibleServersFirewallRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FlexibleServers_FirewallRule_STATUS); ok {
+	if st, ok := status.(*FlexibleServersFirewallRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FlexibleServers_FirewallRule_STATUS
+	var st FlexibleServersFirewallRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type FlexibleServersFirewallRuleList struct {
 	Items           []FlexibleServersFirewallRule `json:"items"`
 }
 
-// Storage version of v1api20221201.FlexibleServers_FirewallRule_Spec
-type FlexibleServers_FirewallRule_Spec struct {
+// Storage version of v1api20221201.FlexibleServersFirewallRule_Spec
+type FlexibleServersFirewallRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -155,10 +155,10 @@ type FlexibleServers_FirewallRule_Spec struct {
 	StartIpAddress *string                            `json:"startIpAddress,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_FirewallRule_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServersFirewallRule_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServers_FirewallRule_Spec from the provided source
-func (rule *FlexibleServers_FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our FlexibleServersFirewallRule_Spec from the provided source
+func (rule *FlexibleServersFirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -166,8 +166,8 @@ func (rule *FlexibleServers_FirewallRule_Spec) ConvertSpecFrom(source genruntime
 	return source.ConvertSpecTo(rule)
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_FirewallRule_Spec
-func (rule *FlexibleServers_FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our FlexibleServersFirewallRule_Spec
+func (rule *FlexibleServersFirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -175,8 +175,8 @@ func (rule *FlexibleServers_FirewallRule_Spec) ConvertSpecTo(destination genrunt
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v1api20221201.FlexibleServers_FirewallRule_STATUS
-type FlexibleServers_FirewallRule_STATUS struct {
+// Storage version of v1api20221201.FlexibleServersFirewallRule_STATUS
+type FlexibleServersFirewallRule_STATUS struct {
 	Conditions     []conditions.Condition `json:"conditions,omitempty"`
 	EndIpAddress   *string                `json:"endIpAddress,omitempty"`
 	Id             *string                `json:"id,omitempty"`
@@ -187,10 +187,10 @@ type FlexibleServers_FirewallRule_STATUS struct {
 	Type           *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &FlexibleServers_FirewallRule_STATUS{}
+var _ genruntime.ConvertibleStatus = &FlexibleServersFirewallRule_STATUS{}
 
-// ConvertStatusFrom populates our FlexibleServers_FirewallRule_STATUS from the provided source
-func (rule *FlexibleServers_FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our FlexibleServersFirewallRule_STATUS from the provided source
+func (rule *FlexibleServersFirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -198,8 +198,8 @@ func (rule *FlexibleServers_FirewallRule_STATUS) ConvertStatusFrom(source genrun
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our FlexibleServers_FirewallRule_STATUS
-func (rule *FlexibleServers_FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our FlexibleServersFirewallRule_STATUS
+func (rule *FlexibleServersFirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

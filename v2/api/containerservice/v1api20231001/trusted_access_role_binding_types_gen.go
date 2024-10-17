@@ -30,8 +30,8 @@ import (
 type TrustedAccessRoleBinding struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClusters_TrustedAccessRoleBinding_Spec   `json:"spec,omitempty"`
-	Status            ManagedClusters_TrustedAccessRoleBinding_STATUS `json:"status,omitempty"`
+	Spec              TrustedAccessRoleBinding_Spec   `json:"spec,omitempty"`
+	Status            TrustedAccessRoleBinding_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &TrustedAccessRoleBinding{}
@@ -95,11 +95,11 @@ var _ genruntime.ImportableResource = &TrustedAccessRoleBinding{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (binding *TrustedAccessRoleBinding) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ManagedClusters_TrustedAccessRoleBinding_STATUS); ok {
-		return binding.Spec.Initialize_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(s)
+	if s, ok := status.(*TrustedAccessRoleBinding_STATUS); ok {
+		return binding.Spec.Initialize_From_TrustedAccessRoleBinding_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type ManagedClusters_TrustedAccessRoleBinding_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type TrustedAccessRoleBinding_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &TrustedAccessRoleBinding{}
@@ -145,7 +145,7 @@ func (binding *TrustedAccessRoleBinding) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (binding *TrustedAccessRoleBinding) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ManagedClusters_TrustedAccessRoleBinding_STATUS{}
+	return &TrustedAccessRoleBinding_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -157,13 +157,13 @@ func (binding *TrustedAccessRoleBinding) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (binding *TrustedAccessRoleBinding) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ManagedClusters_TrustedAccessRoleBinding_STATUS); ok {
+	if st, ok := status.(*TrustedAccessRoleBinding_STATUS); ok {
 		binding.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ManagedClusters_TrustedAccessRoleBinding_STATUS
+	var st TrustedAccessRoleBinding_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -261,18 +261,18 @@ func (binding *TrustedAccessRoleBinding) AssignProperties_From_TrustedAccessRole
 	binding.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec ManagedClusters_TrustedAccessRoleBinding_Spec
-	err := spec.AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec(&source.Spec)
+	var spec TrustedAccessRoleBinding_Spec
+	err := spec.AssignProperties_From_TrustedAccessRoleBinding_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_TrustedAccessRoleBinding_Spec() to populate field Spec")
 	}
 	binding.Spec = spec
 
 	// Status
-	var status ManagedClusters_TrustedAccessRoleBinding_STATUS
-	err = status.AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(&source.Status)
+	var status TrustedAccessRoleBinding_STATUS
+	err = status.AssignProperties_From_TrustedAccessRoleBinding_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_TrustedAccessRoleBinding_STATUS() to populate field Status")
 	}
 	binding.Status = status
 
@@ -287,18 +287,18 @@ func (binding *TrustedAccessRoleBinding) AssignProperties_To_TrustedAccessRoleBi
 	destination.ObjectMeta = *binding.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.ManagedClusters_TrustedAccessRoleBinding_Spec
-	err := binding.Spec.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(&spec)
+	var spec storage.TrustedAccessRoleBinding_Spec
+	err := binding.Spec.AssignProperties_To_TrustedAccessRoleBinding_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_TrustedAccessRoleBinding_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.ManagedClusters_TrustedAccessRoleBinding_STATUS
-	err = binding.Status.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(&status)
+	var status storage.TrustedAccessRoleBinding_STATUS
+	err = binding.Status.AssignProperties_To_TrustedAccessRoleBinding_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_TrustedAccessRoleBinding_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -325,7 +325,7 @@ type TrustedAccessRoleBindingList struct {
 	Items           []TrustedAccessRoleBinding `json:"items"`
 }
 
-type ManagedClusters_TrustedAccessRoleBinding_Spec struct {
+type TrustedAccessRoleBinding_Spec struct {
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Pattern="^([A-Za-z0-9-])+$"
@@ -349,14 +349,14 @@ type ManagedClusters_TrustedAccessRoleBinding_Spec struct {
 	SourceResourceReference *genruntime.ResourceReference `armReference:"SourceResourceId" json:"sourceResourceReference,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ManagedClusters_TrustedAccessRoleBinding_Spec{}
+var _ genruntime.ARMTransformer = &TrustedAccessRoleBinding_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (binding *TrustedAccessRoleBinding_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if binding == nil {
 		return nil, nil
 	}
-	result := &arm.ManagedClusters_TrustedAccessRoleBinding_Spec{}
+	result := &arm.TrustedAccessRoleBinding_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -380,15 +380,15 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertToARM(resol
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.ManagedClusters_TrustedAccessRoleBinding_Spec{}
+func (binding *TrustedAccessRoleBinding_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.TrustedAccessRoleBinding_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.ManagedClusters_TrustedAccessRoleBinding_Spec)
+func (binding *TrustedAccessRoleBinding_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.TrustedAccessRoleBinding_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedClusters_TrustedAccessRoleBinding_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TrustedAccessRoleBinding_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -414,25 +414,25 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) PopulateFromARM(ow
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &ManagedClusters_TrustedAccessRoleBinding_Spec{}
+var _ genruntime.ConvertibleSpec = &TrustedAccessRoleBinding_Spec{}
 
-// ConvertSpecFrom populates our ManagedClusters_TrustedAccessRoleBinding_Spec from the provided source
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.ManagedClusters_TrustedAccessRoleBinding_Spec)
+// ConvertSpecFrom populates our TrustedAccessRoleBinding_Spec from the provided source
+func (binding *TrustedAccessRoleBinding_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.TrustedAccessRoleBinding_Spec)
 	if ok {
 		// Populate our instance from source
-		return binding.AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec(src)
+		return binding.AssignProperties_From_TrustedAccessRoleBinding_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.ManagedClusters_TrustedAccessRoleBinding_Spec{}
+	src = &storage.TrustedAccessRoleBinding_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = binding.AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec(src)
+	err = binding.AssignProperties_From_TrustedAccessRoleBinding_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -440,17 +440,17 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecFrom(so
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our ManagedClusters_TrustedAccessRoleBinding_Spec
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.ManagedClusters_TrustedAccessRoleBinding_Spec)
+// ConvertSpecTo populates the provided destination from our TrustedAccessRoleBinding_Spec
+func (binding *TrustedAccessRoleBinding_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.TrustedAccessRoleBinding_Spec)
 	if ok {
 		// Populate destination from our instance
-		return binding.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(dst)
+		return binding.AssignProperties_To_TrustedAccessRoleBinding_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.ManagedClusters_TrustedAccessRoleBinding_Spec{}
-	err := binding.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(dst)
+	dst = &storage.TrustedAccessRoleBinding_Spec{}
+	err := binding.AssignProperties_To_TrustedAccessRoleBinding_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -464,8 +464,8 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecTo(dest
 	return nil
 }
 
-// AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec populates our ManagedClusters_TrustedAccessRoleBinding_Spec from the provided source ManagedClusters_TrustedAccessRoleBinding_Spec
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec(source *storage.ManagedClusters_TrustedAccessRoleBinding_Spec) error {
+// AssignProperties_From_TrustedAccessRoleBinding_Spec populates our TrustedAccessRoleBinding_Spec from the provided source TrustedAccessRoleBinding_Spec
+func (binding *TrustedAccessRoleBinding_Spec) AssignProperties_From_TrustedAccessRoleBinding_Spec(source *storage.TrustedAccessRoleBinding_Spec) error {
 
 	// AzureName
 	binding.AzureName = source.AzureName
@@ -493,8 +493,8 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_F
 	return nil
 }
 
-// AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec populates the provided destination ManagedClusters_TrustedAccessRoleBinding_Spec from our ManagedClusters_TrustedAccessRoleBinding_Spec
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(destination *storage.ManagedClusters_TrustedAccessRoleBinding_Spec) error {
+// AssignProperties_To_TrustedAccessRoleBinding_Spec populates the provided destination TrustedAccessRoleBinding_Spec from our TrustedAccessRoleBinding_Spec
+func (binding *TrustedAccessRoleBinding_Spec) AssignProperties_To_TrustedAccessRoleBinding_Spec(destination *storage.TrustedAccessRoleBinding_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -534,8 +534,8 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_T
 	return nil
 }
 
-// Initialize_From_ManagedClusters_TrustedAccessRoleBinding_STATUS populates our ManagedClusters_TrustedAccessRoleBinding_Spec from the provided source ManagedClusters_TrustedAccessRoleBinding_STATUS
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) Initialize_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(source *ManagedClusters_TrustedAccessRoleBinding_STATUS) error {
+// Initialize_From_TrustedAccessRoleBinding_STATUS populates our TrustedAccessRoleBinding_Spec from the provided source TrustedAccessRoleBinding_STATUS
+func (binding *TrustedAccessRoleBinding_Spec) Initialize_From_TrustedAccessRoleBinding_STATUS(source *TrustedAccessRoleBinding_STATUS) error {
 
 	// Roles
 	binding.Roles = genruntime.CloneSliceOfString(source.Roles)
@@ -553,16 +553,16 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) Initialize_From_Ma
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) OriginalVersion() string {
+func (binding *TrustedAccessRoleBinding_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) SetAzureName(azureName string) {
+func (binding *TrustedAccessRoleBinding_Spec) SetAzureName(azureName string) {
 	binding.AzureName = azureName
 }
 
-type ManagedClusters_TrustedAccessRoleBinding_STATUS struct {
+type TrustedAccessRoleBinding_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -590,25 +590,25 @@ type ManagedClusters_TrustedAccessRoleBinding_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ManagedClusters_TrustedAccessRoleBinding_STATUS{}
+var _ genruntime.ConvertibleStatus = &TrustedAccessRoleBinding_STATUS{}
 
-// ConvertStatusFrom populates our ManagedClusters_TrustedAccessRoleBinding_STATUS from the provided source
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.ManagedClusters_TrustedAccessRoleBinding_STATUS)
+// ConvertStatusFrom populates our TrustedAccessRoleBinding_STATUS from the provided source
+func (binding *TrustedAccessRoleBinding_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.TrustedAccessRoleBinding_STATUS)
 	if ok {
 		// Populate our instance from source
-		return binding.AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(src)
+		return binding.AssignProperties_From_TrustedAccessRoleBinding_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.ManagedClusters_TrustedAccessRoleBinding_STATUS{}
+	src = &storage.TrustedAccessRoleBinding_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = binding.AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(src)
+	err = binding.AssignProperties_From_TrustedAccessRoleBinding_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -616,17 +616,17 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusFro
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our ManagedClusters_TrustedAccessRoleBinding_STATUS
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.ManagedClusters_TrustedAccessRoleBinding_STATUS)
+// ConvertStatusTo populates the provided destination from our TrustedAccessRoleBinding_STATUS
+func (binding *TrustedAccessRoleBinding_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.TrustedAccessRoleBinding_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return binding.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(dst)
+		return binding.AssignProperties_To_TrustedAccessRoleBinding_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.ManagedClusters_TrustedAccessRoleBinding_STATUS{}
-	err := binding.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(dst)
+	dst = &storage.TrustedAccessRoleBinding_STATUS{}
+	err := binding.AssignProperties_To_TrustedAccessRoleBinding_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -640,18 +640,18 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusTo(
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &ManagedClusters_TrustedAccessRoleBinding_STATUS{}
+var _ genruntime.FromARMConverter = &TrustedAccessRoleBinding_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.ManagedClusters_TrustedAccessRoleBinding_STATUS{}
+func (binding *TrustedAccessRoleBinding_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.TrustedAccessRoleBinding_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.ManagedClusters_TrustedAccessRoleBinding_STATUS)
+func (binding *TrustedAccessRoleBinding_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.TrustedAccessRoleBinding_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedClusters_TrustedAccessRoleBinding_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TrustedAccessRoleBinding_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -717,8 +717,8 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) PopulateFromARM(
 	return nil
 }
 
-// AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS populates our ManagedClusters_TrustedAccessRoleBinding_STATUS from the provided source ManagedClusters_TrustedAccessRoleBinding_STATUS
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(source *storage.ManagedClusters_TrustedAccessRoleBinding_STATUS) error {
+// AssignProperties_From_TrustedAccessRoleBinding_STATUS populates our TrustedAccessRoleBinding_STATUS from the provided source TrustedAccessRoleBinding_STATUS
+func (binding *TrustedAccessRoleBinding_STATUS) AssignProperties_From_TrustedAccessRoleBinding_STATUS(source *storage.TrustedAccessRoleBinding_STATUS) error {
 
 	// Conditions
 	binding.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -763,8 +763,8 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties
 	return nil
 }
 
-// AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS populates the provided destination ManagedClusters_TrustedAccessRoleBinding_STATUS from our ManagedClusters_TrustedAccessRoleBinding_STATUS
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(destination *storage.ManagedClusters_TrustedAccessRoleBinding_STATUS) error {
+// AssignProperties_To_TrustedAccessRoleBinding_STATUS populates the provided destination TrustedAccessRoleBinding_STATUS from our TrustedAccessRoleBinding_STATUS
+func (binding *TrustedAccessRoleBinding_STATUS) AssignProperties_To_TrustedAccessRoleBinding_STATUS(destination *storage.TrustedAccessRoleBinding_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

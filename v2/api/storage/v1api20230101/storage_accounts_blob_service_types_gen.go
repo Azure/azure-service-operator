@@ -29,8 +29,8 @@ import (
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_BlobService_Spec   `json:"spec,omitempty"`
-	Status            StorageAccounts_BlobService_STATUS `json:"status,omitempty"`
+	Spec              StorageAccountsBlobService_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsBlobService_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobService{}
@@ -87,11 +87,11 @@ var _ genruntime.ImportableResource = &StorageAccountsBlobService{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (service *StorageAccountsBlobService) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccounts_BlobService_STATUS); ok {
-		return service.Spec.Initialize_From_StorageAccounts_BlobService_STATUS(s)
+	if s, ok := status.(*StorageAccountsBlobService_STATUS); ok {
+		return service.Spec.Initialize_From_StorageAccountsBlobService_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type StorageAccounts_BlobService_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type StorageAccountsBlobService_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
@@ -136,7 +136,7 @@ func (service *StorageAccountsBlobService) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (service *StorageAccountsBlobService) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccounts_BlobService_STATUS{}
+	return &StorageAccountsBlobService_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -148,13 +148,13 @@ func (service *StorageAccountsBlobService) Owner() *genruntime.ResourceReference
 // SetStatus sets the status of this resource
 func (service *StorageAccountsBlobService) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccounts_BlobService_STATUS); ok {
+	if st, ok := status.(*StorageAccountsBlobService_STATUS); ok {
 		service.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccounts_BlobService_STATUS
+	var st StorageAccountsBlobService_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -252,18 +252,18 @@ func (service *StorageAccountsBlobService) AssignProperties_From_StorageAccounts
 	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccounts_BlobService_Spec
-	err := spec.AssignProperties_From_StorageAccounts_BlobService_Spec(&source.Spec)
+	var spec StorageAccountsBlobService_Spec
+	err := spec.AssignProperties_From_StorageAccountsBlobService_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_BlobService_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobService_Spec() to populate field Spec")
 	}
 	service.Spec = spec
 
 	// Status
-	var status StorageAccounts_BlobService_STATUS
-	err = status.AssignProperties_From_StorageAccounts_BlobService_STATUS(&source.Status)
+	var status StorageAccountsBlobService_STATUS
+	err = status.AssignProperties_From_StorageAccountsBlobService_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_BlobService_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobService_STATUS() to populate field Status")
 	}
 	service.Status = status
 
@@ -278,18 +278,18 @@ func (service *StorageAccountsBlobService) AssignProperties_To_StorageAccountsBl
 	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.StorageAccounts_BlobService_Spec
-	err := service.Spec.AssignProperties_To_StorageAccounts_BlobService_Spec(&spec)
+	var spec storage.StorageAccountsBlobService_Spec
+	err := service.Spec.AssignProperties_To_StorageAccountsBlobService_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_BlobService_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobService_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.StorageAccounts_BlobService_STATUS
-	err = service.Status.AssignProperties_To_StorageAccounts_BlobService_STATUS(&status)
+	var status storage.StorageAccountsBlobService_STATUS
+	err = service.Status.AssignProperties_To_StorageAccountsBlobService_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_BlobService_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobService_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -316,7 +316,7 @@ type StorageAccountsBlobServiceList struct {
 	Items           []StorageAccountsBlobService `json:"items"`
 }
 
-type StorageAccounts_BlobService_Spec struct {
+type StorageAccountsBlobService_Spec struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
@@ -354,14 +354,14 @@ type StorageAccounts_BlobService_Spec struct {
 	RestorePolicy *RestorePolicyProperties `json:"restorePolicy,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &StorageAccounts_BlobService_Spec{}
+var _ genruntime.ARMTransformer = &StorageAccountsBlobService_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (service *StorageAccounts_BlobService_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if service == nil {
 		return nil, nil
 	}
-	result := &StorageAccounts_BlobService_Spec_ARM{}
+	result := &StorageAccountsBlobService_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -442,15 +442,15 @@ func (service *StorageAccounts_BlobService_Spec) ConvertToARM(resolved genruntim
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (service *StorageAccounts_BlobService_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_BlobService_Spec_ARM{}
+func (service *StorageAccountsBlobService_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsBlobService_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_BlobService_Spec_ARM)
+func (service *StorageAccountsBlobService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsBlobService_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobService_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsBlobService_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AutomaticSnapshotPolicyEnabled":
@@ -574,25 +574,25 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_BlobService_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsBlobService_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_BlobService_Spec from the provided source
-func (service *StorageAccounts_BlobService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.StorageAccounts_BlobService_Spec)
+// ConvertSpecFrom populates our StorageAccountsBlobService_Spec from the provided source
+func (service *StorageAccountsBlobService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.StorageAccountsBlobService_Spec)
 	if ok {
 		// Populate our instance from source
-		return service.AssignProperties_From_StorageAccounts_BlobService_Spec(src)
+		return service.AssignProperties_From_StorageAccountsBlobService_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_BlobService_Spec{}
+	src = &storage.StorageAccountsBlobService_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = service.AssignProperties_From_StorageAccounts_BlobService_Spec(src)
+	err = service.AssignProperties_From_StorageAccountsBlobService_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -600,17 +600,17 @@ func (service *StorageAccounts_BlobService_Spec) ConvertSpecFrom(source genrunti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_BlobService_Spec
-func (service *StorageAccounts_BlobService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.StorageAccounts_BlobService_Spec)
+// ConvertSpecTo populates the provided destination from our StorageAccountsBlobService_Spec
+func (service *StorageAccountsBlobService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.StorageAccountsBlobService_Spec)
 	if ok {
 		// Populate destination from our instance
-		return service.AssignProperties_To_StorageAccounts_BlobService_Spec(dst)
+		return service.AssignProperties_To_StorageAccountsBlobService_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_BlobService_Spec{}
-	err := service.AssignProperties_To_StorageAccounts_BlobService_Spec(dst)
+	dst = &storage.StorageAccountsBlobService_Spec{}
+	err := service.AssignProperties_To_StorageAccountsBlobService_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -624,8 +624,8 @@ func (service *StorageAccounts_BlobService_Spec) ConvertSpecTo(destination genru
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_BlobService_Spec populates our StorageAccounts_BlobService_Spec from the provided source StorageAccounts_BlobService_Spec
-func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAccounts_BlobService_Spec(source *storage.StorageAccounts_BlobService_Spec) error {
+// AssignProperties_From_StorageAccountsBlobService_Spec populates our StorageAccountsBlobService_Spec from the provided source StorageAccountsBlobService_Spec
+func (service *StorageAccountsBlobService_Spec) AssignProperties_From_StorageAccountsBlobService_Spec(source *storage.StorageAccountsBlobService_Spec) error {
 
 	// AutomaticSnapshotPolicyEnabled
 	if source.AutomaticSnapshotPolicyEnabled != nil {
@@ -730,8 +730,8 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_BlobService_Spec populates the provided destination StorageAccounts_BlobService_Spec from our StorageAccounts_BlobService_Spec
-func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAccounts_BlobService_Spec(destination *storage.StorageAccounts_BlobService_Spec) error {
+// AssignProperties_To_StorageAccountsBlobService_Spec populates the provided destination StorageAccountsBlobService_Spec from our StorageAccountsBlobService_Spec
+func (service *StorageAccountsBlobService_Spec) AssignProperties_To_StorageAccountsBlobService_Spec(destination *storage.StorageAccountsBlobService_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -848,8 +848,8 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 	return nil
 }
 
-// Initialize_From_StorageAccounts_BlobService_STATUS populates our StorageAccounts_BlobService_Spec from the provided source StorageAccounts_BlobService_STATUS
-func (service *StorageAccounts_BlobService_Spec) Initialize_From_StorageAccounts_BlobService_STATUS(source *StorageAccounts_BlobService_STATUS) error {
+// Initialize_From_StorageAccountsBlobService_STATUS populates our StorageAccountsBlobService_Spec from the provided source StorageAccountsBlobService_STATUS
+func (service *StorageAccountsBlobService_Spec) Initialize_From_StorageAccountsBlobService_STATUS(source *StorageAccountsBlobService_STATUS) error {
 
 	// AutomaticSnapshotPolicyEnabled
 	if source.AutomaticSnapshotPolicyEnabled != nil {
@@ -947,11 +947,11 @@ func (service *StorageAccounts_BlobService_Spec) Initialize_From_StorageAccounts
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (service *StorageAccounts_BlobService_Spec) OriginalVersion() string {
+func (service *StorageAccountsBlobService_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-type StorageAccounts_BlobService_STATUS struct {
+type StorageAccountsBlobService_STATUS struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
@@ -999,25 +999,25 @@ type StorageAccounts_BlobService_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccounts_BlobService_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsBlobService_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccounts_BlobService_STATUS from the provided source
-func (service *StorageAccounts_BlobService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.StorageAccounts_BlobService_STATUS)
+// ConvertStatusFrom populates our StorageAccountsBlobService_STATUS from the provided source
+func (service *StorageAccountsBlobService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.StorageAccountsBlobService_STATUS)
 	if ok {
 		// Populate our instance from source
-		return service.AssignProperties_From_StorageAccounts_BlobService_STATUS(src)
+		return service.AssignProperties_From_StorageAccountsBlobService_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_BlobService_STATUS{}
+	src = &storage.StorageAccountsBlobService_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = service.AssignProperties_From_StorageAccounts_BlobService_STATUS(src)
+	err = service.AssignProperties_From_StorageAccountsBlobService_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1025,17 +1025,17 @@ func (service *StorageAccounts_BlobService_STATUS) ConvertStatusFrom(source genr
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccounts_BlobService_STATUS
-func (service *StorageAccounts_BlobService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.StorageAccounts_BlobService_STATUS)
+// ConvertStatusTo populates the provided destination from our StorageAccountsBlobService_STATUS
+func (service *StorageAccountsBlobService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.StorageAccountsBlobService_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return service.AssignProperties_To_StorageAccounts_BlobService_STATUS(dst)
+		return service.AssignProperties_To_StorageAccountsBlobService_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_BlobService_STATUS{}
-	err := service.AssignProperties_To_StorageAccounts_BlobService_STATUS(dst)
+	dst = &storage.StorageAccountsBlobService_STATUS{}
+	err := service.AssignProperties_To_StorageAccountsBlobService_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1049,18 +1049,18 @@ func (service *StorageAccounts_BlobService_STATUS) ConvertStatusTo(destination g
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &StorageAccounts_BlobService_STATUS{}
+var _ genruntime.FromARMConverter = &StorageAccountsBlobService_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (service *StorageAccounts_BlobService_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_BlobService_STATUS_ARM{}
+func (service *StorageAccountsBlobService_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsBlobService_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_BlobService_STATUS_ARM)
+func (service *StorageAccountsBlobService_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsBlobService_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobService_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsBlobService_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AutomaticSnapshotPolicyEnabled":
@@ -1209,8 +1209,8 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_BlobService_STATUS populates our StorageAccounts_BlobService_STATUS from the provided source StorageAccounts_BlobService_STATUS
-func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_StorageAccounts_BlobService_STATUS(source *storage.StorageAccounts_BlobService_STATUS) error {
+// AssignProperties_From_StorageAccountsBlobService_STATUS populates our StorageAccountsBlobService_STATUS from the provided source StorageAccountsBlobService_STATUS
+func (service *StorageAccountsBlobService_STATUS) AssignProperties_From_StorageAccountsBlobService_STATUS(source *storage.StorageAccountsBlobService_STATUS) error {
 
 	// AutomaticSnapshotPolicyEnabled
 	if source.AutomaticSnapshotPolicyEnabled != nil {
@@ -1331,8 +1331,8 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_BlobService_STATUS populates the provided destination StorageAccounts_BlobService_STATUS from our StorageAccounts_BlobService_STATUS
-func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAccounts_BlobService_STATUS(destination *storage.StorageAccounts_BlobService_STATUS) error {
+// AssignProperties_To_StorageAccountsBlobService_STATUS populates the provided destination StorageAccountsBlobService_STATUS from our StorageAccountsBlobService_STATUS
+func (service *StorageAccountsBlobService_STATUS) AssignProperties_To_StorageAccountsBlobService_STATUS(destination *storage.StorageAccountsBlobService_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

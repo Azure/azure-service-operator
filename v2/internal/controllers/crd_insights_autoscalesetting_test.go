@@ -35,7 +35,7 @@ func Test_Insights_Autoscalesetting_CRUD(t *testing.T) {
 	objectMeta := tc.MakeObjectMeta("setting")
 	setting := &insights.AutoscaleSetting{
 		ObjectMeta: objectMeta,
-		Spec: insights.Autoscalesetting_Spec{
+		Spec: insights.AutoscaleSetting_Spec{
 			Location:                   tc.AzureRegion,
 			Name:                       &objectMeta.Name,
 			Owner:                      testcommon.AsOwner(rg),

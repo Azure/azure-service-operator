@@ -590,24 +590,24 @@ func RedisEnterpriseDatabaseGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(gens map[string]gopter.Gen) {
-	gens["Spec"] = RedisEnterprise_Database_SpecGenerator()
-	gens["Status"] = RedisEnterprise_Database_STATUSGenerator()
+	gens["Spec"] = RedisEnterpriseDatabase_SpecGenerator()
+	gens["Status"] = RedisEnterpriseDatabase_STATUSGenerator()
 }
 
-func Test_RedisEnterprise_Database_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisEnterpriseDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisEnterprise_Database_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Database_STATUS, RedisEnterprise_Database_STATUSGenerator()))
+		"Round trip of RedisEnterpriseDatabase_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabase_STATUS, RedisEnterpriseDatabase_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisEnterprise_Database_STATUS runs a test to see if a specific instance of RedisEnterprise_Database_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterprise_Database_STATUS(subject RedisEnterprise_Database_STATUS) string {
+// RunJSONSerializationTestForRedisEnterpriseDatabase_STATUS runs a test to see if a specific instance of RedisEnterpriseDatabase_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterpriseDatabase_STATUS(subject RedisEnterpriseDatabase_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -615,7 +615,7 @@ func RunJSONSerializationTestForRedisEnterprise_Database_STATUS(subject RedisEnt
 	}
 
 	// Deserialize back into memory
-	var actual RedisEnterprise_Database_STATUS
+	var actual RedisEnterpriseDatabase_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -633,34 +633,34 @@ func RunJSONSerializationTestForRedisEnterprise_Database_STATUS(subject RedisEnt
 	return ""
 }
 
-// Generator of RedisEnterprise_Database_STATUS instances for property testing - lazily instantiated by
-// RedisEnterprise_Database_STATUSGenerator()
-var redisEnterprise_Database_STATUSGenerator gopter.Gen
+// Generator of RedisEnterpriseDatabase_STATUS instances for property testing - lazily instantiated by
+// RedisEnterpriseDatabase_STATUSGenerator()
+var redisEnterpriseDatabase_STATUSGenerator gopter.Gen
 
-// RedisEnterprise_Database_STATUSGenerator returns a generator of RedisEnterprise_Database_STATUS instances for property testing.
-// We first initialize redisEnterprise_Database_STATUSGenerator with a simplified generator based on the
+// RedisEnterpriseDatabase_STATUSGenerator returns a generator of RedisEnterpriseDatabase_STATUS instances for property testing.
+// We first initialize redisEnterpriseDatabase_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisEnterprise_Database_STATUSGenerator() gopter.Gen {
-	if redisEnterprise_Database_STATUSGenerator != nil {
-		return redisEnterprise_Database_STATUSGenerator
+func RedisEnterpriseDatabase_STATUSGenerator() gopter.Gen {
+	if redisEnterpriseDatabase_STATUSGenerator != nil {
+		return redisEnterpriseDatabase_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(generators)
-	redisEnterprise_Database_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_STATUS(generators)
+	redisEnterpriseDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabase_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS(generators)
-	redisEnterprise_Database_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_STATUS(generators)
+	AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_STATUS(generators)
+	redisEnterpriseDatabase_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabase_STATUS{}), generators)
 
-	return redisEnterprise_Database_STATUSGenerator
+	return redisEnterpriseDatabase_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_STATUS(gens map[string]gopter.Gen) {
 	gens["ClientProtocol"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusteringPolicy"] = gen.PtrOf(gen.AlphaString())
 	gens["EvictionPolicy"] = gen.PtrOf(gen.AlphaString())
@@ -672,27 +672,27 @@ func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS(gens map
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_STATUS(gens map[string]gopter.Gen) {
 	gens["GeoReplication"] = gen.PtrOf(DatabaseProperties_GeoReplication_STATUSGenerator())
 	gens["Modules"] = gen.SliceOf(Module_STATUSGenerator())
 	gens["Persistence"] = gen.PtrOf(Persistence_STATUSGenerator())
 }
 
-func Test_RedisEnterprise_Database_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisEnterpriseDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisEnterprise_Database_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Database_Spec, RedisEnterprise_Database_SpecGenerator()))
+		"Round trip of RedisEnterpriseDatabase_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabase_Spec, RedisEnterpriseDatabase_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisEnterprise_Database_Spec runs a test to see if a specific instance of RedisEnterprise_Database_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterprise_Database_Spec(subject RedisEnterprise_Database_Spec) string {
+// RunJSONSerializationTestForRedisEnterpriseDatabase_Spec runs a test to see if a specific instance of RedisEnterpriseDatabase_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterpriseDatabase_Spec(subject RedisEnterpriseDatabase_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -700,7 +700,7 @@ func RunJSONSerializationTestForRedisEnterprise_Database_Spec(subject RedisEnter
 	}
 
 	// Deserialize back into memory
-	var actual RedisEnterprise_Database_Spec
+	var actual RedisEnterpriseDatabase_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -718,34 +718,34 @@ func RunJSONSerializationTestForRedisEnterprise_Database_Spec(subject RedisEnter
 	return ""
 }
 
-// Generator of RedisEnterprise_Database_Spec instances for property testing - lazily instantiated by
-// RedisEnterprise_Database_SpecGenerator()
-var redisEnterprise_Database_SpecGenerator gopter.Gen
+// Generator of RedisEnterpriseDatabase_Spec instances for property testing - lazily instantiated by
+// RedisEnterpriseDatabase_SpecGenerator()
+var redisEnterpriseDatabase_SpecGenerator gopter.Gen
 
-// RedisEnterprise_Database_SpecGenerator returns a generator of RedisEnterprise_Database_Spec instances for property testing.
-// We first initialize redisEnterprise_Database_SpecGenerator with a simplified generator based on the
+// RedisEnterpriseDatabase_SpecGenerator returns a generator of RedisEnterpriseDatabase_Spec instances for property testing.
+// We first initialize redisEnterpriseDatabase_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisEnterprise_Database_SpecGenerator() gopter.Gen {
-	if redisEnterprise_Database_SpecGenerator != nil {
-		return redisEnterprise_Database_SpecGenerator
+func RedisEnterpriseDatabase_SpecGenerator() gopter.Gen {
+	if redisEnterpriseDatabase_SpecGenerator != nil {
+		return redisEnterpriseDatabase_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(generators)
-	redisEnterprise_Database_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_Spec(generators)
+	redisEnterpriseDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabase_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec(generators)
-	redisEnterprise_Database_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_Spec(generators)
+	AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_Spec(generators)
+	redisEnterpriseDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabase_Spec{}), generators)
 
-	return redisEnterprise_Database_SpecGenerator
+	return redisEnterpriseDatabase_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["ClientProtocol"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusteringPolicy"] = gen.PtrOf(gen.AlphaString())
@@ -754,8 +754,8 @@ func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_Spec(gens map[s
 	gens["Port"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterprise_Database_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_Spec(gens map[string]gopter.Gen) {
 	gens["GeoReplication"] = gen.PtrOf(DatabaseProperties_GeoReplicationGenerator())
 	gens["Modules"] = gen.SliceOf(ModuleGenerator())
 	gens["Persistence"] = gen.PtrOf(PersistenceGenerator())

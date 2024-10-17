@@ -30,7 +30,7 @@ func Test_Networking_BastionHost_CRUD(t *testing.T) {
 	vnet := newVNet(tc, testcommon.AsOwner(rg), []string{"10.0.0.0/8"})
 	subnet := &network2020.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network2020.VirtualNetworks_Subnet_Spec{
+		Spec: network2020.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: to.Ptr("10.0.0.0/24"),
 			AzureName:     "AzureBastionSubnet", // The subnet must have this name in Azure for Bastion to work

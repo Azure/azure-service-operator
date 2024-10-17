@@ -115,7 +115,7 @@ func Test_Compute_VM_20220301_CRUD(t *testing.T) {
 func VM_Extension_20220301_CRUD(tc *testcommon.KubePerTestContext, vmOwnerRef *genruntime.KnownResourceReference) {
 	extension := &compute2022.VirtualMachinesExtension{
 		ObjectMeta: tc.MakeObjectMetaWithName("mycustomextension"),
-		Spec: compute2022.VirtualMachines_Extension_Spec{
+		Spec: compute2022.VirtualMachinesExtension_Spec{
 			Owner:              vmOwnerRef,
 			Location:           tc.AzureRegion,
 			Publisher:          to.Ptr("Microsoft.ManagedServices"),

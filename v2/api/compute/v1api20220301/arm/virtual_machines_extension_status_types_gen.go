@@ -5,7 +5,7 @@ package arm
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-type VirtualMachines_Extension_STATUS struct {
+type VirtualMachinesExtension_STATUS struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 

@@ -865,6 +865,99 @@ StorageAccountsBlobService: Resource
     │       ├── "Premium"
     │       └── "Standard"
     └── Type: *string
+StorageAccountsBlobService_STATUS_ARM: Object (5 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (9 properties)
+│   ├── AutomaticSnapshotPolicyEnabled: *bool
+│   ├── ChangeFeed: *Object (2 properties)
+│   │   ├── Enabled: *bool
+│   │   └── RetentionInDays: *int
+│   ├── ContainerDeleteRetentionPolicy: *Object (2 properties)
+│   │   ├── Days: *int
+│   │   └── Enabled: *bool
+│   ├── Cors: *Object (1 property)
+│   │   └── CorsRules: Object (5 properties)[]
+│   │       ├── AllowedHeaders: string[]
+│   │       ├── AllowedMethods: Enum (7 values)[]
+│   │       │   ├── "DELETE"
+│   │       │   ├── "GET"
+│   │       │   ├── "HEAD"
+│   │       │   ├── "MERGE"
+│   │       │   ├── "OPTIONS"
+│   │       │   ├── "POST"
+│   │       │   └── "PUT"
+│   │       ├── AllowedOrigins: string[]
+│   │       ├── ExposedHeaders: string[]
+│   │       └── MaxAgeInSeconds: *int
+│   ├── DefaultServiceVersion: *string
+│   ├── DeleteRetentionPolicy: *Object (2 properties)
+│   │   ├── Days: *int
+│   │   └── Enabled: *bool
+│   ├── IsVersioningEnabled: *bool
+│   ├── LastAccessTimeTrackingPolicy: *Object (4 properties)
+│   │   ├── BlobType: string[]
+│   │   ├── Enable: *bool
+│   │   ├── Name: *Enum (1 value)
+│   │   │   └── "AccessTimeTracking"
+│   │   └── TrackingGranularityInDays: *int
+│   └── RestorePolicy: *Object (4 properties)
+│       ├── Days: *int
+│       ├── Enabled: *bool
+│       ├── LastEnabledTime: *string
+│       └── MinRestoreTime: *string
+├── Sku: *Object (2 properties)
+│   ├── Name: *Enum (8 values)
+│   │   ├── "Premium_LRS"
+│   │   ├── "Premium_ZRS"
+│   │   ├── "Standard_GRS"
+│   │   ├── "Standard_GZRS"
+│   │   ├── "Standard_LRS"
+│   │   ├── "Standard_RAGRS"
+│   │   ├── "Standard_RAGZRS"
+│   │   └── "Standard_ZRS"
+│   └── Tier: *Enum (2 values)
+│       ├── "Premium"
+│       └── "Standard"
+└── Type: *string
+StorageAccountsBlobService_Spec_ARM: Object (2 properties)
+├── Name: string
+└── Properties: *Object (9 properties)
+    ├── AutomaticSnapshotPolicyEnabled: *bool
+    ├── ChangeFeed: *Object (2 properties)
+    │   ├── Enabled: *bool
+    │   └── RetentionInDays: *int
+    ├── ContainerDeleteRetentionPolicy: *Object (2 properties)
+    │   ├── Days: *int
+    │   └── Enabled: *bool
+    ├── Cors: *Object (1 property)
+    │   └── CorsRules: Object (5 properties)[]
+    │       ├── AllowedHeaders: string[]
+    │       ├── AllowedMethods: Enum (7 values)[]
+    │       │   ├── "DELETE"
+    │       │   ├── "GET"
+    │       │   ├── "HEAD"
+    │       │   ├── "MERGE"
+    │       │   ├── "OPTIONS"
+    │       │   ├── "POST"
+    │       │   └── "PUT"
+    │       ├── AllowedOrigins: string[]
+    │       ├── ExposedHeaders: string[]
+    │       └── MaxAgeInSeconds: *int
+    ├── DefaultServiceVersion: *string
+    ├── DeleteRetentionPolicy: *Object (2 properties)
+    │   ├── Days: *int
+    │   └── Enabled: *bool
+    ├── IsVersioningEnabled: *bool
+    ├── LastAccessTimeTrackingPolicy: *Object (4 properties)
+    │   ├── BlobType: string[]
+    │   ├── Enable: *bool
+    │   ├── Name: *Enum (1 value)
+    │   │   └── "AccessTimeTracking"
+    │   └── TrackingGranularityInDays: *int
+    └── RestorePolicy: *Object (2 properties)
+        ├── Days: *int
+        └── Enabled: *bool
 StorageAccountsBlobServicesContainer: Resource
 ├── Owner: StorageAccountsBlobService
 ├── Spec: Object (7 properties)
@@ -944,6 +1037,82 @@ StorageAccountsBlobServicesContainer: Resource
     ├── RemainingRetentionDays: *int
     ├── Type: *string
     └── Version: *string
+StorageAccountsBlobServicesContainer_STATUS_ARM: Object (5 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (17 properties)
+│   ├── DefaultEncryptionScope: *string
+│   ├── Deleted: *bool
+│   ├── DeletedTime: *string
+│   ├── DenyEncryptionScopeOverride: *bool
+│   ├── HasImmutabilityPolicy: *bool
+│   ├── HasLegalHold: *bool
+│   ├── ImmutabilityPolicy: *Object (3 properties)
+│   │   ├── Etag: *string
+│   │   ├── Properties: *Object (3 properties)
+│   │   │   ├── AllowProtectedAppendWrites: *bool
+│   │   │   ├── ImmutabilityPeriodSinceCreationInDays: *int
+│   │   │   └── State: *Enum (2 values)
+│   │   │       ├── "Locked"
+│   │   │       └── "Unlocked"
+│   │   └── UpdateHistory: Object (6 properties)[]
+│   │       ├── ImmutabilityPeriodSinceCreationInDays: *int
+│   │       ├── ObjectIdentifier: *string
+│   │       ├── TenantId: *string
+│   │       ├── Timestamp: *string
+│   │       ├── Update: *Enum (3 values)
+│   │       │   ├── "extend"
+│   │       │   ├── "lock"
+│   │       │   └── "put"
+│   │       └── Upn: *string
+│   ├── ImmutableStorageWithVersioning: *Object (3 properties)
+│   │   ├── Enabled: *bool
+│   │   ├── MigrationState: *Enum (2 values)
+│   │   │   ├── "Completed"
+│   │   │   └── "InProgress"
+│   │   └── TimeStamp: *string
+│   ├── LastModifiedTime: *string
+│   ├── LeaseDuration: *Enum (2 values)
+│   │   ├── "Fixed"
+│   │   └── "Infinite"
+│   ├── LeaseState: *Enum (5 values)
+│   │   ├── "Available"
+│   │   ├── "Breaking"
+│   │   ├── "Broken"
+│   │   ├── "Expired"
+│   │   └── "Leased"
+│   ├── LeaseStatus: *Enum (2 values)
+│   │   ├── "Locked"
+│   │   └── "Unlocked"
+│   ├── LegalHold: *Object (2 properties)
+│   │   ├── HasLegalHold: *bool
+│   │   └── Tags: Object (5 properties)[]
+│   │       ├── ObjectIdentifier: *string
+│   │       ├── Tag: *string
+│   │       ├── TenantId: *string
+│   │       ├── Timestamp: *string
+│   │       └── Upn: *string
+│   ├── Metadata: map[string]string
+│   ├── PublicAccess: *Enum (3 values)
+│   │   ├── "Blob"
+│   │   ├── "Container"
+│   │   └── "None"
+│   ├── RemainingRetentionDays: *int
+│   └── Version: *string
+└── Type: *string
+StorageAccountsBlobServicesContainer_Spec_ARM: Object (2 properties)
+├── Name: string
+└── Properties: *Object (5 properties)
+    ├── DefaultEncryptionScope: *string
+    ├── DenyEncryptionScopeOverride: *bool
+    ├── ImmutableStorageWithVersioning: *Object (1 property)
+    │   └── Enabled: *bool
+    ├── Metadata: map[string]string
+    └── PublicAccess: *Enum (3 values)
+        ├── "Blob"
+        ├── "Container"
+        └── "None"
 StorageAccountsManagementPolicy: Resource
 ├── Owner: StorageAccount
 ├── Spec: Object (2 properties)
@@ -1062,228 +1231,7 @@ StorageAccountsManagementPolicy: Resource
     │       └── Type: *Enum (1 value)
     │           └── "Lifecycle"
     └── Type: *string
-StorageAccountsQueueService: Resource
-├── Owner: StorageAccount
-├── Spec: Object (2 properties)
-│   ├── Cors: *Object (1 property)
-│   │   └── CorsRules: Object (5 properties)[]
-│   │       ├── AllowedHeaders: string[]
-│   │       ├── AllowedMethods: Enum (7 values)[]
-│   │       │   ├── "DELETE"
-│   │       │   ├── "GET"
-│   │       │   ├── "HEAD"
-│   │       │   ├── "MERGE"
-│   │       │   ├── "OPTIONS"
-│   │       │   ├── "POST"
-│   │       │   └── "PUT"
-│   │       ├── AllowedOrigins: string[]
-│   │       ├── ExposedHeaders: string[]
-│   │       └── MaxAgeInSeconds: *int
-│   └── Owner: *genruntime.KnownResourceReference
-└── Status: Object (5 properties)
-    ├── Conditions: conditions.Condition[]
-    ├── Cors: *Object (1 property)
-    │   └── CorsRules: Object (5 properties)[]
-    │       ├── AllowedHeaders: string[]
-    │       ├── AllowedMethods: Enum (7 values)[]
-    │       │   ├── "DELETE"
-    │       │   ├── "GET"
-    │       │   ├── "HEAD"
-    │       │   ├── "MERGE"
-    │       │   ├── "OPTIONS"
-    │       │   ├── "POST"
-    │       │   └── "PUT"
-    │       ├── AllowedOrigins: string[]
-    │       ├── ExposedHeaders: string[]
-    │       └── MaxAgeInSeconds: *int
-    ├── Id: *string
-    ├── Name: *string
-    └── Type: *string
-StorageAccountsQueueServicesQueue: Resource
-├── Owner: StorageAccountsQueueService
-├── Spec: Object (3 properties)
-│   ├── AzureName: Validated<string> (2 rules)
-│   │   ├── Rule 0: MaxLength: 63
-│   │   └── Rule 1: MinLength: 3
-│   ├── Metadata: map[string]string
-│   └── Owner: *genruntime.KnownResourceReference
-└── Status: Object (6 properties)
-    ├── ApproximateMessageCount: *int
-    ├── Conditions: conditions.Condition[]
-    ├── Id: *string
-    ├── Metadata: map[string]string
-    ├── Name: *string
-    └── Type: *string
-StorageAccounts_BlobService_STATUS_ARM: Object (5 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (9 properties)
-│   ├── AutomaticSnapshotPolicyEnabled: *bool
-│   ├── ChangeFeed: *Object (2 properties)
-│   │   ├── Enabled: *bool
-│   │   └── RetentionInDays: *int
-│   ├── ContainerDeleteRetentionPolicy: *Object (2 properties)
-│   │   ├── Days: *int
-│   │   └── Enabled: *bool
-│   ├── Cors: *Object (1 property)
-│   │   └── CorsRules: Object (5 properties)[]
-│   │       ├── AllowedHeaders: string[]
-│   │       ├── AllowedMethods: Enum (7 values)[]
-│   │       │   ├── "DELETE"
-│   │       │   ├── "GET"
-│   │       │   ├── "HEAD"
-│   │       │   ├── "MERGE"
-│   │       │   ├── "OPTIONS"
-│   │       │   ├── "POST"
-│   │       │   └── "PUT"
-│   │       ├── AllowedOrigins: string[]
-│   │       ├── ExposedHeaders: string[]
-│   │       └── MaxAgeInSeconds: *int
-│   ├── DefaultServiceVersion: *string
-│   ├── DeleteRetentionPolicy: *Object (2 properties)
-│   │   ├── Days: *int
-│   │   └── Enabled: *bool
-│   ├── IsVersioningEnabled: *bool
-│   ├── LastAccessTimeTrackingPolicy: *Object (4 properties)
-│   │   ├── BlobType: string[]
-│   │   ├── Enable: *bool
-│   │   ├── Name: *Enum (1 value)
-│   │   │   └── "AccessTimeTracking"
-│   │   └── TrackingGranularityInDays: *int
-│   └── RestorePolicy: *Object (4 properties)
-│       ├── Days: *int
-│       ├── Enabled: *bool
-│       ├── LastEnabledTime: *string
-│       └── MinRestoreTime: *string
-├── Sku: *Object (2 properties)
-│   ├── Name: *Enum (8 values)
-│   │   ├── "Premium_LRS"
-│   │   ├── "Premium_ZRS"
-│   │   ├── "Standard_GRS"
-│   │   ├── "Standard_GZRS"
-│   │   ├── "Standard_LRS"
-│   │   ├── "Standard_RAGRS"
-│   │   ├── "Standard_RAGZRS"
-│   │   └── "Standard_ZRS"
-│   └── Tier: *Enum (2 values)
-│       ├── "Premium"
-│       └── "Standard"
-└── Type: *string
-StorageAccounts_BlobService_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (9 properties)
-    ├── AutomaticSnapshotPolicyEnabled: *bool
-    ├── ChangeFeed: *Object (2 properties)
-    │   ├── Enabled: *bool
-    │   └── RetentionInDays: *int
-    ├── ContainerDeleteRetentionPolicy: *Object (2 properties)
-    │   ├── Days: *int
-    │   └── Enabled: *bool
-    ├── Cors: *Object (1 property)
-    │   └── CorsRules: Object (5 properties)[]
-    │       ├── AllowedHeaders: string[]
-    │       ├── AllowedMethods: Enum (7 values)[]
-    │       │   ├── "DELETE"
-    │       │   ├── "GET"
-    │       │   ├── "HEAD"
-    │       │   ├── "MERGE"
-    │       │   ├── "OPTIONS"
-    │       │   ├── "POST"
-    │       │   └── "PUT"
-    │       ├── AllowedOrigins: string[]
-    │       ├── ExposedHeaders: string[]
-    │       └── MaxAgeInSeconds: *int
-    ├── DefaultServiceVersion: *string
-    ├── DeleteRetentionPolicy: *Object (2 properties)
-    │   ├── Days: *int
-    │   └── Enabled: *bool
-    ├── IsVersioningEnabled: *bool
-    ├── LastAccessTimeTrackingPolicy: *Object (4 properties)
-    │   ├── BlobType: string[]
-    │   ├── Enable: *bool
-    │   ├── Name: *Enum (1 value)
-    │   │   └── "AccessTimeTracking"
-    │   └── TrackingGranularityInDays: *int
-    └── RestorePolicy: *Object (2 properties)
-        ├── Days: *int
-        └── Enabled: *bool
-StorageAccounts_BlobServices_Container_STATUS_ARM: Object (5 properties)
-├── Etag: *string
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (17 properties)
-│   ├── DefaultEncryptionScope: *string
-│   ├── Deleted: *bool
-│   ├── DeletedTime: *string
-│   ├── DenyEncryptionScopeOverride: *bool
-│   ├── HasImmutabilityPolicy: *bool
-│   ├── HasLegalHold: *bool
-│   ├── ImmutabilityPolicy: *Object (3 properties)
-│   │   ├── Etag: *string
-│   │   ├── Properties: *Object (3 properties)
-│   │   │   ├── AllowProtectedAppendWrites: *bool
-│   │   │   ├── ImmutabilityPeriodSinceCreationInDays: *int
-│   │   │   └── State: *Enum (2 values)
-│   │   │       ├── "Locked"
-│   │   │       └── "Unlocked"
-│   │   └── UpdateHistory: Object (6 properties)[]
-│   │       ├── ImmutabilityPeriodSinceCreationInDays: *int
-│   │       ├── ObjectIdentifier: *string
-│   │       ├── TenantId: *string
-│   │       ├── Timestamp: *string
-│   │       ├── Update: *Enum (3 values)
-│   │       │   ├── "extend"
-│   │       │   ├── "lock"
-│   │       │   └── "put"
-│   │       └── Upn: *string
-│   ├── ImmutableStorageWithVersioning: *Object (3 properties)
-│   │   ├── Enabled: *bool
-│   │   ├── MigrationState: *Enum (2 values)
-│   │   │   ├── "Completed"
-│   │   │   └── "InProgress"
-│   │   └── TimeStamp: *string
-│   ├── LastModifiedTime: *string
-│   ├── LeaseDuration: *Enum (2 values)
-│   │   ├── "Fixed"
-│   │   └── "Infinite"
-│   ├── LeaseState: *Enum (5 values)
-│   │   ├── "Available"
-│   │   ├── "Breaking"
-│   │   ├── "Broken"
-│   │   ├── "Expired"
-│   │   └── "Leased"
-│   ├── LeaseStatus: *Enum (2 values)
-│   │   ├── "Locked"
-│   │   └── "Unlocked"
-│   ├── LegalHold: *Object (2 properties)
-│   │   ├── HasLegalHold: *bool
-│   │   └── Tags: Object (5 properties)[]
-│   │       ├── ObjectIdentifier: *string
-│   │       ├── Tag: *string
-│   │       ├── TenantId: *string
-│   │       ├── Timestamp: *string
-│   │       └── Upn: *string
-│   ├── Metadata: map[string]string
-│   ├── PublicAccess: *Enum (3 values)
-│   │   ├── "Blob"
-│   │   ├── "Container"
-│   │   └── "None"
-│   ├── RemainingRetentionDays: *int
-│   └── Version: *string
-└── Type: *string
-StorageAccounts_BlobServices_Container_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (5 properties)
-    ├── DefaultEncryptionScope: *string
-    ├── DenyEncryptionScopeOverride: *bool
-    ├── ImmutableStorageWithVersioning: *Object (1 property)
-    │   └── Enabled: *bool
-    ├── Metadata: map[string]string
-    └── PublicAccess: *Enum (3 values)
-        ├── "Blob"
-        ├── "Container"
-        └── "None"
-StorageAccounts_ManagementPolicy_STATUS_ARM: Object (4 properties)
+StorageAccountsManagementPolicy_STATUS_ARM: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (2 properties)
@@ -1329,7 +1277,7 @@ StorageAccounts_ManagementPolicy_STATUS_ARM: Object (4 properties)
 │           └── Type: *Enum (1 value)
 │               └── "Lifecycle"
 └── Type: *string
-StorageAccounts_ManagementPolicy_Spec_ARM: Object (2 properties)
+StorageAccountsManagementPolicy_Spec_ARM: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (1 property)
     └── Policy: *Object (1 property)
@@ -1372,7 +1320,44 @@ StorageAccounts_ManagementPolicy_Spec_ARM: Object (2 properties)
             ├── Name: *string
             └── Type: *Enum (1 value)
                 └── "Lifecycle"
-StorageAccounts_QueueService_STATUS_ARM: Object (4 properties)
+StorageAccountsQueueService: Resource
+├── Owner: StorageAccount
+├── Spec: Object (2 properties)
+│   ├── Cors: *Object (1 property)
+│   │   └── CorsRules: Object (5 properties)[]
+│   │       ├── AllowedHeaders: string[]
+│   │       ├── AllowedMethods: Enum (7 values)[]
+│   │       │   ├── "DELETE"
+│   │       │   ├── "GET"
+│   │       │   ├── "HEAD"
+│   │       │   ├── "MERGE"
+│   │       │   ├── "OPTIONS"
+│   │       │   ├── "POST"
+│   │       │   └── "PUT"
+│   │       ├── AllowedOrigins: string[]
+│   │       ├── ExposedHeaders: string[]
+│   │       └── MaxAgeInSeconds: *int
+│   └── Owner: *genruntime.KnownResourceReference
+└── Status: Object (5 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Cors: *Object (1 property)
+    │   └── CorsRules: Object (5 properties)[]
+    │       ├── AllowedHeaders: string[]
+    │       ├── AllowedMethods: Enum (7 values)[]
+    │       │   ├── "DELETE"
+    │       │   ├── "GET"
+    │       │   ├── "HEAD"
+    │       │   ├── "MERGE"
+    │       │   ├── "OPTIONS"
+    │       │   ├── "POST"
+    │       │   └── "PUT"
+    │       ├── AllowedOrigins: string[]
+    │       ├── ExposedHeaders: string[]
+    │       └── MaxAgeInSeconds: *int
+    ├── Id: *string
+    ├── Name: *string
+    └── Type: *string
+StorageAccountsQueueService_STATUS_ARM: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (1 property)
@@ -1391,7 +1376,7 @@ StorageAccounts_QueueService_STATUS_ARM: Object (4 properties)
 │           ├── ExposedHeaders: string[]
 │           └── MaxAgeInSeconds: *int
 └── Type: *string
-StorageAccounts_QueueService_Spec_ARM: Object (2 properties)
+StorageAccountsQueueService_Spec_ARM: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (1 property)
     └── Cors: *Object (1 property)
@@ -1408,14 +1393,29 @@ StorageAccounts_QueueService_Spec_ARM: Object (2 properties)
             ├── AllowedOrigins: string[]
             ├── ExposedHeaders: string[]
             └── MaxAgeInSeconds: *int
-StorageAccounts_QueueServices_Queue_STATUS_ARM: Object (4 properties)
+StorageAccountsQueueServicesQueue: Resource
+├── Owner: StorageAccountsQueueService
+├── Spec: Object (3 properties)
+│   ├── AzureName: Validated<string> (2 rules)
+│   │   ├── Rule 0: MaxLength: 63
+│   │   └── Rule 1: MinLength: 3
+│   ├── Metadata: map[string]string
+│   └── Owner: *genruntime.KnownResourceReference
+└── Status: Object (6 properties)
+    ├── ApproximateMessageCount: *int
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── Metadata: map[string]string
+    ├── Name: *string
+    └── Type: *string
+StorageAccountsQueueServicesQueue_STATUS_ARM: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (2 properties)
 │   ├── ApproximateMessageCount: *int
 │   └── Metadata: map[string]string
 └── Type: *string
-StorageAccounts_QueueServices_Queue_Spec_ARM: Object (2 properties)
+StorageAccountsQueueServicesQueue_Spec_ARM: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (1 property)
     └── Metadata: map[string]string

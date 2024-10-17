@@ -29,8 +29,8 @@ import (
 type ServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Database_Spec   `json:"spec,omitempty"`
-	Status            Servers_Database_STATUS `json:"status,omitempty"`
+	Spec              ServersDatabase_Spec   `json:"spec,omitempty"`
+	Status            ServersDatabase_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersDatabase{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &ServersDatabase{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (database *ServersDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Servers_Database_STATUS); ok {
-		return database.Spec.Initialize_From_Servers_Database_STATUS(s)
+	if s, ok := status.(*ServersDatabase_STATUS); ok {
+		return database.Spec.Initialize_From_ServersDatabase_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Servers_Database_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServersDatabase_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabase{}
@@ -144,7 +144,7 @@ func (database *ServersDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *ServersDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Database_STATUS{}
+	return &ServersDatabase_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (database *ServersDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *ServersDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Database_STATUS); ok {
+	if st, ok := status.(*ServersDatabase_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Database_STATUS
+	var st ServersDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (database *ServersDatabase) AssignProperties_From_ServersDatabase(source *s
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_Database_Spec
-	err := spec.AssignProperties_From_Servers_Database_Spec(&source.Spec)
+	var spec ServersDatabase_Spec
+	err := spec.AssignProperties_From_ServersDatabase_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Database_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabase_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
 	// Status
-	var status Servers_Database_STATUS
-	err = status.AssignProperties_From_Servers_Database_STATUS(&source.Status)
+	var status ServersDatabase_STATUS
+	err = status.AssignProperties_From_ServersDatabase_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Database_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabase_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -286,18 +286,18 @@ func (database *ServersDatabase) AssignProperties_To_ServersDatabase(destination
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Servers_Database_Spec
-	err := database.Spec.AssignProperties_To_Servers_Database_Spec(&spec)
+	var spec storage.ServersDatabase_Spec
+	err := database.Spec.AssignProperties_To_ServersDatabase_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Database_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabase_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Servers_Database_STATUS
-	err = database.Status.AssignProperties_To_Servers_Database_STATUS(&status)
+	var status storage.ServersDatabase_STATUS
+	err = database.Status.AssignProperties_To_ServersDatabase_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Database_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabase_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type ServersDatabaseList struct {
 	Items           []ServersDatabase `json:"items"`
 }
 
-type Servers_Database_Spec struct {
+type ServersDatabase_Spec struct {
 	// AutoPauseDelay: Time in minutes after which database is automatically paused. A value of -1 means that automatic pause
 	// is disabled
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
@@ -476,14 +476,14 @@ type Servers_Database_Spec struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Servers_Database_Spec{}
+var _ genruntime.ARMTransformer = &ServersDatabase_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if database == nil {
 		return nil, nil
 	}
-	result := &Servers_Database_Spec_ARM{}
+	result := &ServersDatabase_Spec_ARM{}
 
 	// Set property "Identity":
 	if database.Identity != nil {
@@ -696,15 +696,15 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (database *Servers_Database_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Database_Spec_ARM{}
+func (database *ServersDatabase_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersDatabase_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Database_Spec_ARM)
+func (database *ServersDatabase_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersDatabase_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Database_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabase_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AutoPauseDelay":
@@ -946,25 +946,25 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Database_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersDatabase_Spec{}
 
-// ConvertSpecFrom populates our Servers_Database_Spec from the provided source
-func (database *Servers_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Servers_Database_Spec)
+// ConvertSpecFrom populates our ServersDatabase_Spec from the provided source
+func (database *ServersDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServersDatabase_Spec)
 	if ok {
 		// Populate our instance from source
-		return database.AssignProperties_From_Servers_Database_Spec(src)
+		return database.AssignProperties_From_ServersDatabase_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Database_Spec{}
+	src = &storage.ServersDatabase_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignProperties_From_Servers_Database_Spec(src)
+	err = database.AssignProperties_From_ServersDatabase_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -972,17 +972,17 @@ func (database *Servers_Database_Spec) ConvertSpecFrom(source genruntime.Convert
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Database_Spec
-func (database *Servers_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Servers_Database_Spec)
+// ConvertSpecTo populates the provided destination from our ServersDatabase_Spec
+func (database *ServersDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServersDatabase_Spec)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignProperties_To_Servers_Database_Spec(dst)
+		return database.AssignProperties_To_ServersDatabase_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Database_Spec{}
-	err := database.AssignProperties_To_Servers_Database_Spec(dst)
+	dst = &storage.ServersDatabase_Spec{}
+	err := database.AssignProperties_To_ServersDatabase_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -996,8 +996,8 @@ func (database *Servers_Database_Spec) ConvertSpecTo(destination genruntime.Conv
 	return nil
 }
 
-// AssignProperties_From_Servers_Database_Spec populates our Servers_Database_Spec from the provided source Servers_Database_Spec
-func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Spec(source *storage.Servers_Database_Spec) error {
+// AssignProperties_From_ServersDatabase_Spec populates our ServersDatabase_Spec from the provided source ServersDatabase_Spec
+func (database *ServersDatabase_Spec) AssignProperties_From_ServersDatabase_Spec(source *storage.ServersDatabase_Spec) error {
 
 	// AutoPauseDelay
 	database.AutoPauseDelay = genruntime.ClonePointerToInt(source.AutoPauseDelay)
@@ -1216,8 +1216,8 @@ func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Sp
 	return nil
 }
 
-// AssignProperties_To_Servers_Database_Spec populates the provided destination Servers_Database_Spec from our Servers_Database_Spec
-func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec(destination *storage.Servers_Database_Spec) error {
+// AssignProperties_To_ServersDatabase_Spec populates the provided destination ServersDatabase_Spec from our ServersDatabase_Spec
+func (database *ServersDatabase_Spec) AssignProperties_To_ServersDatabase_Spec(destination *storage.ServersDatabase_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1441,8 +1441,8 @@ func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec
 	return nil
 }
 
-// Initialize_From_Servers_Database_STATUS populates our Servers_Database_Spec from the provided source Servers_Database_STATUS
-func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(source *Servers_Database_STATUS) error {
+// Initialize_From_ServersDatabase_STATUS populates our ServersDatabase_Spec from the provided source ServersDatabase_STATUS
+func (database *ServersDatabase_Spec) Initialize_From_ServersDatabase_STATUS(source *ServersDatabase_STATUS) error {
 
 	// AutoPauseDelay
 	database.AutoPauseDelay = genruntime.ClonePointerToInt(source.AutoPauseDelay)
@@ -1644,14 +1644,14 @@ func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(s
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (database *Servers_Database_Spec) OriginalVersion() string {
+func (database *ServersDatabase_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (database *Servers_Database_Spec) SetAzureName(azureName string) { database.AzureName = azureName }
+func (database *ServersDatabase_Spec) SetAzureName(azureName string) { database.AzureName = azureName }
 
-type Servers_Database_STATUS struct {
+type ServersDatabase_STATUS struct {
 	// AutoPauseDelay: Time in minutes after which database is automatically paused. A value of -1 means that automatic pause
 	// is disabled
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
@@ -1853,25 +1853,25 @@ type Servers_Database_STATUS struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Database_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersDatabase_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Database_STATUS from the provided source
-func (database *Servers_Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Servers_Database_STATUS)
+// ConvertStatusFrom populates our ServersDatabase_STATUS from the provided source
+func (database *ServersDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServersDatabase_STATUS)
 	if ok {
 		// Populate our instance from source
-		return database.AssignProperties_From_Servers_Database_STATUS(src)
+		return database.AssignProperties_From_ServersDatabase_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Database_STATUS{}
+	src = &storage.ServersDatabase_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = database.AssignProperties_From_Servers_Database_STATUS(src)
+	err = database.AssignProperties_From_ServersDatabase_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1879,17 +1879,17 @@ func (database *Servers_Database_STATUS) ConvertStatusFrom(source genruntime.Con
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Database_STATUS
-func (database *Servers_Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Servers_Database_STATUS)
+// ConvertStatusTo populates the provided destination from our ServersDatabase_STATUS
+func (database *ServersDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServersDatabase_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return database.AssignProperties_To_Servers_Database_STATUS(dst)
+		return database.AssignProperties_To_ServersDatabase_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Database_STATUS{}
-	err := database.AssignProperties_To_Servers_Database_STATUS(dst)
+	dst = &storage.ServersDatabase_STATUS{}
+	err := database.AssignProperties_To_ServersDatabase_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1903,18 +1903,18 @@ func (database *Servers_Database_STATUS) ConvertStatusTo(destination genruntime.
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Servers_Database_STATUS{}
+var _ genruntime.FromARMConverter = &ServersDatabase_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (database *Servers_Database_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Database_STATUS_ARM{}
+func (database *ServersDatabase_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersDatabase_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Database_STATUS_ARM)
+func (database *ServersDatabase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersDatabase_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Database_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabase_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AutoPauseDelay":
@@ -2363,8 +2363,8 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignProperties_From_Servers_Database_STATUS populates our Servers_Database_STATUS from the provided source Servers_Database_STATUS
-func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_STATUS(source *storage.Servers_Database_STATUS) error {
+// AssignProperties_From_ServersDatabase_STATUS populates our ServersDatabase_STATUS from the provided source ServersDatabase_STATUS
+func (database *ServersDatabase_STATUS) AssignProperties_From_ServersDatabase_STATUS(source *storage.ServersDatabase_STATUS) error {
 
 	// AutoPauseDelay
 	database.AutoPauseDelay = genruntime.ClonePointerToInt(source.AutoPauseDelay)
@@ -2618,8 +2618,8 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 	return nil
 }
 
-// AssignProperties_To_Servers_Database_STATUS populates the provided destination Servers_Database_STATUS from our Servers_Database_STATUS
-func (database *Servers_Database_STATUS) AssignProperties_To_Servers_Database_STATUS(destination *storage.Servers_Database_STATUS) error {
+// AssignProperties_To_ServersDatabase_STATUS populates the provided destination ServersDatabase_STATUS from our ServersDatabase_STATUS
+func (database *ServersDatabase_STATUS) AssignProperties_To_ServersDatabase_STATUS(destination *storage.ServersDatabase_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

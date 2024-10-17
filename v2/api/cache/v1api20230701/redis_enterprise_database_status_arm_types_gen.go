@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20230701
 
-type RedisEnterprise_Database_STATUS_ARM struct {
+type RedisEnterpriseDatabase_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`

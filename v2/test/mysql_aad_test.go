@@ -89,7 +89,7 @@ func Test_MySQL_AADUser(t *testing.T) {
 
 	admin := &mysql20220101.FlexibleServersAdministrator{
 		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
-		Spec: mysql20220101.FlexibleServers_Administrator_Spec{
+		Spec: mysql20220101.FlexibleServersAdministrator_Spec{
 			Owner:             testcommon.AsOwner(server),
 			AdministratorType: to.Ptr(mysql20220101.AdministratorProperties_AdministratorType_ActiveDirectory),
 			Login:             to.Ptr(identityName),

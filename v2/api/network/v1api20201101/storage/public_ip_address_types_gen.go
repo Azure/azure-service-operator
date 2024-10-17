@@ -29,8 +29,8 @@ import (
 type PublicIPAddress struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PublicIPAddress_Spec                                       `json:"spec,omitempty"`
-	Status            PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded `json:"status,omitempty"`
+	Spec              PublicIPAddress_Spec   `json:"spec,omitempty"`
+	Status            PublicIPAddress_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PublicIPAddress{}
@@ -88,7 +88,7 @@ func (address *PublicIPAddress) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (address *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
+	return &PublicIPAddress_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -100,13 +100,13 @@ func (address *PublicIPAddress) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (address *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded); ok {
+	if st, ok := status.(*PublicIPAddress_STATUS); ok {
 		address.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
+	var st PublicIPAddress_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -190,9 +190,9 @@ func (address *PublicIPAddress_Spec) ConvertSpecTo(destination genruntime.Conver
 	return destination.ConvertSpecFrom(address)
 }
 
-// Storage version of v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
+// Storage version of v1api20201101.PublicIPAddress_STATUS
 // Public IP address resource.
-type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded struct {
+type PublicIPAddress_STATUS struct {
 	Conditions               []conditions.Condition                                      `json:"conditions,omitempty"`
 	DdosSettings             *DdosSettings_STATUS                                        `json:"ddosSettings,omitempty"`
 	DnsSettings              *PublicIPAddressDnsSettings_STATUS                          `json:"dnsSettings,omitempty"`
@@ -219,24 +219,24 @@ type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	Zones                    []string                                                    `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
+var _ genruntime.ConvertibleStatus = &PublicIPAddress_STATUS{}
 
-// ConvertStatusFrom populates our PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded from the provided source
-func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == embedded {
+// ConvertStatusFrom populates our PublicIPAddress_STATUS from the provided source
+func (address *PublicIPAddress_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == address {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(embedded)
+	return source.ConvertStatusTo(address)
 }
 
-// ConvertStatusTo populates the provided destination from our PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
-func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == embedded {
+// ConvertStatusTo populates the provided destination from our PublicIPAddress_STATUS
+func (address *PublicIPAddress_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == address {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(embedded)
+	return destination.ConvertStatusFrom(address)
 }
 
 // Storage version of v1api20201101.DdosSettings

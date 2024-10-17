@@ -29,8 +29,8 @@ import (
 type ServersFailoverGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_FailoverGroup_Spec   `json:"spec,omitempty"`
-	Status            Servers_FailoverGroup_STATUS `json:"status,omitempty"`
+	Spec              ServersFailoverGroup_Spec   `json:"spec,omitempty"`
+	Status            ServersFailoverGroup_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersFailoverGroup{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &ServersFailoverGroup{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (group *ServersFailoverGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Servers_FailoverGroup_STATUS); ok {
-		return group.Spec.Initialize_From_Servers_FailoverGroup_STATUS(s)
+	if s, ok := status.(*ServersFailoverGroup_STATUS); ok {
+		return group.Spec.Initialize_From_ServersFailoverGroup_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Servers_FailoverGroup_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServersFailoverGroup_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersFailoverGroup{}
@@ -144,7 +144,7 @@ func (group *ServersFailoverGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *ServersFailoverGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_FailoverGroup_STATUS{}
+	return &ServersFailoverGroup_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (group *ServersFailoverGroup) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (group *ServersFailoverGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_FailoverGroup_STATUS); ok {
+	if st, ok := status.(*ServersFailoverGroup_STATUS); ok {
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_FailoverGroup_STATUS
+	var st ServersFailoverGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (group *ServersFailoverGroup) AssignProperties_From_ServersFailoverGroup(so
 	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_FailoverGroup_Spec
-	err := spec.AssignProperties_From_Servers_FailoverGroup_Spec(&source.Spec)
+	var spec ServersFailoverGroup_Spec
+	err := spec.AssignProperties_From_ServersFailoverGroup_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_FailoverGroup_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersFailoverGroup_Spec() to populate field Spec")
 	}
 	group.Spec = spec
 
 	// Status
-	var status Servers_FailoverGroup_STATUS
-	err = status.AssignProperties_From_Servers_FailoverGroup_STATUS(&source.Status)
+	var status ServersFailoverGroup_STATUS
+	err = status.AssignProperties_From_ServersFailoverGroup_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_FailoverGroup_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersFailoverGroup_STATUS() to populate field Status")
 	}
 	group.Status = status
 
@@ -286,18 +286,18 @@ func (group *ServersFailoverGroup) AssignProperties_To_ServersFailoverGroup(dest
 	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Servers_FailoverGroup_Spec
-	err := group.Spec.AssignProperties_To_Servers_FailoverGroup_Spec(&spec)
+	var spec storage.ServersFailoverGroup_Spec
+	err := group.Spec.AssignProperties_To_ServersFailoverGroup_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_FailoverGroup_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersFailoverGroup_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Servers_FailoverGroup_STATUS
-	err = group.Status.AssignProperties_To_Servers_FailoverGroup_STATUS(&status)
+	var status storage.ServersFailoverGroup_STATUS
+	err = group.Status.AssignProperties_To_ServersFailoverGroup_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_FailoverGroup_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersFailoverGroup_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type ServersFailoverGroupList struct {
 	Items           []ServersFailoverGroup `json:"items"`
 }
 
-type Servers_FailoverGroup_Spec struct {
+type ServersFailoverGroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -353,14 +353,14 @@ type Servers_FailoverGroup_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Servers_FailoverGroup_Spec{}
+var _ genruntime.ARMTransformer = &ServersFailoverGroup_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (group *Servers_FailoverGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (group *ServersFailoverGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if group == nil {
 		return nil, nil
 	}
-	result := &Servers_FailoverGroup_Spec_ARM{}
+	result := &ServersFailoverGroup_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -414,15 +414,15 @@ func (group *Servers_FailoverGroup_Spec) ConvertToARM(resolved genruntime.Conver
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (group *Servers_FailoverGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_FailoverGroup_Spec_ARM{}
+func (group *ServersFailoverGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersFailoverGroup_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (group *Servers_FailoverGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_FailoverGroup_Spec_ARM)
+func (group *ServersFailoverGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersFailoverGroup_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_FailoverGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersFailoverGroup_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -489,25 +489,25 @@ func (group *Servers_FailoverGroup_Spec) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_FailoverGroup_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersFailoverGroup_Spec{}
 
-// ConvertSpecFrom populates our Servers_FailoverGroup_Spec from the provided source
-func (group *Servers_FailoverGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Servers_FailoverGroup_Spec)
+// ConvertSpecFrom populates our ServersFailoverGroup_Spec from the provided source
+func (group *ServersFailoverGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServersFailoverGroup_Spec)
 	if ok {
 		// Populate our instance from source
-		return group.AssignProperties_From_Servers_FailoverGroup_Spec(src)
+		return group.AssignProperties_From_ServersFailoverGroup_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_FailoverGroup_Spec{}
+	src = &storage.ServersFailoverGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = group.AssignProperties_From_Servers_FailoverGroup_Spec(src)
+	err = group.AssignProperties_From_ServersFailoverGroup_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -515,17 +515,17 @@ func (group *Servers_FailoverGroup_Spec) ConvertSpecFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_FailoverGroup_Spec
-func (group *Servers_FailoverGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Servers_FailoverGroup_Spec)
+// ConvertSpecTo populates the provided destination from our ServersFailoverGroup_Spec
+func (group *ServersFailoverGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServersFailoverGroup_Spec)
 	if ok {
 		// Populate destination from our instance
-		return group.AssignProperties_To_Servers_FailoverGroup_Spec(dst)
+		return group.AssignProperties_To_ServersFailoverGroup_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_FailoverGroup_Spec{}
-	err := group.AssignProperties_To_Servers_FailoverGroup_Spec(dst)
+	dst = &storage.ServersFailoverGroup_Spec{}
+	err := group.AssignProperties_To_ServersFailoverGroup_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -539,8 +539,8 @@ func (group *Servers_FailoverGroup_Spec) ConvertSpecTo(destination genruntime.Co
 	return nil
 }
 
-// AssignProperties_From_Servers_FailoverGroup_Spec populates our Servers_FailoverGroup_Spec from the provided source Servers_FailoverGroup_Spec
-func (group *Servers_FailoverGroup_Spec) AssignProperties_From_Servers_FailoverGroup_Spec(source *storage.Servers_FailoverGroup_Spec) error {
+// AssignProperties_From_ServersFailoverGroup_Spec populates our ServersFailoverGroup_Spec from the provided source ServersFailoverGroup_Spec
+func (group *ServersFailoverGroup_Spec) AssignProperties_From_ServersFailoverGroup_Spec(source *storage.ServersFailoverGroup_Spec) error {
 
 	// AzureName
 	group.AzureName = source.AzureName
@@ -615,8 +615,8 @@ func (group *Servers_FailoverGroup_Spec) AssignProperties_From_Servers_FailoverG
 	return nil
 }
 
-// AssignProperties_To_Servers_FailoverGroup_Spec populates the provided destination Servers_FailoverGroup_Spec from our Servers_FailoverGroup_Spec
-func (group *Servers_FailoverGroup_Spec) AssignProperties_To_Servers_FailoverGroup_Spec(destination *storage.Servers_FailoverGroup_Spec) error {
+// AssignProperties_To_ServersFailoverGroup_Spec populates the provided destination ServersFailoverGroup_Spec from our ServersFailoverGroup_Spec
+func (group *ServersFailoverGroup_Spec) AssignProperties_To_ServersFailoverGroup_Spec(destination *storage.ServersFailoverGroup_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -703,8 +703,8 @@ func (group *Servers_FailoverGroup_Spec) AssignProperties_To_Servers_FailoverGro
 	return nil
 }
 
-// Initialize_From_Servers_FailoverGroup_STATUS populates our Servers_FailoverGroup_Spec from the provided source Servers_FailoverGroup_STATUS
-func (group *Servers_FailoverGroup_Spec) Initialize_From_Servers_FailoverGroup_STATUS(source *Servers_FailoverGroup_STATUS) error {
+// Initialize_From_ServersFailoverGroup_STATUS populates our ServersFailoverGroup_Spec from the provided source ServersFailoverGroup_STATUS
+func (group *ServersFailoverGroup_Spec) Initialize_From_ServersFailoverGroup_STATUS(source *ServersFailoverGroup_STATUS) error {
 
 	// PartnerServers
 	if source.PartnerServers != nil {
@@ -756,14 +756,14 @@ func (group *Servers_FailoverGroup_Spec) Initialize_From_Servers_FailoverGroup_S
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (group *Servers_FailoverGroup_Spec) OriginalVersion() string {
+func (group *ServersFailoverGroup_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (group *Servers_FailoverGroup_Spec) SetAzureName(azureName string) { group.AzureName = azureName }
+func (group *ServersFailoverGroup_Spec) SetAzureName(azureName string) { group.AzureName = azureName }
 
-type Servers_FailoverGroup_STATUS struct {
+type ServersFailoverGroup_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -801,25 +801,25 @@ type Servers_FailoverGroup_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_FailoverGroup_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersFailoverGroup_STATUS{}
 
-// ConvertStatusFrom populates our Servers_FailoverGroup_STATUS from the provided source
-func (group *Servers_FailoverGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Servers_FailoverGroup_STATUS)
+// ConvertStatusFrom populates our ServersFailoverGroup_STATUS from the provided source
+func (group *ServersFailoverGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServersFailoverGroup_STATUS)
 	if ok {
 		// Populate our instance from source
-		return group.AssignProperties_From_Servers_FailoverGroup_STATUS(src)
+		return group.AssignProperties_From_ServersFailoverGroup_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_FailoverGroup_STATUS{}
+	src = &storage.ServersFailoverGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = group.AssignProperties_From_Servers_FailoverGroup_STATUS(src)
+	err = group.AssignProperties_From_ServersFailoverGroup_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -827,17 +827,17 @@ func (group *Servers_FailoverGroup_STATUS) ConvertStatusFrom(source genruntime.C
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_FailoverGroup_STATUS
-func (group *Servers_FailoverGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Servers_FailoverGroup_STATUS)
+// ConvertStatusTo populates the provided destination from our ServersFailoverGroup_STATUS
+func (group *ServersFailoverGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServersFailoverGroup_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return group.AssignProperties_To_Servers_FailoverGroup_STATUS(dst)
+		return group.AssignProperties_To_ServersFailoverGroup_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_FailoverGroup_STATUS{}
-	err := group.AssignProperties_To_Servers_FailoverGroup_STATUS(dst)
+	dst = &storage.ServersFailoverGroup_STATUS{}
+	err := group.AssignProperties_To_ServersFailoverGroup_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -851,18 +851,18 @@ func (group *Servers_FailoverGroup_STATUS) ConvertStatusTo(destination genruntim
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Servers_FailoverGroup_STATUS{}
+var _ genruntime.FromARMConverter = &ServersFailoverGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (group *Servers_FailoverGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_FailoverGroup_STATUS_ARM{}
+func (group *ServersFailoverGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersFailoverGroup_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_FailoverGroup_STATUS_ARM)
+func (group *ServersFailoverGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersFailoverGroup_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_FailoverGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersFailoverGroup_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -972,8 +972,8 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignProperties_From_Servers_FailoverGroup_STATUS populates our Servers_FailoverGroup_STATUS from the provided source Servers_FailoverGroup_STATUS
-func (group *Servers_FailoverGroup_STATUS) AssignProperties_From_Servers_FailoverGroup_STATUS(source *storage.Servers_FailoverGroup_STATUS) error {
+// AssignProperties_From_ServersFailoverGroup_STATUS populates our ServersFailoverGroup_STATUS from the provided source ServersFailoverGroup_STATUS
+func (group *ServersFailoverGroup_STATUS) AssignProperties_From_ServersFailoverGroup_STATUS(source *storage.ServersFailoverGroup_STATUS) error {
 
 	// Conditions
 	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1054,8 +1054,8 @@ func (group *Servers_FailoverGroup_STATUS) AssignProperties_From_Servers_Failove
 	return nil
 }
 
-// AssignProperties_To_Servers_FailoverGroup_STATUS populates the provided destination Servers_FailoverGroup_STATUS from our Servers_FailoverGroup_STATUS
-func (group *Servers_FailoverGroup_STATUS) AssignProperties_To_Servers_FailoverGroup_STATUS(destination *storage.Servers_FailoverGroup_STATUS) error {
+// AssignProperties_To_ServersFailoverGroup_STATUS populates the provided destination ServersFailoverGroup_STATUS from our ServersFailoverGroup_STATUS
+func (group *ServersFailoverGroup_STATUS) AssignProperties_To_ServersFailoverGroup_STATUS(destination *storage.ServersFailoverGroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20200601
 
-type PrivateDnsZones_VirtualNetworkLink_STATUS_ARM struct {
+type PrivateDnsZonesVirtualNetworkLink_STATUS_ARM struct {
 	// Etag: The ETag of the virtual network link.
 	Etag *string `json:"etag,omitempty"`
 

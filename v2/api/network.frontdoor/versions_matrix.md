@@ -11,8 +11,6 @@
 | CustomRule_RuleType                                         | v1api20220501 |
 | CustomRule_RuleType_STATUS                                  | v1api20220501 |
 | CustomRule_STATUS                                           | v1api20220501 |
-| FrontDoorWebApplicationFirewallPolicy_STATUS                | v1api20220501 |
-| FrontDoorWebApplicationFirewallPolicy_Spec                  | v1api20220501 |
 | FrontendEndpointLink_STATUS                                 | v1api20220501 |
 | ManagedRuleEnabledState                                     | v1api20220501 |
 | ManagedRuleEnabledState_STATUS                              | v1api20220501 |
@@ -58,3 +56,5 @@
 | WebApplicationFirewallPolicyProperties                      | v1api20220501 |
 | WebApplicationFirewallPolicyProperties_ResourceState_STATUS | v1api20220501 |
 | WebApplicationFirewallPolicyProperties_STATUS               | v1api20220501 |
+| WebApplicationFirewallPolicy_STATUS                         | v1api20220501 |
+| WebApplicationFirewallPolicy_Spec                           | v1api20220501 |

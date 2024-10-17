@@ -29,8 +29,8 @@ import (
 type VirtualNetworksSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworks_Subnet_Spec   `json:"spec,omitempty"`
-	Status            VirtualNetworks_Subnet_STATUS `json:"status,omitempty"`
+	Spec              VirtualNetworksSubnet_Spec   `json:"spec,omitempty"`
+	Status            VirtualNetworksSubnet_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetworksSubnet{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &VirtualNetworksSubnet{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (subnet *VirtualNetworksSubnet) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VirtualNetworks_Subnet_STATUS); ok {
-		return subnet.Spec.Initialize_From_VirtualNetworks_Subnet_STATUS(s)
+	if s, ok := status.(*VirtualNetworksSubnet_STATUS); ok {
+		return subnet.Spec.Initialize_From_VirtualNetworksSubnet_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type VirtualNetworks_Subnet_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type VirtualNetworksSubnet_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &VirtualNetworksSubnet{}
@@ -144,7 +144,7 @@ func (subnet *VirtualNetworksSubnet) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subnet *VirtualNetworksSubnet) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VirtualNetworks_Subnet_STATUS{}
+	return &VirtualNetworksSubnet_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (subnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (subnet *VirtualNetworksSubnet) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VirtualNetworks_Subnet_STATUS); ok {
+	if st, ok := status.(*VirtualNetworksSubnet_STATUS); ok {
 		subnet.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VirtualNetworks_Subnet_STATUS
+	var st VirtualNetworksSubnet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (subnet *VirtualNetworksSubnet) AssignProperties_From_VirtualNetworksSubnet
 	subnet.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec VirtualNetworks_Subnet_Spec
-	err := spec.AssignProperties_From_VirtualNetworks_Subnet_Spec(&source.Spec)
+	var spec VirtualNetworksSubnet_Spec
+	err := spec.AssignProperties_From_VirtualNetworksSubnet_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworks_Subnet_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworksSubnet_Spec() to populate field Spec")
 	}
 	subnet.Spec = spec
 
 	// Status
-	var status VirtualNetworks_Subnet_STATUS
-	err = status.AssignProperties_From_VirtualNetworks_Subnet_STATUS(&source.Status)
+	var status VirtualNetworksSubnet_STATUS
+	err = status.AssignProperties_From_VirtualNetworksSubnet_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworks_Subnet_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworksSubnet_STATUS() to populate field Status")
 	}
 	subnet.Status = status
 
@@ -286,18 +286,18 @@ func (subnet *VirtualNetworksSubnet) AssignProperties_To_VirtualNetworksSubnet(d
 	destination.ObjectMeta = *subnet.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.VirtualNetworks_Subnet_Spec
-	err := subnet.Spec.AssignProperties_To_VirtualNetworks_Subnet_Spec(&spec)
+	var spec storage.VirtualNetworksSubnet_Spec
+	err := subnet.Spec.AssignProperties_To_VirtualNetworksSubnet_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworks_Subnet_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworksSubnet_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.VirtualNetworks_Subnet_STATUS
-	err = subnet.Status.AssignProperties_To_VirtualNetworks_Subnet_STATUS(&status)
+	var status storage.VirtualNetworksSubnet_STATUS
+	err = subnet.Status.AssignProperties_To_VirtualNetworksSubnet_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworks_Subnet_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworksSubnet_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type VirtualNetworksSubnetList struct {
 	Items           []VirtualNetworksSubnet `json:"items"`
 }
 
-type VirtualNetworks_Subnet_Spec struct {
+type VirtualNetworksSubnet_Spec struct {
 	// AddressPrefix: The address prefix for the subnet.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
@@ -372,14 +372,14 @@ type VirtualNetworks_Subnet_Spec struct {
 	ServiceEndpoints []ServiceEndpointPropertiesFormat `json:"serviceEndpoints,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &VirtualNetworks_Subnet_Spec{}
+var _ genruntime.ARMTransformer = &VirtualNetworksSubnet_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (subnet *VirtualNetworks_Subnet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (subnet *VirtualNetworksSubnet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if subnet == nil {
 		return nil, nil
 	}
-	result := &VirtualNetworks_Subnet_Spec_ARM{}
+	result := &VirtualNetworksSubnet_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -481,15 +481,15 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertToARM(resolved genruntime.Conv
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnet *VirtualNetworks_Subnet_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetworks_Subnet_Spec_ARM{}
+func (subnet *VirtualNetworksSubnet_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworksSubnet_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworks_Subnet_Spec_ARM)
+func (subnet *VirtualNetworksSubnet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualNetworksSubnet_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_Subnet_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworksSubnet_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AddressPrefix":
@@ -651,25 +651,25 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualNetworks_Subnet_Spec{}
+var _ genruntime.ConvertibleSpec = &VirtualNetworksSubnet_Spec{}
 
-// ConvertSpecFrom populates our VirtualNetworks_Subnet_Spec from the provided source
-func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.VirtualNetworks_Subnet_Spec)
+// ConvertSpecFrom populates our VirtualNetworksSubnet_Spec from the provided source
+func (subnet *VirtualNetworksSubnet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.VirtualNetworksSubnet_Spec)
 	if ok {
 		// Populate our instance from source
-		return subnet.AssignProperties_From_VirtualNetworks_Subnet_Spec(src)
+		return subnet.AssignProperties_From_VirtualNetworksSubnet_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.VirtualNetworks_Subnet_Spec{}
+	src = &storage.VirtualNetworksSubnet_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = subnet.AssignProperties_From_VirtualNetworks_Subnet_Spec(src)
+	err = subnet.AssignProperties_From_VirtualNetworksSubnet_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -677,17 +677,17 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecFrom(source genruntime.Con
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualNetworks_Subnet_Spec
-func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.VirtualNetworks_Subnet_Spec)
+// ConvertSpecTo populates the provided destination from our VirtualNetworksSubnet_Spec
+func (subnet *VirtualNetworksSubnet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.VirtualNetworksSubnet_Spec)
 	if ok {
 		// Populate destination from our instance
-		return subnet.AssignProperties_To_VirtualNetworks_Subnet_Spec(dst)
+		return subnet.AssignProperties_To_VirtualNetworksSubnet_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.VirtualNetworks_Subnet_Spec{}
-	err := subnet.AssignProperties_To_VirtualNetworks_Subnet_Spec(dst)
+	dst = &storage.VirtualNetworksSubnet_Spec{}
+	err := subnet.AssignProperties_To_VirtualNetworksSubnet_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -701,8 +701,8 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertSpecTo(destination genruntime.
 	return nil
 }
 
-// AssignProperties_From_VirtualNetworks_Subnet_Spec populates our VirtualNetworks_Subnet_Spec from the provided source VirtualNetworks_Subnet_Spec
-func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks_Subnet_Spec(source *storage.VirtualNetworks_Subnet_Spec) error {
+// AssignProperties_From_VirtualNetworksSubnet_Spec populates our VirtualNetworksSubnet_Spec from the provided source VirtualNetworksSubnet_Spec
+func (subnet *VirtualNetworksSubnet_Spec) AssignProperties_From_VirtualNetworksSubnet_Spec(source *storage.VirtualNetworksSubnet_Spec) error {
 
 	// AddressPrefix
 	subnet.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
@@ -869,8 +869,8 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks
 	return nil
 }
 
-// AssignProperties_To_VirtualNetworks_Subnet_Spec populates the provided destination VirtualNetworks_Subnet_Spec from our VirtualNetworks_Subnet_Spec
-func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_Subnet_Spec(destination *storage.VirtualNetworks_Subnet_Spec) error {
+// AssignProperties_To_VirtualNetworksSubnet_Spec populates the provided destination VirtualNetworksSubnet_Spec from our VirtualNetworksSubnet_Spec
+func (subnet *VirtualNetworksSubnet_Spec) AssignProperties_To_VirtualNetworksSubnet_Spec(destination *storage.VirtualNetworksSubnet_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1047,8 +1047,8 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_S
 	return nil
 }
 
-// Initialize_From_VirtualNetworks_Subnet_STATUS populates our VirtualNetworks_Subnet_Spec from the provided source VirtualNetworks_Subnet_STATUS
-func (subnet *VirtualNetworks_Subnet_Spec) Initialize_From_VirtualNetworks_Subnet_STATUS(source *VirtualNetworks_Subnet_STATUS) error {
+// Initialize_From_VirtualNetworksSubnet_STATUS populates our VirtualNetworksSubnet_Spec from the provided source VirtualNetworksSubnet_STATUS
+func (subnet *VirtualNetworksSubnet_Spec) Initialize_From_VirtualNetworksSubnet_STATUS(source *VirtualNetworksSubnet_STATUS) error {
 
 	// AddressPrefix
 	subnet.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
@@ -1203,16 +1203,16 @@ func (subnet *VirtualNetworks_Subnet_Spec) Initialize_From_VirtualNetworks_Subne
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (subnet *VirtualNetworks_Subnet_Spec) OriginalVersion() string {
+func (subnet *VirtualNetworksSubnet_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (subnet *VirtualNetworks_Subnet_Spec) SetAzureName(azureName string) {
+func (subnet *VirtualNetworksSubnet_Spec) SetAzureName(azureName string) {
 	subnet.AzureName = azureName
 }
 
-type VirtualNetworks_Subnet_STATUS struct {
+type VirtualNetworksSubnet_STATUS struct {
 	// AddressPrefix: The address prefix for the subnet.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
@@ -1287,25 +1287,25 @@ type VirtualNetworks_Subnet_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VirtualNetworks_Subnet_STATUS{}
+var _ genruntime.ConvertibleStatus = &VirtualNetworksSubnet_STATUS{}
 
-// ConvertStatusFrom populates our VirtualNetworks_Subnet_STATUS from the provided source
-func (subnet *VirtualNetworks_Subnet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.VirtualNetworks_Subnet_STATUS)
+// ConvertStatusFrom populates our VirtualNetworksSubnet_STATUS from the provided source
+func (subnet *VirtualNetworksSubnet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.VirtualNetworksSubnet_STATUS)
 	if ok {
 		// Populate our instance from source
-		return subnet.AssignProperties_From_VirtualNetworks_Subnet_STATUS(src)
+		return subnet.AssignProperties_From_VirtualNetworksSubnet_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.VirtualNetworks_Subnet_STATUS{}
+	src = &storage.VirtualNetworksSubnet_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = subnet.AssignProperties_From_VirtualNetworks_Subnet_STATUS(src)
+	err = subnet.AssignProperties_From_VirtualNetworksSubnet_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1313,17 +1313,17 @@ func (subnet *VirtualNetworks_Subnet_STATUS) ConvertStatusFrom(source genruntime
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our VirtualNetworks_Subnet_STATUS
-func (subnet *VirtualNetworks_Subnet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.VirtualNetworks_Subnet_STATUS)
+// ConvertStatusTo populates the provided destination from our VirtualNetworksSubnet_STATUS
+func (subnet *VirtualNetworksSubnet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.VirtualNetworksSubnet_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return subnet.AssignProperties_To_VirtualNetworks_Subnet_STATUS(dst)
+		return subnet.AssignProperties_To_VirtualNetworksSubnet_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.VirtualNetworks_Subnet_STATUS{}
-	err := subnet.AssignProperties_To_VirtualNetworks_Subnet_STATUS(dst)
+	dst = &storage.VirtualNetworksSubnet_STATUS{}
+	err := subnet.AssignProperties_To_VirtualNetworksSubnet_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1337,18 +1337,18 @@ func (subnet *VirtualNetworks_Subnet_STATUS) ConvertStatusTo(destination genrunt
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &VirtualNetworks_Subnet_STATUS{}
+var _ genruntime.FromARMConverter = &VirtualNetworksSubnet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnet *VirtualNetworks_Subnet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetworks_Subnet_STATUS_ARM{}
+func (subnet *VirtualNetworksSubnet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworksSubnet_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworks_Subnet_STATUS_ARM)
+func (subnet *VirtualNetworksSubnet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualNetworksSubnet_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_Subnet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworksSubnet_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AddressPrefix":
@@ -1612,8 +1612,8 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 	return nil
 }
 
-// AssignProperties_From_VirtualNetworks_Subnet_STATUS populates our VirtualNetworks_Subnet_STATUS from the provided source VirtualNetworks_Subnet_STATUS
-func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_From_VirtualNetworks_Subnet_STATUS(source *storage.VirtualNetworks_Subnet_STATUS) error {
+// AssignProperties_From_VirtualNetworksSubnet_STATUS populates our VirtualNetworksSubnet_STATUS from the provided source VirtualNetworksSubnet_STATUS
+func (subnet *VirtualNetworksSubnet_STATUS) AssignProperties_From_VirtualNetworksSubnet_STATUS(source *storage.VirtualNetworksSubnet_STATUS) error {
 
 	// AddressPrefix
 	subnet.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
@@ -1886,8 +1886,8 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_From_VirtualNetwor
 	return nil
 }
 
-// AssignProperties_To_VirtualNetworks_Subnet_STATUS populates the provided destination VirtualNetworks_Subnet_STATUS from our VirtualNetworks_Subnet_STATUS
-func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_To_VirtualNetworks_Subnet_STATUS(destination *storage.VirtualNetworks_Subnet_STATUS) error {
+// AssignProperties_To_VirtualNetworksSubnet_STATUS populates the provided destination VirtualNetworksSubnet_STATUS from our VirtualNetworksSubnet_STATUS
+func (subnet *VirtualNetworksSubnet_STATUS) AssignProperties_To_VirtualNetworksSubnet_STATUS(destination *storage.VirtualNetworksSubnet_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

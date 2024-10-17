@@ -28,8 +28,8 @@ import (
 type PrivateDnsZonesCNAMERecord struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PrivateDnsZones_CNAME_Spec   `json:"spec,omitempty"`
-	Status            PrivateDnsZones_CNAME_STATUS `json:"status,omitempty"`
+	Spec              PrivateDnsZonesCNAMERecord_Spec   `json:"spec,omitempty"`
+	Status            PrivateDnsZonesCNAMERecord_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PrivateDnsZonesCNAMERecord{}
@@ -87,7 +87,7 @@ func (record *PrivateDnsZonesCNAMERecord) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (record *PrivateDnsZonesCNAMERecord) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &PrivateDnsZones_CNAME_STATUS{}
+	return &PrivateDnsZonesCNAMERecord_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (record *PrivateDnsZonesCNAMERecord) Owner() *genruntime.ResourceReference 
 // SetStatus sets the status of this resource
 func (record *PrivateDnsZonesCNAMERecord) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*PrivateDnsZones_CNAME_STATUS); ok {
+	if st, ok := status.(*PrivateDnsZonesCNAMERecord_STATUS); ok {
 		record.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st PrivateDnsZones_CNAME_STATUS
+	var st PrivateDnsZonesCNAMERecord_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type PrivateDnsZonesCNAMERecordList struct {
 	Items           []PrivateDnsZonesCNAMERecord `json:"items"`
 }
 
-// Storage version of v1api20200601.PrivateDnsZones_CNAME_Spec
-type PrivateDnsZones_CNAME_Spec struct {
+// Storage version of v1api20200601.PrivateDnsZonesCNAMERecord_Spec
+type PrivateDnsZonesCNAMERecord_Spec struct {
 	ARecords    []ARecord    `json:"aRecords,omitempty"`
 	AaaaRecords []AaaaRecord `json:"aaaaRecords,omitempty"`
 
@@ -165,28 +165,28 @@ type PrivateDnsZones_CNAME_Spec struct {
 	TxtRecords  []TxtRecord                        `json:"txtRecords,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &PrivateDnsZones_CNAME_Spec{}
+var _ genruntime.ConvertibleSpec = &PrivateDnsZonesCNAMERecord_Spec{}
 
-// ConvertSpecFrom populates our PrivateDnsZones_CNAME_Spec from the provided source
-func (cname *PrivateDnsZones_CNAME_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == cname {
+// ConvertSpecFrom populates our PrivateDnsZonesCNAMERecord_Spec from the provided source
+func (record *PrivateDnsZonesCNAMERecord_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == record {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(cname)
+	return source.ConvertSpecTo(record)
 }
 
-// ConvertSpecTo populates the provided destination from our PrivateDnsZones_CNAME_Spec
-func (cname *PrivateDnsZones_CNAME_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == cname {
+// ConvertSpecTo populates the provided destination from our PrivateDnsZonesCNAMERecord_Spec
+func (record *PrivateDnsZonesCNAMERecord_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == record {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(cname)
+	return destination.ConvertSpecFrom(record)
 }
 
-// Storage version of v1api20200601.PrivateDnsZones_CNAME_STATUS
-type PrivateDnsZones_CNAME_STATUS struct {
+// Storage version of v1api20200601.PrivateDnsZonesCNAMERecord_STATUS
+type PrivateDnsZonesCNAMERecord_STATUS struct {
 	ARecords         []ARecord_STATUS       `json:"aRecords,omitempty"`
 	AaaaRecords      []AaaaRecord_STATUS    `json:"aaaaRecords,omitempty"`
 	CnameRecord      *CnameRecord_STATUS    `json:"cnameRecord,omitempty"`
@@ -207,24 +207,24 @@ type PrivateDnsZones_CNAME_STATUS struct {
 	Type             *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &PrivateDnsZones_CNAME_STATUS{}
+var _ genruntime.ConvertibleStatus = &PrivateDnsZonesCNAMERecord_STATUS{}
 
-// ConvertStatusFrom populates our PrivateDnsZones_CNAME_STATUS from the provided source
-func (cname *PrivateDnsZones_CNAME_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == cname {
+// ConvertStatusFrom populates our PrivateDnsZonesCNAMERecord_STATUS from the provided source
+func (record *PrivateDnsZonesCNAMERecord_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == record {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(cname)
+	return source.ConvertStatusTo(record)
 }
 
-// ConvertStatusTo populates the provided destination from our PrivateDnsZones_CNAME_STATUS
-func (cname *PrivateDnsZones_CNAME_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == cname {
+// ConvertStatusTo populates the provided destination from our PrivateDnsZonesCNAMERecord_STATUS
+func (record *PrivateDnsZonesCNAMERecord_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == record {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(cname)
+	return destination.ConvertStatusFrom(record)
 }
 
 func init() {

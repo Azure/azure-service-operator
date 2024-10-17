@@ -61,7 +61,7 @@ func Test_SQL_Server_FailoverGroup_CRUD(t *testing.T) {
 	// Make a database to mirror
 	db := &sql.ServersDatabase{
 		ObjectMeta: tc.MakeObjectMeta("db"),
-		Spec: sql.Servers_Database_Spec{
+		Spec: sql.ServersDatabase_Spec{
 			Owner:     testcommon.AsOwner(serverPrimary),
 			Location:  tc.AzureRegion,
 			Collation: to.Ptr("SQL_Latin1_General_CP1_CI_AS"),
@@ -73,7 +73,7 @@ func Test_SQL_Server_FailoverGroup_CRUD(t *testing.T) {
 	automatic := sql.FailoverGroupReadWriteEndpoint_FailoverPolicy_Automatic
 	failoverGroup := &sql.ServersFailoverGroup{
 		ObjectMeta: tc.MakeObjectMeta("failovergroup"),
-		Spec: sql.Servers_FailoverGroup_Spec{
+		Spec: sql.ServersFailoverGroup_Spec{
 			Owner: testcommon.AsOwner(serverPrimary),
 			PartnerServers: []sql.PartnerInfo{
 				{

@@ -23,7 +23,7 @@ import (
 func newBackupPolicy20231101(tc *testcommon.KubePerTestContext, backupVault *dataprotection.BackupVault, name string) *dataprotection.BackupVaultsBackupPolicy {
 	backupPolicy := &dataprotection.BackupVaultsBackupPolicy{
 		ObjectMeta: tc.MakeObjectMeta(name),
-		Spec: dataprotection.BackupVaults_BackupPolicy_Spec{
+		Spec: dataprotection.BackupVaultsBackupPolicy_Spec{
 			Owner: testcommon.AsOwner(backupVault),
 			Properties: &dataprotection.BaseBackupPolicy{
 				BackupPolicy: &dataprotection.BackupPolicy{

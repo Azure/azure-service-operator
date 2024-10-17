@@ -29,8 +29,8 @@ import (
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_Endpoint_Spec   `json:"spec,omitempty"`
-	Status            Profiles_Endpoint_STATUS `json:"status,omitempty"`
+	Spec              ProfilesEndpoint_Spec   `json:"spec,omitempty"`
+	Status            ProfilesEndpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &ProfilesEndpoint{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (endpoint *ProfilesEndpoint) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Profiles_Endpoint_STATUS); ok {
-		return endpoint.Spec.Initialize_From_Profiles_Endpoint_STATUS(s)
+	if s, ok := status.(*ProfilesEndpoint_STATUS); ok {
+		return endpoint.Spec.Initialize_From_ProfilesEndpoint_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Profiles_Endpoint_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ProfilesEndpoint_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ProfilesEndpoint{}
@@ -144,7 +144,7 @@ func (endpoint *ProfilesEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *ProfilesEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_Endpoint_STATUS{}
+	return &ProfilesEndpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (endpoint *ProfilesEndpoint) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (endpoint *ProfilesEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_Endpoint_STATUS); ok {
+	if st, ok := status.(*ProfilesEndpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_Endpoint_STATUS
+	var st ProfilesEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source 
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_Endpoint_Spec
-	err := spec.AssignProperties_From_Profiles_Endpoint_Spec(&source.Spec)
+	var spec ProfilesEndpoint_Spec
+	err := spec.AssignProperties_From_ProfilesEndpoint_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoint_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ProfilesEndpoint_Spec() to populate field Spec")
 	}
 	endpoint.Spec = spec
 
 	// Status
-	var status Profiles_Endpoint_STATUS
-	err = status.AssignProperties_From_Profiles_Endpoint_STATUS(&source.Status)
+	var status ProfilesEndpoint_STATUS
+	err = status.AssignProperties_From_ProfilesEndpoint_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_Endpoint_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ProfilesEndpoint_STATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -286,18 +286,18 @@ func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destinati
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Profiles_Endpoint_Spec
-	err := endpoint.Spec.AssignProperties_To_Profiles_Endpoint_Spec(&spec)
+	var spec storage.ProfilesEndpoint_Spec
+	err := endpoint.Spec.AssignProperties_To_ProfilesEndpoint_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoint_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ProfilesEndpoint_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Profiles_Endpoint_STATUS
-	err = endpoint.Status.AssignProperties_To_Profiles_Endpoint_STATUS(&status)
+	var status storage.ProfilesEndpoint_STATUS
+	err = endpoint.Status.AssignProperties_To_ProfilesEndpoint_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoint_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ProfilesEndpoint_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type ProfilesEndpointList struct {
 	Items           []ProfilesEndpoint `json:"items"`
 }
 
-type Profiles_Endpoint_Spec struct {
+type ProfilesEndpoint_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -406,14 +406,14 @@ type Profiles_Endpoint_Spec struct {
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_Endpoint_Spec{}
+var _ genruntime.ARMTransformer = &ProfilesEndpoint_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (endpoint *Profiles_Endpoint_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (endpoint *ProfilesEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if endpoint == nil {
 		return nil, nil
 	}
-	result := &Profiles_Endpoint_Spec_ARM{}
+	result := &ProfilesEndpoint_Spec_ARM{}
 
 	// Set property "Location":
 	if endpoint.Location != nil {
@@ -546,15 +546,15 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertToARM(resolved genruntime.Convert
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *Profiles_Endpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_Endpoint_Spec_ARM{}
+func (endpoint *ProfilesEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ProfilesEndpoint_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_Endpoint_Spec_ARM)
+func (endpoint *ProfilesEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ProfilesEndpoint_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoint_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoint_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -762,25 +762,25 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_Endpoint_Spec{}
+var _ genruntime.ConvertibleSpec = &ProfilesEndpoint_Spec{}
 
-// ConvertSpecFrom populates our Profiles_Endpoint_Spec from the provided source
-func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Profiles_Endpoint_Spec)
+// ConvertSpecFrom populates our ProfilesEndpoint_Spec from the provided source
+func (endpoint *ProfilesEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ProfilesEndpoint_Spec)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignProperties_From_Profiles_Endpoint_Spec(src)
+		return endpoint.AssignProperties_From_ProfilesEndpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_Endpoint_Spec{}
+	src = &storage.ProfilesEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignProperties_From_Profiles_Endpoint_Spec(src)
+	err = endpoint.AssignProperties_From_ProfilesEndpoint_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -788,17 +788,17 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.Conver
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_Endpoint_Spec
-func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Profiles_Endpoint_Spec)
+// ConvertSpecTo populates the provided destination from our ProfilesEndpoint_Spec
+func (endpoint *ProfilesEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ProfilesEndpoint_Spec)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignProperties_To_Profiles_Endpoint_Spec(dst)
+		return endpoint.AssignProperties_To_ProfilesEndpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_Endpoint_Spec{}
-	err := endpoint.AssignProperties_To_Profiles_Endpoint_Spec(dst)
+	dst = &storage.ProfilesEndpoint_Spec{}
+	err := endpoint.AssignProperties_To_ProfilesEndpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -812,8 +812,8 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.Con
 	return nil
 }
 
-// AssignProperties_From_Profiles_Endpoint_Spec populates our Profiles_Endpoint_Spec from the provided source Profiles_Endpoint_Spec
-func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_Spec(source *storage.Profiles_Endpoint_Spec) error {
+// AssignProperties_From_ProfilesEndpoint_Spec populates our ProfilesEndpoint_Spec from the provided source ProfilesEndpoint_Spec
+func (endpoint *ProfilesEndpoint_Spec) AssignProperties_From_ProfilesEndpoint_Spec(source *storage.ProfilesEndpoint_Spec) error {
 
 	// AzureName
 	endpoint.AzureName = source.AzureName
@@ -998,8 +998,8 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_
 	return nil
 }
 
-// AssignProperties_To_Profiles_Endpoint_Spec populates the provided destination Profiles_Endpoint_Spec from our Profiles_Endpoint_Spec
-func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Spec(destination *storage.Profiles_Endpoint_Spec) error {
+// AssignProperties_To_ProfilesEndpoint_Spec populates the provided destination ProfilesEndpoint_Spec from our ProfilesEndpoint_Spec
+func (endpoint *ProfilesEndpoint_Spec) AssignProperties_To_ProfilesEndpoint_Spec(destination *storage.ProfilesEndpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1194,8 +1194,8 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 	return nil
 }
 
-// Initialize_From_Profiles_Endpoint_STATUS populates our Profiles_Endpoint_Spec from the provided source Profiles_Endpoint_STATUS
-func (endpoint *Profiles_Endpoint_Spec) Initialize_From_Profiles_Endpoint_STATUS(source *Profiles_Endpoint_STATUS) error {
+// Initialize_From_ProfilesEndpoint_STATUS populates our ProfilesEndpoint_Spec from the provided source ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_Spec) Initialize_From_ProfilesEndpoint_STATUS(source *ProfilesEndpoint_STATUS) error {
 
 	// ContentTypesToCompress
 	endpoint.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
@@ -1368,16 +1368,14 @@ func (endpoint *Profiles_Endpoint_Spec) Initialize_From_Profiles_Endpoint_STATUS
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (endpoint *Profiles_Endpoint_Spec) OriginalVersion() string {
+func (endpoint *ProfilesEndpoint_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (endpoint *Profiles_Endpoint_Spec) SetAzureName(azureName string) {
-	endpoint.AzureName = azureName
-}
+func (endpoint *ProfilesEndpoint_Spec) SetAzureName(azureName string) { endpoint.AzureName = azureName }
 
-type Profiles_Endpoint_STATUS struct {
+type ProfilesEndpoint_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -1474,25 +1472,25 @@ type Profiles_Endpoint_STATUS struct {
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_Endpoint_STATUS{}
+var _ genruntime.ConvertibleStatus = &ProfilesEndpoint_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_Endpoint_STATUS from the provided source
-func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Profiles_Endpoint_STATUS)
+// ConvertStatusFrom populates our ProfilesEndpoint_STATUS from the provided source
+func (endpoint *ProfilesEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ProfilesEndpoint_STATUS)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignProperties_From_Profiles_Endpoint_STATUS(src)
+		return endpoint.AssignProperties_From_ProfilesEndpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_Endpoint_STATUS{}
+	src = &storage.ProfilesEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignProperties_From_Profiles_Endpoint_STATUS(src)
+	err = endpoint.AssignProperties_From_ProfilesEndpoint_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1500,17 +1498,17 @@ func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusFrom(source genruntime.Co
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_Endpoint_STATUS
-func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Profiles_Endpoint_STATUS)
+// ConvertStatusTo populates the provided destination from our ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ProfilesEndpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignProperties_To_Profiles_Endpoint_STATUS(dst)
+		return endpoint.AssignProperties_To_ProfilesEndpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_Endpoint_STATUS{}
-	err := endpoint.AssignProperties_To_Profiles_Endpoint_STATUS(dst)
+	dst = &storage.ProfilesEndpoint_STATUS{}
+	err := endpoint.AssignProperties_To_ProfilesEndpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1524,18 +1522,18 @@ func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusTo(destination genruntime
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Profiles_Endpoint_STATUS{}
+var _ genruntime.FromARMConverter = &ProfilesEndpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *Profiles_Endpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_Endpoint_STATUS_ARM{}
+func (endpoint *ProfilesEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ProfilesEndpoint_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_Endpoint_STATUS_ARM)
+func (endpoint *ProfilesEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ProfilesEndpoint_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoint_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoint_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1809,8 +1807,8 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignProperties_From_Profiles_Endpoint_STATUS populates our Profiles_Endpoint_STATUS from the provided source Profiles_Endpoint_STATUS
-func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoint_STATUS(source *storage.Profiles_Endpoint_STATUS) error {
+// AssignProperties_From_ProfilesEndpoint_STATUS populates our ProfilesEndpoint_STATUS from the provided source ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_From_ProfilesEndpoint_STATUS(source *storage.ProfilesEndpoint_STATUS) error {
 
 	// Conditions
 	endpoint.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -2047,8 +2045,8 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoin
 	return nil
 }
 
-// AssignProperties_To_Profiles_Endpoint_STATUS populates the provided destination Profiles_Endpoint_STATUS from our Profiles_Endpoint_STATUS
-func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_STATUS(destination *storage.Profiles_Endpoint_STATUS) error {
+// AssignProperties_To_ProfilesEndpoint_STATUS populates the provided destination ProfilesEndpoint_STATUS from our ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_To_ProfilesEndpoint_STATUS(destination *storage.ProfilesEndpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

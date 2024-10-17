@@ -29,8 +29,8 @@ import (
 type AuthorizationProvidersAuthorization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_AuthorizationProviders_Authorization_Spec   `json:"spec,omitempty"`
-	Status            Service_AuthorizationProviders_Authorization_STATUS `json:"status,omitempty"`
+	Spec              AuthorizationProvidersAuthorization_Spec   `json:"spec,omitempty"`
+	Status            AuthorizationProvidersAuthorization_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &AuthorizationProvidersAuthorization{}
@@ -149,7 +149,7 @@ func (authorization *AuthorizationProvidersAuthorization) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (authorization *AuthorizationProvidersAuthorization) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_AuthorizationProviders_Authorization_STATUS{}
+	return &AuthorizationProvidersAuthorization_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -161,13 +161,13 @@ func (authorization *AuthorizationProvidersAuthorization) Owner() *genruntime.Re
 // SetStatus sets the status of this resource
 func (authorization *AuthorizationProvidersAuthorization) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_AuthorizationProviders_Authorization_STATUS); ok {
+	if st, ok := status.(*AuthorizationProvidersAuthorization_STATUS); ok {
 		authorization.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_AuthorizationProviders_Authorization_STATUS
+	var st AuthorizationProvidersAuthorization_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -265,18 +265,18 @@ func (authorization *AuthorizationProvidersAuthorization) AssignProperties_From_
 	authorization.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_AuthorizationProviders_Authorization_Spec
-	err := spec.AssignProperties_From_Service_AuthorizationProviders_Authorization_Spec(&source.Spec)
+	var spec AuthorizationProvidersAuthorization_Spec
+	err := spec.AssignProperties_From_AuthorizationProvidersAuthorization_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_AuthorizationProviders_Authorization_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProvidersAuthorization_Spec() to populate field Spec")
 	}
 	authorization.Spec = spec
 
 	// Status
-	var status Service_AuthorizationProviders_Authorization_STATUS
-	err = status.AssignProperties_From_Service_AuthorizationProviders_Authorization_STATUS(&source.Status)
+	var status AuthorizationProvidersAuthorization_STATUS
+	err = status.AssignProperties_From_AuthorizationProvidersAuthorization_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_AuthorizationProviders_Authorization_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_AuthorizationProvidersAuthorization_STATUS() to populate field Status")
 	}
 	authorization.Status = status
 
@@ -291,18 +291,18 @@ func (authorization *AuthorizationProvidersAuthorization) AssignProperties_To_Au
 	destination.ObjectMeta = *authorization.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_AuthorizationProviders_Authorization_Spec
-	err := authorization.Spec.AssignProperties_To_Service_AuthorizationProviders_Authorization_Spec(&spec)
+	var spec storage.AuthorizationProvidersAuthorization_Spec
+	err := authorization.Spec.AssignProperties_To_AuthorizationProvidersAuthorization_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_AuthorizationProviders_Authorization_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProvidersAuthorization_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_AuthorizationProviders_Authorization_STATUS
-	err = authorization.Status.AssignProperties_To_Service_AuthorizationProviders_Authorization_STATUS(&status)
+	var status storage.AuthorizationProvidersAuthorization_STATUS
+	err = authorization.Status.AssignProperties_To_AuthorizationProvidersAuthorization_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_AuthorizationProviders_Authorization_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_AuthorizationProvidersAuthorization_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -329,7 +329,7 @@ type AuthorizationProvidersAuthorizationList struct {
 	Items           []AuthorizationProvidersAuthorization `json:"items"`
 }
 
-type Service_AuthorizationProviders_Authorization_Spec struct {
+type AuthorizationProvidersAuthorization_Spec struct {
 	// AuthorizationType: Authorization type options
 	AuthorizationType *AuthorizationContractProperties_AuthorizationType `json:"authorizationType,omitempty"`
 
@@ -353,14 +353,14 @@ type Service_AuthorizationProviders_Authorization_Spec struct {
 	Parameters *genruntime.SecretMapReference `json:"parameters,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Service_AuthorizationProviders_Authorization_Spec{}
+var _ genruntime.ARMTransformer = &AuthorizationProvidersAuthorization_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (authorization *Service_AuthorizationProviders_Authorization_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (authorization *AuthorizationProvidersAuthorization_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if authorization == nil {
 		return nil, nil
 	}
-	result := &Service_AuthorizationProviders_Authorization_Spec_ARM{}
+	result := &AuthorizationProvidersAuthorization_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -396,15 +396,15 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) ConvertT
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (authorization *Service_AuthorizationProviders_Authorization_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_AuthorizationProviders_Authorization_Spec_ARM{}
+func (authorization *AuthorizationProvidersAuthorization_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AuthorizationProvidersAuthorization_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (authorization *Service_AuthorizationProviders_Authorization_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_AuthorizationProviders_Authorization_Spec_ARM)
+func (authorization *AuthorizationProvidersAuthorization_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AuthorizationProvidersAuthorization_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_AuthorizationProviders_Authorization_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationProvidersAuthorization_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AuthorizationType":
@@ -444,25 +444,25 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) Populate
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Service_AuthorizationProviders_Authorization_Spec{}
+var _ genruntime.ConvertibleSpec = &AuthorizationProvidersAuthorization_Spec{}
 
-// ConvertSpecFrom populates our Service_AuthorizationProviders_Authorization_Spec from the provided source
-func (authorization *Service_AuthorizationProviders_Authorization_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_AuthorizationProviders_Authorization_Spec)
+// ConvertSpecFrom populates our AuthorizationProvidersAuthorization_Spec from the provided source
+func (authorization *AuthorizationProvidersAuthorization_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.AuthorizationProvidersAuthorization_Spec)
 	if ok {
 		// Populate our instance from source
-		return authorization.AssignProperties_From_Service_AuthorizationProviders_Authorization_Spec(src)
+		return authorization.AssignProperties_From_AuthorizationProvidersAuthorization_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_AuthorizationProviders_Authorization_Spec{}
+	src = &storage.AuthorizationProvidersAuthorization_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = authorization.AssignProperties_From_Service_AuthorizationProviders_Authorization_Spec(src)
+	err = authorization.AssignProperties_From_AuthorizationProvidersAuthorization_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -470,17 +470,17 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) ConvertS
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_AuthorizationProviders_Authorization_Spec
-func (authorization *Service_AuthorizationProviders_Authorization_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_AuthorizationProviders_Authorization_Spec)
+// ConvertSpecTo populates the provided destination from our AuthorizationProvidersAuthorization_Spec
+func (authorization *AuthorizationProvidersAuthorization_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.AuthorizationProvidersAuthorization_Spec)
 	if ok {
 		// Populate destination from our instance
-		return authorization.AssignProperties_To_Service_AuthorizationProviders_Authorization_Spec(dst)
+		return authorization.AssignProperties_To_AuthorizationProvidersAuthorization_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_AuthorizationProviders_Authorization_Spec{}
-	err := authorization.AssignProperties_To_Service_AuthorizationProviders_Authorization_Spec(dst)
+	dst = &storage.AuthorizationProvidersAuthorization_Spec{}
+	err := authorization.AssignProperties_To_AuthorizationProvidersAuthorization_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -494,8 +494,8 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) ConvertS
 	return nil
 }
 
-// AssignProperties_From_Service_AuthorizationProviders_Authorization_Spec populates our Service_AuthorizationProviders_Authorization_Spec from the provided source Service_AuthorizationProviders_Authorization_Spec
-func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignProperties_From_Service_AuthorizationProviders_Authorization_Spec(source *storage.Service_AuthorizationProviders_Authorization_Spec) error {
+// AssignProperties_From_AuthorizationProvidersAuthorization_Spec populates our AuthorizationProvidersAuthorization_Spec from the provided source AuthorizationProvidersAuthorization_Spec
+func (authorization *AuthorizationProvidersAuthorization_Spec) AssignProperties_From_AuthorizationProvidersAuthorization_Spec(source *storage.AuthorizationProvidersAuthorization_Spec) error {
 
 	// AuthorizationType
 	if source.AuthorizationType != nil {
@@ -538,8 +538,8 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 	return nil
 }
 
-// AssignProperties_To_Service_AuthorizationProviders_Authorization_Spec populates the provided destination Service_AuthorizationProviders_Authorization_Spec from our Service_AuthorizationProviders_Authorization_Spec
-func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignProperties_To_Service_AuthorizationProviders_Authorization_Spec(destination *storage.Service_AuthorizationProviders_Authorization_Spec) error {
+// AssignProperties_To_AuthorizationProvidersAuthorization_Spec populates the provided destination AuthorizationProvidersAuthorization_Spec from our AuthorizationProvidersAuthorization_Spec
+func (authorization *AuthorizationProvidersAuthorization_Spec) AssignProperties_To_AuthorizationProvidersAuthorization_Spec(destination *storage.AuthorizationProvidersAuthorization_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -593,16 +593,16 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (authorization *Service_AuthorizationProviders_Authorization_Spec) OriginalVersion() string {
+func (authorization *AuthorizationProvidersAuthorization_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (authorization *Service_AuthorizationProviders_Authorization_Spec) SetAzureName(azureName string) {
+func (authorization *AuthorizationProvidersAuthorization_Spec) SetAzureName(azureName string) {
 	authorization.AzureName = azureName
 }
 
-type Service_AuthorizationProviders_Authorization_STATUS struct {
+type AuthorizationProvidersAuthorization_STATUS struct {
 	// AuthorizationType: Authorization type options
 	AuthorizationType *AuthorizationContractProperties_AuthorizationType_STATUS `json:"authorizationType,omitempty"`
 
@@ -632,25 +632,25 @@ type Service_AuthorizationProviders_Authorization_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_AuthorizationProviders_Authorization_STATUS{}
+var _ genruntime.ConvertibleStatus = &AuthorizationProvidersAuthorization_STATUS{}
 
-// ConvertStatusFrom populates our Service_AuthorizationProviders_Authorization_STATUS from the provided source
-func (authorization *Service_AuthorizationProviders_Authorization_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_AuthorizationProviders_Authorization_STATUS)
+// ConvertStatusFrom populates our AuthorizationProvidersAuthorization_STATUS from the provided source
+func (authorization *AuthorizationProvidersAuthorization_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.AuthorizationProvidersAuthorization_STATUS)
 	if ok {
 		// Populate our instance from source
-		return authorization.AssignProperties_From_Service_AuthorizationProviders_Authorization_STATUS(src)
+		return authorization.AssignProperties_From_AuthorizationProvidersAuthorization_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_AuthorizationProviders_Authorization_STATUS{}
+	src = &storage.AuthorizationProvidersAuthorization_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = authorization.AssignProperties_From_Service_AuthorizationProviders_Authorization_STATUS(src)
+	err = authorization.AssignProperties_From_AuthorizationProvidersAuthorization_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -658,17 +658,17 @@ func (authorization *Service_AuthorizationProviders_Authorization_STATUS) Conver
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_AuthorizationProviders_Authorization_STATUS
-func (authorization *Service_AuthorizationProviders_Authorization_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_AuthorizationProviders_Authorization_STATUS)
+// ConvertStatusTo populates the provided destination from our AuthorizationProvidersAuthorization_STATUS
+func (authorization *AuthorizationProvidersAuthorization_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.AuthorizationProvidersAuthorization_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return authorization.AssignProperties_To_Service_AuthorizationProviders_Authorization_STATUS(dst)
+		return authorization.AssignProperties_To_AuthorizationProvidersAuthorization_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_AuthorizationProviders_Authorization_STATUS{}
-	err := authorization.AssignProperties_To_Service_AuthorizationProviders_Authorization_STATUS(dst)
+	dst = &storage.AuthorizationProvidersAuthorization_STATUS{}
+	err := authorization.AssignProperties_To_AuthorizationProvidersAuthorization_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -682,18 +682,18 @@ func (authorization *Service_AuthorizationProviders_Authorization_STATUS) Conver
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Service_AuthorizationProviders_Authorization_STATUS{}
+var _ genruntime.FromARMConverter = &AuthorizationProvidersAuthorization_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (authorization *Service_AuthorizationProviders_Authorization_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_AuthorizationProviders_Authorization_STATUS_ARM{}
+func (authorization *AuthorizationProvidersAuthorization_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AuthorizationProvidersAuthorization_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (authorization *Service_AuthorizationProviders_Authorization_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_AuthorizationProviders_Authorization_STATUS_ARM)
+func (authorization *AuthorizationProvidersAuthorization_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AuthorizationProvidersAuthorization_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_AuthorizationProviders_Authorization_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationProvidersAuthorization_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AuthorizationType":
@@ -776,8 +776,8 @@ func (authorization *Service_AuthorizationProviders_Authorization_STATUS) Popula
 	return nil
 }
 
-// AssignProperties_From_Service_AuthorizationProviders_Authorization_STATUS populates our Service_AuthorizationProviders_Authorization_STATUS from the provided source Service_AuthorizationProviders_Authorization_STATUS
-func (authorization *Service_AuthorizationProviders_Authorization_STATUS) AssignProperties_From_Service_AuthorizationProviders_Authorization_STATUS(source *storage.Service_AuthorizationProviders_Authorization_STATUS) error {
+// AssignProperties_From_AuthorizationProvidersAuthorization_STATUS populates our AuthorizationProvidersAuthorization_STATUS from the provided source AuthorizationProvidersAuthorization_STATUS
+func (authorization *AuthorizationProvidersAuthorization_STATUS) AssignProperties_From_AuthorizationProvidersAuthorization_STATUS(source *storage.AuthorizationProvidersAuthorization_STATUS) error {
 
 	// AuthorizationType
 	if source.AuthorizationType != nil {
@@ -831,8 +831,8 @@ func (authorization *Service_AuthorizationProviders_Authorization_STATUS) Assign
 	return nil
 }
 
-// AssignProperties_To_Service_AuthorizationProviders_Authorization_STATUS populates the provided destination Service_AuthorizationProviders_Authorization_STATUS from our Service_AuthorizationProviders_Authorization_STATUS
-func (authorization *Service_AuthorizationProviders_Authorization_STATUS) AssignProperties_To_Service_AuthorizationProviders_Authorization_STATUS(destination *storage.Service_AuthorizationProviders_Authorization_STATUS) error {
+// AssignProperties_To_AuthorizationProvidersAuthorization_STATUS populates the provided destination AuthorizationProvidersAuthorization_STATUS from our AuthorizationProvidersAuthorization_STATUS
+func (authorization *AuthorizationProvidersAuthorization_STATUS) AssignProperties_To_AuthorizationProvidersAuthorization_STATUS(destination *storage.AuthorizationProvidersAuthorization_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

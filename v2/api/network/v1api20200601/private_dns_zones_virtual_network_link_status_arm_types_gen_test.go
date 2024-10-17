@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_PrivateDnsZones_VirtualNetworkLink_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateDnsZonesVirtualNetworkLink_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateDnsZones_VirtualNetworkLink_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM, PrivateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator()))
+		"Round trip of PrivateDnsZonesVirtualNetworkLink_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM, PrivateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM runs a test to see if a specific instance of PrivateDnsZones_VirtualNetworkLink_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM(subject PrivateDnsZones_VirtualNetworkLink_STATUS_ARM) string {
+// RunJSONSerializationTestForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM runs a test to see if a specific instance of PrivateDnsZonesVirtualNetworkLink_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM(subject PrivateDnsZonesVirtualNetworkLink_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM(su
 	}
 
 	// Deserialize back into memory
-	var actual PrivateDnsZones_VirtualNetworkLink_STATUS_ARM
+	var actual PrivateDnsZonesVirtualNetworkLink_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,34 +56,34 @@ func RunJSONSerializationTestForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM(su
 	return ""
 }
 
-// Generator of PrivateDnsZones_VirtualNetworkLink_STATUS_ARM instances for property testing - lazily instantiated by
-// PrivateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator()
-var privateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator gopter.Gen
+// Generator of PrivateDnsZonesVirtualNetworkLink_STATUS_ARM instances for property testing - lazily instantiated by
+// PrivateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator()
+var privateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator gopter.Gen
 
-// PrivateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator returns a generator of PrivateDnsZones_VirtualNetworkLink_STATUS_ARM instances for property testing.
-// We first initialize privateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator with a simplified generator based on the
+// PrivateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator returns a generator of PrivateDnsZonesVirtualNetworkLink_STATUS_ARM instances for property testing.
+// We first initialize privateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func PrivateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator() gopter.Gen {
-	if privateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator != nil {
-		return privateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator
+func PrivateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator() gopter.Gen {
+	if privateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator != nil {
+		return privateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM(generators)
-	privateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_VirtualNetworkLink_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM(generators)
+	privateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZonesVirtualNetworkLink_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM(generators)
-	privateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZones_VirtualNetworkLink_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM(generators)
+	privateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZonesVirtualNetworkLink_STATUS_ARM{}), generators)
 
-	return privateDnsZones_VirtualNetworkLink_STATUS_ARMGenerator
+	return privateDnsZonesVirtualNetworkLink_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -94,8 +94,8 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_STATU
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VirtualNetworkLinkProperties_STATUS_ARMGenerator())
 }
 

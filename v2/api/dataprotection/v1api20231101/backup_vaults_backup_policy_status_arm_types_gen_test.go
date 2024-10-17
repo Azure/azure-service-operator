@@ -708,20 +708,20 @@ func AddIndependentPropertyGeneratorsForBackupSchedule_STATUS_ARM(gens map[strin
 	gens["TimeZone"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_BackupVaults_BackupPolicy_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BackupVaultsBackupPolicy_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BackupVaults_BackupPolicy_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS_ARM, BackupVaults_BackupPolicy_STATUS_ARMGenerator()))
+		"Round trip of BackupVaultsBackupPolicy_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultsBackupPolicy_STATUS_ARM, BackupVaultsBackupPolicy_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS_ARM runs a test to see if a specific instance of BackupVaults_BackupPolicy_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS_ARM(subject BackupVaults_BackupPolicy_STATUS_ARM) string {
+// RunJSONSerializationTestForBackupVaultsBackupPolicy_STATUS_ARM runs a test to see if a specific instance of BackupVaultsBackupPolicy_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultsBackupPolicy_STATUS_ARM(subject BackupVaultsBackupPolicy_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -729,7 +729,7 @@ func RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS_ARM(subject Bac
 	}
 
 	// Deserialize back into memory
-	var actual BackupVaults_BackupPolicy_STATUS_ARM
+	var actual BackupVaultsBackupPolicy_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -747,41 +747,41 @@ func RunJSONSerializationTestForBackupVaults_BackupPolicy_STATUS_ARM(subject Bac
 	return ""
 }
 
-// Generator of BackupVaults_BackupPolicy_STATUS_ARM instances for property testing - lazily instantiated by
-// BackupVaults_BackupPolicy_STATUS_ARMGenerator()
-var backupVaults_BackupPolicy_STATUS_ARMGenerator gopter.Gen
+// Generator of BackupVaultsBackupPolicy_STATUS_ARM instances for property testing - lazily instantiated by
+// BackupVaultsBackupPolicy_STATUS_ARMGenerator()
+var backupVaultsBackupPolicy_STATUS_ARMGenerator gopter.Gen
 
-// BackupVaults_BackupPolicy_STATUS_ARMGenerator returns a generator of BackupVaults_BackupPolicy_STATUS_ARM instances for property testing.
-// We first initialize backupVaults_BackupPolicy_STATUS_ARMGenerator with a simplified generator based on the
+// BackupVaultsBackupPolicy_STATUS_ARMGenerator returns a generator of BackupVaultsBackupPolicy_STATUS_ARM instances for property testing.
+// We first initialize backupVaultsBackupPolicy_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func BackupVaults_BackupPolicy_STATUS_ARMGenerator() gopter.Gen {
-	if backupVaults_BackupPolicy_STATUS_ARMGenerator != nil {
-		return backupVaults_BackupPolicy_STATUS_ARMGenerator
+func BackupVaultsBackupPolicy_STATUS_ARMGenerator() gopter.Gen {
+	if backupVaultsBackupPolicy_STATUS_ARMGenerator != nil {
+		return backupVaultsBackupPolicy_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS_ARM(generators)
-	backupVaults_BackupPolicy_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupPolicy_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS_ARM(generators)
+	backupVaultsBackupPolicy_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupPolicy_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS_ARM(generators)
-	backupVaults_BackupPolicy_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupPolicy_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS_ARM(generators)
+	backupVaultsBackupPolicy_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupPolicy_STATUS_ARM{}), generators)
 
-	return backupVaults_BackupPolicy_STATUS_ARMGenerator
+	return backupVaultsBackupPolicy_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(BaseBackupPolicy_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }

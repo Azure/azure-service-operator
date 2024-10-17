@@ -152,7 +152,7 @@ func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Ob
 	// Create a subscription for all the apis
 	subscription := apim.Subscription{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sub1")),
-		Spec: apim.Service_Subscription_Spec{
+		Spec: apim.Subscription_Spec{
 			DisplayName: to.Ptr("Subscription for all APIs"),
 			Scope:       to.Ptr("/apis"),
 			Owner:       testcommon.AsOwner(service),
@@ -197,7 +197,7 @@ func APIM_Backend_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 	// Add a simple backend
 	backend := apim.Backend{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("backend")),
-		Spec: apim.Service_Backend_Spec{
+		Spec: apim.Backend_Spec{
 			AzureName:   "test_backend",
 			Description: to.Ptr("A Description about the backend"),
 			Protocol:    to.Ptr(apim.BackendContractProperties_Protocol_Http),
@@ -219,7 +219,7 @@ func APIM_NamedValue_CRUD(tc *testcommon.KubePerTestContext, service client.Obje
 	// Add a Plain Text Named Value
 	namedValue := apim.NamedValue{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("namedvalue")),
-		Spec: apim.Service_NamedValue_Spec{
+		Spec: apim.NamedValue_Spec{
 			AzureName:   "test_namedvalue",
 			DisplayName: to.Ptr("My_Key"),
 			Value:       to.Ptr("It's value"),
@@ -241,7 +241,7 @@ func APIM_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.Object) 
 	// Add a simple Policy
 	policy := apim.Policy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policy")),
-		Spec: apim.Service_Policy_Spec{
+		Spec: apim.Policy_Spec{
 			Value: to.Ptr("<policies><inbound><set-variable name=\"asoTest\" value=\"ProductPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
 			Owner: testcommon.AsOwner(service),
 		},
@@ -260,7 +260,7 @@ func APIM_PolicyFragment_CRUD(tc *testcommon.KubePerTestContext, service client.
 	// Add a simple Policy Fragment
 	policyFragment := apim.PolicyFragment{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policyfragment")),
-		Spec: apim.Service_PolicyFragment_Spec{
+		Spec: apim.PolicyFragment_Spec{
 			Description: to.Ptr("A Description about the policy fragment"),
 			Value:       to.Ptr("<fragment></fragment>"),
 			Owner:       testcommon.AsOwner(service),
@@ -281,7 +281,7 @@ func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 	// Now add a product
 	product := apim.Product{
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
-		Spec: apim.Service_Product_Spec{
+		Spec: apim.Product_Spec{
 			Owner:                testcommon.AsOwner(service),
 			DisplayName:          to.Ptr("Customer 1"),
 			Description:          to.Ptr("A product for customer 1"),
@@ -309,7 +309,7 @@ func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.
 	// Now add a product
 	product := apim.Product{
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
-		Spec: apim.Service_Product_Spec{
+		Spec: apim.Product_Spec{
 			Owner:                testcommon.AsOwner(service),
 			DisplayName:          to.Ptr("Product Policy Test"),
 			Description:          to.Ptr("A product policy example"),
@@ -325,7 +325,7 @@ func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.
 
 	productPolicy := apim.ProductPolicy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productpolicy")),
-		Spec: apim.Service_Products_Policy_Spec{
+		Spec: apim.ProductPolicy_Spec{
 			Owner: testcommon.AsOwner(&product),
 			Value: to.Ptr("<policies><inbound><set-variable name=\"asoTest\" value=\"ProductPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
 		},
@@ -347,7 +347,7 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 	productName := tc.Namer.GenerateName("product2")
 	product := apim.Product{
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
-		Spec: apim.Service_Product_Spec{
+		Spec: apim.Product_Spec{
 			Owner:                testcommon.AsOwner(service),
 			DisplayName:          to.Ptr("Product Api Test"),
 			Description:          to.Ptr("A product Api example"),
@@ -363,7 +363,7 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs2")),
-		Spec: apim.Service_ApiVersionSet_Spec{
+		Spec: apim.ApiVersionSet_Spec{
 			DisplayName:      to.Ptr("vs2"),
 			Description:      to.Ptr("A version set for the account api"),
 			Owner:            testcommon.AsOwner(service),
@@ -381,7 +381,7 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 	// Add a simple Api
 	api := apim.Api{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api2")),
-		Spec: apim.Service_Api_Spec{
+		Spec: apim.Api_Spec{
 			APIVersion:             to.Ptr("2.0.0"),
 			ApiRevision:            to.Ptr("v1"),
 			ApiRevisionDescription: to.Ptr("First Revision"),
@@ -414,7 +414,7 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 	// Now link the display name of the api to the product
 	productApi := apim.ProductApi{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productapi")),
-		Spec: apim.Service_Products_Api_Spec{
+		Spec: apim.ProductApi_Spec{
 			Owner:     testcommon.AsOwner(&product),
 			AzureName: api.Spec.AzureName,
 		},
@@ -434,7 +434,7 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
-		Spec: apim.Service_ApiVersionSet_Spec{
+		Spec: apim.ApiVersionSet_Spec{
 			DisplayName:      to.Ptr("vs"),
 			Description:      to.Ptr("A version set for the account api"),
 			Owner:            testcommon.AsOwner(service),
@@ -452,7 +452,7 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	// Add a simple Api
 	api := apim.Api{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api")),
-		Spec: apim.Service_Api_Spec{
+		Spec: apim.Api_Spec{
 			APIVersion:             to.Ptr("1.0.0"),
 			ApiRevision:            to.Ptr("v1"),
 			ApiRevisionDescription: to.Ptr("First Revision"),
@@ -491,7 +491,7 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 func APIM_AuthorizationProvider_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
-		Spec: apim.Service_AuthorizationProvider_Spec{
+		Spec: apim.AuthorizationProvider_Spec{
 			DisplayName:      to.Ptr("sampleauthcode"),
 			IdentityProvider: to.Ptr("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
@@ -515,7 +515,7 @@ func APIM_AuthorizationProvider_CRUD(tc *testcommon.KubePerTestContext, service 
 func APIM_AuthorizationProviders_Authorization_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
-		Spec: apim.Service_AuthorizationProvider_Spec{
+		Spec: apim.AuthorizationProvider_Spec{
 			DisplayName:      to.Ptr("sampleauthcode"),
 			IdentityProvider: to.Ptr("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
@@ -532,7 +532,7 @@ func APIM_AuthorizationProviders_Authorization_CRUD(tc *testcommon.KubePerTestCo
 
 	authorization := apim.AuthorizationProvidersAuthorization{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
-		Spec: apim.Service_AuthorizationProviders_Authorization_Spec{
+		Spec: apim.AuthorizationProvidersAuthorization_Spec{
 			AuthorizationType: to.Ptr(apim.AuthorizationContractProperties_AuthorizationType_OAuth2),
 			Oauth2GrantType:   to.Ptr(apim.AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode),
 			Owner:             testcommon.AsOwner(&authorizationProvider),
@@ -554,7 +554,7 @@ func APIM_AuthorizationProviders_Authorization_CRUD(tc *testcommon.KubePerTestCo
 func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object, secretsMap *genruntime.SecretMapReference) {
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
-		Spec: apim.Service_AuthorizationProvider_Spec{
+		Spec: apim.AuthorizationProvider_Spec{
 			DisplayName:      to.Ptr("sampleauthcode"),
 			IdentityProvider: to.Ptr("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
@@ -571,7 +571,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon
 
 	authorization := apim.AuthorizationProvidersAuthorization{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
-		Spec: apim.Service_AuthorizationProviders_Authorization_Spec{
+		Spec: apim.AuthorizationProvidersAuthorization_Spec{
 			AuthorizationType: to.Ptr(apim.AuthorizationContractProperties_AuthorizationType_OAuth2),
 			Oauth2GrantType:   to.Ptr(apim.AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode),
 			Owner:             testcommon.AsOwner(&authorizationProvider),
@@ -612,7 +612,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon
 
 	accessPolicy := apim.AuthorizationProvidersAuthorizationsAccessPolicy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization-access-policy")),
-		Spec: apim.Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec{
+		Spec: apim.AuthorizationProvidersAuthorizationsAccessPolicy_Spec{
 			Owner: testcommon.AsOwner(&authorization),
 			TenantIdFromConfig: &genruntime.ConfigMapReference{
 				Name: configMapName,

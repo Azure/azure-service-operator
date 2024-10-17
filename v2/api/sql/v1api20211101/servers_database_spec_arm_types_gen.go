@@ -5,7 +5,7 @@ package v1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Servers_Database_Spec_ARM struct {
+type ServersDatabase_Spec_ARM struct {
 	// Identity: The Azure Active Directory identity of the database.
 	Identity *DatabaseIdentity_ARM `json:"identity,omitempty"`
 
@@ -32,20 +32,20 @@ type Servers_Database_Spec_ARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Servers_Database_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &ServersDatabase_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (database Servers_Database_Spec_ARM) GetAPIVersion() string {
+func (database ServersDatabase_Spec_ARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (database *Servers_Database_Spec_ARM) GetName() string {
+func (database *ServersDatabase_Spec_ARM) GetName() string {
 	return database.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/databases"
-func (database *Servers_Database_Spec_ARM) GetType() string {
+func (database *ServersDatabase_Spec_ARM) GetType() string {
 	return "Microsoft.Sql/servers/databases"
 }
 

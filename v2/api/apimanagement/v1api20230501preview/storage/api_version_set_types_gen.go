@@ -27,8 +27,8 @@ import (
 type ApiVersionSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_ApiVersionSet_Spec   `json:"spec,omitempty"`
-	Status            Service_ApiVersionSet_STATUS `json:"status,omitempty"`
+	Spec              ApiVersionSet_Spec   `json:"spec,omitempty"`
+	Status            ApiVersionSet_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ApiVersionSet{}
@@ -109,7 +109,7 @@ func (versionSet *ApiVersionSet) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (versionSet *ApiVersionSet) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_ApiVersionSet_STATUS{}
+	return &ApiVersionSet_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -121,13 +121,13 @@ func (versionSet *ApiVersionSet) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (versionSet *ApiVersionSet) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_ApiVersionSet_STATUS); ok {
+	if st, ok := status.(*ApiVersionSet_STATUS); ok {
 		versionSet.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_ApiVersionSet_STATUS
+	var st ApiVersionSet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,18 +144,18 @@ func (versionSet *ApiVersionSet) AssignProperties_From_ApiVersionSet(source *sto
 	versionSet.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_ApiVersionSet_Spec
-	err := spec.AssignProperties_From_Service_ApiVersionSet_Spec(&source.Spec)
+	var spec ApiVersionSet_Spec
+	err := spec.AssignProperties_From_ApiVersionSet_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_ApiVersionSet_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSet_Spec() to populate field Spec")
 	}
 	versionSet.Spec = spec
 
 	// Status
-	var status Service_ApiVersionSet_STATUS
-	err = status.AssignProperties_From_Service_ApiVersionSet_STATUS(&source.Status)
+	var status ApiVersionSet_STATUS
+	err = status.AssignProperties_From_ApiVersionSet_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_ApiVersionSet_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ApiVersionSet_STATUS() to populate field Status")
 	}
 	versionSet.Status = status
 
@@ -179,18 +179,18 @@ func (versionSet *ApiVersionSet) AssignProperties_To_ApiVersionSet(destination *
 	destination.ObjectMeta = *versionSet.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_ApiVersionSet_Spec
-	err := versionSet.Spec.AssignProperties_To_Service_ApiVersionSet_Spec(&spec)
+	var spec storage.ApiVersionSet_Spec
+	err := versionSet.Spec.AssignProperties_To_ApiVersionSet_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_ApiVersionSet_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSet_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_ApiVersionSet_STATUS
-	err = versionSet.Status.AssignProperties_To_Service_ApiVersionSet_STATUS(&status)
+	var status storage.ApiVersionSet_STATUS
+	err = versionSet.Status.AssignProperties_To_ApiVersionSet_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_ApiVersionSet_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ApiVersionSet_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -227,13 +227,8 @@ type ApiVersionSetList struct {
 	Items           []ApiVersionSet `json:"items"`
 }
 
-type augmentConversionForApiVersionSet interface {
-	AssignPropertiesFrom(src *storage.ApiVersionSet) error
-	AssignPropertiesTo(dst *storage.ApiVersionSet) error
-}
-
-// Storage version of v1api20230501preview.Service_ApiVersionSet_Spec
-type Service_ApiVersionSet_Spec struct {
+// Storage version of v1api20230501preview.ApiVersionSet_Spec
+type ApiVersionSet_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -252,25 +247,25 @@ type Service_ApiVersionSet_Spec struct {
 	VersioningScheme  *string                            `json:"versioningScheme,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Service_ApiVersionSet_Spec{}
+var _ genruntime.ConvertibleSpec = &ApiVersionSet_Spec{}
 
-// ConvertSpecFrom populates our Service_ApiVersionSet_Spec from the provided source
-func (versionSet *Service_ApiVersionSet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_ApiVersionSet_Spec)
+// ConvertSpecFrom populates our ApiVersionSet_Spec from the provided source
+func (versionSet *ApiVersionSet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ApiVersionSet_Spec)
 	if ok {
 		// Populate our instance from source
-		return versionSet.AssignProperties_From_Service_ApiVersionSet_Spec(src)
+		return versionSet.AssignProperties_From_ApiVersionSet_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_ApiVersionSet_Spec{}
+	src = &storage.ApiVersionSet_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = versionSet.AssignProperties_From_Service_ApiVersionSet_Spec(src)
+	err = versionSet.AssignProperties_From_ApiVersionSet_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -278,17 +273,17 @@ func (versionSet *Service_ApiVersionSet_Spec) ConvertSpecFrom(source genruntime.
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_ApiVersionSet_Spec
-func (versionSet *Service_ApiVersionSet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_ApiVersionSet_Spec)
+// ConvertSpecTo populates the provided destination from our ApiVersionSet_Spec
+func (versionSet *ApiVersionSet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ApiVersionSet_Spec)
 	if ok {
 		// Populate destination from our instance
-		return versionSet.AssignProperties_To_Service_ApiVersionSet_Spec(dst)
+		return versionSet.AssignProperties_To_ApiVersionSet_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_ApiVersionSet_Spec{}
-	err := versionSet.AssignProperties_To_Service_ApiVersionSet_Spec(dst)
+	dst = &storage.ApiVersionSet_Spec{}
+	err := versionSet.AssignProperties_To_ApiVersionSet_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -302,8 +297,8 @@ func (versionSet *Service_ApiVersionSet_Spec) ConvertSpecTo(destination genrunti
 	return nil
 }
 
-// AssignProperties_From_Service_ApiVersionSet_Spec populates our Service_ApiVersionSet_Spec from the provided source Service_ApiVersionSet_Spec
-func (versionSet *Service_ApiVersionSet_Spec) AssignProperties_From_Service_ApiVersionSet_Spec(source *storage.Service_ApiVersionSet_Spec) error {
+// AssignProperties_From_ApiVersionSet_Spec populates our ApiVersionSet_Spec from the provided source ApiVersionSet_Spec
+func (versionSet *ApiVersionSet_Spec) AssignProperties_From_ApiVersionSet_Spec(source *storage.ApiVersionSet_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -343,9 +338,9 @@ func (versionSet *Service_ApiVersionSet_Spec) AssignProperties_From_Service_ApiV
 		versionSet.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForService_ApiVersionSet_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForApiVersionSet_Spec interface (if implemented) to customize the conversion
 	var versionSetAsAny any = versionSet
-	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForService_ApiVersionSet_Spec); ok {
+	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet_Spec); ok {
 		err := augmentedVersionSet.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -356,8 +351,8 @@ func (versionSet *Service_ApiVersionSet_Spec) AssignProperties_From_Service_ApiV
 	return nil
 }
 
-// AssignProperties_To_Service_ApiVersionSet_Spec populates the provided destination Service_ApiVersionSet_Spec from our Service_ApiVersionSet_Spec
-func (versionSet *Service_ApiVersionSet_Spec) AssignProperties_To_Service_ApiVersionSet_Spec(destination *storage.Service_ApiVersionSet_Spec) error {
+// AssignProperties_To_ApiVersionSet_Spec populates the provided destination ApiVersionSet_Spec from our ApiVersionSet_Spec
+func (versionSet *ApiVersionSet_Spec) AssignProperties_To_ApiVersionSet_Spec(destination *storage.ApiVersionSet_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(versionSet.PropertyBag)
 
@@ -397,9 +392,9 @@ func (versionSet *Service_ApiVersionSet_Spec) AssignProperties_To_Service_ApiVer
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForService_ApiVersionSet_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForApiVersionSet_Spec interface (if implemented) to customize the conversion
 	var versionSetAsAny any = versionSet
-	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForService_ApiVersionSet_Spec); ok {
+	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet_Spec); ok {
 		err := augmentedVersionSet.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -410,8 +405,8 @@ func (versionSet *Service_ApiVersionSet_Spec) AssignProperties_To_Service_ApiVer
 	return nil
 }
 
-// Storage version of v1api20230501preview.Service_ApiVersionSet_STATUS
-type Service_ApiVersionSet_STATUS struct {
+// Storage version of v1api20230501preview.ApiVersionSet_STATUS
+type ApiVersionSet_STATUS struct {
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
 	Description       *string                `json:"description,omitempty"`
 	DisplayName       *string                `json:"displayName,omitempty"`
@@ -424,25 +419,25 @@ type Service_ApiVersionSet_STATUS struct {
 	VersioningScheme  *string                `json:"versioningScheme,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_ApiVersionSet_STATUS{}
+var _ genruntime.ConvertibleStatus = &ApiVersionSet_STATUS{}
 
-// ConvertStatusFrom populates our Service_ApiVersionSet_STATUS from the provided source
-func (versionSet *Service_ApiVersionSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_ApiVersionSet_STATUS)
+// ConvertStatusFrom populates our ApiVersionSet_STATUS from the provided source
+func (versionSet *ApiVersionSet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ApiVersionSet_STATUS)
 	if ok {
 		// Populate our instance from source
-		return versionSet.AssignProperties_From_Service_ApiVersionSet_STATUS(src)
+		return versionSet.AssignProperties_From_ApiVersionSet_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_ApiVersionSet_STATUS{}
+	src = &storage.ApiVersionSet_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = versionSet.AssignProperties_From_Service_ApiVersionSet_STATUS(src)
+	err = versionSet.AssignProperties_From_ApiVersionSet_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -450,17 +445,17 @@ func (versionSet *Service_ApiVersionSet_STATUS) ConvertStatusFrom(source genrunt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_ApiVersionSet_STATUS
-func (versionSet *Service_ApiVersionSet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_ApiVersionSet_STATUS)
+// ConvertStatusTo populates the provided destination from our ApiVersionSet_STATUS
+func (versionSet *ApiVersionSet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ApiVersionSet_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return versionSet.AssignProperties_To_Service_ApiVersionSet_STATUS(dst)
+		return versionSet.AssignProperties_To_ApiVersionSet_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_ApiVersionSet_STATUS{}
-	err := versionSet.AssignProperties_To_Service_ApiVersionSet_STATUS(dst)
+	dst = &storage.ApiVersionSet_STATUS{}
+	err := versionSet.AssignProperties_To_ApiVersionSet_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -474,8 +469,8 @@ func (versionSet *Service_ApiVersionSet_STATUS) ConvertStatusTo(destination genr
 	return nil
 }
 
-// AssignProperties_From_Service_ApiVersionSet_STATUS populates our Service_ApiVersionSet_STATUS from the provided source Service_ApiVersionSet_STATUS
-func (versionSet *Service_ApiVersionSet_STATUS) AssignProperties_From_Service_ApiVersionSet_STATUS(source *storage.Service_ApiVersionSet_STATUS) error {
+// AssignProperties_From_ApiVersionSet_STATUS populates our ApiVersionSet_STATUS from the provided source ApiVersionSet_STATUS
+func (versionSet *ApiVersionSet_STATUS) AssignProperties_From_ApiVersionSet_STATUS(source *storage.ApiVersionSet_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -513,9 +508,9 @@ func (versionSet *Service_ApiVersionSet_STATUS) AssignProperties_From_Service_Ap
 		versionSet.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForService_ApiVersionSet_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForApiVersionSet_STATUS interface (if implemented) to customize the conversion
 	var versionSetAsAny any = versionSet
-	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForService_ApiVersionSet_STATUS); ok {
+	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet_STATUS); ok {
 		err := augmentedVersionSet.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -526,8 +521,8 @@ func (versionSet *Service_ApiVersionSet_STATUS) AssignProperties_From_Service_Ap
 	return nil
 }
 
-// AssignProperties_To_Service_ApiVersionSet_STATUS populates the provided destination Service_ApiVersionSet_STATUS from our Service_ApiVersionSet_STATUS
-func (versionSet *Service_ApiVersionSet_STATUS) AssignProperties_To_Service_ApiVersionSet_STATUS(destination *storage.Service_ApiVersionSet_STATUS) error {
+// AssignProperties_To_ApiVersionSet_STATUS populates the provided destination ApiVersionSet_STATUS from our ApiVersionSet_STATUS
+func (versionSet *ApiVersionSet_STATUS) AssignProperties_To_ApiVersionSet_STATUS(destination *storage.ApiVersionSet_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(versionSet.PropertyBag)
 
@@ -565,9 +560,9 @@ func (versionSet *Service_ApiVersionSet_STATUS) AssignProperties_To_Service_ApiV
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForService_ApiVersionSet_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForApiVersionSet_STATUS interface (if implemented) to customize the conversion
 	var versionSetAsAny any = versionSet
-	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForService_ApiVersionSet_STATUS); ok {
+	if augmentedVersionSet, ok := versionSetAsAny.(augmentConversionForApiVersionSet_STATUS); ok {
 		err := augmentedVersionSet.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -578,14 +573,19 @@ func (versionSet *Service_ApiVersionSet_STATUS) AssignProperties_To_Service_ApiV
 	return nil
 }
 
-type augmentConversionForService_ApiVersionSet_Spec interface {
-	AssignPropertiesFrom(src *storage.Service_ApiVersionSet_Spec) error
-	AssignPropertiesTo(dst *storage.Service_ApiVersionSet_Spec) error
+type augmentConversionForApiVersionSet interface {
+	AssignPropertiesFrom(src *storage.ApiVersionSet) error
+	AssignPropertiesTo(dst *storage.ApiVersionSet) error
 }
 
-type augmentConversionForService_ApiVersionSet_STATUS interface {
-	AssignPropertiesFrom(src *storage.Service_ApiVersionSet_STATUS) error
-	AssignPropertiesTo(dst *storage.Service_ApiVersionSet_STATUS) error
+type augmentConversionForApiVersionSet_Spec interface {
+	AssignPropertiesFrom(src *storage.ApiVersionSet_Spec) error
+	AssignPropertiesTo(dst *storage.ApiVersionSet_Spec) error
+}
+
+type augmentConversionForApiVersionSet_STATUS interface {
+	AssignPropertiesFrom(src *storage.ApiVersionSet_STATUS) error
+	AssignPropertiesTo(dst *storage.ApiVersionSet_STATUS) error
 }
 
 func init() {

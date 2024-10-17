@@ -38,7 +38,7 @@ func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.Kn
 func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworks_Subnet_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
 			AddressPrefix: to.Ptr("10.0.0.0/24"),
 		},
@@ -295,7 +295,7 @@ func checkExtensionExists2020(tc *testcommon.KubePerTestContext, vmss *compute20
 func VMSS_Extension_20201201_CRUD(tc *testcommon.KubePerTestContext, vmss *compute2020.VirtualMachineScaleSet, extensionName string) {
 	extension := &compute2020.VirtualMachineScaleSetsExtension{
 		ObjectMeta: tc.MakeObjectMetaWithName(extensionName),
-		Spec: compute2020.VirtualMachineScaleSets_Extension_Spec{
+		Spec: compute2020.VirtualMachineScaleSetsExtension_Spec{
 			Owner:              testcommon.AsOwner(vmss),
 			Publisher:          to.Ptr("Microsoft.ManagedServices"),
 			Type:               to.Ptr("ApplicationHealthLinux"),

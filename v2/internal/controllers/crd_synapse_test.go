@@ -104,7 +104,7 @@ func WorkspacesBigDataPool_CRUD(tc *testcommon.KubePerTestContext, workspaces *s
 
 	pool := &synapse.WorkspacesBigDataPool{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("")),
-		Spec: synapse.Workspaces_BigDataPool_Spec{
+		Spec: synapse.WorkspacesBigDataPool_Spec{
 			Location:       tc.AzureRegion,
 			Owner:          testcommon.AsOwner(workspaces),
 			SparkVersion:   to.Ptr("3.3"),

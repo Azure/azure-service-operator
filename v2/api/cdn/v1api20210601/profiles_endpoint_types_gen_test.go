@@ -11471,36 +11471,36 @@ func ProfilesEndpointGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForProfilesEndpoint is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForProfilesEndpoint(gens map[string]gopter.Gen) {
-	gens["Spec"] = Profiles_Endpoint_SpecGenerator()
-	gens["Status"] = Profiles_Endpoint_STATUSGenerator()
+	gens["Spec"] = ProfilesEndpoint_SpecGenerator()
+	gens["Status"] = ProfilesEndpoint_STATUSGenerator()
 }
 
-func Test_Profiles_Endpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ProfilesEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Profiles_Endpoint_STATUS to Profiles_Endpoint_STATUS via AssignProperties_To_Profiles_Endpoint_STATUS & AssignProperties_From_Profiles_Endpoint_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProfiles_Endpoint_STATUS, Profiles_Endpoint_STATUSGenerator()))
+		"Round trip from ProfilesEndpoint_STATUS to ProfilesEndpoint_STATUS via AssignProperties_To_ProfilesEndpoint_STATUS & AssignProperties_From_ProfilesEndpoint_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProfilesEndpoint_STATUS, ProfilesEndpoint_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProfiles_Endpoint_STATUS tests if a specific instance of Profiles_Endpoint_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProfiles_Endpoint_STATUS(subject Profiles_Endpoint_STATUS) string {
+// RunPropertyAssignmentTestForProfilesEndpoint_STATUS tests if a specific instance of ProfilesEndpoint_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForProfilesEndpoint_STATUS(subject ProfilesEndpoint_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profiles_Endpoint_STATUS
-	err := copied.AssignProperties_To_Profiles_Endpoint_STATUS(&other)
+	var other storage.ProfilesEndpoint_STATUS
+	err := copied.AssignProperties_To_ProfilesEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Profiles_Endpoint_STATUS
-	err = actual.AssignProperties_From_Profiles_Endpoint_STATUS(&other)
+	var actual ProfilesEndpoint_STATUS
+	err = actual.AssignProperties_From_ProfilesEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -11517,20 +11517,20 @@ func RunPropertyAssignmentTestForProfiles_Endpoint_STATUS(subject Profiles_Endpo
 	return ""
 }
 
-func Test_Profiles_Endpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ProfilesEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Profiles_Endpoint_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_Endpoint_STATUS, Profiles_Endpoint_STATUSGenerator()))
+		"Round trip of ProfilesEndpoint_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfilesEndpoint_STATUS, ProfilesEndpoint_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfiles_Endpoint_STATUS runs a test to see if a specific instance of Profiles_Endpoint_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_Endpoint_STATUS(subject Profiles_Endpoint_STATUS) string {
+// RunJSONSerializationTestForProfilesEndpoint_STATUS runs a test to see if a specific instance of ProfilesEndpoint_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfilesEndpoint_STATUS(subject ProfilesEndpoint_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -11538,7 +11538,7 @@ func RunJSONSerializationTestForProfiles_Endpoint_STATUS(subject Profiles_Endpoi
 	}
 
 	// Deserialize back into memory
-	var actual Profiles_Endpoint_STATUS
+	var actual ProfilesEndpoint_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -11556,34 +11556,34 @@ func RunJSONSerializationTestForProfiles_Endpoint_STATUS(subject Profiles_Endpoi
 	return ""
 }
 
-// Generator of Profiles_Endpoint_STATUS instances for property testing - lazily instantiated by
-// Profiles_Endpoint_STATUSGenerator()
-var profiles_Endpoint_STATUSGenerator gopter.Gen
+// Generator of ProfilesEndpoint_STATUS instances for property testing - lazily instantiated by
+// ProfilesEndpoint_STATUSGenerator()
+var profilesEndpoint_STATUSGenerator gopter.Gen
 
-// Profiles_Endpoint_STATUSGenerator returns a generator of Profiles_Endpoint_STATUS instances for property testing.
-// We first initialize profiles_Endpoint_STATUSGenerator with a simplified generator based on the
+// ProfilesEndpoint_STATUSGenerator returns a generator of ProfilesEndpoint_STATUS instances for property testing.
+// We first initialize profilesEndpoint_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Profiles_Endpoint_STATUSGenerator() gopter.Gen {
-	if profiles_Endpoint_STATUSGenerator != nil {
-		return profiles_Endpoint_STATUSGenerator
+func ProfilesEndpoint_STATUSGenerator() gopter.Gen {
+	if profilesEndpoint_STATUSGenerator != nil {
+		return profilesEndpoint_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS(generators)
-	profiles_Endpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_Endpoint_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForProfilesEndpoint_STATUS(generators)
+	profilesEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(ProfilesEndpoint_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS(generators)
-	AddRelatedPropertyGeneratorsForProfiles_Endpoint_STATUS(generators)
-	profiles_Endpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(Profiles_Endpoint_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForProfilesEndpoint_STATUS(generators)
+	AddRelatedPropertyGeneratorsForProfilesEndpoint_STATUS(generators)
+	profilesEndpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(ProfilesEndpoint_STATUS{}), generators)
 
-	return profiles_Endpoint_STATUSGenerator
+	return profilesEndpoint_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProfilesEndpoint_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfilesEndpoint_STATUS(gens map[string]gopter.Gen) {
 	gens["ContentTypesToCompress"] = gen.SliceOf(gen.AlphaString())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -11625,8 +11625,8 @@ func AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS(gens map[string
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForProfiles_Endpoint_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_Endpoint_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForProfilesEndpoint_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfilesEndpoint_STATUS(gens map[string]gopter.Gen) {
 	gens["CustomDomains"] = gen.SliceOf(DeepCreatedCustomDomain_STATUSGenerator())
 	gens["DefaultOriginGroup"] = gen.PtrOf(ResourceReference_STATUSGenerator())
 	gens["DeliveryPolicy"] = gen.PtrOf(EndpointProperties_DeliveryPolicy_STATUSGenerator())
@@ -11638,32 +11638,32 @@ func AddRelatedPropertyGeneratorsForProfiles_Endpoint_STATUS(gens map[string]gop
 	gens["WebApplicationFirewallPolicyLink"] = gen.PtrOf(EndpointProperties_WebApplicationFirewallPolicyLink_STATUSGenerator())
 }
 
-func Test_Profiles_Endpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ProfilesEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Profiles_Endpoint_Spec to Profiles_Endpoint_Spec via AssignProperties_To_Profiles_Endpoint_Spec & AssignProperties_From_Profiles_Endpoint_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForProfiles_Endpoint_Spec, Profiles_Endpoint_SpecGenerator()))
+		"Round trip from ProfilesEndpoint_Spec to ProfilesEndpoint_Spec via AssignProperties_To_ProfilesEndpoint_Spec & AssignProperties_From_ProfilesEndpoint_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProfilesEndpoint_Spec, ProfilesEndpoint_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProfiles_Endpoint_Spec tests if a specific instance of Profiles_Endpoint_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForProfiles_Endpoint_Spec(subject Profiles_Endpoint_Spec) string {
+// RunPropertyAssignmentTestForProfilesEndpoint_Spec tests if a specific instance of ProfilesEndpoint_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForProfilesEndpoint_Spec(subject ProfilesEndpoint_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profiles_Endpoint_Spec
-	err := copied.AssignProperties_To_Profiles_Endpoint_Spec(&other)
+	var other storage.ProfilesEndpoint_Spec
+	err := copied.AssignProperties_To_ProfilesEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Profiles_Endpoint_Spec
-	err = actual.AssignProperties_From_Profiles_Endpoint_Spec(&other)
+	var actual ProfilesEndpoint_Spec
+	err = actual.AssignProperties_From_ProfilesEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -11680,20 +11680,20 @@ func RunPropertyAssignmentTestForProfiles_Endpoint_Spec(subject Profiles_Endpoin
 	return ""
 }
 
-func Test_Profiles_Endpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ProfilesEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Profiles_Endpoint_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForProfiles_Endpoint_Spec, Profiles_Endpoint_SpecGenerator()))
+		"Round trip of ProfilesEndpoint_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProfilesEndpoint_Spec, ProfilesEndpoint_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForProfiles_Endpoint_Spec runs a test to see if a specific instance of Profiles_Endpoint_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForProfiles_Endpoint_Spec(subject Profiles_Endpoint_Spec) string {
+// RunJSONSerializationTestForProfilesEndpoint_Spec runs a test to see if a specific instance of ProfilesEndpoint_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProfilesEndpoint_Spec(subject ProfilesEndpoint_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -11701,7 +11701,7 @@ func RunJSONSerializationTestForProfiles_Endpoint_Spec(subject Profiles_Endpoint
 	}
 
 	// Deserialize back into memory
-	var actual Profiles_Endpoint_Spec
+	var actual ProfilesEndpoint_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -11719,34 +11719,34 @@ func RunJSONSerializationTestForProfiles_Endpoint_Spec(subject Profiles_Endpoint
 	return ""
 }
 
-// Generator of Profiles_Endpoint_Spec instances for property testing - lazily instantiated by
-// Profiles_Endpoint_SpecGenerator()
-var profiles_Endpoint_SpecGenerator gopter.Gen
+// Generator of ProfilesEndpoint_Spec instances for property testing - lazily instantiated by
+// ProfilesEndpoint_SpecGenerator()
+var profilesEndpoint_SpecGenerator gopter.Gen
 
-// Profiles_Endpoint_SpecGenerator returns a generator of Profiles_Endpoint_Spec instances for property testing.
-// We first initialize profiles_Endpoint_SpecGenerator with a simplified generator based on the
+// ProfilesEndpoint_SpecGenerator returns a generator of ProfilesEndpoint_Spec instances for property testing.
+// We first initialize profilesEndpoint_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Profiles_Endpoint_SpecGenerator() gopter.Gen {
-	if profiles_Endpoint_SpecGenerator != nil {
-		return profiles_Endpoint_SpecGenerator
+func ProfilesEndpoint_SpecGenerator() gopter.Gen {
+	if profilesEndpoint_SpecGenerator != nil {
+		return profilesEndpoint_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Endpoint_Spec(generators)
-	profiles_Endpoint_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_Endpoint_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForProfilesEndpoint_Spec(generators)
+	profilesEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(ProfilesEndpoint_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfiles_Endpoint_Spec(generators)
-	AddRelatedPropertyGeneratorsForProfiles_Endpoint_Spec(generators)
-	profiles_Endpoint_SpecGenerator = gen.Struct(reflect.TypeOf(Profiles_Endpoint_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForProfilesEndpoint_Spec(generators)
+	AddRelatedPropertyGeneratorsForProfilesEndpoint_Spec(generators)
+	profilesEndpoint_SpecGenerator = gen.Struct(reflect.TypeOf(ProfilesEndpoint_Spec{}), generators)
 
-	return profiles_Endpoint_SpecGenerator
+	return profilesEndpoint_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForProfiles_Endpoint_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForProfiles_Endpoint_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForProfilesEndpoint_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForProfilesEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["ContentTypesToCompress"] = gen.SliceOf(gen.AlphaString())
 	gens["IsCompressionEnabled"] = gen.PtrOf(gen.Bool())
@@ -11772,8 +11772,8 @@ func AddIndependentPropertyGeneratorsForProfiles_Endpoint_Spec(gens map[string]g
 		gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForProfiles_Endpoint_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfiles_Endpoint_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForProfilesEndpoint_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProfilesEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["DefaultOriginGroup"] = gen.PtrOf(ResourceReferenceGenerator())
 	gens["DeliveryPolicy"] = gen.PtrOf(EndpointProperties_DeliveryPolicyGenerator())
 	gens["GeoFilters"] = gen.SliceOf(GeoFilterGenerator())
