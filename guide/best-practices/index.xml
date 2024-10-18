@@ -1,92 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – Best Practices</title>
+    <title>Best Practices on Azure Service Operator</title>
     <link>https://azure.github.io/azure-service-operator/guide/best-practices/</link>
     <description>Recent content in Best Practices on Azure Service Operator</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    
-	  <atom:link href="https://azure.github.io/azure-service-operator/guide/best-practices/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-      
-        
-      
-    
-    
+    <atom:link href="https://azure.github.io/azure-service-operator/guide/best-practices/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Guide: Security Best Practices</title>
+      <title>Security Best Practices</title>
       <link>https://azure.github.io/azure-service-operator/guide/best-practices/security/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://azure.github.io/azure-service-operator/guide/best-practices/security/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;securing-aso-in-your-cluster&#34;&gt;Securing ASO in your cluster&lt;/h2&gt;
-&lt;p&gt;ASO has 3 levers that allow you to manage access to your Azure resources:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Controlling &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;which CRDs are installed&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Controlling the Azure identities used by ASO at each &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/authentication/credential-scope/&#34;&gt;scope&lt;/a&gt;,
-including the Azure RBAC permissions assigned to those identities.&lt;/li&gt;
-&lt;li&gt;Controlling the Kubernetes identities that use the cluster and their Kubernetes RBAC permissions.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;We recommend making use of all 3 of these levers to fully secure a cluster running ASO.&lt;/p&gt;
-&lt;h2 id=&#34;dos-and-donts&#34;&gt;Dos and Don&amp;rsquo;ts&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;✅ DO adopt this pattern.&lt;/p&gt;
-&lt;p&gt;⛔ DO NOT adopt this pattern.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;general-guidance&#34;&gt;General guidance&lt;/h3&gt;
-&lt;p&gt;✅ DO use &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/authentication/credential-format/#azure-workload-identity&#34;&gt;Azure Workload Identity&lt;/a&gt; for all
-credentials. Other supported identity types are called out
-&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/authentication/#credential-type&#34;&gt;in the authentication documentation&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;✅ DO use namespace-scoped ASO credentials, rather than global scope. Note that the global scope credential is &lt;em&gt;optional&lt;/em&gt;
-and may be omitted when installing ASO.&lt;/p&gt;
-&lt;p&gt;✅ DO follow the &lt;a href=&#34;https://learn.microsoft.com/entra/identity/role-based-access-control/best-practices#1-apply-principle-of-least-privilege&#34;&gt;principle of least privilege&lt;/a&gt;
-when assigning roles to identities which will be used by ASO. Remember, users with access to the namespace the
-ASO credential is in can do everything that credential can do via ASO. This means that if users in namespace &lt;code&gt;a&lt;/code&gt;
-are supposed to have broad permissions only to resources in resourceGroup &lt;code&gt;a&lt;/code&gt;, then the ASO
-identity for namespace &lt;code&gt;a&lt;/code&gt; should have &lt;strong&gt;Contributor&lt;/strong&gt; only on resourceGroup &lt;code&gt;a&lt;/code&gt; and not the whole
-subscription. See &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/authentication/reducing-access/&#34;&gt;reducing access&lt;/a&gt; for more details on managing Azure access.&lt;/p&gt;
-&lt;p&gt;✅ DO restrict access to sensitive namespaces in the cluster. On AKS, you can use a combination of
-&lt;a href=&#34;https://learn.microsoft.com/en-us/azure/aks/enable-authentication-microsoft-entra-id&#34;&gt;AAD (now Entra) integration&lt;/a&gt;,
-&lt;a href=&#34;https://learn.microsoft.com/en-us/azure/aks/manage-local-accounts-managed-azure-ad&#34;&gt;disabling local users&lt;/a&gt;, and
-defining &lt;a href=&#34;https://learn.microsoft.com/en-us/azure/aks/access-control-managed-azure-ad&#34;&gt;JIT/Conditional access policies&lt;/a&gt;.
-We strongly recommend setting up conditional access policies for sensitive namespaces such as &lt;code&gt;production&lt;/code&gt;. Doubly so
-if the ASO credential for that namespace has broad scope.&lt;/p&gt;
-&lt;p&gt;✅ DO use tools like ArgoCD or Flux to perform code review of changes to ASO CRs before allowing them to be
-merged and applied.&lt;/p&gt;
-&lt;p&gt;✅ DO only install the ASO CRDs you need, no more.&lt;/p&gt;
-&lt;p&gt;⛔ DO NOT install the &lt;code&gt;RoleAssignment&lt;/code&gt; CRD if you don&amp;rsquo;t need it. This CRD can enable escalation of privilege if not
-used carefully. If using the &lt;code&gt;RoleAssignment&lt;/code&gt;, follow the other DOs in this guide to do it safely.&lt;/p&gt;
-&lt;h2 id=&#34;an-example-setup&#34;&gt;An Example Setup&lt;/h2&gt;
-&lt;p&gt;A possible setup might be a &lt;code&gt;dev&lt;/code&gt; namespace set up as a development environment pointing at a development subscription,
-and a &lt;code&gt;prod&lt;/code&gt; namespace set up as a production env. The &lt;code&gt;dev&lt;/code&gt; namespace might point to a development subscription
-and the &lt;code&gt;prod&lt;/code&gt; namespace to a production subscription.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;dev&lt;/code&gt; namespace has Azure credentials which are contributor on the &lt;code&gt;dev&lt;/code&gt; subscription,
-same for &lt;code&gt;prod&lt;/code&gt; for the prod sub. Developers in &lt;code&gt;dev&lt;/code&gt; are members of an Azure AD group with roles that give
-access to CRUD ASO CRDs and other Kubernetes resources (Pods, etc) in the &lt;code&gt;dev&lt;/code&gt; namespace, but &lt;em&gt;not&lt;/em&gt; the production
-namespace.&lt;/p&gt;
-&lt;p&gt;This means that developers can do basically whatever they want in the dev namespace, including assign roles to
-themselves at the Azure level in the dev subscription.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;prod&lt;/code&gt; namespace &lt;em&gt;also&lt;/em&gt; has an Azure AD group with roles that give access to CRUD ASO CRDs and other
-Kubernetes resources, but that group is by default empty.
-Users can use &lt;a href=&#34;https://learn.microsoft.com/azure/aks/access-control-managed-azure-ad&#34;&gt;JIT/Conditional access policies&lt;/a&gt;
-to escalate into that group. This means that by default, nobody can do anything in the &lt;code&gt;prod&lt;/code&gt; namespace to
-either the Kubernetes resources (Pods, etc) or the Azure resources via ASO or the portal.&lt;/p&gt;
-&lt;p&gt;When a user needs ad-hoc access to the &lt;code&gt;prod&lt;/code&gt; namespace they can go through the JIT process to get
-access to the &lt;code&gt;prod&lt;/code&gt; namespace. Standard deployments to &lt;code&gt;prod&lt;/code&gt; should be done through a CI/CD tool
-like Argo or Flux. This has the advantage of ensuring that proposed changes to &lt;code&gt;prod&lt;/code&gt; need to first meet the merge bar
-(pass through code review and other processes) to make it into the repo before Argo/Flux will deploy them to &lt;code&gt;prod&lt;/code&gt;.
-The conditional access/JIT is a break-glass used rarely.&lt;/p&gt;
-&lt;p&gt;Note that the above is just &lt;em&gt;one&lt;/em&gt; way to lay things out. The same ideas can be applied to a &lt;code&gt;dev&lt;/code&gt; and &lt;code&gt;prod&lt;/code&gt; resource group
-within a single sub and also to other more complex topologies. &lt;code&gt;test&lt;/code&gt; or &lt;code&gt;int&lt;/code&gt; can be added in the middle with a more
-locked down set of rules than dev but less locked down than prod (or maybe &lt;code&gt;test&lt;/code&gt; and &lt;code&gt;prod&lt;/code&gt; have very similar
-lockdowns to force the same procedures across both).&lt;/p&gt;
-
-      </description>
+      <description>&lt;h2 id=&#34;securing-aso-in-your-cluster&#34;&gt;Securing ASO in your cluster&lt;/h2&gt;&#xA;&lt;p&gt;ASO has 3 levers that allow you to manage access to your Azure resources:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Controlling &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;which CRDs are installed&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Controlling the Azure identities used by ASO at each &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/authentication/credential-scope/&#34;&gt;scope&lt;/a&gt;,&#xA;including the Azure RBAC permissions assigned to those identities.&lt;/li&gt;&#xA;&lt;li&gt;Controlling the Kubernetes identities that use the cluster and their Kubernetes RBAC permissions.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;We recommend making use of all 3 of these levers to fully secure a cluster running ASO.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

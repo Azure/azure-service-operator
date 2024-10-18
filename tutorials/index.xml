@@ -1,18 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – Tutorials</title>
+    <title>Tutorials on Azure Service Operator</title>
     <link>https://azure.github.io/azure-service-operator/tutorials/</link>
     <description>Recent content in Tutorials on Azure Service Operator</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    
-	  <atom:link href="https://azure.github.io/azure-service-operator/tutorials/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-      
-        
-      
-    
-    
+    <atom:link href="https://azure.github.io/azure-service-operator/tutorials/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial: CosmosDB to-do List</title>
+      <link>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb/</guid>
+      <description>&lt;p&gt;Follow the &lt;a href=&#34;https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/cosmos-todo-list&#34;&gt;guided example&lt;/a&gt;&#xA;to create a to-do list application backed by CosmosDB.&#xA;The CosmosDB is hosted in Azure but created easily via &lt;code&gt;kubectl&lt;/code&gt; and Azure Service Operator!&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Tutorial: CosmosDB to-do List with Managed Identity</title>
+      <link>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb-managed-identity/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb-managed-identity/</guid>
+      <description>&lt;p&gt;Follow the &lt;a href=&#34;https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/cosmos-todo-list-mi&#34;&gt;guided example&lt;/a&gt;&#xA;to create a to-do list application backed by CosmosDB.&#xA;The CosmosDB is hosted in Azure but created easily via &lt;code&gt;kubectl&lt;/code&gt; and Azure Service Operator!&lt;/p&gt;&#xA;&lt;p&gt;It also uses Managed Identity + Workload Identity, so the identity of the application and its permissions can&#xA;be managed through YAML with Azure Service Operator.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Tutorial: PostgreSQL Votes</title>
+      <link>https://azure.github.io/azure-service-operator/tutorials/tutorial-postgresql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/tutorials/tutorial-postgresql/</guid>
+      <description>&lt;p&gt;Follow the &lt;a href=&#34;https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/azure-votes-postgresql&#34;&gt;guided example&lt;/a&gt;&#xA;to create a simple voting application backed by PostgreSQL.&#xA;The PostgreSQL Server and Database are hosted in Azure but created easily via &lt;code&gt;kubectl&lt;/code&gt; and Azure Service Operator!&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Tutorial: Redis Votes</title>
+      <link>https://azure.github.io/azure-service-operator/tutorials/tutorial-redis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/tutorials/tutorial-redis/</guid>
+      <description>&lt;p&gt;Follow the &lt;a href=&#34;https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/azure-votes-redis&#34;&gt;guided example&lt;/a&gt;&#xA;to create a simple voting application backed by Redis.&#xA;The Redis cache is hosted in Azure but created easily via &lt;code&gt;kubectl&lt;/code&gt; and Azure Service Operator!&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>

@@ -1,18 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – 2023-09 Complex Properties that Skip Versions</title>
+    <title>2023-09 Complex Properties that Skip Versions on Azure Service Operator</title>
     <link>https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/</link>
     <description>Recent content in 2023-09 Complex Properties that Skip Versions on Azure Service Operator</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    
-	  <atom:link href="https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-      
-        
-      
-    
-    
+    <atom:link href="https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
