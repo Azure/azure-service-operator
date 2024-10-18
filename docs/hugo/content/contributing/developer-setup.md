@@ -22,9 +22,9 @@ Each of these is described in a different section below. See also the [troublesh
 
 Use these steps if you've checked out the ASO code into a Linux environment (_including_ WSL 2 on Windows). We've found this to be the best performing option.
 
-The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/remote/containers) configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.
+The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers) configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.
 
-0. Make sure you have installed [the prerequisites to use Docker](https://code.visualstudio.com/docs/remote/containers#_system-requirements), including [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) if on Windows. 
+0. Make sure you have installed [the prerequisites to use Docker](https://code.visualstudio.com/docs/devcontainers/containers#_system-requirements), including [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) if on Windows. 
 1. Install VS Code and the [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extension (check installation instructions there).
 2. Ensure you have ASO checked out, and that your [repo is healthy](#troubleshooting-repo-health).
 3. Open VS Code by running `code .` from the root folder of the ASO repo.
@@ -37,9 +37,9 @@ The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/
 
 If you're working on Windows and _**not**_ using WSL 2, this is the recommended setup.
 
-The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/remote/containers) configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.
+The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/devcontainers/containers) configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.
 
-0. Make sure you have installed [the prerequisites to use Docker](https://code.visualstudio.com/docs/remote/containers#_system-requirements), including [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) if on Windows. 
+0. Make sure you have installed [the prerequisites to use Docker](https://code.visualstudio.com/docs/devcontainers/containers#_system-requirements), including [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) if on Windows. 
 1. Install VS Code and the [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extension (check installation instructions there).
 2. Open VS Code
 3. Run the VS Code command (with `Ctrl-Shift-P`): `Dev Containers: Clone Repository in Container Volume...`
