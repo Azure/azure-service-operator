@@ -29,7 +29,6 @@ var armPackageDenyList = set.Make(
 	"apimanagement",
 	"appconfiguration",
 	"authorization",
-	"batch",
 	"cache",
 	"cdn",
 	"containerinstance",
