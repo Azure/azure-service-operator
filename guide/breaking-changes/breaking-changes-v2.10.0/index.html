@@ -17,30 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>CRD management in ASO | Azure Service Operator</title>
-<meta name="description" content="How does CRD management work in Azure Service Operator? ASO performs CRD management differently than many traditional operators. You might notice if you install the Helm chart or the YAML that there are NO CRDs installed by default.
-This is for two reasons:
-ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs are included, so the CRDs cannot be included in the Helm chart. ASO supports so many CRDs that it can cause problems if they&rsquo;re all installed onto a Kubernetes cluster with a low memory limit. See #2920 for details. For the above reasons, by default each version of the ASO operator pod embeds the CRDs inside the pod and installs them when the pod launches.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/crd-management/">
+<title>v2.10.0 Breaking Changes | Azure Service Operator</title>
+<meta name="description" content="MachineLearningServices/WorkspacesCompute properties marked as a SecretReference The below properties on WorkspacesCompute has been changed from a string to a SecretReference We always try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we&rsquo;ve decided to make a break to correct this issue.
+Affected Properties:
+SslConfiguration.Key SslConfiguration.Cert VirtualMachineSshCredentials.PrivateKeyData VirtualMachineSshCredentials.PublicKeyData DatabricksProperties.DatabricksAccessToken Action required: If the MachineLearningServices/WorkspacesCompute resource is used in your cluster and any of the above property is set, do the following before upgrading ASO:">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="CRD management in ASO">
-  <meta property="og:description" content="How does CRD management work in Azure Service Operator? ASO performs CRD management differently than many traditional operators. You might notice if you install the Helm chart or the YAML that there are NO CRDs installed by default.
-This is for two reasons:
-ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs are included, so the CRDs cannot be included in the Helm chart. ASO supports so many CRDs that it can cause problems if they’re all installed onto a Kubernetes cluster with a low memory limit. See #2920 for details. For the above reasons, by default each version of the ASO operator pod embeds the CRDs inside the pod and installs them when the pod launches.">
+  <meta property="og:title" content="v2.10.0 Breaking Changes">
+  <meta property="og:description" content="MachineLearningServices/WorkspacesCompute properties marked as a SecretReference The below properties on WorkspacesCompute has been changed from a string to a SecretReference We always try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we’ve decided to make a break to correct this issue.
+Affected Properties:
+SslConfiguration.Key SslConfiguration.Cert VirtualMachineSshCredentials.PrivateKeyData VirtualMachineSshCredentials.PublicKeyData DatabricksProperties.DatabricksAccessToken Action required: If the MachineLearningServices/WorkspacesCompute resource is used in your cluster and any of the above property is set, do the following before upgrading ASO:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="CRD management in ASO">
-  <meta itemprop="description" content="How does CRD management work in Azure Service Operator? ASO performs CRD management differently than many traditional operators. You might notice if you install the Helm chart or the YAML that there are NO CRDs installed by default.
-This is for two reasons:
-ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs are included, so the CRDs cannot be included in the Helm chart. ASO supports so many CRDs that it can cause problems if they’re all installed onto a Kubernetes cluster with a low memory limit. See #2920 for details. For the above reasons, by default each version of the ASO operator pod embeds the CRDs inside the pod and installs them when the pod launches.">
-  <meta itemprop="wordCount" content="985">
+  <meta itemprop="name" content="v2.10.0 Breaking Changes">
+  <meta itemprop="description" content="MachineLearningServices/WorkspacesCompute properties marked as a SecretReference The below properties on WorkspacesCompute has been changed from a string to a SecretReference We always try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we’ve decided to make a break to correct this issue.
+Affected Properties:
+SslConfiguration.Key SslConfiguration.Cert VirtualMachineSshCredentials.PrivateKeyData VirtualMachineSshCredentials.PublicKeyData DatabricksProperties.DatabricksAccessToken Action required: If the MachineLearningServices/WorkspacesCompute resource is used in your cluster and any of the above property is set, do the following before upgrading ASO:">
+  <meta itemprop="wordCount" content="204">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="CRD management in ASO">
-  <meta name="twitter:description" content="How does CRD management work in Azure Service Operator? ASO performs CRD management differently than many traditional operators. You might notice if you install the Helm chart or the YAML that there are NO CRDs installed by default.
-This is for two reasons:
-ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs are included, so the CRDs cannot be included in the Helm chart. ASO supports so many CRDs that it can cause problems if they’re all installed onto a Kubernetes cluster with a low memory limit. See #2920 for details. For the above reasons, by default each version of the ASO operator pod embeds the CRDs inside the pod and installs them when the pod launches.">
+  <meta name="twitter:title" content="v2.10.0 Breaking Changes">
+  <meta name="twitter:description" content="MachineLearningServices/WorkspacesCompute properties marked as a SecretReference The below properties on WorkspacesCompute has been changed from a string to a SecretReference We always try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we’ve decided to make a break to correct this issue.
+Affected Properties:
+SslConfiguration.Key SslConfiguration.Cert VirtualMachineSshCredentials.PrivateKeyData VirtualMachineSshCredentials.PublicKeyData DatabricksProperties.DatabricksAccessToken Action required: If the MachineLearningServices/WorkspacesCompute resource is used in your cluster and any of the above property is set, do the following before upgrading ASO:">
 
 
 
@@ -112,8 +112,8 @@ ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs 
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidecrd-management-li">
-  <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="td-sidebar-nav-active-item">CRD management in ASO</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
+  <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
@@ -142,26 +142,26 @@ ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs 
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="">v2.10.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="td-sidebar-nav-active-item">v2.10.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.9.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="">v2.9.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/" title="v2.2.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220"><span class="">v2.2.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="">v2.1.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
@@ -726,21 +726,7 @@ ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs 
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#how-does-crd-management-work-in-azure-service-operator">How does CRD management work in Azure Service Operator?</a></li>
-    <li><a href="#helm">Helm</a>
-      <ul>
-        <li><a href="#automatic-crd-installation-recommended">Automatic CRD installation (recommended)</a></li>
-        <li><a href="#manual-crd-installation">Manual CRD installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#yaml">YAML</a>
-      <ul>
-        <li><a href="#automatic-crd-installation-recommended-1">Automatic CRD installation (recommended)</a></li>
-        <li><a href="#manual-crd-installation-1">Manual CRD installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#uninstalling-crds">Uninstalling CRDs</a></li>
-    <li><a href="#best-practices">Best Practices</a></li>
+    <li><a href="#machinelearningservicesworkspacescompute-properties-marked-as-a-secretreference">MachineLearningServices/WorkspacesCompute properties marked as a SecretReference</a></li>
   </ul>
 </nav>
       </div>
@@ -756,137 +742,42 @@ ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs 
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/guide/">Guide</a></li>
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/guide/breaking-changes/">Breaking Changes</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    CRD management in ASO</li>
+    v2.10.0</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>CRD management in ASO</h1>
+	<h1>v2.10.0 Breaking Changes</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<h2 id="how-does-crd-management-work-in-azure-service-operator">How does CRD management work in Azure Service Operator?</h2>
-<p>ASO performs CRD management differently than many traditional operators. You might notice if you install the
-<a href="/azure-service-operator/guide/installing-from-helm/">Helm chart</a> or the <a href="/azure-service-operator/guide/installing-from-yaml/">YAML</a> that there are NO CRDs installed by default.</p>
-<p>This is for two reasons:</p>
-<ol>
-<li>ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs are included, so the CRDs cannot be
-included in the Helm chart.</li>
-<li>ASO supports so many CRDs that it can cause problems if they&rsquo;re all installed onto a Kubernetes cluster with a low
-memory limit. See <a href="https://github.com/Azure/azure-service-operator/issues/2920">#2920</a> for details.</li>
-</ol>
-<p>For the above reasons, by default each version of the ASO operator pod embeds the CRDs inside the pod and installs them when
-the pod launches.</p>
-<p><strong>No CRDs are installed by default.</strong> New CRDs will only be installed if they are specified in the
-<code>--crd-pattern</code> cmdline argument to the <code>manager</code> container. <code>--crd-pattern</code> is a semicolon delimited string of CRD
-patterns to apply. Each pattern is a case-insensitive glob (supports <code>*</code>, <code>?</code> globbing).</p>
-<p><strong>Existing CRDs are always upgraded.</strong> If a CRD already exists in the cluster (from a previous version of ASO or
-a manual CRD installation), it will always be updated to the latest version of the CRD. Note that upgrading a CRD doesn&rsquo;t
-upgrade existing resources, it just gives access to new versions of that CRD. For example <code>resources.azure.com/ResourceGroup</code>
-might be upgraded to support a new API version <code>v1api20230601</code>.</p>
-<h2 id="helm">Helm</h2>
-<h3 id="automatic-crd-installation-recommended">Automatic CRD installation (recommended)</h3>
-<p>Use the <code>crdPattern</code> value in <code>values.yaml</code> to specify what new CRDs to install. Existing CRDs will always be upgraded
-even if <code>crdPattern</code> is empty.</p>
-<p>Example: <code>resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*</code></p>
-<blockquote>
-<p><strong>Note:</strong> If you are specifying the Helm values from a shell with <code>--set crdPattern=...</code> you must wrap the crdPattern
-argument in single quotes <code>'</code> if it contains wildcard characters the shell would expand. For example:
-<code>--set crdPattern='resources.azure.com/*;containerservice.azure.com/*'</code></p>
-</blockquote>
-<blockquote>
-<p><strong>⚠️ Warning:</strong> A <code>crdPattern</code> of <code>*</code> can be used to install all resources, but is not recommended.
-See <a href="#best-practices">best practices</a> for more details.</p>
-</blockquote>
-<h3 id="manual-crd-installation">Manual CRD installation</h3>
-<p>If you do not want to grant the operator permission to create + update CRDs, you can instead manage the CRDs yourself.
-To do this you can use a YAML file containing all the ASO custom resource definitions that we include with each release.
-This file contains <em>only</em> the ASO CRDs.
-You can then filter to whichever subset of CRDs you want or apply them all.
-See for example <a href="https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_customresourcedefinitions_v2.0.0.yaml">azureserviceoperator_customresourcedefinitions_v2.0.0.yaml</a></p>
-<p>The process to do this for a fresh install is:</p>
-<ol>
-<li>Install the CRDs you want to use. These <em>must</em> be the CRDs for operator version you install in the next step.</li>
-<li>Install the operator Helm chart. Specify <code>installCRDs: false</code> as part of <code>values.yaml</code> when installing.</li>
-<li>Ensure the pod launches correctly.</li>
-</ol>
-<p>The process for upgrading the operator is similar:</p>
-<ol>
-<li>Upgrade the CRDs you are using. These <em>must</em> be the CRDs for operator version you are upgrading to.</li>
-<li>Upgrade the operator Helm chart. Specify <code>installCRDs: false</code> as part of <code>values.yaml</code> when upgrading.</li>
-<li>Ensure the pod launches correctly.</li>
-</ol>
-<h2 id="yaml">YAML</h2>
-<h3 id="automatic-crd-installation-recommended-1">Automatic CRD installation (recommended)</h3>
-<p>Unlike Helm there are no parameters built into the raw YAML. You must use a tool such as <code>kustomize</code> or <code>sed</code> to
-set the <code>--crd-pattern</code> command-line argument of the operator pod to include the CRDs you wish to install.</p>
-<p>Example: <code>cat operator.yaml | sed 's_--crd-pattern=.*_--crd-pattern=resources.azure.com/*;containerservice.azure.com/*_g' | kubectl apply -</code></p>
-<p>Alternatively you can use <code>kustomize</code> with a configuration like:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">kustomize.config.k8s.io/v1beta1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Kustomization</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">resources</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">https://github.com/Azure/azure-service-operator/releases/download/v2.1.0/azureserviceoperator_v2.1.0.yaml</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">patches</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">patch</span>: |-<span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      - op: add
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        path: /spec/template/spec/containers/0/args/-
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        value: --crd-pattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*</span>      
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">target</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
-</span></span></code></pre></div><blockquote>
-<p><strong>⚠️ Warning:</strong> A <code>--crd-pattern</code> of <code>*</code> can be used to install all resources, but is not recommended.
-See <a href="#best-practices">best practices</a> for more details.</p>
-</blockquote>
-<h3 id="manual-crd-installation-1">Manual CRD installation</h3>
-<p>If you do not want to grant the operator permission to create + update CRDs, you can instead manage the CRDs yourself.
-To do this you can use a YAML file containing all the ASO custom resource definitions that we include with each release.
-This file contains <em>only</em> the ASO CRDs.
-You can then filter to whichever subset of CRDs you want or apply them all.
-See for example <a href="https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_customresourcedefinitions_v2.0.0.yaml">azureserviceoperator_customresourcedefinitions_v2.0.0.yaml</a></p>
-<p>The process to do this for a fresh install is:</p>
-<ol>
-<li>Install the CRDs you want to use. These <em>must</em> be the CRDs for operator version you install in the next step.</li>
-<li>Install the operator YAML.</li>
-<li>Ensure the pod launches correctly.</li>
-</ol>
-<p>The process for upgrading the operator is similar:</p>
-<ol>
-<li>Upgrade the CRDs you are using. These <em>must</em> be the CRDs for operator version you are upgrading to.</li>
-<li>Upgrade the operator YAML.</li>
-<li>Ensure the pod launches correctly.</li>
-</ol>
-<h2 id="uninstalling-crds">Uninstalling CRDs</h2>
-<p>ASO CRD automation will <strong>never</strong> under any circumstances uninstall CRDs. In fact, it doesn&rsquo;t have delete CRD permissions.
-This is a safety feature because removal of CRDs can be dangerous.</p>
-<p>The recommended workflow for removing CRDs you are no longer using is:</p>
-<ol>
-<li>Delete or otherwise remove all instances of the CRD in question. For example if you want to remove the
-<code>keyvault.azure.com/vault</code> CRD, first delete all instances of that CRD.
+	<h2 id="machinelearningservicesworkspacescompute-properties-marked-as-a-secretreference">MachineLearningServices/WorkspacesCompute properties marked as a SecretReference</h2>
+<p>The below properties on <code>WorkspacesCompute</code> has been changed from a string to a <code>SecretReference</code>
+We always try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we&rsquo;ve
+decided to make a break to correct this issue.</p>
+<p><strong>Affected Properties:</strong></p>
 <ul>
-<li>If you want to retain the <code>vault</code> resources in Azure, apply a <a href="/azure-service-operator/guide/annotations/#serviceoperatorazurecomreconcile-policy">reconcile-policy</a>
-of <code>skip</code> prior to issuing <code>kubectl delete</code>.</li>
+<li>SslConfiguration.Key</li>
+<li>SslConfiguration.Cert</li>
+<li>VirtualMachineSshCredentials.PrivateKeyData</li>
+<li>VirtualMachineSshCredentials.PublicKeyData</li>
+<li>DatabricksProperties.DatabricksAccessToken</li>
 </ul>
-</li>
-<li>Ensure that the operator pod does not have a pattern matching the CRD you would like to remove in <code>--crd-patterns</code>.
-If it does, the CRD may be re-installed by the operator pod after you&rsquo;ve removed it.</li>
-<li>Stop the operator pod.</li>
-<li>Delete the CRD using <code>kubectl delete</code>.</li>
-<li>Start the operator pod.</li>
+<p><strong>Action required:</strong> If the <code>MachineLearningServices/WorkspacesCompute</code> resource is used in your cluster and any of the above property is set, do the following before upgrading ASO:</p>
+<ol>
+<li>Annotate the resource with <code>serviceoperator.azure.com/reconcile-policy: skip</code> to prevent ASO from trying to reconcile the resource while you are upgrading.</li>
+<li>Download the current YAML for the resource using <code>kubectl</code> if you don&rsquo;t have it elsewhere.</li>
+<li>Create a kubernetes secret containing the value for the affected property.</li>
+<li>Edit downloaded YAML in step 2, and add a secret key and name reference. Example <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_authorizationprovider.yaml#L12">here</a>.</li>
+<li>Delete the resource from your cluster using <code>kubectl delete</code>. Your Azure resource will be left untouched because of the <code>reconcile-policy</code> annotation you added above.</li>
+<li><a href="/azure-service-operator/guide/upgrading/">Upgrade ASO</a> in your cluster.</li>
+<li>Apply the updated YAML to your cluster using <code>kubectl apply</code>. If any errors occur, address them.</li>
+<li>If the <code>reconcile-policy</code> annotation is still present, remove it from the resource.</li>
 </ol>
-<h2 id="best-practices">Best Practices</h2>
-<ul>
-<li>Do not use <code>crdPattern=*</code> on AKS free tier clusters. It installs so many CRDs that it can overload kube-apiserver and cause
-restarts. See <a href="https://github.com/Azure/azure-service-operator/issues/2920">#2920</a> for details. Instead, specify
-a <code>crdPattern</code> containing only the groups (or individual CRDs) you intend to use.</li>
-<li>We strongly recommend including entire groups such as <code>dbformysql.azure.com/*</code> in <code>crdPattern</code>. Individual CRDs such as
-<code>dbformysql.azure.com/FlexibleServer</code> may be specified as well, but there are often other resources in the
-group which pair together to enable other scenarios, such as <code>dbformysql.azure.com/FlexibleServersFirewallRules</code>.
-It&rsquo;s generally easier to just include the whole group.</li>
-</ul>
 
 	
 </div>

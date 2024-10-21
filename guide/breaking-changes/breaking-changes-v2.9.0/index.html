@@ -17,13 +17,13 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>v2.8.0 Breaking Changes | Azure Service Operator</title>
+<title>v2.9.0 Breaking Changes | Azure Service Operator</title>
 <meta name="description" content="DelegatedManagedIdentityResourceId is now a secret The RoleAssignment property .spec.delegatedManagedIdentityResourceId has been changed from a string to a SecretReference and renamed to .spec.delegatedManagedIdentityResourceReference.
 We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we&rsquo;ve decided to make a break to correct this issue.
 Action required: If the authorization.azure.com/RoleAssignment resource is used in your cluster, and if you are using the DelegatedManagedIdentityResourceId property, you&rsquo;ll need to change your resource to use the new DelegatedManagedIdentityResourceReference property, pulling the value from a secret.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="v2.8.0 Breaking Changes">
+  <meta property="og:title" content="v2.9.0 Breaking Changes">
   <meta property="og:description" content="DelegatedManagedIdentityResourceId is now a secret The RoleAssignment property .spec.delegatedManagedIdentityResourceId has been changed from a string to a SecretReference and renamed to .spec.delegatedManagedIdentityResourceReference.
 We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we’ve decided to make a break to correct this issue.
 Action required: If the authorization.azure.com/RoleAssignment resource is used in your cluster, and if you are using the DelegatedManagedIdentityResourceId property, you’ll need to change your resource to use the new DelegatedManagedIdentityResourceReference property, pulling the value from a secret.">
@@ -31,13 +31,13 @@ Action required: If the authorization.azure.com/RoleAssignment resource is used 
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="v2.8.0 Breaking Changes">
+  <meta itemprop="name" content="v2.9.0 Breaking Changes">
   <meta itemprop="description" content="DelegatedManagedIdentityResourceId is now a secret The RoleAssignment property .spec.delegatedManagedIdentityResourceId has been changed from a string to a SecretReference and renamed to .spec.delegatedManagedIdentityResourceReference.
 We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we’ve decided to make a break to correct this issue.
 Action required: If the authorization.azure.com/RoleAssignment resource is used in your cluster, and if you are using the DelegatedManagedIdentityResourceId property, you’ll need to change your resource to use the new DelegatedManagedIdentityResourceReference property, pulling the value from a secret.">
   <meta itemprop="wordCount" content="147">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="v2.8.0 Breaking Changes">
+  <meta name="twitter:title" content="v2.9.0 Breaking Changes">
   <meta name="twitter:description" content="DelegatedManagedIdentityResourceId is now a secret The RoleAssignment property .spec.delegatedManagedIdentityResourceId has been changed from a string to a SecretReference and renamed to .spec.delegatedManagedIdentityResourceReference.
 We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we’ve decided to make a break to correct this issue.
 Action required: If the authorization.azure.com/RoleAssignment resource is used in your cluster, and if you are using the DelegatedManagedIdentityResourceId property, you’ll need to change your resource to use the new DelegatedManagedIdentityResourceReference property, pulling the value from a secret.">
@@ -145,12 +145,14 @@ Action required: If the authorization.azure.com/RoleAssignment resource is used 
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="">v2.10.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.8.0 Breaking Changes" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="td-sidebar-nav-active-item">v2.8.0</span></a>
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.9.0 Breaking Changes" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="td-sidebar-nav-active-item">v2.9.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
@@ -736,12 +738,12 @@ Action required: If the authorization.azure.com/RoleAssignment resource is used 
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/guide/breaking-changes/">Breaking Changes</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    v2.8.0</li>
+    v2.9.0</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>v2.8.0 Breaking Changes</h1>
+	<h1>v2.9.0 Breaking Changes</h1>
 	
 	<header class="article-meta">
 		
