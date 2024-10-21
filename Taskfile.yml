@@ -373,16 +373,17 @@ tasks:
         sh: "cat {{.DIR}}/azure/miclientid.txt"
 
   controller:test-upgrade-apply-prerelease-chart:
-    desc: Apply the {{.CONTROLLER_APP}} prelease chart for new release
+    desc: Apply the {{.CONTROLLER_APP}} prerelease chart for new release
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       - task: controller:docker-push-local
       - task: controller:package-helm-manifest
       - task: controller:install-helm-wi
         vars:
-          DIR: "{{.DIR | default .KIND_WORKLOAD_IDENTITY_PATH}}"
           AZURE_MI_CLIENT_ID:
             sh: "cat {{.DIR}}/azure/miclientid.txt"
+    vars:
+      DIR: "{{.DIR  | default .KIND_WORKLOAD_IDENTITY_PATH}}"
 
   controller:test-upgrade-post:
     desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
@@ -390,7 +391,7 @@ tasks:
     cmds:
       - task: controller:test-upgrade-apply-prerelease-chart
       - "go test -timeout 15m -count=1 -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
-      - task controller:kind-delete
+      - task: controller:kind-delete
 
   controller:test-upgrade:
     desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
