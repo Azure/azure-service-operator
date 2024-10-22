@@ -248,7 +248,7 @@ if should-install "$TOOL_DEST/trivy"; then
     if [[ ${os} == "darwin" ]] && [[ ${arch} == "arm64" ]]; then
         curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.55.2/trivy_0.55.2_macOS-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
     else
-        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.55.2/trivy_0.55.2_Linux-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.55.2/trivy_0.55.2_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
     fi
 fi
 
