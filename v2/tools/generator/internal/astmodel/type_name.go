@@ -46,7 +46,6 @@ var armPackageDenyList = set.Make(
 	"machinelearningservices",
 	"managedidentity",
 	"monitor",
-	"network",
 	"network.frontdoor",
 	"operationalinsights",
 	"redhatopenshift",
