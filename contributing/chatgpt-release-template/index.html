@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/reference/cdn/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,27 +17,38 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Cdn Supported Resources | Azure Service Operator</title>
-<meta name="description" content="Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/cdn/">
+<title>A simple ChatGPT release template | Azure Service Operator</title>
+<meta name="description" content="About This can be used to help format our release notes once you&rsquo;ve got them somewhat organized by category.
+We can improve this template based on our experience with it. Starting now with something basic.
+Prompt Please help me format my release notes. See below for how each sections text should be transformed.
+Example input for &ldquo;New resources&rdquo; section:
+### New resources * Add support for ApplicationGatewayWebApplicationFirewallPolicies by @matthchr in https://github.com/Azure/azure-service-operator/pull/4238 * Add support for 20240401 AML resources by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4237 * Add support for KubernetesConfiguration/FluxConfiguration by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4275 * Add support for v1api20230801/Cache.Redis by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4287 * Add support for network DnsForwardingRuleSetsVirtualNetworkLink VirutalNetworkLinks by @matthchr in https://github.com/Azure/azure-service-operator/pull/4345 * Feature/application security group by @nishant221 in https://github.com/Azure/azure-service-operator/pull/4342 * Add support for AML Registries by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4339 Example output for &ldquo;New resources&rdquo; section:">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/chatgpt-release-template/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Cdn Supported Resources">
-  <meta property="og:description" content="To install the CRDs for these resources, your ASO configuration must include cdn.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-01 v1api20230501 v2.6.0 View AfdEndpoint 2023-05-01 v1api20230501 v2.6.0 View AfdOrigin 2023-05-01 v1api20230501 v2.6.0 View AfdOriginGroup 2023-05-01 v1api20230501 v2.6.0 View Profile 2023-05-01 v1api20230501 v2.6.0 View Profile 2021-06-01 v1api20210601 v2.0.0 View ProfilesEndpoint 2021-06-01 v1api20210601 v2.0.0 View Route 2023-05-01 v1api20230501 v2.6.0 View Rule 2023-05-01 v1api20230501 v2.6.0 View RuleSet 2023-05-01 v1api20230501 v2.6.0 View Secret 2023-05-01 v1api20230501 v2.6.0 View SecurityPolicy 2023-05-01 v1api20230501 v2.6.0 View ">
+  <meta property="og:title" content="A simple ChatGPT release template">
+  <meta property="og:description" content="About This can be used to help format our release notes once you’ve got them somewhat organized by category.
+We can improve this template based on our experience with it. Starting now with something basic.
+Prompt Please help me format my release notes. See below for how each sections text should be transformed.
+Example input for “New resources” section:
+### New resources * Add support for ApplicationGatewayWebApplicationFirewallPolicies by @matthchr in https://github.com/Azure/azure-service-operator/pull/4238 * Add support for 20240401 AML resources by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4237 * Add support for KubernetesConfiguration/FluxConfiguration by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4275 * Add support for v1api20230801/Cache.Redis by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4287 * Add support for network DnsForwardingRuleSetsVirtualNetworkLink VirutalNetworkLinks by @matthchr in https://github.com/Azure/azure-service-operator/pull/4345 * Feature/application security group by @nishant221 in https://github.com/Azure/azure-service-operator/pull/4342 * Add support for AML Registries by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4339 Example output for “New resources” section:">
   <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="contributing">
 
-  <meta itemprop="name" content="Cdn Supported Resources">
-  <meta itemprop="description" content="To install the CRDs for these resources, your ASO configuration must include cdn.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-01 v1api20230501 v2.6.0 View AfdEndpoint 2023-05-01 v1api20230501 v2.6.0 View AfdOrigin 2023-05-01 v1api20230501 v2.6.0 View AfdOriginGroup 2023-05-01 v1api20230501 v2.6.0 View Profile 2023-05-01 v1api20230501 v2.6.0 View Profile 2021-06-01 v1api20210601 v2.0.0 View ProfilesEndpoint 2021-06-01 v1api20210601 v2.0.0 View Route 2023-05-01 v1api20230501 v2.6.0 View Rule 2023-05-01 v1api20230501 v2.6.0 View RuleSet 2023-05-01 v1api20230501 v2.6.0 View Secret 2023-05-01 v1api20230501 v2.6.0 View SecurityPolicy 2023-05-01 v1api20230501 v2.6.0 View ">
-  <meta itemprop="wordCount" content="133">
+  <meta itemprop="name" content="A simple ChatGPT release template">
+  <meta itemprop="description" content="About This can be used to help format our release notes once you’ve got them somewhat organized by category.
+We can improve this template based on our experience with it. Starting now with something basic.
+Prompt Please help me format my release notes. See below for how each sections text should be transformed.
+Example input for “New resources” section:
+### New resources * Add support for ApplicationGatewayWebApplicationFirewallPolicies by @matthchr in https://github.com/Azure/azure-service-operator/pull/4238 * Add support for 20240401 AML resources by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4237 * Add support for KubernetesConfiguration/FluxConfiguration by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4275 * Add support for v1api20230801/Cache.Redis by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4287 * Add support for network DnsForwardingRuleSetsVirtualNetworkLink VirutalNetworkLinks by @matthchr in https://github.com/Azure/azure-service-operator/pull/4345 * Feature/application security group by @nishant221 in https://github.com/Azure/azure-service-operator/pull/4342 * Add support for AML Registries by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4339 Example output for “New resources” section:">
+  <meta itemprop="wordCount" content="881">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Cdn Supported Resources">
-  <meta name="twitter:description" content="To install the CRDs for these resources, your ASO configuration must include cdn.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.
-Released These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-01 v1api20230501 v2.6.0 View AfdEndpoint 2023-05-01 v1api20230501 v2.6.0 View AfdOrigin 2023-05-01 v1api20230501 v2.6.0 View AfdOriginGroup 2023-05-01 v1api20230501 v2.6.0 View Profile 2023-05-01 v1api20230501 v2.6.0 View Profile 2021-06-01 v1api20210601 v2.0.0 View ProfilesEndpoint 2021-06-01 v1api20210601 v2.0.0 View Route 2023-05-01 v1api20230501 v2.6.0 View Rule 2023-05-01 v1api20230501 v2.6.0 View RuleSet 2023-05-01 v1api20230501 v2.6.0 View Secret 2023-05-01 v1api20230501 v2.6.0 View SecurityPolicy 2023-05-01 v1api20230501 v2.6.0 View ">
+  <meta name="twitter:title" content="A simple ChatGPT release template">
+  <meta name="twitter:description" content="About This can be used to help format our release notes once you’ve got them somewhat organized by category.
+We can improve this template based on our experience with it. Starting now with something basic.
+Prompt Please help me format my release notes. See below for how each sections text should be transformed.
+Example input for “New resources” section:
+### New resources * Add support for ApplicationGatewayWebApplicationFirewallPolicies by @matthchr in https://github.com/Azure/azure-service-operator/pull/4238 * Add support for 20240401 AML resources by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4237 * Add support for KubernetesConfiguration/FluxConfiguration by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4275 * Add support for v1api20230801/Cache.Redis by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4287 * Add support for network DnsForwardingRuleSetsVirtualNetworkLink VirutalNetworkLinks by @matthchr in https://github.com/Azure/azure-service-operator/pull/4345 * Feature/application security group by @nishant221 in https://github.com/Azure/azure-service-operator/pull/4342 * Add support for AML Registries by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4339 Example output for “New resources” section:">
 
 
 
@@ -52,7 +62,7 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
 <div class="container-fluid flex-column flex-md-row">
@@ -69,10 +79,10 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
+        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
+        <a class="nav-link active" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
@@ -226,17 +236,17 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/tools/generator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencealertsmanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencealertsmanagement-li">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20230301-li">
   <a href="/azure-service-operator/reference/alertsmanagement/v1api20230301/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv1api20230301"><span class="">alertsmanagement.azure.com/v1api20230301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -245,14 +255,14 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">apimanagement.azure.com/v1api20230501preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
   <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">appconfiguration.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -261,14 +271,14 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/authorization/v1api20220401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">authorization.azure.com/v1api20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
   <a href="/azure-service-operator/reference/batch/v1api20210101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">batch.azure.com/v1api20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -283,16 +293,16 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/cache/v1api20230801/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">cache.azure.com/v1api20230801</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecdn-li">
-  <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="td-sidebar-nav-active-item">Cdn</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
+  <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecdnv1api20210601-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
   <a href="/azure-service-operator/reference/cdn/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20210601"><span class="">cdn.azure.com/v1api20210601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecdnv1api20230501-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20230501-li">
   <a href="/azure-service-operator/reference/cdn/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">cdn.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -309,21 +319,21 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/compute/v1api20240302/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20240302"><span class="">compute.azure.com/v1api20240302</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
   <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">containerregistry.azure.com/v1api20210901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
@@ -340,14 +350,14 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">containerservice.azure.com/v1api20240402preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
   <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
@@ -356,14 +366,14 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">dbformariadb.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -376,7 +386,7 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">dbformysql.azure.com/v1api20230630</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -391,14 +401,14 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">dbforpostgresql.azure.com/v1api20230601preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">devices.azure.com/v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -407,28 +417,28 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/documentdb/v1api20231115/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20231115"><span class="">documentdb.azure.com/v1api20231115</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
   <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">eventgrid.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
   <a href="/azure-service-operator/reference/eventhub/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">eventhub.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Frontdoor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Frontdoor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">network.frontdoor.azure.com/v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180301-li">
@@ -445,7 +455,7 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/insights/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20230101"><span class="">insights.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -454,14 +464,14 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/keyvault/v1api20230701/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">keyvault.azure.com/v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20230501/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501"><span class="">kubernetesconfiguration.azure.com/v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -470,7 +480,7 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">machinelearningservices.azure.com/v1api20240401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -481,14 +491,14 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">managedidentity.azure.com/v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
   <a href="/azure-service-operator/reference/monitor/v1api20230403/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">monitor.azure.com/v1api20230403</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -507,35 +517,35 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/network/v1api20240101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">network.azure.com/v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
   <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
   <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">redhatopenshift.azure.com/v1api20231122</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
   <a href="/azure-service-operator/reference/resources/v1api20200601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">resources.azure.com/v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
   <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -546,14 +556,14 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/servicebus/v1api20221001preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20221001preview"><span class="">servicebus.azure.com/v1api20221001preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
   <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">signalrservice.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
@@ -562,7 +572,7 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -573,21 +583,21 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   <a href="/azure-service-operator/reference/storage/v1api20230101/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20230101"><span class="">storage.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -596,26 +606,26 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributing-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorcontributing-li">
   <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdeveloper-setup-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdeveloper-setup-li">
   <a href="/azure-service-operator/contributing/developer-setup/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdeveloper-setup"><span class="">Developer Setup</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingchatgpt-release-template-li">
-  <a href="/azure-service-operator/contributing/chatgpt-release-template/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingchatgpt-release-template"><span class="">A simple ChatGPT release template</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorcontributingchatgpt-release-template-li">
+  <a href="/azure-service-operator/contributing/chatgpt-release-template/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingchatgpt-release-template"><span class="td-sidebar-nav-active-item">A simple ChatGPT release template</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
   <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="">Add a resource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributinggenerator-overview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinggenerator-overview-li">
   <a href="/azure-service-operator/contributing/generator-overview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdependencies-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdependencies-li">
   <a href="/azure-service-operator/contributing/dependencies/" title="Developer Dependencies" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdependencies"><span class="">Dependencies</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
   <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingtesting-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingtesting-li">
   <a href="/azure-service-operator/contributing/testing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingupgrade-resource-version-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingupgrade-resource-version-li">
   <a href="/azure-service-operator/contributing/upgrade-resource-version/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributingupgrade-resource-version"><span class="">Upgrading a resource</span></a>
 </li>
   </ul>
@@ -726,11 +736,8 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#released">Released</a></li>
-      </ul>
-    </li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#prompt">Prompt</a></li>
   </ul>
 </nav>
       </div>
@@ -745,124 +752,126 @@ Resource ARM Version CRD Version Supported From Sample AfdCustomDomain 2023-05-0
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/">Supported Resources</a></li>
+    <a href="/azure-service-operator/contributing/">Contributing</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Cdn</li>
+    A simple ChatGPT release template</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Cdn Supported Resources</h1>
-  
+	<h1>A simple ChatGPT release template</h1>
+	
 	<header class="article-meta">
 		
 </header>
-	<p>To install the CRDs for these resources, your ASO configuration must include <code>cdn.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="released">Released</h3>
-<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Resource</th>
-          <th style="text-align: left">ARM Version</th>
-          <th style="text-align: left">CRD Version</th>
-          <th style="text-align: left">Supported From</th>
-          <th style="text-align: left">Sample</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.AfdCustomDomain">AfdCustomDomain</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_afdcustomdomain.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.AfdEndpoint">AfdEndpoint</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_afdendpoint.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.AfdOrigin">AfdOrigin</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_afdorigin.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.AfdOriginGroup">AfdOriginGroup</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_afdorigingroup.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.Profile">Profile</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_profile.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20210601/#cdn.azure.com/v1api20210601.Profile">Profile</a></td>
-          <td style="text-align: left">2021-06-01</td>
-          <td style="text-align: left">v1api20210601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20210601/v1api20210601_profile.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20210601/#cdn.azure.com/v1api20210601.ProfilesEndpoint">ProfilesEndpoint</a></td>
-          <td style="text-align: left">2021-06-01</td>
-          <td style="text-align: left">v1api20210601</td>
-          <td style="text-align: left">v2.0.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20210601/v1api20210601_profilesendpoint.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.Route">Route</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_route.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.Rule">Rule</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_rule.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.RuleSet">RuleSet</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_ruleset.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.Secret">Secret</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_secret.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/#cdn.azure.com/v1api20230501.SecurityPolicy">SecurityPolicy</a></td>
-          <td style="text-align: left">2023-05-01</td>
-          <td style="text-align: left">v1api20230501</td>
-          <td style="text-align: left">v2.6.0</td>
-          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_securitypolicy.yaml">View</a></td>
-      </tr>
-  </tbody>
-</table>
+	<h2 id="about">About</h2>
+<p>This can be used to help format our release notes once you&rsquo;ve got them somewhat organized by category.</p>
+<p>We can improve this template based on our experience with it. Starting now with something basic.</p>
+<h2 id="prompt">Prompt</h2>
+<p>Please help me format my release notes. See below for how each sections text should be transformed.</p>
+<p>Example input for &ldquo;New resources&rdquo; section:</p>
+<pre tabindex="0"><code>### New resources
 
-  <div class="section-index">
-    
-    
-    </div>
+* Add support for ApplicationGatewayWebApplicationFirewallPolicies by @matthchr in https://github.com/Azure/azure-service-operator/pull/4238
+* Add support for 20240401 AML resources by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4237
+* Add support for KubernetesConfiguration/FluxConfiguration by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4275
+* Add support for v1api20230801/Cache.Redis by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4287
+* Add support for network DnsForwardingRuleSetsVirtualNetworkLink VirutalNetworkLinks by @matthchr in https://github.com/Azure/azure-service-operator/pull/4345
+* Feature/application security group by @nishant221 in https://github.com/Azure/azure-service-operator/pull/4342
+* Add support for AML Registries by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4339
+</code></pre><p>Example output for &ldquo;New resources&rdquo; section:</p>
+<pre tabindex="0"><code>### New resources
+
+* Add support for new machinelearningservices API version v1api20240401 (#4237)
+* Add support for new machinelearningservices Registry resource (#4339)
+* Add support for new kubernetesconfiguration FluxConfiguration resource (#4275)
+* Add support for new cache API version v1api20230801 (#4287)
+* Add support for new network DnsForwardingRuleSetsVirtualNetworkLink resource (#4345)
+* Add support for new network ApplicationSecurityGroup group resource (#4342)
+* Add support for new network ApplicationGatewayWebApplicationFirewallPolicies resource (#4238)
+</code></pre><p>Example input for &ldquo;Features&rdquo; section:</p>
+<pre tabindex="0"><code>### Features
+
+* Allow the data encryption keys for PostgreSQL Flexible server to be configured by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4311
+</code></pre><p>Example output for &ldquo;Features&rdquo; section:</p>
+<pre tabindex="0"><code>### Features
+
+* Allow the data encryption keys for PostgreSQL Flexible server to be configured via ConfigMap (#4311)
+</code></pre><p>Example input for &ldquo;Improvements&rdquo; section:</p>
+<pre tabindex="0"><code>### Improvements
+
+* feat(helm): allow to use existing service account by @t3mi in https://github.com/Azure/azure-service-operator/pull/4211
+* feat(helm): allow hardcodes to be configurable by @t3mi in https://github.com/Azure/azure-service-operator/pull/4207
+* Remove pre-upgrade check by @matthchr in https://github.com/Azure/azure-service-operator/pull/4217
+* Update dependencies by @matthchr in https://github.com/Azure/azure-service-operator/pull/4233
+* Improve security context restrictions by @matthchr in https://github.com/Azure/azure-service-operator/pull/4242
+* Add some validation of crd-pattern to asoctl export template by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4245
+* Release lease when the pod is terminated by @matthchr in https://github.com/Azure/azure-service-operator/pull/4250
+* Allow reuse of import from asoctl by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4243
+* Allow number of simultaneous workers to be configured by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4257
+* Reduce noise when importing PostgreSQL Flexible Server Configurations by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4279
+* Reduce noise when importing MySQL Flexible Server Configurations by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4282
+* Name spec and status for the associated resource by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4341
+* Built-in role definitions should be skiped by asoctl by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4263
+</code></pre><p>Example output for &ldquo;Improvements&rdquo; section:</p>
+<pre tabindex="0"><code>### Improvements
+
+* Allow significantly more Helm chart configuration (#4211, #4207)
+* Remove pre-upgrade check (#4217)
+* Updated numerous dependencies
+* Improve controller pod security context restrictions (#4242)
+* Release lease when the pod is terminated for faster pod shutdown (#4250)
+* Improve the spec and status names for some resources (breaking for Go pkg consumers) (#4341)
+* asoctl: Add some validation of crd-pattern to `export template` command (#4245)
+* asoctl: Allow reuse of import command via Go code (#4243)
+* asoctl: Allow number of simultaneous workers to be configured (#4257)
+* asoctl: Reduce noise when importing PostgreSQL Flexible Server Configurations (#4279)
+* asoctl: Reduce noise when importing MySQL Flexible Server Configurations (#4282)
+* asoctl: Built-in role definitions should be skiped by import command (#4263)
+</code></pre><p>Example input for &ldquo;Bug fixes&rdquo; section:</p>
+<pre tabindex="0"><code>### Bug fixes
+
+* Fix panic in log by @matthchr in https://github.com/Azure/azure-service-operator/pull/4249
+* Ensure resource names are always K8s compliant by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4244
+* Allow importing of FrontDoor resources by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4262
+* Fix deadlock and ux bugs in asoctl by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4270
+* Update ASO&#39;s NetworkPolicy to allow egress to SqlServer&#39;s default port by @super-harsh in https://github.com/Azure/azure-service-operator/pull/4283
+* Retry if/when ScheduledQueryRules encounter BadRequest by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4312
+* Relax enum restrictions on Storage bypass parameter by @matthchr in https://github.com/Azure/azure-service-operator/pull/4328
+* Fix bug where some ConfigMap and Secret references could be missed by @matthchr in https://github.com/Azure/azure-service-operator/pull/4330
+</code></pre><p>Example output for &ldquo;Bug fixes&rdquo; section:</p>
+<pre tabindex="0"><code>### Bug fixes
+
+* Fix bug where a log could cause a panic (#4249)
+* Fix bug where ASO&#39;s NetworkPolicy didn&#39;t allow egress to SqlServer&#39;s default port (#4283)
+* Fix bug where ScheduledQueryRules could get stuck reconciling when encountering a BadRequest (#4312)
+* Fix bug where storage account bypass parameter did not accept all allowed values (#4328)
+* Fix bug where some ConfigMap and Secret references could fail to be exported (#4330)
+* asoctl: Fix bug where resource names could be generated which where not valid in Kubernetes (#4244)
+* asoctl: Fix bug where FrontDoor resources couldn&#39;t be imported (#4262)
+* asoctl: Fix deadlock and ux bugs (#4270)
+</code></pre><p>Example input for &ldquo;Documentation&rdquo; section:</p>
+<pre tabindex="0"><code>### Documentation
+
+* Add missing SQL User to documentation index by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4230
+* add docs for non-podidentity managed identity by @nojnhuh in https://github.com/Azure/azure-service-operator/pull/4227
+* Add some additional documentation about metrics by @matthchr in https://github.com/Azure/azure-service-operator/pull/4273
+* Update redis migration docs with correct redis key by @bwiens in https://github.com/Azure/azure-service-operator/pull/4297
+* Add ArgoCD FAQ item by @theunrepentantgeek in https://github.com/Azure/azure-service-operator/pull/4309
+</code></pre><p>Example output for &ldquo;Documentation&rdquo; section:</p>
+<pre tabindex="0"><code>### Documentation
+
+* Add missing SQL User documentation (#4230)
+* Add docs for non-podidentity managed identity (#4227)
+* Add some additional documentation about the controller metrics endpoint (#4273)
+* Update redis migration docs with correct redis key (#4297)
+* Add ArgoCD FAQ item (#4309)
+</code></pre><p>Please format this document according to the above rules:</p>
+<pre tabindex="0"><code>Initial release notes here
+</code></pre>
+	
 </div>
+
 
           </main>
         </div>

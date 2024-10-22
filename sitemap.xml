@@ -132,6 +132,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2024-07-dynamic-export-to-secret-or-configmap/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/chatgpt-release-template/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/</loc>
