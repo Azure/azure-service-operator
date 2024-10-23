@@ -86,9 +86,9 @@ func flagPrunedEmptyProperties(
 	emptyPrunedPropertiesArm := astmodel.NewInternalTypeNameSet()
 	for emptyPrunedProp := range emptyPrunedProps {
 		// we need to add the noConversion tag on ARM type for the empty pruned property to relax the validation for convertToARM function.
-		armDef, err := GetARMTypeDefinition(defs, emptyPrunedProp)
-		if err != nil {
-			return nil, err
+		armDef, ok := LookupARMTypeDefinition(emptyPrunedProp, defs)
+		if !ok {
+			return nil, errors.Errorf("couldn't find ARM definition for %s", emptyPrunedProp)
 		}
 		emptyPrunedPropertiesArm.Add(armDef.Name())
 	}
