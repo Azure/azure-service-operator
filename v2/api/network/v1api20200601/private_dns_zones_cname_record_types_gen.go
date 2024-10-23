@@ -5,6 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -376,7 +377,7 @@ func (record *PrivateDnsZonesCNAMERecord_Spec) ConvertToARM(resolved genruntime.
 	if record == nil {
 		return nil, nil
 	}
-	result := &PrivateDnsZonesCNAMERecord_Spec_ARM{}
+	result := &arm.PrivateDnsZonesCNAMERecord_Spec{}
 
 	// Set property "Etag":
 	if record.Etag != nil {
@@ -398,28 +399,28 @@ func (record *PrivateDnsZonesCNAMERecord_Spec) ConvertToARM(resolved genruntime.
 		record.SrvRecords != nil ||
 		record.Ttl != nil ||
 		record.TxtRecords != nil {
-		result.Properties = &RecordSetProperties_ARM{}
+		result.Properties = &arm.RecordSetProperties{}
 	}
 	for _, item := range record.ARecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ARecords = append(result.Properties.ARecords, *item_ARM.(*ARecord_ARM))
+		result.Properties.ARecords = append(result.Properties.ARecords, *item_ARM.(*arm.ARecord))
 	}
 	for _, item := range record.AaaaRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.AaaaRecords = append(result.Properties.AaaaRecords, *item_ARM.(*AaaaRecord_ARM))
+		result.Properties.AaaaRecords = append(result.Properties.AaaaRecords, *item_ARM.(*arm.AaaaRecord))
 	}
 	if record.CnameRecord != nil {
 		cnameRecord_ARM, err := (*record.CnameRecord).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		cnameRecord := *cnameRecord_ARM.(*CnameRecord_ARM)
+		cnameRecord := *cnameRecord_ARM.(*arm.CnameRecord)
 		result.Properties.CnameRecord = &cnameRecord
 	}
 	if record.Metadata != nil {
@@ -433,21 +434,21 @@ func (record *PrivateDnsZonesCNAMERecord_Spec) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.MxRecords = append(result.Properties.MxRecords, *item_ARM.(*MxRecord_ARM))
+		result.Properties.MxRecords = append(result.Properties.MxRecords, *item_ARM.(*arm.MxRecord))
 	}
 	for _, item := range record.PtrRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PtrRecords = append(result.Properties.PtrRecords, *item_ARM.(*PtrRecord_ARM))
+		result.Properties.PtrRecords = append(result.Properties.PtrRecords, *item_ARM.(*arm.PtrRecord))
 	}
 	if record.SoaRecord != nil {
 		soaRecord_ARM, err := (*record.SoaRecord).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		soaRecord := *soaRecord_ARM.(*SoaRecord_ARM)
+		soaRecord := *soaRecord_ARM.(*arm.SoaRecord)
 		result.Properties.SoaRecord = &soaRecord
 	}
 	for _, item := range record.SrvRecords {
@@ -455,7 +456,7 @@ func (record *PrivateDnsZonesCNAMERecord_Spec) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SrvRecords = append(result.Properties.SrvRecords, *item_ARM.(*SrvRecord_ARM))
+		result.Properties.SrvRecords = append(result.Properties.SrvRecords, *item_ARM.(*arm.SrvRecord))
 	}
 	if record.Ttl != nil {
 		ttl := *record.Ttl
@@ -466,21 +467,21 @@ func (record *PrivateDnsZonesCNAMERecord_Spec) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TxtRecords = append(result.Properties.TxtRecords, *item_ARM.(*TxtRecord_ARM))
+		result.Properties.TxtRecords = append(result.Properties.TxtRecords, *item_ARM.(*arm.TxtRecord))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *PrivateDnsZonesCNAMERecord_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZonesCNAMERecord_Spec_ARM{}
+	return &arm.PrivateDnsZonesCNAMERecord_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *PrivateDnsZonesCNAMERecord_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZonesCNAMERecord_Spec_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZonesCNAMERecord_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZonesCNAMERecord_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZonesCNAMERecord_Spec, got %T", armInput)
 	}
 
 	// Set property "ARecords":
@@ -1274,14 +1275,14 @@ var _ genruntime.FromARMConverter = &PrivateDnsZonesCNAMERecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *PrivateDnsZonesCNAMERecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZonesCNAMERecord_STATUS_ARM{}
+	return &arm.PrivateDnsZonesCNAMERecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *PrivateDnsZonesCNAMERecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZonesCNAMERecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZonesCNAMERecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZonesCNAMERecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZonesCNAMERecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "ARecords":

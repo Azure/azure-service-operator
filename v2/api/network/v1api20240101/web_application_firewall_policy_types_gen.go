@@ -5,6 +5,7 @@ package v1api20240101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -360,7 +361,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 	if policy == nil {
 		return nil, nil
 	}
-	result := &WebApplicationFirewallPolicy_Spec_ARM{}
+	result := &arm.WebApplicationFirewallPolicy_Spec{}
 
 	// Set property "Location":
 	if policy.Location != nil {
@@ -375,21 +376,21 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 	if policy.CustomRules != nil ||
 		policy.ManagedRules != nil ||
 		policy.PolicySettings != nil {
-		result.Properties = &WebApplicationFirewallPolicyPropertiesFormat_ARM{}
+		result.Properties = &arm.WebApplicationFirewallPolicyPropertiesFormat{}
 	}
 	for _, item := range policy.CustomRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.CustomRules = append(result.Properties.CustomRules, *item_ARM.(*WebApplicationFirewallCustomRule_ARM))
+		result.Properties.CustomRules = append(result.Properties.CustomRules, *item_ARM.(*arm.WebApplicationFirewallCustomRule))
 	}
 	if policy.ManagedRules != nil {
 		managedRules_ARM, err := (*policy.ManagedRules).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		managedRules := *managedRules_ARM.(*ManagedRulesDefinition_ARM)
+		managedRules := *managedRules_ARM.(*arm.ManagedRulesDefinition)
 		result.Properties.ManagedRules = &managedRules
 	}
 	if policy.PolicySettings != nil {
@@ -397,7 +398,7 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		policySettings := *policySettings_ARM.(*PolicySettings_ARM)
+		policySettings := *policySettings_ARM.(*arm.PolicySettings)
 		result.Properties.PolicySettings = &policySettings
 	}
 
@@ -413,14 +414,14 @@ func (policy *WebApplicationFirewallPolicy_Spec) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *WebApplicationFirewallPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebApplicationFirewallPolicy_Spec_ARM{}
+	return &arm.WebApplicationFirewallPolicy_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *WebApplicationFirewallPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebApplicationFirewallPolicy_Spec_ARM)
+	typedInput, ok := armInput.(arm.WebApplicationFirewallPolicy_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebApplicationFirewallPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebApplicationFirewallPolicy_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -851,14 +852,14 @@ var _ genruntime.FromARMConverter = &WebApplicationFirewallPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *WebApplicationFirewallPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebApplicationFirewallPolicy_STATUS_ARM{}
+	return &arm.WebApplicationFirewallPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *WebApplicationFirewallPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebApplicationFirewallPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebApplicationFirewallPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebApplicationFirewallPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebApplicationFirewallPolicy_STATUS, got %T", armInput)
 	}
 
 	// Set property "ApplicationGateways":
@@ -1308,14 +1309,14 @@ var _ genruntime.FromARMConverter = &ApplicationGateway_STATUS_ApplicationGatewa
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded_ARM{}
+	return &arm.ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGateway_STATUS_ApplicationGatewayWebApplicationFirewallPolicy_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1374,7 +1375,7 @@ func (definition *ManagedRulesDefinition) ConvertToARM(resolved genruntime.Conve
 	if definition == nil {
 		return nil, nil
 	}
-	result := &ManagedRulesDefinition_ARM{}
+	result := &arm.ManagedRulesDefinition{}
 
 	// Set property "Exclusions":
 	for _, item := range definition.Exclusions {
@@ -1382,7 +1383,7 @@ func (definition *ManagedRulesDefinition) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		result.Exclusions = append(result.Exclusions, *item_ARM.(*OwaspCrsExclusionEntry_ARM))
+		result.Exclusions = append(result.Exclusions, *item_ARM.(*arm.OwaspCrsExclusionEntry))
 	}
 
 	// Set property "ManagedRuleSets":
@@ -1391,21 +1392,21 @@ func (definition *ManagedRulesDefinition) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		result.ManagedRuleSets = append(result.ManagedRuleSets, *item_ARM.(*ManagedRuleSet_ARM))
+		result.ManagedRuleSets = append(result.ManagedRuleSets, *item_ARM.(*arm.ManagedRuleSet))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ManagedRulesDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRulesDefinition_ARM{}
+	return &arm.ManagedRulesDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ManagedRulesDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRulesDefinition_ARM)
+	typedInput, ok := armInput.(arm.ManagedRulesDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRulesDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRulesDefinition, got %T", armInput)
 	}
 
 	// Set property "Exclusions":
@@ -1583,14 +1584,14 @@ var _ genruntime.FromARMConverter = &ManagedRulesDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ManagedRulesDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRulesDefinition_STATUS_ARM{}
+	return &arm.ManagedRulesDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ManagedRulesDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRulesDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedRulesDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRulesDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRulesDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Exclusions":
@@ -1766,7 +1767,7 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if settings == nil {
 		return nil, nil
 	}
-	result := &PolicySettings_ARM{}
+	result := &arm.PolicySettings{}
 
 	// Set property "CustomBlockResponseBody":
 	if settings.CustomBlockResponseBody != nil {
@@ -1804,7 +1805,7 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		logScrubbing := *logScrubbing_ARM.(*PolicySettings_LogScrubbing_ARM)
+		logScrubbing := *logScrubbing_ARM.(*arm.PolicySettings_LogScrubbing)
 		result.LogScrubbing = &logScrubbing
 	}
 
@@ -1818,7 +1819,7 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if settings.Mode != nil {
 		var temp string
 		temp = string(*settings.Mode)
-		mode := PolicySettings_Mode_ARM(temp)
+		mode := arm.PolicySettings_Mode(temp)
 		result.Mode = &mode
 	}
 
@@ -1844,7 +1845,7 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if settings.State != nil {
 		var temp string
 		temp = string(*settings.State)
-		state := PolicySettings_State_ARM(temp)
+		state := arm.PolicySettings_State(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -1852,14 +1853,14 @@ func (settings *PolicySettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PolicySettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PolicySettings_ARM{}
+	return &arm.PolicySettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PolicySettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PolicySettings_ARM)
+	typedInput, ok := armInput.(arm.PolicySettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PolicySettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PolicySettings, got %T", armInput)
 	}
 
 	// Set property "CustomBlockResponseBody":
@@ -2308,14 +2309,14 @@ var _ genruntime.FromARMConverter = &PolicySettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PolicySettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PolicySettings_STATUS_ARM{}
+	return &arm.PolicySettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PolicySettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PolicySettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PolicySettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PolicySettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PolicySettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "CustomBlockResponseBody":
@@ -2578,14 +2579,14 @@ var _ genruntime.FromARMConverter = &SubResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_STATUS_ARM{}
+	return &arm.SubResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SubResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -2669,13 +2670,13 @@ func (rule *WebApplicationFirewallCustomRule) ConvertToARM(resolved genruntime.C
 	if rule == nil {
 		return nil, nil
 	}
-	result := &WebApplicationFirewallCustomRule_ARM{}
+	result := &arm.WebApplicationFirewallCustomRule{}
 
 	// Set property "Action":
 	if rule.Action != nil {
 		var temp string
 		temp = string(*rule.Action)
-		action := WebApplicationFirewallCustomRule_Action_ARM(temp)
+		action := arm.WebApplicationFirewallCustomRule_Action(temp)
 		result.Action = &action
 	}
 
@@ -2685,7 +2686,7 @@ func (rule *WebApplicationFirewallCustomRule) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		result.GroupByUserSession = append(result.GroupByUserSession, *item_ARM.(*GroupByUserSession_ARM))
+		result.GroupByUserSession = append(result.GroupByUserSession, *item_ARM.(*arm.GroupByUserSession))
 	}
 
 	// Set property "MatchConditions":
@@ -2694,7 +2695,7 @@ func (rule *WebApplicationFirewallCustomRule) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		result.MatchConditions = append(result.MatchConditions, *item_ARM.(*MatchCondition_ARM))
+		result.MatchConditions = append(result.MatchConditions, *item_ARM.(*arm.MatchCondition))
 	}
 
 	// Set property "Name":
@@ -2713,7 +2714,7 @@ func (rule *WebApplicationFirewallCustomRule) ConvertToARM(resolved genruntime.C
 	if rule.RateLimitDuration != nil {
 		var temp string
 		temp = string(*rule.RateLimitDuration)
-		rateLimitDuration := WebApplicationFirewallCustomRule_RateLimitDuration_ARM(temp)
+		rateLimitDuration := arm.WebApplicationFirewallCustomRule_RateLimitDuration(temp)
 		result.RateLimitDuration = &rateLimitDuration
 	}
 
@@ -2727,7 +2728,7 @@ func (rule *WebApplicationFirewallCustomRule) ConvertToARM(resolved genruntime.C
 	if rule.RuleType != nil {
 		var temp string
 		temp = string(*rule.RuleType)
-		ruleType := WebApplicationFirewallCustomRule_RuleType_ARM(temp)
+		ruleType := arm.WebApplicationFirewallCustomRule_RuleType(temp)
 		result.RuleType = &ruleType
 	}
 
@@ -2735,7 +2736,7 @@ func (rule *WebApplicationFirewallCustomRule) ConvertToARM(resolved genruntime.C
 	if rule.State != nil {
 		var temp string
 		temp = string(*rule.State)
-		state := WebApplicationFirewallCustomRule_State_ARM(temp)
+		state := arm.WebApplicationFirewallCustomRule_State(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -2743,14 +2744,14 @@ func (rule *WebApplicationFirewallCustomRule) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *WebApplicationFirewallCustomRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebApplicationFirewallCustomRule_ARM{}
+	return &arm.WebApplicationFirewallCustomRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *WebApplicationFirewallCustomRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebApplicationFirewallCustomRule_ARM)
+	typedInput, ok := armInput.(arm.WebApplicationFirewallCustomRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebApplicationFirewallCustomRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebApplicationFirewallCustomRule, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -3144,14 +3145,14 @@ var _ genruntime.FromARMConverter = &WebApplicationFirewallCustomRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *WebApplicationFirewallCustomRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebApplicationFirewallCustomRule_STATUS_ARM{}
+	return &arm.WebApplicationFirewallCustomRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *WebApplicationFirewallCustomRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebApplicationFirewallCustomRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebApplicationFirewallCustomRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebApplicationFirewallCustomRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebApplicationFirewallCustomRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -3456,7 +3457,7 @@ func (session *GroupByUserSession) ConvertToARM(resolved genruntime.ConvertToARM
 	if session == nil {
 		return nil, nil
 	}
-	result := &GroupByUserSession_ARM{}
+	result := &arm.GroupByUserSession{}
 
 	// Set property "GroupByVariables":
 	for _, item := range session.GroupByVariables {
@@ -3464,21 +3465,21 @@ func (session *GroupByUserSession) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.GroupByVariables = append(result.GroupByVariables, *item_ARM.(*GroupByVariable_ARM))
+		result.GroupByVariables = append(result.GroupByVariables, *item_ARM.(*arm.GroupByVariable))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (session *GroupByUserSession) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GroupByUserSession_ARM{}
+	return &arm.GroupByUserSession{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (session *GroupByUserSession) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GroupByUserSession_ARM)
+	typedInput, ok := armInput.(arm.GroupByUserSession)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GroupByUserSession_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GroupByUserSession, got %T", armInput)
 	}
 
 	// Set property "GroupByVariables":
@@ -3589,14 +3590,14 @@ var _ genruntime.FromARMConverter = &GroupByUserSession_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (session *GroupByUserSession_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GroupByUserSession_STATUS_ARM{}
+	return &arm.GroupByUserSession_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (session *GroupByUserSession_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GroupByUserSession_STATUS_ARM)
+	typedInput, ok := armInput.(arm.GroupByUserSession_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GroupByUserSession_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GroupByUserSession_STATUS, got %T", armInput)
 	}
 
 	// Set property "GroupByVariables":
@@ -3693,7 +3694,7 @@ func (ruleSet *ManagedRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if ruleSet == nil {
 		return nil, nil
 	}
-	result := &ManagedRuleSet_ARM{}
+	result := &arm.ManagedRuleSet{}
 
 	// Set property "RuleGroupOverrides":
 	for _, item := range ruleSet.RuleGroupOverrides {
@@ -3701,7 +3702,7 @@ func (ruleSet *ManagedRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.RuleGroupOverrides = append(result.RuleGroupOverrides, *item_ARM.(*ManagedRuleGroupOverride_ARM))
+		result.RuleGroupOverrides = append(result.RuleGroupOverrides, *item_ARM.(*arm.ManagedRuleGroupOverride))
 	}
 
 	// Set property "RuleSetType":
@@ -3720,14 +3721,14 @@ func (ruleSet *ManagedRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *ManagedRuleSet) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleSet_ARM{}
+	return &arm.ManagedRuleSet{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *ManagedRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleSet_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleSet)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleSet_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleSet, got %T", armInput)
 	}
 
 	// Set property "RuleGroupOverrides":
@@ -3874,14 +3875,14 @@ var _ genruntime.FromARMConverter = &ManagedRuleSet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *ManagedRuleSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleSet_STATUS_ARM{}
+	return &arm.ManagedRuleSet_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *ManagedRuleSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleSet_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleSet_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleSet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleSet_STATUS, got %T", armInput)
 	}
 
 	// Set property "RuleGroupOverrides":
@@ -4009,7 +4010,7 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if condition == nil {
 		return nil, nil
 	}
-	result := &MatchCondition_ARM{}
+	result := &arm.MatchCondition{}
 
 	// Set property "MatchValues":
 	for _, item := range condition.MatchValues {
@@ -4022,7 +4023,7 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		result.MatchVariables = append(result.MatchVariables, *item_ARM.(*MatchVariable_ARM))
+		result.MatchVariables = append(result.MatchVariables, *item_ARM.(*arm.MatchVariable))
 	}
 
 	// Set property "NegationConditon":
@@ -4035,7 +4036,7 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if condition.Operator != nil {
 		var temp string
 		temp = string(*condition.Operator)
-		operator := MatchCondition_Operator_ARM(temp)
+		operator := arm.MatchCondition_Operator(temp)
 		result.Operator = &operator
 	}
 
@@ -4043,21 +4044,21 @@ func (condition *MatchCondition) ConvertToARM(resolved genruntime.ConvertToARMRe
 	for _, item := range condition.Transforms {
 		var temp string
 		temp = string(item)
-		result.Transforms = append(result.Transforms, Transform_ARM(temp))
+		result.Transforms = append(result.Transforms, arm.Transform(temp))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (condition *MatchCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MatchCondition_ARM{}
+	return &arm.MatchCondition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (condition *MatchCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MatchCondition_ARM)
+	typedInput, ok := armInput.(arm.MatchCondition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MatchCondition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MatchCondition, got %T", armInput)
 	}
 
 	// Set property "MatchValues":
@@ -4304,14 +4305,14 @@ var _ genruntime.FromARMConverter = &MatchCondition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (condition *MatchCondition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MatchCondition_STATUS_ARM{}
+	return &arm.MatchCondition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (condition *MatchCondition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MatchCondition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MatchCondition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MatchCondition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MatchCondition_STATUS, got %T", armInput)
 	}
 
 	// Set property "MatchValues":
@@ -4505,7 +4506,7 @@ func (entry *OwaspCrsExclusionEntry) ConvertToARM(resolved genruntime.ConvertToA
 	if entry == nil {
 		return nil, nil
 	}
-	result := &OwaspCrsExclusionEntry_ARM{}
+	result := &arm.OwaspCrsExclusionEntry{}
 
 	// Set property "ExclusionManagedRuleSets":
 	for _, item := range entry.ExclusionManagedRuleSets {
@@ -4513,14 +4514,14 @@ func (entry *OwaspCrsExclusionEntry) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		result.ExclusionManagedRuleSets = append(result.ExclusionManagedRuleSets, *item_ARM.(*ExclusionManagedRuleSet_ARM))
+		result.ExclusionManagedRuleSets = append(result.ExclusionManagedRuleSets, *item_ARM.(*arm.ExclusionManagedRuleSet))
 	}
 
 	// Set property "MatchVariable":
 	if entry.MatchVariable != nil {
 		var temp string
 		temp = string(*entry.MatchVariable)
-		matchVariable := OwaspCrsExclusionEntry_MatchVariable_ARM(temp)
+		matchVariable := arm.OwaspCrsExclusionEntry_MatchVariable(temp)
 		result.MatchVariable = &matchVariable
 	}
 
@@ -4534,7 +4535,7 @@ func (entry *OwaspCrsExclusionEntry) ConvertToARM(resolved genruntime.ConvertToA
 	if entry.SelectorMatchOperator != nil {
 		var temp string
 		temp = string(*entry.SelectorMatchOperator)
-		selectorMatchOperator := OwaspCrsExclusionEntry_SelectorMatchOperator_ARM(temp)
+		selectorMatchOperator := arm.OwaspCrsExclusionEntry_SelectorMatchOperator(temp)
 		result.SelectorMatchOperator = &selectorMatchOperator
 	}
 	return result, nil
@@ -4542,14 +4543,14 @@ func (entry *OwaspCrsExclusionEntry) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (entry *OwaspCrsExclusionEntry) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OwaspCrsExclusionEntry_ARM{}
+	return &arm.OwaspCrsExclusionEntry{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (entry *OwaspCrsExclusionEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OwaspCrsExclusionEntry_ARM)
+	typedInput, ok := armInput.(arm.OwaspCrsExclusionEntry)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OwaspCrsExclusionEntry_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OwaspCrsExclusionEntry, got %T", armInput)
 	}
 
 	// Set property "ExclusionManagedRuleSets":
@@ -4752,14 +4753,14 @@ var _ genruntime.FromARMConverter = &OwaspCrsExclusionEntry_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (entry *OwaspCrsExclusionEntry_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OwaspCrsExclusionEntry_STATUS_ARM{}
+	return &arm.OwaspCrsExclusionEntry_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (entry *OwaspCrsExclusionEntry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OwaspCrsExclusionEntry_STATUS_ARM)
+	typedInput, ok := armInput.(arm.OwaspCrsExclusionEntry_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OwaspCrsExclusionEntry_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OwaspCrsExclusionEntry_STATUS, got %T", armInput)
 	}
 
 	// Set property "ExclusionManagedRuleSets":
@@ -4912,7 +4913,7 @@ func (scrubbing *PolicySettings_LogScrubbing) ConvertToARM(resolved genruntime.C
 	if scrubbing == nil {
 		return nil, nil
 	}
-	result := &PolicySettings_LogScrubbing_ARM{}
+	result := &arm.PolicySettings_LogScrubbing{}
 
 	// Set property "ScrubbingRules":
 	for _, item := range scrubbing.ScrubbingRules {
@@ -4920,14 +4921,14 @@ func (scrubbing *PolicySettings_LogScrubbing) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		result.ScrubbingRules = append(result.ScrubbingRules, *item_ARM.(*WebApplicationFirewallScrubbingRules_ARM))
+		result.ScrubbingRules = append(result.ScrubbingRules, *item_ARM.(*arm.WebApplicationFirewallScrubbingRules))
 	}
 
 	// Set property "State":
 	if scrubbing.State != nil {
 		var temp string
 		temp = string(*scrubbing.State)
-		state := PolicySettings_LogScrubbing_State_ARM(temp)
+		state := arm.PolicySettings_LogScrubbing_State(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -4935,14 +4936,14 @@ func (scrubbing *PolicySettings_LogScrubbing) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (scrubbing *PolicySettings_LogScrubbing) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PolicySettings_LogScrubbing_ARM{}
+	return &arm.PolicySettings_LogScrubbing{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (scrubbing *PolicySettings_LogScrubbing) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PolicySettings_LogScrubbing_ARM)
+	typedInput, ok := armInput.(arm.PolicySettings_LogScrubbing)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PolicySettings_LogScrubbing_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PolicySettings_LogScrubbing, got %T", armInput)
 	}
 
 	// Set property "ScrubbingRules":
@@ -5088,14 +5089,14 @@ var _ genruntime.FromARMConverter = &PolicySettings_LogScrubbing_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (scrubbing *PolicySettings_LogScrubbing_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PolicySettings_LogScrubbing_STATUS_ARM{}
+	return &arm.PolicySettings_LogScrubbing_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (scrubbing *PolicySettings_LogScrubbing_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PolicySettings_LogScrubbing_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PolicySettings_LogScrubbing_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PolicySettings_LogScrubbing_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PolicySettings_LogScrubbing_STATUS, got %T", armInput)
 	}
 
 	// Set property "ScrubbingRules":
@@ -5391,7 +5392,7 @@ func (ruleSet *ExclusionManagedRuleSet) ConvertToARM(resolved genruntime.Convert
 	if ruleSet == nil {
 		return nil, nil
 	}
-	result := &ExclusionManagedRuleSet_ARM{}
+	result := &arm.ExclusionManagedRuleSet{}
 
 	// Set property "RuleGroups":
 	for _, item := range ruleSet.RuleGroups {
@@ -5399,7 +5400,7 @@ func (ruleSet *ExclusionManagedRuleSet) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		result.RuleGroups = append(result.RuleGroups, *item_ARM.(*ExclusionManagedRuleGroup_ARM))
+		result.RuleGroups = append(result.RuleGroups, *item_ARM.(*arm.ExclusionManagedRuleGroup))
 	}
 
 	// Set property "RuleSetType":
@@ -5418,14 +5419,14 @@ func (ruleSet *ExclusionManagedRuleSet) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *ExclusionManagedRuleSet) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExclusionManagedRuleSet_ARM{}
+	return &arm.ExclusionManagedRuleSet{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *ExclusionManagedRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExclusionManagedRuleSet_ARM)
+	typedInput, ok := armInput.(arm.ExclusionManagedRuleSet)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExclusionManagedRuleSet_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExclusionManagedRuleSet, got %T", armInput)
 	}
 
 	// Set property "RuleGroups":
@@ -5572,14 +5573,14 @@ var _ genruntime.FromARMConverter = &ExclusionManagedRuleSet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *ExclusionManagedRuleSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExclusionManagedRuleSet_STATUS_ARM{}
+	return &arm.ExclusionManagedRuleSet_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *ExclusionManagedRuleSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExclusionManagedRuleSet_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ExclusionManagedRuleSet_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExclusionManagedRuleSet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExclusionManagedRuleSet_STATUS, got %T", armInput)
 	}
 
 	// Set property "RuleGroups":
@@ -5693,13 +5694,13 @@ func (variable *GroupByVariable) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if variable == nil {
 		return nil, nil
 	}
-	result := &GroupByVariable_ARM{}
+	result := &arm.GroupByVariable{}
 
 	// Set property "VariableName":
 	if variable.VariableName != nil {
 		var temp string
 		temp = string(*variable.VariableName)
-		variableName := GroupByVariable_VariableName_ARM(temp)
+		variableName := arm.GroupByVariable_VariableName(temp)
 		result.VariableName = &variableName
 	}
 	return result, nil
@@ -5707,14 +5708,14 @@ func (variable *GroupByVariable) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (variable *GroupByVariable) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GroupByVariable_ARM{}
+	return &arm.GroupByVariable{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (variable *GroupByVariable) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GroupByVariable_ARM)
+	typedInput, ok := armInput.(arm.GroupByVariable)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GroupByVariable_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GroupByVariable, got %T", armInput)
 	}
 
 	// Set property "VariableName":
@@ -5794,14 +5795,14 @@ var _ genruntime.FromARMConverter = &GroupByVariable_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (variable *GroupByVariable_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GroupByVariable_STATUS_ARM{}
+	return &arm.GroupByVariable_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (variable *GroupByVariable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GroupByVariable_STATUS_ARM)
+	typedInput, ok := armInput.(arm.GroupByVariable_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GroupByVariable_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GroupByVariable_STATUS, got %T", armInput)
 	}
 
 	// Set property "VariableName":
@@ -5873,7 +5874,7 @@ func (override *ManagedRuleGroupOverride) ConvertToARM(resolved genruntime.Conve
 	if override == nil {
 		return nil, nil
 	}
-	result := &ManagedRuleGroupOverride_ARM{}
+	result := &arm.ManagedRuleGroupOverride{}
 
 	// Set property "RuleGroupName":
 	if override.RuleGroupName != nil {
@@ -5887,21 +5888,21 @@ func (override *ManagedRuleGroupOverride) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		result.Rules = append(result.Rules, *item_ARM.(*ManagedRuleOverride_ARM))
+		result.Rules = append(result.Rules, *item_ARM.(*arm.ManagedRuleOverride))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (override *ManagedRuleGroupOverride) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleGroupOverride_ARM{}
+	return &arm.ManagedRuleGroupOverride{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (override *ManagedRuleGroupOverride) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleGroupOverride_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleGroupOverride)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleGroupOverride_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleGroupOverride, got %T", armInput)
 	}
 
 	// Set property "RuleGroupName":
@@ -6030,14 +6031,14 @@ var _ genruntime.FromARMConverter = &ManagedRuleGroupOverride_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (override *ManagedRuleGroupOverride_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleGroupOverride_STATUS_ARM{}
+	return &arm.ManagedRuleGroupOverride_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (override *ManagedRuleGroupOverride_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleGroupOverride_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleGroupOverride_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleGroupOverride_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleGroupOverride_STATUS, got %T", armInput)
 	}
 
 	// Set property "RuleGroupName":
@@ -6209,7 +6210,7 @@ func (variable *MatchVariable) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if variable == nil {
 		return nil, nil
 	}
-	result := &MatchVariable_ARM{}
+	result := &arm.MatchVariable{}
 
 	// Set property "Selector":
 	if variable.Selector != nil {
@@ -6221,7 +6222,7 @@ func (variable *MatchVariable) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if variable.VariableName != nil {
 		var temp string
 		temp = string(*variable.VariableName)
-		variableName := MatchVariable_VariableName_ARM(temp)
+		variableName := arm.MatchVariable_VariableName(temp)
 		result.VariableName = &variableName
 	}
 	return result, nil
@@ -6229,14 +6230,14 @@ func (variable *MatchVariable) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (variable *MatchVariable) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MatchVariable_ARM{}
+	return &arm.MatchVariable{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (variable *MatchVariable) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MatchVariable_ARM)
+	typedInput, ok := armInput.(arm.MatchVariable)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MatchVariable_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MatchVariable, got %T", armInput)
 	}
 
 	// Set property "Selector":
@@ -6334,14 +6335,14 @@ var _ genruntime.FromARMConverter = &MatchVariable_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (variable *MatchVariable_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MatchVariable_STATUS_ARM{}
+	return &arm.MatchVariable_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (variable *MatchVariable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MatchVariable_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MatchVariable_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MatchVariable_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MatchVariable_STATUS, got %T", armInput)
 	}
 
 	// Set property "Selector":
@@ -6604,13 +6605,13 @@ func (rules *WebApplicationFirewallScrubbingRules) ConvertToARM(resolved genrunt
 	if rules == nil {
 		return nil, nil
 	}
-	result := &WebApplicationFirewallScrubbingRules_ARM{}
+	result := &arm.WebApplicationFirewallScrubbingRules{}
 
 	// Set property "MatchVariable":
 	if rules.MatchVariable != nil {
 		var temp string
 		temp = string(*rules.MatchVariable)
-		matchVariable := WebApplicationFirewallScrubbingRules_MatchVariable_ARM(temp)
+		matchVariable := arm.WebApplicationFirewallScrubbingRules_MatchVariable(temp)
 		result.MatchVariable = &matchVariable
 	}
 
@@ -6624,7 +6625,7 @@ func (rules *WebApplicationFirewallScrubbingRules) ConvertToARM(resolved genrunt
 	if rules.SelectorMatchOperator != nil {
 		var temp string
 		temp = string(*rules.SelectorMatchOperator)
-		selectorMatchOperator := WebApplicationFirewallScrubbingRules_SelectorMatchOperator_ARM(temp)
+		selectorMatchOperator := arm.WebApplicationFirewallScrubbingRules_SelectorMatchOperator(temp)
 		result.SelectorMatchOperator = &selectorMatchOperator
 	}
 
@@ -6632,7 +6633,7 @@ func (rules *WebApplicationFirewallScrubbingRules) ConvertToARM(resolved genrunt
 	if rules.State != nil {
 		var temp string
 		temp = string(*rules.State)
-		state := WebApplicationFirewallScrubbingRules_State_ARM(temp)
+		state := arm.WebApplicationFirewallScrubbingRules_State(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -6640,14 +6641,14 @@ func (rules *WebApplicationFirewallScrubbingRules) ConvertToARM(resolved genrunt
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rules *WebApplicationFirewallScrubbingRules) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebApplicationFirewallScrubbingRules_ARM{}
+	return &arm.WebApplicationFirewallScrubbingRules{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rules *WebApplicationFirewallScrubbingRules) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebApplicationFirewallScrubbingRules_ARM)
+	typedInput, ok := armInput.(arm.WebApplicationFirewallScrubbingRules)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebApplicationFirewallScrubbingRules_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebApplicationFirewallScrubbingRules, got %T", armInput)
 	}
 
 	// Set property "MatchVariable":
@@ -6819,14 +6820,14 @@ var _ genruntime.FromARMConverter = &WebApplicationFirewallScrubbingRules_STATUS
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rules *WebApplicationFirewallScrubbingRules_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebApplicationFirewallScrubbingRules_STATUS_ARM{}
+	return &arm.WebApplicationFirewallScrubbingRules_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rules *WebApplicationFirewallScrubbingRules_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebApplicationFirewallScrubbingRules_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebApplicationFirewallScrubbingRules_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebApplicationFirewallScrubbingRules_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebApplicationFirewallScrubbingRules_STATUS, got %T", armInput)
 	}
 
 	// Set property "MatchVariable":
@@ -6960,7 +6961,7 @@ func (group *ExclusionManagedRuleGroup) ConvertToARM(resolved genruntime.Convert
 	if group == nil {
 		return nil, nil
 	}
-	result := &ExclusionManagedRuleGroup_ARM{}
+	result := &arm.ExclusionManagedRuleGroup{}
 
 	// Set property "RuleGroupName":
 	if group.RuleGroupName != nil {
@@ -6974,21 +6975,21 @@ func (group *ExclusionManagedRuleGroup) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		result.Rules = append(result.Rules, *item_ARM.(*ExclusionManagedRule_ARM))
+		result.Rules = append(result.Rules, *item_ARM.(*arm.ExclusionManagedRule))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ExclusionManagedRuleGroup) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExclusionManagedRuleGroup_ARM{}
+	return &arm.ExclusionManagedRuleGroup{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ExclusionManagedRuleGroup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExclusionManagedRuleGroup_ARM)
+	typedInput, ok := armInput.(arm.ExclusionManagedRuleGroup)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExclusionManagedRuleGroup_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExclusionManagedRuleGroup, got %T", armInput)
 	}
 
 	// Set property "RuleGroupName":
@@ -7117,14 +7118,14 @@ var _ genruntime.FromARMConverter = &ExclusionManagedRuleGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ExclusionManagedRuleGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExclusionManagedRuleGroup_STATUS_ARM{}
+	return &arm.ExclusionManagedRuleGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ExclusionManagedRuleGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExclusionManagedRuleGroup_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ExclusionManagedRuleGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExclusionManagedRuleGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExclusionManagedRuleGroup_STATUS, got %T", armInput)
 	}
 
 	// Set property "RuleGroupName":
@@ -7263,13 +7264,13 @@ func (override *ManagedRuleOverride) ConvertToARM(resolved genruntime.ConvertToA
 	if override == nil {
 		return nil, nil
 	}
-	result := &ManagedRuleOverride_ARM{}
+	result := &arm.ManagedRuleOverride{}
 
 	// Set property "Action":
 	if override.Action != nil {
 		var temp string
 		temp = string(*override.Action)
-		action := ActionType_ARM(temp)
+		action := arm.ActionType(temp)
 		result.Action = &action
 	}
 
@@ -7283,7 +7284,7 @@ func (override *ManagedRuleOverride) ConvertToARM(resolved genruntime.ConvertToA
 	if override.State != nil {
 		var temp string
 		temp = string(*override.State)
-		state := ManagedRuleOverride_State_ARM(temp)
+		state := arm.ManagedRuleOverride_State(temp)
 		result.State = &state
 	}
 	return result, nil
@@ -7291,14 +7292,14 @@ func (override *ManagedRuleOverride) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (override *ManagedRuleOverride) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleOverride_ARM{}
+	return &arm.ManagedRuleOverride{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (override *ManagedRuleOverride) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleOverride_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleOverride)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleOverride_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleOverride, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -7432,14 +7433,14 @@ var _ genruntime.FromARMConverter = &ManagedRuleOverride_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (override *ManagedRuleOverride_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedRuleOverride_STATUS_ARM{}
+	return &arm.ManagedRuleOverride_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (override *ManagedRuleOverride_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedRuleOverride_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedRuleOverride_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedRuleOverride_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedRuleOverride_STATUS, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -7734,7 +7735,7 @@ func (rule *ExclusionManagedRule) ConvertToARM(resolved genruntime.ConvertToARMR
 	if rule == nil {
 		return nil, nil
 	}
-	result := &ExclusionManagedRule_ARM{}
+	result := &arm.ExclusionManagedRule{}
 
 	// Set property "RuleId":
 	if rule.RuleId != nil {
@@ -7746,14 +7747,14 @@ func (rule *ExclusionManagedRule) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ExclusionManagedRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExclusionManagedRule_ARM{}
+	return &arm.ExclusionManagedRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ExclusionManagedRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExclusionManagedRule_ARM)
+	typedInput, ok := armInput.(arm.ExclusionManagedRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExclusionManagedRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExclusionManagedRule, got %T", armInput)
 	}
 
 	// Set property "RuleId":
@@ -7815,14 +7816,14 @@ var _ genruntime.FromARMConverter = &ExclusionManagedRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ExclusionManagedRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExclusionManagedRule_STATUS_ARM{}
+	return &arm.ExclusionManagedRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ExclusionManagedRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExclusionManagedRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ExclusionManagedRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExclusionManagedRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExclusionManagedRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "RuleId":

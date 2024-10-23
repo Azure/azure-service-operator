@@ -5,6 +5,7 @@ package v1api20220401
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -402,7 +403,7 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) ConvertToARM(resolv
 	if endpoint == nil {
 		return nil, nil
 	}
-	result := &TrafficManagerProfilesExternalEndpoint_Spec_ARM{}
+	result := &arm.TrafficManagerProfilesExternalEndpoint_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -422,12 +423,12 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) ConvertToARM(resolv
 		endpoint.Target != nil ||
 		endpoint.TargetResourceReference != nil ||
 		endpoint.Weight != nil {
-		result.Properties = &EndpointProperties_ARM{}
+		result.Properties = &arm.EndpointProperties{}
 	}
 	if endpoint.AlwaysServe != nil {
 		var temp string
 		temp = string(*endpoint.AlwaysServe)
-		alwaysServe := EndpointProperties_AlwaysServe_ARM(temp)
+		alwaysServe := arm.EndpointProperties_AlwaysServe(temp)
 		result.Properties.AlwaysServe = &alwaysServe
 	}
 	for _, item := range endpoint.CustomHeaders {
@@ -435,7 +436,7 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) ConvertToARM(resolv
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.CustomHeaders = append(result.Properties.CustomHeaders, *item_ARM.(*EndpointProperties_CustomHeaders_ARM))
+		result.Properties.CustomHeaders = append(result.Properties.CustomHeaders, *item_ARM.(*arm.EndpointProperties_CustomHeaders))
 	}
 	if endpoint.EndpointLocation != nil {
 		endpointLocation := *endpoint.EndpointLocation
@@ -444,13 +445,13 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) ConvertToARM(resolv
 	if endpoint.EndpointMonitorStatus != nil {
 		var temp string
 		temp = string(*endpoint.EndpointMonitorStatus)
-		endpointMonitorStatus := EndpointProperties_EndpointMonitorStatus_ARM(temp)
+		endpointMonitorStatus := arm.EndpointProperties_EndpointMonitorStatus(temp)
 		result.Properties.EndpointMonitorStatus = &endpointMonitorStatus
 	}
 	if endpoint.EndpointStatus != nil {
 		var temp string
 		temp = string(*endpoint.EndpointStatus)
-		endpointStatus := EndpointProperties_EndpointStatus_ARM(temp)
+		endpointStatus := arm.EndpointProperties_EndpointStatus(temp)
 		result.Properties.EndpointStatus = &endpointStatus
 	}
 	for _, item := range endpoint.GeoMapping {
@@ -477,7 +478,7 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) ConvertToARM(resolv
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Subnets = append(result.Properties.Subnets, *item_ARM.(*EndpointProperties_Subnets_ARM))
+		result.Properties.Subnets = append(result.Properties.Subnets, *item_ARM.(*arm.EndpointProperties_Subnets))
 	}
 	if endpoint.Target != nil {
 		target := *endpoint.Target
@@ -506,14 +507,14 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) ConvertToARM(resolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TrafficManagerProfilesExternalEndpoint_Spec_ARM{}
+	return &arm.TrafficManagerProfilesExternalEndpoint_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *TrafficManagerProfilesExternalEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TrafficManagerProfilesExternalEndpoint_Spec_ARM)
+	typedInput, ok := armInput.(arm.TrafficManagerProfilesExternalEndpoint_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfilesExternalEndpoint_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TrafficManagerProfilesExternalEndpoint_Spec, got %T", armInput)
 	}
 
 	// Set property "AlwaysServe":
@@ -1194,14 +1195,14 @@ var _ genruntime.FromARMConverter = &TrafficManagerProfilesExternalEndpoint_STAT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *TrafficManagerProfilesExternalEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TrafficManagerProfilesExternalEndpoint_STATUS_ARM{}
+	return &arm.TrafficManagerProfilesExternalEndpoint_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *TrafficManagerProfilesExternalEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TrafficManagerProfilesExternalEndpoint_STATUS_ARM)
+	typedInput, ok := armInput.(arm.TrafficManagerProfilesExternalEndpoint_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfilesExternalEndpoint_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TrafficManagerProfilesExternalEndpoint_STATUS, got %T", armInput)
 	}
 
 	// Set property "AlwaysServe":

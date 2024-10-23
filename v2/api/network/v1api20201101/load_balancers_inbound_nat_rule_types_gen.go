@@ -5,6 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -369,7 +370,7 @@ func (rule *LoadBalancersInboundNatRule_Spec) ConvertToARM(resolved genruntime.C
 	if rule == nil {
 		return nil, nil
 	}
-	result := &LoadBalancersInboundNatRule_Spec_ARM{}
+	result := &arm.LoadBalancersInboundNatRule_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -382,7 +383,7 @@ func (rule *LoadBalancersInboundNatRule_Spec) ConvertToARM(resolved genruntime.C
 		rule.FrontendPort != nil ||
 		rule.IdleTimeoutInMinutes != nil ||
 		rule.Protocol != nil {
-		result.Properties = &InboundNatRulePropertiesFormat_ARM{}
+		result.Properties = &arm.InboundNatRulePropertiesFormat{}
 	}
 	if rule.BackendPort != nil {
 		backendPort := *rule.BackendPort
@@ -401,7 +402,7 @@ func (rule *LoadBalancersInboundNatRule_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.SubResource)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if rule.FrontendPort != nil {
@@ -415,7 +416,7 @@ func (rule *LoadBalancersInboundNatRule_Spec) ConvertToARM(resolved genruntime.C
 	if rule.Protocol != nil {
 		var temp string
 		temp = string(*rule.Protocol)
-		protocol := TransportProtocol_ARM(temp)
+		protocol := arm.TransportProtocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -423,14 +424,14 @@ func (rule *LoadBalancersInboundNatRule_Spec) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *LoadBalancersInboundNatRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancersInboundNatRule_Spec_ARM{}
+	return &arm.LoadBalancersInboundNatRule_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *LoadBalancersInboundNatRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancersInboundNatRule_Spec_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancersInboundNatRule_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancersInboundNatRule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancersInboundNatRule_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -872,14 +873,14 @@ var _ genruntime.FromARMConverter = &LoadBalancersInboundNatRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *LoadBalancersInboundNatRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancersInboundNatRule_STATUS_ARM{}
+	return &arm.LoadBalancersInboundNatRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *LoadBalancersInboundNatRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancersInboundNatRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancersInboundNatRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancersInboundNatRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancersInboundNatRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "BackendIPConfiguration":
@@ -1202,14 +1203,14 @@ var _ genruntime.FromARMConverter = &NetworkInterfaceIPConfiguration_STATUS_Load
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM{}
+	return &arm.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1264,7 +1265,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if resource == nil {
 		return nil, nil
 	}
-	result := &SubResource_ARM{}
+	result := &arm.SubResource{}
 
 	// Set property "Id":
 	if resource.Reference != nil {
@@ -1280,14 +1281,14 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_ARM{}
+	return &arm.SubResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SubResource_ARM)
+	_, ok := armInput.(arm.SubResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubResource, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -1360,14 +1361,14 @@ var _ genruntime.FromARMConverter = &SubResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_STATUS_ARM{}
+	return &arm.SubResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SubResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":

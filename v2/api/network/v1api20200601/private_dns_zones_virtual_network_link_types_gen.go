@@ -5,6 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -359,7 +360,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertToARM(resolved genrun
 	if link == nil {
 		return nil, nil
 	}
-	result := &PrivateDnsZonesVirtualNetworkLink_Spec_ARM{}
+	result := &arm.PrivateDnsZonesVirtualNetworkLink_Spec{}
 
 	// Set property "Etag":
 	if link.Etag != nil {
@@ -378,7 +379,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertToARM(resolved genrun
 
 	// Set property "Properties":
 	if link.RegistrationEnabled != nil || link.VirtualNetwork != nil {
-		result.Properties = &VirtualNetworkLinkProperties_ARM{}
+		result.Properties = &arm.VirtualNetworkLinkProperties{}
 	}
 	if link.RegistrationEnabled != nil {
 		registrationEnabled := *link.RegistrationEnabled
@@ -389,7 +390,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		virtualNetwork := *virtualNetwork_ARM.(*SubResource_ARM)
+		virtualNetwork := *virtualNetwork_ARM.(*arm.SubResource)
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 
@@ -405,14 +406,14 @@ func (link *PrivateDnsZonesVirtualNetworkLink_Spec) ConvertToARM(resolved genrun
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (link *PrivateDnsZonesVirtualNetworkLink_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZonesVirtualNetworkLink_Spec_ARM{}
+	return &arm.PrivateDnsZonesVirtualNetworkLink_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (link *PrivateDnsZonesVirtualNetworkLink_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZonesVirtualNetworkLink_Spec_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZonesVirtualNetworkLink_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZonesVirtualNetworkLink_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZonesVirtualNetworkLink_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -766,14 +767,14 @@ var _ genruntime.FromARMConverter = &PrivateDnsZonesVirtualNetworkLink_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZonesVirtualNetworkLink_STATUS_ARM{}
+	return &arm.PrivateDnsZonesVirtualNetworkLink_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZonesVirtualNetworkLink_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZonesVirtualNetworkLink_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZonesVirtualNetworkLink_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZonesVirtualNetworkLink_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1017,7 +1018,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if resource == nil {
 		return nil, nil
 	}
-	result := &SubResource_ARM{}
+	result := &arm.SubResource{}
 
 	// Set property "Id":
 	if resource.Reference != nil {
@@ -1033,14 +1034,14 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_ARM{}
+	return &arm.SubResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SubResource_ARM)
+	_, ok := armInput.(arm.SubResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubResource, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -1113,14 +1114,14 @@ var _ genruntime.FromARMConverter = &SubResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_STATUS_ARM{}
+	return &arm.SubResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SubResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":

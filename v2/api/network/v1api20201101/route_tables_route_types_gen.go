@@ -5,6 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -357,7 +358,7 @@ func (route *RouteTablesRoute_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if route == nil {
 		return nil, nil
 	}
-	result := &RouteTablesRoute_Spec_ARM{}
+	result := &arm.RouteTablesRoute_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -367,7 +368,7 @@ func (route *RouteTablesRoute_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		route.HasBgpOverride != nil ||
 		route.NextHopIpAddress != nil ||
 		route.NextHopType != nil {
-		result.Properties = &RoutePropertiesFormat_ARM{}
+		result.Properties = &arm.RoutePropertiesFormat{}
 	}
 	if route.AddressPrefix != nil {
 		addressPrefix := *route.AddressPrefix
@@ -384,7 +385,7 @@ func (route *RouteTablesRoute_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if route.NextHopType != nil {
 		var temp string
 		temp = string(*route.NextHopType)
-		nextHopType := RouteNextHopType_ARM(temp)
+		nextHopType := arm.RouteNextHopType(temp)
 		result.Properties.NextHopType = &nextHopType
 	}
 	return result, nil
@@ -392,14 +393,14 @@ func (route *RouteTablesRoute_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (route *RouteTablesRoute_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTablesRoute_Spec_ARM{}
+	return &arm.RouteTablesRoute_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (route *RouteTablesRoute_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTablesRoute_Spec_ARM)
+	typedInput, ok := armInput.(arm.RouteTablesRoute_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTablesRoute_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RouteTablesRoute_Spec, got %T", armInput)
 	}
 
 	// Set property "AddressPrefix":
@@ -720,14 +721,14 @@ var _ genruntime.FromARMConverter = &RouteTablesRoute_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (route *RouteTablesRoute_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTablesRoute_STATUS_ARM{}
+	return &arm.RouteTablesRoute_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (route *RouteTablesRoute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTablesRoute_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RouteTablesRoute_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTablesRoute_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RouteTablesRoute_STATUS, got %T", armInput)
 	}
 
 	// Set property "AddressPrefix":

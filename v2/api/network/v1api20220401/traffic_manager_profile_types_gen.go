@@ -6,6 +6,7 @@ package v1api20220401
 import (
 	"context"
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
@@ -424,7 +425,7 @@ func (profile *TrafficManagerProfile_Spec) ConvertToARM(resolved genruntime.Conv
 	if profile == nil {
 		return nil, nil
 	}
-	result := &TrafficManagerProfile_Spec_ARM{}
+	result := &arm.TrafficManagerProfile_Spec{}
 
 	// Set property "Location":
 	if profile.Location != nil {
@@ -443,19 +444,19 @@ func (profile *TrafficManagerProfile_Spec) ConvertToARM(resolved genruntime.Conv
 		profile.ProfileStatus != nil ||
 		profile.TrafficRoutingMethod != nil ||
 		profile.TrafficViewEnrollmentStatus != nil {
-		result.Properties = &ProfileProperties_ARM{}
+		result.Properties = &arm.ProfileProperties{}
 	}
 	for _, item := range profile.AllowedEndpointRecordTypes {
 		var temp string
 		temp = string(item)
-		result.Properties.AllowedEndpointRecordTypes = append(result.Properties.AllowedEndpointRecordTypes, AllowedEndpointRecordType_ARM(temp))
+		result.Properties.AllowedEndpointRecordTypes = append(result.Properties.AllowedEndpointRecordTypes, arm.AllowedEndpointRecordType(temp))
 	}
 	if profile.DnsConfig != nil {
 		dnsConfig_ARM, err := (*profile.DnsConfig).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		dnsConfig := *dnsConfig_ARM.(*DnsConfig_ARM)
+		dnsConfig := *dnsConfig_ARM.(*arm.DnsConfig)
 		result.Properties.DnsConfig = &dnsConfig
 	}
 	if profile.MaxReturn != nil {
@@ -467,25 +468,25 @@ func (profile *TrafficManagerProfile_Spec) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		monitorConfig := *monitorConfig_ARM.(*MonitorConfig_ARM)
+		monitorConfig := *monitorConfig_ARM.(*arm.MonitorConfig)
 		result.Properties.MonitorConfig = &monitorConfig
 	}
 	if profile.ProfileStatus != nil {
 		var temp string
 		temp = string(*profile.ProfileStatus)
-		profileStatus := ProfileProperties_ProfileStatus_ARM(temp)
+		profileStatus := arm.ProfileProperties_ProfileStatus(temp)
 		result.Properties.ProfileStatus = &profileStatus
 	}
 	if profile.TrafficRoutingMethod != nil {
 		var temp string
 		temp = string(*profile.TrafficRoutingMethod)
-		trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod_ARM(temp)
+		trafficRoutingMethod := arm.ProfileProperties_TrafficRoutingMethod(temp)
 		result.Properties.TrafficRoutingMethod = &trafficRoutingMethod
 	}
 	if profile.TrafficViewEnrollmentStatus != nil {
 		var temp string
 		temp = string(*profile.TrafficViewEnrollmentStatus)
-		trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus_ARM(temp)
+		trafficViewEnrollmentStatus := arm.ProfileProperties_TrafficViewEnrollmentStatus(temp)
 		result.Properties.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
 	}
 
@@ -507,14 +508,14 @@ func (profile *TrafficManagerProfile_Spec) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *TrafficManagerProfile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TrafficManagerProfile_Spec_ARM{}
+	return &arm.TrafficManagerProfile_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *TrafficManagerProfile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TrafficManagerProfile_Spec_ARM)
+	typedInput, ok := armInput.(arm.TrafficManagerProfile_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfile_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TrafficManagerProfile_Spec, got %T", armInput)
 	}
 
 	// Set property "AllowedEndpointRecordTypes":
@@ -1094,14 +1095,14 @@ var _ genruntime.FromARMConverter = &TrafficManagerProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *TrafficManagerProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TrafficManagerProfile_STATUS_ARM{}
+	return &arm.TrafficManagerProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *TrafficManagerProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TrafficManagerProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.TrafficManagerProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TrafficManagerProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TrafficManagerProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllowedEndpointRecordTypes":
@@ -1516,7 +1517,7 @@ func (config *DnsConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if config == nil {
 		return nil, nil
 	}
-	result := &DnsConfig_ARM{}
+	result := &arm.DnsConfig{}
 
 	// Set property "RelativeName":
 	if config.RelativeName != nil {
@@ -1534,14 +1535,14 @@ func (config *DnsConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *DnsConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsConfig_ARM{}
+	return &arm.DnsConfig{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *DnsConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsConfig_ARM)
+	typedInput, ok := armInput.(arm.DnsConfig)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsConfig_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsConfig, got %T", armInput)
 	}
 
 	// Set property "RelativeName":
@@ -1627,14 +1628,14 @@ var _ genruntime.FromARMConverter = &DnsConfig_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *DnsConfig_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsConfig_STATUS_ARM{}
+	return &arm.DnsConfig_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *DnsConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsConfig_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DnsConfig_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsConfig_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsConfig_STATUS, got %T", armInput)
 	}
 
 	// Set property "Fqdn":
@@ -1711,14 +1712,14 @@ var _ genruntime.FromARMConverter = &Endpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *Endpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Endpoint_STATUS_ARM{}
+	return &arm.Endpoint_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *Endpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Endpoint_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Endpoint_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Endpoint_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Endpoint_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1800,7 +1801,7 @@ func (config *MonitorConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if config == nil {
 		return nil, nil
 	}
-	result := &MonitorConfig_ARM{}
+	result := &arm.MonitorConfig{}
 
 	// Set property "CustomHeaders":
 	for _, item := range config.CustomHeaders {
@@ -1808,7 +1809,7 @@ func (config *MonitorConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		result.CustomHeaders = append(result.CustomHeaders, *item_ARM.(*MonitorConfig_CustomHeaders_ARM))
+		result.CustomHeaders = append(result.CustomHeaders, *item_ARM.(*arm.MonitorConfig_CustomHeaders))
 	}
 
 	// Set property "ExpectedStatusCodeRanges":
@@ -1817,7 +1818,7 @@ func (config *MonitorConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		result.ExpectedStatusCodeRanges = append(result.ExpectedStatusCodeRanges, *item_ARM.(*MonitorConfig_ExpectedStatusCodeRanges_ARM))
+		result.ExpectedStatusCodeRanges = append(result.ExpectedStatusCodeRanges, *item_ARM.(*arm.MonitorConfig_ExpectedStatusCodeRanges))
 	}
 
 	// Set property "IntervalInSeconds":
@@ -1842,7 +1843,7 @@ func (config *MonitorConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if config.ProfileMonitorStatus != nil {
 		var temp string
 		temp = string(*config.ProfileMonitorStatus)
-		profileMonitorStatus := MonitorConfig_ProfileMonitorStatus_ARM(temp)
+		profileMonitorStatus := arm.MonitorConfig_ProfileMonitorStatus(temp)
 		result.ProfileMonitorStatus = &profileMonitorStatus
 	}
 
@@ -1850,7 +1851,7 @@ func (config *MonitorConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if config.Protocol != nil {
 		var temp string
 		temp = string(*config.Protocol)
-		protocol := MonitorConfig_Protocol_ARM(temp)
+		protocol := arm.MonitorConfig_Protocol(temp)
 		result.Protocol = &protocol
 	}
 
@@ -1870,14 +1871,14 @@ func (config *MonitorConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *MonitorConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MonitorConfig_ARM{}
+	return &arm.MonitorConfig{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *MonitorConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MonitorConfig_ARM)
+	typedInput, ok := armInput.(arm.MonitorConfig)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MonitorConfig_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MonitorConfig, got %T", armInput)
 	}
 
 	// Set property "CustomHeaders":
@@ -2220,14 +2221,14 @@ var _ genruntime.FromARMConverter = &MonitorConfig_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *MonitorConfig_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MonitorConfig_STATUS_ARM{}
+	return &arm.MonitorConfig_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *MonitorConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MonitorConfig_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MonitorConfig_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MonitorConfig_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MonitorConfig_STATUS, got %T", armInput)
 	}
 
 	// Set property "CustomHeaders":
@@ -2624,7 +2625,7 @@ func (headers *MonitorConfig_CustomHeaders) ConvertToARM(resolved genruntime.Con
 	if headers == nil {
 		return nil, nil
 	}
-	result := &MonitorConfig_CustomHeaders_ARM{}
+	result := &arm.MonitorConfig_CustomHeaders{}
 
 	// Set property "Name":
 	if headers.Name != nil {
@@ -2642,14 +2643,14 @@ func (headers *MonitorConfig_CustomHeaders) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (headers *MonitorConfig_CustomHeaders) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MonitorConfig_CustomHeaders_ARM{}
+	return &arm.MonitorConfig_CustomHeaders{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (headers *MonitorConfig_CustomHeaders) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MonitorConfig_CustomHeaders_ARM)
+	typedInput, ok := armInput.(arm.MonitorConfig_CustomHeaders)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MonitorConfig_CustomHeaders_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MonitorConfig_CustomHeaders, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2728,14 +2729,14 @@ var _ genruntime.FromARMConverter = &MonitorConfig_CustomHeaders_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (headers *MonitorConfig_CustomHeaders_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MonitorConfig_CustomHeaders_STATUS_ARM{}
+	return &arm.MonitorConfig_CustomHeaders_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (headers *MonitorConfig_CustomHeaders_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MonitorConfig_CustomHeaders_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MonitorConfig_CustomHeaders_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MonitorConfig_CustomHeaders_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MonitorConfig_CustomHeaders_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2804,7 +2805,7 @@ func (ranges *MonitorConfig_ExpectedStatusCodeRanges) ConvertToARM(resolved genr
 	if ranges == nil {
 		return nil, nil
 	}
-	result := &MonitorConfig_ExpectedStatusCodeRanges_ARM{}
+	result := &arm.MonitorConfig_ExpectedStatusCodeRanges{}
 
 	// Set property "Max":
 	if ranges.Max != nil {
@@ -2822,14 +2823,14 @@ func (ranges *MonitorConfig_ExpectedStatusCodeRanges) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ranges *MonitorConfig_ExpectedStatusCodeRanges) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MonitorConfig_ExpectedStatusCodeRanges_ARM{}
+	return &arm.MonitorConfig_ExpectedStatusCodeRanges{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ranges *MonitorConfig_ExpectedStatusCodeRanges) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MonitorConfig_ExpectedStatusCodeRanges_ARM)
+	typedInput, ok := armInput.(arm.MonitorConfig_ExpectedStatusCodeRanges)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MonitorConfig_ExpectedStatusCodeRanges_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MonitorConfig_ExpectedStatusCodeRanges, got %T", armInput)
 	}
 
 	// Set property "Max":
@@ -2908,14 +2909,14 @@ var _ genruntime.FromARMConverter = &MonitorConfig_ExpectedStatusCodeRanges_STAT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ranges *MonitorConfig_ExpectedStatusCodeRanges_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MonitorConfig_ExpectedStatusCodeRanges_STATUS_ARM{}
+	return &arm.MonitorConfig_ExpectedStatusCodeRanges_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ranges *MonitorConfig_ExpectedStatusCodeRanges_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MonitorConfig_ExpectedStatusCodeRanges_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MonitorConfig_ExpectedStatusCodeRanges_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MonitorConfig_ExpectedStatusCodeRanges_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MonitorConfig_ExpectedStatusCodeRanges_STATUS, got %T", armInput)
 	}
 
 	// Set property "Max":

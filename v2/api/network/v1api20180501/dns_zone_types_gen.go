@@ -5,6 +5,7 @@ package v1api20180501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -366,7 +367,7 @@ func (zone *DnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if zone == nil {
 		return nil, nil
 	}
-	result := &DnsZone_Spec_ARM{}
+	result := &arm.DnsZone_Spec{}
 
 	// Set property "Location":
 	if zone.Location != nil {
@@ -381,26 +382,26 @@ func (zone *DnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if zone.RegistrationVirtualNetworks != nil ||
 		zone.ResolutionVirtualNetworks != nil ||
 		zone.ZoneType != nil {
-		result.Properties = &ZoneProperties_ARM{}
+		result.Properties = &arm.ZoneProperties{}
 	}
 	for _, item := range zone.RegistrationVirtualNetworks {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RegistrationVirtualNetworks = append(result.Properties.RegistrationVirtualNetworks, *item_ARM.(*SubResource_ARM))
+		result.Properties.RegistrationVirtualNetworks = append(result.Properties.RegistrationVirtualNetworks, *item_ARM.(*arm.SubResource))
 	}
 	for _, item := range zone.ResolutionVirtualNetworks {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ResolutionVirtualNetworks = append(result.Properties.ResolutionVirtualNetworks, *item_ARM.(*SubResource_ARM))
+		result.Properties.ResolutionVirtualNetworks = append(result.Properties.ResolutionVirtualNetworks, *item_ARM.(*arm.SubResource))
 	}
 	if zone.ZoneType != nil {
 		var temp string
 		temp = string(*zone.ZoneType)
-		zoneType := ZoneProperties_ZoneType_ARM(temp)
+		zoneType := arm.ZoneProperties_ZoneType(temp)
 		result.Properties.ZoneType = &zoneType
 	}
 
@@ -416,14 +417,14 @@ func (zone *DnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (zone *DnsZone_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsZone_Spec_ARM{}
+	return &arm.DnsZone_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (zone *DnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsZone_Spec_ARM)
+	typedInput, ok := armInput.(arm.DnsZone_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZone_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsZone_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -858,14 +859,14 @@ var _ genruntime.FromARMConverter = &DnsZone_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (zone *DnsZone_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsZone_STATUS_ARM{}
+	return &arm.DnsZone_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsZone_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DnsZone_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZone_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsZone_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1175,7 +1176,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if resource == nil {
 		return nil, nil
 	}
-	result := &SubResource_ARM{}
+	result := &arm.SubResource{}
 
 	// Set property "Id":
 	if resource.Reference != nil {
@@ -1191,14 +1192,14 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_ARM{}
+	return &arm.SubResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SubResource_ARM)
+	_, ok := armInput.(arm.SubResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubResource, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -1271,14 +1272,14 @@ var _ genruntime.FromARMConverter = &SubResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_STATUS_ARM{}
+	return &arm.SubResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SubResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":

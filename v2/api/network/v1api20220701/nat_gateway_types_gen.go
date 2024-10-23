@@ -5,6 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -364,7 +365,7 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if gateway == nil {
 		return nil, nil
 	}
-	result := &NatGateway_Spec_ARM{}
+	result := &arm.NatGateway_Spec{}
 
 	// Set property "Location":
 	if gateway.Location != nil {
@@ -379,7 +380,7 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if gateway.IdleTimeoutInMinutes != nil ||
 		gateway.PublicIpAddresses != nil ||
 		gateway.PublicIpPrefixes != nil {
-		result.Properties = &NatGatewayPropertiesFormat_ARM{}
+		result.Properties = &arm.NatGatewayPropertiesFormat{}
 	}
 	if gateway.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *gateway.IdleTimeoutInMinutes
@@ -390,14 +391,14 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PublicIpAddresses = append(result.Properties.PublicIpAddresses, *item_ARM.(*ApplicationGatewaySubResource_ARM))
+		result.Properties.PublicIpAddresses = append(result.Properties.PublicIpAddresses, *item_ARM.(*arm.ApplicationGatewaySubResource))
 	}
 	for _, item := range gateway.PublicIpPrefixes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PublicIpPrefixes = append(result.Properties.PublicIpPrefixes, *item_ARM.(*ApplicationGatewaySubResource_ARM))
+		result.Properties.PublicIpPrefixes = append(result.Properties.PublicIpPrefixes, *item_ARM.(*arm.ApplicationGatewaySubResource))
 	}
 
 	// Set property "Sku":
@@ -406,7 +407,7 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*NatGatewaySku_ARM)
+		sku := *sku_ARM.(*arm.NatGatewaySku)
 		result.Sku = &sku
 	}
 
@@ -427,14 +428,14 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gateway *NatGateway_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGateway_Spec_ARM{}
+	return &arm.NatGateway_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGateway_Spec_ARM)
+	typedInput, ok := armInput.(arm.NatGateway_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NatGateway_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -910,14 +911,14 @@ var _ genruntime.FromARMConverter = &NatGateway_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gateway *NatGateway_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGateway_STATUS_ARM{}
+	return &arm.NatGateway_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGateway_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NatGateway_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NatGateway_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1293,13 +1294,13 @@ func (gatewaySku *NatGatewaySku) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if gatewaySku == nil {
 		return nil, nil
 	}
-	result := &NatGatewaySku_ARM{}
+	result := &arm.NatGatewaySku{}
 
 	// Set property "Name":
 	if gatewaySku.Name != nil {
 		var temp string
 		temp = string(*gatewaySku.Name)
-		name := NatGatewaySku_Name_ARM(temp)
+		name := arm.NatGatewaySku_Name(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -1307,14 +1308,14 @@ func (gatewaySku *NatGatewaySku) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gatewaySku *NatGatewaySku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGatewaySku_ARM{}
+	return &arm.NatGatewaySku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gatewaySku *NatGatewaySku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGatewaySku_ARM)
+	typedInput, ok := armInput.(arm.NatGatewaySku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NatGatewaySku, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -1394,14 +1395,14 @@ var _ genruntime.FromARMConverter = &NatGatewaySku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gatewaySku *NatGatewaySku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGatewaySku_STATUS_ARM{}
+	return &arm.NatGatewaySku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gatewaySku *NatGatewaySku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGatewaySku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NatGatewaySku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NatGatewaySku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":

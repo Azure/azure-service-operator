@@ -5,6 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -350,14 +351,14 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertToARM(resolved 
 	if link == nil {
 		return nil, nil
 	}
-	result := &DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM{}
+	result := &arm.DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if link.Metadata != nil || link.VirtualNetwork != nil {
-		result.Properties = &VirtualNetworkLinkProperties_ARM{}
+		result.Properties = &arm.VirtualNetworkLinkProperties{}
 	}
 	if link.Metadata != nil {
 		result.Properties.Metadata = make(map[string]string, len(link.Metadata))
@@ -370,7 +371,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		virtualNetwork := *virtualNetwork_ARM.(*DnsresolverSubResource_ARM)
+		virtualNetwork := *virtualNetwork_ARM.(*arm.DnsresolverSubResource)
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 	return result, nil
@@ -378,14 +379,14 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) ConvertToARM(resolved 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM{}
+	return &arm.DnsForwardingRuleSetsVirtualNetworkLink_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM)
+	typedInput, ok := armInput.(arm.DnsForwardingRuleSetsVirtualNetworkLink_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsForwardingRuleSetsVirtualNetworkLink_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsForwardingRuleSetsVirtualNetworkLink_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -671,14 +672,14 @@ var _ genruntime.FromARMConverter = &DnsForwardingRuleSetsVirtualNetworkLink_STA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM{}
+	return &arm.DnsForwardingRuleSetsVirtualNetworkLink_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DnsForwardingRuleSetsVirtualNetworkLink_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsForwardingRuleSetsVirtualNetworkLink_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsForwardingRuleSetsVirtualNetworkLink_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -896,7 +897,7 @@ func (resource *DnsresolverSubResource) ConvertToARM(resolved genruntime.Convert
 	if resource == nil {
 		return nil, nil
 	}
-	result := &DnsresolverSubResource_ARM{}
+	result := &arm.DnsresolverSubResource{}
 
 	// Set property "Id":
 	if resource.Reference != nil {
@@ -912,14 +913,14 @@ func (resource *DnsresolverSubResource) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *DnsresolverSubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsresolverSubResource_ARM{}
+	return &arm.DnsresolverSubResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *DnsresolverSubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(DnsresolverSubResource_ARM)
+	_, ok := armInput.(arm.DnsresolverSubResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsresolverSubResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsresolverSubResource, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -992,14 +993,14 @@ var _ genruntime.FromARMConverter = &DnsresolverSubResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *DnsresolverSubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsresolverSubResource_STATUS_ARM{}
+	return &arm.DnsresolverSubResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *DnsresolverSubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsresolverSubResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DnsresolverSubResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsresolverSubResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsresolverSubResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":

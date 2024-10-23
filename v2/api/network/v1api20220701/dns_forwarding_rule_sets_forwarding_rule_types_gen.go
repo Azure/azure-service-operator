@@ -5,6 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -370,7 +371,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) ConvertToARM(resolved genr
 	if rule == nil {
 		return nil, nil
 	}
-	result := &DnsForwardingRuleSetsForwardingRule_Spec_ARM{}
+	result := &arm.DnsForwardingRuleSetsForwardingRule_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -380,7 +381,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) ConvertToARM(resolved genr
 		rule.ForwardingRuleState != nil ||
 		rule.Metadata != nil ||
 		rule.TargetDnsServers != nil {
-		result.Properties = &ForwardingRuleProperties_ARM{}
+		result.Properties = &arm.ForwardingRuleProperties{}
 	}
 	if rule.DomainName != nil {
 		domainName := *rule.DomainName
@@ -389,7 +390,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) ConvertToARM(resolved genr
 	if rule.ForwardingRuleState != nil {
 		var temp string
 		temp = string(*rule.ForwardingRuleState)
-		forwardingRuleState := ForwardingRuleProperties_ForwardingRuleState_ARM(temp)
+		forwardingRuleState := arm.ForwardingRuleProperties_ForwardingRuleState(temp)
 		result.Properties.ForwardingRuleState = &forwardingRuleState
 	}
 	if rule.Metadata != nil {
@@ -403,21 +404,21 @@ func (rule *DnsForwardingRuleSetsForwardingRule_Spec) ConvertToARM(resolved genr
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TargetDnsServers = append(result.Properties.TargetDnsServers, *item_ARM.(*TargetDnsServer_ARM))
+		result.Properties.TargetDnsServers = append(result.Properties.TargetDnsServers, *item_ARM.(*arm.TargetDnsServer))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *DnsForwardingRuleSetsForwardingRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsForwardingRuleSetsForwardingRule_Spec_ARM{}
+	return &arm.DnsForwardingRuleSetsForwardingRule_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *DnsForwardingRuleSetsForwardingRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsForwardingRuleSetsForwardingRule_Spec_ARM)
+	typedInput, ok := armInput.(arm.DnsForwardingRuleSetsForwardingRule_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsForwardingRuleSetsForwardingRule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsForwardingRuleSetsForwardingRule_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -780,14 +781,14 @@ var _ genruntime.FromARMConverter = &DnsForwardingRuleSetsForwardingRule_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsForwardingRuleSetsForwardingRule_STATUS_ARM{}
+	return &arm.DnsForwardingRuleSetsForwardingRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *DnsForwardingRuleSetsForwardingRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsForwardingRuleSetsForwardingRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DnsForwardingRuleSetsForwardingRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsForwardingRuleSetsForwardingRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsForwardingRuleSetsForwardingRule_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1119,14 +1120,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
@@ -1273,7 +1274,7 @@ func (server *TargetDnsServer) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if server == nil {
 		return nil, nil
 	}
-	result := &TargetDnsServer_ARM{}
+	result := &arm.TargetDnsServer{}
 
 	// Set property "IpAddress":
 	if server.IpAddress != nil {
@@ -1299,14 +1300,14 @@ func (server *TargetDnsServer) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *TargetDnsServer) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TargetDnsServer_ARM{}
+	return &arm.TargetDnsServer{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *TargetDnsServer) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TargetDnsServer_ARM)
+	typedInput, ok := armInput.(arm.TargetDnsServer)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TargetDnsServer_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TargetDnsServer, got %T", armInput)
 	}
 
 	// Set property "IpAddress":
@@ -1404,14 +1405,14 @@ var _ genruntime.FromARMConverter = &TargetDnsServer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *TargetDnsServer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TargetDnsServer_STATUS_ARM{}
+	return &arm.TargetDnsServer_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *TargetDnsServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TargetDnsServer_STATUS_ARM)
+	typedInput, ok := armInput.(arm.TargetDnsServer_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TargetDnsServer_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TargetDnsServer_STATUS, got %T", armInput)
 	}
 
 	// Set property "IpAddress":

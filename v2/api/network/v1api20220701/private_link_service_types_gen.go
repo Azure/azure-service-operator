@@ -6,6 +6,7 @@ package v1api20220701
 import (
 	"context"
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
@@ -413,7 +414,7 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 	if service == nil {
 		return nil, nil
 	}
-	result := &PrivateLinkService_Spec_ARM{}
+	result := &arm.PrivateLinkService_Spec{}
 
 	// Set property "ExtendedLocation":
 	if service.ExtendedLocation != nil {
@@ -421,7 +422,7 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
+		extendedLocation := *extendedLocation_ARM.(*arm.ExtendedLocation)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -441,14 +442,14 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 		service.IpConfigurations != nil ||
 		service.LoadBalancerFrontendIpConfigurations != nil ||
 		service.Visibility != nil {
-		result.Properties = &PrivateLinkServiceProperties_ARM{}
+		result.Properties = &arm.PrivateLinkServiceProperties{}
 	}
 	if service.AutoApproval != nil {
 		autoApproval_ARM, err := (*service.AutoApproval).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		autoApproval := *autoApproval_ARM.(*ResourceSet_ARM)
+		autoApproval := *autoApproval_ARM.(*arm.ResourceSet)
 		result.Properties.AutoApproval = &autoApproval
 	}
 	if service.EnableProxyProtocol != nil {
@@ -463,21 +464,21 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*PrivateLinkServiceIpConfiguration_ARM))
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*arm.PrivateLinkServiceIpConfiguration))
 	}
 	for _, item := range service.LoadBalancerFrontendIpConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerFrontendIpConfigurations = append(result.Properties.LoadBalancerFrontendIpConfigurations, *item_ARM.(*FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_ARM))
+		result.Properties.LoadBalancerFrontendIpConfigurations = append(result.Properties.LoadBalancerFrontendIpConfigurations, *item_ARM.(*arm.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded))
 	}
 	if service.Visibility != nil {
 		visibility_ARM, err := (*service.Visibility).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		visibility := *visibility_ARM.(*ResourceSet_ARM)
+		visibility := *visibility_ARM.(*arm.ResourceSet)
 		result.Properties.Visibility = &visibility
 	}
 
@@ -493,14 +494,14 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (service *PrivateLinkService_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkService_Spec_ARM{}
+	return &arm.PrivateLinkService_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkService_Spec_ARM)
+	typedInput, ok := armInput.(arm.PrivateLinkService_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkService_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateLinkService_Spec, got %T", armInput)
 	}
 
 	// Set property "AutoApproval":
@@ -1129,14 +1130,14 @@ var _ genruntime.FromARMConverter = &PrivateLinkService_STATUS_PrivateLinkServic
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded_ARM{}
+	return &arm.PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Alias":
@@ -1650,7 +1651,7 @@ func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) 
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_ARM{}
+	result := &arm.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded{}
 
 	// Set property "Id":
 	if embedded.Reference != nil {
@@ -1666,14 +1667,14 @@ func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_ARM{}
+	return &arm.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_ARM)
+	_, ok := armInput.(arm.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -1746,14 +1747,14 @@ var _ genruntime.FromARMConverter = &FrontendIPConfiguration_STATUS_PrivateLinkS
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded_ARM{}
+	return &arm.FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1805,14 +1806,14 @@ var _ genruntime.FromARMConverter = &NetworkInterface_STATUS_PrivateLinkService_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded_ARM{}
+	return &arm.NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1864,14 +1865,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_ARM{}
+	return &arm.PrivateEndpointConnection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointConnection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointConnection_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1941,7 +1942,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) ConvertToARM(resolved ge
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &PrivateLinkServiceIpConfiguration_ARM{}
+	result := &arm.PrivateLinkServiceIpConfiguration{}
 
 	// Set property "Name":
 	if configuration.Name != nil {
@@ -1955,7 +1956,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) ConvertToARM(resolved ge
 		configuration.PrivateIPAddressVersion != nil ||
 		configuration.PrivateIPAllocationMethod != nil ||
 		configuration.Subnet != nil {
-		result.Properties = &PrivateLinkServiceIpConfigurationProperties_ARM{}
+		result.Properties = &arm.PrivateLinkServiceIpConfigurationProperties{}
 	}
 	if configuration.Primary != nil {
 		primary := *configuration.Primary
@@ -1968,13 +1969,13 @@ func (configuration *PrivateLinkServiceIpConfiguration) ConvertToARM(resolved ge
 	if configuration.PrivateIPAddressVersion != nil {
 		var temp string
 		temp = string(*configuration.PrivateIPAddressVersion)
-		privateIPAddressVersion := IPVersion_ARM(temp)
+		privateIPAddressVersion := arm.IPVersion(temp)
 		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
 	}
 	if configuration.PrivateIPAllocationMethod != nil {
 		var temp string
 		temp = string(*configuration.PrivateIPAllocationMethod)
-		privateIPAllocationMethod := IPAllocationMethod_ARM(temp)
+		privateIPAllocationMethod := arm.IPAllocationMethod(temp)
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.Subnet != nil {
@@ -1982,7 +1983,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) ConvertToARM(resolved ge
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*Subnet_PrivateLinkService_SubResourceEmbedded_ARM)
+		subnet := *subnet_ARM.(*arm.Subnet_PrivateLinkService_SubResourceEmbedded)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -1990,14 +1991,14 @@ func (configuration *PrivateLinkServiceIpConfiguration) ConvertToARM(resolved ge
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *PrivateLinkServiceIpConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkServiceIpConfiguration_ARM{}
+	return &arm.PrivateLinkServiceIpConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *PrivateLinkServiceIpConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkServiceIpConfiguration_ARM)
+	typedInput, ok := armInput.(arm.PrivateLinkServiceIpConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceIpConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateLinkServiceIpConfiguration, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2259,14 +2260,14 @@ var _ genruntime.FromARMConverter = &PrivateLinkServiceIpConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *PrivateLinkServiceIpConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkServiceIpConfiguration_STATUS_ARM{}
+	return &arm.PrivateLinkServiceIpConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *PrivateLinkServiceIpConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkServiceIpConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateLinkServiceIpConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceIpConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateLinkServiceIpConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "Etag":
@@ -2572,7 +2573,7 @@ func (resourceSet *ResourceSet) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if resourceSet == nil {
 		return nil, nil
 	}
-	result := &ResourceSet_ARM{}
+	result := &arm.ResourceSet{}
 
 	// Set property "Subscriptions":
 	for _, item := range resourceSet.Subscriptions {
@@ -2583,14 +2584,14 @@ func (resourceSet *ResourceSet) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resourceSet *ResourceSet) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceSet_ARM{}
+	return &arm.ResourceSet{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resourceSet *ResourceSet) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceSet_ARM)
+	typedInput, ok := armInput.(arm.ResourceSet)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceSet_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceSet, got %T", armInput)
 	}
 
 	// Set property "Subscriptions":
@@ -2651,14 +2652,14 @@ var _ genruntime.FromARMConverter = &ResourceSet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resourceSet *ResourceSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceSet_STATUS_ARM{}
+	return &arm.ResourceSet_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resourceSet *ResourceSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceSet_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ResourceSet_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceSet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceSet_STATUS, got %T", armInput)
 	}
 
 	// Set property "Subscriptions":
@@ -2770,7 +2771,7 @@ func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) ConvertToARM(reso
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &Subnet_PrivateLinkService_SubResourceEmbedded_ARM{}
+	result := &arm.Subnet_PrivateLinkService_SubResourceEmbedded{}
 
 	// Set property "Id":
 	if embedded.Reference != nil {
@@ -2786,14 +2787,14 @@ func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) ConvertToARM(reso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_PrivateLinkService_SubResourceEmbedded_ARM{}
+	return &arm.Subnet_PrivateLinkService_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(Subnet_PrivateLinkService_SubResourceEmbedded_ARM)
+	_, ok := armInput.(arm.Subnet_PrivateLinkService_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Subnet_PrivateLinkService_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -2866,14 +2867,14 @@ var _ genruntime.FromARMConverter = &Subnet_STATUS_PrivateLinkService_SubResourc
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *Subnet_STATUS_PrivateLinkService_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_STATUS_PrivateLinkService_SubResourceEmbedded_ARM{}
+	return &arm.Subnet_STATUS_PrivateLinkService_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *Subnet_STATUS_PrivateLinkService_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subnet_STATUS_PrivateLinkService_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.Subnet_STATUS_PrivateLinkService_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Subnet_STATUS_PrivateLinkService_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
