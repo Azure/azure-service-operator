@@ -24,8 +24,6 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 		PruneResourcesWithLifecycleOwnedByParentStageID,
 		"Prune embedded resources whose lifecycle is owned by the parent.",
 		func(ctx context.Context, state *State) (*State, error) {
-			result := make(astmodel.TypeDefinitionSet)
-
 			// A previous stage may have used these flags, but we want to make sure we're using them too so reset
 			// the consumed bit
 			err := configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.MarkUnconsumed()
@@ -49,16 +47,30 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				}
 			}
 
-			for _, def := range state.Definitions() {
-				var updatedDef astmodel.TypeDefinition
-				updatedDef, err = pruner.visitor.VisitDefinition(def, def.Name())
+			updatedDefs := make(astmodel.TypeDefinitionSet)
+			for name, def := range state.Definitions() {
+				if astmodel.IsARMPackageReference(name.InternalPackageReference()) {
+					// Skip ARM types
+					continue
+				}
+
+				if _, ok := astmodel.AsObjectType(def.Type()); !ok {
+					// Skip non-object types
+					continue
+				}
+
+				updatedDef, err := pruner.visitor.VisitDefinition(def, def.Name())
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to visit definition %s", def.Name())
 				}
-				result.Add(updatedDef)
+
+				updatedDefs.Add(updatedDef)
 			}
 
-			result, err = flagPrunedEmptyProperties(result, pruner.emptyPrunedProperties)
+			// Need a full set of definitions, so we pull in everything we haven't touched.
+			updatedDefs = state.Definitions().OverlayWith(updatedDefs)
+
+			prunedDefs, err := flagPrunedEmptyProperties(updatedDefs, pruner.emptyPrunedProperties)
 			if err != nil {
 				return nil, err
 			}
@@ -68,7 +80,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				return nil, err
 			}
 
-			return state.WithDefinitions(result), nil
+			return state.WithDefinitions(prunedDefs), nil
 		})
 
 	stage.RequiresPrerequisiteStages(CreateARMTypesStageID)
