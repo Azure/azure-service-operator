@@ -36,7 +36,6 @@ var armPackageDenyList = set.Make(
 	"dbformariadb",
 	"dbformysql",
 	"dbforpostgresql",
-	"devices",
 	"documentdb",
 	"eventgrid",
 	"eventhub",

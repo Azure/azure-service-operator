@@ -5,6 +5,7 @@ package v1api20210702
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -396,7 +397,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if iotHub == nil {
 		return nil, nil
 	}
-	result := &IotHub_Spec_ARM{}
+	result := &arm.IotHub_Spec{}
 
 	// Set property "Identity":
 	if iotHub.Identity != nil {
@@ -404,7 +405,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ArmIdentity_ARM)
+		identity := *identity_ARM.(*arm.ArmIdentity)
 		result.Identity = &identity
 	}
 
@@ -423,7 +424,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*IotHubProperties_ARM)
+		properties := *properties_ARM.(*arm.IotHubProperties)
 		result.Properties = &properties
 	}
 
@@ -433,7 +434,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*IotHubSkuInfo_ARM)
+		sku := *sku_ARM.(*arm.IotHubSkuInfo)
 		result.Sku = &sku
 	}
 
@@ -449,14 +450,14 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (iotHub *IotHub_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHub_Spec_ARM{}
+	return &arm.IotHub_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (iotHub *IotHub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHub_Spec_ARM)
+	typedInput, ok := armInput.(arm.IotHub_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHub_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHub_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -874,14 +875,14 @@ var _ genruntime.FromARMConverter = &IotHub_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (iotHub *IotHub_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHub_STATUS_ARM{}
+	return &arm.IotHub_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHub_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IotHub_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHub_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHub_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1147,39 +1148,39 @@ func (identity *ArmIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if identity == nil {
 		return nil, nil
 	}
-	result := &ArmIdentity_ARM{}
+	result := &arm.ArmIdentity{}
 
 	// Set property "Type":
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := ArmIdentity_Type_ARM(temp)
+		typeVar := arm.ArmIdentity_Type(temp)
 		result.Type = &typeVar
 	}
 
 	// Set property "UserAssignedIdentities":
-	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
+	result.UserAssignedIdentities = make(map[string]arm.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
 		if err != nil {
 			return nil, err
 		}
 		key := identARMID
-		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
+		result.UserAssignedIdentities[key] = arm.UserAssignedIdentityDetails{}
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ArmIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ArmIdentity_ARM{}
+	return &arm.ArmIdentity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ArmIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ArmIdentity_ARM)
+	typedInput, ok := armInput.(arm.ArmIdentity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmIdentity_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ArmIdentity, got %T", armInput)
 	}
 
 	// Set property "Type":
@@ -1316,14 +1317,14 @@ var _ genruntime.FromARMConverter = &ArmIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ArmIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ArmIdentity_STATUS_ARM{}
+	return &arm.ArmIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ArmIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ArmIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ArmIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ArmIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "PrincipalId":
@@ -1579,7 +1580,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	if properties == nil {
 		return nil, nil
 	}
-	result := &IotHubProperties_ARM{}
+	result := &arm.IotHubProperties{}
 
 	// Set property "AllowedFqdnList":
 	for _, item := range properties.AllowedFqdnList {
@@ -1592,7 +1593,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		result.AuthorizationPolicies = append(result.AuthorizationPolicies, *item_ARM.(*SharedAccessSignatureAuthorizationRule_ARM))
+		result.AuthorizationPolicies = append(result.AuthorizationPolicies, *item_ARM.(*arm.SharedAccessSignatureAuthorizationRule))
 	}
 
 	// Set property "CloudToDevice":
@@ -1601,7 +1602,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		cloudToDevice := *cloudToDevice_ARM.(*CloudToDeviceProperties_ARM)
+		cloudToDevice := *cloudToDevice_ARM.(*arm.CloudToDeviceProperties)
 		result.CloudToDevice = &cloudToDevice
 	}
 
@@ -1643,13 +1644,13 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "EventHubEndpoints":
 	if properties.EventHubEndpoints != nil {
-		result.EventHubEndpoints = make(map[string]EventHubProperties_ARM, len(properties.EventHubEndpoints))
+		result.EventHubEndpoints = make(map[string]arm.EventHubProperties, len(properties.EventHubEndpoints))
 		for key, value := range properties.EventHubEndpoints {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.EventHubEndpoints[key] = *value_ARM.(*EventHubProperties_ARM)
+			result.EventHubEndpoints[key] = *value_ARM.(*arm.EventHubProperties)
 		}
 	}
 
@@ -1657,7 +1658,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	if properties.Features != nil {
 		var temp string
 		temp = string(*properties.Features)
-		features := IotHubProperties_Features_ARM(temp)
+		features := arm.IotHubProperties_Features(temp)
 		result.Features = &features
 	}
 
@@ -1667,18 +1668,18 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		result.IpFilterRules = append(result.IpFilterRules, *item_ARM.(*IpFilterRule_ARM))
+		result.IpFilterRules = append(result.IpFilterRules, *item_ARM.(*arm.IpFilterRule))
 	}
 
 	// Set property "MessagingEndpoints":
 	if properties.MessagingEndpoints != nil {
-		result.MessagingEndpoints = make(map[string]MessagingEndpointProperties_ARM, len(properties.MessagingEndpoints))
+		result.MessagingEndpoints = make(map[string]arm.MessagingEndpointProperties, len(properties.MessagingEndpoints))
 		for key, value := range properties.MessagingEndpoints {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.MessagingEndpoints[key] = *value_ARM.(*MessagingEndpointProperties_ARM)
+			result.MessagingEndpoints[key] = *value_ARM.(*arm.MessagingEndpointProperties)
 		}
 	}
 
@@ -1694,7 +1695,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		networkRuleSets := *networkRuleSets_ARM.(*NetworkRuleSetProperties_ARM)
+		networkRuleSets := *networkRuleSets_ARM.(*arm.NetworkRuleSetProperties)
 		result.NetworkRuleSets = &networkRuleSets
 	}
 
@@ -1702,7 +1703,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	if properties.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*properties.PublicNetworkAccess)
-		publicNetworkAccess := IotHubProperties_PublicNetworkAccess_ARM(temp)
+		publicNetworkAccess := arm.IotHubProperties_PublicNetworkAccess(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -1718,19 +1719,19 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		routing := *routing_ARM.(*RoutingProperties_ARM)
+		routing := *routing_ARM.(*arm.RoutingProperties)
 		result.Routing = &routing
 	}
 
 	// Set property "StorageEndpoints":
 	if properties.StorageEndpoints != nil {
-		result.StorageEndpoints = make(map[string]StorageEndpointProperties_ARM, len(properties.StorageEndpoints))
+		result.StorageEndpoints = make(map[string]arm.StorageEndpointProperties, len(properties.StorageEndpoints))
 		for key, value := range properties.StorageEndpoints {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.StorageEndpoints[key] = *value_ARM.(*StorageEndpointProperties_ARM)
+			result.StorageEndpoints[key] = *value_ARM.(*arm.StorageEndpointProperties)
 		}
 	}
 	return result, nil
@@ -1738,14 +1739,14 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *IotHubProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubProperties_ARM{}
+	return &arm.IotHubProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubProperties_ARM)
+	typedInput, ok := armInput.(arm.IotHubProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubProperties, got %T", armInput)
 	}
 
 	// Set property "AllowedFqdnList":
@@ -2629,14 +2630,14 @@ var _ genruntime.FromARMConverter = &IotHubProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *IotHubProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubProperties_STATUS_ARM{}
+	return &arm.IotHubProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IotHubProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllowedFqdnList":
@@ -3373,7 +3374,7 @@ func (info *IotHubSkuInfo) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if info == nil {
 		return nil, nil
 	}
-	result := &IotHubSkuInfo_ARM{}
+	result := &arm.IotHubSkuInfo{}
 
 	// Set property "Capacity":
 	if info.Capacity != nil {
@@ -3385,7 +3386,7 @@ func (info *IotHubSkuInfo) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if info.Name != nil {
 		var temp string
 		temp = string(*info.Name)
-		name := IotHubSkuInfo_Name_ARM(temp)
+		name := arm.IotHubSkuInfo_Name(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -3393,14 +3394,14 @@ func (info *IotHubSkuInfo) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *IotHubSkuInfo) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubSkuInfo_ARM{}
+	return &arm.IotHubSkuInfo{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *IotHubSkuInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubSkuInfo_ARM)
+	typedInput, ok := armInput.(arm.IotHubSkuInfo)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubSkuInfo_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubSkuInfo, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -3502,14 +3503,14 @@ var _ genruntime.FromARMConverter = &IotHubSkuInfo_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *IotHubSkuInfo_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubSkuInfo_STATUS_ARM{}
+	return &arm.IotHubSkuInfo_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *IotHubSkuInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubSkuInfo_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IotHubSkuInfo_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubSkuInfo_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubSkuInfo_STATUS, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -3626,14 +3627,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
@@ -3805,14 +3806,14 @@ var _ genruntime.FromARMConverter = &ArmUserIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ArmUserIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ArmUserIdentity_STATUS_ARM{}
+	return &arm.ArmUserIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ArmUserIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ArmUserIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ArmUserIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmUserIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ArmUserIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -3889,7 +3890,7 @@ func (properties *CloudToDeviceProperties) ConvertToARM(resolved genruntime.Conv
 	if properties == nil {
 		return nil, nil
 	}
-	result := &CloudToDeviceProperties_ARM{}
+	result := &arm.CloudToDeviceProperties{}
 
 	// Set property "DefaultTtlAsIso8601":
 	if properties.DefaultTtlAsIso8601 != nil {
@@ -3903,7 +3904,7 @@ func (properties *CloudToDeviceProperties) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		feedback := *feedback_ARM.(*FeedbackProperties_ARM)
+		feedback := *feedback_ARM.(*arm.FeedbackProperties)
 		result.Feedback = &feedback
 	}
 
@@ -3917,14 +3918,14 @@ func (properties *CloudToDeviceProperties) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *CloudToDeviceProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CloudToDeviceProperties_ARM{}
+	return &arm.CloudToDeviceProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *CloudToDeviceProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CloudToDeviceProperties_ARM)
+	typedInput, ok := armInput.(arm.CloudToDeviceProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloudToDeviceProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CloudToDeviceProperties, got %T", armInput)
 	}
 
 	// Set property "DefaultTtlAsIso8601":
@@ -4071,14 +4072,14 @@ var _ genruntime.FromARMConverter = &CloudToDeviceProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *CloudToDeviceProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CloudToDeviceProperties_STATUS_ARM{}
+	return &arm.CloudToDeviceProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *CloudToDeviceProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CloudToDeviceProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CloudToDeviceProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloudToDeviceProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CloudToDeviceProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "DefaultTtlAsIso8601":
@@ -4185,7 +4186,7 @@ func (properties *EventHubProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	result := &EventHubProperties_ARM{}
+	result := &arm.EventHubProperties{}
 
 	// Set property "PartitionCount":
 	if properties.PartitionCount != nil {
@@ -4203,14 +4204,14 @@ func (properties *EventHubProperties) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *EventHubProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventHubProperties_ARM{}
+	return &arm.EventHubProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *EventHubProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventHubProperties_ARM)
+	typedInput, ok := armInput.(arm.EventHubProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EventHubProperties, got %T", armInput)
 	}
 
 	// Set property "PartitionCount":
@@ -4301,14 +4302,14 @@ var _ genruntime.FromARMConverter = &EventHubProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *EventHubProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventHubProperties_STATUS_ARM{}
+	return &arm.EventHubProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *EventHubProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventHubProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.EventHubProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EventHubProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Endpoint":
@@ -4412,14 +4413,14 @@ var _ genruntime.FromARMConverter = &IotHubLocationDescription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (description *IotHubLocationDescription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IotHubLocationDescription_STATUS_ARM{}
+	return &arm.IotHubLocationDescription_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (description *IotHubLocationDescription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IotHubLocationDescription_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IotHubLocationDescription_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubLocationDescription_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IotHubLocationDescription_STATUS, got %T", armInput)
 	}
 
 	// Set property "Location":
@@ -4849,13 +4850,13 @@ func (rule *IpFilterRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if rule == nil {
 		return nil, nil
 	}
-	result := &IpFilterRule_ARM{}
+	result := &arm.IpFilterRule{}
 
 	// Set property "Action":
 	if rule.Action != nil {
 		var temp string
 		temp = string(*rule.Action)
-		action := IpFilterRule_Action_ARM(temp)
+		action := arm.IpFilterRule_Action(temp)
 		result.Action = &action
 	}
 
@@ -4875,14 +4876,14 @@ func (rule *IpFilterRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *IpFilterRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpFilterRule_ARM{}
+	return &arm.IpFilterRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *IpFilterRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpFilterRule_ARM)
+	typedInput, ok := armInput.(arm.IpFilterRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpFilterRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IpFilterRule, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -4998,14 +4999,14 @@ var _ genruntime.FromARMConverter = &IpFilterRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *IpFilterRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpFilterRule_STATUS_ARM{}
+	return &arm.IpFilterRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *IpFilterRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpFilterRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IpFilterRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpFilterRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IpFilterRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -5107,7 +5108,7 @@ func (properties *MessagingEndpointProperties) ConvertToARM(resolved genruntime.
 	if properties == nil {
 		return nil, nil
 	}
-	result := &MessagingEndpointProperties_ARM{}
+	result := &arm.MessagingEndpointProperties{}
 
 	// Set property "LockDurationAsIso8601":
 	if properties.LockDurationAsIso8601 != nil {
@@ -5131,14 +5132,14 @@ func (properties *MessagingEndpointProperties) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *MessagingEndpointProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MessagingEndpointProperties_ARM{}
+	return &arm.MessagingEndpointProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *MessagingEndpointProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MessagingEndpointProperties_ARM)
+	typedInput, ok := armInput.(arm.MessagingEndpointProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessagingEndpointProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MessagingEndpointProperties, got %T", armInput)
 	}
 
 	// Set property "LockDurationAsIso8601":
@@ -5253,14 +5254,14 @@ var _ genruntime.FromARMConverter = &MessagingEndpointProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *MessagingEndpointProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MessagingEndpointProperties_STATUS_ARM{}
+	return &arm.MessagingEndpointProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *MessagingEndpointProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MessagingEndpointProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MessagingEndpointProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessagingEndpointProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MessagingEndpointProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "LockDurationAsIso8601":
@@ -5347,7 +5348,7 @@ func (properties *NetworkRuleSetProperties) ConvertToARM(resolved genruntime.Con
 	if properties == nil {
 		return nil, nil
 	}
-	result := &NetworkRuleSetProperties_ARM{}
+	result := &arm.NetworkRuleSetProperties{}
 
 	// Set property "ApplyToBuiltInEventHubEndpoint":
 	if properties.ApplyToBuiltInEventHubEndpoint != nil {
@@ -5359,7 +5360,7 @@ func (properties *NetworkRuleSetProperties) ConvertToARM(resolved genruntime.Con
 	if properties.DefaultAction != nil {
 		var temp string
 		temp = string(*properties.DefaultAction)
-		defaultAction := NetworkRuleSetProperties_DefaultAction_ARM(temp)
+		defaultAction := arm.NetworkRuleSetProperties_DefaultAction(temp)
 		result.DefaultAction = &defaultAction
 	}
 
@@ -5369,21 +5370,21 @@ func (properties *NetworkRuleSetProperties) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		result.IpRules = append(result.IpRules, *item_ARM.(*NetworkRuleSetIpRule_ARM))
+		result.IpRules = append(result.IpRules, *item_ARM.(*arm.NetworkRuleSetIpRule))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *NetworkRuleSetProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkRuleSetProperties_ARM{}
+	return &arm.NetworkRuleSetProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *NetworkRuleSetProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkRuleSetProperties_ARM)
+	typedInput, ok := armInput.(arm.NetworkRuleSetProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkRuleSetProperties, got %T", armInput)
 	}
 
 	// Set property "ApplyToBuiltInEventHubEndpoint":
@@ -5563,14 +5564,14 @@ var _ genruntime.FromARMConverter = &NetworkRuleSetProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *NetworkRuleSetProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkRuleSetProperties_STATUS_ARM{}
+	return &arm.NetworkRuleSetProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *NetworkRuleSetProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkRuleSetProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NetworkRuleSetProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkRuleSetProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ApplyToBuiltInEventHubEndpoint":
@@ -5703,14 +5704,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_ARM{}
+	return &arm.PrivateEndpointConnection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointConnection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointConnection_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -5781,7 +5782,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingProperties_ARM{}
+	result := &arm.RoutingProperties{}
 
 	// Set property "Endpoints":
 	if properties.Endpoints != nil {
@@ -5789,7 +5790,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		endpoints := *endpoints_ARM.(*RoutingEndpoints_ARM)
+		endpoints := *endpoints_ARM.(*arm.RoutingEndpoints)
 		result.Endpoints = &endpoints
 	}
 
@@ -5799,7 +5800,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		result.Enrichments = append(result.Enrichments, *item_ARM.(*EnrichmentProperties_ARM))
+		result.Enrichments = append(result.Enrichments, *item_ARM.(*arm.EnrichmentProperties))
 	}
 
 	// Set property "FallbackRoute":
@@ -5808,7 +5809,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		fallbackRoute := *fallbackRoute_ARM.(*FallbackRouteProperties_ARM)
+		fallbackRoute := *fallbackRoute_ARM.(*arm.FallbackRouteProperties)
 		result.FallbackRoute = &fallbackRoute
 	}
 
@@ -5818,21 +5819,21 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		result.Routes = append(result.Routes, *item_ARM.(*RouteProperties_ARM))
+		result.Routes = append(result.Routes, *item_ARM.(*arm.RouteProperties))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingProperties_ARM{}
+	return &arm.RoutingProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingProperties, got %T", armInput)
 	}
 
 	// Set property "Endpoints":
@@ -6117,14 +6118,14 @@ var _ genruntime.FromARMConverter = &RoutingProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingProperties_STATUS_ARM{}
+	return &arm.RoutingProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Endpoints":
@@ -6334,7 +6335,7 @@ func (rule *SharedAccessSignatureAuthorizationRule) ConvertToARM(resolved genrun
 	if rule == nil {
 		return nil, nil
 	}
-	result := &SharedAccessSignatureAuthorizationRule_ARM{}
+	result := &arm.SharedAccessSignatureAuthorizationRule{}
 
 	// Set property "KeyName":
 	if rule.KeyName != nil {
@@ -6346,7 +6347,7 @@ func (rule *SharedAccessSignatureAuthorizationRule) ConvertToARM(resolved genrun
 	if rule.Rights != nil {
 		var temp string
 		temp = string(*rule.Rights)
-		rights := SharedAccessSignatureAuthorizationRule_Rights_ARM(temp)
+		rights := arm.SharedAccessSignatureAuthorizationRule_Rights(temp)
 		result.Rights = &rights
 	}
 	return result, nil
@@ -6354,14 +6355,14 @@ func (rule *SharedAccessSignatureAuthorizationRule) ConvertToARM(resolved genrun
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *SharedAccessSignatureAuthorizationRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SharedAccessSignatureAuthorizationRule_ARM{}
+	return &arm.SharedAccessSignatureAuthorizationRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *SharedAccessSignatureAuthorizationRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SharedAccessSignatureAuthorizationRule_ARM)
+	typedInput, ok := armInput.(arm.SharedAccessSignatureAuthorizationRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedAccessSignatureAuthorizationRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedAccessSignatureAuthorizationRule, got %T", armInput)
 	}
 
 	// Set property "KeyName":
@@ -6459,14 +6460,14 @@ var _ genruntime.FromARMConverter = &SharedAccessSignatureAuthorizationRule_STAT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *SharedAccessSignatureAuthorizationRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SharedAccessSignatureAuthorizationRule_STATUS_ARM{}
+	return &arm.SharedAccessSignatureAuthorizationRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *SharedAccessSignatureAuthorizationRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SharedAccessSignatureAuthorizationRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SharedAccessSignatureAuthorizationRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedAccessSignatureAuthorizationRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedAccessSignatureAuthorizationRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "KeyName":
@@ -6562,13 +6563,13 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	result := &StorageEndpointProperties_ARM{}
+	result := &arm.StorageEndpointProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := StorageEndpointProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.StorageEndpointProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -6594,7 +6595,7 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -6608,14 +6609,14 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *StorageEndpointProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageEndpointProperties_ARM{}
+	return &arm.StorageEndpointProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *StorageEndpointProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageEndpointProperties_ARM)
+	typedInput, ok := armInput.(arm.StorageEndpointProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageEndpointProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageEndpointProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -6801,14 +6802,14 @@ var _ genruntime.FromARMConverter = &StorageEndpointProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *StorageEndpointProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageEndpointProperties_STATUS_ARM{}
+	return &arm.StorageEndpointProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *StorageEndpointProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageEndpointProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.StorageEndpointProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageEndpointProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageEndpointProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -7013,7 +7014,7 @@ func (properties *EnrichmentProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	result := &EnrichmentProperties_ARM{}
+	result := &arm.EnrichmentProperties{}
 
 	// Set property "EndpointNames":
 	for _, item := range properties.EndpointNames {
@@ -7036,14 +7037,14 @@ func (properties *EnrichmentProperties) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *EnrichmentProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EnrichmentProperties_ARM{}
+	return &arm.EnrichmentProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *EnrichmentProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EnrichmentProperties_ARM)
+	typedInput, ok := armInput.(arm.EnrichmentProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EnrichmentProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EnrichmentProperties, got %T", armInput)
 	}
 
 	// Set property "EndpointNames":
@@ -7170,14 +7171,14 @@ var _ genruntime.FromARMConverter = &EnrichmentProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *EnrichmentProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EnrichmentProperties_STATUS_ARM{}
+	return &arm.EnrichmentProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *EnrichmentProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EnrichmentProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.EnrichmentProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EnrichmentProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EnrichmentProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "EndpointNames":
@@ -7276,7 +7277,7 @@ func (properties *FallbackRouteProperties) ConvertToARM(resolved genruntime.Conv
 	if properties == nil {
 		return nil, nil
 	}
-	result := &FallbackRouteProperties_ARM{}
+	result := &arm.FallbackRouteProperties{}
 
 	// Set property "Condition":
 	if properties.Condition != nil {
@@ -7305,7 +7306,7 @@ func (properties *FallbackRouteProperties) ConvertToARM(resolved genruntime.Conv
 	if properties.Source != nil {
 		var temp string
 		temp = string(*properties.Source)
-		source := FallbackRouteProperties_Source_ARM(temp)
+		source := arm.FallbackRouteProperties_Source(temp)
 		result.Source = &source
 	}
 	return result, nil
@@ -7313,14 +7314,14 @@ func (properties *FallbackRouteProperties) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *FallbackRouteProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FallbackRouteProperties_ARM{}
+	return &arm.FallbackRouteProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *FallbackRouteProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FallbackRouteProperties_ARM)
+	typedInput, ok := armInput.(arm.FallbackRouteProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FallbackRouteProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FallbackRouteProperties, got %T", armInput)
 	}
 
 	// Set property "Condition":
@@ -7520,14 +7521,14 @@ var _ genruntime.FromARMConverter = &FallbackRouteProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *FallbackRouteProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FallbackRouteProperties_STATUS_ARM{}
+	return &arm.FallbackRouteProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *FallbackRouteProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FallbackRouteProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FallbackRouteProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FallbackRouteProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FallbackRouteProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Condition":
@@ -7663,7 +7664,7 @@ func (properties *FeedbackProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	result := &FeedbackProperties_ARM{}
+	result := &arm.FeedbackProperties{}
 
 	// Set property "LockDurationAsIso8601":
 	if properties.LockDurationAsIso8601 != nil {
@@ -7687,14 +7688,14 @@ func (properties *FeedbackProperties) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *FeedbackProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FeedbackProperties_ARM{}
+	return &arm.FeedbackProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *FeedbackProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FeedbackProperties_ARM)
+	typedInput, ok := armInput.(arm.FeedbackProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FeedbackProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FeedbackProperties, got %T", armInput)
 	}
 
 	// Set property "LockDurationAsIso8601":
@@ -7810,14 +7811,14 @@ var _ genruntime.FromARMConverter = &FeedbackProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *FeedbackProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FeedbackProperties_STATUS_ARM{}
+	return &arm.FeedbackProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *FeedbackProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FeedbackProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FeedbackProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FeedbackProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FeedbackProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "LockDurationAsIso8601":
@@ -7936,7 +7937,7 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if identity == nil {
 		return nil, nil
 	}
-	result := &ManagedIdentity_ARM{}
+	result := &arm.ManagedIdentity{}
 
 	// Set property "UserAssignedIdentity":
 	if identity.UserAssignedIdentity != nil {
@@ -7948,14 +7949,14 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentity_ARM{}
+	return &arm.ManagedIdentity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentity_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentity_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentity, got %T", armInput)
 	}
 
 	// Set property "UserAssignedIdentity":
@@ -8017,14 +8018,14 @@ var _ genruntime.FromARMConverter = &ManagedIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentity_STATUS_ARM{}
+	return &arm.ManagedIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "UserAssignedIdentity":
@@ -8087,13 +8088,13 @@ func (rule *NetworkRuleSetIpRule) ConvertToARM(resolved genruntime.ConvertToARMR
 	if rule == nil {
 		return nil, nil
 	}
-	result := &NetworkRuleSetIpRule_ARM{}
+	result := &arm.NetworkRuleSetIpRule{}
 
 	// Set property "Action":
 	if rule.Action != nil {
 		var temp string
 		temp = string(*rule.Action)
-		action := NetworkRuleSetIpRule_Action_ARM(temp)
+		action := arm.NetworkRuleSetIpRule_Action(temp)
 		result.Action = &action
 	}
 
@@ -8113,14 +8114,14 @@ func (rule *NetworkRuleSetIpRule) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NetworkRuleSetIpRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkRuleSetIpRule_ARM{}
+	return &arm.NetworkRuleSetIpRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NetworkRuleSetIpRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkRuleSetIpRule_ARM)
+	typedInput, ok := armInput.(arm.NetworkRuleSetIpRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetIpRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkRuleSetIpRule, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -8236,14 +8237,14 @@ var _ genruntime.FromARMConverter = &NetworkRuleSetIpRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NetworkRuleSetIpRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkRuleSetIpRule_STATUS_ARM{}
+	return &arm.NetworkRuleSetIpRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NetworkRuleSetIpRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkRuleSetIpRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NetworkRuleSetIpRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetIpRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkRuleSetIpRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -8384,7 +8385,7 @@ func (properties *RouteProperties) ConvertToARM(resolved genruntime.ConvertToARM
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RouteProperties_ARM{}
+	result := &arm.RouteProperties{}
 
 	// Set property "Condition":
 	if properties.Condition != nil {
@@ -8413,7 +8414,7 @@ func (properties *RouteProperties) ConvertToARM(resolved genruntime.ConvertToARM
 	if properties.Source != nil {
 		var temp string
 		temp = string(*properties.Source)
-		source := RouteProperties_Source_ARM(temp)
+		source := arm.RouteProperties_Source(temp)
 		result.Source = &source
 	}
 	return result, nil
@@ -8421,14 +8422,14 @@ func (properties *RouteProperties) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RouteProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteProperties_ARM{}
+	return &arm.RouteProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RouteProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteProperties_ARM)
+	typedInput, ok := armInput.(arm.RouteProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RouteProperties, got %T", armInput)
 	}
 
 	// Set property "Condition":
@@ -8642,14 +8643,14 @@ var _ genruntime.FromARMConverter = &RouteProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RouteProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteProperties_STATUS_ARM{}
+	return &arm.RouteProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RouteProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RouteProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RouteProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Condition":
@@ -8788,7 +8789,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 	if endpoints == nil {
 		return nil, nil
 	}
-	result := &RoutingEndpoints_ARM{}
+	result := &arm.RoutingEndpoints{}
 
 	// Set property "EventHubs":
 	for _, item := range endpoints.EventHubs {
@@ -8796,7 +8797,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.EventHubs = append(result.EventHubs, *item_ARM.(*RoutingEventHubProperties_ARM))
+		result.EventHubs = append(result.EventHubs, *item_ARM.(*arm.RoutingEventHubProperties))
 	}
 
 	// Set property "ServiceBusQueues":
@@ -8805,7 +8806,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.ServiceBusQueues = append(result.ServiceBusQueues, *item_ARM.(*RoutingServiceBusQueueEndpointProperties_ARM))
+		result.ServiceBusQueues = append(result.ServiceBusQueues, *item_ARM.(*arm.RoutingServiceBusQueueEndpointProperties))
 	}
 
 	// Set property "ServiceBusTopics":
@@ -8814,7 +8815,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.ServiceBusTopics = append(result.ServiceBusTopics, *item_ARM.(*RoutingServiceBusTopicEndpointProperties_ARM))
+		result.ServiceBusTopics = append(result.ServiceBusTopics, *item_ARM.(*arm.RoutingServiceBusTopicEndpointProperties))
 	}
 
 	// Set property "StorageContainers":
@@ -8823,21 +8824,21 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.StorageContainers = append(result.StorageContainers, *item_ARM.(*RoutingStorageContainerProperties_ARM))
+		result.StorageContainers = append(result.StorageContainers, *item_ARM.(*arm.RoutingStorageContainerProperties))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoints *RoutingEndpoints) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingEndpoints_ARM{}
+	return &arm.RoutingEndpoints{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoints *RoutingEndpoints) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingEndpoints_ARM)
+	typedInput, ok := armInput.(arm.RoutingEndpoints)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEndpoints_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingEndpoints, got %T", armInput)
 	}
 
 	// Set property "EventHubs":
@@ -9154,14 +9155,14 @@ var _ genruntime.FromARMConverter = &RoutingEndpoints_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoints *RoutingEndpoints_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingEndpoints_STATUS_ARM{}
+	return &arm.RoutingEndpoints_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoints *RoutingEndpoints_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingEndpoints_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingEndpoints_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEndpoints_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingEndpoints_STATUS, got %T", armInput)
 	}
 
 	// Set property "EventHubs":
@@ -9603,13 +9604,13 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingEventHubProperties_ARM{}
+	result := &arm.RoutingEventHubProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := RoutingEventHubProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.RoutingEventHubProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -9651,7 +9652,7 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -9677,14 +9678,14 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingEventHubProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingEventHubProperties_ARM{}
+	return &arm.RoutingEventHubProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingEventHubProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingEventHubProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingEventHubProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEventHubProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingEventHubProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -9968,14 +9969,14 @@ var _ genruntime.FromARMConverter = &RoutingEventHubProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingEventHubProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingEventHubProperties_STATUS_ARM{}
+	return &arm.RoutingEventHubProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingEventHubProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingEventHubProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingEventHubProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEventHubProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingEventHubProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -10178,13 +10179,13 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingServiceBusQueueEndpointProperties_ARM{}
+	result := &arm.RoutingServiceBusQueueEndpointProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := RoutingServiceBusQueueEndpointProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.RoutingServiceBusQueueEndpointProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -10226,7 +10227,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -10252,14 +10253,14 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingServiceBusQueueEndpointProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingServiceBusQueueEndpointProperties_ARM{}
+	return &arm.RoutingServiceBusQueueEndpointProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingServiceBusQueueEndpointProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingServiceBusQueueEndpointProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingServiceBusQueueEndpointProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusQueueEndpointProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingServiceBusQueueEndpointProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -10543,14 +10544,14 @@ var _ genruntime.FromARMConverter = &RoutingServiceBusQueueEndpointProperties_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingServiceBusQueueEndpointProperties_STATUS_ARM{}
+	return &arm.RoutingServiceBusQueueEndpointProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingServiceBusQueueEndpointProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingServiceBusQueueEndpointProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusQueueEndpointProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingServiceBusQueueEndpointProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -10753,13 +10754,13 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingServiceBusTopicEndpointProperties_ARM{}
+	result := &arm.RoutingServiceBusTopicEndpointProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := RoutingServiceBusTopicEndpointProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.RoutingServiceBusTopicEndpointProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -10801,7 +10802,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -10827,14 +10828,14 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingServiceBusTopicEndpointProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingServiceBusTopicEndpointProperties_ARM{}
+	return &arm.RoutingServiceBusTopicEndpointProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingServiceBusTopicEndpointProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingServiceBusTopicEndpointProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingServiceBusTopicEndpointProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusTopicEndpointProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingServiceBusTopicEndpointProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -11118,14 +11119,14 @@ var _ genruntime.FromARMConverter = &RoutingServiceBusTopicEndpointProperties_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingServiceBusTopicEndpointProperties_STATUS_ARM{}
+	return &arm.RoutingServiceBusTopicEndpointProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingServiceBusTopicEndpointProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingServiceBusTopicEndpointProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusTopicEndpointProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingServiceBusTopicEndpointProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -11349,13 +11350,13 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 	if properties == nil {
 		return nil, nil
 	}
-	result := &RoutingStorageContainerProperties_ARM{}
+	result := &arm.RoutingStorageContainerProperties{}
 
 	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		var temp string
 		temp = string(*properties.AuthenticationType)
-		authenticationType := RoutingStorageContainerProperties_AuthenticationType_ARM(temp)
+		authenticationType := arm.RoutingStorageContainerProperties_AuthenticationType(temp)
 		result.AuthenticationType = &authenticationType
 	}
 
@@ -11385,7 +11386,7 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 	if properties.Encoding != nil {
 		var temp string
 		temp = string(*properties.Encoding)
-		encoding := RoutingStorageContainerProperties_Encoding_ARM(temp)
+		encoding := arm.RoutingStorageContainerProperties_Encoding(temp)
 		result.Encoding = &encoding
 	}
 
@@ -11417,7 +11418,7 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedIdentity)
 		result.Identity = &identity
 	}
 
@@ -11449,14 +11450,14 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingStorageContainerProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingStorageContainerProperties_ARM{}
+	return &arm.RoutingStorageContainerProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingStorageContainerProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingStorageContainerProperties_ARM)
+	typedInput, ok := armInput.(arm.RoutingStorageContainerProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingStorageContainerProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingStorageContainerProperties, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
@@ -11864,14 +11865,14 @@ var _ genruntime.FromARMConverter = &RoutingStorageContainerProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *RoutingStorageContainerProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoutingStorageContainerProperties_STATUS_ARM{}
+	return &arm.RoutingStorageContainerProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *RoutingStorageContainerProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoutingStorageContainerProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoutingStorageContainerProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingStorageContainerProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoutingStorageContainerProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationType":
