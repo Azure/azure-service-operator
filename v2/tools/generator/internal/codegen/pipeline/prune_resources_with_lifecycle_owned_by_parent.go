@@ -26,8 +26,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 		func(ctx context.Context, state *State) (*State, error) {
 			// A previous stage may have used these flags, but we want to make sure we're using them too so reset
 			// the consumed bit
-			err := configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.MarkUnconsumed()
-			if err != nil {
+			if err := configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.MarkUnconsumed(); err != nil {
 				return nil, err
 			}
 
@@ -102,6 +101,7 @@ func flagPrunedEmptyProperties(
 		if !ok {
 			return nil, errors.Errorf("couldn't find ARM definition for %s", emptyPrunedProp)
 		}
+
 		emptyPrunedPropertiesArm.Add(armDef.Name())
 	}
 
@@ -119,7 +119,9 @@ type misbehavingEmbeddedTypePruner struct {
 	visitor               astmodel.TypeVisitor[astmodel.InternalTypeName]
 }
 
-func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *misbehavingEmbeddedTypePruner {
+func newMisbehavingEmbeddedTypeVisitor(
+	configuration *config.Configuration,
+) *misbehavingEmbeddedTypePruner {
 	pruner := &misbehavingEmbeddedTypePruner{
 		configuration:         configuration,
 		emptyPrunedProperties: astmodel.NewInternalTypeNameSet(),
