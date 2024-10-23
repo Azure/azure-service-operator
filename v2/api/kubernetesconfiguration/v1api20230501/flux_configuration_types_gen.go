@@ -5,6 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -381,7 +382,7 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &FluxConfiguration_Spec_ARM{}
+	result := &arm.FluxConfiguration_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -398,14 +399,14 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		configuration.SourceKind != nil ||
 		configuration.Suspend != nil ||
 		configuration.WaitForReconciliation != nil {
-		result.Properties = &FluxConfiguration_Properties_Spec_ARM{}
+		result.Properties = &arm.FluxConfiguration_Properties_Spec{}
 	}
 	if configuration.AzureBlob != nil {
 		azureBlob_ARM, err := (*configuration.AzureBlob).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		azureBlob := *azureBlob_ARM.(*AzureBlobDefinition_ARM)
+		azureBlob := *azureBlob_ARM.(*arm.AzureBlobDefinition)
 		result.Properties.AzureBlob = &azureBlob
 	}
 	if configuration.Bucket != nil {
@@ -413,7 +414,7 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		bucket := *bucket_ARM.(*BucketDefinition_ARM)
+		bucket := *bucket_ARM.(*arm.BucketDefinition)
 		result.Properties.Bucket = &bucket
 	}
 	if configuration.ConfigurationProtectedSettings != nil {
@@ -430,17 +431,17 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		gitRepository := *gitRepository_ARM.(*GitRepositoryDefinition_ARM)
+		gitRepository := *gitRepository_ARM.(*arm.GitRepositoryDefinition)
 		result.Properties.GitRepository = &gitRepository
 	}
 	if configuration.Kustomizations != nil {
-		result.Properties.Kustomizations = make(map[string]KustomizationDefinition_ARM, len(configuration.Kustomizations))
+		result.Properties.Kustomizations = make(map[string]arm.KustomizationDefinition, len(configuration.Kustomizations))
 		for key, value := range configuration.Kustomizations {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.Properties.Kustomizations[key] = *value_ARM.(*KustomizationDefinition_ARM)
+			result.Properties.Kustomizations[key] = *value_ARM.(*arm.KustomizationDefinition)
 		}
 	}
 	if configuration.Namespace != nil {
@@ -454,13 +455,13 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 	if configuration.Scope != nil {
 		var temp string
 		temp = string(*configuration.Scope)
-		scope := ScopeDefinition_ARM(temp)
+		scope := arm.ScopeDefinition(temp)
 		result.Properties.Scope = &scope
 	}
 	if configuration.SourceKind != nil {
 		var temp string
 		temp = string(*configuration.SourceKind)
-		sourceKind := SourceKindDefinition_ARM(temp)
+		sourceKind := arm.SourceKindDefinition(temp)
 		result.Properties.SourceKind = &sourceKind
 	}
 	if configuration.Suspend != nil {
@@ -476,14 +477,14 @@ func (configuration *FluxConfiguration_Spec) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *FluxConfiguration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FluxConfiguration_Spec_ARM{}
+	return &arm.FluxConfiguration_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *FluxConfiguration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FluxConfiguration_Spec_ARM)
+	typedInput, ok := armInput.(arm.FluxConfiguration_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FluxConfiguration_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FluxConfiguration_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureBlob":
@@ -1154,14 +1155,14 @@ var _ genruntime.FromARMConverter = &FluxConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *FluxConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FluxConfiguration_STATUS_ARM{}
+	return &arm.FluxConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *FluxConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FluxConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FluxConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FluxConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FluxConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "AzureBlob":
@@ -1772,7 +1773,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 	if definition == nil {
 		return nil, nil
 	}
-	result := &AzureBlobDefinition_ARM{}
+	result := &arm.AzureBlobDefinition{}
 
 	// Set property "AccountKey":
 	if definition.AccountKey != nil {
@@ -1802,7 +1803,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		managedIdentity := *managedIdentity_ARM.(*ManagedIdentityDefinition_ARM)
+		managedIdentity := *managedIdentity_ARM.(*arm.ManagedIdentityDefinition)
 		result.ManagedIdentity = &managedIdentity
 	}
 
@@ -1822,7 +1823,7 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		servicePrincipal := *servicePrincipal_ARM.(*ServicePrincipalDefinition_ARM)
+		servicePrincipal := *servicePrincipal_ARM.(*arm.ServicePrincipalDefinition)
 		result.ServicePrincipal = &servicePrincipal
 	}
 
@@ -1848,14 +1849,14 @@ func (definition *AzureBlobDefinition) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *AzureBlobDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureBlobDefinition_ARM{}
+	return &arm.AzureBlobDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *AzureBlobDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureBlobDefinition_ARM)
+	typedInput, ok := armInput.(arm.AzureBlobDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureBlobDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureBlobDefinition, got %T", armInput)
 	}
 
 	// no assignment for property "AccountKey"
@@ -2126,14 +2127,14 @@ var _ genruntime.FromARMConverter = &AzureBlobDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *AzureBlobDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureBlobDefinition_STATUS_ARM{}
+	return &arm.AzureBlobDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *AzureBlobDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureBlobDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AzureBlobDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureBlobDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureBlobDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "ContainerName":
@@ -2325,7 +2326,7 @@ func (definition *BucketDefinition) ConvertToARM(resolved genruntime.ConvertToAR
 	if definition == nil {
 		return nil, nil
 	}
-	result := &BucketDefinition_ARM{}
+	result := &arm.BucketDefinition{}
 
 	// Set property "AccessKey":
 	if definition.AccessKey != nil {
@@ -2377,14 +2378,14 @@ func (definition *BucketDefinition) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *BucketDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BucketDefinition_ARM{}
+	return &arm.BucketDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *BucketDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BucketDefinition_ARM)
+	typedInput, ok := armInput.(arm.BucketDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BucketDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BucketDefinition, got %T", armInput)
 	}
 
 	// no assignment for property "AccessKey"
@@ -2570,14 +2571,14 @@ var _ genruntime.FromARMConverter = &BucketDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *BucketDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BucketDefinition_STATUS_ARM{}
+	return &arm.BucketDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *BucketDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BucketDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BucketDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BucketDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BucketDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "BucketName":
@@ -2745,7 +2746,7 @@ func (definition *GitRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 	if definition == nil {
 		return nil, nil
 	}
-	result := &GitRepositoryDefinition_ARM{}
+	result := &arm.GitRepositoryDefinition{}
 
 	// Set property "HttpsCACert":
 	if definition.HttpsCACert != nil {
@@ -2775,7 +2776,7 @@ func (definition *GitRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		repositoryRef := *repositoryRef_ARM.(*RepositoryRefDefinition_ARM)
+		repositoryRef := *repositoryRef_ARM.(*arm.RepositoryRefDefinition)
 		result.RepositoryRef = &repositoryRef
 	}
 
@@ -2807,14 +2808,14 @@ func (definition *GitRepositoryDefinition) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *GitRepositoryDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GitRepositoryDefinition_ARM{}
+	return &arm.GitRepositoryDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *GitRepositoryDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GitRepositoryDefinition_ARM)
+	typedInput, ok := armInput.(arm.GitRepositoryDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GitRepositoryDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GitRepositoryDefinition, got %T", armInput)
 	}
 
 	// no assignment for property "HttpsCACert"
@@ -3036,14 +3037,14 @@ var _ genruntime.FromARMConverter = &GitRepositoryDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *GitRepositoryDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GitRepositoryDefinition_STATUS_ARM{}
+	return &arm.GitRepositoryDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *GitRepositoryDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GitRepositoryDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.GitRepositoryDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GitRepositoryDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.GitRepositoryDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "HttpsUser":
@@ -3220,7 +3221,7 @@ func (definition *KustomizationDefinition) ConvertToARM(resolved genruntime.Conv
 	if definition == nil {
 		return nil, nil
 	}
-	result := &KustomizationDefinition_ARM{}
+	result := &arm.KustomizationDefinition{}
 
 	// Set property "DependsOn":
 	for _, item := range definition.DependsOn {
@@ -3245,7 +3246,7 @@ func (definition *KustomizationDefinition) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		postBuild := *postBuild_ARM.(*PostBuildDefinition_ARM)
+		postBuild := *postBuild_ARM.(*arm.PostBuildDefinition)
 		result.PostBuild = &postBuild
 	}
 
@@ -3283,14 +3284,14 @@ func (definition *KustomizationDefinition) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *KustomizationDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KustomizationDefinition_ARM{}
+	return &arm.KustomizationDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *KustomizationDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KustomizationDefinition_ARM)
+	typedInput, ok := armInput.(arm.KustomizationDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KustomizationDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KustomizationDefinition, got %T", armInput)
 	}
 
 	// Set property "DependsOn":
@@ -3578,14 +3579,14 @@ var _ genruntime.FromARMConverter = &KustomizationDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *KustomizationDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KustomizationDefinition_STATUS_ARM{}
+	return &arm.KustomizationDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *KustomizationDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KustomizationDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.KustomizationDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KustomizationDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KustomizationDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "DependsOn":
@@ -3816,14 +3817,14 @@ var _ genruntime.FromARMConverter = &ObjectStatusDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ObjectStatusDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ObjectStatusDefinition_STATUS_ARM{}
+	return &arm.ObjectStatusDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ObjectStatusDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ObjectStatusDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ObjectStatusDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ObjectStatusDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ObjectStatusDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "AppliedBy":
@@ -4114,14 +4115,14 @@ var _ genruntime.FromARMConverter = &HelmReleasePropertiesDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *HelmReleasePropertiesDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HelmReleasePropertiesDefinition_STATUS_ARM{}
+	return &arm.HelmReleasePropertiesDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *HelmReleasePropertiesDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HelmReleasePropertiesDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.HelmReleasePropertiesDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HelmReleasePropertiesDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HelmReleasePropertiesDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "FailureCount":
@@ -4247,7 +4248,7 @@ func (definition *ManagedIdentityDefinition) ConvertToARM(resolved genruntime.Co
 	if definition == nil {
 		return nil, nil
 	}
-	result := &ManagedIdentityDefinition_ARM{}
+	result := &arm.ManagedIdentityDefinition{}
 
 	// Set property "ClientId":
 	if definition.ClientId != nil {
@@ -4259,14 +4260,14 @@ func (definition *ManagedIdentityDefinition) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ManagedIdentityDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentityDefinition_ARM{}
+	return &arm.ManagedIdentityDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ManagedIdentityDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentityDefinition_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentityDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentityDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentityDefinition, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -4328,14 +4329,14 @@ var _ genruntime.FromARMConverter = &ManagedIdentityDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ManagedIdentityDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedIdentityDefinition_STATUS_ARM{}
+	return &arm.ManagedIdentityDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ManagedIdentityDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedIdentityDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedIdentityDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentityDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedIdentityDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -4390,14 +4391,14 @@ var _ genruntime.FromARMConverter = &ObjectReferenceDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ObjectReferenceDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ObjectReferenceDefinition_STATUS_ARM{}
+	return &arm.ObjectReferenceDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ObjectReferenceDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ObjectReferenceDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ObjectReferenceDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ObjectReferenceDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ObjectReferenceDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -4473,14 +4474,14 @@ var _ genruntime.FromARMConverter = &ObjectStatusConditionDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ObjectStatusConditionDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ObjectStatusConditionDefinition_STATUS_ARM{}
+	return &arm.ObjectStatusConditionDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ObjectStatusConditionDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ObjectStatusConditionDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ObjectStatusConditionDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ObjectStatusConditionDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ObjectStatusConditionDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "LastTransitionTime":
@@ -4586,7 +4587,7 @@ func (definition *PostBuildDefinition) ConvertToARM(resolved genruntime.ConvertT
 	if definition == nil {
 		return nil, nil
 	}
-	result := &PostBuildDefinition_ARM{}
+	result := &arm.PostBuildDefinition{}
 
 	// Set property "Substitute":
 	if definition.Substitute != nil {
@@ -4602,21 +4603,21 @@ func (definition *PostBuildDefinition) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.SubstituteFrom = append(result.SubstituteFrom, *item_ARM.(*SubstituteFromDefinition_ARM))
+		result.SubstituteFrom = append(result.SubstituteFrom, *item_ARM.(*arm.SubstituteFromDefinition))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *PostBuildDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PostBuildDefinition_ARM{}
+	return &arm.PostBuildDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *PostBuildDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PostBuildDefinition_ARM)
+	typedInput, ok := armInput.(arm.PostBuildDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PostBuildDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PostBuildDefinition, got %T", armInput)
 	}
 
 	// Set property "Substitute":
@@ -4747,14 +4748,14 @@ var _ genruntime.FromARMConverter = &PostBuildDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *PostBuildDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PostBuildDefinition_STATUS_ARM{}
+	return &arm.PostBuildDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *PostBuildDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PostBuildDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PostBuildDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PostBuildDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PostBuildDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Substitute":
@@ -4867,7 +4868,7 @@ func (definition *RepositoryRefDefinition) ConvertToARM(resolved genruntime.Conv
 	if definition == nil {
 		return nil, nil
 	}
-	result := &RepositoryRefDefinition_ARM{}
+	result := &arm.RepositoryRefDefinition{}
 
 	// Set property "Branch":
 	if definition.Branch != nil {
@@ -4897,14 +4898,14 @@ func (definition *RepositoryRefDefinition) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *RepositoryRefDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RepositoryRefDefinition_ARM{}
+	return &arm.RepositoryRefDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *RepositoryRefDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RepositoryRefDefinition_ARM)
+	typedInput, ok := armInput.(arm.RepositoryRefDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RepositoryRefDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RepositoryRefDefinition, got %T", armInput)
 	}
 
 	// Set property "Branch":
@@ -5021,14 +5022,14 @@ var _ genruntime.FromARMConverter = &RepositoryRefDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *RepositoryRefDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RepositoryRefDefinition_STATUS_ARM{}
+	return &arm.RepositoryRefDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *RepositoryRefDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RepositoryRefDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RepositoryRefDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RepositoryRefDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RepositoryRefDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Branch":
@@ -5141,7 +5142,7 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 	if definition == nil {
 		return nil, nil
 	}
-	result := &ServicePrincipalDefinition_ARM{}
+	result := &arm.ServicePrincipalDefinition{}
 
 	// Set property "ClientCertificate":
 	if definition.ClientCertificate != nil {
@@ -5211,14 +5212,14 @@ func (definition *ServicePrincipalDefinition) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ServicePrincipalDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServicePrincipalDefinition_ARM{}
+	return &arm.ServicePrincipalDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ServicePrincipalDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServicePrincipalDefinition_ARM)
+	typedInput, ok := armInput.(arm.ServicePrincipalDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServicePrincipalDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServicePrincipalDefinition, got %T", armInput)
 	}
 
 	// no assignment for property "ClientCertificate"
@@ -5422,14 +5423,14 @@ var _ genruntime.FromARMConverter = &ServicePrincipalDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *ServicePrincipalDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServicePrincipalDefinition_STATUS_ARM{}
+	return &arm.ServicePrincipalDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *ServicePrincipalDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServicePrincipalDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServicePrincipalDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServicePrincipalDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServicePrincipalDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientCertificateSendChain":
@@ -5524,7 +5525,7 @@ func (definition *SubstituteFromDefinition) ConvertToARM(resolved genruntime.Con
 	if definition == nil {
 		return nil, nil
 	}
-	result := &SubstituteFromDefinition_ARM{}
+	result := &arm.SubstituteFromDefinition{}
 
 	// Set property "Kind":
 	if definition.Kind != nil {
@@ -5548,14 +5549,14 @@ func (definition *SubstituteFromDefinition) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *SubstituteFromDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubstituteFromDefinition_ARM{}
+	return &arm.SubstituteFromDefinition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *SubstituteFromDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubstituteFromDefinition_ARM)
+	typedInput, ok := armInput.(arm.SubstituteFromDefinition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubstituteFromDefinition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubstituteFromDefinition, got %T", armInput)
 	}
 
 	// Set property "Kind":
@@ -5668,14 +5669,14 @@ var _ genruntime.FromARMConverter = &SubstituteFromDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *SubstituteFromDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubstituteFromDefinition_STATUS_ARM{}
+	return &arm.SubstituteFromDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *SubstituteFromDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubstituteFromDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SubstituteFromDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubstituteFromDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubstituteFromDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "Kind":
