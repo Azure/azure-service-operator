@@ -10,7 +10,8 @@ ScheduledQueryRule: Resource
 │   │   ├── ActionGroupsReferences: genruntime.ResourceReference[]
 │   │   └── CustomProperties: map[string]string
 │   ├── AutoMitigate: *bool
-│   ├── AzureName: string
+│   ├── AzureName: Validated<string> (1 rule)
+│   │   └── Rule 0: Pattern: "^[^#<>%&:\\?/{}*]{1,260}$"
 │   ├── CheckWorkspaceAlertsStorageConfigured: *bool
 │   ├── Criteria: *Object (1 property)
 │   │   └── AllOf: Object (9 properties)[]

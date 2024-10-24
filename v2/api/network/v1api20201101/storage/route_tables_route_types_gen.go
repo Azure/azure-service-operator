@@ -145,7 +145,6 @@ type RouteTablesRoute_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string  `json:"azureName,omitempty"`
-	HasBgpOverride   *bool   `json:"hasBgpOverride,omitempty"`
 	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
 	NextHopType      *string `json:"nextHopType,omitempty"`
 	OriginalVersion  string  `json:"originalVersion,omitempty"`

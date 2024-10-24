@@ -648,8 +648,7 @@ type ScaleProfile struct {
 	// at most one AutoScaleProfile is allowed.
 	Autoscale []AutoScaleProfile `json:"autoscale"`
 
-	// Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size. Currently, at most one
-	// ManualScaleProfile is allowed.
+	// Manual: Specifications on how to scale the VirtualMachines agent pool to a fixed size.
 	Manual []ManualScaleProfile `json:"manual"`
 }
 
