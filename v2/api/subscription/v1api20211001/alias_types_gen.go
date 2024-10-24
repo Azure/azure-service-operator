@@ -5,6 +5,7 @@ package v1api20211001
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -330,7 +331,7 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if alias == nil {
 		return nil, nil
 	}
-	result := &Alias_Spec_ARM{}
+	result := &arm.Alias_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -341,7 +342,7 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*PutAliasRequestProperties_ARM)
+		properties := *properties_ARM.(*arm.PutAliasRequestProperties)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -349,14 +350,14 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (alias *Alias_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Alias_Spec_ARM{}
+	return &arm.Alias_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (alias *Alias_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Alias_Spec_ARM)
+	typedInput, ok := armInput.(arm.Alias_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Alias_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Alias_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -584,14 +585,14 @@ var _ genruntime.FromARMConverter = &Alias_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (alias *Alias_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Alias_STATUS_ARM{}
+	return &arm.Alias_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (alias *Alias_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Alias_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Alias_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Alias_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Alias_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -766,7 +767,7 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	result := &PutAliasRequestProperties_ARM{}
+	result := &arm.PutAliasRequestProperties{}
 
 	// Set property "AdditionalProperties":
 	if properties.AdditionalProperties != nil {
@@ -774,7 +775,7 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		additionalProperties := *additionalProperties_ARM.(*PutAliasRequestAdditionalProperties_ARM)
+		additionalProperties := *additionalProperties_ARM.(*arm.PutAliasRequestAdditionalProperties)
 		result.AdditionalProperties = &additionalProperties
 	}
 
@@ -806,7 +807,7 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 	if properties.Workload != nil {
 		var temp string
 		temp = string(*properties.Workload)
-		workload := Workload_ARM(temp)
+		workload := arm.Workload(temp)
 		result.Workload = &workload
 	}
 	return result, nil
@@ -814,14 +815,14 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *PutAliasRequestProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PutAliasRequestProperties_ARM{}
+	return &arm.PutAliasRequestProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *PutAliasRequestProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PutAliasRequestProperties_ARM)
+	typedInput, ok := armInput.(arm.PutAliasRequestProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PutAliasRequestProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PutAliasRequestProperties, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -1027,14 +1028,14 @@ var _ genruntime.FromARMConverter = &SubscriptionAliasResponseProperties_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SubscriptionAliasResponseProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubscriptionAliasResponseProperties_STATUS_ARM{}
+	return &arm.SubscriptionAliasResponseProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SubscriptionAliasResponseProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubscriptionAliasResponseProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SubscriptionAliasResponseProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubscriptionAliasResponseProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubscriptionAliasResponseProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "AcceptOwnershipState":
@@ -1274,14 +1275,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
@@ -1447,7 +1448,7 @@ func (properties *PutAliasRequestAdditionalProperties) ConvertToARM(resolved gen
 	if properties == nil {
 		return nil, nil
 	}
-	result := &PutAliasRequestAdditionalProperties_ARM{}
+	result := &arm.PutAliasRequestAdditionalProperties{}
 
 	// Set property "ManagementGroupId":
 	if properties.ManagementGroupId != nil {
@@ -1479,14 +1480,14 @@ func (properties *PutAliasRequestAdditionalProperties) ConvertToARM(resolved gen
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *PutAliasRequestAdditionalProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PutAliasRequestAdditionalProperties_ARM{}
+	return &arm.PutAliasRequestAdditionalProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *PutAliasRequestAdditionalProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PutAliasRequestAdditionalProperties_ARM)
+	typedInput, ok := armInput.(arm.PutAliasRequestAdditionalProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PutAliasRequestAdditionalProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PutAliasRequestAdditionalProperties, got %T", armInput)
 	}
 
 	// Set property "ManagementGroupId":
