@@ -5,6 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -354,7 +355,7 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) ConvertToARM(resolved genrunti
 	if endpoint == nil {
 		return nil, nil
 	}
-	result := &DnsResolversInboundEndpoint_Spec_ARM{}
+	result := &arm.DnsResolversInboundEndpoint_Spec{}
 
 	// Set property "Location":
 	if endpoint.Location != nil {
@@ -367,14 +368,14 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) ConvertToARM(resolved genrunti
 
 	// Set property "Properties":
 	if endpoint.IpConfigurations != nil {
-		result.Properties = &InboundEndpointProperties_ARM{}
+		result.Properties = &arm.InboundEndpointProperties{}
 	}
 	for _, item := range endpoint.IpConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*IpConfiguration_ARM))
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*arm.IpConfiguration))
 	}
 
 	// Set property "Tags":
@@ -389,14 +390,14 @@ func (endpoint *DnsResolversInboundEndpoint_Spec) ConvertToARM(resolved genrunti
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *DnsResolversInboundEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsResolversInboundEndpoint_Spec_ARM{}
+	return &arm.DnsResolversInboundEndpoint_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *DnsResolversInboundEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsResolversInboundEndpoint_Spec_ARM)
+	typedInput, ok := armInput.(arm.DnsResolversInboundEndpoint_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolversInboundEndpoint_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsResolversInboundEndpoint_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -717,14 +718,14 @@ var _ genruntime.FromARMConverter = &DnsResolversInboundEndpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *DnsResolversInboundEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsResolversInboundEndpoint_STATUS_ARM{}
+	return &arm.DnsResolversInboundEndpoint_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *DnsResolversInboundEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsResolversInboundEndpoint_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DnsResolversInboundEndpoint_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolversInboundEndpoint_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsResolversInboundEndpoint_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -983,7 +984,7 @@ func (configuration *IpConfiguration) ConvertToARM(resolved genruntime.ConvertTo
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &IpConfiguration_ARM{}
+	result := &arm.IpConfiguration{}
 
 	// Set property "PrivateIpAddress":
 	if configuration.PrivateIpAddress != nil {
@@ -995,7 +996,7 @@ func (configuration *IpConfiguration) ConvertToARM(resolved genruntime.ConvertTo
 	if configuration.PrivateIpAllocationMethod != nil {
 		var temp string
 		temp = string(*configuration.PrivateIpAllocationMethod)
-		privateIpAllocationMethod := IpConfiguration_PrivateIpAllocationMethod_ARM(temp)
+		privateIpAllocationMethod := arm.IpConfiguration_PrivateIpAllocationMethod(temp)
 		result.PrivateIpAllocationMethod = &privateIpAllocationMethod
 	}
 
@@ -1005,7 +1006,7 @@ func (configuration *IpConfiguration) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*DnsresolverSubResource_ARM)
+		subnet := *subnet_ARM.(*arm.DnsresolverSubResource)
 		result.Subnet = &subnet
 	}
 	return result, nil
@@ -1013,14 +1014,14 @@ func (configuration *IpConfiguration) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *IpConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpConfiguration_ARM{}
+	return &arm.IpConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *IpConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpConfiguration_ARM)
+	typedInput, ok := armInput.(arm.IpConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IpConfiguration, got %T", armInput)
 	}
 
 	// Set property "PrivateIpAddress":
@@ -1168,14 +1169,14 @@ var _ genruntime.FromARMConverter = &IpConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *IpConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpConfiguration_STATUS_ARM{}
+	return &arm.IpConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *IpConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IpConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IpConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "PrivateIpAddress":

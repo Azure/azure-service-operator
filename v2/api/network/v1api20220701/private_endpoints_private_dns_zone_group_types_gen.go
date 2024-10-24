@@ -5,6 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -346,35 +347,35 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) ConvertToARM(resolved gen
 	if group == nil {
 		return nil, nil
 	}
-	result := &PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM{}
+	result := &arm.PrivateEndpointsPrivateDnsZoneGroup_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if group.PrivateDnsZoneConfigs != nil {
-		result.Properties = &PrivateDnsZoneGroupPropertiesFormat_ARM{}
+		result.Properties = &arm.PrivateDnsZoneGroupPropertiesFormat{}
 	}
 	for _, item := range group.PrivateDnsZoneConfigs {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PrivateDnsZoneConfigs = append(result.Properties.PrivateDnsZoneConfigs, *item_ARM.(*PrivateDnsZoneConfig_ARM))
+		result.Properties.PrivateDnsZoneConfigs = append(result.Properties.PrivateDnsZoneConfigs, *item_ARM.(*arm.PrivateDnsZoneConfig))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM{}
+	return &arm.PrivateEndpointsPrivateDnsZoneGroup_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *PrivateEndpointsPrivateDnsZoneGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointsPrivateDnsZoneGroup_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointsPrivateDnsZoneGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointsPrivateDnsZoneGroup_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -646,14 +647,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointsPrivateDnsZoneGroup_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointsPrivateDnsZoneGroup_STATUS_ARM{}
+	return &arm.PrivateEndpointsPrivateDnsZoneGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *PrivateEndpointsPrivateDnsZoneGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointsPrivateDnsZoneGroup_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointsPrivateDnsZoneGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointsPrivateDnsZoneGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointsPrivateDnsZoneGroup_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -820,7 +821,7 @@ func (config *PrivateDnsZoneConfig) ConvertToARM(resolved genruntime.ConvertToAR
 	if config == nil {
 		return nil, nil
 	}
-	result := &PrivateDnsZoneConfig_ARM{}
+	result := &arm.PrivateDnsZoneConfig{}
 
 	// Set property "Name":
 	if config.Name != nil {
@@ -830,7 +831,7 @@ func (config *PrivateDnsZoneConfig) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Properties":
 	if config.PrivateDnsZoneReference != nil {
-		result.Properties = &PrivateDnsZonePropertiesFormat_ARM{}
+		result.Properties = &arm.PrivateDnsZonePropertiesFormat{}
 	}
 	if config.PrivateDnsZoneReference != nil {
 		privateDnsZoneIdARMID, err := resolved.ResolvedReferences.Lookup(*config.PrivateDnsZoneReference)
@@ -845,14 +846,14 @@ func (config *PrivateDnsZoneConfig) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *PrivateDnsZoneConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZoneConfig_ARM{}
+	return &arm.PrivateDnsZoneConfig{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *PrivateDnsZoneConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZoneConfig_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZoneConfig)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZoneConfig_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZoneConfig, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -946,14 +947,14 @@ var _ genruntime.FromARMConverter = &PrivateDnsZoneConfig_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (config *PrivateDnsZoneConfig_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZoneConfig_STATUS_ARM{}
+	return &arm.PrivateDnsZoneConfig_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (config *PrivateDnsZoneConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZoneConfig_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZoneConfig_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZoneConfig_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZoneConfig_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -1102,14 +1103,14 @@ var _ genruntime.FromARMConverter = &RecordSet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (recordSet *RecordSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RecordSet_STATUS_ARM{}
+	return &arm.RecordSet_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (recordSet *RecordSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RecordSet_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RecordSet_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RecordSet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RecordSet_STATUS, got %T", armInput)
 	}
 
 	// Set property "Fqdn":

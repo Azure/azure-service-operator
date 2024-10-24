@@ -5,6 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -397,7 +398,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertToARM(resolved genrun
 	if rule == nil {
 		return nil, nil
 	}
-	result := &NetworkSecurityGroupsSecurityRule_Spec_ARM{}
+	result := &arm.NetworkSecurityGroupsSecurityRule_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -418,12 +419,12 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertToARM(resolved genrun
 		rule.SourceApplicationSecurityGroups != nil ||
 		rule.SourcePortRange != nil ||
 		rule.SourcePortRanges != nil {
-		result.Properties = &SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM{}
+		result.Properties = &arm.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded{}
 	}
 	if rule.Access != nil {
 		var temp string
 		temp = string(*rule.Access)
-		access := SecurityRuleAccess_ARM(temp)
+		access := arm.SecurityRuleAccess(temp)
 		result.Properties.Access = &access
 	}
 	if rule.Description != nil {
@@ -442,7 +443,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.DestinationApplicationSecurityGroups = append(result.Properties.DestinationApplicationSecurityGroups, *item_ARM.(*ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM))
+		result.Properties.DestinationApplicationSecurityGroups = append(result.Properties.DestinationApplicationSecurityGroups, *item_ARM.(*arm.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded))
 	}
 	if rule.DestinationPortRange != nil {
 		destinationPortRange := *rule.DestinationPortRange
@@ -454,7 +455,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertToARM(resolved genrun
 	if rule.Direction != nil {
 		var temp string
 		temp = string(*rule.Direction)
-		direction := SecurityRuleDirection_ARM(temp)
+		direction := arm.SecurityRuleDirection(temp)
 		result.Properties.Direction = &direction
 	}
 	if rule.Priority != nil {
@@ -464,7 +465,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertToARM(resolved genrun
 	if rule.Protocol != nil {
 		var temp string
 		temp = string(*rule.Protocol)
-		protocol := SecurityRulePropertiesFormat_Protocol_ARM(temp)
+		protocol := arm.SecurityRulePropertiesFormat_Protocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if rule.SourceAddressPrefix != nil {
@@ -479,7 +480,7 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SourceApplicationSecurityGroups = append(result.Properties.SourceApplicationSecurityGroups, *item_ARM.(*ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM))
+		result.Properties.SourceApplicationSecurityGroups = append(result.Properties.SourceApplicationSecurityGroups, *item_ARM.(*arm.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded))
 	}
 	if rule.SourcePortRange != nil {
 		sourcePortRange := *rule.SourcePortRange
@@ -493,14 +494,14 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertToARM(resolved genrun
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NetworkSecurityGroupsSecurityRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroupsSecurityRule_Spec_ARM{}
+	return &arm.NetworkSecurityGroupsSecurityRule_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NetworkSecurityGroupsSecurityRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroupsSecurityRule_Spec_ARM)
+	typedInput, ok := armInput.(arm.NetworkSecurityGroupsSecurityRule_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroupsSecurityRule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkSecurityGroupsSecurityRule_Spec, got %T", armInput)
 	}
 
 	// Set property "Access":
@@ -1174,14 +1175,14 @@ var _ genruntime.FromARMConverter = &NetworkSecurityGroupsSecurityRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NetworkSecurityGroupsSecurityRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkSecurityGroupsSecurityRule_STATUS_ARM{}
+	return &arm.NetworkSecurityGroupsSecurityRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NetworkSecurityGroupsSecurityRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkSecurityGroupsSecurityRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NetworkSecurityGroupsSecurityRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroupsSecurityRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkSecurityGroupsSecurityRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Access":
@@ -1633,14 +1634,14 @@ var _ genruntime.FromARMConverter = &ApplicationSecurityGroup_STATUS_NetworkSecu
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM{}
+	return &arm.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1695,7 +1696,7 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM{}
+	result := &arm.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded{}
 
 	// Set property "Id":
 	if embedded.Reference != nil {
@@ -1711,14 +1712,14 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM{}
+	return &arm.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM)
+	_, ok := armInput.(arm.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"

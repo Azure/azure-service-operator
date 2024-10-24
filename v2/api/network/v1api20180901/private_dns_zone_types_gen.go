@@ -5,6 +5,7 @@ package v1api20180901
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -357,7 +358,7 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if zone == nil {
 		return nil, nil
 	}
-	result := &PrivateDnsZone_Spec_ARM{}
+	result := &arm.PrivateDnsZone_Spec{}
 
 	// Set property "Etag":
 	if zone.Etag != nil {
@@ -386,14 +387,14 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (zone *PrivateDnsZone_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZone_Spec_ARM{}
+	return &arm.PrivateDnsZone_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (zone *PrivateDnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZone_Spec_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZone_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZone_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -676,14 +677,14 @@ var _ genruntime.FromARMConverter = &PrivateDnsZone_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (zone *PrivateDnsZone_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZone_STATUS_ARM{}
+	return &arm.PrivateDnsZone_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZone_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZone_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZone_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

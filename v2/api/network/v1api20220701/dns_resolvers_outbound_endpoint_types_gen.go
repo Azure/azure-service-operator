@@ -5,6 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -354,7 +355,7 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) ConvertToARM(resolved genrunt
 	if endpoint == nil {
 		return nil, nil
 	}
-	result := &DnsResolversOutboundEndpoint_Spec_ARM{}
+	result := &arm.DnsResolversOutboundEndpoint_Spec{}
 
 	// Set property "Location":
 	if endpoint.Location != nil {
@@ -367,14 +368,14 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) ConvertToARM(resolved genrunt
 
 	// Set property "Properties":
 	if endpoint.Subnet != nil {
-		result.Properties = &OutboundEndpointProperties_ARM{}
+		result.Properties = &arm.OutboundEndpointProperties{}
 	}
 	if endpoint.Subnet != nil {
 		subnet_ARM, err := (*endpoint.Subnet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*DnsresolverSubResource_ARM)
+		subnet := *subnet_ARM.(*arm.DnsresolverSubResource)
 		result.Properties.Subnet = &subnet
 	}
 
@@ -390,14 +391,14 @@ func (endpoint *DnsResolversOutboundEndpoint_Spec) ConvertToARM(resolved genrunt
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *DnsResolversOutboundEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsResolversOutboundEndpoint_Spec_ARM{}
+	return &arm.DnsResolversOutboundEndpoint_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *DnsResolversOutboundEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsResolversOutboundEndpoint_Spec_ARM)
+	typedInput, ok := armInput.(arm.DnsResolversOutboundEndpoint_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolversOutboundEndpoint_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsResolversOutboundEndpoint_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -701,14 +702,14 @@ var _ genruntime.FromARMConverter = &DnsResolversOutboundEndpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *DnsResolversOutboundEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DnsResolversOutboundEndpoint_STATUS_ARM{}
+	return &arm.DnsResolversOutboundEndpoint_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *DnsResolversOutboundEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DnsResolversOutboundEndpoint_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DnsResolversOutboundEndpoint_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolversOutboundEndpoint_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DnsResolversOutboundEndpoint_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

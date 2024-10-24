@@ -5,6 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -381,7 +382,7 @@ func (record *PrivateDnsZonesAAAARecord_Spec) ConvertToARM(resolved genruntime.C
 	if record == nil {
 		return nil, nil
 	}
-	result := &PrivateDnsZonesAAAARecord_Spec_ARM{}
+	result := &arm.PrivateDnsZonesAAAARecord_Spec{}
 
 	// Set property "Etag":
 	if record.Etag != nil {
@@ -403,28 +404,28 @@ func (record *PrivateDnsZonesAAAARecord_Spec) ConvertToARM(resolved genruntime.C
 		record.SrvRecords != nil ||
 		record.Ttl != nil ||
 		record.TxtRecords != nil {
-		result.Properties = &RecordSetProperties_ARM{}
+		result.Properties = &arm.RecordSetProperties{}
 	}
 	for _, item := range record.ARecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ARecords = append(result.Properties.ARecords, *item_ARM.(*ARecord_ARM))
+		result.Properties.ARecords = append(result.Properties.ARecords, *item_ARM.(*arm.ARecord))
 	}
 	for _, item := range record.AaaaRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.AaaaRecords = append(result.Properties.AaaaRecords, *item_ARM.(*AaaaRecord_ARM))
+		result.Properties.AaaaRecords = append(result.Properties.AaaaRecords, *item_ARM.(*arm.AaaaRecord))
 	}
 	if record.CnameRecord != nil {
 		cnameRecord_ARM, err := (*record.CnameRecord).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		cnameRecord := *cnameRecord_ARM.(*CnameRecord_ARM)
+		cnameRecord := *cnameRecord_ARM.(*arm.CnameRecord)
 		result.Properties.CnameRecord = &cnameRecord
 	}
 	if record.Metadata != nil {
@@ -438,21 +439,21 @@ func (record *PrivateDnsZonesAAAARecord_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.MxRecords = append(result.Properties.MxRecords, *item_ARM.(*MxRecord_ARM))
+		result.Properties.MxRecords = append(result.Properties.MxRecords, *item_ARM.(*arm.MxRecord))
 	}
 	for _, item := range record.PtrRecords {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PtrRecords = append(result.Properties.PtrRecords, *item_ARM.(*PtrRecord_ARM))
+		result.Properties.PtrRecords = append(result.Properties.PtrRecords, *item_ARM.(*arm.PtrRecord))
 	}
 	if record.SoaRecord != nil {
 		soaRecord_ARM, err := (*record.SoaRecord).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		soaRecord := *soaRecord_ARM.(*SoaRecord_ARM)
+		soaRecord := *soaRecord_ARM.(*arm.SoaRecord)
 		result.Properties.SoaRecord = &soaRecord
 	}
 	for _, item := range record.SrvRecords {
@@ -460,7 +461,7 @@ func (record *PrivateDnsZonesAAAARecord_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SrvRecords = append(result.Properties.SrvRecords, *item_ARM.(*SrvRecord_ARM))
+		result.Properties.SrvRecords = append(result.Properties.SrvRecords, *item_ARM.(*arm.SrvRecord))
 	}
 	if record.Ttl != nil {
 		ttl := *record.Ttl
@@ -471,21 +472,21 @@ func (record *PrivateDnsZonesAAAARecord_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TxtRecords = append(result.Properties.TxtRecords, *item_ARM.(*TxtRecord_ARM))
+		result.Properties.TxtRecords = append(result.Properties.TxtRecords, *item_ARM.(*arm.TxtRecord))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *PrivateDnsZonesAAAARecord_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZonesAAAARecord_Spec_ARM{}
+	return &arm.PrivateDnsZonesAAAARecord_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *PrivateDnsZonesAAAARecord_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZonesAAAARecord_Spec_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZonesAAAARecord_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZonesAAAARecord_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZonesAAAARecord_Spec, got %T", armInput)
 	}
 
 	// Set property "ARecords":
@@ -1279,14 +1280,14 @@ var _ genruntime.FromARMConverter = &PrivateDnsZonesAAAARecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *PrivateDnsZonesAAAARecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateDnsZonesAAAARecord_STATUS_ARM{}
+	return &arm.PrivateDnsZonesAAAARecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *PrivateDnsZonesAAAARecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateDnsZonesAAAARecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateDnsZonesAAAARecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZonesAAAARecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateDnsZonesAAAARecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "ARecords":
@@ -1827,7 +1828,7 @@ func (record *AaaaRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if record == nil {
 		return nil, nil
 	}
-	result := &AaaaRecord_ARM{}
+	result := &arm.AaaaRecord{}
 
 	// Set property "Ipv6Address":
 	if record.Ipv6Address != nil {
@@ -1839,14 +1840,14 @@ func (record *AaaaRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *AaaaRecord) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AaaaRecord_ARM{}
+	return &arm.AaaaRecord{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *AaaaRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AaaaRecord_ARM)
+	typedInput, ok := armInput.(arm.AaaaRecord)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AaaaRecord_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AaaaRecord, got %T", armInput)
 	}
 
 	// Set property "Ipv6Address":
@@ -1908,14 +1909,14 @@ var _ genruntime.FromARMConverter = &AaaaRecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *AaaaRecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AaaaRecord_STATUS_ARM{}
+	return &arm.AaaaRecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *AaaaRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AaaaRecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AaaaRecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AaaaRecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AaaaRecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "Ipv6Address":
@@ -1970,7 +1971,7 @@ func (record *ARecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	if record == nil {
 		return nil, nil
 	}
-	result := &ARecord_ARM{}
+	result := &arm.ARecord{}
 
 	// Set property "Ipv4Address":
 	if record.Ipv4Address != nil {
@@ -1982,14 +1983,14 @@ func (record *ARecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *ARecord) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ARecord_ARM{}
+	return &arm.ARecord{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *ARecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ARecord_ARM)
+	typedInput, ok := armInput.(arm.ARecord)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ARecord_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ARecord, got %T", armInput)
 	}
 
 	// Set property "Ipv4Address":
@@ -2051,14 +2052,14 @@ var _ genruntime.FromARMConverter = &ARecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *ARecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ARecord_STATUS_ARM{}
+	return &arm.ARecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *ARecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ARecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ARecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ARecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ARecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "Ipv4Address":
@@ -2113,7 +2114,7 @@ func (record *CnameRecord) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if record == nil {
 		return nil, nil
 	}
-	result := &CnameRecord_ARM{}
+	result := &arm.CnameRecord{}
 
 	// Set property "Cname":
 	if record.Cname != nil {
@@ -2125,14 +2126,14 @@ func (record *CnameRecord) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *CnameRecord) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CnameRecord_ARM{}
+	return &arm.CnameRecord{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *CnameRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CnameRecord_ARM)
+	typedInput, ok := armInput.(arm.CnameRecord)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CnameRecord_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CnameRecord, got %T", armInput)
 	}
 
 	// Set property "Cname":
@@ -2194,14 +2195,14 @@ var _ genruntime.FromARMConverter = &CnameRecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *CnameRecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CnameRecord_STATUS_ARM{}
+	return &arm.CnameRecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *CnameRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CnameRecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CnameRecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CnameRecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CnameRecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "Cname":
@@ -2259,7 +2260,7 @@ func (record *MxRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if record == nil {
 		return nil, nil
 	}
-	result := &MxRecord_ARM{}
+	result := &arm.MxRecord{}
 
 	// Set property "Exchange":
 	if record.Exchange != nil {
@@ -2277,14 +2278,14 @@ func (record *MxRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *MxRecord) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MxRecord_ARM{}
+	return &arm.MxRecord{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *MxRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MxRecord_ARM)
+	typedInput, ok := armInput.(arm.MxRecord)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MxRecord_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MxRecord, got %T", armInput)
 	}
 
 	// Set property "Exchange":
@@ -2364,14 +2365,14 @@ var _ genruntime.FromARMConverter = &MxRecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *MxRecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MxRecord_STATUS_ARM{}
+	return &arm.MxRecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *MxRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MxRecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MxRecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MxRecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MxRecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "Exchange":
@@ -2438,7 +2439,7 @@ func (record *PtrRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if record == nil {
 		return nil, nil
 	}
-	result := &PtrRecord_ARM{}
+	result := &arm.PtrRecord{}
 
 	// Set property "Ptrdname":
 	if record.Ptrdname != nil {
@@ -2450,14 +2451,14 @@ func (record *PtrRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *PtrRecord) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PtrRecord_ARM{}
+	return &arm.PtrRecord{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *PtrRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PtrRecord_ARM)
+	typedInput, ok := armInput.(arm.PtrRecord)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PtrRecord_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PtrRecord, got %T", armInput)
 	}
 
 	// Set property "Ptrdname":
@@ -2519,14 +2520,14 @@ var _ genruntime.FromARMConverter = &PtrRecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *PtrRecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PtrRecord_STATUS_ARM{}
+	return &arm.PtrRecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *PtrRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PtrRecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PtrRecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PtrRecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PtrRecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "Ptrdname":
@@ -2599,7 +2600,7 @@ func (record *SoaRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if record == nil {
 		return nil, nil
 	}
-	result := &SoaRecord_ARM{}
+	result := &arm.SoaRecord{}
 
 	// Set property "Email":
 	if record.Email != nil {
@@ -2647,14 +2648,14 @@ func (record *SoaRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *SoaRecord) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SoaRecord_ARM{}
+	return &arm.SoaRecord{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *SoaRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SoaRecord_ARM)
+	typedInput, ok := armInput.(arm.SoaRecord)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SoaRecord_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SoaRecord, got %T", armInput)
 	}
 
 	// Set property "Email":
@@ -2824,14 +2825,14 @@ var _ genruntime.FromARMConverter = &SoaRecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *SoaRecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SoaRecord_STATUS_ARM{}
+	return &arm.SoaRecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *SoaRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SoaRecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SoaRecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SoaRecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SoaRecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "Email":
@@ -2967,7 +2968,7 @@ func (record *SrvRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if record == nil {
 		return nil, nil
 	}
-	result := &SrvRecord_ARM{}
+	result := &arm.SrvRecord{}
 
 	// Set property "Port":
 	if record.Port != nil {
@@ -2997,14 +2998,14 @@ func (record *SrvRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *SrvRecord) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SrvRecord_ARM{}
+	return &arm.SrvRecord{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *SrvRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SrvRecord_ARM)
+	typedInput, ok := armInput.(arm.SrvRecord)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SrvRecord_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SrvRecord, got %T", armInput)
 	}
 
 	// Set property "Port":
@@ -3120,14 +3121,14 @@ var _ genruntime.FromARMConverter = &SrvRecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *SrvRecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SrvRecord_STATUS_ARM{}
+	return &arm.SrvRecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *SrvRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SrvRecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SrvRecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SrvRecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SrvRecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "Port":
@@ -3218,7 +3219,7 @@ func (record *TxtRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if record == nil {
 		return nil, nil
 	}
-	result := &TxtRecord_ARM{}
+	result := &arm.TxtRecord{}
 
 	// Set property "Value":
 	for _, item := range record.Value {
@@ -3229,14 +3230,14 @@ func (record *TxtRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *TxtRecord) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TxtRecord_ARM{}
+	return &arm.TxtRecord{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *TxtRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TxtRecord_ARM)
+	typedInput, ok := armInput.(arm.TxtRecord)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TxtRecord_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TxtRecord, got %T", armInput)
 	}
 
 	// Set property "Value":
@@ -3297,14 +3298,14 @@ var _ genruntime.FromARMConverter = &TxtRecord_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (record *TxtRecord_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TxtRecord_STATUS_ARM{}
+	return &arm.TxtRecord_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (record *TxtRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TxtRecord_STATUS_ARM)
+	typedInput, ok := armInput.(arm.TxtRecord_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TxtRecord_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TxtRecord_STATUS, got %T", armInput)
 	}
 
 	// Set property "Value":

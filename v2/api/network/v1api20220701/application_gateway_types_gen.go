@@ -5,6 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -475,7 +476,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 	if gateway == nil {
 		return nil, nil
 	}
-	result := &ApplicationGateway_Spec_ARM{}
+	result := &arm.ApplicationGateway_Spec{}
 
 	// Set property "Identity":
 	if gateway.Identity != nil {
@@ -483,7 +484,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*ManagedServiceIdentity_ARM)
+		identity := *identity_ARM.(*arm.ManagedServiceIdentity)
 		result.Identity = &identity
 	}
 
@@ -528,21 +529,21 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		gateway.TrustedRootCertificates != nil ||
 		gateway.UrlPathMaps != nil ||
 		gateway.WebApplicationFirewallConfiguration != nil {
-		result.Properties = &ApplicationGatewayPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayPropertiesFormat{}
 	}
 	for _, item := range gateway.AuthenticationCertificates {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.AuthenticationCertificates = append(result.Properties.AuthenticationCertificates, *item_ARM.(*ApplicationGatewayAuthenticationCertificate_ARM))
+		result.Properties.AuthenticationCertificates = append(result.Properties.AuthenticationCertificates, *item_ARM.(*arm.ApplicationGatewayAuthenticationCertificate))
 	}
 	if gateway.AutoscaleConfiguration != nil {
 		autoscaleConfiguration_ARM, err := (*gateway.AutoscaleConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		autoscaleConfiguration := *autoscaleConfiguration_ARM.(*ApplicationGatewayAutoscaleConfiguration_ARM)
+		autoscaleConfiguration := *autoscaleConfiguration_ARM.(*arm.ApplicationGatewayAutoscaleConfiguration)
 		result.Properties.AutoscaleConfiguration = &autoscaleConfiguration
 	}
 	for _, item := range gateway.BackendAddressPools {
@@ -550,28 +551,28 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, *item_ARM.(*ApplicationGatewayBackendAddressPool_ARM))
+		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, *item_ARM.(*arm.ApplicationGatewayBackendAddressPool))
 	}
 	for _, item := range gateway.BackendHttpSettingsCollection {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.BackendHttpSettingsCollection = append(result.Properties.BackendHttpSettingsCollection, *item_ARM.(*ApplicationGatewayBackendHttpSettings_ARM))
+		result.Properties.BackendHttpSettingsCollection = append(result.Properties.BackendHttpSettingsCollection, *item_ARM.(*arm.ApplicationGatewayBackendHttpSettings))
 	}
 	for _, item := range gateway.BackendSettingsCollection {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.BackendSettingsCollection = append(result.Properties.BackendSettingsCollection, *item_ARM.(*ApplicationGatewayBackendSettings_ARM))
+		result.Properties.BackendSettingsCollection = append(result.Properties.BackendSettingsCollection, *item_ARM.(*arm.ApplicationGatewayBackendSettings))
 	}
 	for _, item := range gateway.CustomErrorConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.CustomErrorConfigurations = append(result.Properties.CustomErrorConfigurations, *item_ARM.(*ApplicationGatewayCustomError_ARM))
+		result.Properties.CustomErrorConfigurations = append(result.Properties.CustomErrorConfigurations, *item_ARM.(*arm.ApplicationGatewayCustomError))
 	}
 	if gateway.EnableFips != nil {
 		enableFips := *gateway.EnableFips
@@ -586,7 +587,7 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		firewallPolicy := *firewallPolicy_ARM.(*ApplicationGatewaySubResource_ARM)
+		firewallPolicy := *firewallPolicy_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.FirewallPolicy = &firewallPolicy
 	}
 	if gateway.ForceFirewallPolicyAssociation != nil {
@@ -598,28 +599,28 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*ApplicationGatewayFrontendIPConfiguration_ARM))
+		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*arm.ApplicationGatewayFrontendIPConfiguration))
 	}
 	for _, item := range gateway.FrontendPorts {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.FrontendPorts = append(result.Properties.FrontendPorts, *item_ARM.(*ApplicationGatewayFrontendPort_ARM))
+		result.Properties.FrontendPorts = append(result.Properties.FrontendPorts, *item_ARM.(*arm.ApplicationGatewayFrontendPort))
 	}
 	for _, item := range gateway.GatewayIPConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.GatewayIPConfigurations = append(result.Properties.GatewayIPConfigurations, *item_ARM.(*ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded_ARM))
+		result.Properties.GatewayIPConfigurations = append(result.Properties.GatewayIPConfigurations, *item_ARM.(*arm.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded))
 	}
 	if gateway.GlobalConfiguration != nil {
 		globalConfiguration_ARM, err := (*gateway.GlobalConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		globalConfiguration := *globalConfiguration_ARM.(*ApplicationGatewayGlobalConfiguration_ARM)
+		globalConfiguration := *globalConfiguration_ARM.(*arm.ApplicationGatewayGlobalConfiguration)
 		result.Properties.GlobalConfiguration = &globalConfiguration
 	}
 	for _, item := range gateway.HttpListeners {
@@ -627,70 +628,70 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.HttpListeners = append(result.Properties.HttpListeners, *item_ARM.(*ApplicationGatewayHttpListener_ARM))
+		result.Properties.HttpListeners = append(result.Properties.HttpListeners, *item_ARM.(*arm.ApplicationGatewayHttpListener))
 	}
 	for _, item := range gateway.Listeners {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Listeners = append(result.Properties.Listeners, *item_ARM.(*ApplicationGatewayListener_ARM))
+		result.Properties.Listeners = append(result.Properties.Listeners, *item_ARM.(*arm.ApplicationGatewayListener))
 	}
 	for _, item := range gateway.LoadDistributionPolicies {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadDistributionPolicies = append(result.Properties.LoadDistributionPolicies, *item_ARM.(*ApplicationGatewayLoadDistributionPolicy_ARM))
+		result.Properties.LoadDistributionPolicies = append(result.Properties.LoadDistributionPolicies, *item_ARM.(*arm.ApplicationGatewayLoadDistributionPolicy))
 	}
 	for _, item := range gateway.PrivateLinkConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PrivateLinkConfigurations = append(result.Properties.PrivateLinkConfigurations, *item_ARM.(*ApplicationGatewayPrivateLinkConfiguration_ARM))
+		result.Properties.PrivateLinkConfigurations = append(result.Properties.PrivateLinkConfigurations, *item_ARM.(*arm.ApplicationGatewayPrivateLinkConfiguration))
 	}
 	for _, item := range gateway.Probes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Probes = append(result.Properties.Probes, *item_ARM.(*ApplicationGatewayProbe_ARM))
+		result.Properties.Probes = append(result.Properties.Probes, *item_ARM.(*arm.ApplicationGatewayProbe))
 	}
 	for _, item := range gateway.RedirectConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RedirectConfigurations = append(result.Properties.RedirectConfigurations, *item_ARM.(*ApplicationGatewayRedirectConfiguration_ARM))
+		result.Properties.RedirectConfigurations = append(result.Properties.RedirectConfigurations, *item_ARM.(*arm.ApplicationGatewayRedirectConfiguration))
 	}
 	for _, item := range gateway.RequestRoutingRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RequestRoutingRules = append(result.Properties.RequestRoutingRules, *item_ARM.(*ApplicationGatewayRequestRoutingRule_ARM))
+		result.Properties.RequestRoutingRules = append(result.Properties.RequestRoutingRules, *item_ARM.(*arm.ApplicationGatewayRequestRoutingRule))
 	}
 	for _, item := range gateway.RewriteRuleSets {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RewriteRuleSets = append(result.Properties.RewriteRuleSets, *item_ARM.(*ApplicationGatewayRewriteRuleSet_ARM))
+		result.Properties.RewriteRuleSets = append(result.Properties.RewriteRuleSets, *item_ARM.(*arm.ApplicationGatewayRewriteRuleSet))
 	}
 	for _, item := range gateway.RoutingRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RoutingRules = append(result.Properties.RoutingRules, *item_ARM.(*ApplicationGatewayRoutingRule_ARM))
+		result.Properties.RoutingRules = append(result.Properties.RoutingRules, *item_ARM.(*arm.ApplicationGatewayRoutingRule))
 	}
 	if gateway.Sku != nil {
 		sku_ARM, err := (*gateway.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*ApplicationGatewaySku_ARM)
+		sku := *sku_ARM.(*arm.ApplicationGatewaySku)
 		result.Properties.Sku = &sku
 	}
 	for _, item := range gateway.SslCertificates {
@@ -698,14 +699,14 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SslCertificates = append(result.Properties.SslCertificates, *item_ARM.(*ApplicationGatewaySslCertificate_ARM))
+		result.Properties.SslCertificates = append(result.Properties.SslCertificates, *item_ARM.(*arm.ApplicationGatewaySslCertificate))
 	}
 	if gateway.SslPolicy != nil {
 		sslPolicy_ARM, err := (*gateway.SslPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sslPolicy := *sslPolicy_ARM.(*ApplicationGatewaySslPolicy_ARM)
+		sslPolicy := *sslPolicy_ARM.(*arm.ApplicationGatewaySslPolicy)
 		result.Properties.SslPolicy = &sslPolicy
 	}
 	for _, item := range gateway.SslProfiles {
@@ -713,35 +714,35 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SslProfiles = append(result.Properties.SslProfiles, *item_ARM.(*ApplicationGatewaySslProfile_ARM))
+		result.Properties.SslProfiles = append(result.Properties.SslProfiles, *item_ARM.(*arm.ApplicationGatewaySslProfile))
 	}
 	for _, item := range gateway.TrustedClientCertificates {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TrustedClientCertificates = append(result.Properties.TrustedClientCertificates, *item_ARM.(*ApplicationGatewayTrustedClientCertificate_ARM))
+		result.Properties.TrustedClientCertificates = append(result.Properties.TrustedClientCertificates, *item_ARM.(*arm.ApplicationGatewayTrustedClientCertificate))
 	}
 	for _, item := range gateway.TrustedRootCertificates {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*ApplicationGatewayTrustedRootCertificate_ARM))
+		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*arm.ApplicationGatewayTrustedRootCertificate))
 	}
 	for _, item := range gateway.UrlPathMaps {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.UrlPathMaps = append(result.Properties.UrlPathMaps, *item_ARM.(*ApplicationGatewayUrlPathMap_ARM))
+		result.Properties.UrlPathMaps = append(result.Properties.UrlPathMaps, *item_ARM.(*arm.ApplicationGatewayUrlPathMap))
 	}
 	if gateway.WebApplicationFirewallConfiguration != nil {
 		webApplicationFirewallConfiguration_ARM, err := (*gateway.WebApplicationFirewallConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		webApplicationFirewallConfiguration := *webApplicationFirewallConfiguration_ARM.(*ApplicationGatewayWebApplicationFirewallConfiguration_ARM)
+		webApplicationFirewallConfiguration := *webApplicationFirewallConfiguration_ARM.(*arm.ApplicationGatewayWebApplicationFirewallConfiguration)
 		result.Properties.WebApplicationFirewallConfiguration = &webApplicationFirewallConfiguration
 	}
 
@@ -762,14 +763,14 @@ func (gateway *ApplicationGateway_Spec) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gateway *ApplicationGateway_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGateway_Spec_ARM{}
+	return &arm.ApplicationGateway_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gateway *ApplicationGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGateway_Spec_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGateway_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGateway_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGateway_Spec, got %T", armInput)
 	}
 
 	// Set property "AuthenticationCertificates":
@@ -3075,14 +3076,14 @@ var _ genruntime.FromARMConverter = &ApplicationGateway_STATUS_ApplicationGatewa
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM{}
+	return &arm.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "AuthenticationCertificates":
@@ -4757,7 +4758,7 @@ func (certificate *ApplicationGatewayAuthenticationCertificate) ConvertToARM(res
 	if certificate == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayAuthenticationCertificate_ARM{}
+	result := &arm.ApplicationGatewayAuthenticationCertificate{}
 
 	// Set property "Name":
 	if certificate.Name != nil {
@@ -4767,7 +4768,7 @@ func (certificate *ApplicationGatewayAuthenticationCertificate) ConvertToARM(res
 
 	// Set property "Properties":
 	if certificate.Data != nil {
-		result.Properties = &ApplicationGatewayAuthenticationCertificatePropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayAuthenticationCertificatePropertiesFormat{}
 	}
 	if certificate.Data != nil {
 		dataSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Data)
@@ -4782,14 +4783,14 @@ func (certificate *ApplicationGatewayAuthenticationCertificate) ConvertToARM(res
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *ApplicationGatewayAuthenticationCertificate) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayAuthenticationCertificate_ARM{}
+	return &arm.ApplicationGatewayAuthenticationCertificate{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *ApplicationGatewayAuthenticationCertificate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayAuthenticationCertificate_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayAuthenticationCertificate)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayAuthenticationCertificate_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayAuthenticationCertificate, got %T", armInput)
 	}
 
 	// no assignment for property "Data"
@@ -4866,14 +4867,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayAuthenticationCertificate
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *ApplicationGatewayAuthenticationCertificate_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayAuthenticationCertificate_STATUS_ARM{}
+	return &arm.ApplicationGatewayAuthenticationCertificate_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *ApplicationGatewayAuthenticationCertificate_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayAuthenticationCertificate_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayAuthenticationCertificate_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayAuthenticationCertificate_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayAuthenticationCertificate_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -4934,7 +4935,7 @@ func (configuration *ApplicationGatewayAutoscaleConfiguration) ConvertToARM(reso
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayAutoscaleConfiguration_ARM{}
+	result := &arm.ApplicationGatewayAutoscaleConfiguration{}
 
 	// Set property "MaxCapacity":
 	if configuration.MaxCapacity != nil {
@@ -4952,14 +4953,14 @@ func (configuration *ApplicationGatewayAutoscaleConfiguration) ConvertToARM(reso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayAutoscaleConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayAutoscaleConfiguration_ARM{}
+	return &arm.ApplicationGatewayAutoscaleConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayAutoscaleConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayAutoscaleConfiguration_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayAutoscaleConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayAutoscaleConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayAutoscaleConfiguration, got %T", armInput)
 	}
 
 	// Set property "MaxCapacity":
@@ -5069,14 +5070,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayAutoscaleConfiguration_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayAutoscaleConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayAutoscaleConfiguration_STATUS_ARM{}
+	return &arm.ApplicationGatewayAutoscaleConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayAutoscaleConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayAutoscaleConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayAutoscaleConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayAutoscaleConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayAutoscaleConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "MaxCapacity":
@@ -5146,7 +5147,7 @@ func (pool *ApplicationGatewayBackendAddressPool) ConvertToARM(resolved genrunti
 	if pool == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayBackendAddressPool_ARM{}
+	result := &arm.ApplicationGatewayBackendAddressPool{}
 
 	// Set property "Name":
 	if pool.Name != nil {
@@ -5156,28 +5157,28 @@ func (pool *ApplicationGatewayBackendAddressPool) ConvertToARM(resolved genrunti
 
 	// Set property "Properties":
 	if pool.BackendAddresses != nil {
-		result.Properties = &ApplicationGatewayBackendAddressPoolPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayBackendAddressPoolPropertiesFormat{}
 	}
 	for _, item := range pool.BackendAddresses {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.BackendAddresses = append(result.Properties.BackendAddresses, *item_ARM.(*ApplicationGatewayBackendAddress_ARM))
+		result.Properties.BackendAddresses = append(result.Properties.BackendAddresses, *item_ARM.(*arm.ApplicationGatewayBackendAddress))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *ApplicationGatewayBackendAddressPool) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayBackendAddressPool_ARM{}
+	return &arm.ApplicationGatewayBackendAddressPool{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *ApplicationGatewayBackendAddressPool) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayBackendAddressPool_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayBackendAddressPool)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayBackendAddressPool_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayBackendAddressPool, got %T", armInput)
 	}
 
 	// Set property "BackendAddresses":
@@ -5285,14 +5286,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayBackendAddressPool_STATUS
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *ApplicationGatewayBackendAddressPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayBackendAddressPool_STATUS_ARM{}
+	return &arm.ApplicationGatewayBackendAddressPool_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *ApplicationGatewayBackendAddressPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayBackendAddressPool_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayBackendAddressPool_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayBackendAddressPool_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayBackendAddressPool_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -5389,7 +5390,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 	if settings == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayBackendHttpSettings_ARM{}
+	result := &arm.ApplicationGatewayBackendHttpSettings{}
 
 	// Set property "Name":
 	if settings.Name != nil {
@@ -5411,7 +5412,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		settings.Protocol != nil ||
 		settings.RequestTimeout != nil ||
 		settings.TrustedRootCertificates != nil {
-		result.Properties = &ApplicationGatewayBackendHttpSettingsPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayBackendHttpSettingsPropertiesFormat{}
 	}
 	if settings.AffinityCookieName != nil {
 		affinityCookieName := *settings.AffinityCookieName
@@ -5422,20 +5423,20 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.AuthenticationCertificates = append(result.Properties.AuthenticationCertificates, *item_ARM.(*ApplicationGatewaySubResource_ARM))
+		result.Properties.AuthenticationCertificates = append(result.Properties.AuthenticationCertificates, *item_ARM.(*arm.ApplicationGatewaySubResource))
 	}
 	if settings.ConnectionDraining != nil {
 		connectionDraining_ARM, err := (*settings.ConnectionDraining).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		connectionDraining := *connectionDraining_ARM.(*ApplicationGatewayConnectionDraining_ARM)
+		connectionDraining := *connectionDraining_ARM.(*arm.ApplicationGatewayConnectionDraining)
 		result.Properties.ConnectionDraining = &connectionDraining
 	}
 	if settings.CookieBasedAffinity != nil {
 		var temp string
 		temp = string(*settings.CookieBasedAffinity)
-		cookieBasedAffinity := ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_ARM(temp)
+		cookieBasedAffinity := arm.ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity(temp)
 		result.Properties.CookieBasedAffinity = &cookieBasedAffinity
 	}
 	if settings.HostName != nil {
@@ -5459,7 +5460,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		probe := *probe_ARM.(*ApplicationGatewaySubResource_ARM)
+		probe := *probe_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.Probe = &probe
 	}
 	if settings.ProbeEnabled != nil {
@@ -5469,7 +5470,7 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 	if settings.Protocol != nil {
 		var temp string
 		temp = string(*settings.Protocol)
-		protocol := ApplicationGatewayProtocol_ARM(temp)
+		protocol := arm.ApplicationGatewayProtocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if settings.RequestTimeout != nil {
@@ -5481,21 +5482,21 @@ func (settings *ApplicationGatewayBackendHttpSettings) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*ApplicationGatewaySubResource_ARM))
+		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*arm.ApplicationGatewaySubResource))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ApplicationGatewayBackendHttpSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayBackendHttpSettings_ARM{}
+	return &arm.ApplicationGatewayBackendHttpSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ApplicationGatewayBackendHttpSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayBackendHttpSettings_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayBackendHttpSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayBackendHttpSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayBackendHttpSettings, got %T", armInput)
 	}
 
 	// Set property "AffinityCookieName":
@@ -5909,14 +5910,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayBackendHttpSettings_STATU
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ApplicationGatewayBackendHttpSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayBackendHttpSettings_STATUS_ARM{}
+	return &arm.ApplicationGatewayBackendHttpSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ApplicationGatewayBackendHttpSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayBackendHttpSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayBackendHttpSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayBackendHttpSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayBackendHttpSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -5994,7 +5995,7 @@ func (settings *ApplicationGatewayBackendSettings) ConvertToARM(resolved genrunt
 	if settings == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayBackendSettings_ARM{}
+	result := &arm.ApplicationGatewayBackendSettings{}
 
 	// Set property "Name":
 	if settings.Name != nil {
@@ -6010,7 +6011,7 @@ func (settings *ApplicationGatewayBackendSettings) ConvertToARM(resolved genrunt
 		settings.Protocol != nil ||
 		settings.Timeout != nil ||
 		settings.TrustedRootCertificates != nil {
-		result.Properties = &ApplicationGatewayBackendSettingsPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayBackendSettingsPropertiesFormat{}
 	}
 	if settings.HostName != nil {
 		hostName := *settings.HostName
@@ -6029,13 +6030,13 @@ func (settings *ApplicationGatewayBackendSettings) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		probe := *probe_ARM.(*ApplicationGatewaySubResource_ARM)
+		probe := *probe_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.Probe = &probe
 	}
 	if settings.Protocol != nil {
 		var temp string
 		temp = string(*settings.Protocol)
-		protocol := ApplicationGatewayProtocol_ARM(temp)
+		protocol := arm.ApplicationGatewayProtocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if settings.Timeout != nil {
@@ -6047,21 +6048,21 @@ func (settings *ApplicationGatewayBackendSettings) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*ApplicationGatewaySubResource_ARM))
+		result.Properties.TrustedRootCertificates = append(result.Properties.TrustedRootCertificates, *item_ARM.(*arm.ApplicationGatewaySubResource))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ApplicationGatewayBackendSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayBackendSettings_ARM{}
+	return &arm.ApplicationGatewayBackendSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ApplicationGatewayBackendSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayBackendSettings_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayBackendSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayBackendSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayBackendSettings, got %T", armInput)
 	}
 
 	// Set property "HostName":
@@ -6305,14 +6306,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayBackendSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ApplicationGatewayBackendSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayBackendSettings_STATUS_ARM{}
+	return &arm.ApplicationGatewayBackendSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ApplicationGatewayBackendSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayBackendSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayBackendSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayBackendSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayBackendSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -6370,7 +6371,7 @@ func (error *ApplicationGatewayCustomError) ConvertToARM(resolved genruntime.Con
 	if error == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayCustomError_ARM{}
+	result := &arm.ApplicationGatewayCustomError{}
 
 	// Set property "CustomErrorPageUrl":
 	if error.CustomErrorPageUrl != nil {
@@ -6382,7 +6383,7 @@ func (error *ApplicationGatewayCustomError) ConvertToARM(resolved genruntime.Con
 	if error.StatusCode != nil {
 		var temp string
 		temp = string(*error.StatusCode)
-		statusCode := ApplicationGatewayCustomError_StatusCode_ARM(temp)
+		statusCode := arm.ApplicationGatewayCustomError_StatusCode(temp)
 		result.StatusCode = &statusCode
 	}
 	return result, nil
@@ -6390,14 +6391,14 @@ func (error *ApplicationGatewayCustomError) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (error *ApplicationGatewayCustomError) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayCustomError_ARM{}
+	return &arm.ApplicationGatewayCustomError{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (error *ApplicationGatewayCustomError) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayCustomError_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayCustomError)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayCustomError_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayCustomError, got %T", armInput)
 	}
 
 	// Set property "CustomErrorPageUrl":
@@ -6495,14 +6496,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayCustomError_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (error *ApplicationGatewayCustomError_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayCustomError_STATUS_ARM{}
+	return &arm.ApplicationGatewayCustomError_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (error *ApplicationGatewayCustomError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayCustomError_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayCustomError_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayCustomError_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayCustomError_STATUS, got %T", armInput)
 	}
 
 	// Set property "CustomErrorPageUrl":
@@ -6597,7 +6598,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayFrontendIPConfiguration_ARM{}
+	result := &arm.ApplicationGatewayFrontendIPConfiguration{}
 
 	// Set property "Name":
 	if configuration.Name != nil {
@@ -6611,7 +6612,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		configuration.PrivateLinkConfiguration != nil ||
 		configuration.PublicIPAddress != nil ||
 		configuration.Subnet != nil {
-		result.Properties = &ApplicationGatewayFrontendIPConfigurationPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayFrontendIPConfigurationPropertiesFormat{}
 	}
 	if configuration.PrivateIPAddress != nil {
 		privateIPAddress := *configuration.PrivateIPAddress
@@ -6620,7 +6621,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 	if configuration.PrivateIPAllocationMethod != nil {
 		var temp string
 		temp = string(*configuration.PrivateIPAllocationMethod)
-		privateIPAllocationMethod := IPAllocationMethod_ARM(temp)
+		privateIPAllocationMethod := arm.IPAllocationMethod(temp)
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.PrivateLinkConfiguration != nil {
@@ -6628,7 +6629,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		privateLinkConfiguration := *privateLinkConfiguration_ARM.(*ApplicationGatewaySubResource_ARM)
+		privateLinkConfiguration := *privateLinkConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.PrivateLinkConfiguration = &privateLinkConfiguration
 	}
 	if configuration.PublicIPAddress != nil {
@@ -6636,7 +6637,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddress := *publicIPAddress_ARM.(*ApplicationGatewaySubResource_ARM)
+		publicIPAddress := *publicIPAddress_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configuration.Subnet != nil {
@@ -6644,7 +6645,7 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*ApplicationGatewaySubResource_ARM)
+		subnet := *subnet_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -6652,14 +6653,14 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) ConvertToARM(res
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayFrontendIPConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayFrontendIPConfiguration_ARM{}
+	return &arm.ApplicationGatewayFrontendIPConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayFrontendIPConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayFrontendIPConfiguration_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayFrontendIPConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayFrontendIPConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayFrontendIPConfiguration, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -6875,14 +6876,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayFrontendIPConfiguration_S
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayFrontendIPConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayFrontendIPConfiguration_STATUS_ARM{}
+	return &arm.ApplicationGatewayFrontendIPConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayFrontendIPConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayFrontendIPConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayFrontendIPConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayFrontendIPConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayFrontendIPConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -6940,7 +6941,7 @@ func (port *ApplicationGatewayFrontendPort) ConvertToARM(resolved genruntime.Con
 	if port == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayFrontendPort_ARM{}
+	result := &arm.ApplicationGatewayFrontendPort{}
 
 	// Set property "Name":
 	if port.Name != nil {
@@ -6950,7 +6951,7 @@ func (port *ApplicationGatewayFrontendPort) ConvertToARM(resolved genruntime.Con
 
 	// Set property "Properties":
 	if port.Port != nil {
-		result.Properties = &ApplicationGatewayFrontendPortPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayFrontendPortPropertiesFormat{}
 	}
 	if port.Port != nil {
 		port1 := *port.Port
@@ -6961,14 +6962,14 @@ func (port *ApplicationGatewayFrontendPort) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (port *ApplicationGatewayFrontendPort) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayFrontendPort_ARM{}
+	return &arm.ApplicationGatewayFrontendPort{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (port *ApplicationGatewayFrontendPort) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayFrontendPort_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayFrontendPort)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayFrontendPort_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayFrontendPort, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -7042,14 +7043,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayFrontendPort_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (port *ApplicationGatewayFrontendPort_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayFrontendPort_STATUS_ARM{}
+	return &arm.ApplicationGatewayFrontendPort_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (port *ApplicationGatewayFrontendPort_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayFrontendPort_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayFrontendPort_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayFrontendPort_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayFrontendPort_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -7107,7 +7108,7 @@ func (configuration *ApplicationGatewayGlobalConfiguration) ConvertToARM(resolve
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayGlobalConfiguration_ARM{}
+	result := &arm.ApplicationGatewayGlobalConfiguration{}
 
 	// Set property "EnableRequestBuffering":
 	if configuration.EnableRequestBuffering != nil {
@@ -7125,14 +7126,14 @@ func (configuration *ApplicationGatewayGlobalConfiguration) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayGlobalConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayGlobalConfiguration_ARM{}
+	return &arm.ApplicationGatewayGlobalConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayGlobalConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayGlobalConfiguration_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayGlobalConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayGlobalConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayGlobalConfiguration, got %T", armInput)
 	}
 
 	// Set property "EnableRequestBuffering":
@@ -7242,14 +7243,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayGlobalConfiguration_STATU
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayGlobalConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayGlobalConfiguration_STATUS_ARM{}
+	return &arm.ApplicationGatewayGlobalConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayGlobalConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayGlobalConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayGlobalConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayGlobalConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayGlobalConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "EnableRequestBuffering":
@@ -7366,7 +7367,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 	if listener == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayHttpListener_ARM{}
+	result := &arm.ApplicationGatewayHttpListener{}
 
 	// Set property "Name":
 	if listener.Name != nil {
@@ -7385,21 +7386,21 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		listener.RequireServerNameIndication != nil ||
 		listener.SslCertificate != nil ||
 		listener.SslProfile != nil {
-		result.Properties = &ApplicationGatewayHttpListenerPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayHttpListenerPropertiesFormat{}
 	}
 	for _, item := range listener.CustomErrorConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.CustomErrorConfigurations = append(result.Properties.CustomErrorConfigurations, *item_ARM.(*ApplicationGatewayCustomError_ARM))
+		result.Properties.CustomErrorConfigurations = append(result.Properties.CustomErrorConfigurations, *item_ARM.(*arm.ApplicationGatewayCustomError))
 	}
 	if listener.FirewallPolicy != nil {
 		firewallPolicy_ARM, err := (*listener.FirewallPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		firewallPolicy := *firewallPolicy_ARM.(*ApplicationGatewaySubResource_ARM)
+		firewallPolicy := *firewallPolicy_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.FirewallPolicy = &firewallPolicy
 	}
 	if listener.FrontendIPConfiguration != nil {
@@ -7407,7 +7408,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*ApplicationGatewaySubResource_ARM)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if listener.FrontendPort != nil {
@@ -7415,7 +7416,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		frontendPort := *frontendPort_ARM.(*ApplicationGatewaySubResource_ARM)
+		frontendPort := *frontendPort_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.FrontendPort = &frontendPort
 	}
 	if listener.HostName != nil {
@@ -7428,7 +7429,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 	if listener.Protocol != nil {
 		var temp string
 		temp = string(*listener.Protocol)
-		protocol := ApplicationGatewayProtocol_ARM(temp)
+		protocol := arm.ApplicationGatewayProtocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if listener.RequireServerNameIndication != nil {
@@ -7440,7 +7441,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		sslCertificate := *sslCertificate_ARM.(*ApplicationGatewaySubResource_ARM)
+		sslCertificate := *sslCertificate_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.SslCertificate = &sslCertificate
 	}
 	if listener.SslProfile != nil {
@@ -7448,7 +7449,7 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		sslProfile := *sslProfile_ARM.(*ApplicationGatewaySubResource_ARM)
+		sslProfile := *sslProfile_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.SslProfile = &sslProfile
 	}
 	return result, nil
@@ -7456,14 +7457,14 @@ func (listener *ApplicationGatewayHttpListener) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (listener *ApplicationGatewayHttpListener) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayHttpListener_ARM{}
+	return &arm.ApplicationGatewayHttpListener{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (listener *ApplicationGatewayHttpListener) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayHttpListener_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayHttpListener)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayHttpListener_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayHttpListener, got %T", armInput)
 	}
 
 	// Set property "CustomErrorConfigurations":
@@ -7843,14 +7844,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayHttpListener_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (listener *ApplicationGatewayHttpListener_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayHttpListener_STATUS_ARM{}
+	return &arm.ApplicationGatewayHttpListener_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (listener *ApplicationGatewayHttpListener_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayHttpListener_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayHttpListener_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayHttpListener_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayHttpListener_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -7908,7 +7909,7 @@ func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResource
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded_ARM{}
+	result := &arm.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded{}
 
 	// Set property "Name":
 	if embedded.Name != nil {
@@ -7918,14 +7919,14 @@ func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResource
 
 	// Set property "Properties":
 	if embedded.Subnet != nil {
-		result.Properties = &ApplicationGatewayIPConfigurationPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayIPConfigurationPropertiesFormat{}
 	}
 	if embedded.Subnet != nil {
 		subnet_ARM, err := (*embedded.Subnet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*ApplicationGatewaySubResource_ARM)
+		subnet := *subnet_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -7933,14 +7934,14 @@ func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResource
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded_ARM{}
+	return &arm.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -8037,14 +8038,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayIPConfiguration_STATUS_Ap
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded_ARM{}
+	return &arm.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -8114,7 +8115,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 	if listener == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayListener_ARM{}
+	result := &arm.ApplicationGatewayListener{}
 
 	// Set property "Name":
 	if listener.Name != nil {
@@ -8128,14 +8129,14 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		listener.Protocol != nil ||
 		listener.SslCertificate != nil ||
 		listener.SslProfile != nil {
-		result.Properties = &ApplicationGatewayListenerPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayListenerPropertiesFormat{}
 	}
 	if listener.FrontendIPConfiguration != nil {
 		frontendIPConfiguration_ARM, err := (*listener.FrontendIPConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*ApplicationGatewaySubResource_ARM)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if listener.FrontendPort != nil {
@@ -8143,13 +8144,13 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		frontendPort := *frontendPort_ARM.(*ApplicationGatewaySubResource_ARM)
+		frontendPort := *frontendPort_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.FrontendPort = &frontendPort
 	}
 	if listener.Protocol != nil {
 		var temp string
 		temp = string(*listener.Protocol)
-		protocol := ApplicationGatewayProtocol_ARM(temp)
+		protocol := arm.ApplicationGatewayProtocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if listener.SslCertificate != nil {
@@ -8157,7 +8158,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		sslCertificate := *sslCertificate_ARM.(*ApplicationGatewaySubResource_ARM)
+		sslCertificate := *sslCertificate_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.SslCertificate = &sslCertificate
 	}
 	if listener.SslProfile != nil {
@@ -8165,7 +8166,7 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		sslProfile := *sslProfile_ARM.(*ApplicationGatewaySubResource_ARM)
+		sslProfile := *sslProfile_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.SslProfile = &sslProfile
 	}
 	return result, nil
@@ -8173,14 +8174,14 @@ func (listener *ApplicationGatewayListener) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (listener *ApplicationGatewayListener) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayListener_ARM{}
+	return &arm.ApplicationGatewayListener{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (listener *ApplicationGatewayListener) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayListener_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayListener)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayListener_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayListener, got %T", armInput)
 	}
 
 	// Set property "FrontendIPConfiguration":
@@ -8419,14 +8420,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayListener_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (listener *ApplicationGatewayListener_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayListener_STATUS_ARM{}
+	return &arm.ApplicationGatewayListener_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (listener *ApplicationGatewayListener_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayListener_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayListener_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayListener_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayListener_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -8487,7 +8488,7 @@ func (policy *ApplicationGatewayLoadDistributionPolicy) ConvertToARM(resolved ge
 	if policy == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayLoadDistributionPolicy_ARM{}
+	result := &arm.ApplicationGatewayLoadDistributionPolicy{}
 
 	// Set property "Name":
 	if policy.Name != nil {
@@ -8497,12 +8498,12 @@ func (policy *ApplicationGatewayLoadDistributionPolicy) ConvertToARM(resolved ge
 
 	// Set property "Properties":
 	if policy.LoadDistributionAlgorithm != nil || policy.LoadDistributionTargets != nil {
-		result.Properties = &ApplicationGatewayLoadDistributionPolicyPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayLoadDistributionPolicyPropertiesFormat{}
 	}
 	if policy.LoadDistributionAlgorithm != nil {
 		var temp string
 		temp = string(*policy.LoadDistributionAlgorithm)
-		loadDistributionAlgorithm := ApplicationGatewayLoadDistributionAlgorithmEnum_ARM(temp)
+		loadDistributionAlgorithm := arm.ApplicationGatewayLoadDistributionAlgorithmEnum(temp)
 		result.Properties.LoadDistributionAlgorithm = &loadDistributionAlgorithm
 	}
 	for _, item := range policy.LoadDistributionTargets {
@@ -8510,21 +8511,21 @@ func (policy *ApplicationGatewayLoadDistributionPolicy) ConvertToARM(resolved ge
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadDistributionTargets = append(result.Properties.LoadDistributionTargets, *item_ARM.(*ApplicationGatewayLoadDistributionTarget_ARM))
+		result.Properties.LoadDistributionTargets = append(result.Properties.LoadDistributionTargets, *item_ARM.(*arm.ApplicationGatewayLoadDistributionTarget))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ApplicationGatewayLoadDistributionPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayLoadDistributionPolicy_ARM{}
+	return &arm.ApplicationGatewayLoadDistributionPolicy{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ApplicationGatewayLoadDistributionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayLoadDistributionPolicy_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayLoadDistributionPolicy)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayLoadDistributionPolicy_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayLoadDistributionPolicy, got %T", armInput)
 	}
 
 	// Set property "LoadDistributionAlgorithm":
@@ -8660,14 +8661,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayLoadDistributionPolicy_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ApplicationGatewayLoadDistributionPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayLoadDistributionPolicy_STATUS_ARM{}
+	return &arm.ApplicationGatewayLoadDistributionPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ApplicationGatewayLoadDistributionPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayLoadDistributionPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayLoadDistributionPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayLoadDistributionPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayLoadDistributionPolicy_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -8719,14 +8720,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayPrivateEndpointConnection
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *ApplicationGatewayPrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayPrivateEndpointConnection_STATUS_ARM{}
+	return &arm.ApplicationGatewayPrivateEndpointConnection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *ApplicationGatewayPrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayPrivateEndpointConnection_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayPrivateEndpointConnection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayPrivateEndpointConnection_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayPrivateEndpointConnection_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -8784,7 +8785,7 @@ func (configuration *ApplicationGatewayPrivateLinkConfiguration) ConvertToARM(re
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayPrivateLinkConfiguration_ARM{}
+	result := &arm.ApplicationGatewayPrivateLinkConfiguration{}
 
 	// Set property "Name":
 	if configuration.Name != nil {
@@ -8794,28 +8795,28 @@ func (configuration *ApplicationGatewayPrivateLinkConfiguration) ConvertToARM(re
 
 	// Set property "Properties":
 	if configuration.IpConfigurations != nil {
-		result.Properties = &ApplicationGatewayPrivateLinkConfigurationProperties_ARM{}
+		result.Properties = &arm.ApplicationGatewayPrivateLinkConfigurationProperties{}
 	}
 	for _, item := range configuration.IpConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*ApplicationGatewayPrivateLinkIpConfiguration_ARM))
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*arm.ApplicationGatewayPrivateLinkIpConfiguration))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayPrivateLinkConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayPrivateLinkConfiguration_ARM{}
+	return &arm.ApplicationGatewayPrivateLinkConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayPrivateLinkConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayPrivateLinkConfiguration_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayPrivateLinkConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayPrivateLinkConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayPrivateLinkConfiguration, got %T", armInput)
 	}
 
 	// Set property "IpConfigurations":
@@ -8923,14 +8924,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayPrivateLinkConfiguration_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayPrivateLinkConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayPrivateLinkConfiguration_STATUS_ARM{}
+	return &arm.ApplicationGatewayPrivateLinkConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayPrivateLinkConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayPrivateLinkConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayPrivateLinkConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayPrivateLinkConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayPrivateLinkConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -9026,7 +9027,7 @@ func (probe *ApplicationGatewayProbe) ConvertToARM(resolved genruntime.ConvertTo
 	if probe == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayProbe_ARM{}
+	result := &arm.ApplicationGatewayProbe{}
 
 	// Set property "Name":
 	if probe.Name != nil {
@@ -9046,7 +9047,7 @@ func (probe *ApplicationGatewayProbe) ConvertToARM(resolved genruntime.ConvertTo
 		probe.Protocol != nil ||
 		probe.Timeout != nil ||
 		probe.UnhealthyThreshold != nil {
-		result.Properties = &ApplicationGatewayProbePropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayProbePropertiesFormat{}
 	}
 	if probe.Host != nil {
 		host := *probe.Host
@@ -9061,7 +9062,7 @@ func (probe *ApplicationGatewayProbe) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		match := *match_ARM.(*ApplicationGatewayProbeHealthResponseMatch_ARM)
+		match := *match_ARM.(*arm.ApplicationGatewayProbeHealthResponseMatch)
 		result.Properties.Match = &match
 	}
 	if probe.MinServers != nil {
@@ -9087,7 +9088,7 @@ func (probe *ApplicationGatewayProbe) ConvertToARM(resolved genruntime.ConvertTo
 	if probe.Protocol != nil {
 		var temp string
 		temp = string(*probe.Protocol)
-		protocol := ApplicationGatewayProtocol_ARM(temp)
+		protocol := arm.ApplicationGatewayProtocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if probe.Timeout != nil {
@@ -9103,14 +9104,14 @@ func (probe *ApplicationGatewayProbe) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (probe *ApplicationGatewayProbe) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayProbe_ARM{}
+	return &arm.ApplicationGatewayProbe{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (probe *ApplicationGatewayProbe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayProbe_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayProbe)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayProbe_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayProbe, got %T", armInput)
 	}
 
 	// Set property "Host":
@@ -9400,14 +9401,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayProbe_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (probe *ApplicationGatewayProbe_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayProbe_STATUS_ARM{}
+	return &arm.ApplicationGatewayProbe_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (probe *ApplicationGatewayProbe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayProbe_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayProbe_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayProbe_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayProbe_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -9521,7 +9522,7 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayRedirectConfiguration_ARM{}
+	result := &arm.ApplicationGatewayRedirectConfiguration{}
 
 	// Set property "Name":
 	if configuration.Name != nil {
@@ -9538,7 +9539,7 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 		configuration.TargetListener != nil ||
 		configuration.TargetUrl != nil ||
 		configuration.UrlPathMaps != nil {
-		result.Properties = &ApplicationGatewayRedirectConfigurationPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayRedirectConfigurationPropertiesFormat{}
 	}
 	if configuration.IncludePath != nil {
 		includePath := *configuration.IncludePath
@@ -9553,12 +9554,12 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PathRules = append(result.Properties.PathRules, *item_ARM.(*ApplicationGatewaySubResource_ARM))
+		result.Properties.PathRules = append(result.Properties.PathRules, *item_ARM.(*arm.ApplicationGatewaySubResource))
 	}
 	if configuration.RedirectType != nil {
 		var temp string
 		temp = string(*configuration.RedirectType)
-		redirectType := RedirectTypeEnum_ARM(temp)
+		redirectType := arm.RedirectTypeEnum(temp)
 		result.Properties.RedirectType = &redirectType
 	}
 	for _, item := range configuration.RequestRoutingRules {
@@ -9566,14 +9567,14 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RequestRoutingRules = append(result.Properties.RequestRoutingRules, *item_ARM.(*ApplicationGatewaySubResource_ARM))
+		result.Properties.RequestRoutingRules = append(result.Properties.RequestRoutingRules, *item_ARM.(*arm.ApplicationGatewaySubResource))
 	}
 	if configuration.TargetListener != nil {
 		targetListener_ARM, err := (*configuration.TargetListener).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		targetListener := *targetListener_ARM.(*ApplicationGatewaySubResource_ARM)
+		targetListener := *targetListener_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.TargetListener = &targetListener
 	}
 	if configuration.TargetUrl != nil {
@@ -9585,21 +9586,21 @@ func (configuration *ApplicationGatewayRedirectConfiguration) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.UrlPathMaps = append(result.Properties.UrlPathMaps, *item_ARM.(*ApplicationGatewaySubResource_ARM))
+		result.Properties.UrlPathMaps = append(result.Properties.UrlPathMaps, *item_ARM.(*arm.ApplicationGatewaySubResource))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayRedirectConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRedirectConfiguration_ARM{}
+	return &arm.ApplicationGatewayRedirectConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayRedirectConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRedirectConfiguration_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRedirectConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRedirectConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRedirectConfiguration, got %T", armInput)
 	}
 
 	// Set property "IncludePath":
@@ -9936,14 +9937,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayRedirectConfiguration_STA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayRedirectConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRedirectConfiguration_STATUS_ARM{}
+	return &arm.ApplicationGatewayRedirectConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayRedirectConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRedirectConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRedirectConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRedirectConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRedirectConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -10027,7 +10028,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 	if rule == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayRequestRoutingRule_ARM{}
+	result := &arm.ApplicationGatewayRequestRoutingRule{}
 
 	// Set property "Name":
 	if rule.Name != nil {
@@ -10045,14 +10046,14 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		rule.RewriteRuleSet != nil ||
 		rule.RuleType != nil ||
 		rule.UrlPathMap != nil {
-		result.Properties = &ApplicationGatewayRequestRoutingRulePropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayRequestRoutingRulePropertiesFormat{}
 	}
 	if rule.BackendAddressPool != nil {
 		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := *backendAddressPool_ARM.(*ApplicationGatewaySubResource_ARM)
+		backendAddressPool := *backendAddressPool_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.BackendHttpSettings != nil {
@@ -10060,7 +10061,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		backendHttpSettings := *backendHttpSettings_ARM.(*ApplicationGatewaySubResource_ARM)
+		backendHttpSettings := *backendHttpSettings_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.BackendHttpSettings = &backendHttpSettings
 	}
 	if rule.HttpListener != nil {
@@ -10068,7 +10069,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		httpListener := *httpListener_ARM.(*ApplicationGatewaySubResource_ARM)
+		httpListener := *httpListener_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.HttpListener = &httpListener
 	}
 	if rule.LoadDistributionPolicy != nil {
@@ -10076,7 +10077,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		loadDistributionPolicy := *loadDistributionPolicy_ARM.(*ApplicationGatewaySubResource_ARM)
+		loadDistributionPolicy := *loadDistributionPolicy_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.LoadDistributionPolicy = &loadDistributionPolicy
 	}
 	if rule.Priority != nil {
@@ -10088,7 +10089,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		redirectConfiguration := *redirectConfiguration_ARM.(*ApplicationGatewaySubResource_ARM)
+		redirectConfiguration := *redirectConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.RedirectConfiguration = &redirectConfiguration
 	}
 	if rule.RewriteRuleSet != nil {
@@ -10096,13 +10097,13 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		rewriteRuleSet := *rewriteRuleSet_ARM.(*ApplicationGatewaySubResource_ARM)
+		rewriteRuleSet := *rewriteRuleSet_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.RewriteRuleSet = &rewriteRuleSet
 	}
 	if rule.RuleType != nil {
 		var temp string
 		temp = string(*rule.RuleType)
-		ruleType := ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_ARM(temp)
+		ruleType := arm.ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType(temp)
 		result.Properties.RuleType = &ruleType
 	}
 	if rule.UrlPathMap != nil {
@@ -10110,7 +10111,7 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		urlPathMap := *urlPathMap_ARM.(*ApplicationGatewaySubResource_ARM)
+		urlPathMap := *urlPathMap_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.UrlPathMap = &urlPathMap
 	}
 	return result, nil
@@ -10118,14 +10119,14 @@ func (rule *ApplicationGatewayRequestRoutingRule) ConvertToARM(resolved genrunti
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ApplicationGatewayRequestRoutingRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRequestRoutingRule_ARM{}
+	return &arm.ApplicationGatewayRequestRoutingRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ApplicationGatewayRequestRoutingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRequestRoutingRule_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRequestRoutingRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRequestRoutingRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRequestRoutingRule, got %T", armInput)
 	}
 
 	// Set property "BackendAddressPool":
@@ -10503,14 +10504,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayRequestRoutingRule_STATUS
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ApplicationGatewayRequestRoutingRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRequestRoutingRule_STATUS_ARM{}
+	return &arm.ApplicationGatewayRequestRoutingRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ApplicationGatewayRequestRoutingRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRequestRoutingRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRequestRoutingRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRequestRoutingRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRequestRoutingRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -10568,7 +10569,7 @@ func (ruleSet *ApplicationGatewayRewriteRuleSet) ConvertToARM(resolved genruntim
 	if ruleSet == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayRewriteRuleSet_ARM{}
+	result := &arm.ApplicationGatewayRewriteRuleSet{}
 
 	// Set property "Name":
 	if ruleSet.Name != nil {
@@ -10578,28 +10579,28 @@ func (ruleSet *ApplicationGatewayRewriteRuleSet) ConvertToARM(resolved genruntim
 
 	// Set property "Properties":
 	if ruleSet.RewriteRules != nil {
-		result.Properties = &ApplicationGatewayRewriteRuleSetPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayRewriteRuleSetPropertiesFormat{}
 	}
 	for _, item := range ruleSet.RewriteRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RewriteRules = append(result.Properties.RewriteRules, *item_ARM.(*ApplicationGatewayRewriteRule_ARM))
+		result.Properties.RewriteRules = append(result.Properties.RewriteRules, *item_ARM.(*arm.ApplicationGatewayRewriteRule))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *ApplicationGatewayRewriteRuleSet) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRewriteRuleSet_ARM{}
+	return &arm.ApplicationGatewayRewriteRuleSet{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *ApplicationGatewayRewriteRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRewriteRuleSet_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRewriteRuleSet)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRewriteRuleSet_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRewriteRuleSet, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -10707,14 +10708,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayRewriteRuleSet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *ApplicationGatewayRewriteRuleSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRewriteRuleSet_STATUS_ARM{}
+	return &arm.ApplicationGatewayRewriteRuleSet_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *ApplicationGatewayRewriteRuleSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRewriteRuleSet_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRewriteRuleSet_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRewriteRuleSet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRewriteRuleSet_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -10787,7 +10788,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 	if rule == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayRoutingRule_ARM{}
+	result := &arm.ApplicationGatewayRoutingRule{}
 
 	// Set property "Name":
 	if rule.Name != nil {
@@ -10801,14 +10802,14 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		rule.Listener != nil ||
 		rule.Priority != nil ||
 		rule.RuleType != nil {
-		result.Properties = &ApplicationGatewayRoutingRulePropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayRoutingRulePropertiesFormat{}
 	}
 	if rule.BackendAddressPool != nil {
 		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := *backendAddressPool_ARM.(*ApplicationGatewaySubResource_ARM)
+		backendAddressPool := *backendAddressPool_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.BackendSettings != nil {
@@ -10816,7 +10817,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		backendSettings := *backendSettings_ARM.(*ApplicationGatewaySubResource_ARM)
+		backendSettings := *backendSettings_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.BackendSettings = &backendSettings
 	}
 	if rule.Listener != nil {
@@ -10824,7 +10825,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		listener := *listener_ARM.(*ApplicationGatewaySubResource_ARM)
+		listener := *listener_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.Listener = &listener
 	}
 	if rule.Priority != nil {
@@ -10834,7 +10835,7 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 	if rule.RuleType != nil {
 		var temp string
 		temp = string(*rule.RuleType)
-		ruleType := ApplicationGatewayRoutingRulePropertiesFormat_RuleType_ARM(temp)
+		ruleType := arm.ApplicationGatewayRoutingRulePropertiesFormat_RuleType(temp)
 		result.Properties.RuleType = &ruleType
 	}
 	return result, nil
@@ -10842,14 +10843,14 @@ func (rule *ApplicationGatewayRoutingRule) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ApplicationGatewayRoutingRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRoutingRule_ARM{}
+	return &arm.ApplicationGatewayRoutingRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ApplicationGatewayRoutingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRoutingRule_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRoutingRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRoutingRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRoutingRule, got %T", armInput)
 	}
 
 	// Set property "BackendAddressPool":
@@ -11075,14 +11076,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayRoutingRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ApplicationGatewayRoutingRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRoutingRule_STATUS_ARM{}
+	return &arm.ApplicationGatewayRoutingRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ApplicationGatewayRoutingRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRoutingRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRoutingRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRoutingRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRoutingRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -11143,7 +11144,7 @@ func (gatewaySku *ApplicationGatewaySku) ConvertToARM(resolved genruntime.Conver
 	if gatewaySku == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewaySku_ARM{}
+	result := &arm.ApplicationGatewaySku{}
 
 	// Set property "Capacity":
 	if gatewaySku.Capacity != nil {
@@ -11155,7 +11156,7 @@ func (gatewaySku *ApplicationGatewaySku) ConvertToARM(resolved genruntime.Conver
 	if gatewaySku.Name != nil {
 		var temp string
 		temp = string(*gatewaySku.Name)
-		name := ApplicationGatewaySku_Name_ARM(temp)
+		name := arm.ApplicationGatewaySku_Name(temp)
 		result.Name = &name
 	}
 
@@ -11163,7 +11164,7 @@ func (gatewaySku *ApplicationGatewaySku) ConvertToARM(resolved genruntime.Conver
 	if gatewaySku.Tier != nil {
 		var temp string
 		temp = string(*gatewaySku.Tier)
-		tier := ApplicationGatewaySku_Tier_ARM(temp)
+		tier := arm.ApplicationGatewaySku_Tier(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -11171,14 +11172,14 @@ func (gatewaySku *ApplicationGatewaySku) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gatewaySku *ApplicationGatewaySku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySku_ARM{}
+	return &arm.ApplicationGatewaySku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gatewaySku *ApplicationGatewaySku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewaySku_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewaySku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySku, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -11312,14 +11313,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewaySku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (gatewaySku *ApplicationGatewaySku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySku_STATUS_ARM{}
+	return &arm.ApplicationGatewaySku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (gatewaySku *ApplicationGatewaySku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewaySku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewaySku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -11433,7 +11434,7 @@ func (certificate *ApplicationGatewaySslCertificate) ConvertToARM(resolved genru
 	if certificate == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewaySslCertificate_ARM{}
+	result := &arm.ApplicationGatewaySslCertificate{}
 
 	// Set property "Name":
 	if certificate.Name != nil {
@@ -11445,7 +11446,7 @@ func (certificate *ApplicationGatewaySslCertificate) ConvertToARM(resolved genru
 	if certificate.Data != nil ||
 		certificate.KeyVaultSecretId != nil ||
 		certificate.Password != nil {
-		result.Properties = &ApplicationGatewaySslCertificatePropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewaySslCertificatePropertiesFormat{}
 	}
 	if certificate.Data != nil {
 		dataSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Data)
@@ -11472,14 +11473,14 @@ func (certificate *ApplicationGatewaySslCertificate) ConvertToARM(resolved genru
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *ApplicationGatewaySslCertificate) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySslCertificate_ARM{}
+	return &arm.ApplicationGatewaySslCertificate{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *ApplicationGatewaySslCertificate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewaySslCertificate_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewaySslCertificate)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySslCertificate_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySslCertificate, got %T", armInput)
 	}
 
 	// no assignment for property "Data"
@@ -11589,14 +11590,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewaySslCertificate_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *ApplicationGatewaySslCertificate_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySslCertificate_STATUS_ARM{}
+	return &arm.ApplicationGatewaySslCertificate_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *ApplicationGatewaySslCertificate_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewaySslCertificate_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewaySslCertificate_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySslCertificate_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySslCertificate_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -11663,27 +11664,27 @@ func (policy *ApplicationGatewaySslPolicy) ConvertToARM(resolved genruntime.Conv
 	if policy == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewaySslPolicy_ARM{}
+	result := &arm.ApplicationGatewaySslPolicy{}
 
 	// Set property "CipherSuites":
 	for _, item := range policy.CipherSuites {
 		var temp string
 		temp = string(item)
-		result.CipherSuites = append(result.CipherSuites, CipherSuitesEnum_ARM(temp))
+		result.CipherSuites = append(result.CipherSuites, arm.CipherSuitesEnum(temp))
 	}
 
 	// Set property "DisabledSslProtocols":
 	for _, item := range policy.DisabledSslProtocols {
 		var temp string
 		temp = string(item)
-		result.DisabledSslProtocols = append(result.DisabledSslProtocols, ProtocolsEnum_ARM(temp))
+		result.DisabledSslProtocols = append(result.DisabledSslProtocols, arm.ProtocolsEnum(temp))
 	}
 
 	// Set property "MinProtocolVersion":
 	if policy.MinProtocolVersion != nil {
 		var temp string
 		temp = string(*policy.MinProtocolVersion)
-		minProtocolVersion := ProtocolsEnum_ARM(temp)
+		minProtocolVersion := arm.ProtocolsEnum(temp)
 		result.MinProtocolVersion = &minProtocolVersion
 	}
 
@@ -11691,7 +11692,7 @@ func (policy *ApplicationGatewaySslPolicy) ConvertToARM(resolved genruntime.Conv
 	if policy.PolicyName != nil {
 		var temp string
 		temp = string(*policy.PolicyName)
-		policyName := PolicyNameEnum_ARM(temp)
+		policyName := arm.PolicyNameEnum(temp)
 		result.PolicyName = &policyName
 	}
 
@@ -11699,7 +11700,7 @@ func (policy *ApplicationGatewaySslPolicy) ConvertToARM(resolved genruntime.Conv
 	if policy.PolicyType != nil {
 		var temp string
 		temp = string(*policy.PolicyType)
-		policyType := ApplicationGatewaySslPolicy_PolicyType_ARM(temp)
+		policyType := arm.ApplicationGatewaySslPolicy_PolicyType(temp)
 		result.PolicyType = &policyType
 	}
 	return result, nil
@@ -11707,14 +11708,14 @@ func (policy *ApplicationGatewaySslPolicy) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ApplicationGatewaySslPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySslPolicy_ARM{}
+	return &arm.ApplicationGatewaySslPolicy{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ApplicationGatewaySslPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewaySslPolicy_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewaySslPolicy)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySslPolicy_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySslPolicy, got %T", armInput)
 	}
 
 	// Set property "CipherSuites":
@@ -11966,14 +11967,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewaySslPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ApplicationGatewaySslPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySslPolicy_STATUS_ARM{}
+	return &arm.ApplicationGatewaySslPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ApplicationGatewaySslPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewaySslPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewaySslPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySslPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySslPolicy_STATUS, got %T", armInput)
 	}
 
 	// Set property "CipherSuites":
@@ -12166,7 +12167,7 @@ func (profile *ApplicationGatewaySslProfile) ConvertToARM(resolved genruntime.Co
 	if profile == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewaySslProfile_ARM{}
+	result := &arm.ApplicationGatewaySslProfile{}
 
 	// Set property "Name":
 	if profile.Name != nil {
@@ -12178,14 +12179,14 @@ func (profile *ApplicationGatewaySslProfile) ConvertToARM(resolved genruntime.Co
 	if profile.ClientAuthConfiguration != nil ||
 		profile.SslPolicy != nil ||
 		profile.TrustedClientCertificates != nil {
-		result.Properties = &ApplicationGatewaySslProfilePropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewaySslProfilePropertiesFormat{}
 	}
 	if profile.ClientAuthConfiguration != nil {
 		clientAuthConfiguration_ARM, err := (*profile.ClientAuthConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		clientAuthConfiguration := *clientAuthConfiguration_ARM.(*ApplicationGatewayClientAuthConfiguration_ARM)
+		clientAuthConfiguration := *clientAuthConfiguration_ARM.(*arm.ApplicationGatewayClientAuthConfiguration)
 		result.Properties.ClientAuthConfiguration = &clientAuthConfiguration
 	}
 	if profile.SslPolicy != nil {
@@ -12193,7 +12194,7 @@ func (profile *ApplicationGatewaySslProfile) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		sslPolicy := *sslPolicy_ARM.(*ApplicationGatewaySslPolicy_ARM)
+		sslPolicy := *sslPolicy_ARM.(*arm.ApplicationGatewaySslPolicy)
 		result.Properties.SslPolicy = &sslPolicy
 	}
 	for _, item := range profile.TrustedClientCertificates {
@@ -12201,21 +12202,21 @@ func (profile *ApplicationGatewaySslProfile) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.TrustedClientCertificates = append(result.Properties.TrustedClientCertificates, *item_ARM.(*ApplicationGatewaySubResource_ARM))
+		result.Properties.TrustedClientCertificates = append(result.Properties.TrustedClientCertificates, *item_ARM.(*arm.ApplicationGatewaySubResource))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ApplicationGatewaySslProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySslProfile_ARM{}
+	return &arm.ApplicationGatewaySslProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ApplicationGatewaySslProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewaySslProfile_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewaySslProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySslProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySslProfile, got %T", armInput)
 	}
 
 	// Set property "ClientAuthConfiguration":
@@ -12399,14 +12400,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewaySslProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *ApplicationGatewaySslProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySslProfile_STATUS_ARM{}
+	return &arm.ApplicationGatewaySslProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *ApplicationGatewaySslProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewaySslProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewaySslProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySslProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySslProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -12461,7 +12462,7 @@ func (resource *ApplicationGatewaySubResource) ConvertToARM(resolved genruntime.
 	if resource == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewaySubResource_ARM{}
+	result := &arm.ApplicationGatewaySubResource{}
 
 	// Set property "Id":
 	if resource.Reference != nil {
@@ -12477,14 +12478,14 @@ func (resource *ApplicationGatewaySubResource) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *ApplicationGatewaySubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySubResource_ARM{}
+	return &arm.ApplicationGatewaySubResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *ApplicationGatewaySubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ApplicationGatewaySubResource_ARM)
+	_, ok := armInput.(arm.ApplicationGatewaySubResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySubResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySubResource, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -12557,14 +12558,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewaySubResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *ApplicationGatewaySubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewaySubResource_STATUS_ARM{}
+	return &arm.ApplicationGatewaySubResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *ApplicationGatewaySubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewaySubResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewaySubResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySubResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewaySubResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -12622,7 +12623,7 @@ func (certificate *ApplicationGatewayTrustedClientCertificate) ConvertToARM(reso
 	if certificate == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayTrustedClientCertificate_ARM{}
+	result := &arm.ApplicationGatewayTrustedClientCertificate{}
 
 	// Set property "Name":
 	if certificate.Name != nil {
@@ -12632,7 +12633,7 @@ func (certificate *ApplicationGatewayTrustedClientCertificate) ConvertToARM(reso
 
 	// Set property "Properties":
 	if certificate.Data != nil {
-		result.Properties = &ApplicationGatewayTrustedClientCertificatePropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayTrustedClientCertificatePropertiesFormat{}
 	}
 	if certificate.Data != nil {
 		dataSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Data)
@@ -12647,14 +12648,14 @@ func (certificate *ApplicationGatewayTrustedClientCertificate) ConvertToARM(reso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *ApplicationGatewayTrustedClientCertificate) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayTrustedClientCertificate_ARM{}
+	return &arm.ApplicationGatewayTrustedClientCertificate{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *ApplicationGatewayTrustedClientCertificate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayTrustedClientCertificate_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayTrustedClientCertificate)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayTrustedClientCertificate_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayTrustedClientCertificate, got %T", armInput)
 	}
 
 	// no assignment for property "Data"
@@ -12731,14 +12732,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayTrustedClientCertificate_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *ApplicationGatewayTrustedClientCertificate_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayTrustedClientCertificate_STATUS_ARM{}
+	return &arm.ApplicationGatewayTrustedClientCertificate_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *ApplicationGatewayTrustedClientCertificate_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayTrustedClientCertificate_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayTrustedClientCertificate_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayTrustedClientCertificate_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayTrustedClientCertificate_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -12799,7 +12800,7 @@ func (certificate *ApplicationGatewayTrustedRootCertificate) ConvertToARM(resolv
 	if certificate == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayTrustedRootCertificate_ARM{}
+	result := &arm.ApplicationGatewayTrustedRootCertificate{}
 
 	// Set property "Name":
 	if certificate.Name != nil {
@@ -12809,7 +12810,7 @@ func (certificate *ApplicationGatewayTrustedRootCertificate) ConvertToARM(resolv
 
 	// Set property "Properties":
 	if certificate.Data != nil || certificate.KeyVaultSecretId != nil {
-		result.Properties = &ApplicationGatewayTrustedRootCertificatePropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayTrustedRootCertificatePropertiesFormat{}
 	}
 	if certificate.Data != nil {
 		dataSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Data)
@@ -12828,14 +12829,14 @@ func (certificate *ApplicationGatewayTrustedRootCertificate) ConvertToARM(resolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *ApplicationGatewayTrustedRootCertificate) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayTrustedRootCertificate_ARM{}
+	return &arm.ApplicationGatewayTrustedRootCertificate{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *ApplicationGatewayTrustedRootCertificate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayTrustedRootCertificate_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayTrustedRootCertificate)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayTrustedRootCertificate_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayTrustedRootCertificate, got %T", armInput)
 	}
 
 	// no assignment for property "Data"
@@ -12927,14 +12928,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayTrustedRootCertificate_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (certificate *ApplicationGatewayTrustedRootCertificate_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayTrustedRootCertificate_STATUS_ARM{}
+	return &arm.ApplicationGatewayTrustedRootCertificate_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *ApplicationGatewayTrustedRootCertificate_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayTrustedRootCertificate_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayTrustedRootCertificate_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayTrustedRootCertificate_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayTrustedRootCertificate_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -13007,7 +13008,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 	if pathMap == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayUrlPathMap_ARM{}
+	result := &arm.ApplicationGatewayUrlPathMap{}
 
 	// Set property "Name":
 	if pathMap.Name != nil {
@@ -13022,14 +13023,14 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		pathMap.DefaultRedirectConfiguration != nil ||
 		pathMap.DefaultRewriteRuleSet != nil ||
 		pathMap.PathRules != nil {
-		result.Properties = &ApplicationGatewayUrlPathMapPropertiesFormat_ARM{}
+		result.Properties = &arm.ApplicationGatewayUrlPathMapPropertiesFormat{}
 	}
 	if pathMap.DefaultBackendAddressPool != nil {
 		defaultBackendAddressPool_ARM, err := (*pathMap.DefaultBackendAddressPool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		defaultBackendAddressPool := *defaultBackendAddressPool_ARM.(*ApplicationGatewaySubResource_ARM)
+		defaultBackendAddressPool := *defaultBackendAddressPool_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.DefaultBackendAddressPool = &defaultBackendAddressPool
 	}
 	if pathMap.DefaultBackendHttpSettings != nil {
@@ -13037,7 +13038,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		defaultBackendHttpSettings := *defaultBackendHttpSettings_ARM.(*ApplicationGatewaySubResource_ARM)
+		defaultBackendHttpSettings := *defaultBackendHttpSettings_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.DefaultBackendHttpSettings = &defaultBackendHttpSettings
 	}
 	if pathMap.DefaultLoadDistributionPolicy != nil {
@@ -13045,7 +13046,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		defaultLoadDistributionPolicy := *defaultLoadDistributionPolicy_ARM.(*ApplicationGatewaySubResource_ARM)
+		defaultLoadDistributionPolicy := *defaultLoadDistributionPolicy_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.DefaultLoadDistributionPolicy = &defaultLoadDistributionPolicy
 	}
 	if pathMap.DefaultRedirectConfiguration != nil {
@@ -13053,7 +13054,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		defaultRedirectConfiguration := *defaultRedirectConfiguration_ARM.(*ApplicationGatewaySubResource_ARM)
+		defaultRedirectConfiguration := *defaultRedirectConfiguration_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.DefaultRedirectConfiguration = &defaultRedirectConfiguration
 	}
 	if pathMap.DefaultRewriteRuleSet != nil {
@@ -13061,7 +13062,7 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		defaultRewriteRuleSet := *defaultRewriteRuleSet_ARM.(*ApplicationGatewaySubResource_ARM)
+		defaultRewriteRuleSet := *defaultRewriteRuleSet_ARM.(*arm.ApplicationGatewaySubResource)
 		result.Properties.DefaultRewriteRuleSet = &defaultRewriteRuleSet
 	}
 	for _, item := range pathMap.PathRules {
@@ -13069,21 +13070,21 @@ func (pathMap *ApplicationGatewayUrlPathMap) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PathRules = append(result.Properties.PathRules, *item_ARM.(*ApplicationGatewayPathRule_ARM))
+		result.Properties.PathRules = append(result.Properties.PathRules, *item_ARM.(*arm.ApplicationGatewayPathRule))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pathMap *ApplicationGatewayUrlPathMap) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayUrlPathMap_ARM{}
+	return &arm.ApplicationGatewayUrlPathMap{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pathMap *ApplicationGatewayUrlPathMap) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayUrlPathMap_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayUrlPathMap)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayUrlPathMap_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayUrlPathMap, got %T", armInput)
 	}
 
 	// Set property "DefaultBackendAddressPool":
@@ -13381,14 +13382,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayUrlPathMap_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pathMap *ApplicationGatewayUrlPathMap_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayUrlPathMap_STATUS_ARM{}
+	return &arm.ApplicationGatewayUrlPathMap_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pathMap *ApplicationGatewayUrlPathMap_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayUrlPathMap_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayUrlPathMap_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayUrlPathMap_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayUrlPathMap_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -13479,7 +13480,7 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Conv
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayWebApplicationFirewallConfiguration_ARM{}
+	result := &arm.ApplicationGatewayWebApplicationFirewallConfiguration{}
 
 	// Set property "DisabledRuleGroups":
 	for _, item := range configuration.DisabledRuleGroups {
@@ -13487,7 +13488,7 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Conv
 		if err != nil {
 			return nil, err
 		}
-		result.DisabledRuleGroups = append(result.DisabledRuleGroups, *item_ARM.(*ApplicationGatewayFirewallDisabledRuleGroup_ARM))
+		result.DisabledRuleGroups = append(result.DisabledRuleGroups, *item_ARM.(*arm.ApplicationGatewayFirewallDisabledRuleGroup))
 	}
 
 	// Set property "Enabled":
@@ -13502,7 +13503,7 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Conv
 		if err != nil {
 			return nil, err
 		}
-		result.Exclusions = append(result.Exclusions, *item_ARM.(*ApplicationGatewayFirewallExclusion_ARM))
+		result.Exclusions = append(result.Exclusions, *item_ARM.(*arm.ApplicationGatewayFirewallExclusion))
 	}
 
 	// Set property "FileUploadLimitInMb":
@@ -13515,7 +13516,7 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Conv
 	if configuration.FirewallMode != nil {
 		var temp string
 		temp = string(*configuration.FirewallMode)
-		firewallMode := ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_ARM(temp)
+		firewallMode := arm.ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode(temp)
 		result.FirewallMode = &firewallMode
 	}
 
@@ -13553,14 +13554,14 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayWebApplicationFirewallConfiguration_ARM{}
+	return &arm.ApplicationGatewayWebApplicationFirewallConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayWebApplicationFirewallConfiguration_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayWebApplicationFirewallConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayWebApplicationFirewallConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayWebApplicationFirewallConfiguration, got %T", armInput)
 	}
 
 	// Set property "DisabledRuleGroups":
@@ -13975,14 +13976,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayWebApplicationFirewallCon
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARM{}
+	return &arm.ApplicationGatewayWebApplicationFirewallConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayWebApplicationFirewallConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayWebApplicationFirewallConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "DisabledRuleGroups":
@@ -14253,39 +14254,39 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 	if identity == nil {
 		return nil, nil
 	}
-	result := &ManagedServiceIdentity_ARM{}
+	result := &arm.ManagedServiceIdentity{}
 
 	// Set property "Type":
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := ManagedServiceIdentity_Type_ARM(temp)
+		typeVar := arm.ManagedServiceIdentity_Type(temp)
 		result.Type = &typeVar
 	}
 
 	// Set property "UserAssignedIdentities":
-	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
+	result.UserAssignedIdentities = make(map[string]arm.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
 		if err != nil {
 			return nil, err
 		}
 		key := identARMID
-		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
+		result.UserAssignedIdentities[key] = arm.UserAssignedIdentityDetails{}
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedServiceIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedServiceIdentity_ARM{}
+	return &arm.ManagedServiceIdentity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedServiceIdentity_ARM)
+	typedInput, ok := armInput.(arm.ManagedServiceIdentity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentity_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedServiceIdentity, got %T", armInput)
 	}
 
 	// Set property "Type":
@@ -14430,14 +14431,14 @@ var _ genruntime.FromARMConverter = &ManagedServiceIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *ManagedServiceIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedServiceIdentity_STATUS_ARM{}
+	return &arm.ManagedServiceIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *ManagedServiceIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedServiceIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedServiceIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedServiceIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "PrincipalId":
@@ -14581,7 +14582,7 @@ func (address *ApplicationGatewayBackendAddress) ConvertToARM(resolved genruntim
 	if address == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayBackendAddress_ARM{}
+	result := &arm.ApplicationGatewayBackendAddress{}
 
 	// Set property "Fqdn":
 	if address.Fqdn != nil {
@@ -14599,14 +14600,14 @@ func (address *ApplicationGatewayBackendAddress) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (address *ApplicationGatewayBackendAddress) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayBackendAddress_ARM{}
+	return &arm.ApplicationGatewayBackendAddress{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (address *ApplicationGatewayBackendAddress) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayBackendAddress_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayBackendAddress)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayBackendAddress_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayBackendAddress, got %T", armInput)
 	}
 
 	// Set property "Fqdn":
@@ -14690,7 +14691,7 @@ func (configuration *ApplicationGatewayClientAuthConfiguration) ConvertToARM(res
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayClientAuthConfiguration_ARM{}
+	result := &arm.ApplicationGatewayClientAuthConfiguration{}
 
 	// Set property "VerifyClientCertIssuerDN":
 	if configuration.VerifyClientCertIssuerDN != nil {
@@ -14702,7 +14703,7 @@ func (configuration *ApplicationGatewayClientAuthConfiguration) ConvertToARM(res
 	if configuration.VerifyClientRevocation != nil {
 		var temp string
 		temp = string(*configuration.VerifyClientRevocation)
-		verifyClientRevocation := ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_ARM(temp)
+		verifyClientRevocation := arm.ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation(temp)
 		result.VerifyClientRevocation = &verifyClientRevocation
 	}
 	return result, nil
@@ -14710,14 +14711,14 @@ func (configuration *ApplicationGatewayClientAuthConfiguration) ConvertToARM(res
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayClientAuthConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayClientAuthConfiguration_ARM{}
+	return &arm.ApplicationGatewayClientAuthConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayClientAuthConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayClientAuthConfiguration_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayClientAuthConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayClientAuthConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayClientAuthConfiguration, got %T", armInput)
 	}
 
 	// Set property "VerifyClientCertIssuerDN":
@@ -14816,7 +14817,7 @@ func (draining *ApplicationGatewayConnectionDraining) ConvertToARM(resolved genr
 	if draining == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayConnectionDraining_ARM{}
+	result := &arm.ApplicationGatewayConnectionDraining{}
 
 	// Set property "DrainTimeoutInSec":
 	if draining.DrainTimeoutInSec != nil {
@@ -14834,14 +14835,14 @@ func (draining *ApplicationGatewayConnectionDraining) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (draining *ApplicationGatewayConnectionDraining) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayConnectionDraining_ARM{}
+	return &arm.ApplicationGatewayConnectionDraining{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (draining *ApplicationGatewayConnectionDraining) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayConnectionDraining_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayConnectionDraining)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayConnectionDraining_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayConnectionDraining, got %T", armInput)
 	}
 
 	// Set property "DrainTimeoutInSec":
@@ -14959,7 +14960,7 @@ func (group *ApplicationGatewayFirewallDisabledRuleGroup) ConvertToARM(resolved 
 	if group == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayFirewallDisabledRuleGroup_ARM{}
+	result := &arm.ApplicationGatewayFirewallDisabledRuleGroup{}
 
 	// Set property "RuleGroupName":
 	if group.RuleGroupName != nil {
@@ -14976,14 +14977,14 @@ func (group *ApplicationGatewayFirewallDisabledRuleGroup) ConvertToARM(resolved 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ApplicationGatewayFirewallDisabledRuleGroup) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayFirewallDisabledRuleGroup_ARM{}
+	return &arm.ApplicationGatewayFirewallDisabledRuleGroup{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ApplicationGatewayFirewallDisabledRuleGroup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayFirewallDisabledRuleGroup_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayFirewallDisabledRuleGroup)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayFirewallDisabledRuleGroup_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayFirewallDisabledRuleGroup, got %T", armInput)
 	}
 
 	// Set property "RuleGroupName":
@@ -15092,14 +15093,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayFirewallDisabledRuleGroup
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ApplicationGatewayFirewallDisabledRuleGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM{}
+	return &arm.ApplicationGatewayFirewallDisabledRuleGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ApplicationGatewayFirewallDisabledRuleGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayFirewallDisabledRuleGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayFirewallDisabledRuleGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayFirewallDisabledRuleGroup_STATUS, got %T", armInput)
 	}
 
 	// Set property "RuleGroupName":
@@ -15196,7 +15197,7 @@ func (exclusion *ApplicationGatewayFirewallExclusion) ConvertToARM(resolved genr
 	if exclusion == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayFirewallExclusion_ARM{}
+	result := &arm.ApplicationGatewayFirewallExclusion{}
 
 	// Set property "MatchVariable":
 	if exclusion.MatchVariable != nil {
@@ -15220,14 +15221,14 @@ func (exclusion *ApplicationGatewayFirewallExclusion) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (exclusion *ApplicationGatewayFirewallExclusion) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayFirewallExclusion_ARM{}
+	return &arm.ApplicationGatewayFirewallExclusion{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (exclusion *ApplicationGatewayFirewallExclusion) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayFirewallExclusion_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayFirewallExclusion)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayFirewallExclusion_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayFirewallExclusion, got %T", armInput)
 	}
 
 	// Set property "MatchVariable":
@@ -15327,14 +15328,14 @@ var _ genruntime.FromARMConverter = &ApplicationGatewayFirewallExclusion_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (exclusion *ApplicationGatewayFirewallExclusion_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayFirewallExclusion_STATUS_ARM{}
+	return &arm.ApplicationGatewayFirewallExclusion_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (exclusion *ApplicationGatewayFirewallExclusion_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayFirewallExclusion_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayFirewallExclusion_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayFirewallExclusion_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayFirewallExclusion_STATUS, got %T", armInput)
 	}
 
 	// Set property "MatchVariable":
@@ -15430,7 +15431,7 @@ func (target *ApplicationGatewayLoadDistributionTarget) ConvertToARM(resolved ge
 	if target == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayLoadDistributionTarget_ARM{}
+	result := &arm.ApplicationGatewayLoadDistributionTarget{}
 
 	// Set property "Id":
 	if target.Reference != nil {
@@ -15446,14 +15447,14 @@ func (target *ApplicationGatewayLoadDistributionTarget) ConvertToARM(resolved ge
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (target *ApplicationGatewayLoadDistributionTarget) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayLoadDistributionTarget_ARM{}
+	return &arm.ApplicationGatewayLoadDistributionTarget{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (target *ApplicationGatewayLoadDistributionTarget) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ApplicationGatewayLoadDistributionTarget_ARM)
+	_, ok := armInput.(arm.ApplicationGatewayLoadDistributionTarget)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayLoadDistributionTarget_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayLoadDistributionTarget, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -15514,7 +15515,7 @@ func (rule *ApplicationGatewayPathRule) ConvertToARM(resolved genruntime.Convert
 	if rule == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayPathRule_ARM{}
+	result := &arm.ApplicationGatewayPathRule{}
 
 	// Set property "Id":
 	if rule.Reference != nil {
@@ -15530,14 +15531,14 @@ func (rule *ApplicationGatewayPathRule) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ApplicationGatewayPathRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayPathRule_ARM{}
+	return &arm.ApplicationGatewayPathRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ApplicationGatewayPathRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ApplicationGatewayPathRule_ARM)
+	_, ok := armInput.(arm.ApplicationGatewayPathRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayPathRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayPathRule, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -15598,7 +15599,7 @@ func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) ConvertToARM(
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayPrivateLinkIpConfiguration_ARM{}
+	result := &arm.ApplicationGatewayPrivateLinkIpConfiguration{}
 
 	// Set property "Id":
 	if configuration.Reference != nil {
@@ -15614,14 +15615,14 @@ func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) ConvertToARM(
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayPrivateLinkIpConfiguration_ARM{}
+	return &arm.ApplicationGatewayPrivateLinkIpConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ApplicationGatewayPrivateLinkIpConfiguration_ARM)
+	_, ok := armInput.(arm.ApplicationGatewayPrivateLinkIpConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayPrivateLinkIpConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayPrivateLinkIpConfiguration, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -15685,7 +15686,7 @@ func (match *ApplicationGatewayProbeHealthResponseMatch) ConvertToARM(resolved g
 	if match == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayProbeHealthResponseMatch_ARM{}
+	result := &arm.ApplicationGatewayProbeHealthResponseMatch{}
 
 	// Set property "Body":
 	if match.Body != nil {
@@ -15702,14 +15703,14 @@ func (match *ApplicationGatewayProbeHealthResponseMatch) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (match *ApplicationGatewayProbeHealthResponseMatch) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayProbeHealthResponseMatch_ARM{}
+	return &arm.ApplicationGatewayProbeHealthResponseMatch{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (match *ApplicationGatewayProbeHealthResponseMatch) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayProbeHealthResponseMatch_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayProbeHealthResponseMatch)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayProbeHealthResponseMatch_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayProbeHealthResponseMatch, got %T", armInput)
 	}
 
 	// Set property "Body":
@@ -15818,7 +15819,7 @@ func (rule *ApplicationGatewayRewriteRule) ConvertToARM(resolved genruntime.Conv
 	if rule == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayRewriteRule_ARM{}
+	result := &arm.ApplicationGatewayRewriteRule{}
 
 	// Set property "ActionSet":
 	if rule.ActionSet != nil {
@@ -15826,7 +15827,7 @@ func (rule *ApplicationGatewayRewriteRule) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		actionSet := *actionSet_ARM.(*ApplicationGatewayRewriteRuleActionSet_ARM)
+		actionSet := *actionSet_ARM.(*arm.ApplicationGatewayRewriteRuleActionSet)
 		result.ActionSet = &actionSet
 	}
 
@@ -15836,7 +15837,7 @@ func (rule *ApplicationGatewayRewriteRule) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		result.Conditions = append(result.Conditions, *item_ARM.(*ApplicationGatewayRewriteRuleCondition_ARM))
+		result.Conditions = append(result.Conditions, *item_ARM.(*arm.ApplicationGatewayRewriteRuleCondition))
 	}
 
 	// Set property "Name":
@@ -15855,14 +15856,14 @@ func (rule *ApplicationGatewayRewriteRule) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ApplicationGatewayRewriteRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRewriteRule_ARM{}
+	return &arm.ApplicationGatewayRewriteRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ApplicationGatewayRewriteRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRewriteRule_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRewriteRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRewriteRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRewriteRule, got %T", armInput)
 	}
 
 	// Set property "ActionSet":
@@ -16346,14 +16347,14 @@ var _ genruntime.FromARMConverter = &ManagedServiceIdentity_UserAssignedIdentiti
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identities *ManagedServiceIdentity_UserAssignedIdentities_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM{}
+	return &arm.ManagedServiceIdentity_UserAssignedIdentities_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identities *ManagedServiceIdentity_UserAssignedIdentities_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedServiceIdentity_UserAssignedIdentities_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedServiceIdentity_UserAssignedIdentities_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -16571,7 +16572,7 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) ConvertToARM(resolved g
 	if actionSet == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayRewriteRuleActionSet_ARM{}
+	result := &arm.ApplicationGatewayRewriteRuleActionSet{}
 
 	// Set property "RequestHeaderConfigurations":
 	for _, item := range actionSet.RequestHeaderConfigurations {
@@ -16579,7 +16580,7 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) ConvertToARM(resolved g
 		if err != nil {
 			return nil, err
 		}
-		result.RequestHeaderConfigurations = append(result.RequestHeaderConfigurations, *item_ARM.(*ApplicationGatewayHeaderConfiguration_ARM))
+		result.RequestHeaderConfigurations = append(result.RequestHeaderConfigurations, *item_ARM.(*arm.ApplicationGatewayHeaderConfiguration))
 	}
 
 	// Set property "ResponseHeaderConfigurations":
@@ -16588,7 +16589,7 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) ConvertToARM(resolved g
 		if err != nil {
 			return nil, err
 		}
-		result.ResponseHeaderConfigurations = append(result.ResponseHeaderConfigurations, *item_ARM.(*ApplicationGatewayHeaderConfiguration_ARM))
+		result.ResponseHeaderConfigurations = append(result.ResponseHeaderConfigurations, *item_ARM.(*arm.ApplicationGatewayHeaderConfiguration))
 	}
 
 	// Set property "UrlConfiguration":
@@ -16597,7 +16598,7 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) ConvertToARM(resolved g
 		if err != nil {
 			return nil, err
 		}
-		urlConfiguration := *urlConfiguration_ARM.(*ApplicationGatewayUrlConfiguration_ARM)
+		urlConfiguration := *urlConfiguration_ARM.(*arm.ApplicationGatewayUrlConfiguration)
 		result.UrlConfiguration = &urlConfiguration
 	}
 	return result, nil
@@ -16605,14 +16606,14 @@ func (actionSet *ApplicationGatewayRewriteRuleActionSet) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (actionSet *ApplicationGatewayRewriteRuleActionSet) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRewriteRuleActionSet_ARM{}
+	return &arm.ApplicationGatewayRewriteRuleActionSet{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (actionSet *ApplicationGatewayRewriteRuleActionSet) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRewriteRuleActionSet_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRewriteRuleActionSet)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRewriteRuleActionSet_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRewriteRuleActionSet, got %T", armInput)
 	}
 
 	// Set property "RequestHeaderConfigurations":
@@ -16791,7 +16792,7 @@ func (condition *ApplicationGatewayRewriteRuleCondition) ConvertToARM(resolved g
 	if condition == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayRewriteRuleCondition_ARM{}
+	result := &arm.ApplicationGatewayRewriteRuleCondition{}
 
 	// Set property "IgnoreCase":
 	if condition.IgnoreCase != nil {
@@ -16821,14 +16822,14 @@ func (condition *ApplicationGatewayRewriteRuleCondition) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (condition *ApplicationGatewayRewriteRuleCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayRewriteRuleCondition_ARM{}
+	return &arm.ApplicationGatewayRewriteRuleCondition{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (condition *ApplicationGatewayRewriteRuleCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayRewriteRuleCondition_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayRewriteRuleCondition)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayRewriteRuleCondition_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayRewriteRuleCondition, got %T", armInput)
 	}
 
 	// Set property "IgnoreCase":
@@ -16942,7 +16943,7 @@ func (configuration *ApplicationGatewayHeaderConfiguration) ConvertToARM(resolve
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayHeaderConfiguration_ARM{}
+	result := &arm.ApplicationGatewayHeaderConfiguration{}
 
 	// Set property "HeaderName":
 	if configuration.HeaderName != nil {
@@ -16960,14 +16961,14 @@ func (configuration *ApplicationGatewayHeaderConfiguration) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayHeaderConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayHeaderConfiguration_ARM{}
+	return &arm.ApplicationGatewayHeaderConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayHeaderConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayHeaderConfiguration_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayHeaderConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayHeaderConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayHeaderConfiguration, got %T", armInput)
 	}
 
 	// Set property "HeaderName":
@@ -17043,7 +17044,7 @@ func (configuration *ApplicationGatewayUrlConfiguration) ConvertToARM(resolved g
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &ApplicationGatewayUrlConfiguration_ARM{}
+	result := &arm.ApplicationGatewayUrlConfiguration{}
 
 	// Set property "ModifiedPath":
 	if configuration.ModifiedPath != nil {
@@ -17067,14 +17068,14 @@ func (configuration *ApplicationGatewayUrlConfiguration) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *ApplicationGatewayUrlConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationGatewayUrlConfiguration_ARM{}
+	return &arm.ApplicationGatewayUrlConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayUrlConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationGatewayUrlConfiguration_ARM)
+	typedInput, ok := armInput.(arm.ApplicationGatewayUrlConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayUrlConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayUrlConfiguration, got %T", armInput)
 	}
 
 	// Set property "ModifiedPath":

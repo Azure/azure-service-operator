@@ -5,6 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -377,7 +378,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 	if peering == nil {
 		return nil, nil
 	}
-	result := &VirtualNetworksVirtualNetworkPeering_Spec_ARM{}
+	result := &arm.VirtualNetworksVirtualNetworkPeering_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -392,7 +393,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		peering.RemoteBgpCommunities != nil ||
 		peering.RemoteVirtualNetwork != nil ||
 		peering.UseRemoteGateways != nil {
-		result.Properties = &VirtualNetworkPeeringPropertiesFormat_ARM{}
+		result.Properties = &arm.VirtualNetworkPeeringPropertiesFormat{}
 	}
 	if peering.AllowForwardedTraffic != nil {
 		allowForwardedTraffic := *peering.AllowForwardedTraffic
@@ -413,7 +414,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 	if peering.PeeringState != nil {
 		var temp string
 		temp = string(*peering.PeeringState)
-		peeringState := VirtualNetworkPeeringPropertiesFormat_PeeringState_ARM(temp)
+		peeringState := arm.VirtualNetworkPeeringPropertiesFormat_PeeringState(temp)
 		result.Properties.PeeringState = &peeringState
 	}
 	if peering.RemoteAddressSpace != nil {
@@ -421,7 +422,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		remoteAddressSpace := *remoteAddressSpace_ARM.(*AddressSpace_ARM)
+		remoteAddressSpace := *remoteAddressSpace_ARM.(*arm.AddressSpace)
 		result.Properties.RemoteAddressSpace = &remoteAddressSpace
 	}
 	if peering.RemoteBgpCommunities != nil {
@@ -429,7 +430,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		remoteBgpCommunities := *remoteBgpCommunities_ARM.(*VirtualNetworkBgpCommunities_ARM)
+		remoteBgpCommunities := *remoteBgpCommunities_ARM.(*arm.VirtualNetworkBgpCommunities)
 		result.Properties.RemoteBgpCommunities = &remoteBgpCommunities
 	}
 	if peering.RemoteVirtualNetwork != nil {
@@ -437,7 +438,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		remoteVirtualNetwork := *remoteVirtualNetwork_ARM.(*SubResource_ARM)
+		remoteVirtualNetwork := *remoteVirtualNetwork_ARM.(*arm.SubResource)
 		result.Properties.RemoteVirtualNetwork = &remoteVirtualNetwork
 	}
 	if peering.UseRemoteGateways != nil {
@@ -449,14 +450,14 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (peering *VirtualNetworksVirtualNetworkPeering_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetworksVirtualNetworkPeering_Spec_ARM{}
+	return &arm.VirtualNetworksVirtualNetworkPeering_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (peering *VirtualNetworksVirtualNetworkPeering_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworksVirtualNetworkPeering_Spec_ARM)
+	typedInput, ok := armInput.(arm.VirtualNetworksVirtualNetworkPeering_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworksVirtualNetworkPeering_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualNetworksVirtualNetworkPeering_Spec, got %T", armInput)
 	}
 
 	// Set property "AllowForwardedTraffic":
@@ -1049,14 +1050,14 @@ var _ genruntime.FromARMConverter = &VirtualNetworksVirtualNetworkPeering_STATUS
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (peering *VirtualNetworksVirtualNetworkPeering_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetworksVirtualNetworkPeering_STATUS_ARM{}
+	return &arm.VirtualNetworksVirtualNetworkPeering_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (peering *VirtualNetworksVirtualNetworkPeering_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworksVirtualNetworkPeering_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VirtualNetworksVirtualNetworkPeering_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworksVirtualNetworkPeering_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VirtualNetworksVirtualNetworkPeering_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllowForwardedTraffic":
