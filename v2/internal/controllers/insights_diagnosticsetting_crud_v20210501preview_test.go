@@ -24,9 +24,6 @@ func Test_Insights_DiagnosticSetting_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-	// rg_name := rg.Status.Name
-
-	// vnet := VMVirtualNetwork(tc, testcommon.AsOwner(rg))
 
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMeta("vn"),
@@ -38,8 +35,6 @@ func Test_Insights_DiagnosticSetting_CRUD(t *testing.T) {
 			},
 		},
 	}
-
-	// tc.CreateResourceAndWait(vnet)
 
 	vnet_name := vnet.ObjectMeta.Name
 
@@ -60,10 +55,6 @@ func Test_Insights_DiagnosticSetting_CRUD(t *testing.T) {
 			AccessTier: &accessTier,
 		},
 	}
-
-	// tc.CreateResourceAndWait(acct)
-
-	// subARMID := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/virtualNetworks/%s", tc.AzureSubscription, *rg_name, vnet_name)
 
 	vnet_diagnosticSettings := &insights.DiagnosticSetting{
 		ObjectMeta: tc.MakeObjectMeta("diagnosticsetting"),
