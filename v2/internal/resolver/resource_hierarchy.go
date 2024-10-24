@@ -218,16 +218,6 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 			return "", err
 		}
 
-		ownerARMID, err := arm.ParseResourceID(armIDStr)
-		if err != nil {
-			return "", err
-		}
-
-		// Confirm that the subscription ID the user specified matches the subscription ID we're using from our credential
-		if ok := genruntime.CheckARMIDMatchesSubscription(subscriptionID, ownerARMID); !ok {
-			return "", core.NewSubscriptionMismatchError(ownerARMID.SubscriptionID, subscriptionID)
-		}
-
 		// Rooting to an ARM ID means that some of the resourceTypes may not actually be included explicitly in our
 		// hierarchy (because they're instead in the ARM ID itself). We filter these out of resourceTypes by
 		// removing types that aren't included in the hierarchy.
