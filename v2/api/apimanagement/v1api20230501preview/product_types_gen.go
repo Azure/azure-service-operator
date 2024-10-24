@@ -5,6 +5,7 @@ package v1api20230501preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -386,7 +387,7 @@ func (product *Product_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if product == nil {
 		return nil, nil
 	}
-	result := &Product_Spec_ARM{}
+	result := &arm.Product_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -399,7 +400,7 @@ func (product *Product_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		product.SubscriptionRequired != nil ||
 		product.SubscriptionsLimit != nil ||
 		product.Terms != nil {
-		result.Properties = &ProductContractProperties_ARM{}
+		result.Properties = &arm.ProductContractProperties{}
 	}
 	if product.ApprovalRequired != nil {
 		approvalRequired := *product.ApprovalRequired
@@ -416,7 +417,7 @@ func (product *Product_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if product.State != nil {
 		var temp string
 		temp = string(*product.State)
-		state := ProductContractProperties_State_ARM(temp)
+		state := arm.ProductContractProperties_State(temp)
 		result.Properties.State = &state
 	}
 	if product.SubscriptionRequired != nil {
@@ -436,14 +437,14 @@ func (product *Product_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (product *Product_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Product_Spec_ARM{}
+	return &arm.Product_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (product *Product_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Product_Spec_ARM)
+	typedInput, ok := armInput.(arm.Product_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Product_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Product_Spec, got %T", armInput)
 	}
 
 	// Set property "ApprovalRequired":
@@ -824,14 +825,14 @@ var _ genruntime.FromARMConverter = &Product_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (product *Product_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Product_STATUS_ARM{}
+	return &arm.Product_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (product *Product_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Product_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Product_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Product_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Product_STATUS, got %T", armInput)
 	}
 
 	// Set property "ApprovalRequired":

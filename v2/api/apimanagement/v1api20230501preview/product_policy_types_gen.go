@@ -5,6 +5,7 @@ package v1api20230501preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -343,19 +344,19 @@ func (policy *ProductPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	if policy == nil {
 		return nil, nil
 	}
-	result := &ProductPolicy_Spec_ARM{}
+	result := &arm.ProductPolicy_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if policy.Format != nil || policy.Value != nil {
-		result.Properties = &PolicyContractProperties_ARM{}
+		result.Properties = &arm.PolicyContractProperties{}
 	}
 	if policy.Format != nil {
 		var temp string
 		temp = string(*policy.Format)
-		format := PolicyContractProperties_Format_ARM(temp)
+		format := arm.PolicyContractProperties_Format(temp)
 		result.Properties.Format = &format
 	}
 	if policy.Value != nil {
@@ -367,14 +368,14 @@ func (policy *ProductPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ProductPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProductPolicy_Spec_ARM{}
+	return &arm.ProductPolicy_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ProductPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProductPolicy_Spec_ARM)
+	typedInput, ok := armInput.(arm.ProductPolicy_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProductPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ProductPolicy_Spec, got %T", armInput)
 	}
 
 	// Set property "Format":
@@ -602,14 +603,14 @@ var _ genruntime.FromARMConverter = &ProductPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ProductPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProductPolicy_STATUS_ARM{}
+	return &arm.ProductPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ProductPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProductPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ProductPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProductPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ProductPolicy_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

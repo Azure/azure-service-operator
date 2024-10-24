@@ -5,6 +5,7 @@ package v1api20230501preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -379,7 +380,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) ConvertToAR
 	if policy == nil {
 		return nil, nil
 	}
-	result := &AuthorizationProvidersAuthorizationsAccessPolicy_Spec_ARM{}
+	result := &arm.AuthorizationProvidersAuthorizationsAccessPolicy_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -390,7 +391,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) ConvertToAR
 		policy.ObjectIdFromConfig != nil ||
 		policy.TenantId != nil ||
 		policy.TenantIdFromConfig != nil {
-		result.Properties = &AuthorizationAccessPolicyContractProperties_ARM{}
+		result.Properties = &arm.AuthorizationAccessPolicyContractProperties{}
 	}
 	for _, item := range policy.AppIds {
 		result.Properties.AppIds = append(result.Properties.AppIds, item)
@@ -424,14 +425,14 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthorizationProvidersAuthorizationsAccessPolicy_Spec_ARM{}
+	return &arm.AuthorizationProvidersAuthorizationsAccessPolicy_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthorizationProvidersAuthorizationsAccessPolicy_Spec_ARM)
+	typedInput, ok := armInput.(arm.AuthorizationProvidersAuthorizationsAccessPolicy_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationProvidersAuthorizationsAccessPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AuthorizationProvidersAuthorizationsAccessPolicy_Spec, got %T", armInput)
 	}
 
 	// Set property "AppIds":
@@ -713,14 +714,14 @@ var _ genruntime.FromARMConverter = &AuthorizationProvidersAuthorizationsAccessP
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthorizationProvidersAuthorizationsAccessPolicy_STATUS_ARM{}
+	return &arm.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthorizationProvidersAuthorizationsAccessPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationProvidersAuthorizationsAccessPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS, got %T", armInput)
 	}
 
 	// Set property "AppIds":
