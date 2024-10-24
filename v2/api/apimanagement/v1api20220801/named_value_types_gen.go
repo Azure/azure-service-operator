@@ -5,6 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -381,7 +382,7 @@ func (value *NamedValue_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if value == nil {
 		return nil, nil
 	}
-	result := &NamedValue_Spec_ARM{}
+	result := &arm.NamedValue_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -392,7 +393,7 @@ func (value *NamedValue_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		value.Secret != nil ||
 		value.Tags != nil ||
 		value.Value != nil {
-		result.Properties = &NamedValueCreateContractProperties_ARM{}
+		result.Properties = &arm.NamedValueCreateContractProperties{}
 	}
 	if value.DisplayName != nil {
 		displayName := *value.DisplayName
@@ -403,7 +404,7 @@ func (value *NamedValue_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		keyVault := *keyVault_ARM.(*KeyVaultContractCreateProperties_ARM)
+		keyVault := *keyVault_ARM.(*arm.KeyVaultContractCreateProperties)
 		result.Properties.KeyVault = &keyVault
 	}
 	if value.Secret != nil {
@@ -422,14 +423,14 @@ func (value *NamedValue_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (value *NamedValue_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamedValue_Spec_ARM{}
+	return &arm.NamedValue_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (value *NamedValue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamedValue_Spec_ARM)
+	typedInput, ok := armInput.(arm.NamedValue_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamedValue_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamedValue_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -839,14 +840,14 @@ var _ genruntime.FromARMConverter = &NamedValue_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (value *NamedValue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamedValue_STATUS_ARM{}
+	return &arm.NamedValue_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (value *NamedValue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamedValue_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NamedValue_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamedValue_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamedValue_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1049,7 +1050,7 @@ func (properties *KeyVaultContractCreateProperties) ConvertToARM(resolved genrun
 	if properties == nil {
 		return nil, nil
 	}
-	result := &KeyVaultContractCreateProperties_ARM{}
+	result := &arm.KeyVaultContractCreateProperties{}
 
 	// Set property "IdentityClientId":
 	if properties.IdentityClientId != nil {
@@ -1075,14 +1076,14 @@ func (properties *KeyVaultContractCreateProperties) ConvertToARM(resolved genrun
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *KeyVaultContractCreateProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultContractCreateProperties_ARM{}
+	return &arm.KeyVaultContractCreateProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *KeyVaultContractCreateProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultContractCreateProperties_ARM)
+	typedInput, ok := armInput.(arm.KeyVaultContractCreateProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultContractCreateProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KeyVaultContractCreateProperties, got %T", armInput)
 	}
 
 	// Set property "IdentityClientId":
@@ -1185,14 +1186,14 @@ var _ genruntime.FromARMConverter = &KeyVaultContractProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *KeyVaultContractProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultContractProperties_STATUS_ARM{}
+	return &arm.KeyVaultContractProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *KeyVaultContractProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultContractProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.KeyVaultContractProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultContractProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KeyVaultContractProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "IdentityClientId":
@@ -1298,14 +1299,14 @@ var _ genruntime.FromARMConverter = &KeyVaultLastAccessStatusContractProperties_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *KeyVaultLastAccessStatusContractProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultLastAccessStatusContractProperties_STATUS_ARM{}
+	return &arm.KeyVaultLastAccessStatusContractProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *KeyVaultLastAccessStatusContractProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultLastAccessStatusContractProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.KeyVaultLastAccessStatusContractProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultLastAccessStatusContractProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.KeyVaultLastAccessStatusContractProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "Code":

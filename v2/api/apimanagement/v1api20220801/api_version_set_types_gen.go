@@ -5,6 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -370,7 +371,7 @@ func (versionSet *ApiVersionSet_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if versionSet == nil {
 		return nil, nil
 	}
-	result := &ApiVersionSet_Spec_ARM{}
+	result := &arm.ApiVersionSet_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -381,7 +382,7 @@ func (versionSet *ApiVersionSet_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		versionSet.VersionHeaderName != nil ||
 		versionSet.VersionQueryName != nil ||
 		versionSet.VersioningScheme != nil {
-		result.Properties = &ApiVersionSetContractProperties_ARM{}
+		result.Properties = &arm.ApiVersionSetContractProperties{}
 	}
 	if versionSet.Description != nil {
 		description := *versionSet.Description
@@ -402,7 +403,7 @@ func (versionSet *ApiVersionSet_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if versionSet.VersioningScheme != nil {
 		var temp string
 		temp = string(*versionSet.VersioningScheme)
-		versioningScheme := ApiVersionSetContractProperties_VersioningScheme_ARM(temp)
+		versioningScheme := arm.ApiVersionSetContractProperties_VersioningScheme(temp)
 		result.Properties.VersioningScheme = &versioningScheme
 	}
 	return result, nil
@@ -410,14 +411,14 @@ func (versionSet *ApiVersionSet_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (versionSet *ApiVersionSet_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiVersionSet_Spec_ARM{}
+	return &arm.ApiVersionSet_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (versionSet *ApiVersionSet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiVersionSet_Spec_ARM)
+	typedInput, ok := armInput.(arm.ApiVersionSet_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiVersionSet_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiVersionSet_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -785,14 +786,14 @@ var _ genruntime.FromARMConverter = &ApiVersionSet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (versionSet *ApiVersionSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiVersionSet_STATUS_ARM{}
+	return &arm.ApiVersionSet_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (versionSet *ApiVersionSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiVersionSet_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApiVersionSet_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiVersionSet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiVersionSet_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

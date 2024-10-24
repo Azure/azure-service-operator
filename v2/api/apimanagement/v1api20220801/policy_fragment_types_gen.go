@@ -5,6 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -359,7 +360,7 @@ func (fragment *PolicyFragment_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if fragment == nil {
 		return nil, nil
 	}
-	result := &PolicyFragment_Spec_ARM{}
+	result := &arm.PolicyFragment_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -368,7 +369,7 @@ func (fragment *PolicyFragment_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if fragment.Description != nil ||
 		fragment.Format != nil ||
 		fragment.Value != nil {
-		result.Properties = &PolicyFragmentContractProperties_ARM{}
+		result.Properties = &arm.PolicyFragmentContractProperties{}
 	}
 	if fragment.Description != nil {
 		description := *fragment.Description
@@ -377,7 +378,7 @@ func (fragment *PolicyFragment_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if fragment.Format != nil {
 		var temp string
 		temp = string(*fragment.Format)
-		format := PolicyFragmentContractProperties_Format_ARM(temp)
+		format := arm.PolicyFragmentContractProperties_Format(temp)
 		result.Properties.Format = &format
 	}
 	if fragment.Value != nil {
@@ -389,14 +390,14 @@ func (fragment *PolicyFragment_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (fragment *PolicyFragment_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PolicyFragment_Spec_ARM{}
+	return &arm.PolicyFragment_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (fragment *PolicyFragment_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PolicyFragment_Spec_ARM)
+	typedInput, ok := armInput.(arm.PolicyFragment_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PolicyFragment_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PolicyFragment_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -690,14 +691,14 @@ var _ genruntime.FromARMConverter = &PolicyFragment_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (fragment *PolicyFragment_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PolicyFragment_STATUS_ARM{}
+	return &arm.PolicyFragment_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (fragment *PolicyFragment_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PolicyFragment_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PolicyFragment_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PolicyFragment_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PolicyFragment_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

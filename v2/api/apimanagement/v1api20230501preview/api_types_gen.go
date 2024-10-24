@@ -5,6 +5,7 @@ package v1api20230501preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -443,7 +444,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	if api == nil {
 		return nil, nil
 	}
-	result := &Api_Spec_ARM{}
+	result := &arm.Api_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -474,7 +475,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		api.Type != nil ||
 		api.Value != nil ||
 		api.WsdlSelector != nil {
-		result.Properties = &ApiCreateOrUpdateProperties_ARM{}
+		result.Properties = &arm.ApiCreateOrUpdateProperties{}
 	}
 	if api.APIVersion != nil {
 		apiVersion := *api.APIVersion
@@ -491,7 +492,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	if api.ApiType != nil {
 		var temp string
 		temp = string(*api.ApiType)
-		apiType := ApiCreateOrUpdateProperties_ApiType_ARM(temp)
+		apiType := arm.ApiCreateOrUpdateProperties_ApiType(temp)
 		result.Properties.ApiType = &apiType
 	}
 	if api.ApiVersionDescription != nil {
@@ -503,7 +504,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		if err != nil {
 			return nil, err
 		}
-		apiVersionSet := *apiVersionSet_ARM.(*ApiVersionSetContractDetails_ARM)
+		apiVersionSet := *apiVersionSet_ARM.(*arm.ApiVersionSetContractDetails)
 		result.Properties.ApiVersionSet = &apiVersionSet
 	}
 	if api.ApiVersionSetReference != nil {
@@ -519,7 +520,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		if err != nil {
 			return nil, err
 		}
-		authenticationSettings := *authenticationSettings_ARM.(*AuthenticationSettingsContract_ARM)
+		authenticationSettings := *authenticationSettings_ARM.(*arm.AuthenticationSettingsContract)
 		result.Properties.AuthenticationSettings = &authenticationSettings
 	}
 	if api.Contact != nil {
@@ -527,7 +528,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		if err != nil {
 			return nil, err
 		}
-		contact := *contact_ARM.(*ApiContactInformation_ARM)
+		contact := *contact_ARM.(*arm.ApiContactInformation)
 		result.Properties.Contact = &contact
 	}
 	if api.Description != nil {
@@ -541,7 +542,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	if api.Format != nil {
 		var temp string
 		temp = string(*api.Format)
-		format := ApiCreateOrUpdateProperties_Format_ARM(temp)
+		format := arm.ApiCreateOrUpdateProperties_Format(temp)
 		result.Properties.Format = &format
 	}
 	if api.IsCurrent != nil {
@@ -553,7 +554,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		if err != nil {
 			return nil, err
 		}
-		license := *license_ARM.(*ApiLicenseInformation_ARM)
+		license := *license_ARM.(*arm.ApiLicenseInformation)
 		result.Properties.License = &license
 	}
 	if api.Path != nil {
@@ -563,7 +564,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	for _, item := range api.Protocols {
 		var temp string
 		temp = string(item)
-		result.Properties.Protocols = append(result.Properties.Protocols, ApiCreateOrUpdateProperties_Protocols_ARM(temp))
+		result.Properties.Protocols = append(result.Properties.Protocols, arm.ApiCreateOrUpdateProperties_Protocols(temp))
 	}
 	if api.ServiceUrl != nil {
 		serviceUrl := *api.ServiceUrl
@@ -582,7 +583,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		if err != nil {
 			return nil, err
 		}
-		subscriptionKeyParameterNames := *subscriptionKeyParameterNames_ARM.(*SubscriptionKeyParameterNamesContract_ARM)
+		subscriptionKeyParameterNames := *subscriptionKeyParameterNames_ARM.(*arm.SubscriptionKeyParameterNamesContract)
 		result.Properties.SubscriptionKeyParameterNames = &subscriptionKeyParameterNames
 	}
 	if api.SubscriptionRequired != nil {
@@ -596,13 +597,13 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	if api.TranslateRequiredQueryParameters != nil {
 		var temp string
 		temp = string(*api.TranslateRequiredQueryParameters)
-		translateRequiredQueryParameters := ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_ARM(temp)
+		translateRequiredQueryParameters := arm.ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters(temp)
 		result.Properties.TranslateRequiredQueryParameters = &translateRequiredQueryParameters
 	}
 	if api.Type != nil {
 		var temp string
 		temp = string(*api.Type)
-		typeVar := ApiCreateOrUpdateProperties_Type_ARM(temp)
+		typeVar := arm.ApiCreateOrUpdateProperties_Type(temp)
 		result.Properties.Type = &typeVar
 	}
 	if api.Value != nil {
@@ -614,7 +615,7 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 		if err != nil {
 			return nil, err
 		}
-		wsdlSelector := *wsdlSelector_ARM.(*ApiCreateOrUpdateProperties_WsdlSelector_ARM)
+		wsdlSelector := *wsdlSelector_ARM.(*arm.ApiCreateOrUpdateProperties_WsdlSelector)
 		result.Properties.WsdlSelector = &wsdlSelector
 	}
 	return result, nil
@@ -622,14 +623,14 @@ func (api *Api_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (api *Api_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Api_Spec_ARM{}
+	return &arm.Api_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (api *Api_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Api_Spec_ARM)
+	typedInput, ok := armInput.(arm.Api_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Api_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Api_Spec, got %T", armInput)
 	}
 
 	// Set property "APIVersion":
@@ -1570,14 +1571,14 @@ var _ genruntime.FromARMConverter = &Api_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (api *Api_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Api_STATUS_ARM{}
+	return &arm.Api_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (api *Api_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Api_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Api_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Api_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Api_STATUS, got %T", armInput)
 	}
 
 	// Set property "APIVersion":
@@ -2184,7 +2185,7 @@ func (information *ApiContactInformation) ConvertToARM(resolved genruntime.Conve
 	if information == nil {
 		return nil, nil
 	}
-	result := &ApiContactInformation_ARM{}
+	result := &arm.ApiContactInformation{}
 
 	// Set property "Email":
 	if information.Email != nil {
@@ -2208,14 +2209,14 @@ func (information *ApiContactInformation) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (information *ApiContactInformation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiContactInformation_ARM{}
+	return &arm.ApiContactInformation{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (information *ApiContactInformation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiContactInformation_ARM)
+	typedInput, ok := armInput.(arm.ApiContactInformation)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiContactInformation_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiContactInformation, got %T", armInput)
 	}
 
 	// Set property "Email":
@@ -2297,14 +2298,14 @@ var _ genruntime.FromARMConverter = &ApiContactInformation_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (information *ApiContactInformation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiContactInformation_STATUS_ARM{}
+	return &arm.ApiContactInformation_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (information *ApiContactInformation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiContactInformation_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApiContactInformation_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiContactInformation_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiContactInformation_STATUS, got %T", armInput)
 	}
 
 	// Set property "Email":
@@ -2539,7 +2540,7 @@ func (selector *ApiCreateOrUpdateProperties_WsdlSelector) ConvertToARM(resolved 
 	if selector == nil {
 		return nil, nil
 	}
-	result := &ApiCreateOrUpdateProperties_WsdlSelector_ARM{}
+	result := &arm.ApiCreateOrUpdateProperties_WsdlSelector{}
 
 	// Set property "WsdlEndpointName":
 	if selector.WsdlEndpointName != nil {
@@ -2557,14 +2558,14 @@ func (selector *ApiCreateOrUpdateProperties_WsdlSelector) ConvertToARM(resolved 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (selector *ApiCreateOrUpdateProperties_WsdlSelector) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiCreateOrUpdateProperties_WsdlSelector_ARM{}
+	return &arm.ApiCreateOrUpdateProperties_WsdlSelector{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (selector *ApiCreateOrUpdateProperties_WsdlSelector) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiCreateOrUpdateProperties_WsdlSelector_ARM)
+	typedInput, ok := armInput.(arm.ApiCreateOrUpdateProperties_WsdlSelector)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiCreateOrUpdateProperties_WsdlSelector_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiCreateOrUpdateProperties_WsdlSelector, got %T", armInput)
 	}
 
 	// Set property "WsdlEndpointName":
@@ -2634,7 +2635,7 @@ func (information *ApiLicenseInformation) ConvertToARM(resolved genruntime.Conve
 	if information == nil {
 		return nil, nil
 	}
-	result := &ApiLicenseInformation_ARM{}
+	result := &arm.ApiLicenseInformation{}
 
 	// Set property "Name":
 	if information.Name != nil {
@@ -2652,14 +2653,14 @@ func (information *ApiLicenseInformation) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (information *ApiLicenseInformation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiLicenseInformation_ARM{}
+	return &arm.ApiLicenseInformation{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (information *ApiLicenseInformation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiLicenseInformation_ARM)
+	typedInput, ok := armInput.(arm.ApiLicenseInformation)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiLicenseInformation_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiLicenseInformation, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2726,14 +2727,14 @@ var _ genruntime.FromARMConverter = &ApiLicenseInformation_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (information *ApiLicenseInformation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiLicenseInformation_STATUS_ARM{}
+	return &arm.ApiLicenseInformation_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (information *ApiLicenseInformation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiLicenseInformation_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApiLicenseInformation_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiLicenseInformation_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiLicenseInformation_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2815,7 +2816,7 @@ func (details *ApiVersionSetContractDetails) ConvertToARM(resolved genruntime.Co
 	if details == nil {
 		return nil, nil
 	}
-	result := &ApiVersionSetContractDetails_ARM{}
+	result := &arm.ApiVersionSetContractDetails{}
 
 	// Set property "Description":
 	if details.Description != nil {
@@ -2855,7 +2856,7 @@ func (details *ApiVersionSetContractDetails) ConvertToARM(resolved genruntime.Co
 	if details.VersioningScheme != nil {
 		var temp string
 		temp = string(*details.VersioningScheme)
-		versioningScheme := ApiVersionSetContractDetails_VersioningScheme_ARM(temp)
+		versioningScheme := arm.ApiVersionSetContractDetails_VersioningScheme(temp)
 		result.VersioningScheme = &versioningScheme
 	}
 	return result, nil
@@ -2863,14 +2864,14 @@ func (details *ApiVersionSetContractDetails) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *ApiVersionSetContractDetails) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiVersionSetContractDetails_ARM{}
+	return &arm.ApiVersionSetContractDetails{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *ApiVersionSetContractDetails) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiVersionSetContractDetails_ARM)
+	typedInput, ok := armInput.(arm.ApiVersionSetContractDetails)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiVersionSetContractDetails_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiVersionSetContractDetails, got %T", armInput)
 	}
 
 	// Set property "Description":
@@ -3016,14 +3017,14 @@ var _ genruntime.FromARMConverter = &ApiVersionSetContractDetails_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (details *ApiVersionSetContractDetails_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiVersionSetContractDetails_STATUS_ARM{}
+	return &arm.ApiVersionSetContractDetails_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (details *ApiVersionSetContractDetails_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiVersionSetContractDetails_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ApiVersionSetContractDetails_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiVersionSetContractDetails_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApiVersionSetContractDetails_STATUS, got %T", armInput)
 	}
 
 	// Set property "Description":
@@ -3160,7 +3161,7 @@ func (contract *AuthenticationSettingsContract) ConvertToARM(resolved genruntime
 	if contract == nil {
 		return nil, nil
 	}
-	result := &AuthenticationSettingsContract_ARM{}
+	result := &arm.AuthenticationSettingsContract{}
 
 	// Set property "OAuth2":
 	if contract.OAuth2 != nil {
@@ -3168,7 +3169,7 @@ func (contract *AuthenticationSettingsContract) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		oAuth2 := *oAuth2_ARM.(*OAuth2AuthenticationSettingsContract_ARM)
+		oAuth2 := *oAuth2_ARM.(*arm.OAuth2AuthenticationSettingsContract)
 		result.OAuth2 = &oAuth2
 	}
 
@@ -3178,7 +3179,7 @@ func (contract *AuthenticationSettingsContract) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		result.OAuth2AuthenticationSettings = append(result.OAuth2AuthenticationSettings, *item_ARM.(*OAuth2AuthenticationSettingsContract_ARM))
+		result.OAuth2AuthenticationSettings = append(result.OAuth2AuthenticationSettings, *item_ARM.(*arm.OAuth2AuthenticationSettingsContract))
 	}
 
 	// Set property "Openid":
@@ -3187,7 +3188,7 @@ func (contract *AuthenticationSettingsContract) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		openid := *openid_ARM.(*OpenIdAuthenticationSettingsContract_ARM)
+		openid := *openid_ARM.(*arm.OpenIdAuthenticationSettingsContract)
 		result.Openid = &openid
 	}
 
@@ -3197,21 +3198,21 @@ func (contract *AuthenticationSettingsContract) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		result.OpenidAuthenticationSettings = append(result.OpenidAuthenticationSettings, *item_ARM.(*OpenIdAuthenticationSettingsContract_ARM))
+		result.OpenidAuthenticationSettings = append(result.OpenidAuthenticationSettings, *item_ARM.(*arm.OpenIdAuthenticationSettingsContract))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *AuthenticationSettingsContract) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthenticationSettingsContract_ARM{}
+	return &arm.AuthenticationSettingsContract{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *AuthenticationSettingsContract) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthenticationSettingsContract_ARM)
+	typedInput, ok := armInput.(arm.AuthenticationSettingsContract)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthenticationSettingsContract_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AuthenticationSettingsContract, got %T", armInput)
 	}
 
 	// Set property "OAuth2":
@@ -3422,14 +3423,14 @@ var _ genruntime.FromARMConverter = &AuthenticationSettingsContract_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *AuthenticationSettingsContract_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthenticationSettingsContract_STATUS_ARM{}
+	return &arm.AuthenticationSettingsContract_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *AuthenticationSettingsContract_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthenticationSettingsContract_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AuthenticationSettingsContract_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthenticationSettingsContract_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AuthenticationSettingsContract_STATUS, got %T", armInput)
 	}
 
 	// Set property "OAuth2":
@@ -3637,7 +3638,7 @@ func (contract *SubscriptionKeyParameterNamesContract) ConvertToARM(resolved gen
 	if contract == nil {
 		return nil, nil
 	}
-	result := &SubscriptionKeyParameterNamesContract_ARM{}
+	result := &arm.SubscriptionKeyParameterNamesContract{}
 
 	// Set property "Header":
 	if contract.Header != nil {
@@ -3655,14 +3656,14 @@ func (contract *SubscriptionKeyParameterNamesContract) ConvertToARM(resolved gen
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *SubscriptionKeyParameterNamesContract) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubscriptionKeyParameterNamesContract_ARM{}
+	return &arm.SubscriptionKeyParameterNamesContract{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *SubscriptionKeyParameterNamesContract) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubscriptionKeyParameterNamesContract_ARM)
+	typedInput, ok := armInput.(arm.SubscriptionKeyParameterNamesContract)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubscriptionKeyParameterNamesContract_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubscriptionKeyParameterNamesContract, got %T", armInput)
 	}
 
 	// Set property "Header":
@@ -3729,14 +3730,14 @@ var _ genruntime.FromARMConverter = &SubscriptionKeyParameterNamesContract_STATU
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *SubscriptionKeyParameterNamesContract_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubscriptionKeyParameterNamesContract_STATUS_ARM{}
+	return &arm.SubscriptionKeyParameterNamesContract_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *SubscriptionKeyParameterNamesContract_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubscriptionKeyParameterNamesContract_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SubscriptionKeyParameterNamesContract_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubscriptionKeyParameterNamesContract_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SubscriptionKeyParameterNamesContract_STATUS, got %T", armInput)
 	}
 
 	// Set property "Header":
@@ -3837,7 +3838,7 @@ func (contract *OAuth2AuthenticationSettingsContract) ConvertToARM(resolved genr
 	if contract == nil {
 		return nil, nil
 	}
-	result := &OAuth2AuthenticationSettingsContract_ARM{}
+	result := &arm.OAuth2AuthenticationSettingsContract{}
 
 	// Set property "AuthorizationServerId":
 	if contract.AuthorizationServerId != nil {
@@ -3855,14 +3856,14 @@ func (contract *OAuth2AuthenticationSettingsContract) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *OAuth2AuthenticationSettingsContract) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OAuth2AuthenticationSettingsContract_ARM{}
+	return &arm.OAuth2AuthenticationSettingsContract{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *OAuth2AuthenticationSettingsContract) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OAuth2AuthenticationSettingsContract_ARM)
+	typedInput, ok := armInput.(arm.OAuth2AuthenticationSettingsContract)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OAuth2AuthenticationSettingsContract_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OAuth2AuthenticationSettingsContract, got %T", armInput)
 	}
 
 	// Set property "AuthorizationServerId":
@@ -3929,14 +3930,14 @@ var _ genruntime.FromARMConverter = &OAuth2AuthenticationSettingsContract_STATUS
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *OAuth2AuthenticationSettingsContract_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OAuth2AuthenticationSettingsContract_STATUS_ARM{}
+	return &arm.OAuth2AuthenticationSettingsContract_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *OAuth2AuthenticationSettingsContract_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OAuth2AuthenticationSettingsContract_STATUS_ARM)
+	typedInput, ok := armInput.(arm.OAuth2AuthenticationSettingsContract_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OAuth2AuthenticationSettingsContract_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OAuth2AuthenticationSettingsContract_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthorizationServerId":
@@ -4006,13 +4007,13 @@ func (contract *OpenIdAuthenticationSettingsContract) ConvertToARM(resolved genr
 	if contract == nil {
 		return nil, nil
 	}
-	result := &OpenIdAuthenticationSettingsContract_ARM{}
+	result := &arm.OpenIdAuthenticationSettingsContract{}
 
 	// Set property "BearerTokenSendingMethods":
 	for _, item := range contract.BearerTokenSendingMethods {
 		var temp string
 		temp = string(item)
-		result.BearerTokenSendingMethods = append(result.BearerTokenSendingMethods, BearerTokenSendingMethodsContract_ARM(temp))
+		result.BearerTokenSendingMethods = append(result.BearerTokenSendingMethods, arm.BearerTokenSendingMethodsContract(temp))
 	}
 
 	// Set property "OpenidProviderId":
@@ -4025,14 +4026,14 @@ func (contract *OpenIdAuthenticationSettingsContract) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *OpenIdAuthenticationSettingsContract) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OpenIdAuthenticationSettingsContract_ARM{}
+	return &arm.OpenIdAuthenticationSettingsContract{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *OpenIdAuthenticationSettingsContract) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OpenIdAuthenticationSettingsContract_ARM)
+	typedInput, ok := armInput.(arm.OpenIdAuthenticationSettingsContract)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OpenIdAuthenticationSettingsContract_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OpenIdAuthenticationSettingsContract, got %T", armInput)
 	}
 
 	// Set property "BearerTokenSendingMethods":
@@ -4120,14 +4121,14 @@ var _ genruntime.FromARMConverter = &OpenIdAuthenticationSettingsContract_STATUS
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *OpenIdAuthenticationSettingsContract_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OpenIdAuthenticationSettingsContract_STATUS_ARM{}
+	return &arm.OpenIdAuthenticationSettingsContract_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *OpenIdAuthenticationSettingsContract_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OpenIdAuthenticationSettingsContract_STATUS_ARM)
+	typedInput, ok := armInput.(arm.OpenIdAuthenticationSettingsContract_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OpenIdAuthenticationSettingsContract_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OpenIdAuthenticationSettingsContract_STATUS, got %T", armInput)
 	}
 
 	// Set property "BearerTokenSendingMethods":

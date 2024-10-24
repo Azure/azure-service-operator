@@ -5,6 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -382,7 +383,7 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if backend == nil {
 		return nil, nil
 	}
-	result := &Backend_Spec_ARM{}
+	result := &arm.Backend_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -397,14 +398,14 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		backend.Title != nil ||
 		backend.Tls != nil ||
 		backend.Url != nil {
-		result.Properties = &BackendContractProperties_ARM{}
+		result.Properties = &arm.BackendContractProperties{}
 	}
 	if backend.Credentials != nil {
 		credentials_ARM, err := (*backend.Credentials).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		credentials := *credentials_ARM.(*BackendCredentialsContract_ARM)
+		credentials := *credentials_ARM.(*arm.BackendCredentialsContract)
 		result.Properties.Credentials = &credentials
 	}
 	if backend.Description != nil {
@@ -416,13 +417,13 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*BackendProperties_ARM)
+		properties := *properties_ARM.(*arm.BackendProperties)
 		result.Properties.Properties = &properties
 	}
 	if backend.Protocol != nil {
 		var temp string
 		temp = string(*backend.Protocol)
-		protocol := BackendContractProperties_Protocol_ARM(temp)
+		protocol := arm.BackendContractProperties_Protocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if backend.Proxy != nil {
@@ -430,7 +431,7 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		proxy := *proxy_ARM.(*BackendProxyContract_ARM)
+		proxy := *proxy_ARM.(*arm.BackendProxyContract)
 		result.Properties.Proxy = &proxy
 	}
 	if backend.ResourceReference != nil {
@@ -450,7 +451,7 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		tls := *tls_ARM.(*BackendTlsProperties_ARM)
+		tls := *tls_ARM.(*arm.BackendTlsProperties)
 		result.Properties.Tls = &tls
 	}
 	if backend.Url != nil {
@@ -462,14 +463,14 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (backend *Backend_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Backend_Spec_ARM{}
+	return &arm.Backend_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (backend *Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Backend_Spec_ARM)
+	typedInput, ok := armInput.(arm.Backend_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backend_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Backend_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -1056,14 +1057,14 @@ var _ genruntime.FromARMConverter = &Backend_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (backend *Backend_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Backend_STATUS_ARM{}
+	return &arm.Backend_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (backend *Backend_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Backend_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Backend_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backend_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Backend_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1431,7 +1432,7 @@ func (contract *BackendCredentialsContract) ConvertToARM(resolved genruntime.Con
 	if contract == nil {
 		return nil, nil
 	}
-	result := &BackendCredentialsContract_ARM{}
+	result := &arm.BackendCredentialsContract{}
 
 	// Set property "Authorization":
 	if contract.Authorization != nil {
@@ -1439,7 +1440,7 @@ func (contract *BackendCredentialsContract) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		authorization := *authorization_ARM.(*BackendAuthorizationHeaderCredentials_ARM)
+		authorization := *authorization_ARM.(*arm.BackendAuthorizationHeaderCredentials)
 		result.Authorization = &authorization
 	}
 
@@ -1481,14 +1482,14 @@ func (contract *BackendCredentialsContract) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *BackendCredentialsContract) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendCredentialsContract_ARM{}
+	return &arm.BackendCredentialsContract{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *BackendCredentialsContract) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendCredentialsContract_ARM)
+	typedInput, ok := armInput.(arm.BackendCredentialsContract)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendCredentialsContract_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendCredentialsContract, got %T", armInput)
 	}
 
 	// Set property "Authorization":
@@ -1784,14 +1785,14 @@ var _ genruntime.FromARMConverter = &BackendCredentialsContract_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *BackendCredentialsContract_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendCredentialsContract_STATUS_ARM{}
+	return &arm.BackendCredentialsContract_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *BackendCredentialsContract_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendCredentialsContract_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendCredentialsContract_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendCredentialsContract_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendCredentialsContract_STATUS, got %T", armInput)
 	}
 
 	// Set property "Authorization":
@@ -1967,7 +1968,7 @@ func (properties *BackendProperties) ConvertToARM(resolved genruntime.ConvertToA
 	if properties == nil {
 		return nil, nil
 	}
-	result := &BackendProperties_ARM{}
+	result := &arm.BackendProperties{}
 
 	// Set property "ServiceFabricCluster":
 	if properties.ServiceFabricCluster != nil {
@@ -1975,7 +1976,7 @@ func (properties *BackendProperties) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		serviceFabricCluster := *serviceFabricCluster_ARM.(*BackendServiceFabricClusterProperties_ARM)
+		serviceFabricCluster := *serviceFabricCluster_ARM.(*arm.BackendServiceFabricClusterProperties)
 		result.ServiceFabricCluster = &serviceFabricCluster
 	}
 	return result, nil
@@ -1983,14 +1984,14 @@ func (properties *BackendProperties) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendProperties_ARM{}
+	return &arm.BackendProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendProperties_ARM)
+	typedInput, ok := armInput.(arm.BackendProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendProperties, got %T", armInput)
 	}
 
 	// Set property "ServiceFabricCluster":
@@ -2084,14 +2085,14 @@ var _ genruntime.FromARMConverter = &BackendProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendProperties_STATUS_ARM{}
+	return &arm.BackendProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ServiceFabricCluster":
@@ -2179,7 +2180,7 @@ func (contract *BackendProxyContract) ConvertToARM(resolved genruntime.ConvertTo
 	if contract == nil {
 		return nil, nil
 	}
-	result := &BackendProxyContract_ARM{}
+	result := &arm.BackendProxyContract{}
 
 	// Set property "Password":
 	if contract.Password != nil {
@@ -2207,14 +2208,14 @@ func (contract *BackendProxyContract) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *BackendProxyContract) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendProxyContract_ARM{}
+	return &arm.BackendProxyContract{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *BackendProxyContract) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendProxyContract_ARM)
+	typedInput, ok := armInput.(arm.BackendProxyContract)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProxyContract_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendProxyContract, got %T", armInput)
 	}
 
 	// no assignment for property "Password"
@@ -2328,14 +2329,14 @@ var _ genruntime.FromARMConverter = &BackendProxyContract_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (contract *BackendProxyContract_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendProxyContract_STATUS_ARM{}
+	return &arm.BackendProxyContract_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (contract *BackendProxyContract_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendProxyContract_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendProxyContract_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProxyContract_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendProxyContract_STATUS, got %T", armInput)
 	}
 
 	// Set property "Url":
@@ -2407,7 +2408,7 @@ func (properties *BackendTlsProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	result := &BackendTlsProperties_ARM{}
+	result := &arm.BackendTlsProperties{}
 
 	// Set property "ValidateCertificateChain":
 	if properties.ValidateCertificateChain != nil {
@@ -2425,14 +2426,14 @@ func (properties *BackendTlsProperties) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendTlsProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendTlsProperties_ARM{}
+	return &arm.BackendTlsProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendTlsProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendTlsProperties_ARM)
+	typedInput, ok := armInput.(arm.BackendTlsProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendTlsProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendTlsProperties, got %T", armInput)
 	}
 
 	// Set property "ValidateCertificateChain":
@@ -2544,14 +2545,14 @@ var _ genruntime.FromARMConverter = &BackendTlsProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendTlsProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendTlsProperties_STATUS_ARM{}
+	return &arm.BackendTlsProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendTlsProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendTlsProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendTlsProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendTlsProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendTlsProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ValidateCertificateChain":
@@ -2647,7 +2648,7 @@ func (credentials *BackendAuthorizationHeaderCredentials) ConvertToARM(resolved 
 	if credentials == nil {
 		return nil, nil
 	}
-	result := &BackendAuthorizationHeaderCredentials_ARM{}
+	result := &arm.BackendAuthorizationHeaderCredentials{}
 
 	// Set property "Parameter":
 	if credentials.Parameter != nil {
@@ -2665,14 +2666,14 @@ func (credentials *BackendAuthorizationHeaderCredentials) ConvertToARM(resolved 
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credentials *BackendAuthorizationHeaderCredentials) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendAuthorizationHeaderCredentials_ARM{}
+	return &arm.BackendAuthorizationHeaderCredentials{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credentials *BackendAuthorizationHeaderCredentials) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendAuthorizationHeaderCredentials_ARM)
+	typedInput, ok := armInput.(arm.BackendAuthorizationHeaderCredentials)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAuthorizationHeaderCredentials_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendAuthorizationHeaderCredentials, got %T", armInput)
 	}
 
 	// Set property "Parameter":
@@ -2782,14 +2783,14 @@ var _ genruntime.FromARMConverter = &BackendAuthorizationHeaderCredentials_STATU
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (credentials *BackendAuthorizationHeaderCredentials_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendAuthorizationHeaderCredentials_STATUS_ARM{}
+	return &arm.BackendAuthorizationHeaderCredentials_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (credentials *BackendAuthorizationHeaderCredentials_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendAuthorizationHeaderCredentials_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendAuthorizationHeaderCredentials_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAuthorizationHeaderCredentials_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendAuthorizationHeaderCredentials_STATUS, got %T", armInput)
 	}
 
 	// Set property "Parameter":
@@ -2873,7 +2874,7 @@ func (properties *BackendServiceFabricClusterProperties) ConvertToARM(resolved g
 	if properties == nil {
 		return nil, nil
 	}
-	result := &BackendServiceFabricClusterProperties_ARM{}
+	result := &arm.BackendServiceFabricClusterProperties{}
 
 	// Set property "ClientCertificateId":
 	if properties.ClientCertificateId != nil {
@@ -2909,21 +2910,21 @@ func (properties *BackendServiceFabricClusterProperties) ConvertToARM(resolved g
 		if err != nil {
 			return nil, err
 		}
-		result.ServerX509Names = append(result.ServerX509Names, *item_ARM.(*X509CertificateName_ARM))
+		result.ServerX509Names = append(result.ServerX509Names, *item_ARM.(*arm.X509CertificateName))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendServiceFabricClusterProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendServiceFabricClusterProperties_ARM{}
+	return &arm.BackendServiceFabricClusterProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendServiceFabricClusterProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendServiceFabricClusterProperties_ARM)
+	typedInput, ok := armInput.(arm.BackendServiceFabricClusterProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendServiceFabricClusterProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendServiceFabricClusterProperties, got %T", armInput)
 	}
 
 	// Set property "ClientCertificateId":
@@ -3123,14 +3124,14 @@ var _ genruntime.FromARMConverter = &BackendServiceFabricClusterProperties_STATU
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *BackendServiceFabricClusterProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendServiceFabricClusterProperties_STATUS_ARM{}
+	return &arm.BackendServiceFabricClusterProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *BackendServiceFabricClusterProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendServiceFabricClusterProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BackendServiceFabricClusterProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendServiceFabricClusterProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendServiceFabricClusterProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientCertificateId":
@@ -3280,7 +3281,7 @@ func (name *X509CertificateName) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if name == nil {
 		return nil, nil
 	}
-	result := &X509CertificateName_ARM{}
+	result := &arm.X509CertificateName{}
 
 	// Set property "IssuerCertificateThumbprint":
 	if name.IssuerCertificateThumbprint != nil {
@@ -3298,14 +3299,14 @@ func (name *X509CertificateName) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (name *X509CertificateName) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &X509CertificateName_ARM{}
+	return &arm.X509CertificateName{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (name *X509CertificateName) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(X509CertificateName_ARM)
+	typedInput, ok := armInput.(arm.X509CertificateName)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected X509CertificateName_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.X509CertificateName, got %T", armInput)
 	}
 
 	// Set property "IssuerCertificateThumbprint":
@@ -3385,14 +3386,14 @@ var _ genruntime.FromARMConverter = &X509CertificateName_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (name *X509CertificateName_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &X509CertificateName_STATUS_ARM{}
+	return &arm.X509CertificateName_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (name *X509CertificateName_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(X509CertificateName_STATUS_ARM)
+	typedInput, ok := armInput.(arm.X509CertificateName_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected X509CertificateName_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.X509CertificateName_STATUS, got %T", armInput)
 	}
 
 	// Set property "IssuerCertificateThumbprint":
