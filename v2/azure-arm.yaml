@@ -2439,7 +2439,7 @@ objectModelConfiguration:
     2021-05-01-preview:
       DiagnosticSetting:
         $export: true
-        $supportedFrom: v2.10.0
+        $supportedFrom: v2.11.0
       DiagnosticSettings:
         MarketplacePartnerId:
           $armReference: true

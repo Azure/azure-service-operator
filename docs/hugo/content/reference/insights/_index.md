@@ -11,7 +11,7 @@ Development of these new resources is complete and they will be available in the
 
 | Resource          | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                  |
 |-------------------|--------------------|----------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| DiagnosticSetting | 2021-05-01-preview | v1api20210501preview | v2.10.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20210501preview_diagnosticsetting.yaml) |
+| DiagnosticSetting | 2021-05-01-preview | v1api20210501preview | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20210501preview_diagnosticsetting.yaml) |
 
 ### Released
 

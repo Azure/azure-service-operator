@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -25,12 +24,12 @@ func Test_Insights_DiagnosticSetting_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-	rg_name := rg.Status.Name
+	// rg_name := rg.Status.Name
 
 	// vnet := VMVirtualNetwork(tc, testcommon.AsOwner(rg))
 
 	vnet := &network.VirtualNetwork{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
+		ObjectMeta: tc.MakeObjectMeta("vn"),
 		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
@@ -40,9 +39,9 @@ func Test_Insights_DiagnosticSetting_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(vnet)
+	// tc.CreateResourceAndWait(vnet)
 
-	vnet_name := vnet.Status.Name
+	vnet_name := vnet.ObjectMeta.Name
 
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
 	kind := storage.StorageAccount_Kind_Spec_StorageV2
@@ -62,15 +61,17 @@ func Test_Insights_DiagnosticSetting_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(acct)
+	// tc.CreateResourceAndWait(acct)
 
-	subARMID := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/virtualNetworks/%s", tc.AzureSubscription, *rg_name, *vnet_name)
+	// subARMID := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/virtualNetworks/%s", tc.AzureSubscription, *rg_name, vnet_name)
 
 	vnet_diagnosticSettings := &insights.DiagnosticSetting{
 		ObjectMeta: tc.MakeObjectMeta("diagnosticsetting"),
 		Spec: insights.DiagnosticSetting_Spec{
 			Owner: &genruntime.ArbitraryOwnerReference{
-				ARMID: subARMID,
+				Name:  vnet_name,
+				Group: "network.azure.com",
+				Kind:  "VirtualNetwork",
 			},
 			Logs: []insights.LogSettings{
 				{
@@ -82,7 +83,7 @@ func Test_Insights_DiagnosticSetting_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(vnet_diagnosticSettings)
+	tc.CreateResourcesAndWait(vnet, acct, vnet_diagnosticSettings)
 
 	tc.Expect(vnet_diagnosticSettings.Status.Id).ToNot(BeNil())
 	armId := *vnet_diagnosticSettings.Status.Id

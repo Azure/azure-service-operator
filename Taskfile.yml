@@ -158,7 +158,7 @@ tasks:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
     dir: "{{.ASOCTL_ROOT}}"
     cmds:
-      - golangci-lint run --verbose --fast=false --timeout 15m ./...
+      - golangci-lint run --verbose --fast=false --timeout 5m ./...
 
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
@@ -239,7 +239,7 @@ tasks:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
     dir: "{{.GENERATOR_ROOT}}"
     cmds:
-      - golangci-lint run --verbose --fast=false --timeout 20m
+      - golangci-lint run --verbose --fast=false
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
