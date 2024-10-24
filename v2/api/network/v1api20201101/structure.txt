@@ -747,6 +747,43 @@ RouteTable: Resource
     ├── ResourceGuid: *string
     ├── Tags: map[string]string
     └── Type: *string
+<<<<<<< HEAD
+=======
+RouteTable_STATUS_ARM: Object (7 properties)
+├── Etag: *string
+├── Id: *string
+├── Location: *string
+├── Name: *string
+├── Properties: *Object (3 properties)
+│   ├── DisableBgpRoutePropagation: *bool
+│   ├── ProvisioningState: *Enum (4 values)
+│   │   ├── "Deleting"
+│   │   ├── "Failed"
+│   │   ├── "Succeeded"
+│   │   └── "Updating"
+│   └── ResourceGuid: *string
+├── Tags: map[string]string
+└── Type: *string
+RouteTable_Spec_ARM: Object (4 properties)
+├── Location: *string
+├── Name: string
+├── Properties: *Object (2 properties)
+│   ├── DisableBgpRoutePropagation: *bool
+│   └── Routes: Object (4 properties)[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Properties: *Object (3 properties)
+│       │   ├── AddressPrefix: *string
+│       │   ├── NextHopIpAddress: *string
+│       │   └── NextHopType: *Enum (5 values)
+│       │       ├── "Internet"
+│       │       ├── "None"
+│       │       ├── "VirtualAppliance"
+│       │       ├── "VirtualNetworkGateway"
+│       │       └── "VnetLocal"
+│       └── Type: *string
+└── Tags: map[string]string
+>>>>>>> 7d6119e2a (Feature/Smart Detector Alert Rules)
 RouteTablesRoute: Resource
 ├── Owner: RouteTable
 ├── Spec: Object (6 properties)
@@ -783,6 +820,40 @@ RouteTablesRoute: Resource
     │   ├── "Succeeded"
     │   └── "Updating"
     └── Type: *string
+<<<<<<< HEAD
+=======
+RouteTablesRoute_STATUS_ARM: Object (5 properties)
+├── Etag: *string
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (5 properties)
+│   ├── AddressPrefix: *string
+│   ├── HasBgpOverride: *bool
+│   ├── NextHopIpAddress: *string
+│   ├── NextHopType: *Enum (5 values)
+│   │   ├── "Internet"
+│   │   ├── "None"
+│   │   ├── "VirtualAppliance"
+│   │   ├── "VirtualNetworkGateway"
+│   │   └── "VnetLocal"
+│   └── ProvisioningState: *Enum (4 values)
+│       ├── "Deleting"
+│       ├── "Failed"
+│       ├── "Succeeded"
+│       └── "Updating"
+└── Type: *string
+RouteTablesRoute_Spec_ARM: Object (2 properties)
+├── Name: string
+└── Properties: *Object (3 properties)
+    ├── AddressPrefix: *string
+    ├── NextHopIpAddress: *string
+    └── NextHopType: *Enum (5 values)
+        ├── "Internet"
+        ├── "None"
+        ├── "VirtualAppliance"
+        ├── "VirtualNetworkGateway"
+        └── "VnetLocal"
+>>>>>>> 7d6119e2a (Feature/Smart Detector Alert Rules)
 VirtualNetwork: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (13 properties)
