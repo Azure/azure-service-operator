@@ -119,6 +119,8 @@ import (
 	insights_v20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501preview/storage"
 	insights_v20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
 	insights_v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
+	insights_v20210501p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20210501preview"
+	insights_v20210501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20210501preview/storage"
 	insights_v20220615 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615"
 	insights_v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	insights_v20221001 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001"
@@ -724,6 +726,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180301s.MetricAlert)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20210501ps.DiagnosticSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.ScheduledQueryRule)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
@@ -1855,6 +1858,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20180501ps.Webtest))
 	result = append(result, new(insights_v20200202.Component))
 	result = append(result, new(insights_v20200202s.Component))
+	result = append(result, new(insights_v20210501p.DiagnosticSetting))
+	result = append(result, new(insights_v20210501ps.DiagnosticSetting))
 	result = append(
 		result,
 		new(insights_v20220615.ScheduledQueryRule),
@@ -2330,6 +2335,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20180501ps.AddToScheme(scheme)
 	_ = insights_v20200202.AddToScheme(scheme)
 	_ = insights_v20200202s.AddToScheme(scheme)
+	_ = insights_v20210501p.AddToScheme(scheme)
+	_ = insights_v20210501ps.AddToScheme(scheme)
 	_ = insights_v20220615.AddToScheme(scheme)
 	_ = insights_v20220615s.AddToScheme(scheme)
 	_ = insights_v20221001.AddToScheme(scheme)
@@ -2501,6 +2508,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.ActionGroupExtension{})
 	result = append(result, &insights_customizations.AutoscaleSettingExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
+	result = append(result, &insights_customizations.DiagnosticSettingExtension{})
 	result = append(result, &insights_customizations.MetricAlertExtension{})
 	result = append(result, &insights_customizations.ScheduledQueryRuleExtension{})
 	result = append(result, &insights_customizations.WebtestExtension{})

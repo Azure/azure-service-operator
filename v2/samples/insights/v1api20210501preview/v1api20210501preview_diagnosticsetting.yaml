@@ -1,0 +1,17 @@
+apiVersion: insights.azure.com/v1api20210501preview
+kind: DiagnosticSetting
+metadata:
+  name: aso-sample-group
+  namespace: default
+spec:
+  logs:
+    - categoryGroup: "allLogs"
+      enabled: true
+  storageAccountReference:
+    group: storage.azure.com
+    kind: StorageAccount
+    name: samplestoragedia
+  owner:
+    group: network.azure.com
+    kind: VirtualNetwork
+    name: samplevnetvmss1

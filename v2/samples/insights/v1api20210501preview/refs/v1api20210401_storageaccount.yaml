@@ -1,0 +1,15 @@
+apiVersion: storage.azure.com/v1api20210401
+kind: StorageAccount
+metadata:
+  name: samplestoragedia
+  namespace: default
+spec:
+  location: eastus2
+  allowBlobPublicAccess: false
+  kind: StorageV2
+  sku:
+    name: Standard_LRS
+  owner:
+    name: aso-sample-rg
+  accessTier: Hot
+  supportsHttpsTrafficOnly: true
