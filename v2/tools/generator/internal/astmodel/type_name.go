@@ -49,7 +49,6 @@ var armPackageDenyList = set.Make(
 	"operationalinsights",
 	"redhatopenshift",
 	"resources",
-	"search",
 	"servicebus",
 	"signalrservice",
 	"sql",
