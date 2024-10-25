@@ -30,7 +30,6 @@ var armPackageDenyList = set.Make(
 	"authorization",
 	"cache",
 	"cdn",
-	"containerinstance",
 	"containerregistry",
 	"dataprotection",
 	"dbformariadb",
