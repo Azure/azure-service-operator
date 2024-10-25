@@ -10,8 +10,8 @@ cascade:
 description: "How to use Azure Service Operator v2 to manage your Azure resources from within your Kubernetes Cluster"
 ---
 
-{{< cardpane >}}
-{{< card header="**Installation**">}}
+{{% cardpane %}}
+{{% card header="**Installation**"%}}
 
 ### Helm
 
@@ -29,8 +29,8 @@ You can install directly [using YAML]( {{< relref "installing-from-yaml" >}}) if
 
 [Common issues]( {{< relref "diagnosing-problems" >}} ).
 
-{{< /card >}}
-{{< card header="**Configuration**">}}
+{{% /card %}}
+{{% card header="**Configuration**"%}}
 
 ### Configuring ASO
 
@@ -49,16 +49,18 @@ Use Kubernetes [secrets]( {{< relref "secrets" >}}) to manage secrets for Azure 
 
 Configure your Azure resources using Kubernetes [configmaps]( {{< relref "configmaps" >}}), and publish data from Azure as configmaps.
 
-{{< /card >}}
-{{< /cardpane >}}
+{{% /card %}}
+{{% /cardpane %}}
 
-{{< cardpane >}}
-{{< card header="**Resources**">}}
+{{% cardpane %}}
+{{% card header="**Resources**"%}}
+
 ### KeyVaults
+
 For resiliency ASO introduces new options for [creating KeyVaults]( {{< relref "keyvaults" >}}).
 
-{{< /card >}}
-{{< card header="**Upgrading**">}}
+{{% /card %}}
+{{% card header="**Upgrading**"%}}
 
 ### Breaking Changes
 
@@ -68,11 +70,11 @@ Before upgrading, check for any [breaking changes]( {{< relref "breaking-changes
 
 [Upgrading]( {{< relref "upgrading" >}}) to a new release of ASO.
 
-{{< /card >}}
-{{< /cardpane >}}
+{{% /card %}}
+{{% /cardpane %}}
 
-{{< cardpane >}}
-{{< card header="**Reference**">}}
+{{% cardpane %}}
+{{% card header="**Reference**"%}}
 
 ### Frequently Asked Questions
 
@@ -98,14 +100,13 @@ ASO exposes [metrics]( {{< relref "metrics" >}}) for Prometheus.
 
 See [best practices]( {{< relref "best-practices" >}}) for ASO best practices.
 
-{{< /card >}}
-{{< card header="**Get In Touch**">}}
+{{% /card %}}
+{{% card header="**Get In Touch**"%}}
 
 If you've got a question, a problem, a request, or just want to chat, here are two ways to contact us:
 
 * Log an issue on our [GitHub repository](https://github.com/azure/azure-service-operator).
 * Join us over on the [Kubernetes Slack](https://kubernetes.slack.com) in the [#azure-service-operator](https://kubernetes.slack.com/archives/C046DEVLAQM) channel. (Don't have an account? [Sign up here](https://slack.k8s.io/).)
 
-
-{{< /card >}}
-{{< /cardpane >}}
+{{% /card %}}
+{{% /cardpane %}}
