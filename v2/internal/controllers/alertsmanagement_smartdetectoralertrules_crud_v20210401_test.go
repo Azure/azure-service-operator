@@ -35,15 +35,17 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 
 	// Create a Smart Detector alert rule
 	// This was adapted from https://learn.microsoft.com/en-us/rest/api/monitor/smart-detector-alert-rules/create-or-update?view=rest-monitor-2019-06-01&tabs=HTTP#create-or-update-a-smart-detector-alert-rule
-	alertRule := &alertsmanagement.SmartDetectorAlertRules{
+	state := alertsmanagement.AlertRuleProperties_State("Enabled")
+	severity := alertsmanagement.AlertRuleProperties_Severity("Sev3")
+	alertRule := &alertsmanagement.SmartDetectorAlertRule{
 		ObjectMeta: tc.MakeObjectMeta("smartalertrules"),
-		Spec: alertsmanagement.SmartDetectorAlertRules_Spec{
+		Spec: alertsmanagement.SmartDetectorAlertRule_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
-			State:     to.Ptr("Enabled"),
-			Severity:  to.Ptr("Sev3"),
+			State:     &state,
+			Severity:  &severity,
 			Frequency: to.Ptr("PT1M"),
-			ScopesReferences: []genruntime.ResourceReference{
+			ScopeReferences: []genruntime.ResourceReference{
 				*tc.MakeReferenceFromResource(acct),
 			},
 		},
