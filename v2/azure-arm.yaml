@@ -932,7 +932,7 @@ status:
 objectModelConfiguration:
   alertsmanagement:
     2021-04-01:
-      smartDetectorAlertRules:
+      SmartDetectorAlertRules:
         $export: true
         $supportedFrom: v2.10.0
       AlertRuleProperties:
