@@ -5,6 +5,8 @@ package controllers
 
 import (
 	alertsmanagement_customizations "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/customizations"
+	alertsmanagement_v20210401 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401"
+	alertsmanagement_v20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/storage"
 	alertsmanagement_v20230301 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301"
 	alertsmanagement_v20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
 	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
@@ -222,6 +224,7 @@ import (
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
+	result = append(result, &registration.StorageType{Obj: new(alertsmanagement_v20210401s.SmartDetectorAlertRule)})
 	result = append(result, &registration.StorageType{Obj: new(alertsmanagement_v20230301s.PrometheusRuleGroup)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
@@ -1385,6 +1388,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 // getKnownTypes returns the list of all types.
 func getKnownTypes() []client.Object {
 	var result []client.Object
+	result = append(result, new(alertsmanagement_v20210401.SmartDetectorAlertRule))
+	result = append(result, new(alertsmanagement_v20210401s.SmartDetectorAlertRule))
 	result = append(result, new(alertsmanagement_v20230301.PrometheusRuleGroup))
 	result = append(result, new(alertsmanagement_v20230301s.PrometheusRuleGroup))
 	result = append(
@@ -2256,6 +2261,8 @@ func getKnownTypes() []client.Object {
 func createScheme() *runtime.Scheme {
 	scheme := runtime.NewScheme()
 	_ = clientgoscheme.AddToScheme(scheme)
+	_ = alertsmanagement_v20210401.AddToScheme(scheme)
+	_ = alertsmanagement_v20210401s.AddToScheme(scheme)
 	_ = alertsmanagement_v20230301.AddToScheme(scheme)
 	_ = alertsmanagement_v20230301s.AddToScheme(scheme)
 	_ = apimanagement_v20220801.AddToScheme(scheme)
@@ -2431,6 +2438,7 @@ func createScheme() *runtime.Scheme {
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
 	result = append(result, &alertsmanagement_customizations.PrometheusRuleGroupExtension{})
+	result = append(result, &alertsmanagement_customizations.SmartDetectorAlertRuleExtension{})
 	result = append(result, &apimanagement_customizations.ApiExtension{})
 	result = append(result, &apimanagement_customizations.ApiVersionSetExtension{})
 	result = append(result, &apimanagement_customizations.AuthorizationProviderExtension{})

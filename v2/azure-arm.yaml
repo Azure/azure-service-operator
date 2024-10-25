@@ -932,14 +932,17 @@ status:
 objectModelConfiguration:
   alertsmanagement:
     2021-04-01:
-      SmartDetectorAlertRules:
+      SmartDetectorAlertRule:
         $export: true
         $supportedFrom: v2.10.0
       AlertRuleProperties:
-        Scopes:
+        Scope:
           $armReference: true
       ActionGroupsInformation:
-        ActionGroupId:
+        GroupIds:
+          $armReference: true
+      Detector:
+        Id:
           $armReference: true
     2023-03-01:
       PrometheusRuleGroup:
