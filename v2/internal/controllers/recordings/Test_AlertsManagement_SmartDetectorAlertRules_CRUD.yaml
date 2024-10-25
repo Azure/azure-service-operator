@@ -118,7 +118,7 @@ interactions:
           host: management.azure.com
           remote_addr: ""
           request_uri: ""
-          body: '{"location":"westus2","name":"asotest-smartalertrule-dqklz","properties":{"state": "Enabled","severity": "Sev3","frequency": "PT1M","scopes":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.Monitor/accounts/asotest-acct-abqzbu"]}}'
+          body: '{"location":"westus2","name":"asotest-smartalertrules-dqklz","properties":{"state": "Enabled","severity": "Sev3","frequency": "PT1M","scopes":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.Monitor/accounts/asotest-acct-abqzbu"]}}'
           form: {}
           headers:
               Accept:
@@ -129,7 +129,7 @@ interactions:
                   - application/json
               Test-Request-Hash:
                   - 5b7b3dc6400dbaed69c30f1a109c919e780a82c92f19f83b91ebc1eb11acdc5d
-          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrule-dqklz?api-version=2021-04-01
+          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrules-dqklz?api-version=2021-04-01
           method: PUT
       response:
           proto: HTTP/2.0
@@ -139,7 +139,7 @@ interactions:
           trailer: {}
           content_length: 927
           uncompressed: false
-          body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrule-dqklz\",\r\n  \"name\": \"asotest-smartalertrule-dqklz\",\r\n  \"type\": \"Microsoft.AlertsManagement/smartDetectorAlertRules\",\r\n  \"location\": \"westus2\",\r\n  \"properties\": {\r\n    \"state\": \"Enabled\",\r\n    \"severity\": \"Sev3\",\r\n    \"frequency\": \"PT1M\",\r\n    \"scopes\": [\r\n      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.Monitor/accounts/asotest-acct-abqzbu\"\r\n    ],\r\n}"
+          body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrules-dqklz\",\r\n  \"name\": \"asotest-smartalertrules-dqklz\",\r\n  \"type\": \"Microsoft.AlertsManagement/smartDetectorAlertRules\",\r\n  \"location\": \"westus2\",\r\n  \"properties\": {\r\n    \"state\": \"Enabled\",\r\n    \"severity\": \"Sev3\",\r\n    \"frequency\": \"PT1M\",\r\n    \"scopes\": [\r\n      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.Monitor/accounts/asotest-acct-abqzbu\"\r\n    ],\r\n}"
           headers:
               Api-Supported-Versions:
                   - 2021-07-22-preview, 2021-04-01, 2023-09-01-preview
@@ -192,7 +192,7 @@ interactions:
                   - application/json
               Test-Request-Attempt:
                   - "0"
-          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrule-dqklz?api-version=2021-04-01
+          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrules-dqklz?api-version=2021-04-01
           method: GET
       response:
           proto: HTTP/2.0
@@ -202,7 +202,7 @@ interactions:
           trailer: {}
           content_length: 927
           uncompressed: false
-          body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrule-dqklz\",\r\n  \"name\": \"asotest-smartalertrule-dqklz\",\r\n  \"type\": \"Microsoft.AlertsManagement/smartDetectorAlertRules\",\r\n  \"location\": \"westus2\",\r\n  \"properties\": {\r\n    \"state\": \"Enabled\",\r\n    \"severity\": \"Sev3\",\r\n    \"frequency\": \"PT1M\",\r\n    \"scopes\": [\r\n      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.Monitor/accounts/asotest-acct-abqzbu\"\r\n    ],\r\n}"
+          body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrules-dqklz\",\r\n  \"name\": \"asotest-smartalertrules-dqklz\",\r\n  \"type\": \"Microsoft.AlertsManagement/smartDetectorAlertRules\",\r\n  \"location\": \"westus2\",\r\n  \"properties\": {\r\n    \"state\": \"Enabled\",\r\n    \"severity\": \"Sev3\",\r\n    \"frequency\": \"PT1M\",\r\n    \"scopes\": [\r\n      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.Monitor/accounts/asotest-acct-abqzbu\"\r\n    ],\r\n}"
           headers:
               Api-Supported-Versions:
                   - 2021-07-22-preview, 2021-04-01, 2023-09-01-preview
@@ -371,7 +371,7 @@ interactions:
                   - application/json
               Test-Request-Attempt:
                   - "0"
-          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrule-dqklz?api-version=2021-04-01
+          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrules-dqklz?api-version=2021-04-01
           method: DELETE
       response:
           proto: HTTP/2.0
@@ -428,7 +428,7 @@ interactions:
                   - application/json
               Test-Request-Attempt:
                   - "1"
-          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrule-dqklz?api-version=2021-04-01
+          url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jjrepc/providers/Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrules-dqklz?api-version=2021-04-01
           method: GET
       response:
           proto: HTTP/2.0
@@ -438,7 +438,7 @@ interactions:
           trailer: {}
           content_length: 260
           uncompressed: false
-          body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrule-dqklz'' under resource group ''asotest-rg-jjrepc'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+          body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.AlertsManagement/smartDetectorAlertRules/asotest-smartalertrules-dqklz'' under resource group ''asotest-rg-jjrepc'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
           headers:
               Cache-Control:
                   - no-cache

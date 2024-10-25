@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_AlertsManagement_SmartDetectorAlertRule_CRUD(t *testing.T) {
+func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -35,9 +35,9 @@ func Test_AlertsManagement_SmartDetectorAlertRule_CRUD(t *testing.T) {
 
 	// Create a Smart Detector alert rule
 	// This was adapted from https://learn.microsoft.com/en-us/rest/api/monitor/smart-detector-alert-rules/create-or-update?view=rest-monitor-2019-06-01&tabs=HTTP#create-or-update-a-smart-detector-alert-rule
-	alertRule := &alertsmanagement.SmartDetectorAlertRule{
-		ObjectMeta: tc.MakeObjectMeta("smartalertrule"),
-		Spec: alertsmanagement.SmartDetectorAlertRule_Spec{
+	alertRule := &alertsmanagement.SmartDetectorAlertRules{
+		ObjectMeta: tc.MakeObjectMeta("smartalertrules"),
+		Spec: alertsmanagement.SmartDetectorAlertRules_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
 			State:     to.Ptr("Enabled"),
