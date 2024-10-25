@@ -932,13 +932,13 @@ status:
 objectModelConfiguration:
   alertsmanagement:
     2021-04-01:
-      SmartDetectorAlertRule:
+      smartDetectorAlertRules:
         $export: true
         $supportedFrom: v2.10.0
-      SmartDetectorAlertRuleProperties:
+      AlertRuleProperties:
         Scopes:
           $armReference: true
-      SmartDetectorAlertRuleAction:
+      ActionGroupsInformation:
         ActionGroupId:
           $armReference: true
     2023-03-01:
