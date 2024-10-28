@@ -337,6 +337,7 @@ type ScheduledQueryRule_Spec struct {
 	// Relevant only for rules of the kind LogAlert.
 	AutoMitigate *bool `json:"autoMitigate,omitempty"`
 
+	// +kubebuilder:validation:Pattern="^[^#<>%&:\\?/{}*]{1,260}$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
