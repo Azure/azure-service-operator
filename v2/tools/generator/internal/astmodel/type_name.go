@@ -46,7 +46,6 @@ var armPackageDenyList = set.Make(
 	"monitor",
 	"network.frontdoor",
 	"operationalinsights",
-	"redhatopenshift",
 	"resources",
 	"servicebus",
 	"signalrservice",
