@@ -76,7 +76,6 @@ func RoutePropertiesFormatGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRoutePropertiesFormat is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutePropertiesFormat(gens map[string]gopter.Gen) {
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
-	gens["HasBgpOverride"] = gen.PtrOf(gen.Bool())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
 		RouteNextHopType_Internet,

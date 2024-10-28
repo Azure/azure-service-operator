@@ -333,9 +333,6 @@ type RouteTablesRoute_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// HasBgpOverride: A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
-	HasBgpOverride *bool `json:"hasBgpOverride,omitempty"`
-
 	// NextHopIpAddress: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the
 	// next hop type is VirtualAppliance.
 	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
@@ -365,7 +362,6 @@ func (route *RouteTablesRoute_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property "Properties":
 	if route.AddressPrefix != nil ||
-		route.HasBgpOverride != nil ||
 		route.NextHopIpAddress != nil ||
 		route.NextHopType != nil {
 		result.Properties = &arm.RoutePropertiesFormat{}
@@ -373,10 +369,6 @@ func (route *RouteTablesRoute_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if route.AddressPrefix != nil {
 		addressPrefix := *route.AddressPrefix
 		result.Properties.AddressPrefix = &addressPrefix
-	}
-	if route.HasBgpOverride != nil {
-		hasBgpOverride := *route.HasBgpOverride
-		result.Properties.HasBgpOverride = &hasBgpOverride
 	}
 	if route.NextHopIpAddress != nil {
 		nextHopIpAddress := *route.NextHopIpAddress
@@ -414,15 +406,6 @@ func (route *RouteTablesRoute_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property "AzureName":
 	route.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property "HasBgpOverride":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HasBgpOverride != nil {
-			hasBgpOverride := *typedInput.Properties.HasBgpOverride
-			route.HasBgpOverride = &hasBgpOverride
-		}
-	}
 
 	// Set property "NextHopIpAddress":
 	// copying flattened property:
@@ -513,14 +496,6 @@ func (route *RouteTablesRoute_Spec) AssignProperties_From_RouteTablesRoute_Spec(
 	// AzureName
 	route.AzureName = source.AzureName
 
-	// HasBgpOverride
-	if source.HasBgpOverride != nil {
-		hasBgpOverride := *source.HasBgpOverride
-		route.HasBgpOverride = &hasBgpOverride
-	} else {
-		route.HasBgpOverride = nil
-	}
-
 	// NextHopIpAddress
 	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)
 
@@ -555,14 +530,6 @@ func (route *RouteTablesRoute_Spec) AssignProperties_To_RouteTablesRoute_Spec(de
 
 	// AzureName
 	destination.AzureName = route.AzureName
-
-	// HasBgpOverride
-	if route.HasBgpOverride != nil {
-		hasBgpOverride := *route.HasBgpOverride
-		destination.HasBgpOverride = &hasBgpOverride
-	} else {
-		destination.HasBgpOverride = nil
-	}
 
 	// NextHopIpAddress
 	destination.NextHopIpAddress = genruntime.ClonePointerToString(route.NextHopIpAddress)
@@ -602,14 +569,6 @@ func (route *RouteTablesRoute_Spec) Initialize_From_RouteTablesRoute_STATUS(sour
 
 	// AddressPrefix
 	route.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
-
-	// HasBgpOverride
-	if source.HasBgpOverride != nil {
-		hasBgpOverride := *source.HasBgpOverride
-		route.HasBgpOverride = &hasBgpOverride
-	} else {
-		route.HasBgpOverride = nil
-	}
 
 	// NextHopIpAddress
 	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)

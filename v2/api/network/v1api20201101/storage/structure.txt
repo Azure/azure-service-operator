@@ -679,10 +679,9 @@ RouteTable: Resource
     └── Type: *string
 RouteTablesRoute: Resource
 ├── Owner: network/v1api20201101.RouteTable
-├── Spec: Object (8 properties)
+├── Spec: Object (7 properties)
 │   ├── AddressPrefix: *string
 │   ├── AzureName: string
-│   ├── HasBgpOverride: *bool
 │   ├── NextHopIpAddress: *string
 │   ├── NextHopType: *string
 │   ├── OriginalVersion: string
