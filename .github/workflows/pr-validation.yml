@@ -110,8 +110,10 @@ jobs:
 
       - name: Run devcontainer image
         id: devcontainer
+        # The -v /mnt/reports/:/workspace/reports/ forces reports to the temp drive. The temp drive is cleaned up between CI runs and is large enough to fit the large coverage.out files.
+        # Note that this is only needed in this CI job because this is the only CI job that produces large output files (code coverage), or does anything with the /reports directory.
         run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /mnt/reports/:/workspace/reports/ -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
           echo "container_id=$container_id" >> $GITHUB_ENV
         if: steps.check-changes.outputs.code-changed == 'true'
@@ -127,7 +129,7 @@ jobs:
           set -e
 
           # generate summary Markdown file for display in Actions
-          cat reports/*.md > $GITHUB_STEP_SUMMARY
+          cat /mnt/reports/*.md > $GITHUB_STEP_SUMMARY
           exit $EXIT_CODE
         if: steps.check-changes.outputs.code-changed == 'true'
 
@@ -136,7 +138,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.2
         with:
           name: test-output
-          path: reports/*.json
+          path: /mnt/reports/*.json
         
       - name: Build docker image & build configuration YAML
         run: |
@@ -166,6 +168,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          directory: /mnt/reports
           verbose: true
 
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
@@ -227,8 +230,9 @@ jobs:
 
       - name: Run devcontainer image
         id: devcontainer
+        # The -v /mnt/reports/:/workspace/reports/ forces reports to the temp drive. The temp drive is cleaned up between CI runs and is large enough to fit the large coverage.out files.
         run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /mnt/reports/:/workspace/reports/ -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
           echo "container_id=$container_id" >> $GITHUB_ENV
         if: steps.check-changes.outputs.code-changed == 'true'

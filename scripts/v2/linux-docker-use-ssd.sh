@@ -24,6 +24,11 @@ if ! command -v jq &> /dev/null; then
     exit 1
 fi
 
+# Print the current disk usage, useful for diagnosing what's gone wrong if
+# the disk fills up
+df -h
+du -h --threshold=1G --max-depth=5 / 2>&1 | grep -v 'denied' | sort -hr
+
 CONTAINERD="false"
 while [[ $# -gt 0 ]]; do
     case $1 in
