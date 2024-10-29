@@ -2663,9 +2663,6 @@ objectModelConfiguration:
       DatabricksProperties:
         DatabricksAccessToken:
           $isSecret: true
-      VirtualMachineSshCredentials_STATUS:
-        PrivateKeyData:
-          $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
         $supportedFrom: v2.0.0-beta.2
