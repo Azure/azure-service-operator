@@ -41,7 +41,6 @@ var armPackageDenyList = set.Make(
 	"eventhub",
 	"insights",
 	"kusto",
-	"machinelearningservices",
 	"managedidentity",
 	"monitor",
 	"network.frontdoor",
