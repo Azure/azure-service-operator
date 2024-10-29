@@ -5,6 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -399,7 +400,7 @@ func (subscription *Subscription_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if subscription == nil {
 		return nil, nil
 	}
-	result := &Subscription_Spec_ARM{}
+	result := &arm.Subscription_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -412,7 +413,7 @@ func (subscription *Subscription_Spec) ConvertToARM(resolved genruntime.ConvertT
 		subscription.Scope != nil ||
 		subscription.SecondaryKey != nil ||
 		subscription.State != nil {
-		result.Properties = &SubscriptionCreateParameterProperties_ARM{}
+		result.Properties = &arm.SubscriptionCreateParameterProperties{}
 	}
 	if subscription.AllowTracing != nil {
 		allowTracing := *subscription.AllowTracing
@@ -453,7 +454,7 @@ func (subscription *Subscription_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if subscription.State != nil {
 		var temp string
 		temp = string(*subscription.State)
-		state := SubscriptionCreateParameterProperties_State_ARM(temp)
+		state := arm.SubscriptionCreateParameterProperties_State(temp)
 		result.Properties.State = &state
 	}
 	return result, nil
@@ -461,14 +462,14 @@ func (subscription *Subscription_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subscription *Subscription_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subscription_Spec_ARM{}
+	return &arm.Subscription_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subscription *Subscription_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subscription_Spec_ARM)
+	typedInput, ok := armInput.(arm.Subscription_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subscription_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Subscription_Spec, got %T", armInput)
 	}
 
 	// Set property "AllowTracing":
@@ -922,14 +923,14 @@ var _ genruntime.FromARMConverter = &Subscription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subscription *Subscription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subscription_STATUS_ARM{}
+	return &arm.Subscription_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subscription *Subscription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subscription_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Subscription_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subscription_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Subscription_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllowTracing":

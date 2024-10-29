@@ -25,7 +25,6 @@ const (
 )
 
 var armPackageDenyList = set.Make(
-	"apimanagement",
 	"appconfiguration",
 	"authorization",
 	"cache",

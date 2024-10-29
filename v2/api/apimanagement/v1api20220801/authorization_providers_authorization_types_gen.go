@@ -5,6 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -357,7 +358,7 @@ func (authorization *AuthorizationProvidersAuthorization_Spec) ConvertToARM(reso
 	if authorization == nil {
 		return nil, nil
 	}
-	result := &AuthorizationProvidersAuthorization_Spec_ARM{}
+	result := &arm.AuthorizationProvidersAuthorization_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -366,18 +367,18 @@ func (authorization *AuthorizationProvidersAuthorization_Spec) ConvertToARM(reso
 	if authorization.AuthorizationType != nil ||
 		authorization.Oauth2GrantType != nil ||
 		authorization.Parameters != nil {
-		result.Properties = &AuthorizationContractProperties_ARM{}
+		result.Properties = &arm.AuthorizationContractProperties{}
 	}
 	if authorization.AuthorizationType != nil {
 		var temp string
 		temp = string(*authorization.AuthorizationType)
-		authorizationType := AuthorizationContractProperties_AuthorizationType_ARM(temp)
+		authorizationType := arm.AuthorizationContractProperties_AuthorizationType(temp)
 		result.Properties.AuthorizationType = &authorizationType
 	}
 	if authorization.Oauth2GrantType != nil {
 		var temp string
 		temp = string(*authorization.Oauth2GrantType)
-		oauth2GrantType := AuthorizationContractProperties_Oauth2GrantType_ARM(temp)
+		oauth2GrantType := arm.AuthorizationContractProperties_Oauth2GrantType(temp)
 		result.Properties.Oauth2GrantType = &oauth2GrantType
 	}
 	if authorization.Parameters != nil {
@@ -394,14 +395,14 @@ func (authorization *AuthorizationProvidersAuthorization_Spec) ConvertToARM(reso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (authorization *AuthorizationProvidersAuthorization_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthorizationProvidersAuthorization_Spec_ARM{}
+	return &arm.AuthorizationProvidersAuthorization_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (authorization *AuthorizationProvidersAuthorization_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthorizationProvidersAuthorization_Spec_ARM)
+	typedInput, ok := armInput.(arm.AuthorizationProvidersAuthorization_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationProvidersAuthorization_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AuthorizationProvidersAuthorization_Spec, got %T", armInput)
 	}
 
 	// Set property "AuthorizationType":
@@ -706,14 +707,14 @@ var _ genruntime.FromARMConverter = &AuthorizationProvidersAuthorization_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (authorization *AuthorizationProvidersAuthorization_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthorizationProvidersAuthorization_STATUS_ARM{}
+	return &arm.AuthorizationProvidersAuthorization_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (authorization *AuthorizationProvidersAuthorization_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthorizationProvidersAuthorization_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AuthorizationProvidersAuthorization_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationProvidersAuthorization_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AuthorizationProvidersAuthorization_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthorizationType":
@@ -972,14 +973,14 @@ var _ genruntime.FromARMConverter = &AuthorizationError_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (error *AuthorizationError_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthorizationError_STATUS_ARM{}
+	return &arm.AuthorizationError_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (error *AuthorizationError_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthorizationError_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AuthorizationError_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationError_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AuthorizationError_STATUS, got %T", armInput)
 	}
 
 	// Set property "Code":
