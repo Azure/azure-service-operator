@@ -152,7 +152,7 @@ tasks:
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.md'
-      - go test ./... -tags=noexit -race -covermode atomic -coverprofile=asoctl-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/asoctl-unit-tests.json'
+      - go test ./... -tags=noexit -race -covermode atomic -coverprofile='{{.TEST_OUT}}/asoctl-coverage.out' -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/asoctl-unit-tests.json'
 
   asoctl:lint:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
@@ -227,7 +227,7 @@ tasks:
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.md'
-      - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/generator-unit-tests.json'
+      - go test ./... -tags=noexit -race -covermode atomic -coverprofile='{{.TEST_OUT}}/generator-coverage.out' -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/generator-unit-tests.json'
 
   generator:update-golden-tests:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
@@ -326,7 +326,7 @@ tasks:
             INPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.md'
       # -race fails at the moment in gopter - possibly due to our shared generator variable?
-      - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > '{{.TEST_OUT}}/controller-unit-tests.json'
+      - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile='{{.TEST_OUT}}/controller-coverage.out' -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > '{{.TEST_OUT}}/controller-unit-tests.json'
 
   controller:test-upgrade-setup:
     desc: Setup for upgrade test
@@ -555,9 +555,9 @@ tasks:
             INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.md'
       # -race fails at the moment in controller-runtime
-      - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
-      - go test -covermode atomic -coverprofile=coverage-integration-genruntime-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
-      - go test -covermode atomic -coverprofile=coverage-integration-genericarmclient-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
+      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-envtest.out' -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
+      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genruntime-envtest.out' -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
+      - go test -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-genericarmclient-envtest.out' -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -567,7 +567,7 @@ tasks:
       - cleanup-azure-resources
     cmds:
       # -race fails at the moment in controller-runtime
-      - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers -args -live
+      - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile='{{.TEST_OUT}}/coverage-integration-envtest-live.out' -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers -args -live
     env:
       RECORD_REPLAY: 0
 
