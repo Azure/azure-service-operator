@@ -53,7 +53,7 @@ func Test_OwnerIsARMIDOfWrongType_Rejected(t *testing.T) {
 	tc.Expect(err).To(MatchError(ContainSubstring("expected owner ARM ID to be for a resource group, but was \"Microsoft.Compute/virtualMachines\"")))
 }
 
-func Test_OwnerIsARMIDFromDifferentSubscription_ResourceFails(t *testing.T) {
+func Test_OwnerIsNotARMIDFromDifferentSubscription_ResourceFails(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
@@ -63,15 +63,12 @@ func Test_OwnerIsARMIDFromDifferentSubscription_ResourceFails(t *testing.T) {
 	// Create a resource group
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Get the rg's ARM ID
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
-	armID := *rg.Status.Id
 
 	scopedCredentialName := "other-subscription-secret"
 
 	// Now create a storage account
 	acct := newStorageAccount20230101(tc, rg)
-	acct.Spec.Owner = testcommon.AsARMIDOwner(armID)
 	acct.Annotations = map[string]string{annotations.PerResourceSecret: scopedCredentialName}
 
 	uuid, err := tc.Namer.GenerateUUID()
