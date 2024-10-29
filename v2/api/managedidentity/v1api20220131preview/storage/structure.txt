@@ -25,5 +25,5 @@ FederatedIdentityCredential: Resource
     ├── Subject: *string
     └── Type: *string
 augmentConversionForFederatedIdentityCredential: Interface
-augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_STATUS: Interface
-augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_Spec: Interface
+augmentConversionForFederatedIdentityCredential_STATUS: Interface
+augmentConversionForFederatedIdentityCredential_Spec: Interface

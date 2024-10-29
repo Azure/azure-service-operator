@@ -28,8 +28,8 @@ import (
 type DnsResolversOutboundEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DnsResolvers_OutboundEndpoint_Spec   `json:"spec,omitempty"`
-	Status            DnsResolvers_OutboundEndpoint_STATUS `json:"status,omitempty"`
+	Spec              DnsResolversOutboundEndpoint_Spec   `json:"spec,omitempty"`
+	Status            DnsResolversOutboundEndpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DnsResolversOutboundEndpoint{}
@@ -87,7 +87,7 @@ func (endpoint *DnsResolversOutboundEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *DnsResolversOutboundEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DnsResolvers_OutboundEndpoint_STATUS{}
+	return &DnsResolversOutboundEndpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (endpoint *DnsResolversOutboundEndpoint) Owner() *genruntime.ResourceRefere
 // SetStatus sets the status of this resource
 func (endpoint *DnsResolversOutboundEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DnsResolvers_OutboundEndpoint_STATUS); ok {
+	if st, ok := status.(*DnsResolversOutboundEndpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DnsResolvers_OutboundEndpoint_STATUS
+	var st DnsResolversOutboundEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type DnsResolversOutboundEndpointList struct {
 	Items           []DnsResolversOutboundEndpoint `json:"items"`
 }
 
-// Storage version of v1api20220701.DnsResolvers_OutboundEndpoint_Spec
-type DnsResolvers_OutboundEndpoint_Spec struct {
+// Storage version of v1api20220701.DnsResolversOutboundEndpoint_Spec
+type DnsResolversOutboundEndpoint_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
@@ -156,10 +156,10 @@ type DnsResolvers_OutboundEndpoint_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DnsResolvers_OutboundEndpoint_Spec{}
+var _ genruntime.ConvertibleSpec = &DnsResolversOutboundEndpoint_Spec{}
 
-// ConvertSpecFrom populates our DnsResolvers_OutboundEndpoint_Spec from the provided source
-func (endpoint *DnsResolvers_OutboundEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DnsResolversOutboundEndpoint_Spec from the provided source
+func (endpoint *DnsResolversOutboundEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -167,8 +167,8 @@ func (endpoint *DnsResolvers_OutboundEndpoint_Spec) ConvertSpecFrom(source genru
 	return source.ConvertSpecTo(endpoint)
 }
 
-// ConvertSpecTo populates the provided destination from our DnsResolvers_OutboundEndpoint_Spec
-func (endpoint *DnsResolvers_OutboundEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DnsResolversOutboundEndpoint_Spec
+func (endpoint *DnsResolversOutboundEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -176,8 +176,8 @@ func (endpoint *DnsResolvers_OutboundEndpoint_Spec) ConvertSpecTo(destination ge
 	return destination.ConvertSpecFrom(endpoint)
 }
 
-// Storage version of v1api20220701.DnsResolvers_OutboundEndpoint_STATUS
-type DnsResolvers_OutboundEndpoint_STATUS struct {
+// Storage version of v1api20220701.DnsResolversOutboundEndpoint_STATUS
+type DnsResolversOutboundEndpoint_STATUS struct {
 	Conditions        []conditions.Condition         `json:"conditions,omitempty"`
 	Etag              *string                        `json:"etag,omitempty"`
 	Id                *string                        `json:"id,omitempty"`
@@ -192,10 +192,10 @@ type DnsResolvers_OutboundEndpoint_STATUS struct {
 	Type              *string                        `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DnsResolvers_OutboundEndpoint_STATUS{}
+var _ genruntime.ConvertibleStatus = &DnsResolversOutboundEndpoint_STATUS{}
 
-// ConvertStatusFrom populates our DnsResolvers_OutboundEndpoint_STATUS from the provided source
-func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our DnsResolversOutboundEndpoint_STATUS from the provided source
+func (endpoint *DnsResolversOutboundEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -203,8 +203,8 @@ func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) ConvertStatusFrom(source g
 	return source.ConvertStatusTo(endpoint)
 }
 
-// ConvertStatusTo populates the provided destination from our DnsResolvers_OutboundEndpoint_STATUS
-func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our DnsResolversOutboundEndpoint_STATUS
+func (endpoint *DnsResolversOutboundEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

@@ -30,6 +30,8 @@
 | AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS                   |               | v1api20240401 |
 | AccountKeyAuthTypeWorkspaceConnectionProperties_ValueFormat              |               | v1api20240401 |
 | AccountKeyAuthTypeWorkspaceConnectionProperties_ValueFormat_STATUS       |               | v1api20240401 |
+| AcrDetails                                                               |               | v1api20240401 |
+| AcrDetails_STATUS                                                        |               | v1api20240401 |
 | AksNetworkingConfiguration                                               | v1api20210701 | v1api20240401 |
 | AksNetworkingConfiguration_STATUS                                        | v1api20210701 | v1api20240401 |
 | AmlCompute                                                               | v1api20210701 | v1api20240401 |
@@ -52,6 +54,8 @@
 | ApiKeyAuthWorkspaceConnectionProperties_STATUS                           |               | v1api20240401 |
 | ApiKeyAuthWorkspaceConnectionProperties_ValueFormat                      |               | v1api20240401 |
 | ApiKeyAuthWorkspaceConnectionProperties_ValueFormat_STATUS               |               | v1api20240401 |
+| ArmResourceId                                                            |               | v1api20240401 |
+| ArmResourceId_STATUS                                                     |               | v1api20240401 |
 | AssignedUser                                                             | v1api20210701 | v1api20240401 |
 | AssignedUser_STATUS                                                      | v1api20210701 | v1api20240401 |
 | AutoPauseProperties                                                      | v1api20210701 | v1api20240401 |
@@ -158,6 +162,8 @@
 | EncryptionProperty_STATUS                                                | v1api20210701 | v1api20240401 |
 | EncryptionProperty_Status_STATUS                                         | v1api20210701 | v1api20240401 |
 | Endpoint                                                                 |               | v1api20240401 |
+| EndpointServiceConnectionStatus                                          |               | v1api20240401 |
+| EndpointServiceConnectionStatus_STATUS                                   |               | v1api20240401 |
 | Endpoint_Protocol                                                        |               | v1api20240401 |
 | Endpoint_Protocol_STATUS                                                 |               | v1api20240401 |
 | Endpoint_STATUS                                                          |               | v1api20240401 |
@@ -256,10 +262,25 @@
 | PrivateEndpointOutboundRule_STATUS                                       |               | v1api20240401 |
 | PrivateEndpointOutboundRule_Type                                         |               | v1api20240401 |
 | PrivateEndpointOutboundRule_Type_STATUS                                  |               | v1api20240401 |
+| PrivateEndpointResource                                                  |               | v1api20240401 |
+| PrivateEndpointResource_STATUS                                           |               | v1api20240401 |
 | PrivateEndpointServiceConnectionStatus                                   | v1api20210701 | v1api20240401 |
 | PrivateEndpointServiceConnectionStatus_STATUS                            | v1api20210701 | v1api20240401 |
 | Recurrence                                                               |               | v1api20240401 |
 | Recurrence_STATUS                                                        |               | v1api20240401 |
+| Registry                                                                 |               | v1api20240401 |
+| RegistryPrivateEndpointConnection                                        |               | v1api20240401 |
+| RegistryPrivateEndpointConnectionProperties                              |               | v1api20240401 |
+| RegistryPrivateEndpointConnectionProperties_STATUS                       |               | v1api20240401 |
+| RegistryPrivateEndpointConnection_STATUS                                 |               | v1api20240401 |
+| RegistryPrivateLinkServiceConnectionState                                |               | v1api20240401 |
+| RegistryPrivateLinkServiceConnectionState_STATUS                         |               | v1api20240401 |
+| RegistryRegionArmDetails                                                 |               | v1api20240401 |
+| RegistryRegionArmDetails_STATUS                                          |               | v1api20240401 |
+| RegistrySpec                                                             |               | v1api20240401 |
+| RegistryTrackedResource_STATUS                                           |               | v1api20240401 |
+| Registry_STATUS                                                          |               | v1api20240401 |
+| Registry_Spec                                                            |               | v1api20240401 |
 | ResourceId                                                               | v1api20210701 | v1api20240401 |
 | ResourceId_STATUS                                                        | v1api20210701 | v1api20240401 |
 | RuleAction                                                               |               | v1api20240401 |
@@ -316,6 +337,8 @@
 | SslConfiguration_STATUS                                                  | v1api20210701 | v1api20240401 |
 | SslConfiguration_Status                                                  | v1api20210701 | v1api20240401 |
 | SslConfiguration_Status_STATUS                                           | v1api20210701 | v1api20240401 |
+| StorageAccountDetails                                                    |               | v1api20240401 |
+| StorageAccountDetails_STATUS                                             |               | v1api20240401 |
 | SynapseSpark                                                             | v1api20210701 | v1api20240401 |
 | SynapseSpark_ComputeType                                                 | v1api20210701 | v1api20240401 |
 | SynapseSpark_ComputeType_STATUS                                          | v1api20210701 | v1api20240401 |
@@ -323,6 +346,10 @@
 | SynapseSpark_Properties_STATUS                                           | v1api20210701 | v1api20240401 |
 | SynapseSpark_ProvisioningState_STATUS                                    | v1api20210701 | v1api20240401 |
 | SynapseSpark_STATUS                                                      | v1api20210701 | v1api20240401 |
+| SystemCreatedAcrAccount                                                  |               | v1api20240401 |
+| SystemCreatedAcrAccount_STATUS                                           |               | v1api20240401 |
+| SystemCreatedStorageAccount                                              |               | v1api20240401 |
+| SystemCreatedStorageAccount_STATUS                                       |               | v1api20240401 |
 | SystemData                                                               | v1api20210701 |               |
 | SystemData_CreatedByType                                                 | v1api20210701 |               |
 | SystemData_CreatedByType_STATUS                                          | v1api20210701 | v1api20240401 |
@@ -336,6 +363,10 @@
 | UserAccountCredentials_STATUS                                            | v1api20210701 | v1api20240401 |
 | UserAssignedIdentityDetails                                              | v1api20210701 | v1api20240401 |
 | UserAssignedIdentity_STATUS                                              | v1api20210701 | v1api20240401 |
+| UserCreatedAcrAccount                                                    |               | v1api20240401 |
+| UserCreatedAcrAccount_STATUS                                             |               | v1api20240401 |
+| UserCreatedStorageAccount                                                |               | v1api20240401 |
+| UserCreatedStorageAccount_STATUS                                         |               | v1api20240401 |
 | UsernamePasswordAuthTypeWorkspaceConnectionProperties                    |               | v1api20240401 |
 | UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType           |               | v1api20240401 |
 | UsernamePasswordAuthTypeWorkspaceConnectionProperties_AuthType_STATUS    |               | v1api20240401 |
@@ -394,8 +425,8 @@
 | Workspace_STATUS                                                         | v1api20210701 | v1api20240401 |
 | Workspace_Spec                                                           | v1api20210701 | v1api20240401 |
 | WorkspacesCompute                                                        | v1api20210701 | v1api20240401 |
+| WorkspacesCompute_STATUS                                                 | v1api20210701 | v1api20240401 |
+| WorkspacesCompute_Spec                                                   | v1api20210701 | v1api20240401 |
 | WorkspacesConnection                                                     | v1api20210701 | v1api20240401 |
-| Workspaces_Compute_STATUS                                                | v1api20210701 | v1api20240401 |
-| Workspaces_Compute_Spec                                                  | v1api20210701 | v1api20240401 |
-| Workspaces_Connection_STATUS                                             | v1api20210701 | v1api20240401 |
-| Workspaces_Connection_Spec                                               | v1api20210701 | v1api20240401 |
+| WorkspacesConnection_STATUS                                              | v1api20210701 | v1api20240401 |
+| WorkspacesConnection_Spec                                                | v1api20210701 | v1api20240401 |

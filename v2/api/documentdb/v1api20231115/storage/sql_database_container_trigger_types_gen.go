@@ -28,8 +28,8 @@ import (
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS `json:"status,omitempty"`
+	Spec              SqlDatabaseContainerTrigger_Spec   `json:"spec,omitempty"`
+	Status            SqlDatabaseContainerTrigger_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
@@ -87,7 +87,7 @@ func (trigger *SqlDatabaseContainerTrigger) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
+	return &SqlDatabaseContainerTrigger_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (trigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
+	if st, ok := status.(*SqlDatabaseContainerTrigger_STATUS); ok {
 		trigger.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
+	var st SqlDatabaseContainerTrigger_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type SqlDatabaseContainerTriggerList struct {
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
-type DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec struct {
+// Storage version of v1api20231115.SqlDatabaseContainerTrigger_Spec
+type SqlDatabaseContainerTrigger_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -157,10 +157,10 @@ type DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlDatabaseContainerTrigger_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec from the provided source
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our SqlDatabaseContainerTrigger_Spec from the provided source
+func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == trigger {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -168,8 +168,8 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpe
 	return source.ConvertSpecTo(trigger)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our SqlDatabaseContainerTrigger_Spec
+func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == trigger {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -177,8 +177,8 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpe
 	return destination.ConvertSpecFrom(trigger)
 }
 
-// Storage version of v1api20231115.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
-type DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS struct {
+// Storage version of v1api20231115.SqlDatabaseContainerTrigger_STATUS
+type SqlDatabaseContainerTrigger_STATUS struct {
 	Conditions  []conditions.Condition                   `json:"conditions,omitempty"`
 	Id          *string                                  `json:"id,omitempty"`
 	Location    *string                                  `json:"location,omitempty"`
@@ -189,10 +189,10 @@ type DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS struct {
 	Type        *string                                  `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlDatabaseContainerTrigger_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS from the provided source
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SqlDatabaseContainerTrigger_STATUS from the provided source
+func (trigger *SqlDatabaseContainerTrigger_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == trigger {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -200,8 +200,8 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) ConvertS
 	return source.ConvertStatusTo(trigger)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SqlDatabaseContainerTrigger_STATUS
+func (trigger *SqlDatabaseContainerTrigger_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == trigger {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

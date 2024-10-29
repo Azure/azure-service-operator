@@ -28,7 +28,7 @@ import (
 type AutoscaleSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Autoscalesetting_Spec   `json:"spec,omitempty"`
+	Spec              AutoscaleSetting_Spec   `json:"spec,omitempty"`
 	Status            Autoscalesetting_STATUS `json:"status,omitempty"`
 }
 
@@ -144,8 +144,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-10-01")
 
-// Storage version of v1api20221001.Autoscalesetting_Spec
-type Autoscalesetting_Spec struct {
+// Storage version of v1api20221001.AutoscaleSetting_Spec
+type AutoscaleSetting_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string                  `json:"azureName,omitempty"`
@@ -170,24 +170,24 @@ type Autoscalesetting_Spec struct {
 	TargetResourceUriReference *genruntime.ResourceReference `armReference:"TargetResourceUri" json:"targetResourceUriReference,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Autoscalesetting_Spec{}
+var _ genruntime.ConvertibleSpec = &AutoscaleSetting_Spec{}
 
-// ConvertSpecFrom populates our Autoscalesetting_Spec from the provided source
-func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == autoscalesetting {
+// ConvertSpecFrom populates our AutoscaleSetting_Spec from the provided source
+func (setting *AutoscaleSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(autoscalesetting)
+	return source.ConvertSpecTo(setting)
 }
 
-// ConvertSpecTo populates the provided destination from our Autoscalesetting_Spec
-func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == autoscalesetting {
+// ConvertSpecTo populates the provided destination from our AutoscaleSetting_Spec
+func (setting *AutoscaleSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(autoscalesetting)
+	return destination.ConvertSpecFrom(setting)
 }
 
 // Storage version of v1api20221001.Autoscalesetting_STATUS

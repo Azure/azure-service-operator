@@ -29,8 +29,8 @@ import (
 type ServersDatabasesAuditingSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Databases_AuditingSetting_Spec   `json:"spec,omitempty"`
-	Status            Servers_Databases_AuditingSetting_STATUS `json:"status,omitempty"`
+	Spec              ServersDatabasesAuditingSetting_Spec   `json:"spec,omitempty"`
+	Status            ServersDatabasesAuditingSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersDatabasesAuditingSetting{}
@@ -87,11 +87,11 @@ var _ genruntime.ImportableResource = &ServersDatabasesAuditingSetting{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (setting *ServersDatabasesAuditingSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Servers_Databases_AuditingSetting_STATUS); ok {
-		return setting.Spec.Initialize_From_Servers_Databases_AuditingSetting_STATUS(s)
+	if s, ok := status.(*ServersDatabasesAuditingSetting_STATUS); ok {
+		return setting.Spec.Initialize_From_ServersDatabasesAuditingSetting_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Servers_Databases_AuditingSetting_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServersDatabasesAuditingSetting_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesAuditingSetting{}
@@ -136,7 +136,7 @@ func (setting *ServersDatabasesAuditingSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *ServersDatabasesAuditingSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Databases_AuditingSetting_STATUS{}
+	return &ServersDatabasesAuditingSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -148,13 +148,13 @@ func (setting *ServersDatabasesAuditingSetting) Owner() *genruntime.ResourceRefe
 // SetStatus sets the status of this resource
 func (setting *ServersDatabasesAuditingSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Databases_AuditingSetting_STATUS); ok {
+	if st, ok := status.(*ServersDatabasesAuditingSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Databases_AuditingSetting_STATUS
+	var st ServersDatabasesAuditingSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -252,18 +252,18 @@ func (setting *ServersDatabasesAuditingSetting) AssignProperties_From_ServersDat
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_Databases_AuditingSetting_Spec
-	err := spec.AssignProperties_From_Servers_Databases_AuditingSetting_Spec(&source.Spec)
+	var spec ServersDatabasesAuditingSetting_Spec
+	err := spec.AssignProperties_From_ServersDatabasesAuditingSetting_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Databases_AuditingSetting_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesAuditingSetting_Spec() to populate field Spec")
 	}
 	setting.Spec = spec
 
 	// Status
-	var status Servers_Databases_AuditingSetting_STATUS
-	err = status.AssignProperties_From_Servers_Databases_AuditingSetting_STATUS(&source.Status)
+	var status ServersDatabasesAuditingSetting_STATUS
+	err = status.AssignProperties_From_ServersDatabasesAuditingSetting_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Databases_AuditingSetting_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesAuditingSetting_STATUS() to populate field Status")
 	}
 	setting.Status = status
 
@@ -278,18 +278,18 @@ func (setting *ServersDatabasesAuditingSetting) AssignProperties_To_ServersDatab
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Servers_Databases_AuditingSetting_Spec
-	err := setting.Spec.AssignProperties_To_Servers_Databases_AuditingSetting_Spec(&spec)
+	var spec storage.ServersDatabasesAuditingSetting_Spec
+	err := setting.Spec.AssignProperties_To_ServersDatabasesAuditingSetting_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_AuditingSetting_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesAuditingSetting_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Servers_Databases_AuditingSetting_STATUS
-	err = setting.Status.AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(&status)
+	var status storage.ServersDatabasesAuditingSetting_STATUS
+	err = setting.Status.AssignProperties_To_ServersDatabasesAuditingSetting_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_AuditingSetting_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesAuditingSetting_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -316,7 +316,7 @@ type ServersDatabasesAuditingSettingList struct {
 	Items           []ServersDatabasesAuditingSetting `json:"items"`
 }
 
-type Servers_Databases_AuditingSetting_Spec struct {
+type ServersDatabasesAuditingSetting_Spec struct {
 	// AuditActionsAndGroups: Specifies the Actions-Groups and Actions to audit.
 	// The recommended set of action groups to use is the following combination - this will audit all the queries and stored
 	// procedures executed against the database, as well as successful and failed logins:
@@ -432,14 +432,14 @@ type Servers_Databases_AuditingSetting_Spec struct {
 	StorageEndpoint *string `json:"storageEndpoint,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Servers_Databases_AuditingSetting_Spec{}
+var _ genruntime.ARMTransformer = &ServersDatabasesAuditingSetting_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (setting *Servers_Databases_AuditingSetting_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (setting *ServersDatabasesAuditingSetting_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if setting == nil {
 		return nil, nil
 	}
-	result := &Servers_Databases_AuditingSetting_Spec_ARM{}
+	result := &ServersDatabasesAuditingSetting_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -506,15 +506,15 @@ func (setting *Servers_Databases_AuditingSetting_Spec) ConvertToARM(resolved gen
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (setting *Servers_Databases_AuditingSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Databases_AuditingSetting_Spec_ARM{}
+func (setting *ServersDatabasesAuditingSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersDatabasesAuditingSetting_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Databases_AuditingSetting_Spec_ARM)
+func (setting *ServersDatabasesAuditingSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersDatabasesAuditingSetting_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_AuditingSetting_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesAuditingSetting_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AuditActionsAndGroups":
@@ -611,25 +611,25 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Databases_AuditingSetting_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersDatabasesAuditingSetting_Spec{}
 
-// ConvertSpecFrom populates our Servers_Databases_AuditingSetting_Spec from the provided source
-func (setting *Servers_Databases_AuditingSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Servers_Databases_AuditingSetting_Spec)
+// ConvertSpecFrom populates our ServersDatabasesAuditingSetting_Spec from the provided source
+func (setting *ServersDatabasesAuditingSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServersDatabasesAuditingSetting_Spec)
 	if ok {
 		// Populate our instance from source
-		return setting.AssignProperties_From_Servers_Databases_AuditingSetting_Spec(src)
+		return setting.AssignProperties_From_ServersDatabasesAuditingSetting_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Databases_AuditingSetting_Spec{}
+	src = &storage.ServersDatabasesAuditingSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = setting.AssignProperties_From_Servers_Databases_AuditingSetting_Spec(src)
+	err = setting.AssignProperties_From_ServersDatabasesAuditingSetting_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -637,17 +637,17 @@ func (setting *Servers_Databases_AuditingSetting_Spec) ConvertSpecFrom(source ge
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Databases_AuditingSetting_Spec
-func (setting *Servers_Databases_AuditingSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Servers_Databases_AuditingSetting_Spec)
+// ConvertSpecTo populates the provided destination from our ServersDatabasesAuditingSetting_Spec
+func (setting *ServersDatabasesAuditingSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServersDatabasesAuditingSetting_Spec)
 	if ok {
 		// Populate destination from our instance
-		return setting.AssignProperties_To_Servers_Databases_AuditingSetting_Spec(dst)
+		return setting.AssignProperties_To_ServersDatabasesAuditingSetting_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Databases_AuditingSetting_Spec{}
-	err := setting.AssignProperties_To_Servers_Databases_AuditingSetting_Spec(dst)
+	dst = &storage.ServersDatabasesAuditingSetting_Spec{}
+	err := setting.AssignProperties_To_ServersDatabasesAuditingSetting_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -661,8 +661,8 @@ func (setting *Servers_Databases_AuditingSetting_Spec) ConvertSpecTo(destination
 	return nil
 }
 
-// AssignProperties_From_Servers_Databases_AuditingSetting_Spec populates our Servers_Databases_AuditingSetting_Spec from the provided source Servers_Databases_AuditingSetting_Spec
-func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_From_Servers_Databases_AuditingSetting_Spec(source *storage.Servers_Databases_AuditingSetting_Spec) error {
+// AssignProperties_From_ServersDatabasesAuditingSetting_Spec populates our ServersDatabasesAuditingSetting_Spec from the provided source ServersDatabasesAuditingSetting_Spec
+func (setting *ServersDatabasesAuditingSetting_Spec) AssignProperties_From_ServersDatabasesAuditingSetting_Spec(source *storage.ServersDatabasesAuditingSetting_Spec) error {
 
 	// AuditActionsAndGroups
 	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
@@ -737,8 +737,8 @@ func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_From_Ser
 	return nil
 }
 
-// AssignProperties_To_Servers_Databases_AuditingSetting_Spec populates the provided destination Servers_Databases_AuditingSetting_Spec from our Servers_Databases_AuditingSetting_Spec
-func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_To_Servers_Databases_AuditingSetting_Spec(destination *storage.Servers_Databases_AuditingSetting_Spec) error {
+// AssignProperties_To_ServersDatabasesAuditingSetting_Spec populates the provided destination ServersDatabasesAuditingSetting_Spec from our ServersDatabasesAuditingSetting_Spec
+func (setting *ServersDatabasesAuditingSetting_Spec) AssignProperties_To_ServersDatabasesAuditingSetting_Spec(destination *storage.ServersDatabasesAuditingSetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -824,8 +824,8 @@ func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_To_Serve
 	return nil
 }
 
-// Initialize_From_Servers_Databases_AuditingSetting_STATUS populates our Servers_Databases_AuditingSetting_Spec from the provided source Servers_Databases_AuditingSetting_STATUS
-func (setting *Servers_Databases_AuditingSetting_Spec) Initialize_From_Servers_Databases_AuditingSetting_STATUS(source *Servers_Databases_AuditingSetting_STATUS) error {
+// Initialize_From_ServersDatabasesAuditingSetting_STATUS populates our ServersDatabasesAuditingSetting_Spec from the provided source ServersDatabasesAuditingSetting_STATUS
+func (setting *ServersDatabasesAuditingSetting_Spec) Initialize_From_ServersDatabasesAuditingSetting_STATUS(source *ServersDatabasesAuditingSetting_STATUS) error {
 
 	// AuditActionsAndGroups
 	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
@@ -884,11 +884,11 @@ func (setting *Servers_Databases_AuditingSetting_Spec) Initialize_From_Servers_D
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (setting *Servers_Databases_AuditingSetting_Spec) OriginalVersion() string {
+func (setting *ServersDatabasesAuditingSetting_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-type Servers_Databases_AuditingSetting_STATUS struct {
+type ServersDatabasesAuditingSetting_STATUS struct {
 	// AuditActionsAndGroups: Specifies the Actions-Groups and Actions to audit.
 	// The recommended set of action groups to use is the following combination - this will audit all the queries and stored
 	// procedures executed against the database, as well as successful and failed logins:
@@ -1000,25 +1000,25 @@ type Servers_Databases_AuditingSetting_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Databases_AuditingSetting_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersDatabasesAuditingSetting_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Databases_AuditingSetting_STATUS from the provided source
-func (setting *Servers_Databases_AuditingSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Servers_Databases_AuditingSetting_STATUS)
+// ConvertStatusFrom populates our ServersDatabasesAuditingSetting_STATUS from the provided source
+func (setting *ServersDatabasesAuditingSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServersDatabasesAuditingSetting_STATUS)
 	if ok {
 		// Populate our instance from source
-		return setting.AssignProperties_From_Servers_Databases_AuditingSetting_STATUS(src)
+		return setting.AssignProperties_From_ServersDatabasesAuditingSetting_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Databases_AuditingSetting_STATUS{}
+	src = &storage.ServersDatabasesAuditingSetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = setting.AssignProperties_From_Servers_Databases_AuditingSetting_STATUS(src)
+	err = setting.AssignProperties_From_ServersDatabasesAuditingSetting_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1026,17 +1026,17 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) ConvertStatusFrom(sourc
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Databases_AuditingSetting_STATUS
-func (setting *Servers_Databases_AuditingSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Servers_Databases_AuditingSetting_STATUS)
+// ConvertStatusTo populates the provided destination from our ServersDatabasesAuditingSetting_STATUS
+func (setting *ServersDatabasesAuditingSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServersDatabasesAuditingSetting_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return setting.AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(dst)
+		return setting.AssignProperties_To_ServersDatabasesAuditingSetting_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Databases_AuditingSetting_STATUS{}
-	err := setting.AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(dst)
+	dst = &storage.ServersDatabasesAuditingSetting_STATUS{}
+	err := setting.AssignProperties_To_ServersDatabasesAuditingSetting_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1050,18 +1050,18 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) ConvertStatusTo(destina
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Servers_Databases_AuditingSetting_STATUS{}
+var _ genruntime.FromARMConverter = &ServersDatabasesAuditingSetting_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (setting *Servers_Databases_AuditingSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Databases_AuditingSetting_STATUS_ARM{}
+func (setting *ServersDatabasesAuditingSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersDatabasesAuditingSetting_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Databases_AuditingSetting_STATUS_ARM)
+func (setting *ServersDatabasesAuditingSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersDatabasesAuditingSetting_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_AuditingSetting_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesAuditingSetting_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AuditActionsAndGroups":
@@ -1176,8 +1176,8 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignProperties_From_Servers_Databases_AuditingSetting_STATUS populates our Servers_Databases_AuditingSetting_STATUS from the provided source Servers_Databases_AuditingSetting_STATUS
-func (setting *Servers_Databases_AuditingSetting_STATUS) AssignProperties_From_Servers_Databases_AuditingSetting_STATUS(source *storage.Servers_Databases_AuditingSetting_STATUS) error {
+// AssignProperties_From_ServersDatabasesAuditingSetting_STATUS populates our ServersDatabasesAuditingSetting_STATUS from the provided source ServersDatabasesAuditingSetting_STATUS
+func (setting *ServersDatabasesAuditingSetting_STATUS) AssignProperties_From_ServersDatabasesAuditingSetting_STATUS(source *storage.ServersDatabasesAuditingSetting_STATUS) error {
 
 	// AuditActionsAndGroups
 	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
@@ -1246,8 +1246,8 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) AssignProperties_From_S
 	return nil
 }
 
-// AssignProperties_To_Servers_Databases_AuditingSetting_STATUS populates the provided destination Servers_Databases_AuditingSetting_STATUS from our Servers_Databases_AuditingSetting_STATUS
-func (setting *Servers_Databases_AuditingSetting_STATUS) AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(destination *storage.Servers_Databases_AuditingSetting_STATUS) error {
+// AssignProperties_To_ServersDatabasesAuditingSetting_STATUS populates the provided destination ServersDatabasesAuditingSetting_STATUS from our ServersDatabasesAuditingSetting_STATUS
+func (setting *ServersDatabasesAuditingSetting_STATUS) AssignProperties_To_ServersDatabasesAuditingSetting_STATUS(destination *storage.ServersDatabasesAuditingSetting_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -84,20 +84,20 @@ func AddIndependentPropertyGeneratorsForServerSecurityAlertPoliciesSecurityAlert
 	gens["StorageEndpoint"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Servers_SecurityAlertPolicy_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersSecurityAlertPolicy_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_SecurityAlertPolicy_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_SecurityAlertPolicy_STATUS_ARM, Servers_SecurityAlertPolicy_STATUS_ARMGenerator()))
+		"Round trip of ServersSecurityAlertPolicy_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersSecurityAlertPolicy_STATUS_ARM, ServersSecurityAlertPolicy_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_SecurityAlertPolicy_STATUS_ARM runs a test to see if a specific instance of Servers_SecurityAlertPolicy_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_SecurityAlertPolicy_STATUS_ARM(subject Servers_SecurityAlertPolicy_STATUS_ARM) string {
+// RunJSONSerializationTestForServersSecurityAlertPolicy_STATUS_ARM runs a test to see if a specific instance of ServersSecurityAlertPolicy_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersSecurityAlertPolicy_STATUS_ARM(subject ServersSecurityAlertPolicy_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -105,7 +105,7 @@ func RunJSONSerializationTestForServers_SecurityAlertPolicy_STATUS_ARM(subject S
 	}
 
 	// Deserialize back into memory
-	var actual Servers_SecurityAlertPolicy_STATUS_ARM
+	var actual ServersSecurityAlertPolicy_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -123,41 +123,41 @@ func RunJSONSerializationTestForServers_SecurityAlertPolicy_STATUS_ARM(subject S
 	return ""
 }
 
-// Generator of Servers_SecurityAlertPolicy_STATUS_ARM instances for property testing - lazily instantiated by
-// Servers_SecurityAlertPolicy_STATUS_ARMGenerator()
-var servers_SecurityAlertPolicy_STATUS_ARMGenerator gopter.Gen
+// Generator of ServersSecurityAlertPolicy_STATUS_ARM instances for property testing - lazily instantiated by
+// ServersSecurityAlertPolicy_STATUS_ARMGenerator()
+var serversSecurityAlertPolicy_STATUS_ARMGenerator gopter.Gen
 
-// Servers_SecurityAlertPolicy_STATUS_ARMGenerator returns a generator of Servers_SecurityAlertPolicy_STATUS_ARM instances for property testing.
-// We first initialize servers_SecurityAlertPolicy_STATUS_ARMGenerator with a simplified generator based on the
+// ServersSecurityAlertPolicy_STATUS_ARMGenerator returns a generator of ServersSecurityAlertPolicy_STATUS_ARM instances for property testing.
+// We first initialize serversSecurityAlertPolicy_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Servers_SecurityAlertPolicy_STATUS_ARMGenerator() gopter.Gen {
-	if servers_SecurityAlertPolicy_STATUS_ARMGenerator != nil {
-		return servers_SecurityAlertPolicy_STATUS_ARMGenerator
+func ServersSecurityAlertPolicy_STATUS_ARMGenerator() gopter.Gen {
+	if serversSecurityAlertPolicy_STATUS_ARMGenerator != nil {
+		return serversSecurityAlertPolicy_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_SecurityAlertPolicy_STATUS_ARM(generators)
-	servers_SecurityAlertPolicy_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_SecurityAlertPolicy_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersSecurityAlertPolicy_STATUS_ARM(generators)
+	serversSecurityAlertPolicy_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServersSecurityAlertPolicy_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_SecurityAlertPolicy_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForServers_SecurityAlertPolicy_STATUS_ARM(generators)
-	servers_SecurityAlertPolicy_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_SecurityAlertPolicy_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersSecurityAlertPolicy_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForServersSecurityAlertPolicy_STATUS_ARM(generators)
+	serversSecurityAlertPolicy_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServersSecurityAlertPolicy_STATUS_ARM{}), generators)
 
-	return servers_SecurityAlertPolicy_STATUS_ARMGenerator
+	return serversSecurityAlertPolicy_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_SecurityAlertPolicy_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_SecurityAlertPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersSecurityAlertPolicy_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersSecurityAlertPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForServers_SecurityAlertPolicy_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_SecurityAlertPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServersSecurityAlertPolicy_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersSecurityAlertPolicy_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }

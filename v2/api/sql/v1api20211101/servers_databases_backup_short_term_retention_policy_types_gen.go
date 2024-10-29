@@ -29,8 +29,8 @@ import (
 type ServersDatabasesBackupShortTermRetentionPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Databases_BackupShortTermRetentionPolicy_Spec   `json:"spec,omitempty"`
-	Status            Servers_Databases_BackupShortTermRetentionPolicy_STATUS `json:"status,omitempty"`
+	Spec              ServersDatabasesBackupShortTermRetentionPolicy_Spec   `json:"spec,omitempty"`
+	Status            ServersDatabasesBackupShortTermRetentionPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersDatabasesBackupShortTermRetentionPolicy{}
@@ -87,11 +87,11 @@ var _ genruntime.ImportableResource = &ServersDatabasesBackupShortTermRetentionP
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Servers_Databases_BackupShortTermRetentionPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(s)
+	if s, ok := status.(*ServersDatabasesBackupShortTermRetentionPolicy_STATUS); ok {
+		return policy.Spec.Initialize_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Servers_Databases_BackupShortTermRetentionPolicy_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServersDatabasesBackupShortTermRetentionPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesBackupShortTermRetentionPolicy{}
@@ -136,7 +136,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_Databases_BackupShortTermRetentionPolicy_STATUS{}
+	return &ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -148,13 +148,13 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) Owner() *genruntim
 // SetStatus sets the status of this resource
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_Databases_BackupShortTermRetentionPolicy_STATUS); ok {
+	if st, ok := status.(*ServersDatabasesBackupShortTermRetentionPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_Databases_BackupShortTermRetentionPolicy_STATUS
+	var st ServersDatabasesBackupShortTermRetentionPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -252,18 +252,18 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) AssignProperties_F
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_Databases_BackupShortTermRetentionPolicy_Spec
-	err := spec.AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_Spec(&source.Spec)
+	var spec ServersDatabasesBackupShortTermRetentionPolicy_Spec
+	err := spec.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
 	// Status
-	var status Servers_Databases_BackupShortTermRetentionPolicy_STATUS
-	err = status.AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(&source.Status)
+	var status ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+	err = status.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -278,18 +278,18 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) AssignProperties_T
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Servers_Databases_BackupShortTermRetentionPolicy_Spec
-	err := policy.Spec.AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_Spec(&spec)
+	var spec storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec
+	err := policy.Spec.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Servers_Databases_BackupShortTermRetentionPolicy_STATUS
-	err = policy.Status.AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(&status)
+	var status storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+	err = policy.Status.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -316,7 +316,7 @@ type ServersDatabasesBackupShortTermRetentionPolicyList struct {
 	Items           []ServersDatabasesBackupShortTermRetentionPolicy `json:"items"`
 }
 
-type Servers_Databases_BackupShortTermRetentionPolicy_Spec struct {
+type ServersDatabasesBackupShortTermRetentionPolicy_Spec struct {
 	// DiffBackupIntervalInHours: The differential backup interval in hours. This is how many interval hours between each
 	// differential backup will be supported. This is only applicable to live databases but not dropped databases.
 	DiffBackupIntervalInHours *BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours `json:"diffBackupIntervalInHours,omitempty"`
@@ -331,14 +331,14 @@ type Servers_Databases_BackupShortTermRetentionPolicy_Spec struct {
 	RetentionDays *int `json:"retentionDays,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Servers_Databases_BackupShortTermRetentionPolicy_Spec{}
+var _ genruntime.ARMTransformer = &ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	result := &Servers_Databases_BackupShortTermRetentionPolicy_Spec_ARM{}
+	result := &ServersDatabasesBackupShortTermRetentionPolicy_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -361,15 +361,15 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertToAR
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Databases_BackupShortTermRetentionPolicy_Spec_ARM{}
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersDatabasesBackupShortTermRetentionPolicy_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Databases_BackupShortTermRetentionPolicy_Spec_ARM)
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersDatabasesBackupShortTermRetentionPolicy_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_BackupShortTermRetentionPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesBackupShortTermRetentionPolicy_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "DiffBackupIntervalInHours":
@@ -402,25 +402,25 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) PopulateFro
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Databases_BackupShortTermRetentionPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
 
-// ConvertSpecFrom populates our Servers_Databases_BackupShortTermRetentionPolicy_Spec from the provided source
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Servers_Databases_BackupShortTermRetentionPolicy_Spec)
+// ConvertSpecFrom populates our ServersDatabasesBackupShortTermRetentionPolicy_Spec from the provided source
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_Spec(src)
+		return policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Databases_BackupShortTermRetentionPolicy_Spec{}
+	src = &storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_Spec(src)
+	err = policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -428,17 +428,17 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertSpec
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Databases_BackupShortTermRetentionPolicy_Spec
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Servers_Databases_BackupShortTermRetentionPolicy_Spec)
+// ConvertSpecTo populates the provided destination from our ServersDatabasesBackupShortTermRetentionPolicy_Spec
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_Spec(dst)
+		return policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Databases_BackupShortTermRetentionPolicy_Spec{}
-	err := policy.AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_Spec(dst)
+	dst = &storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
+	err := policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -452,8 +452,8 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertSpec
 	return nil
 }
 
-// AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_Spec populates our Servers_Databases_BackupShortTermRetentionPolicy_Spec from the provided source Servers_Databases_BackupShortTermRetentionPolicy_Spec
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_Spec(source *storage.Servers_Databases_BackupShortTermRetentionPolicy_Spec) error {
+// AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec populates our ServersDatabasesBackupShortTermRetentionPolicy_Spec from the provided source ServersDatabasesBackupShortTermRetentionPolicy_Spec
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(source *storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec) error {
 
 	// DiffBackupIntervalInHours
 	if source.DiffBackupIntervalInHours != nil {
@@ -478,8 +478,8 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) AssignPrope
 	return nil
 }
 
-// AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_Spec populates the provided destination Servers_Databases_BackupShortTermRetentionPolicy_Spec from our Servers_Databases_BackupShortTermRetentionPolicy_Spec
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_Spec(destination *storage.Servers_Databases_BackupShortTermRetentionPolicy_Spec) error {
+// AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec populates the provided destination ServersDatabasesBackupShortTermRetentionPolicy_Spec from our ServersDatabasesBackupShortTermRetentionPolicy_Spec
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(destination *storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -516,8 +516,8 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) AssignPrope
 	return nil
 }
 
-// Initialize_From_Servers_Databases_BackupShortTermRetentionPolicy_STATUS populates our Servers_Databases_BackupShortTermRetentionPolicy_Spec from the provided source Servers_Databases_BackupShortTermRetentionPolicy_STATUS
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) Initialize_From_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(source *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) error {
+// Initialize_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS populates our ServersDatabasesBackupShortTermRetentionPolicy_Spec from the provided source ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) Initialize_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(source *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) error {
 
 	// DiffBackupIntervalInHours
 	if source.DiffBackupIntervalInHours != nil {
@@ -535,11 +535,11 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) Initialize_
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) OriginalVersion() string {
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-type Servers_Databases_BackupShortTermRetentionPolicy_STATUS struct {
+type ServersDatabasesBackupShortTermRetentionPolicy_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -560,25 +560,25 @@ type Servers_Databases_BackupShortTermRetentionPolicy_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_Databases_BackupShortTermRetentionPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
 
-// ConvertStatusFrom populates our Servers_Databases_BackupShortTermRetentionPolicy_STATUS from the provided source
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Servers_Databases_BackupShortTermRetentionPolicy_STATUS)
+// ConvertStatusFrom populates our ServersDatabasesBackupShortTermRetentionPolicy_STATUS from the provided source
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(src)
+		return policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_Databases_BackupShortTermRetentionPolicy_STATUS{}
+	src = &storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(src)
+	err = policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -586,17 +586,17 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) ConvertSt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_Databases_BackupShortTermRetentionPolicy_STATUS
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Servers_Databases_BackupShortTermRetentionPolicy_STATUS)
+// ConvertStatusTo populates the provided destination from our ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(dst)
+		return policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_Databases_BackupShortTermRetentionPolicy_STATUS{}
-	err := policy.AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(dst)
+	dst = &storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
+	err := policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -610,18 +610,18 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) ConvertSt
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Servers_Databases_BackupShortTermRetentionPolicy_STATUS{}
+var _ genruntime.FromARMConverter = &ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_Databases_BackupShortTermRetentionPolicy_STATUS_ARM{}
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersDatabasesBackupShortTermRetentionPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_Databases_BackupShortTermRetentionPolicy_STATUS_ARM)
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersDatabasesBackupShortTermRetentionPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_BackupShortTermRetentionPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesBackupShortTermRetentionPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -668,8 +668,8 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) PopulateF
 	return nil
 }
 
-// AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_STATUS populates our Servers_Databases_BackupShortTermRetentionPolicy_STATUS from the provided source Servers_Databases_BackupShortTermRetentionPolicy_STATUS
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) AssignProperties_From_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(source *storage.Servers_Databases_BackupShortTermRetentionPolicy_STATUS) error {
+// AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS populates our ServersDatabasesBackupShortTermRetentionPolicy_STATUS from the provided source ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(source *storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -698,8 +698,8 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) AssignPro
 	return nil
 }
 
-// AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_STATUS populates the provided destination Servers_Databases_BackupShortTermRetentionPolicy_STATUS from our Servers_Databases_BackupShortTermRetentionPolicy_STATUS
-func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) AssignProperties_To_Servers_Databases_BackupShortTermRetentionPolicy_STATUS(destination *storage.Servers_Databases_BackupShortTermRetentionPolicy_STATUS) error {
+// AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS populates the provided destination ServersDatabasesBackupShortTermRetentionPolicy_STATUS from our ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(destination *storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -59,7 +59,7 @@ func Test_ServiceBus_Namespace_Basic_v1api20210101preview_CRUD(t *testing.T) {
 func ServiceBus_Queue_v1api20210101preview_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: servicebus.Namespaces_Queue_Spec{
+		Spec: servicebus.NamespacesQueue_Spec{
 			Owner: testcommon.AsOwner(sbNamespace),
 		},
 	}

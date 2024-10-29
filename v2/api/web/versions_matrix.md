@@ -65,12 +65,12 @@
 | RequestsBasedTrigger                           | v1api20220301 |
 | RequestsBasedTrigger_STATUS                    | v1api20220301 |
 | ServerFarm                                     | v1api20220301 |
+| ServerFarm_STATUS                              | v1api20220301 |
+| ServerFarm_Spec                                | v1api20220301 |
 | Serverfarm_Properties_ProvisioningState_STATUS | v1api20220301 |
 | Serverfarm_Properties_STATUS                   | v1api20220301 |
 | Serverfarm_Properties_Spec                     | v1api20220301 |
 | Serverfarm_Properties_Status_STATUS            | v1api20220301 |
-| Serverfarm_STATUS                              | v1api20220301 |
-| Serverfarm_Spec                                | v1api20220301 |
 | Site                                           | v1api20220301 |
 | SiteConfig                                     | v1api20220301 |
 | SiteConfig_FtpsState                           | v1api20220301 |

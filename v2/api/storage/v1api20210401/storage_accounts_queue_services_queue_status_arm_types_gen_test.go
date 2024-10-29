@@ -81,20 +81,20 @@ func AddIndependentPropertyGeneratorsForQueueProperties_STATUS_ARM(gens map[stri
 		gen.AlphaString())
 }
 
-func Test_StorageAccounts_QueueServices_Queue_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccountsQueueServicesQueue_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccounts_QueueServices_Queue_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccounts_QueueServices_Queue_STATUS_ARM, StorageAccounts_QueueServices_Queue_STATUS_ARMGenerator()))
+		"Round trip of StorageAccountsQueueServicesQueue_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsQueueServicesQueue_STATUS_ARM, StorageAccountsQueueServicesQueue_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccounts_QueueServices_Queue_STATUS_ARM runs a test to see if a specific instance of StorageAccounts_QueueServices_Queue_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccounts_QueueServices_Queue_STATUS_ARM(subject StorageAccounts_QueueServices_Queue_STATUS_ARM) string {
+// RunJSONSerializationTestForStorageAccountsQueueServicesQueue_STATUS_ARM runs a test to see if a specific instance of StorageAccountsQueueServicesQueue_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsQueueServicesQueue_STATUS_ARM(subject StorageAccountsQueueServicesQueue_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -102,7 +102,7 @@ func RunJSONSerializationTestForStorageAccounts_QueueServices_Queue_STATUS_ARM(s
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccounts_QueueServices_Queue_STATUS_ARM
+	var actual StorageAccountsQueueServicesQueue_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -120,40 +120,40 @@ func RunJSONSerializationTestForStorageAccounts_QueueServices_Queue_STATUS_ARM(s
 	return ""
 }
 
-// Generator of StorageAccounts_QueueServices_Queue_STATUS_ARM instances for property testing - lazily instantiated by
-// StorageAccounts_QueueServices_Queue_STATUS_ARMGenerator()
-var storageAccounts_QueueServices_Queue_STATUS_ARMGenerator gopter.Gen
+// Generator of StorageAccountsQueueServicesQueue_STATUS_ARM instances for property testing - lazily instantiated by
+// StorageAccountsQueueServicesQueue_STATUS_ARMGenerator()
+var storageAccountsQueueServicesQueue_STATUS_ARMGenerator gopter.Gen
 
-// StorageAccounts_QueueServices_Queue_STATUS_ARMGenerator returns a generator of StorageAccounts_QueueServices_Queue_STATUS_ARM instances for property testing.
-// We first initialize storageAccounts_QueueServices_Queue_STATUS_ARMGenerator with a simplified generator based on the
+// StorageAccountsQueueServicesQueue_STATUS_ARMGenerator returns a generator of StorageAccountsQueueServicesQueue_STATUS_ARM instances for property testing.
+// We first initialize storageAccountsQueueServicesQueue_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccounts_QueueServices_Queue_STATUS_ARMGenerator() gopter.Gen {
-	if storageAccounts_QueueServices_Queue_STATUS_ARMGenerator != nil {
-		return storageAccounts_QueueServices_Queue_STATUS_ARMGenerator
+func StorageAccountsQueueServicesQueue_STATUS_ARMGenerator() gopter.Gen {
+	if storageAccountsQueueServicesQueue_STATUS_ARMGenerator != nil {
+		return storageAccountsQueueServicesQueue_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Queue_STATUS_ARM(generators)
-	storageAccounts_QueueServices_Queue_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_QueueServices_Queue_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS_ARM(generators)
+	storageAccountsQueueServicesQueue_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServicesQueue_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Queue_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForStorageAccounts_QueueServices_Queue_STATUS_ARM(generators)
-	storageAccounts_QueueServices_Queue_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_QueueServices_Queue_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS_ARM(generators)
+	storageAccountsQueueServicesQueue_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServicesQueue_STATUS_ARM{}), generators)
 
-	return storageAccounts_QueueServices_Queue_STATUS_ARMGenerator
+	return storageAccountsQueueServicesQueue_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Queue_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Queue_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccounts_QueueServices_Queue_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccounts_QueueServices_Queue_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(QueueProperties_STATUS_ARMGenerator())
 }

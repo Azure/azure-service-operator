@@ -5,27 +5,27 @@ package v1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Namespaces_Eventhubs_AuthorizationRule_Spec_ARM struct {
+type NamespacesEventhubsAuthorizationRule_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to create or update AuthorizationRule
 	Properties *Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Eventhubs_AuthorizationRule_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &NamespacesEventhubsAuthorizationRule_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (rule Namespaces_Eventhubs_AuthorizationRule_Spec_ARM) GetAPIVersion() string {
+func (rule NamespacesEventhubsAuthorizationRule_Spec_ARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec_ARM) GetName() string {
+func (rule *NamespacesEventhubsAuthorizationRule_Spec_ARM) GetName() string {
 	return rule.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
-func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec_ARM) GetType() string {
+func (rule *NamespacesEventhubsAuthorizationRule_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
 }
 

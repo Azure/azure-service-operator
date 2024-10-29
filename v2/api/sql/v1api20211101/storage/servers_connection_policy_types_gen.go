@@ -28,8 +28,8 @@ import (
 type ServersConnectionPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_ConnectionPolicy_Spec   `json:"spec,omitempty"`
-	Status            Servers_ConnectionPolicy_STATUS `json:"status,omitempty"`
+	Spec              ServersConnectionPolicy_Spec   `json:"spec,omitempty"`
+	Status            ServersConnectionPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersConnectionPolicy{}
@@ -86,7 +86,7 @@ func (policy *ServersConnectionPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *ServersConnectionPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_ConnectionPolicy_STATUS{}
+	return &ServersConnectionPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -98,13 +98,13 @@ func (policy *ServersConnectionPolicy) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (policy *ServersConnectionPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_ConnectionPolicy_STATUS); ok {
+	if st, ok := status.(*ServersConnectionPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_ConnectionPolicy_STATUS
+	var st ServersConnectionPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type ServersConnectionPolicyList struct {
 	Items           []ServersConnectionPolicy `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_ConnectionPolicy_Spec
-type Servers_ConnectionPolicy_Spec struct {
+// Storage version of v1api20211101.ServersConnectionPolicy_Spec
+type ServersConnectionPolicy_Spec struct {
 	ConnectionType  *string `json:"connectionType,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -150,10 +150,10 @@ type Servers_ConnectionPolicy_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_ConnectionPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersConnectionPolicy_Spec{}
 
-// ConvertSpecFrom populates our Servers_ConnectionPolicy_Spec from the provided source
-func (policy *Servers_ConnectionPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersConnectionPolicy_Spec from the provided source
+func (policy *ServersConnectionPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -161,8 +161,8 @@ func (policy *Servers_ConnectionPolicy_Spec) ConvertSpecFrom(source genruntime.C
 	return source.ConvertSpecTo(policy)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_ConnectionPolicy_Spec
-func (policy *Servers_ConnectionPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersConnectionPolicy_Spec
+func (policy *ServersConnectionPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -170,8 +170,8 @@ func (policy *Servers_ConnectionPolicy_Spec) ConvertSpecTo(destination genruntim
 	return destination.ConvertSpecFrom(policy)
 }
 
-// Storage version of v1api20211101.Servers_ConnectionPolicy_STATUS
-type Servers_ConnectionPolicy_STATUS struct {
+// Storage version of v1api20211101.ServersConnectionPolicy_STATUS
+type ServersConnectionPolicy_STATUS struct {
 	Conditions     []conditions.Condition `json:"conditions,omitempty"`
 	ConnectionType *string                `json:"connectionType,omitempty"`
 	Id             *string                `json:"id,omitempty"`
@@ -182,10 +182,10 @@ type Servers_ConnectionPolicy_STATUS struct {
 	Type           *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_ConnectionPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersConnectionPolicy_STATUS{}
 
-// ConvertStatusFrom populates our Servers_ConnectionPolicy_STATUS from the provided source
-func (policy *Servers_ConnectionPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersConnectionPolicy_STATUS from the provided source
+func (policy *ServersConnectionPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -193,8 +193,8 @@ func (policy *Servers_ConnectionPolicy_STATUS) ConvertStatusFrom(source genrunti
 	return source.ConvertStatusTo(policy)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_ConnectionPolicy_STATUS
-func (policy *Servers_ConnectionPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersConnectionPolicy_STATUS
+func (policy *ServersConnectionPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

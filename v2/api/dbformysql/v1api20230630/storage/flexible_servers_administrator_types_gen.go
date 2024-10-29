@@ -28,8 +28,8 @@ import (
 type FlexibleServersAdministrator struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_Administrator_Spec   `json:"spec,omitempty"`
-	Status            FlexibleServers_Administrator_STATUS `json:"status,omitempty"`
+	Spec              FlexibleServersAdministrator_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServersAdministrator_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersAdministrator{}
@@ -87,7 +87,7 @@ func (administrator *FlexibleServersAdministrator) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (administrator *FlexibleServersAdministrator) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FlexibleServers_Administrator_STATUS{}
+	return &FlexibleServersAdministrator_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (administrator *FlexibleServersAdministrator) Owner() *genruntime.ResourceR
 // SetStatus sets the status of this resource
 func (administrator *FlexibleServersAdministrator) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FlexibleServers_Administrator_STATUS); ok {
+	if st, ok := status.(*FlexibleServersAdministrator_STATUS); ok {
 		administrator.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FlexibleServers_Administrator_STATUS
+	var st FlexibleServersAdministrator_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type FlexibleServersAdministratorList struct {
 	Items           []FlexibleServersAdministrator `json:"items"`
 }
 
-// Storage version of v1api20230630.FlexibleServers_Administrator_Spec
-type FlexibleServers_Administrator_Spec struct {
+// Storage version of v1api20230630.FlexibleServersAdministrator_Spec
+type FlexibleServersAdministrator_Spec struct {
 	AdministratorType *string `json:"administratorType,omitempty"`
 
 	// IdentityResourceReference: The resource id of the identity used for AAD Authentication.
@@ -159,10 +159,10 @@ type FlexibleServers_Administrator_Spec struct {
 	TenantIdFromConfig *genruntime.ConfigMapReference     `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_Administrator_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServersAdministrator_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServers_Administrator_Spec from the provided source
-func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our FlexibleServersAdministrator_Spec from the provided source
+func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == administrator {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -170,8 +170,8 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecFrom(source 
 	return source.ConvertSpecTo(administrator)
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_Administrator_Spec
-func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our FlexibleServersAdministrator_Spec
+func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == administrator {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -179,8 +179,8 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecTo(destinati
 	return destination.ConvertSpecFrom(administrator)
 }
 
-// Storage version of v1api20230630.FlexibleServers_Administrator_STATUS
-type FlexibleServers_Administrator_STATUS struct {
+// Storage version of v1api20230630.FlexibleServersAdministrator_STATUS
+type FlexibleServersAdministrator_STATUS struct {
 	AdministratorType  *string                `json:"administratorType,omitempty"`
 	Conditions         []conditions.Condition `json:"conditions,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
@@ -194,10 +194,10 @@ type FlexibleServers_Administrator_STATUS struct {
 	Type               *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &FlexibleServers_Administrator_STATUS{}
+var _ genruntime.ConvertibleStatus = &FlexibleServersAdministrator_STATUS{}
 
-// ConvertStatusFrom populates our FlexibleServers_Administrator_STATUS from the provided source
-func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our FlexibleServersAdministrator_STATUS from the provided source
+func (administrator *FlexibleServersAdministrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == administrator {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -205,8 +205,8 @@ func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusFrom(sou
 	return source.ConvertStatusTo(administrator)
 }
 
-// ConvertStatusTo populates the provided destination from our FlexibleServers_Administrator_STATUS
-func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our FlexibleServersAdministrator_STATUS
+func (administrator *FlexibleServersAdministrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == administrator {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

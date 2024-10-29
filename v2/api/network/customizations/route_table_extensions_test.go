@@ -15,7 +15,7 @@ import (
 	"github.com/leanovate/gopter/arbitrary"
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
@@ -23,9 +23,9 @@ func Test_FuzzySetRoutes(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	routeTable := &network.RouteTable_Spec_ARM{
+	routeTable := &arm.RouteTable_Spec{
 		Location: to.Ptr("westus"),
-		Properties: &network.RouteTablePropertiesFormat_ARM{
+		Properties: &arm.RouteTablePropertiesFormat{
 			DisableBgpRoutePropagation: to.Ptr(true),
 		},
 	}
@@ -79,14 +79,14 @@ func Test_FuzzySetRoutes(t *testing.T) {
 func Test_FuzzySetRoute(t *testing.T) {
 	t.Parallel()
 
-	embeddedType := reflect.TypeOf(network.Route_ARM{})
+	embeddedType := reflect.TypeOf(arm.Route{})
 	properties := gopter.NewProperties(nil)
 	arbitraries := arbitrary.DefaultArbitraries()
 
 	properties.Property(
 		"all subnet types can be converted between non-embedded and embedded",
 		arbitraries.ForAll(
-			func(route *network.RouteTables_Route_Spec_ARM) (bool, error) {
+			func(route *arm.RouteTablesRoute_Spec) (bool, error) {
 				val := reflect.New(embeddedType)
 				bytes, err := json.Marshal(route)
 				if err != nil {

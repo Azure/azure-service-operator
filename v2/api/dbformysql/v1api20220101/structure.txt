@@ -41,6 +41,41 @@ FlexibleServersAdministrator: Resource
     │       └── "User"
     ├── TenantId: *string
     └── Type: *string
+FlexibleServersAdministrator_STATUS_ARM: Object (5 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (5 properties)
+│   ├── AdministratorType: *Enum (1 value)
+│   │   └── "ActiveDirectory"
+│   ├── IdentityResourceId: *string
+│   ├── Login: *string
+│   ├── Sid: *string
+│   └── TenantId: *string
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
+└── Type: *string
+FlexibleServersAdministrator_Spec_ARM: Object (2 properties)
+├── Name: string
+└── Properties: *Object (5 properties)
+    ├── AdministratorType: *Enum (1 value)
+    │   └── "ActiveDirectory"
+    ├── IdentityResourceId: *string
+    ├── Login: *string
+    ├── Sid: *string
+    └── TenantId: *string
 FlexibleServersConfiguration: Resource
 ├── Owner: FlexibleServer
 ├── Spec: Object (5 properties)
@@ -91,42 +126,7 @@ FlexibleServersConfiguration: Resource
     │       └── "User"
     ├── Type: *string
     └── Value: *string
-FlexibleServers_Administrator_STATUS_ARM: Object (5 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (5 properties)
-│   ├── AdministratorType: *Enum (1 value)
-│   │   └── "ActiveDirectory"
-│   ├── IdentityResourceId: *string
-│   ├── Login: *string
-│   ├── Sid: *string
-│   └── TenantId: *string
-├── SystemData: *Object (6 properties)
-│   ├── CreatedAt: *string
-│   ├── CreatedBy: *string
-│   ├── CreatedByType: *Enum (4 values)
-│   │   ├── "Application"
-│   │   ├── "Key"
-│   │   ├── "ManagedIdentity"
-│   │   └── "User"
-│   ├── LastModifiedAt: *string
-│   ├── LastModifiedBy: *string
-│   └── LastModifiedByType: *Enum (4 values)
-│       ├── "Application"
-│       ├── "Key"
-│       ├── "ManagedIdentity"
-│       └── "User"
-└── Type: *string
-FlexibleServers_Administrator_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (5 properties)
-    ├── AdministratorType: *Enum (1 value)
-    │   └── "ActiveDirectory"
-    ├── IdentityResourceId: *string
-    ├── Login: *string
-    ├── Sid: *string
-    └── TenantId: *string
-FlexibleServers_Configuration_STATUS_ARM: Object (5 properties)
+FlexibleServersConfiguration_STATUS_ARM: Object (5 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (11 properties)
@@ -165,7 +165,7 @@ FlexibleServers_Configuration_STATUS_ARM: Object (5 properties)
 │       ├── "ManagedIdentity"
 │       └── "User"
 └── Type: *string
-FlexibleServers_Configuration_Spec_ARM: Object (2 properties)
+FlexibleServersConfiguration_Spec_ARM: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (3 properties)
     ├── CurrentValue: *string

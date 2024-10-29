@@ -29,8 +29,8 @@ import (
 type NamespacesEventhub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Eventhub_Spec   `json:"spec,omitempty"`
-	Status            Namespaces_Eventhub_STATUS `json:"status,omitempty"`
+	Spec              NamespacesEventhub_Spec   `json:"spec,omitempty"`
+	Status            NamespacesEventhub_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesEventhub{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &NamespacesEventhub{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (eventhub *NamespacesEventhub) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_Eventhub_STATUS); ok {
-		return eventhub.Spec.Initialize_From_Namespaces_Eventhub_STATUS(s)
+	if s, ok := status.(*NamespacesEventhub_STATUS); ok {
+		return eventhub.Spec.Initialize_From_NamespacesEventhub_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Namespaces_Eventhub_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type NamespacesEventhub_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesEventhub{}
@@ -144,7 +144,7 @@ func (eventhub *NamespacesEventhub) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (eventhub *NamespacesEventhub) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Namespaces_Eventhub_STATUS{}
+	return &NamespacesEventhub_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (eventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (eventhub *NamespacesEventhub) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Namespaces_Eventhub_STATUS); ok {
+	if st, ok := status.(*NamespacesEventhub_STATUS); ok {
 		eventhub.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Namespaces_Eventhub_STATUS
+	var st NamespacesEventhub_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (eventhub *NamespacesEventhub) AssignProperties_From_NamespacesEventhub(sou
 	eventhub.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Namespaces_Eventhub_Spec
-	err := spec.AssignProperties_From_Namespaces_Eventhub_Spec(&source.Spec)
+	var spec NamespacesEventhub_Spec
+	err := spec.AssignProperties_From_NamespacesEventhub_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Eventhub_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhub_Spec() to populate field Spec")
 	}
 	eventhub.Spec = spec
 
 	// Status
-	var status Namespaces_Eventhub_STATUS
-	err = status.AssignProperties_From_Namespaces_Eventhub_STATUS(&source.Status)
+	var status NamespacesEventhub_STATUS
+	err = status.AssignProperties_From_NamespacesEventhub_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Eventhub_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhub_STATUS() to populate field Status")
 	}
 	eventhub.Status = status
 
@@ -286,18 +286,18 @@ func (eventhub *NamespacesEventhub) AssignProperties_To_NamespacesEventhub(desti
 	destination.ObjectMeta = *eventhub.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Namespaces_Eventhub_Spec
-	err := eventhub.Spec.AssignProperties_To_Namespaces_Eventhub_Spec(&spec)
+	var spec storage.NamespacesEventhub_Spec
+	err := eventhub.Spec.AssignProperties_To_NamespacesEventhub_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Eventhub_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhub_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Namespaces_Eventhub_STATUS
-	err = eventhub.Status.AssignProperties_To_Namespaces_Eventhub_STATUS(&status)
+	var status storage.NamespacesEventhub_STATUS
+	err = eventhub.Status.AssignProperties_To_NamespacesEventhub_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Eventhub_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhub_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type NamespacesEventhubList struct {
 	Items           []NamespacesEventhub `json:"items"`
 }
 
-type Namespaces_Eventhub_Spec struct {
+type NamespacesEventhub_Spec struct {
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -349,14 +349,14 @@ type Namespaces_Eventhub_Spec struct {
 	PartitionCount *int `json:"partitionCount,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Namespaces_Eventhub_Spec{}
+var _ genruntime.ARMTransformer = &NamespacesEventhub_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (eventhub *Namespaces_Eventhub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (eventhub *NamespacesEventhub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if eventhub == nil {
 		return nil, nil
 	}
-	result := &Namespaces_Eventhub_Spec_ARM{}
+	result := &NamespacesEventhub_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -387,15 +387,15 @@ func (eventhub *Namespaces_Eventhub_Spec) ConvertToARM(resolved genruntime.Conve
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (eventhub *Namespaces_Eventhub_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_Eventhub_Spec_ARM{}
+func (eventhub *NamespacesEventhub_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamespacesEventhub_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (eventhub *Namespaces_Eventhub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_Eventhub_Spec_ARM)
+func (eventhub *NamespacesEventhub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NamespacesEventhub_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhub_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesEventhub_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -443,25 +443,25 @@ func (eventhub *Namespaces_Eventhub_Spec) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Eventhub_Spec{}
+var _ genruntime.ConvertibleSpec = &NamespacesEventhub_Spec{}
 
-// ConvertSpecFrom populates our Namespaces_Eventhub_Spec from the provided source
-func (eventhub *Namespaces_Eventhub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Namespaces_Eventhub_Spec)
+// ConvertSpecFrom populates our NamespacesEventhub_Spec from the provided source
+func (eventhub *NamespacesEventhub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.NamespacesEventhub_Spec)
 	if ok {
 		// Populate our instance from source
-		return eventhub.AssignProperties_From_Namespaces_Eventhub_Spec(src)
+		return eventhub.AssignProperties_From_NamespacesEventhub_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Namespaces_Eventhub_Spec{}
+	src = &storage.NamespacesEventhub_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = eventhub.AssignProperties_From_Namespaces_Eventhub_Spec(src)
+	err = eventhub.AssignProperties_From_NamespacesEventhub_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -469,17 +469,17 @@ func (eventhub *Namespaces_Eventhub_Spec) ConvertSpecFrom(source genruntime.Conv
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Eventhub_Spec
-func (eventhub *Namespaces_Eventhub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Namespaces_Eventhub_Spec)
+// ConvertSpecTo populates the provided destination from our NamespacesEventhub_Spec
+func (eventhub *NamespacesEventhub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.NamespacesEventhub_Spec)
 	if ok {
 		// Populate destination from our instance
-		return eventhub.AssignProperties_To_Namespaces_Eventhub_Spec(dst)
+		return eventhub.AssignProperties_To_NamespacesEventhub_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Namespaces_Eventhub_Spec{}
-	err := eventhub.AssignProperties_To_Namespaces_Eventhub_Spec(dst)
+	dst = &storage.NamespacesEventhub_Spec{}
+	err := eventhub.AssignProperties_To_NamespacesEventhub_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -493,8 +493,8 @@ func (eventhub *Namespaces_Eventhub_Spec) ConvertSpecTo(destination genruntime.C
 	return nil
 }
 
-// AssignProperties_From_Namespaces_Eventhub_Spec populates our Namespaces_Eventhub_Spec from the provided source Namespaces_Eventhub_Spec
-func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_From_Namespaces_Eventhub_Spec(source *storage.Namespaces_Eventhub_Spec) error {
+// AssignProperties_From_NamespacesEventhub_Spec populates our NamespacesEventhub_Spec from the provided source NamespacesEventhub_Spec
+func (eventhub *NamespacesEventhub_Spec) AssignProperties_From_NamespacesEventhub_Spec(source *storage.NamespacesEventhub_Spec) error {
 
 	// AzureName
 	eventhub.AzureName = source.AzureName
@@ -539,8 +539,8 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_From_Namespaces_Event
 	return nil
 }
 
-// AssignProperties_To_Namespaces_Eventhub_Spec populates the provided destination Namespaces_Eventhub_Spec from our Namespaces_Eventhub_Spec
-func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_To_Namespaces_Eventhub_Spec(destination *storage.Namespaces_Eventhub_Spec) error {
+// AssignProperties_To_NamespacesEventhub_Spec populates the provided destination NamespacesEventhub_Spec from our NamespacesEventhub_Spec
+func (eventhub *NamespacesEventhub_Spec) AssignProperties_To_NamespacesEventhub_Spec(destination *storage.NamespacesEventhub_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -597,8 +597,8 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_To_Namespaces_Eventhu
 	return nil
 }
 
-// Initialize_From_Namespaces_Eventhub_STATUS populates our Namespaces_Eventhub_Spec from the provided source Namespaces_Eventhub_STATUS
-func (eventhub *Namespaces_Eventhub_Spec) Initialize_From_Namespaces_Eventhub_STATUS(source *Namespaces_Eventhub_STATUS) error {
+// Initialize_From_NamespacesEventhub_STATUS populates our NamespacesEventhub_Spec from the provided source NamespacesEventhub_STATUS
+func (eventhub *NamespacesEventhub_Spec) Initialize_From_NamespacesEventhub_STATUS(source *NamespacesEventhub_STATUS) error {
 
 	// CaptureDescription
 	if source.CaptureDescription != nil {
@@ -633,16 +633,16 @@ func (eventhub *Namespaces_Eventhub_Spec) Initialize_From_Namespaces_Eventhub_ST
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (eventhub *Namespaces_Eventhub_Spec) OriginalVersion() string {
+func (eventhub *NamespacesEventhub_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (eventhub *Namespaces_Eventhub_Spec) SetAzureName(azureName string) {
+func (eventhub *NamespacesEventhub_Spec) SetAzureName(azureName string) {
 	eventhub.AzureName = azureName
 }
 
-type Namespaces_Eventhub_STATUS struct {
+type NamespacesEventhub_STATUS struct {
 	// CaptureDescription: Properties of capture description
 	CaptureDescription *CaptureDescription_STATUS `json:"captureDescription,omitempty"`
 
@@ -684,25 +684,25 @@ type Namespaces_Eventhub_STATUS struct {
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Namespaces_Eventhub_STATUS{}
+var _ genruntime.ConvertibleStatus = &NamespacesEventhub_STATUS{}
 
-// ConvertStatusFrom populates our Namespaces_Eventhub_STATUS from the provided source
-func (eventhub *Namespaces_Eventhub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Namespaces_Eventhub_STATUS)
+// ConvertStatusFrom populates our NamespacesEventhub_STATUS from the provided source
+func (eventhub *NamespacesEventhub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.NamespacesEventhub_STATUS)
 	if ok {
 		// Populate our instance from source
-		return eventhub.AssignProperties_From_Namespaces_Eventhub_STATUS(src)
+		return eventhub.AssignProperties_From_NamespacesEventhub_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Namespaces_Eventhub_STATUS{}
+	src = &storage.NamespacesEventhub_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = eventhub.AssignProperties_From_Namespaces_Eventhub_STATUS(src)
+	err = eventhub.AssignProperties_From_NamespacesEventhub_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -710,17 +710,17 @@ func (eventhub *Namespaces_Eventhub_STATUS) ConvertStatusFrom(source genruntime.
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Namespaces_Eventhub_STATUS
-func (eventhub *Namespaces_Eventhub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Namespaces_Eventhub_STATUS)
+// ConvertStatusTo populates the provided destination from our NamespacesEventhub_STATUS
+func (eventhub *NamespacesEventhub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.NamespacesEventhub_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return eventhub.AssignProperties_To_Namespaces_Eventhub_STATUS(dst)
+		return eventhub.AssignProperties_To_NamespacesEventhub_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Namespaces_Eventhub_STATUS{}
-	err := eventhub.AssignProperties_To_Namespaces_Eventhub_STATUS(dst)
+	dst = &storage.NamespacesEventhub_STATUS{}
+	err := eventhub.AssignProperties_To_NamespacesEventhub_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -734,18 +734,18 @@ func (eventhub *Namespaces_Eventhub_STATUS) ConvertStatusTo(destination genrunti
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Namespaces_Eventhub_STATUS{}
+var _ genruntime.FromARMConverter = &NamespacesEventhub_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (eventhub *Namespaces_Eventhub_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_Eventhub_STATUS_ARM{}
+func (eventhub *NamespacesEventhub_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamespacesEventhub_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_Eventhub_STATUS_ARM)
+func (eventhub *NamespacesEventhub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NamespacesEventhub_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhub_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesEventhub_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "CaptureDescription":
@@ -858,8 +858,8 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignProperties_From_Namespaces_Eventhub_STATUS populates our Namespaces_Eventhub_STATUS from the provided source Namespaces_Eventhub_STATUS
-func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_From_Namespaces_Eventhub_STATUS(source *storage.Namespaces_Eventhub_STATUS) error {
+// AssignProperties_From_NamespacesEventhub_STATUS populates our NamespacesEventhub_STATUS from the provided source NamespacesEventhub_STATUS
+func (eventhub *NamespacesEventhub_STATUS) AssignProperties_From_NamespacesEventhub_STATUS(source *storage.NamespacesEventhub_STATUS) error {
 
 	// CaptureDescription
 	if source.CaptureDescription != nil {
@@ -928,8 +928,8 @@ func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_From_Namespaces_Eve
 	return nil
 }
 
-// AssignProperties_To_Namespaces_Eventhub_STATUS populates the provided destination Namespaces_Eventhub_STATUS from our Namespaces_Eventhub_STATUS
-func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_To_Namespaces_Eventhub_STATUS(destination *storage.Namespaces_Eventhub_STATUS) error {
+// AssignProperties_To_NamespacesEventhub_STATUS populates the provided destination NamespacesEventhub_STATUS from our NamespacesEventhub_STATUS
+func (eventhub *NamespacesEventhub_STATUS) AssignProperties_To_NamespacesEventhub_STATUS(destination *storage.NamespacesEventhub_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

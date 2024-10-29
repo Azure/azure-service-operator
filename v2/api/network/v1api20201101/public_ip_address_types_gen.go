@@ -5,6 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -29,8 +30,8 @@ import (
 type PublicIPAddress struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PublicIPAddress_Spec                                       `json:"spec,omitempty"`
-	Status            PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded `json:"status,omitempty"`
+	Spec              PublicIPAddress_Spec   `json:"spec,omitempty"`
+	Status            PublicIPAddress_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PublicIPAddress{}
@@ -94,11 +95,11 @@ var _ genruntime.ImportableResource = &PublicIPAddress{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (address *PublicIPAddress) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded); ok {
-		return address.Spec.Initialize_From_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(s)
+	if s, ok := status.(*PublicIPAddress_STATUS); ok {
+		return address.Spec.Initialize_From_PublicIPAddress_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded but received %T instead", status)
+	return fmt.Errorf("expected Status of type PublicIPAddress_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &PublicIPAddress{}
@@ -144,7 +145,7 @@ func (address *PublicIPAddress) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (address *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
+	return &PublicIPAddress_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +157,13 @@ func (address *PublicIPAddress) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (address *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded); ok {
+	if st, ok := status.(*PublicIPAddress_STATUS); ok {
 		address.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
+	var st PublicIPAddress_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -268,10 +269,10 @@ func (address *PublicIPAddress) AssignProperties_From_PublicIPAddress(source *st
 	address.Spec = spec
 
 	// Status
-	var status PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
-	err = status.AssignProperties_From_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(&source.Status)
+	var status PublicIPAddress_STATUS
+	err = status.AssignProperties_From_PublicIPAddress_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddress_STATUS() to populate field Status")
 	}
 	address.Status = status
 
@@ -294,10 +295,10 @@ func (address *PublicIPAddress) AssignProperties_To_PublicIPAddress(destination 
 	destination.Spec = spec
 
 	// Status
-	var status storage.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
-	err = address.Status.AssignProperties_To_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(&status)
+	var status storage.PublicIPAddress_STATUS
+	err = address.Status.AssignProperties_To_PublicIPAddress_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddress_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -391,7 +392,7 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if address == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddress_Spec_ARM{}
+	result := &arm.PublicIPAddress_Spec{}
 
 	// Set property "ExtendedLocation":
 	if address.ExtendedLocation != nil {
@@ -399,7 +400,7 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
+		extendedLocation := *extendedLocation_ARM.(*arm.ExtendedLocation)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -424,14 +425,14 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		address.PublicIPAllocationMethod != nil ||
 		address.PublicIPPrefix != nil ||
 		address.ServicePublicIPAddress != nil {
-		result.Properties = &PublicIPAddressPropertiesFormat_ARM{}
+		result.Properties = &arm.PublicIPAddressPropertiesFormat{}
 	}
 	if address.DdosSettings != nil {
 		ddosSettings_ARM, err := (*address.DdosSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		ddosSettings := *ddosSettings_ARM.(*DdosSettings_ARM)
+		ddosSettings := *ddosSettings_ARM.(*arm.DdosSettings)
 		result.Properties.DdosSettings = &ddosSettings
 	}
 	if address.DnsSettings != nil {
@@ -439,7 +440,7 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := *dnsSettings_ARM.(*PublicIPAddressDnsSettings_ARM)
+		dnsSettings := *dnsSettings_ARM.(*arm.PublicIPAddressDnsSettings)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if address.IdleTimeoutInMinutes != nil {
@@ -455,14 +456,14 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpTags = append(result.Properties.IpTags, *item_ARM.(*IpTag_ARM))
+		result.Properties.IpTags = append(result.Properties.IpTags, *item_ARM.(*arm.IpTag))
 	}
 	if address.LinkedPublicIPAddress != nil {
 		linkedPublicIPAddress_ARM, err := (*address.LinkedPublicIPAddress).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		linkedPublicIPAddress := *linkedPublicIPAddress_ARM.(*PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM)
+		linkedPublicIPAddress := *linkedPublicIPAddress_ARM.(*arm.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded)
 		result.Properties.LinkedPublicIPAddress = &linkedPublicIPAddress
 	}
 	if address.NatGateway != nil {
@@ -470,19 +471,19 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		natGateway := *natGateway_ARM.(*NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_ARM)
+		natGateway := *natGateway_ARM.(*arm.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded)
 		result.Properties.NatGateway = &natGateway
 	}
 	if address.PublicIPAddressVersion != nil {
 		var temp string
 		temp = string(*address.PublicIPAddressVersion)
-		publicIPAddressVersion := IPVersion_ARM(temp)
+		publicIPAddressVersion := arm.IPVersion(temp)
 		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
 	}
 	if address.PublicIPAllocationMethod != nil {
 		var temp string
 		temp = string(*address.PublicIPAllocationMethod)
-		publicIPAllocationMethod := IPAllocationMethod_ARM(temp)
+		publicIPAllocationMethod := arm.IPAllocationMethod(temp)
 		result.Properties.PublicIPAllocationMethod = &publicIPAllocationMethod
 	}
 	if address.PublicIPPrefix != nil {
@@ -490,7 +491,7 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := *publicIPPrefix_ARM.(*SubResource_ARM)
+		publicIPPrefix := *publicIPPrefix_ARM.(*arm.SubResource)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 	if address.ServicePublicIPAddress != nil {
@@ -498,7 +499,7 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		servicePublicIPAddress := *servicePublicIPAddress_ARM.(*PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM)
+		servicePublicIPAddress := *servicePublicIPAddress_ARM.(*arm.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded)
 		result.Properties.ServicePublicIPAddress = &servicePublicIPAddress
 	}
 
@@ -508,7 +509,7 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*PublicIPAddressSku_ARM)
+		sku := *sku_ARM.(*arm.PublicIPAddressSku)
 		result.Sku = &sku
 	}
 
@@ -529,14 +530,14 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (address *PublicIPAddress_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddress_Spec_ARM{}
+	return &arm.PublicIPAddress_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (address *PublicIPAddress_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddress_Spec_ARM)
+	typedInput, ok := armInput.(arm.PublicIPAddress_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PublicIPAddress_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -1120,8 +1121,8 @@ func (address *PublicIPAddress_Spec) AssignProperties_To_PublicIPAddress_Spec(de
 	return nil
 }
 
-// Initialize_From_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded populates our PublicIPAddress_Spec from the provided source PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
-func (address *PublicIPAddress_Spec) Initialize_From_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(source *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) error {
+// Initialize_From_PublicIPAddress_STATUS populates our PublicIPAddress_Spec from the provided source PublicIPAddress_STATUS
+func (address *PublicIPAddress_Spec) Initialize_From_PublicIPAddress_STATUS(source *PublicIPAddress_STATUS) error {
 
 	// DdosSettings
 	if source.DdosSettings != nil {
@@ -1257,7 +1258,7 @@ func (address *PublicIPAddress_Spec) OriginalVersion() string {
 func (address *PublicIPAddress_Spec) SetAzureName(azureName string) { address.AzureName = azureName }
 
 // Public IP address resource.
-type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded struct {
+type PublicIPAddress_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -1328,25 +1329,25 @@ type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
+var _ genruntime.ConvertibleStatus = &PublicIPAddress_STATUS{}
 
-// ConvertStatusFrom populates our PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded from the provided source
-func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded)
+// ConvertStatusFrom populates our PublicIPAddress_STATUS from the provided source
+func (address *PublicIPAddress_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.PublicIPAddress_STATUS)
 	if ok {
 		// Populate our instance from source
-		return embedded.AssignProperties_From_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(src)
+		return address.AssignProperties_From_PublicIPAddress_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
+	src = &storage.PublicIPAddress_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = embedded.AssignProperties_From_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(src)
+	err = address.AssignProperties_From_PublicIPAddress_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1354,17 +1355,17 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Conv
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
-func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded)
+// ConvertStatusTo populates the provided destination from our PublicIPAddress_STATUS
+func (address *PublicIPAddress_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.PublicIPAddress_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return embedded.AssignProperties_To_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(dst)
+		return address.AssignProperties_To_PublicIPAddress_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
-	err := embedded.AssignProperties_To_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(dst)
+	dst = &storage.PublicIPAddress_STATUS{}
+	err := address.AssignProperties_To_PublicIPAddress_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1378,18 +1379,18 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Conv
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &PublicIPAddress_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM{}
+func (address *PublicIPAddress_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.PublicIPAddress_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM)
+func (address *PublicIPAddress_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.PublicIPAddress_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PublicIPAddress_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1404,7 +1405,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 				return err
 			}
 			ddosSettings := ddosSettings1
-			embedded.DdosSettings = &ddosSettings
+			address.DdosSettings = &ddosSettings
 		}
 	}
 
@@ -1418,14 +1419,14 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 				return err
 			}
 			dnsSettings := dnsSettings1
-			embedded.DnsSettings = &dnsSettings
+			address.DnsSettings = &dnsSettings
 		}
 	}
 
 	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
-		embedded.Etag = &etag
+		address.Etag = &etag
 	}
 
 	// Set property "ExtendedLocation":
@@ -1436,13 +1437,13 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 			return err
 		}
 		extendedLocation := extendedLocation1
-		embedded.ExtendedLocation = &extendedLocation
+		address.ExtendedLocation = &extendedLocation
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		embedded.Id = &id
+		address.Id = &id
 	}
 
 	// Set property "IdleTimeoutInMinutes":
@@ -1450,7 +1451,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
 			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
-			embedded.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+			address.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 		}
 	}
 
@@ -1459,7 +1460,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IpAddress != nil {
 			ipAddress := *typedInput.Properties.IpAddress
-			embedded.IpAddress = &ipAddress
+			address.IpAddress = &ipAddress
 		}
 	}
 
@@ -1473,7 +1474,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 				return err
 			}
 			ipConfiguration := ipConfiguration1
-			embedded.IpConfiguration = &ipConfiguration
+			address.IpConfiguration = &ipConfiguration
 		}
 	}
 
@@ -1486,14 +1487,14 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 			if err != nil {
 				return err
 			}
-			embedded.IpTags = append(embedded.IpTags, item1)
+			address.IpTags = append(address.IpTags, item1)
 		}
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		embedded.Location = &location
+		address.Location = &location
 	}
 
 	// Set property "MigrationPhase":
@@ -1503,14 +1504,14 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 			var temp string
 			temp = string(*typedInput.Properties.MigrationPhase)
 			migrationPhase := PublicIPAddressPropertiesFormat_MigrationPhase_STATUS(temp)
-			embedded.MigrationPhase = &migrationPhase
+			address.MigrationPhase = &migrationPhase
 		}
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		embedded.Name = &name
+		address.Name = &name
 	}
 
 	// Set property "NatGateway":
@@ -1523,7 +1524,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 				return err
 			}
 			natGateway := natGateway1
-			embedded.NatGateway = &natGateway
+			address.NatGateway = &natGateway
 		}
 	}
 
@@ -1534,7 +1535,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
 			provisioningState := ProvisioningState_STATUS(temp)
-			embedded.ProvisioningState = &provisioningState
+			address.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -1545,7 +1546,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 			var temp string
 			temp = string(*typedInput.Properties.PublicIPAddressVersion)
 			publicIPAddressVersion := IPVersion_STATUS(temp)
-			embedded.PublicIPAddressVersion = &publicIPAddressVersion
+			address.PublicIPAddressVersion = &publicIPAddressVersion
 		}
 	}
 
@@ -1556,7 +1557,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 			var temp string
 			temp = string(*typedInput.Properties.PublicIPAllocationMethod)
 			publicIPAllocationMethod := IPAllocationMethod_STATUS(temp)
-			embedded.PublicIPAllocationMethod = &publicIPAllocationMethod
+			address.PublicIPAllocationMethod = &publicIPAllocationMethod
 		}
 	}
 
@@ -1570,7 +1571,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 				return err
 			}
 			publicIPPrefix := publicIPPrefix1
-			embedded.PublicIPPrefix = &publicIPPrefix
+			address.PublicIPPrefix = &publicIPPrefix
 		}
 	}
 
@@ -1579,7 +1580,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
 			resourceGuid := *typedInput.Properties.ResourceGuid
-			embedded.ResourceGuid = &resourceGuid
+			address.ResourceGuid = &resourceGuid
 		}
 	}
 
@@ -1591,37 +1592,37 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 			return err
 		}
 		sku := sku1
-		embedded.Sku = &sku
+		address.Sku = &sku
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string, len(typedInput.Tags))
+		address.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			embedded.Tags[key] = value
+			address.Tags[key] = value
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		embedded.Type = &typeVar
+		address.Type = &typeVar
 	}
 
 	// Set property "Zones":
 	for _, item := range typedInput.Zones {
-		embedded.Zones = append(embedded.Zones, item)
+		address.Zones = append(address.Zones, item)
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded populates our PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
-func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) AssignProperties_From_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(source *storage.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) error {
+// AssignProperties_From_PublicIPAddress_STATUS populates our PublicIPAddress_STATUS from the provided source PublicIPAddress_STATUS
+func (address *PublicIPAddress_STATUS) AssignProperties_From_PublicIPAddress_STATUS(source *storage.PublicIPAddress_STATUS) error {
 
 	// Conditions
-	embedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	address.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DdosSettings
 	if source.DdosSettings != nil {
@@ -1630,9 +1631,9 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_DdosSettings_STATUS() to populate field DdosSettings")
 		}
-		embedded.DdosSettings = &ddosSetting
+		address.DdosSettings = &ddosSetting
 	} else {
-		embedded.DdosSettings = nil
+		address.DdosSettings = nil
 	}
 
 	// DnsSettings
@@ -1642,13 +1643,13 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressDnsSettings_STATUS() to populate field DnsSettings")
 		}
-		embedded.DnsSettings = &dnsSetting
+		address.DnsSettings = &dnsSetting
 	} else {
-		embedded.DnsSettings = nil
+		address.DnsSettings = nil
 	}
 
 	// Etag
-	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
+	address.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -1657,19 +1658,19 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
-		embedded.ExtendedLocation = &extendedLocation
+		address.ExtendedLocation = &extendedLocation
 	} else {
-		embedded.ExtendedLocation = nil
+		address.ExtendedLocation = nil
 	}
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	address.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IdleTimeoutInMinutes
-	embedded.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+	address.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// IpAddress
-	embedded.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
+	address.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
 
 	// IpConfiguration
 	if source.IpConfiguration != nil {
@@ -1678,9 +1679,9 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field IpConfiguration")
 		}
-		embedded.IpConfiguration = &ipConfiguration
+		address.IpConfiguration = &ipConfiguration
 	} else {
-		embedded.IpConfiguration = nil
+		address.IpConfiguration = nil
 	}
 
 	// IpTags
@@ -1696,25 +1697,25 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
-		embedded.IpTags = ipTagList
+		address.IpTags = ipTagList
 	} else {
-		embedded.IpTags = nil
+		address.IpTags = nil
 	}
 
 	// Location
-	embedded.Location = genruntime.ClonePointerToString(source.Location)
+	address.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MigrationPhase
 	if source.MigrationPhase != nil {
 		migrationPhase := *source.MigrationPhase
 		migrationPhaseTemp := genruntime.ToEnum(migrationPhase, publicIPAddressPropertiesFormat_MigrationPhase_STATUS_Values)
-		embedded.MigrationPhase = &migrationPhaseTemp
+		address.MigrationPhase = &migrationPhaseTemp
 	} else {
-		embedded.MigrationPhase = nil
+		address.MigrationPhase = nil
 	}
 
 	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
+	address.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NatGateway
 	if source.NatGateway != nil {
@@ -1723,36 +1724,36 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field NatGateway")
 		}
-		embedded.NatGateway = &natGateway
+		address.NatGateway = &natGateway
 	} else {
-		embedded.NatGateway = nil
+		address.NatGateway = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
 		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
-		embedded.ProvisioningState = &provisioningStateTemp
+		address.ProvisioningState = &provisioningStateTemp
 	} else {
-		embedded.ProvisioningState = nil
+		address.ProvisioningState = nil
 	}
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
 		publicIPAddressVersion := *source.PublicIPAddressVersion
 		publicIPAddressVersionTemp := genruntime.ToEnum(publicIPAddressVersion, iPVersion_STATUS_Values)
-		embedded.PublicIPAddressVersion = &publicIPAddressVersionTemp
+		address.PublicIPAddressVersion = &publicIPAddressVersionTemp
 	} else {
-		embedded.PublicIPAddressVersion = nil
+		address.PublicIPAddressVersion = nil
 	}
 
 	// PublicIPAllocationMethod
 	if source.PublicIPAllocationMethod != nil {
 		publicIPAllocationMethod := *source.PublicIPAllocationMethod
 		publicIPAllocationMethodTemp := genruntime.ToEnum(publicIPAllocationMethod, iPAllocationMethod_STATUS_Values)
-		embedded.PublicIPAllocationMethod = &publicIPAllocationMethodTemp
+		address.PublicIPAllocationMethod = &publicIPAllocationMethodTemp
 	} else {
-		embedded.PublicIPAllocationMethod = nil
+		address.PublicIPAllocationMethod = nil
 	}
 
 	// PublicIPPrefix
@@ -1762,13 +1763,13 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field PublicIPPrefix")
 		}
-		embedded.PublicIPPrefix = &publicIPPrefix
+		address.PublicIPPrefix = &publicIPPrefix
 	} else {
-		embedded.PublicIPPrefix = nil
+		address.PublicIPPrefix = nil
 	}
 
 	// ResourceGuid
-	embedded.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
+	address.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Sku
 	if source.Sku != nil {
@@ -1777,36 +1778,36 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSku_STATUS() to populate field Sku")
 		}
-		embedded.Sku = &sku
+		address.Sku = &sku
 	} else {
-		embedded.Sku = nil
+		address.Sku = nil
 	}
 
 	// Tags
-	embedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	address.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	embedded.Type = genruntime.ClonePointerToString(source.Type)
+	address.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Zones
-	embedded.Zones = genruntime.CloneSliceOfString(source.Zones)
+	address.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded populates the provided destination PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded from our PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
-func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) AssignProperties_To_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(destination *storage.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) error {
+// AssignProperties_To_PublicIPAddress_STATUS populates the provided destination PublicIPAddress_STATUS from our PublicIPAddress_STATUS
+func (address *PublicIPAddress_STATUS) AssignProperties_To_PublicIPAddress_STATUS(destination *storage.PublicIPAddress_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(embedded.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(address.Conditions)
 
 	// DdosSettings
-	if embedded.DdosSettings != nil {
+	if address.DdosSettings != nil {
 		var ddosSetting storage.DdosSettings_STATUS
-		err := embedded.DdosSettings.AssignProperties_To_DdosSettings_STATUS(&ddosSetting)
+		err := address.DdosSettings.AssignProperties_To_DdosSettings_STATUS(&ddosSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DdosSettings_STATUS() to populate field DdosSettings")
 		}
@@ -1816,9 +1817,9 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// DnsSettings
-	if embedded.DnsSettings != nil {
+	if address.DnsSettings != nil {
 		var dnsSetting storage.PublicIPAddressDnsSettings_STATUS
-		err := embedded.DnsSettings.AssignProperties_To_PublicIPAddressDnsSettings_STATUS(&dnsSetting)
+		err := address.DnsSettings.AssignProperties_To_PublicIPAddressDnsSettings_STATUS(&dnsSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressDnsSettings_STATUS() to populate field DnsSettings")
 		}
@@ -1828,12 +1829,12 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
+	destination.Etag = genruntime.ClonePointerToString(address.Etag)
 
 	// ExtendedLocation
-	if embedded.ExtendedLocation != nil {
+	if address.ExtendedLocation != nil {
 		var extendedLocation storage.ExtendedLocation_STATUS
-		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		err := address.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
@@ -1843,18 +1844,18 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	destination.Id = genruntime.ClonePointerToString(address.Id)
 
 	// IdleTimeoutInMinutes
-	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(embedded.IdleTimeoutInMinutes)
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(address.IdleTimeoutInMinutes)
 
 	// IpAddress
-	destination.IpAddress = genruntime.ClonePointerToString(embedded.IpAddress)
+	destination.IpAddress = genruntime.ClonePointerToString(address.IpAddress)
 
 	// IpConfiguration
-	if embedded.IpConfiguration != nil {
+	if address.IpConfiguration != nil {
 		var ipConfiguration storage.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
-		err := embedded.IpConfiguration.AssignProperties_To_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded(&ipConfiguration)
+		err := address.IpConfiguration.AssignProperties_To_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded(&ipConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field IpConfiguration")
 		}
@@ -1864,9 +1865,9 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// IpTags
-	if embedded.IpTags != nil {
-		ipTagList := make([]storage.IpTag_STATUS, len(embedded.IpTags))
-		for ipTagIndex, ipTagItem := range embedded.IpTags {
+	if address.IpTags != nil {
+		ipTagList := make([]storage.IpTag_STATUS, len(address.IpTags))
+		for ipTagIndex, ipTagItem := range address.IpTags {
 			// Shadow the loop variable to avoid aliasing
 			ipTagItem := ipTagItem
 			var ipTag storage.IpTag_STATUS
@@ -1882,23 +1883,23 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(embedded.Location)
+	destination.Location = genruntime.ClonePointerToString(address.Location)
 
 	// MigrationPhase
-	if embedded.MigrationPhase != nil {
-		migrationPhase := string(*embedded.MigrationPhase)
+	if address.MigrationPhase != nil {
+		migrationPhase := string(*address.MigrationPhase)
 		destination.MigrationPhase = &migrationPhase
 	} else {
 		destination.MigrationPhase = nil
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+	destination.Name = genruntime.ClonePointerToString(address.Name)
 
 	// NatGateway
-	if embedded.NatGateway != nil {
+	if address.NatGateway != nil {
 		var natGateway storage.NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded
-		err := embedded.NatGateway.AssignProperties_To_NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded(&natGateway)
+		err := address.NatGateway.AssignProperties_To_NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded(&natGateway)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field NatGateway")
 		}
@@ -1908,33 +1909,33 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
+	if address.ProvisioningState != nil {
+		provisioningState := string(*address.ProvisioningState)
 		destination.ProvisioningState = &provisioningState
 	} else {
 		destination.ProvisioningState = nil
 	}
 
 	// PublicIPAddressVersion
-	if embedded.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := string(*embedded.PublicIPAddressVersion)
+	if address.PublicIPAddressVersion != nil {
+		publicIPAddressVersion := string(*address.PublicIPAddressVersion)
 		destination.PublicIPAddressVersion = &publicIPAddressVersion
 	} else {
 		destination.PublicIPAddressVersion = nil
 	}
 
 	// PublicIPAllocationMethod
-	if embedded.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := string(*embedded.PublicIPAllocationMethod)
+	if address.PublicIPAllocationMethod != nil {
+		publicIPAllocationMethod := string(*address.PublicIPAllocationMethod)
 		destination.PublicIPAllocationMethod = &publicIPAllocationMethod
 	} else {
 		destination.PublicIPAllocationMethod = nil
 	}
 
 	// PublicIPPrefix
-	if embedded.PublicIPPrefix != nil {
+	if address.PublicIPPrefix != nil {
 		var publicIPPrefix storage.SubResource_STATUS
-		err := embedded.PublicIPPrefix.AssignProperties_To_SubResource_STATUS(&publicIPPrefix)
+		err := address.PublicIPPrefix.AssignProperties_To_SubResource_STATUS(&publicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field PublicIPPrefix")
 		}
@@ -1944,12 +1945,12 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(embedded.ResourceGuid)
+	destination.ResourceGuid = genruntime.ClonePointerToString(address.ResourceGuid)
 
 	// Sku
-	if embedded.Sku != nil {
+	if address.Sku != nil {
 		var sku storage.PublicIPAddressSku_STATUS
-		err := embedded.Sku.AssignProperties_To_PublicIPAddressSku_STATUS(&sku)
+		err := address.Sku.AssignProperties_To_PublicIPAddressSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSku_STATUS() to populate field Sku")
 		}
@@ -1959,13 +1960,13 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(embedded.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(address.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(embedded.Type)
+	destination.Type = genruntime.ClonePointerToString(address.Type)
 
 	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(embedded.Zones)
+	destination.Zones = genruntime.CloneSliceOfString(address.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1998,7 +1999,7 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if settings == nil {
 		return nil, nil
 	}
-	result := &DdosSettings_ARM{}
+	result := &arm.DdosSettings{}
 
 	// Set property "DdosCustomPolicy":
 	if settings.DdosCustomPolicy != nil {
@@ -2006,7 +2007,7 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		ddosCustomPolicy := *ddosCustomPolicy_ARM.(*SubResource_ARM)
+		ddosCustomPolicy := *ddosCustomPolicy_ARM.(*arm.SubResource)
 		result.DdosCustomPolicy = &ddosCustomPolicy
 	}
 
@@ -2020,7 +2021,7 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if settings.ProtectionCoverage != nil {
 		var temp string
 		temp = string(*settings.ProtectionCoverage)
-		protectionCoverage := DdosSettings_ProtectionCoverage_ARM(temp)
+		protectionCoverage := arm.DdosSettings_ProtectionCoverage(temp)
 		result.ProtectionCoverage = &protectionCoverage
 	}
 	return result, nil
@@ -2028,14 +2029,14 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *DdosSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DdosSettings_ARM{}
+	return &arm.DdosSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *DdosSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DdosSettings_ARM)
+	typedInput, ok := armInput.(arm.DdosSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DdosSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DdosSettings, got %T", armInput)
 	}
 
 	// Set property "DdosCustomPolicy":
@@ -2199,14 +2200,14 @@ var _ genruntime.FromARMConverter = &DdosSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *DdosSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DdosSettings_STATUS_ARM{}
+	return &arm.DdosSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *DdosSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DdosSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DdosSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DdosSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DdosSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "DdosCustomPolicy":
@@ -2357,14 +2358,14 @@ var _ genruntime.FromARMConverter = &IPConfiguration_STATUS_PublicIPAddress_SubR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded_ARM{}
+	return &arm.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -2422,7 +2423,7 @@ func (ipTag *IpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if ipTag == nil {
 		return nil, nil
 	}
-	result := &IpTag_ARM{}
+	result := &arm.IpTag{}
 
 	// Set property "IpTagType":
 	if ipTag.IpTagType != nil {
@@ -2440,14 +2441,14 @@ func (ipTag *IpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ipTag *IpTag) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpTag_ARM{}
+	return &arm.IpTag{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ipTag *IpTag) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpTag_ARM)
+	typedInput, ok := armInput.(arm.IpTag)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTag_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IpTag, got %T", armInput)
 	}
 
 	// Set property "IpTagType":
@@ -2527,14 +2528,14 @@ var _ genruntime.FromARMConverter = &IpTag_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ipTag *IpTag_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpTag_STATUS_ARM{}
+	return &arm.IpTag_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ipTag *IpTag_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpTag_STATUS_ARM)
+	typedInput, ok := armInput.(arm.IpTag_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTag_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.IpTag_STATUS, got %T", armInput)
 	}
 
 	// Set property "IpTagType":
@@ -2627,14 +2628,14 @@ var _ genruntime.FromARMConverter = &NatGateway_STATUS_PublicIPAddress_SubResour
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM{}
+	return &arm.NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -2689,7 +2690,7 @@ func (embedded *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) ConvertToARM
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_ARM{}
+	result := &arm.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded{}
 
 	// Set property "Id":
 	if embedded.Reference != nil {
@@ -2705,14 +2706,14 @@ func (embedded *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_ARM{}
+	return &arm.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_ARM)
+	_, ok := armInput.(arm.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -2799,7 +2800,7 @@ func (settings *PublicIPAddressDnsSettings) ConvertToARM(resolved genruntime.Con
 	if settings == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddressDnsSettings_ARM{}
+	result := &arm.PublicIPAddressDnsSettings{}
 
 	// Set property "DomainNameLabel":
 	if settings.DomainNameLabel != nil {
@@ -2823,14 +2824,14 @@ func (settings *PublicIPAddressDnsSettings) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PublicIPAddressDnsSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressDnsSettings_ARM{}
+	return &arm.PublicIPAddressDnsSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PublicIPAddressDnsSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressDnsSettings_ARM)
+	typedInput, ok := armInput.(arm.PublicIPAddressDnsSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressDnsSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PublicIPAddressDnsSettings, got %T", armInput)
 	}
 
 	// Set property "DomainNameLabel":
@@ -2933,14 +2934,14 @@ var _ genruntime.FromARMConverter = &PublicIPAddressDnsSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *PublicIPAddressDnsSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressDnsSettings_STATUS_ARM{}
+	return &arm.PublicIPAddressDnsSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *PublicIPAddressDnsSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressDnsSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PublicIPAddressDnsSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressDnsSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PublicIPAddressDnsSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "DomainNameLabel":
@@ -3041,13 +3042,13 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 	if addressSku == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddressSku_ARM{}
+	result := &arm.PublicIPAddressSku{}
 
 	// Set property "Name":
 	if addressSku.Name != nil {
 		var temp string
 		temp = string(*addressSku.Name)
-		name := PublicIPAddressSku_Name_ARM(temp)
+		name := arm.PublicIPAddressSku_Name(temp)
 		result.Name = &name
 	}
 
@@ -3055,7 +3056,7 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 	if addressSku.Tier != nil {
 		var temp string
 		temp = string(*addressSku.Tier)
-		tier := PublicIPAddressSku_Tier_ARM(temp)
+		tier := arm.PublicIPAddressSku_Tier(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -3063,14 +3064,14 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (addressSku *PublicIPAddressSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSku_ARM{}
+	return &arm.PublicIPAddressSku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (addressSku *PublicIPAddressSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressSku_ARM)
+	typedInput, ok := armInput.(arm.PublicIPAddressSku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PublicIPAddressSku, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -3186,14 +3187,14 @@ var _ genruntime.FromARMConverter = &PublicIPAddressSku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (addressSku *PublicIPAddressSku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSku_STATUS_ARM{}
+	return &arm.PublicIPAddressSku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (addressSku *PublicIPAddressSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddressSku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PublicIPAddressSku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PublicIPAddressSku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -3286,7 +3287,7 @@ func (embedded *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) Convert
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM{}
+	result := &arm.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded{}
 
 	// Set property "Id":
 	if embedded.Reference != nil {
@@ -3302,14 +3303,14 @@ func (embedded *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM{}
+	return &arm.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM)
+	_, ok := armInput.(arm.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"

@@ -26,8 +26,8 @@ import (
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_ManagementPolicy_Spec   `json:"spec,omitempty"`
-	Status            StorageAccounts_ManagementPolicy_STATUS `json:"status,omitempty"`
+	Spec              StorageAccountsManagementPolicy_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsManagementPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsManagementPolicy{}
@@ -121,7 +121,7 @@ func (policy *StorageAccountsManagementPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *StorageAccountsManagementPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccounts_ManagementPolicy_STATUS{}
+	return &StorageAccountsManagementPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -133,13 +133,13 @@ func (policy *StorageAccountsManagementPolicy) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (policy *StorageAccountsManagementPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccounts_ManagementPolicy_STATUS); ok {
+	if st, ok := status.(*StorageAccountsManagementPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccounts_ManagementPolicy_STATUS
+	var st StorageAccountsManagementPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -156,18 +156,18 @@ func (policy *StorageAccountsManagementPolicy) AssignProperties_From_StorageAcco
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccounts_ManagementPolicy_Spec
-	err := spec.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(&source.Spec)
+	var spec StorageAccountsManagementPolicy_Spec
+	err := spec.AssignProperties_From_StorageAccountsManagementPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_ManagementPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsManagementPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
 	// Status
-	var status StorageAccounts_ManagementPolicy_STATUS
-	err = status.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(&source.Status)
+	var status StorageAccountsManagementPolicy_STATUS
+	err = status.AssignProperties_From_StorageAccountsManagementPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsManagementPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -191,18 +191,18 @@ func (policy *StorageAccountsManagementPolicy) AssignProperties_To_StorageAccoun
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.StorageAccounts_ManagementPolicy_Spec
-	err := policy.Spec.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(&spec)
+	var spec storage.StorageAccountsManagementPolicy_Spec
+	err := policy.Spec.AssignProperties_To_StorageAccountsManagementPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_ManagementPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsManagementPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.StorageAccounts_ManagementPolicy_STATUS
-	err = policy.Status.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(&status)
+	var status storage.StorageAccountsManagementPolicy_STATUS
+	err = policy.Status.AssignProperties_To_StorageAccountsManagementPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsManagementPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -244,8 +244,8 @@ type augmentConversionForStorageAccountsManagementPolicy interface {
 	AssignPropertiesTo(dst *storage.StorageAccountsManagementPolicy) error
 }
 
-// Storage version of v1api20210401.StorageAccounts_ManagementPolicy_Spec
-type StorageAccounts_ManagementPolicy_Spec struct {
+// Storage version of v1api20210401.StorageAccountsManagementPolicy_Spec
+type StorageAccountsManagementPolicy_Spec struct {
 	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -257,25 +257,25 @@ type StorageAccounts_ManagementPolicy_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_ManagementPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsManagementPolicy_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_ManagementPolicy_Spec from the provided source
-func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.StorageAccounts_ManagementPolicy_Spec)
+// ConvertSpecFrom populates our StorageAccountsManagementPolicy_Spec from the provided source
+func (policy *StorageAccountsManagementPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.StorageAccountsManagementPolicy_Spec)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(src)
+		return policy.AssignProperties_From_StorageAccountsManagementPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_ManagementPolicy_Spec{}
+	src = &storage.StorageAccountsManagementPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(src)
+	err = policy.AssignProperties_From_StorageAccountsManagementPolicy_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -283,17 +283,17 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecFrom(source genr
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_ManagementPolicy_Spec
-func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.StorageAccounts_ManagementPolicy_Spec)
+// ConvertSpecTo populates the provided destination from our StorageAccountsManagementPolicy_Spec
+func (policy *StorageAccountsManagementPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.StorageAccountsManagementPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(dst)
+		return policy.AssignProperties_To_StorageAccountsManagementPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_ManagementPolicy_Spec{}
-	err := policy.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(dst)
+	dst = &storage.StorageAccountsManagementPolicy_Spec{}
+	err := policy.AssignProperties_To_StorageAccountsManagementPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -307,8 +307,8 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecTo(destination g
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_ManagementPolicy_Spec populates our StorageAccounts_ManagementPolicy_Spec from the provided source StorageAccounts_ManagementPolicy_Spec
-func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(source *storage.StorageAccounts_ManagementPolicy_Spec) error {
+// AssignProperties_From_StorageAccountsManagementPolicy_Spec populates our StorageAccountsManagementPolicy_Spec from the provided source StorageAccountsManagementPolicy_Spec
+func (policy *StorageAccountsManagementPolicy_Spec) AssignProperties_From_StorageAccountsManagementPolicy_Spec(source *storage.StorageAccountsManagementPolicy_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -342,9 +342,9 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_Stora
 		policy.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsManagementPolicy_Spec interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
-	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_Spec); ok {
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccountsManagementPolicy_Spec); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -355,8 +355,8 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_Stora
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_ManagementPolicy_Spec populates the provided destination StorageAccounts_ManagementPolicy_Spec from our StorageAccounts_ManagementPolicy_Spec
-func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(destination *storage.StorageAccounts_ManagementPolicy_Spec) error {
+// AssignProperties_To_StorageAccountsManagementPolicy_Spec populates the provided destination StorageAccountsManagementPolicy_Spec from our StorageAccountsManagementPolicy_Spec
+func (policy *StorageAccountsManagementPolicy_Spec) AssignProperties_To_StorageAccountsManagementPolicy_Spec(destination *storage.StorageAccountsManagementPolicy_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -390,9 +390,9 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_Storage
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsManagementPolicy_Spec interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
-	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_Spec); ok {
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccountsManagementPolicy_Spec); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -403,8 +403,8 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_Storage
 	return nil
 }
 
-// Storage version of v1api20210401.StorageAccounts_ManagementPolicy_STATUS
-type StorageAccounts_ManagementPolicy_STATUS struct {
+// Storage version of v1api20210401.StorageAccountsManagementPolicy_STATUS
+type StorageAccountsManagementPolicy_STATUS struct {
 	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
 	Id               *string                        `json:"id,omitempty"`
 	LastModifiedTime *string                        `json:"lastModifiedTime,omitempty"`
@@ -414,25 +414,25 @@ type StorageAccounts_ManagementPolicy_STATUS struct {
 	Type             *string                        `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccounts_ManagementPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsManagementPolicy_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccounts_ManagementPolicy_STATUS from the provided source
-func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.StorageAccounts_ManagementPolicy_STATUS)
+// ConvertStatusFrom populates our StorageAccountsManagementPolicy_STATUS from the provided source
+func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.StorageAccountsManagementPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(src)
+		return policy.AssignProperties_From_StorageAccountsManagementPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_ManagementPolicy_STATUS{}
+	src = &storage.StorageAccountsManagementPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(src)
+	err = policy.AssignProperties_From_StorageAccountsManagementPolicy_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -440,17 +440,17 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusFrom(source 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccounts_ManagementPolicy_STATUS
-func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.StorageAccounts_ManagementPolicy_STATUS)
+// ConvertStatusTo populates the provided destination from our StorageAccountsManagementPolicy_STATUS
+func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.StorageAccountsManagementPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(dst)
+		return policy.AssignProperties_To_StorageAccountsManagementPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_ManagementPolicy_STATUS{}
-	err := policy.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(dst)
+	dst = &storage.StorageAccountsManagementPolicy_STATUS{}
+	err := policy.AssignProperties_To_StorageAccountsManagementPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -464,8 +464,8 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusTo(destinati
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS populates our StorageAccounts_ManagementPolicy_STATUS from the provided source StorageAccounts_ManagementPolicy_STATUS
-func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(source *storage.StorageAccounts_ManagementPolicy_STATUS) error {
+// AssignProperties_From_StorageAccountsManagementPolicy_STATUS populates our StorageAccountsManagementPolicy_STATUS from the provided source StorageAccountsManagementPolicy_STATUS
+func (policy *StorageAccountsManagementPolicy_STATUS) AssignProperties_From_StorageAccountsManagementPolicy_STATUS(source *storage.StorageAccountsManagementPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -503,9 +503,9 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_From_Sto
 		policy.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsManagementPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
-	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_STATUS); ok {
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccountsManagementPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -516,8 +516,8 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_From_Sto
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS populates the provided destination StorageAccounts_ManagementPolicy_STATUS from our StorageAccounts_ManagementPolicy_STATUS
-func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(destination *storage.StorageAccounts_ManagementPolicy_STATUS) error {
+// AssignProperties_To_StorageAccountsManagementPolicy_STATUS populates the provided destination StorageAccountsManagementPolicy_STATUS from our StorageAccountsManagementPolicy_STATUS
+func (policy *StorageAccountsManagementPolicy_STATUS) AssignProperties_To_StorageAccountsManagementPolicy_STATUS(destination *storage.StorageAccountsManagementPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -555,9 +555,9 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_To_Stora
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForStorageAccountsManagementPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
-	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_STATUS); ok {
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccountsManagementPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -568,14 +568,14 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_To_Stora
 	return nil
 }
 
-type augmentConversionForStorageAccounts_ManagementPolicy_Spec interface {
-	AssignPropertiesFrom(src *storage.StorageAccounts_ManagementPolicy_Spec) error
-	AssignPropertiesTo(dst *storage.StorageAccounts_ManagementPolicy_Spec) error
+type augmentConversionForStorageAccountsManagementPolicy_Spec interface {
+	AssignPropertiesFrom(src *storage.StorageAccountsManagementPolicy_Spec) error
+	AssignPropertiesTo(dst *storage.StorageAccountsManagementPolicy_Spec) error
 }
 
-type augmentConversionForStorageAccounts_ManagementPolicy_STATUS interface {
-	AssignPropertiesFrom(src *storage.StorageAccounts_ManagementPolicy_STATUS) error
-	AssignPropertiesTo(dst *storage.StorageAccounts_ManagementPolicy_STATUS) error
+type augmentConversionForStorageAccountsManagementPolicy_STATUS interface {
+	AssignPropertiesFrom(src *storage.StorageAccountsManagementPolicy_STATUS) error
+	AssignPropertiesTo(dst *storage.StorageAccountsManagementPolicy_STATUS) error
 }
 
 // Storage version of v1api20210401.ManagementPolicySchema

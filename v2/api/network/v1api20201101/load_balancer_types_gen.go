@@ -5,6 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -388,7 +389,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if balancer == nil {
 		return nil, nil
 	}
-	result := &LoadBalancer_Spec_ARM{}
+	result := &arm.LoadBalancer_Spec{}
 
 	// Set property "ExtendedLocation":
 	if balancer.ExtendedLocation != nil {
@@ -396,7 +397,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
+		extendedLocation := *extendedLocation_ARM.(*arm.ExtendedLocation)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -417,56 +418,56 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		balancer.LoadBalancingRules != nil ||
 		balancer.OutboundRules != nil ||
 		balancer.Probes != nil {
-		result.Properties = &LoadBalancerPropertiesFormat_ARM{}
+		result.Properties = &arm.LoadBalancerPropertiesFormat{}
 	}
 	for _, item := range balancer.BackendAddressPools {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, *item_ARM.(*BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM))
+		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, *item_ARM.(*arm.BackendAddressPool_LoadBalancer_SubResourceEmbedded))
 	}
 	for _, item := range balancer.FrontendIPConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM))
+		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*arm.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded))
 	}
 	for _, item := range balancer.InboundNatPools {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InboundNatPools = append(result.Properties.InboundNatPools, *item_ARM.(*InboundNatPool_ARM))
+		result.Properties.InboundNatPools = append(result.Properties.InboundNatPools, *item_ARM.(*arm.InboundNatPool))
 	}
 	for _, item := range balancer.InboundNatRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InboundNatRules = append(result.Properties.InboundNatRules, *item_ARM.(*InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM))
+		result.Properties.InboundNatRules = append(result.Properties.InboundNatRules, *item_ARM.(*arm.InboundNatRule_LoadBalancer_SubResourceEmbedded))
 	}
 	for _, item := range balancer.LoadBalancingRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancingRules = append(result.Properties.LoadBalancingRules, *item_ARM.(*LoadBalancingRule_ARM))
+		result.Properties.LoadBalancingRules = append(result.Properties.LoadBalancingRules, *item_ARM.(*arm.LoadBalancingRule))
 	}
 	for _, item := range balancer.OutboundRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.OutboundRules = append(result.Properties.OutboundRules, *item_ARM.(*OutboundRule_ARM))
+		result.Properties.OutboundRules = append(result.Properties.OutboundRules, *item_ARM.(*arm.OutboundRule))
 	}
 	for _, item := range balancer.Probes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Probes = append(result.Properties.Probes, *item_ARM.(*Probe_ARM))
+		result.Properties.Probes = append(result.Properties.Probes, *item_ARM.(*arm.Probe))
 	}
 
 	// Set property "Sku":
@@ -475,7 +476,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*LoadBalancerSku_ARM)
+		sku := *sku_ARM.(*arm.LoadBalancerSku)
 		result.Sku = &sku
 	}
 
@@ -491,14 +492,14 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (balancer *LoadBalancer_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_Spec_ARM{}
+	return &arm.LoadBalancer_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_Spec_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancer_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancer_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -1340,14 +1341,14 @@ var _ genruntime.FromARMConverter = &LoadBalancer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (balancer *LoadBalancer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_STATUS_ARM{}
+	return &arm.LoadBalancer_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_STATUS_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancer_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancer_STATUS, got %T", armInput)
 	}
 
 	// Set property "BackendAddressPools":
@@ -1932,7 +1933,7 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) ConvertToAR
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM{}
+	result := &arm.BackendAddressPool_LoadBalancer_SubResourceEmbedded{}
 
 	// Set property "Name":
 	if embedded.Name != nil {
@@ -1942,28 +1943,28 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) ConvertToAR
 
 	// Set property "Properties":
 	if embedded.LoadBalancerBackendAddresses != nil {
-		result.Properties = &BackendAddressPoolPropertiesFormat_ARM{}
+		result.Properties = &arm.BackendAddressPoolPropertiesFormat{}
 	}
 	for _, item := range embedded.LoadBalancerBackendAddresses {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerBackendAddresses = append(result.Properties.LoadBalancerBackendAddresses, *item_ARM.(*LoadBalancerBackendAddress_ARM))
+		result.Properties.LoadBalancerBackendAddresses = append(result.Properties.LoadBalancerBackendAddresses, *item_ARM.(*arm.LoadBalancerBackendAddress))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.BackendAddressPool_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.BackendAddressPool_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendAddressPool_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "LoadBalancerBackendAddresses":
@@ -2120,14 +2121,14 @@ var _ genruntime.FromARMConverter = &BackendAddressPool_STATUS_LoadBalancer_SubR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "BackendIPConfigurations":
@@ -2485,7 +2486,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location == nil {
 		return nil, nil
 	}
-	result := &ExtendedLocation_ARM{}
+	result := &arm.ExtendedLocation{}
 
 	// Set property "Name":
 	if location.Name != nil {
@@ -2497,7 +2498,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location.Type != nil {
 		var temp string
 		temp = string(*location.Type)
-		typeVar := ExtendedLocationType_ARM(temp)
+		typeVar := arm.ExtendedLocationType(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -2505,14 +2506,14 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (location *ExtendedLocation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExtendedLocation_ARM{}
+	return &arm.ExtendedLocation{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExtendedLocation_ARM)
+	typedInput, ok := armInput.(arm.ExtendedLocation)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExtendedLocation, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2610,14 +2611,14 @@ var _ genruntime.FromARMConverter = &ExtendedLocation_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (location *ExtendedLocation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExtendedLocation_STATUS_ARM{}
+	return &arm.ExtendedLocation_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExtendedLocation_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ExtendedLocation_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExtendedLocation_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2719,7 +2720,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM{}
+	result := &arm.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{}
 
 	// Set property "Name":
 	if embedded.Name != nil {
@@ -2734,7 +2735,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 		embedded.PublicIPAddress != nil ||
 		embedded.PublicIPPrefix != nil ||
 		embedded.Subnet != nil {
-		result.Properties = &FrontendIPConfigurationPropertiesFormat_ARM{}
+		result.Properties = &arm.FrontendIPConfigurationPropertiesFormat{}
 	}
 	if embedded.PrivateIPAddress != nil {
 		privateIPAddress := *embedded.PrivateIPAddress
@@ -2743,13 +2744,13 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 	if embedded.PrivateIPAddressVersion != nil {
 		var temp string
 		temp = string(*embedded.PrivateIPAddressVersion)
-		privateIPAddressVersion := IPVersion_ARM(temp)
+		privateIPAddressVersion := arm.IPVersion(temp)
 		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
 	}
 	if embedded.PrivateIPAllocationMethod != nil {
 		var temp string
 		temp = string(*embedded.PrivateIPAllocationMethod)
-		privateIPAllocationMethod := IPAllocationMethod_ARM(temp)
+		privateIPAllocationMethod := arm.IPAllocationMethod(temp)
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if embedded.PublicIPAddress != nil {
@@ -2757,7 +2758,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddress := *publicIPAddress_ARM.(*PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM)
+		publicIPAddress := *publicIPAddress_ARM.(*arm.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded)
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if embedded.PublicIPPrefix != nil {
@@ -2765,7 +2766,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := *publicIPPrefix_ARM.(*SubResource_ARM)
+		publicIPPrefix := *publicIPPrefix_ARM.(*arm.SubResource)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 	if embedded.Subnet != nil {
@@ -2773,7 +2774,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*Subnet_LoadBalancer_SubResourceEmbedded_ARM)
+		subnet := *subnet_ARM.(*arm.Subnet_LoadBalancer_SubResourceEmbedded)
 		result.Properties.Subnet = &subnet
 	}
 
@@ -2786,14 +2787,14 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -3155,14 +3156,14 @@ var _ genruntime.FromARMConverter = &FrontendIPConfiguration_STATUS_LoadBalancer
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Etag":
@@ -3708,7 +3709,7 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if pool == nil {
 		return nil, nil
 	}
-	result := &InboundNatPool_ARM{}
+	result := &arm.InboundNatPool{}
 
 	// Set property "Name":
 	if pool.Name != nil {
@@ -3725,7 +3726,7 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		pool.FrontendPortRangeStart != nil ||
 		pool.IdleTimeoutInMinutes != nil ||
 		pool.Protocol != nil {
-		result.Properties = &InboundNatPoolPropertiesFormat_ARM{}
+		result.Properties = &arm.InboundNatPoolPropertiesFormat{}
 	}
 	if pool.BackendPort != nil {
 		backendPort := *pool.BackendPort
@@ -3744,7 +3745,7 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.SubResource)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if pool.FrontendPortRangeEnd != nil {
@@ -3762,7 +3763,7 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if pool.Protocol != nil {
 		var temp string
 		temp = string(*pool.Protocol)
-		protocol := TransportProtocol_ARM(temp)
+		protocol := arm.TransportProtocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -3770,14 +3771,14 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *InboundNatPool) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundNatPool_ARM{}
+	return &arm.InboundNatPool{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundNatPool_ARM)
+	typedInput, ok := armInput.(arm.InboundNatPool)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatPool_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.InboundNatPool, got %T", armInput)
 	}
 
 	// Set property "BackendPort":
@@ -4106,14 +4107,14 @@ var _ genruntime.FromARMConverter = &InboundNatPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *InboundNatPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundNatPool_STATUS_ARM{}
+	return &arm.InboundNatPool_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundNatPool_STATUS_ARM)
+	typedInput, ok := armInput.(arm.InboundNatPool_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatPool_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.InboundNatPool_STATUS, got %T", armInput)
 	}
 
 	// Set property "BackendPort":
@@ -4435,7 +4436,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) ConvertToARM(re
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM{}
+	result := &arm.InboundNatRule_LoadBalancer_SubResourceEmbedded{}
 
 	// Set property "Name":
 	if embedded.Name != nil {
@@ -4451,7 +4452,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) ConvertToARM(re
 		embedded.FrontendPort != nil ||
 		embedded.IdleTimeoutInMinutes != nil ||
 		embedded.Protocol != nil {
-		result.Properties = &InboundNatRulePropertiesFormat_ARM{}
+		result.Properties = &arm.InboundNatRulePropertiesFormat{}
 	}
 	if embedded.BackendPort != nil {
 		backendPort := *embedded.BackendPort
@@ -4470,7 +4471,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) ConvertToARM(re
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.SubResource)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if embedded.FrontendPort != nil {
@@ -4484,7 +4485,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) ConvertToARM(re
 	if embedded.Protocol != nil {
 		var temp string
 		temp = string(*embedded.Protocol)
-		protocol := TransportProtocol_ARM(temp)
+		protocol := arm.TransportProtocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -4492,14 +4493,14 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) ConvertToARM(re
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.InboundNatRule_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.InboundNatRule_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.InboundNatRule_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "BackendPort":
@@ -4810,14 +4811,14 @@ var _ genruntime.FromARMConverter = &InboundNatRule_STATUS_LoadBalancer_SubResou
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "BackendIPConfiguration":
@@ -5138,13 +5139,13 @@ func (balancerSku *LoadBalancerSku) ConvertToARM(resolved genruntime.ConvertToAR
 	if balancerSku == nil {
 		return nil, nil
 	}
-	result := &LoadBalancerSku_ARM{}
+	result := &arm.LoadBalancerSku{}
 
 	// Set property "Name":
 	if balancerSku.Name != nil {
 		var temp string
 		temp = string(*balancerSku.Name)
-		name := LoadBalancerSku_Name_ARM(temp)
+		name := arm.LoadBalancerSku_Name(temp)
 		result.Name = &name
 	}
 
@@ -5152,7 +5153,7 @@ func (balancerSku *LoadBalancerSku) ConvertToARM(resolved genruntime.ConvertToAR
 	if balancerSku.Tier != nil {
 		var temp string
 		temp = string(*balancerSku.Tier)
-		tier := LoadBalancerSku_Tier_ARM(temp)
+		tier := arm.LoadBalancerSku_Tier(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -5160,14 +5161,14 @@ func (balancerSku *LoadBalancerSku) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (balancerSku *LoadBalancerSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerSku_ARM{}
+	return &arm.LoadBalancerSku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (balancerSku *LoadBalancerSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerSku_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancerSku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerSku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancerSku, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -5283,14 +5284,14 @@ var _ genruntime.FromARMConverter = &LoadBalancerSku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (balancerSku *LoadBalancerSku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerSku_STATUS_ARM{}
+	return &arm.LoadBalancerSku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (balancerSku *LoadBalancerSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerSku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancerSku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerSku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancerSku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -5427,7 +5428,7 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if rule == nil {
 		return nil, nil
 	}
-	result := &LoadBalancingRule_ARM{}
+	result := &arm.LoadBalancingRule{}
 
 	// Set property "Name":
 	if rule.Name != nil {
@@ -5447,14 +5448,14 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		rule.LoadDistribution != nil ||
 		rule.Probe != nil ||
 		rule.Protocol != nil {
-		result.Properties = &LoadBalancingRulePropertiesFormat_ARM{}
+		result.Properties = &arm.LoadBalancingRulePropertiesFormat{}
 	}
 	if rule.BackendAddressPool != nil {
 		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := *backendAddressPool_ARM.(*SubResource_ARM)
+		backendAddressPool := *backendAddressPool_ARM.(*arm.SubResource)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.BackendPort != nil {
@@ -5478,7 +5479,7 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*arm.SubResource)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if rule.FrontendPort != nil {
@@ -5492,7 +5493,7 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if rule.LoadDistribution != nil {
 		var temp string
 		temp = string(*rule.LoadDistribution)
-		loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution_ARM(temp)
+		loadDistribution := arm.LoadBalancingRulePropertiesFormat_LoadDistribution(temp)
 		result.Properties.LoadDistribution = &loadDistribution
 	}
 	if rule.Probe != nil {
@@ -5500,13 +5501,13 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		probe := *probe_ARM.(*SubResource_ARM)
+		probe := *probe_ARM.(*arm.SubResource)
 		result.Properties.Probe = &probe
 	}
 	if rule.Protocol != nil {
 		var temp string
 		temp = string(*rule.Protocol)
-		protocol := TransportProtocol_ARM(temp)
+		protocol := arm.TransportProtocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -5514,14 +5515,14 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *LoadBalancingRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancingRule_ARM{}
+	return &arm.LoadBalancingRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancingRule_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancingRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancingRule, got %T", armInput)
 	}
 
 	// Set property "BackendAddressPool":
@@ -6012,14 +6013,14 @@ var _ genruntime.FromARMConverter = &LoadBalancingRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *LoadBalancingRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancingRule_STATUS_ARM{}
+	return &arm.LoadBalancingRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancingRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancingRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancingRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "BackendAddressPool":
@@ -6452,7 +6453,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if rule == nil {
 		return nil, nil
 	}
-	result := &OutboundRule_ARM{}
+	result := &arm.OutboundRule{}
 
 	// Set property "Name":
 	if rule.Name != nil {
@@ -6467,7 +6468,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		rule.FrontendIPConfigurations != nil ||
 		rule.IdleTimeoutInMinutes != nil ||
 		rule.Protocol != nil {
-		result.Properties = &OutboundRulePropertiesFormat_ARM{}
+		result.Properties = &arm.OutboundRulePropertiesFormat{}
 	}
 	if rule.AllocatedOutboundPorts != nil {
 		allocatedOutboundPorts := *rule.AllocatedOutboundPorts
@@ -6478,7 +6479,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := *backendAddressPool_ARM.(*SubResource_ARM)
+		backendAddressPool := *backendAddressPool_ARM.(*arm.SubResource)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rule.EnableTcpReset != nil {
@@ -6490,7 +6491,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*SubResource_ARM))
+		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*arm.SubResource))
 	}
 	if rule.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *rule.IdleTimeoutInMinutes
@@ -6499,7 +6500,7 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if rule.Protocol != nil {
 		var temp string
 		temp = string(*rule.Protocol)
-		protocol := OutboundRulePropertiesFormat_Protocol_ARM(temp)
+		protocol := arm.OutboundRulePropertiesFormat_Protocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	return result, nil
@@ -6507,14 +6508,14 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *OutboundRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OutboundRule_ARM{}
+	return &arm.OutboundRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OutboundRule_ARM)
+	typedInput, ok := armInput.(arm.OutboundRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OutboundRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OutboundRule, got %T", armInput)
 	}
 
 	// Set property "AllocatedOutboundPorts":
@@ -6831,14 +6832,14 @@ var _ genruntime.FromARMConverter = &OutboundRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *OutboundRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OutboundRule_STATUS_ARM{}
+	return &arm.OutboundRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OutboundRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.OutboundRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OutboundRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.OutboundRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllocatedOutboundPorts":
@@ -7152,7 +7153,7 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if probe == nil {
 		return nil, nil
 	}
-	result := &Probe_ARM{}
+	result := &arm.Probe{}
 
 	// Set property "Name":
 	if probe.Name != nil {
@@ -7166,7 +7167,7 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 		probe.Port != nil ||
 		probe.Protocol != nil ||
 		probe.RequestPath != nil {
-		result.Properties = &ProbePropertiesFormat_ARM{}
+		result.Properties = &arm.ProbePropertiesFormat{}
 	}
 	if probe.IntervalInSeconds != nil {
 		intervalInSeconds := *probe.IntervalInSeconds
@@ -7183,7 +7184,7 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if probe.Protocol != nil {
 		var temp string
 		temp = string(*probe.Protocol)
-		protocol := ProbePropertiesFormat_Protocol_ARM(temp)
+		protocol := arm.ProbePropertiesFormat_Protocol(temp)
 		result.Properties.Protocol = &protocol
 	}
 	if probe.RequestPath != nil {
@@ -7195,14 +7196,14 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (probe *Probe) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Probe_ARM{}
+	return &arm.Probe{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Probe_ARM)
+	typedInput, ok := armInput.(arm.Probe)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Probe_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Probe, got %T", armInput)
 	}
 
 	// Set property "IntervalInSeconds":
@@ -7410,14 +7411,14 @@ var _ genruntime.FromARMConverter = &Probe_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (probe *Probe_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Probe_STATUS_ARM{}
+	return &arm.Probe_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Probe_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Probe_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Probe_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Probe_STATUS, got %T", armInput)
 	}
 
 	// Set property "Etag":
@@ -7724,7 +7725,7 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 	if address == nil {
 		return nil, nil
 	}
-	result := &LoadBalancerBackendAddress_ARM{}
+	result := &arm.LoadBalancerBackendAddress{}
 
 	// Set property "Name":
 	if address.Name != nil {
@@ -7737,7 +7738,7 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 		address.LoadBalancerFrontendIPConfiguration != nil ||
 		address.Subnet != nil ||
 		address.VirtualNetwork != nil {
-		result.Properties = &LoadBalancerBackendAddressPropertiesFormat_ARM{}
+		result.Properties = &arm.LoadBalancerBackendAddressPropertiesFormat{}
 	}
 	if address.IpAddress != nil {
 		ipAddress := *address.IpAddress
@@ -7748,7 +7749,7 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		loadBalancerFrontendIPConfiguration := *loadBalancerFrontendIPConfiguration_ARM.(*SubResource_ARM)
+		loadBalancerFrontendIPConfiguration := *loadBalancerFrontendIPConfiguration_ARM.(*arm.SubResource)
 		result.Properties.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
 	}
 	if address.Subnet != nil {
@@ -7756,7 +7757,7 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*SubResource_ARM)
+		subnet := *subnet_ARM.(*arm.SubResource)
 		result.Properties.Subnet = &subnet
 	}
 	if address.VirtualNetwork != nil {
@@ -7764,7 +7765,7 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		virtualNetwork := *virtualNetwork_ARM.(*SubResource_ARM)
+		virtualNetwork := *virtualNetwork_ARM.(*arm.SubResource)
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 	return result, nil
@@ -7772,14 +7773,14 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (address *LoadBalancerBackendAddress) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerBackendAddress_ARM{}
+	return &arm.LoadBalancerBackendAddress{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (address *LoadBalancerBackendAddress) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerBackendAddress_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancerBackendAddress)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddress_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancerBackendAddress, got %T", armInput)
 	}
 
 	// Set property "IpAddress":
@@ -8024,14 +8025,14 @@ var _ genruntime.FromARMConverter = &LoadBalancerBackendAddress_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (address *LoadBalancerBackendAddress_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancerBackendAddress_STATUS_ARM{}
+	return &arm.LoadBalancerBackendAddress_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (address *LoadBalancerBackendAddress_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancerBackendAddress_STATUS_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancerBackendAddress_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddress_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancerBackendAddress_STATUS, got %T", armInput)
 	}
 
 	// Set property "IpAddress":
@@ -8335,14 +8336,14 @@ var _ genruntime.FromARMConverter = &NetworkInterfaceIPConfiguration_STATUS_Load
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -8456,14 +8457,14 @@ var _ genruntime.FromARMConverter = &PublicIPAddress_STATUS_LoadBalancer_SubReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -8518,7 +8519,7 @@ func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) ConvertToA
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM{}
+	result := &arm.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded{}
 
 	// Set property "Id":
 	if embedded.Reference != nil {
@@ -8534,14 +8535,14 @@ func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM)
+	_, ok := armInput.(arm.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -8617,7 +8618,7 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) ConvertToARM(resolved g
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &Subnet_LoadBalancer_SubResourceEmbedded_ARM{}
+	result := &arm.Subnet_LoadBalancer_SubResourceEmbedded{}
 
 	// Set property "Id":
 	if embedded.Reference != nil {
@@ -8633,14 +8634,14 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) ConvertToARM(resolved g
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.Subnet_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(Subnet_LoadBalancer_SubResourceEmbedded_ARM)
+	_, ok := armInput.(arm.Subnet_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Subnet_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -8713,14 +8714,14 @@ var _ genruntime.FromARMConverter = &Subnet_STATUS_LoadBalancer_SubResourceEmbed
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_STATUS_LoadBalancer_SubResourceEmbedded_ARM{}
+	return &arm.Subnet_STATUS_LoadBalancer_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subnet_STATUS_LoadBalancer_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.Subnet_STATUS_LoadBalancer_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Subnet_STATUS_LoadBalancer_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":

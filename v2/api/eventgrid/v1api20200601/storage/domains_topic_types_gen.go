@@ -28,8 +28,8 @@ import (
 type DomainsTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Domains_Topic_Spec   `json:"spec,omitempty"`
-	Status            Domains_Topic_STATUS `json:"status,omitempty"`
+	Spec              DomainsTopic_Spec   `json:"spec,omitempty"`
+	Status            DomainsTopic_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DomainsTopic{}
@@ -87,7 +87,7 @@ func (topic *DomainsTopic) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *DomainsTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Domains_Topic_STATUS{}
+	return &DomainsTopic_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (topic *DomainsTopic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Domains_Topic_STATUS); ok {
+	if st, ok := status.(*DomainsTopic_STATUS); ok {
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Domains_Topic_STATUS
+	var st DomainsTopic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type DomainsTopicList struct {
 	Items           []DomainsTopic `json:"items"`
 }
 
-// Storage version of v1api20200601.Domains_Topic_Spec
-type Domains_Topic_Spec struct {
+// Storage version of v1api20200601.DomainsTopic_Spec
+type DomainsTopic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
@@ -153,10 +153,10 @@ type Domains_Topic_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Domains_Topic_Spec{}
+var _ genruntime.ConvertibleSpec = &DomainsTopic_Spec{}
 
-// ConvertSpecFrom populates our Domains_Topic_Spec from the provided source
-func (topic *Domains_Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our DomainsTopic_Spec from the provided source
+func (topic *DomainsTopic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -164,8 +164,8 @@ func (topic *Domains_Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	return source.ConvertSpecTo(topic)
 }
 
-// ConvertSpecTo populates the provided destination from our Domains_Topic_Spec
-func (topic *Domains_Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our DomainsTopic_Spec
+func (topic *DomainsTopic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -173,8 +173,8 @@ func (topic *Domains_Topic_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return destination.ConvertSpecFrom(topic)
 }
 
-// Storage version of v1api20200601.Domains_Topic_STATUS
-type Domains_Topic_STATUS struct {
+// Storage version of v1api20200601.DomainsTopic_STATUS
+type DomainsTopic_STATUS struct {
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
 	Id                *string                `json:"id,omitempty"`
 	Name              *string                `json:"name,omitempty"`
@@ -184,10 +184,10 @@ type Domains_Topic_STATUS struct {
 	Type              *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Domains_Topic_STATUS{}
+var _ genruntime.ConvertibleStatus = &DomainsTopic_STATUS{}
 
-// ConvertStatusFrom populates our Domains_Topic_STATUS from the provided source
-func (topic *Domains_Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our DomainsTopic_STATUS from the provided source
+func (topic *DomainsTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -195,8 +195,8 @@ func (topic *Domains_Topic_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	return source.ConvertStatusTo(topic)
 }
 
-// ConvertStatusTo populates the provided destination from our Domains_Topic_STATUS
-func (topic *Domains_Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our DomainsTopic_STATUS
+func (topic *DomainsTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

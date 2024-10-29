@@ -144,7 +144,7 @@ func defineApplicationGatewayWebApplicationFirewallPolicy(tc *testcommon.KubePer
 	firewallName := "app-gw-waf"
 	firewall := &network2024.WebApplicationFirewallPolicy{
 		ObjectMeta: tc.MakeObjectMeta(firewallName),
-		Spec: network2024.ApplicationGatewayWebApplicationFirewallPolicy_Spec{
+		Spec: network2024.WebApplicationFirewallPolicy_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			CustomRules: []network2024.WebApplicationFirewallCustomRule{

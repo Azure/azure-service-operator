@@ -250,20 +250,20 @@ func AddIndependentPropertyGeneratorsForPersistence_STATUS_ARM(gens map[string]g
 	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(Persistence_RdbFrequency_STATUS_ARM_12H, Persistence_RdbFrequency_STATUS_ARM_1H, Persistence_RdbFrequency_STATUS_ARM_6H))
 }
 
-func Test_RedisEnterprise_Database_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisEnterpriseDatabase_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisEnterprise_Database_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_Database_STATUS_ARM, RedisEnterprise_Database_STATUS_ARMGenerator()))
+		"Round trip of RedisEnterpriseDatabase_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabase_STATUS_ARM, RedisEnterpriseDatabase_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisEnterprise_Database_STATUS_ARM runs a test to see if a specific instance of RedisEnterprise_Database_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterprise_Database_STATUS_ARM(subject RedisEnterprise_Database_STATUS_ARM) string {
+// RunJSONSerializationTestForRedisEnterpriseDatabase_STATUS_ARM runs a test to see if a specific instance of RedisEnterpriseDatabase_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterpriseDatabase_STATUS_ARM(subject RedisEnterpriseDatabase_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -271,7 +271,7 @@ func RunJSONSerializationTestForRedisEnterprise_Database_STATUS_ARM(subject Redi
 	}
 
 	// Deserialize back into memory
-	var actual RedisEnterprise_Database_STATUS_ARM
+	var actual RedisEnterpriseDatabase_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -289,40 +289,40 @@ func RunJSONSerializationTestForRedisEnterprise_Database_STATUS_ARM(subject Redi
 	return ""
 }
 
-// Generator of RedisEnterprise_Database_STATUS_ARM instances for property testing - lazily instantiated by
-// RedisEnterprise_Database_STATUS_ARMGenerator()
-var redisEnterprise_Database_STATUS_ARMGenerator gopter.Gen
+// Generator of RedisEnterpriseDatabase_STATUS_ARM instances for property testing - lazily instantiated by
+// RedisEnterpriseDatabase_STATUS_ARMGenerator()
+var redisEnterpriseDatabase_STATUS_ARMGenerator gopter.Gen
 
-// RedisEnterprise_Database_STATUS_ARMGenerator returns a generator of RedisEnterprise_Database_STATUS_ARM instances for property testing.
-// We first initialize redisEnterprise_Database_STATUS_ARMGenerator with a simplified generator based on the
+// RedisEnterpriseDatabase_STATUS_ARMGenerator returns a generator of RedisEnterpriseDatabase_STATUS_ARM instances for property testing.
+// We first initialize redisEnterpriseDatabase_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisEnterprise_Database_STATUS_ARMGenerator() gopter.Gen {
-	if redisEnterprise_Database_STATUS_ARMGenerator != nil {
-		return redisEnterprise_Database_STATUS_ARMGenerator
+func RedisEnterpriseDatabase_STATUS_ARMGenerator() gopter.Gen {
+	if redisEnterpriseDatabase_STATUS_ARMGenerator != nil {
+		return redisEnterpriseDatabase_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS_ARM(generators)
-	redisEnterprise_Database_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_STATUS_ARM(generators)
+	redisEnterpriseDatabase_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabase_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS_ARM(generators)
-	redisEnterprise_Database_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Database_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_STATUS_ARM(generators)
+	redisEnterpriseDatabase_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabase_STATUS_ARM{}), generators)
 
-	return redisEnterprise_Database_STATUS_ARMGenerator
+	return redisEnterpriseDatabase_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterprise_Database_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterprise_Database_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(DatabaseProperties_STATUS_ARMGenerator())
 }

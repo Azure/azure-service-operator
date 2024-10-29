@@ -5,27 +5,27 @@ package v1api20220101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type FlexibleServers_Administrator_Spec_ARM struct {
+type FlexibleServersAdministrator_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of an administrator.
 	Properties *AdministratorProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &FlexibleServers_Administrator_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &FlexibleServersAdministrator_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-01-01"
-func (administrator FlexibleServers_Administrator_Spec_ARM) GetAPIVersion() string {
+func (administrator FlexibleServersAdministrator_Spec_ARM) GetAPIVersion() string {
 	return "2022-01-01"
 }
 
 // GetName returns the Name of the resource
-func (administrator *FlexibleServers_Administrator_Spec_ARM) GetName() string {
+func (administrator *FlexibleServersAdministrator_Spec_ARM) GetName() string {
 	return administrator.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers/administrators"
-func (administrator *FlexibleServers_Administrator_Spec_ARM) GetType() string {
+func (administrator *FlexibleServersAdministrator_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers/administrators"
 }
 

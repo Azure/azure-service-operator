@@ -29,8 +29,8 @@ import (
 type Policy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Policy_Spec   `json:"spec,omitempty"`
-	Status            Service_Policy_STATUS `json:"status,omitempty"`
+	Spec              Policy_Spec   `json:"spec,omitempty"`
+	Status            Policy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Policy{}
@@ -87,11 +87,11 @@ var _ genruntime.ImportableResource = &Policy{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (policy *Policy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Service_Policy_STATUS); ok {
-		return policy.Spec.Initialize_From_Service_Policy_STATUS(s)
+	if s, ok := status.(*Policy_STATUS); ok {
+		return policy.Spec.Initialize_From_Policy_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Service_Policy_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type Policy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Policy{}
@@ -138,7 +138,7 @@ func (policy *Policy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *Policy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Policy_STATUS{}
+	return &Policy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -150,13 +150,13 @@ func (policy *Policy) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (policy *Policy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Policy_STATUS); ok {
+	if st, ok := status.(*Policy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Policy_STATUS
+	var st Policy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -254,18 +254,18 @@ func (policy *Policy) AssignProperties_From_Policy(source *storage.Policy) error
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_Policy_Spec
-	err := spec.AssignProperties_From_Service_Policy_Spec(&source.Spec)
+	var spec Policy_Spec
+	err := spec.AssignProperties_From_Policy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Policy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_Policy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
 	// Status
-	var status Service_Policy_STATUS
-	err = status.AssignProperties_From_Service_Policy_STATUS(&source.Status)
+	var status Policy_STATUS
+	err = status.AssignProperties_From_Policy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_Policy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Policy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -280,18 +280,18 @@ func (policy *Policy) AssignProperties_To_Policy(destination *storage.Policy) er
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_Policy_Spec
-	err := policy.Spec.AssignProperties_To_Service_Policy_Spec(&spec)
+	var spec storage.Policy_Spec
+	err := policy.Spec.AssignProperties_To_Policy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Policy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_Policy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_Policy_STATUS
-	err = policy.Status.AssignProperties_To_Service_Policy_STATUS(&status)
+	var status storage.Policy_STATUS
+	err = policy.Status.AssignProperties_To_Policy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_Policy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Policy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -318,7 +318,7 @@ type PolicyList struct {
 	Items           []Policy `json:"items"`
 }
 
-type Service_Policy_Spec struct {
+type Policy_Spec struct {
 	// Format: Format of the policyContent.
 	Format *PolicyContractProperties_Format `json:"format,omitempty"`
 
@@ -333,14 +333,14 @@ type Service_Policy_Spec struct {
 	Value *string `json:"value,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Service_Policy_Spec{}
+var _ genruntime.ARMTransformer = &Policy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *Service_Policy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *Policy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	result := &Service_Policy_Spec_ARM{}
+	result := &Policy_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -363,15 +363,15 @@ func (policy *Service_Policy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *Service_Policy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Policy_Spec_ARM{}
+func (policy *Policy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Policy_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *Service_Policy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_Policy_Spec_ARM)
+func (policy *Policy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Policy_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Policy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Policy_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "Format":
@@ -404,25 +404,25 @@ func (policy *Service_Policy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Policy_Spec{}
+var _ genruntime.ConvertibleSpec = &Policy_Spec{}
 
-// ConvertSpecFrom populates our Service_Policy_Spec from the provided source
-func (policy *Service_Policy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_Policy_Spec)
+// ConvertSpecFrom populates our Policy_Spec from the provided source
+func (policy *Policy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.Policy_Spec)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_Service_Policy_Spec(src)
+		return policy.AssignProperties_From_Policy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Policy_Spec{}
+	src = &storage.Policy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_Service_Policy_Spec(src)
+	err = policy.AssignProperties_From_Policy_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -430,17 +430,17 @@ func (policy *Service_Policy_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Policy_Spec
-func (policy *Service_Policy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_Policy_Spec)
+// ConvertSpecTo populates the provided destination from our Policy_Spec
+func (policy *Policy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.Policy_Spec)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_Service_Policy_Spec(dst)
+		return policy.AssignProperties_To_Policy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Policy_Spec{}
-	err := policy.AssignProperties_To_Service_Policy_Spec(dst)
+	dst = &storage.Policy_Spec{}
+	err := policy.AssignProperties_To_Policy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -454,8 +454,8 @@ func (policy *Service_Policy_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignProperties_From_Service_Policy_Spec populates our Service_Policy_Spec from the provided source Service_Policy_Spec
-func (policy *Service_Policy_Spec) AssignProperties_From_Service_Policy_Spec(source *storage.Service_Policy_Spec) error {
+// AssignProperties_From_Policy_Spec populates our Policy_Spec from the provided source Policy_Spec
+func (policy *Policy_Spec) AssignProperties_From_Policy_Spec(source *storage.Policy_Spec) error {
 
 	// Format
 	if source.Format != nil {
@@ -481,8 +481,8 @@ func (policy *Service_Policy_Spec) AssignProperties_From_Service_Policy_Spec(sou
 	return nil
 }
 
-// AssignProperties_To_Service_Policy_Spec populates the provided destination Service_Policy_Spec from our Service_Policy_Spec
-func (policy *Service_Policy_Spec) AssignProperties_To_Service_Policy_Spec(destination *storage.Service_Policy_Spec) error {
+// AssignProperties_To_Policy_Spec populates the provided destination Policy_Spec from our Policy_Spec
+func (policy *Policy_Spec) AssignProperties_To_Policy_Spec(destination *storage.Policy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -519,8 +519,8 @@ func (policy *Service_Policy_Spec) AssignProperties_To_Service_Policy_Spec(desti
 	return nil
 }
 
-// Initialize_From_Service_Policy_STATUS populates our Service_Policy_Spec from the provided source Service_Policy_STATUS
-func (policy *Service_Policy_Spec) Initialize_From_Service_Policy_STATUS(source *Service_Policy_STATUS) error {
+// Initialize_From_Policy_STATUS populates our Policy_Spec from the provided source Policy_STATUS
+func (policy *Policy_Spec) Initialize_From_Policy_STATUS(source *Policy_STATUS) error {
 
 	// Format
 	if source.Format != nil {
@@ -538,11 +538,11 @@ func (policy *Service_Policy_Spec) Initialize_From_Service_Policy_STATUS(source 
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (policy *Service_Policy_Spec) OriginalVersion() string {
+func (policy *Policy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-type Service_Policy_STATUS struct {
+type Policy_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -563,25 +563,25 @@ type Service_Policy_STATUS struct {
 	Value *string `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Policy_STATUS{}
+var _ genruntime.ConvertibleStatus = &Policy_STATUS{}
 
-// ConvertStatusFrom populates our Service_Policy_STATUS from the provided source
-func (policy *Service_Policy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_Policy_STATUS)
+// ConvertStatusFrom populates our Policy_STATUS from the provided source
+func (policy *Policy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.Policy_STATUS)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_Service_Policy_STATUS(src)
+		return policy.AssignProperties_From_Policy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Policy_STATUS{}
+	src = &storage.Policy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_Service_Policy_STATUS(src)
+	err = policy.AssignProperties_From_Policy_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -589,17 +589,17 @@ func (policy *Service_Policy_STATUS) ConvertStatusFrom(source genruntime.Convert
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Policy_STATUS
-func (policy *Service_Policy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_Policy_STATUS)
+// ConvertStatusTo populates the provided destination from our Policy_STATUS
+func (policy *Policy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.Policy_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_Service_Policy_STATUS(dst)
+		return policy.AssignProperties_To_Policy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Policy_STATUS{}
-	err := policy.AssignProperties_To_Service_Policy_STATUS(dst)
+	dst = &storage.Policy_STATUS{}
+	err := policy.AssignProperties_To_Policy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -613,18 +613,18 @@ func (policy *Service_Policy_STATUS) ConvertStatusTo(destination genruntime.Conv
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Service_Policy_STATUS{}
+var _ genruntime.FromARMConverter = &Policy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *Service_Policy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_Policy_STATUS_ARM{}
+func (policy *Policy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Policy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *Service_Policy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_Policy_STATUS_ARM)
+func (policy *Policy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Policy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_Policy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Policy_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -671,8 +671,8 @@ func (policy *Service_Policy_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignProperties_From_Service_Policy_STATUS populates our Service_Policy_STATUS from the provided source Service_Policy_STATUS
-func (policy *Service_Policy_STATUS) AssignProperties_From_Service_Policy_STATUS(source *storage.Service_Policy_STATUS) error {
+// AssignProperties_From_Policy_STATUS populates our Policy_STATUS from the provided source Policy_STATUS
+func (policy *Policy_STATUS) AssignProperties_From_Policy_STATUS(source *storage.Policy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -702,8 +702,8 @@ func (policy *Service_Policy_STATUS) AssignProperties_From_Service_Policy_STATUS
 	return nil
 }
 
-// AssignProperties_To_Service_Policy_STATUS populates the provided destination Service_Policy_STATUS from our Service_Policy_STATUS
-func (policy *Service_Policy_STATUS) AssignProperties_To_Service_Policy_STATUS(destination *storage.Service_Policy_STATUS) error {
+// AssignProperties_To_Policy_STATUS populates the provided destination Policy_STATUS from our Policy_STATUS
+func (policy *Policy_STATUS) AssignProperties_To_Policy_STATUS(destination *storage.Policy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

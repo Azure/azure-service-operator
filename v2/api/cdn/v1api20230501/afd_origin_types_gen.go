@@ -29,8 +29,8 @@ import (
 type AfdOrigin struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_OriginGroups_Origin_Spec   `json:"spec,omitempty"`
-	Status            Profiles_OriginGroups_Origin_STATUS `json:"status,omitempty"`
+	Spec              AfdOrigin_Spec   `json:"spec,omitempty"`
+	Status            AfdOrigin_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &AfdOrigin{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &AfdOrigin{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (origin *AfdOrigin) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Profiles_OriginGroups_Origin_STATUS); ok {
-		return origin.Spec.Initialize_From_Profiles_OriginGroups_Origin_STATUS(s)
+	if s, ok := status.(*AfdOrigin_STATUS); ok {
+		return origin.Spec.Initialize_From_AfdOrigin_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Profiles_OriginGroups_Origin_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type AfdOrigin_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &AfdOrigin{}
@@ -144,7 +144,7 @@ func (origin *AfdOrigin) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (origin *AfdOrigin) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_OriginGroups_Origin_STATUS{}
+	return &AfdOrigin_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (origin *AfdOrigin) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (origin *AfdOrigin) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_OriginGroups_Origin_STATUS); ok {
+	if st, ok := status.(*AfdOrigin_STATUS); ok {
 		origin.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_OriginGroups_Origin_STATUS
+	var st AfdOrigin_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (origin *AfdOrigin) AssignProperties_From_AfdOrigin(source *storage.AfdOrig
 	origin.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_OriginGroups_Origin_Spec
-	err := spec.AssignProperties_From_Profiles_OriginGroups_Origin_Spec(&source.Spec)
+	var spec AfdOrigin_Spec
+	err := spec.AssignProperties_From_AfdOrigin_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_OriginGroups_Origin_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_AfdOrigin_Spec() to populate field Spec")
 	}
 	origin.Spec = spec
 
 	// Status
-	var status Profiles_OriginGroups_Origin_STATUS
-	err = status.AssignProperties_From_Profiles_OriginGroups_Origin_STATUS(&source.Status)
+	var status AfdOrigin_STATUS
+	err = status.AssignProperties_From_AfdOrigin_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Profiles_OriginGroups_Origin_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_AfdOrigin_STATUS() to populate field Status")
 	}
 	origin.Status = status
 
@@ -286,18 +286,18 @@ func (origin *AfdOrigin) AssignProperties_To_AfdOrigin(destination *storage.AfdO
 	destination.ObjectMeta = *origin.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Profiles_OriginGroups_Origin_Spec
-	err := origin.Spec.AssignProperties_To_Profiles_OriginGroups_Origin_Spec(&spec)
+	var spec storage.AfdOrigin_Spec
+	err := origin.Spec.AssignProperties_To_AfdOrigin_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_OriginGroups_Origin_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_AfdOrigin_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Profiles_OriginGroups_Origin_STATUS
-	err = origin.Status.AssignProperties_To_Profiles_OriginGroups_Origin_STATUS(&status)
+	var status storage.AfdOrigin_STATUS
+	err = origin.Status.AssignProperties_To_AfdOrigin_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Profiles_OriginGroups_Origin_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_AfdOrigin_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type AfdOriginList struct {
 	Items           []AfdOrigin `json:"items"`
 }
 
-type Profiles_OriginGroups_Origin_Spec struct {
+type AfdOrigin_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -379,14 +379,14 @@ type Profiles_OriginGroups_Origin_Spec struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_OriginGroups_Origin_Spec{}
+var _ genruntime.ARMTransformer = &AfdOrigin_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (origin *Profiles_OriginGroups_Origin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (origin *AfdOrigin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if origin == nil {
 		return nil, nil
 	}
-	result := &Profiles_OriginGroups_Origin_Spec_ARM{}
+	result := &AfdOrigin_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -458,15 +458,15 @@ func (origin *Profiles_OriginGroups_Origin_Spec) ConvertToARM(resolved genruntim
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (origin *Profiles_OriginGroups_Origin_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_OriginGroups_Origin_Spec_ARM{}
+func (origin *AfdOrigin_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AfdOrigin_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (origin *Profiles_OriginGroups_Origin_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_OriginGroups_Origin_Spec_ARM)
+func (origin *AfdOrigin_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AfdOrigin_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_OriginGroups_Origin_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdOrigin_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -584,25 +584,25 @@ func (origin *Profiles_OriginGroups_Origin_Spec) PopulateFromARM(owner genruntim
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_OriginGroups_Origin_Spec{}
+var _ genruntime.ConvertibleSpec = &AfdOrigin_Spec{}
 
-// ConvertSpecFrom populates our Profiles_OriginGroups_Origin_Spec from the provided source
-func (origin *Profiles_OriginGroups_Origin_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Profiles_OriginGroups_Origin_Spec)
+// ConvertSpecFrom populates our AfdOrigin_Spec from the provided source
+func (origin *AfdOrigin_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.AfdOrigin_Spec)
 	if ok {
 		// Populate our instance from source
-		return origin.AssignProperties_From_Profiles_OriginGroups_Origin_Spec(src)
+		return origin.AssignProperties_From_AfdOrigin_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_OriginGroups_Origin_Spec{}
+	src = &storage.AfdOrigin_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = origin.AssignProperties_From_Profiles_OriginGroups_Origin_Spec(src)
+	err = origin.AssignProperties_From_AfdOrigin_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -610,17 +610,17 @@ func (origin *Profiles_OriginGroups_Origin_Spec) ConvertSpecFrom(source genrunti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_OriginGroups_Origin_Spec
-func (origin *Profiles_OriginGroups_Origin_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Profiles_OriginGroups_Origin_Spec)
+// ConvertSpecTo populates the provided destination from our AfdOrigin_Spec
+func (origin *AfdOrigin_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.AfdOrigin_Spec)
 	if ok {
 		// Populate destination from our instance
-		return origin.AssignProperties_To_Profiles_OriginGroups_Origin_Spec(dst)
+		return origin.AssignProperties_To_AfdOrigin_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_OriginGroups_Origin_Spec{}
-	err := origin.AssignProperties_To_Profiles_OriginGroups_Origin_Spec(dst)
+	dst = &storage.AfdOrigin_Spec{}
+	err := origin.AssignProperties_To_AfdOrigin_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -634,8 +634,8 @@ func (origin *Profiles_OriginGroups_Origin_Spec) ConvertSpecTo(destination genru
 	return nil
 }
 
-// AssignProperties_From_Profiles_OriginGroups_Origin_Spec populates our Profiles_OriginGroups_Origin_Spec from the provided source Profiles_OriginGroups_Origin_Spec
-func (origin *Profiles_OriginGroups_Origin_Spec) AssignProperties_From_Profiles_OriginGroups_Origin_Spec(source *storage.Profiles_OriginGroups_Origin_Spec) error {
+// AssignProperties_From_AfdOrigin_Spec populates our AfdOrigin_Spec from the provided source AfdOrigin_Spec
+func (origin *AfdOrigin_Spec) AssignProperties_From_AfdOrigin_Spec(source *storage.AfdOrigin_Spec) error {
 
 	// AzureName
 	origin.AzureName = source.AzureName
@@ -731,8 +731,8 @@ func (origin *Profiles_OriginGroups_Origin_Spec) AssignProperties_From_Profiles_
 	return nil
 }
 
-// AssignProperties_To_Profiles_OriginGroups_Origin_Spec populates the provided destination Profiles_OriginGroups_Origin_Spec from our Profiles_OriginGroups_Origin_Spec
-func (origin *Profiles_OriginGroups_Origin_Spec) AssignProperties_To_Profiles_OriginGroups_Origin_Spec(destination *storage.Profiles_OriginGroups_Origin_Spec) error {
+// AssignProperties_To_AfdOrigin_Spec populates the provided destination AfdOrigin_Spec from our AfdOrigin_Spec
+func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *storage.AfdOrigin_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -839,8 +839,8 @@ func (origin *Profiles_OriginGroups_Origin_Spec) AssignProperties_To_Profiles_Or
 	return nil
 }
 
-// Initialize_From_Profiles_OriginGroups_Origin_STATUS populates our Profiles_OriginGroups_Origin_Spec from the provided source Profiles_OriginGroups_Origin_STATUS
-func (origin *Profiles_OriginGroups_Origin_Spec) Initialize_From_Profiles_OriginGroups_Origin_STATUS(source *Profiles_OriginGroups_Origin_STATUS) error {
+// Initialize_From_AfdOrigin_STATUS populates our AfdOrigin_Spec from the provided source AfdOrigin_STATUS
+func (origin *AfdOrigin_Spec) Initialize_From_AfdOrigin_STATUS(source *AfdOrigin_STATUS) error {
 
 	// AzureOrigin
 	if source.AzureOrigin != nil {
@@ -925,16 +925,14 @@ func (origin *Profiles_OriginGroups_Origin_Spec) Initialize_From_Profiles_Origin
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (origin *Profiles_OriginGroups_Origin_Spec) OriginalVersion() string {
+func (origin *AfdOrigin_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (origin *Profiles_OriginGroups_Origin_Spec) SetAzureName(azureName string) {
-	origin.AzureName = azureName
-}
+func (origin *AfdOrigin_Spec) SetAzureName(azureName string) { origin.AzureName = azureName }
 
-type Profiles_OriginGroups_Origin_STATUS struct {
+type AfdOrigin_STATUS struct {
 	// AzureOrigin: Resource reference to the Azure origin resource.
 	AzureOrigin *ResourceReference_STATUS `json:"azureOrigin,omitempty"`
 
@@ -993,25 +991,25 @@ type Profiles_OriginGroups_Origin_STATUS struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_OriginGroups_Origin_STATUS{}
+var _ genruntime.ConvertibleStatus = &AfdOrigin_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_OriginGroups_Origin_STATUS from the provided source
-func (origin *Profiles_OriginGroups_Origin_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Profiles_OriginGroups_Origin_STATUS)
+// ConvertStatusFrom populates our AfdOrigin_STATUS from the provided source
+func (origin *AfdOrigin_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.AfdOrigin_STATUS)
 	if ok {
 		// Populate our instance from source
-		return origin.AssignProperties_From_Profiles_OriginGroups_Origin_STATUS(src)
+		return origin.AssignProperties_From_AfdOrigin_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Profiles_OriginGroups_Origin_STATUS{}
+	src = &storage.AfdOrigin_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = origin.AssignProperties_From_Profiles_OriginGroups_Origin_STATUS(src)
+	err = origin.AssignProperties_From_AfdOrigin_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1019,17 +1017,17 @@ func (origin *Profiles_OriginGroups_Origin_STATUS) ConvertStatusFrom(source genr
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_OriginGroups_Origin_STATUS
-func (origin *Profiles_OriginGroups_Origin_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Profiles_OriginGroups_Origin_STATUS)
+// ConvertStatusTo populates the provided destination from our AfdOrigin_STATUS
+func (origin *AfdOrigin_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.AfdOrigin_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return origin.AssignProperties_To_Profiles_OriginGroups_Origin_STATUS(dst)
+		return origin.AssignProperties_To_AfdOrigin_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Profiles_OriginGroups_Origin_STATUS{}
-	err := origin.AssignProperties_To_Profiles_OriginGroups_Origin_STATUS(dst)
+	dst = &storage.AfdOrigin_STATUS{}
+	err := origin.AssignProperties_To_AfdOrigin_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1043,18 +1041,18 @@ func (origin *Profiles_OriginGroups_Origin_STATUS) ConvertStatusTo(destination g
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Profiles_OriginGroups_Origin_STATUS{}
+var _ genruntime.FromARMConverter = &AfdOrigin_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (origin *Profiles_OriginGroups_Origin_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_OriginGroups_Origin_STATUS_ARM{}
+func (origin *AfdOrigin_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AfdOrigin_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (origin *Profiles_OriginGroups_Origin_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_OriginGroups_Origin_STATUS_ARM)
+func (origin *AfdOrigin_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AfdOrigin_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_OriginGroups_Origin_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdOrigin_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureOrigin":
@@ -1225,8 +1223,8 @@ func (origin *Profiles_OriginGroups_Origin_STATUS) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignProperties_From_Profiles_OriginGroups_Origin_STATUS populates our Profiles_OriginGroups_Origin_STATUS from the provided source Profiles_OriginGroups_Origin_STATUS
-func (origin *Profiles_OriginGroups_Origin_STATUS) AssignProperties_From_Profiles_OriginGroups_Origin_STATUS(source *storage.Profiles_OriginGroups_Origin_STATUS) error {
+// AssignProperties_From_AfdOrigin_STATUS populates our AfdOrigin_STATUS from the provided source AfdOrigin_STATUS
+func (origin *AfdOrigin_STATUS) AssignProperties_From_AfdOrigin_STATUS(source *storage.AfdOrigin_STATUS) error {
 
 	// AzureOrigin
 	if source.AzureOrigin != nil {
@@ -1336,8 +1334,8 @@ func (origin *Profiles_OriginGroups_Origin_STATUS) AssignProperties_From_Profile
 	return nil
 }
 
-// AssignProperties_To_Profiles_OriginGroups_Origin_STATUS populates the provided destination Profiles_OriginGroups_Origin_STATUS from our Profiles_OriginGroups_Origin_STATUS
-func (origin *Profiles_OriginGroups_Origin_STATUS) AssignProperties_To_Profiles_OriginGroups_Origin_STATUS(destination *storage.Profiles_OriginGroups_Origin_STATUS) error {
+// AssignProperties_To_AfdOrigin_STATUS populates the provided destination AfdOrigin_STATUS from our AfdOrigin_STATUS
+func (origin *AfdOrigin_STATUS) AssignProperties_To_AfdOrigin_STATUS(destination *storage.AfdOrigin_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

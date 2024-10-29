@@ -70,6 +70,7 @@ type ResourceDefinition struct {
 	ARMType             string // e.g. Microsoft.XYZ/resourceThings
 	ARMURI              string
 	SupportedOperations set.Set[astmodel.ResourceOperation]
+	Scope               astmodel.ResourceScope
 	// TODO: use ARMURI for generating Resource URIs (only used for documentation & ownership at the moment)
 }
 
@@ -278,6 +279,7 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 			ARMType:             armType,
 			ARMURI:              operationPath,
 			SupportedOperations: supportedOperations,
+			Scope:               categorizeResourceScope(operationPath),
 		}
 	}
 
@@ -952,4 +954,40 @@ func makeSchemaFromSimpleSchemaParam(param schemaAndValidations) *spec.Schema {
 	schema = schema.WithValidations(param.Validations())
 
 	return schema
+}
+
+var (
+	resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/[^/]+/.*`)
+	locationScopeRegex      = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/.*`)
+	extensionScopePrefixes  = []string{
+		"/{scope}/",
+		"/{resourceUri}/",
+	}
+)
+
+func categorizeResourceScope(armURI string) astmodel.ResourceScope {
+	// this is a bit of a hack, eventually we should have better scope support.
+	// at the moment we assume that a resource is an extension if it has a specific prefix
+	for _, prefix := range extensionScopePrefixes {
+		// Case-insensitive prefix check, as befits a heuristic
+		if strings.EqualFold(prefix, armURI[:len(prefix)]) {
+			return astmodel.ResourceScopeExtension
+		}
+	}
+
+	// Assume that a resource is an extension if armURI contains more than 1 provider:
+	if strings.Count(armURI, "providers") > 1 {
+		return astmodel.ResourceScopeExtension
+	}
+
+	if resourceGroupScopeRegex.MatchString(armURI) {
+		return astmodel.ResourceScopeResourceGroup
+	}
+
+	if locationScopeRegex.MatchString(armURI) {
+		return astmodel.ResourceScopeLocation
+	}
+
+	// TODO: Not currently possible to generate a resource with scope Location, we should fix that
+	return astmodel.ResourceScopeTenant
 }

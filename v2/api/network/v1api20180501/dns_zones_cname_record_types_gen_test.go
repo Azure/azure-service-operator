@@ -161,36 +161,36 @@ func DnsZonesCNAMERecordGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDnsZonesCNAMERecord is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsZonesCNAMERecord(gens map[string]gopter.Gen) {
-	gens["Spec"] = DnsZones_CNAME_SpecGenerator()
-	gens["Status"] = DnsZones_CNAME_STATUSGenerator()
+	gens["Spec"] = DnsZonesCNAMERecord_SpecGenerator()
+	gens["Status"] = DnsZonesCNAMERecord_STATUSGenerator()
 }
 
-func Test_DnsZones_CNAME_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DnsZonesCNAMERecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DnsZones_CNAME_STATUS to DnsZones_CNAME_STATUS via AssignProperties_To_DnsZones_CNAME_STATUS & AssignProperties_From_DnsZones_CNAME_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDnsZones_CNAME_STATUS, DnsZones_CNAME_STATUSGenerator()))
+		"Round trip from DnsZonesCNAMERecord_STATUS to DnsZonesCNAMERecord_STATUS via AssignProperties_To_DnsZonesCNAMERecord_STATUS & AssignProperties_From_DnsZonesCNAMERecord_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDnsZonesCNAMERecord_STATUS, DnsZonesCNAMERecord_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_CNAME_STATUS tests if a specific instance of DnsZones_CNAME_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDnsZones_CNAME_STATUS(subject DnsZones_CNAME_STATUS) string {
+// RunPropertyAssignmentTestForDnsZonesCNAMERecord_STATUS tests if a specific instance of DnsZonesCNAMERecord_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDnsZonesCNAMERecord_STATUS(subject DnsZonesCNAMERecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DnsZones_CNAME_STATUS
-	err := copied.AssignProperties_To_DnsZones_CNAME_STATUS(&other)
+	var other storage.DnsZonesCNAMERecord_STATUS
+	err := copied.AssignProperties_To_DnsZonesCNAMERecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DnsZones_CNAME_STATUS
-	err = actual.AssignProperties_From_DnsZones_CNAME_STATUS(&other)
+	var actual DnsZonesCNAMERecord_STATUS
+	err = actual.AssignProperties_From_DnsZonesCNAMERecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -207,20 +207,20 @@ func RunPropertyAssignmentTestForDnsZones_CNAME_STATUS(subject DnsZones_CNAME_ST
 	return ""
 }
 
-func Test_DnsZones_CNAME_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsZonesCNAMERecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsZones_CNAME_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZones_CNAME_STATUS, DnsZones_CNAME_STATUSGenerator()))
+		"Round trip of DnsZonesCNAMERecord_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesCNAMERecord_STATUS, DnsZonesCNAMERecord_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsZones_CNAME_STATUS runs a test to see if a specific instance of DnsZones_CNAME_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZones_CNAME_STATUS(subject DnsZones_CNAME_STATUS) string {
+// RunJSONSerializationTestForDnsZonesCNAMERecord_STATUS runs a test to see if a specific instance of DnsZonesCNAMERecord_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesCNAMERecord_STATUS(subject DnsZonesCNAMERecord_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -228,7 +228,7 @@ func RunJSONSerializationTestForDnsZones_CNAME_STATUS(subject DnsZones_CNAME_STA
 	}
 
 	// Deserialize back into memory
-	var actual DnsZones_CNAME_STATUS
+	var actual DnsZonesCNAMERecord_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -246,34 +246,34 @@ func RunJSONSerializationTestForDnsZones_CNAME_STATUS(subject DnsZones_CNAME_STA
 	return ""
 }
 
-// Generator of DnsZones_CNAME_STATUS instances for property testing - lazily instantiated by
-// DnsZones_CNAME_STATUSGenerator()
-var dnsZones_CNAME_STATUSGenerator gopter.Gen
+// Generator of DnsZonesCNAMERecord_STATUS instances for property testing - lazily instantiated by
+// DnsZonesCNAMERecord_STATUSGenerator()
+var dnsZonesCNAMERecord_STATUSGenerator gopter.Gen
 
-// DnsZones_CNAME_STATUSGenerator returns a generator of DnsZones_CNAME_STATUS instances for property testing.
-// We first initialize dnsZones_CNAME_STATUSGenerator with a simplified generator based on the
+// DnsZonesCNAMERecord_STATUSGenerator returns a generator of DnsZonesCNAMERecord_STATUS instances for property testing.
+// We first initialize dnsZonesCNAMERecord_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DnsZones_CNAME_STATUSGenerator() gopter.Gen {
-	if dnsZones_CNAME_STATUSGenerator != nil {
-		return dnsZones_CNAME_STATUSGenerator
+func DnsZonesCNAMERecord_STATUSGenerator() gopter.Gen {
+	if dnsZonesCNAMERecord_STATUSGenerator != nil {
+		return dnsZonesCNAMERecord_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_CNAME_STATUS(generators)
-	dnsZones_CNAME_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_CNAME_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesCNAMERecord_STATUS(generators)
+	dnsZonesCNAMERecord_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZonesCNAMERecord_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_CNAME_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDnsZones_CNAME_STATUS(generators)
-	dnsZones_CNAME_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_CNAME_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesCNAMERecord_STATUS(generators)
+	AddRelatedPropertyGeneratorsForDnsZonesCNAMERecord_STATUS(generators)
+	dnsZonesCNAMERecord_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZonesCNAMERecord_STATUS{}), generators)
 
-	return dnsZones_CNAME_STATUSGenerator
+	return dnsZonesCNAMERecord_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsZones_CNAME_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZones_CNAME_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsZonesCNAMERecord_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZonesCNAMERecord_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -286,8 +286,8 @@ func AddIndependentPropertyGeneratorsForDnsZones_CNAME_STATUS(gens map[string]go
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDnsZones_CNAME_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZones_CNAME_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsZonesCNAMERecord_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZonesCNAMERecord_STATUS(gens map[string]gopter.Gen) {
 	gens["AAAARecords"] = gen.SliceOf(AaaaRecord_STATUSGenerator())
 	gens["ARecords"] = gen.SliceOf(ARecord_STATUSGenerator())
 	gens["CNAMERecord"] = gen.PtrOf(CnameRecord_STATUSGenerator())
@@ -301,32 +301,32 @@ func AddRelatedPropertyGeneratorsForDnsZones_CNAME_STATUS(gens map[string]gopter
 	gens["TargetResource"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
-func Test_DnsZones_CNAME_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DnsZonesCNAMERecord_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DnsZones_CNAME_Spec to DnsZones_CNAME_Spec via AssignProperties_To_DnsZones_CNAME_Spec & AssignProperties_From_DnsZones_CNAME_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDnsZones_CNAME_Spec, DnsZones_CNAME_SpecGenerator()))
+		"Round trip from DnsZonesCNAMERecord_Spec to DnsZonesCNAMERecord_Spec via AssignProperties_To_DnsZonesCNAMERecord_Spec & AssignProperties_From_DnsZonesCNAMERecord_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDnsZonesCNAMERecord_Spec, DnsZonesCNAMERecord_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_CNAME_Spec tests if a specific instance of DnsZones_CNAME_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDnsZones_CNAME_Spec(subject DnsZones_CNAME_Spec) string {
+// RunPropertyAssignmentTestForDnsZonesCNAMERecord_Spec tests if a specific instance of DnsZonesCNAMERecord_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDnsZonesCNAMERecord_Spec(subject DnsZonesCNAMERecord_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DnsZones_CNAME_Spec
-	err := copied.AssignProperties_To_DnsZones_CNAME_Spec(&other)
+	var other storage.DnsZonesCNAMERecord_Spec
+	err := copied.AssignProperties_To_DnsZonesCNAMERecord_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DnsZones_CNAME_Spec
-	err = actual.AssignProperties_From_DnsZones_CNAME_Spec(&other)
+	var actual DnsZonesCNAMERecord_Spec
+	err = actual.AssignProperties_From_DnsZonesCNAMERecord_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -343,20 +343,20 @@ func RunPropertyAssignmentTestForDnsZones_CNAME_Spec(subject DnsZones_CNAME_Spec
 	return ""
 }
 
-func Test_DnsZones_CNAME_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsZonesCNAMERecord_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsZones_CNAME_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZones_CNAME_Spec, DnsZones_CNAME_SpecGenerator()))
+		"Round trip of DnsZonesCNAMERecord_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesCNAMERecord_Spec, DnsZonesCNAMERecord_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsZones_CNAME_Spec runs a test to see if a specific instance of DnsZones_CNAME_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZones_CNAME_Spec(subject DnsZones_CNAME_Spec) string {
+// RunJSONSerializationTestForDnsZonesCNAMERecord_Spec runs a test to see if a specific instance of DnsZonesCNAMERecord_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesCNAMERecord_Spec(subject DnsZonesCNAMERecord_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -364,7 +364,7 @@ func RunJSONSerializationTestForDnsZones_CNAME_Spec(subject DnsZones_CNAME_Spec)
 	}
 
 	// Deserialize back into memory
-	var actual DnsZones_CNAME_Spec
+	var actual DnsZonesCNAMERecord_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -382,34 +382,34 @@ func RunJSONSerializationTestForDnsZones_CNAME_Spec(subject DnsZones_CNAME_Spec)
 	return ""
 }
 
-// Generator of DnsZones_CNAME_Spec instances for property testing - lazily instantiated by
-// DnsZones_CNAME_SpecGenerator()
-var dnsZones_CNAME_SpecGenerator gopter.Gen
+// Generator of DnsZonesCNAMERecord_Spec instances for property testing - lazily instantiated by
+// DnsZonesCNAMERecord_SpecGenerator()
+var dnsZonesCNAMERecord_SpecGenerator gopter.Gen
 
-// DnsZones_CNAME_SpecGenerator returns a generator of DnsZones_CNAME_Spec instances for property testing.
-// We first initialize dnsZones_CNAME_SpecGenerator with a simplified generator based on the
+// DnsZonesCNAMERecord_SpecGenerator returns a generator of DnsZonesCNAMERecord_Spec instances for property testing.
+// We first initialize dnsZonesCNAMERecord_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DnsZones_CNAME_SpecGenerator() gopter.Gen {
-	if dnsZones_CNAME_SpecGenerator != nil {
-		return dnsZones_CNAME_SpecGenerator
+func DnsZonesCNAMERecord_SpecGenerator() gopter.Gen {
+	if dnsZonesCNAMERecord_SpecGenerator != nil {
+		return dnsZonesCNAMERecord_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_CNAME_Spec(generators)
-	dnsZones_CNAME_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_CNAME_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesCNAMERecord_Spec(generators)
+	dnsZonesCNAMERecord_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZonesCNAMERecord_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_CNAME_Spec(generators)
-	AddRelatedPropertyGeneratorsForDnsZones_CNAME_Spec(generators)
-	dnsZones_CNAME_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_CNAME_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesCNAMERecord_Spec(generators)
+	AddRelatedPropertyGeneratorsForDnsZonesCNAMERecord_Spec(generators)
+	dnsZonesCNAMERecord_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZonesCNAMERecord_Spec{}), generators)
 
-	return dnsZones_CNAME_SpecGenerator
+	return dnsZonesCNAMERecord_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsZones_CNAME_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZones_CNAME_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsZonesCNAMERecord_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZonesCNAMERecord_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
@@ -417,8 +417,8 @@ func AddIndependentPropertyGeneratorsForDnsZones_CNAME_Spec(gens map[string]gopt
 	gens["TTL"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForDnsZones_CNAME_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZones_CNAME_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsZonesCNAMERecord_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZonesCNAMERecord_Spec(gens map[string]gopter.Gen) {
 	gens["AAAARecords"] = gen.SliceOf(AaaaRecordGenerator())
 	gens["ARecords"] = gen.SliceOf(ARecordGenerator())
 	gens["CNAMERecord"] = gen.PtrOf(CnameRecordGenerator())

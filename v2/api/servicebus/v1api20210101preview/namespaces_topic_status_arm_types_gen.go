@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20210101preview
 
-type Namespaces_Topic_STATUS_ARM struct {
+type NamespacesTopic_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 

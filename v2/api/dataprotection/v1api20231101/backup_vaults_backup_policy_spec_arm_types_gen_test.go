@@ -705,20 +705,20 @@ func AddIndependentPropertyGeneratorsForBackupSchedule_ARM(gens map[string]gopte
 	gens["TimeZone"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_BackupVaults_BackupPolicy_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BackupVaultsBackupPolicy_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BackupVaults_BackupPolicy_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec_ARM, BackupVaults_BackupPolicy_Spec_ARMGenerator()))
+		"Round trip of BackupVaultsBackupPolicy_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultsBackupPolicy_Spec_ARM, BackupVaultsBackupPolicy_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec_ARM runs a test to see if a specific instance of BackupVaults_BackupPolicy_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec_ARM(subject BackupVaults_BackupPolicy_Spec_ARM) string {
+// RunJSONSerializationTestForBackupVaultsBackupPolicy_Spec_ARM runs a test to see if a specific instance of BackupVaultsBackupPolicy_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultsBackupPolicy_Spec_ARM(subject BackupVaultsBackupPolicy_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -726,7 +726,7 @@ func RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec_ARM(subject Backu
 	}
 
 	// Deserialize back into memory
-	var actual BackupVaults_BackupPolicy_Spec_ARM
+	var actual BackupVaultsBackupPolicy_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -744,39 +744,39 @@ func RunJSONSerializationTestForBackupVaults_BackupPolicy_Spec_ARM(subject Backu
 	return ""
 }
 
-// Generator of BackupVaults_BackupPolicy_Spec_ARM instances for property testing - lazily instantiated by
-// BackupVaults_BackupPolicy_Spec_ARMGenerator()
-var backupVaults_BackupPolicy_Spec_ARMGenerator gopter.Gen
+// Generator of BackupVaultsBackupPolicy_Spec_ARM instances for property testing - lazily instantiated by
+// BackupVaultsBackupPolicy_Spec_ARMGenerator()
+var backupVaultsBackupPolicy_Spec_ARMGenerator gopter.Gen
 
-// BackupVaults_BackupPolicy_Spec_ARMGenerator returns a generator of BackupVaults_BackupPolicy_Spec_ARM instances for property testing.
-// We first initialize backupVaults_BackupPolicy_Spec_ARMGenerator with a simplified generator based on the
+// BackupVaultsBackupPolicy_Spec_ARMGenerator returns a generator of BackupVaultsBackupPolicy_Spec_ARM instances for property testing.
+// We first initialize backupVaultsBackupPolicy_Spec_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func BackupVaults_BackupPolicy_Spec_ARMGenerator() gopter.Gen {
-	if backupVaults_BackupPolicy_Spec_ARMGenerator != nil {
-		return backupVaults_BackupPolicy_Spec_ARMGenerator
+func BackupVaultsBackupPolicy_Spec_ARMGenerator() gopter.Gen {
+	if backupVaultsBackupPolicy_Spec_ARMGenerator != nil {
+		return backupVaultsBackupPolicy_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM(generators)
-	backupVaults_BackupPolicy_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupPolicy_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_Spec_ARM(generators)
+	backupVaultsBackupPolicy_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupPolicy_Spec_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM(generators)
-	backupVaults_BackupPolicy_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaults_BackupPolicy_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_Spec_ARM(generators)
+	AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_Spec_ARM(generators)
+	backupVaultsBackupPolicy_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(BackupVaultsBackupPolicy_Spec_ARM{}), generators)
 
-	return backupVaults_BackupPolicy_Spec_ARMGenerator
+	return backupVaultsBackupPolicy_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBackupVaultsBackupPolicy_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_Spec_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupVaultsBackupPolicy_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(BaseBackupPolicy_ARMGenerator())
 }
 

@@ -79,20 +79,20 @@ func AddIndependentPropertyGeneratorsForAdvancedThreatProtectionProperties_STATU
 	gens["State"] = gen.PtrOf(gen.OneConstOf(AdvancedThreatProtectionProperties_State_STATUS_ARM_Disabled, AdvancedThreatProtectionProperties_State_STATUS_ARM_Enabled, AdvancedThreatProtectionProperties_State_STATUS_ARM_New))
 }
 
-func Test_Servers_AdvancedThreatProtectionSetting_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersAdvancedThreatProtectionSetting_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_AdvancedThreatProtectionSetting_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_AdvancedThreatProtectionSetting_STATUS_ARM, Servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator()))
+		"Round trip of ServersAdvancedThreatProtectionSetting_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersAdvancedThreatProtectionSetting_STATUS_ARM, ServersAdvancedThreatProtectionSetting_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_AdvancedThreatProtectionSetting_STATUS_ARM runs a test to see if a specific instance of Servers_AdvancedThreatProtectionSetting_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_AdvancedThreatProtectionSetting_STATUS_ARM(subject Servers_AdvancedThreatProtectionSetting_STATUS_ARM) string {
+// RunJSONSerializationTestForServersAdvancedThreatProtectionSetting_STATUS_ARM runs a test to see if a specific instance of ServersAdvancedThreatProtectionSetting_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersAdvancedThreatProtectionSetting_STATUS_ARM(subject ServersAdvancedThreatProtectionSetting_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForServers_AdvancedThreatProtectionSetting_STATUS_A
 	}
 
 	// Deserialize back into memory
-	var actual Servers_AdvancedThreatProtectionSetting_STATUS_ARM
+	var actual ServersAdvancedThreatProtectionSetting_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,41 +118,41 @@ func RunJSONSerializationTestForServers_AdvancedThreatProtectionSetting_STATUS_A
 	return ""
 }
 
-// Generator of Servers_AdvancedThreatProtectionSetting_STATUS_ARM instances for property testing - lazily instantiated
-// by Servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator()
-var servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator gopter.Gen
+// Generator of ServersAdvancedThreatProtectionSetting_STATUS_ARM instances for property testing - lazily instantiated
+// by ServersAdvancedThreatProtectionSetting_STATUS_ARMGenerator()
+var serversAdvancedThreatProtectionSetting_STATUS_ARMGenerator gopter.Gen
 
-// Servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator returns a generator of Servers_AdvancedThreatProtectionSetting_STATUS_ARM instances for property testing.
-// We first initialize servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator with a simplified generator based on the
+// ServersAdvancedThreatProtectionSetting_STATUS_ARMGenerator returns a generator of ServersAdvancedThreatProtectionSetting_STATUS_ARM instances for property testing.
+// We first initialize serversAdvancedThreatProtectionSetting_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator() gopter.Gen {
-	if servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator != nil {
-		return servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator
+func ServersAdvancedThreatProtectionSetting_STATUS_ARMGenerator() gopter.Gen {
+	if serversAdvancedThreatProtectionSetting_STATUS_ARMGenerator != nil {
+		return serversAdvancedThreatProtectionSetting_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_STATUS_ARM(generators)
-	servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_AdvancedThreatProtectionSetting_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersAdvancedThreatProtectionSetting_STATUS_ARM(generators)
+	serversAdvancedThreatProtectionSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServersAdvancedThreatProtectionSetting_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_STATUS_ARM(generators)
-	servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_AdvancedThreatProtectionSetting_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersAdvancedThreatProtectionSetting_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForServersAdvancedThreatProtectionSetting_STATUS_ARM(generators)
+	serversAdvancedThreatProtectionSetting_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServersAdvancedThreatProtectionSetting_STATUS_ARM{}), generators)
 
-	return servers_AdvancedThreatProtectionSetting_STATUS_ARMGenerator
+	return serversAdvancedThreatProtectionSetting_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersAdvancedThreatProtectionSetting_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersAdvancedThreatProtectionSetting_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServers_AdvancedThreatProtectionSetting_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServersAdvancedThreatProtectionSetting_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersAdvancedThreatProtectionSetting_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(AdvancedThreatProtectionProperties_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }

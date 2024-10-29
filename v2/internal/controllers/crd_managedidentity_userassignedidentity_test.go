@@ -71,7 +71,7 @@ func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {
 func FederatedIdentityCredentials_CRUD(tc *testcommon.KubePerTestContext, umi *managedidentity2018.UserAssignedIdentity) {
 	fic := &managedidentity2022.FederatedIdentityCredential{
 		ObjectMeta: tc.MakeObjectMeta("fic"),
-		Spec: managedidentity2022.UserAssignedIdentities_FederatedIdentityCredential_Spec{
+		Spec: managedidentity2022.FederatedIdentityCredential_Spec{
 			Owner: testcommon.AsOwner(umi),
 			// For Workload Identity, Audiences should always be "api://AzureADTokenExchange"
 			Audiences: []string{

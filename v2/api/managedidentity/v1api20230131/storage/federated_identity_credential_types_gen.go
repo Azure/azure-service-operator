@@ -28,8 +28,8 @@ import (
 type FederatedIdentityCredential struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserAssignedIdentities_FederatedIdentityCredential_Spec   `json:"spec,omitempty"`
-	Status            UserAssignedIdentities_FederatedIdentityCredential_STATUS `json:"status,omitempty"`
+	Spec              FederatedIdentityCredential_Spec   `json:"spec,omitempty"`
+	Status            FederatedIdentityCredential_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FederatedIdentityCredential{}
@@ -87,7 +87,7 @@ func (credential *FederatedIdentityCredential) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (credential *FederatedIdentityCredential) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
+	return &FederatedIdentityCredential_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (credential *FederatedIdentityCredential) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (credential *FederatedIdentityCredential) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*UserAssignedIdentities_FederatedIdentityCredential_STATUS); ok {
+	if st, ok := status.(*FederatedIdentityCredential_STATUS); ok {
 		credential.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	var st FederatedIdentityCredential_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,8 +144,8 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2023-01-31")
 
-// Storage version of v1api20230131.UserAssignedIdentities_FederatedIdentityCredential_Spec
-type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
+// Storage version of v1api20230131.FederatedIdentityCredential_Spec
+type FederatedIdentityCredential_Spec struct {
 	Audiences []string `json:"audiences,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -165,10 +165,10 @@ type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	SubjectFromConfig *genruntime.ConfigMapReference     `json:"subjectFromConfig,omitempty" optionalConfigMapPair:"Subject"`
 }
 
-var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCredential_Spec{}
+var _ genruntime.ConvertibleSpec = &FederatedIdentityCredential_Spec{}
 
-// ConvertSpecFrom populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our FederatedIdentityCredential_Spec from the provided source
+func (credential *FederatedIdentityCredential_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == credential {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -176,8 +176,8 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 	return source.ConvertSpecTo(credential)
 }
 
-// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_Spec
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our FederatedIdentityCredential_Spec
+func (credential *FederatedIdentityCredential_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == credential {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -185,8 +185,8 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 	return destination.ConvertSpecFrom(credential)
 }
 
-// Storage version of v1api20230131.UserAssignedIdentities_FederatedIdentityCredential_STATUS
-type UserAssignedIdentities_FederatedIdentityCredential_STATUS struct {
+// Storage version of v1api20230131.FederatedIdentityCredential_STATUS
+type FederatedIdentityCredential_STATUS struct {
 	Audiences   []string               `json:"audiences,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -198,10 +198,10 @@ type UserAssignedIdentities_FederatedIdentityCredential_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
+var _ genruntime.ConvertibleStatus = &FederatedIdentityCredential_STATUS{}
 
-// ConvertStatusFrom populates our UserAssignedIdentities_FederatedIdentityCredential_STATUS from the provided source
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our FederatedIdentityCredential_STATUS from the provided source
+func (credential *FederatedIdentityCredential_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == credential {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -209,8 +209,8 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Con
 	return source.ConvertStatusTo(credential)
 }
 
-// ConvertStatusTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_STATUS
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our FederatedIdentityCredential_STATUS
+func (credential *FederatedIdentityCredential_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == credential {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

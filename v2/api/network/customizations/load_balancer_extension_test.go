@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
@@ -18,14 +18,14 @@ func Test_FuzzySetLoadBalancers(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	lb := &network.LoadBalancer_Spec_ARM{
+	lb := &arm.LoadBalancer_Spec{
 		Location: to.Ptr("westus"),
 		Name:     "mylb",
-		Properties: &network.LoadBalancerPropertiesFormat_ARM{
-			InboundNatRules: []network.InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM{
+		Properties: &arm.LoadBalancerPropertiesFormat{
+			InboundNatRules: []arm.InboundNatRule_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: to.Ptr("myrule"),
-					Properties: &network.InboundNatRulePropertiesFormat_ARM{
+					Properties: &arm.InboundNatRulePropertiesFormat{
 						BackendPort:  to.Ptr(80),
 						FrontendPort: to.Ptr(90),
 					},
@@ -85,21 +85,21 @@ func Test_FuzzySetLoadBalancers_NatRulesMerged(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	lb := &network.LoadBalancer_Spec_ARM{
+	lb := &arm.LoadBalancer_Spec{
 		Location: to.Ptr("westus"),
 		Name:     "mylb",
-		Properties: &network.LoadBalancerPropertiesFormat_ARM{
-			InboundNatRules: []network.InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM{
+		Properties: &arm.LoadBalancerPropertiesFormat{
+			InboundNatRules: []arm.InboundNatRule_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: to.Ptr("myrule"),
-					Properties: &network.InboundNatRulePropertiesFormat_ARM{
+					Properties: &arm.InboundNatRulePropertiesFormat{
 						BackendPort:  to.Ptr(80),
 						FrontendPort: to.Ptr(90),
 					},
 				},
 				{
 					Name: to.Ptr("myrule1"),
-					Properties: &network.InboundNatRulePropertiesFormat_ARM{
+					Properties: &arm.InboundNatRulePropertiesFormat{
 						BackendPort:  to.Ptr(22),
 						FrontendPort: to.Ptr(23),
 					},

@@ -537,7 +537,7 @@ VirtualMachineScaleSet_Spec: Object (9 properties)
 │   └── Tier: *string
 ├── Tags: map[string]string
 └── Zones: string[]
-VirtualMachineScaleSets_Extension_STATUS: Object (4 properties)
+VirtualMachineScaleSetsExtension_STATUS: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (9 properties)
@@ -551,7 +551,7 @@ VirtualMachineScaleSets_Extension_STATUS: Object (4 properties)
 │   ├── Type: *string
 │   └── TypeHandlerVersion: *string
 └── Type: *string
-VirtualMachineScaleSets_Extension_Spec: Object (2 properties)
+VirtualMachineScaleSetsExtension_Spec: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (9 properties)
     ├── AutoUpgradeMinorVersion: *bool
@@ -1351,7 +1351,7 @@ VirtualMachine_Spec: Object (8 properties)
 │       └── Id: *string
 ├── Tags: map[string]string
 └── Zones: string[]
-VirtualMachines_Extension_STATUS: Object (6 properties)
+VirtualMachinesExtension_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
 ├── Name: *string
@@ -1388,7 +1388,7 @@ VirtualMachines_Extension_STATUS: Object (6 properties)
 │   └── TypeHandlerVersion: *string
 ├── Tags: map[string]string
 └── Type: *string
-VirtualMachines_Extension_Spec: Object (4 properties)
+VirtualMachinesExtension_Spec: Object (4 properties)
 ├── Location: *string
 ├── Name: string
 ├── Properties: *Object (9 properties)

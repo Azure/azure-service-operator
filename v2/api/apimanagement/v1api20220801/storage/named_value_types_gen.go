@@ -28,8 +28,8 @@ import (
 type NamedValue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_NamedValue_Spec   `json:"spec,omitempty"`
-	Status            Service_NamedValue_STATUS `json:"status,omitempty"`
+	Spec              NamedValue_Spec   `json:"spec,omitempty"`
+	Status            NamedValue_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamedValue{}
@@ -88,7 +88,7 @@ func (value *NamedValue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (value *NamedValue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_NamedValue_STATUS{}
+	return &NamedValue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -100,13 +100,13 @@ func (value *NamedValue) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (value *NamedValue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_NamedValue_STATUS); ok {
+	if st, ok := status.(*NamedValue_STATUS); ok {
 		value.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_NamedValue_STATUS
+	var st NamedValue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -139,8 +139,8 @@ type NamedValueList struct {
 	Items           []NamedValue `json:"items"`
 }
 
-// Storage version of v1api20220801.Service_NamedValue_Spec
-type Service_NamedValue_Spec struct {
+// Storage version of v1api20220801.NamedValue_Spec
+type NamedValue_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string                            `json:"azureName,omitempty"`
@@ -159,10 +159,10 @@ type Service_NamedValue_Spec struct {
 	Value       *string                            `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Service_NamedValue_Spec{}
+var _ genruntime.ConvertibleSpec = &NamedValue_Spec{}
 
-// ConvertSpecFrom populates our Service_NamedValue_Spec from the provided source
-func (value *Service_NamedValue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our NamedValue_Spec from the provided source
+func (value *NamedValue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == value {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -170,8 +170,8 @@ func (value *Service_NamedValue_Spec) ConvertSpecFrom(source genruntime.Converti
 	return source.ConvertSpecTo(value)
 }
 
-// ConvertSpecTo populates the provided destination from our Service_NamedValue_Spec
-func (value *Service_NamedValue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our NamedValue_Spec
+func (value *NamedValue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == value {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -179,8 +179,8 @@ func (value *Service_NamedValue_Spec) ConvertSpecTo(destination genruntime.Conve
 	return destination.ConvertSpecFrom(value)
 }
 
-// Storage version of v1api20220801.Service_NamedValue_STATUS
-type Service_NamedValue_STATUS struct {
+// Storage version of v1api20220801.NamedValue_STATUS
+type NamedValue_STATUS struct {
 	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
 	DisplayName *string                            `json:"displayName,omitempty"`
 	Id          *string                            `json:"id,omitempty"`
@@ -193,10 +193,10 @@ type Service_NamedValue_STATUS struct {
 	Value       *string                            `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_NamedValue_STATUS{}
+var _ genruntime.ConvertibleStatus = &NamedValue_STATUS{}
 
-// ConvertStatusFrom populates our Service_NamedValue_STATUS from the provided source
-func (value *Service_NamedValue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our NamedValue_STATUS from the provided source
+func (value *NamedValue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == value {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -204,8 +204,8 @@ func (value *Service_NamedValue_STATUS) ConvertStatusFrom(source genruntime.Conv
 	return source.ConvertStatusTo(value)
 }
 
-// ConvertStatusTo populates the provided destination from our Service_NamedValue_STATUS
-func (value *Service_NamedValue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our NamedValue_STATUS
+func (value *NamedValue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == value {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

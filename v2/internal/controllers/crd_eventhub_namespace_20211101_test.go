@@ -104,7 +104,7 @@ func Namespace_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext,
 func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	eh := &eventhub.NamespacesEventhub{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.Namespaces_Eventhub_Spec{
+		Spec: eventhub.NamespacesEventhub_Spec{
 			Owner:                  testcommon.AsOwner(namespace),
 			MessageRetentionInDays: to.Ptr(7),
 			PartitionCount:         to.Ptr(1),
@@ -146,7 +146,7 @@ func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	rule := &eventhub.NamespacesAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.Namespaces_AuthorizationRule_Spec{
+		Spec: eventhub.NamespacesAuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(namespace),
 			Rights: []eventhub.Namespaces_AuthorizationRule_Properties_Rights_Spec{
 				eventhub.Namespaces_AuthorizationRule_Properties_Rights_Spec_Listen,
@@ -194,7 +194,7 @@ func NamespacesAuthorizationRule_SecretsWrittenToSameKubeSecret(tc *testcommon.K
 func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh client.Object) {
 	rule := &eventhub.NamespacesEventhubsAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.Namespaces_Eventhubs_AuthorizationRule_Spec{
+		Spec: eventhub.NamespacesEventhubsAuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(eh),
 			Rights: []eventhub.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec{
 				eventhub.Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Listen,
@@ -243,7 +243,7 @@ func EventHub_ConsumerGroup_CRUD(tc *testcommon.KubePerTestContext, eh client.Ob
 	userMetadata := to.Ptr("This is some fun metadata")
 	consumerGroup := &eventhub.NamespacesEventhubsConsumerGroup{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.Namespaces_Eventhubs_Consumergroup_Spec{
+		Spec: eventhub.NamespacesEventhubsConsumerGroup_Spec{
 			Owner:        testcommon.AsOwner(eh),
 			UserMetadata: to.Ptr("This is some fun metadata"),
 		},

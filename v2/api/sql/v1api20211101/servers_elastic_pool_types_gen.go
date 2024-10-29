@@ -29,8 +29,8 @@ import (
 type ServersElasticPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_ElasticPool_Spec   `json:"spec,omitempty"`
-	Status            Servers_ElasticPool_STATUS `json:"status,omitempty"`
+	Spec              ServersElasticPool_Spec   `json:"spec,omitempty"`
+	Status            ServersElasticPool_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersElasticPool{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &ServersElasticPool{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (pool *ServersElasticPool) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Servers_ElasticPool_STATUS); ok {
-		return pool.Spec.Initialize_From_Servers_ElasticPool_STATUS(s)
+	if s, ok := status.(*ServersElasticPool_STATUS); ok {
+		return pool.Spec.Initialize_From_ServersElasticPool_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Servers_ElasticPool_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServersElasticPool_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersElasticPool{}
@@ -144,7 +144,7 @@ func (pool *ServersElasticPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ServersElasticPool) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_ElasticPool_STATUS{}
+	return &ServersElasticPool_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (pool *ServersElasticPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ServersElasticPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_ElasticPool_STATUS); ok {
+	if st, ok := status.(*ServersElasticPool_STATUS); ok {
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_ElasticPool_STATUS
+	var st ServersElasticPool_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (pool *ServersElasticPool) AssignProperties_From_ServersElasticPool(source 
 	pool.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_ElasticPool_Spec
-	err := spec.AssignProperties_From_Servers_ElasticPool_Spec(&source.Spec)
+	var spec ServersElasticPool_Spec
+	err := spec.AssignProperties_From_ServersElasticPool_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_ElasticPool_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersElasticPool_Spec() to populate field Spec")
 	}
 	pool.Spec = spec
 
 	// Status
-	var status Servers_ElasticPool_STATUS
-	err = status.AssignProperties_From_Servers_ElasticPool_STATUS(&source.Status)
+	var status ServersElasticPool_STATUS
+	err = status.AssignProperties_From_ServersElasticPool_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_ElasticPool_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersElasticPool_STATUS() to populate field Status")
 	}
 	pool.Status = status
 
@@ -286,18 +286,18 @@ func (pool *ServersElasticPool) AssignProperties_To_ServersElasticPool(destinati
 	destination.ObjectMeta = *pool.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Servers_ElasticPool_Spec
-	err := pool.Spec.AssignProperties_To_Servers_ElasticPool_Spec(&spec)
+	var spec storage.ServersElasticPool_Spec
+	err := pool.Spec.AssignProperties_To_ServersElasticPool_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_ElasticPool_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersElasticPool_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Servers_ElasticPool_STATUS
-	err = pool.Status.AssignProperties_To_Servers_ElasticPool_STATUS(&status)
+	var status storage.ServersElasticPool_STATUS
+	err = pool.Status.AssignProperties_To_ServersElasticPool_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_ElasticPool_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersElasticPool_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type ServersElasticPoolList struct {
 	Items           []ServersElasticPool `json:"items"`
 }
 
-type Servers_ElasticPool_Spec struct {
+type ServersElasticPool_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -376,14 +376,14 @@ type Servers_ElasticPool_Spec struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Servers_ElasticPool_Spec{}
+var _ genruntime.ARMTransformer = &ServersElasticPool_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (pool *Servers_ElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (pool *ServersElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if pool == nil {
 		return nil, nil
 	}
-	result := &Servers_ElasticPool_Spec_ARM{}
+	result := &ServersElasticPool_Spec_ARM{}
 
 	// Set property "Location":
 	if pool.Location != nil {
@@ -460,15 +460,15 @@ func (pool *Servers_ElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertTo
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (pool *Servers_ElasticPool_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_ElasticPool_Spec_ARM{}
+func (pool *ServersElasticPool_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersElasticPool_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_ElasticPool_Spec_ARM)
+func (pool *ServersElasticPool_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersElasticPool_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_ElasticPool_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersElasticPool_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -579,25 +579,25 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_ElasticPool_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersElasticPool_Spec{}
 
-// ConvertSpecFrom populates our Servers_ElasticPool_Spec from the provided source
-func (pool *Servers_ElasticPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Servers_ElasticPool_Spec)
+// ConvertSpecFrom populates our ServersElasticPool_Spec from the provided source
+func (pool *ServersElasticPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServersElasticPool_Spec)
 	if ok {
 		// Populate our instance from source
-		return pool.AssignProperties_From_Servers_ElasticPool_Spec(src)
+		return pool.AssignProperties_From_ServersElasticPool_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_ElasticPool_Spec{}
+	src = &storage.ServersElasticPool_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = pool.AssignProperties_From_Servers_ElasticPool_Spec(src)
+	err = pool.AssignProperties_From_ServersElasticPool_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -605,17 +605,17 @@ func (pool *Servers_ElasticPool_Spec) ConvertSpecFrom(source genruntime.Converti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_ElasticPool_Spec
-func (pool *Servers_ElasticPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Servers_ElasticPool_Spec)
+// ConvertSpecTo populates the provided destination from our ServersElasticPool_Spec
+func (pool *ServersElasticPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServersElasticPool_Spec)
 	if ok {
 		// Populate destination from our instance
-		return pool.AssignProperties_To_Servers_ElasticPool_Spec(dst)
+		return pool.AssignProperties_To_ServersElasticPool_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_ElasticPool_Spec{}
-	err := pool.AssignProperties_To_Servers_ElasticPool_Spec(dst)
+	dst = &storage.ServersElasticPool_Spec{}
+	err := pool.AssignProperties_To_ServersElasticPool_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -629,8 +629,8 @@ func (pool *Servers_ElasticPool_Spec) ConvertSpecTo(destination genruntime.Conve
 	return nil
 }
 
-// AssignProperties_From_Servers_ElasticPool_Spec populates our Servers_ElasticPool_Spec from the provided source Servers_ElasticPool_Spec
-func (pool *Servers_ElasticPool_Spec) AssignProperties_From_Servers_ElasticPool_Spec(source *storage.Servers_ElasticPool_Spec) error {
+// AssignProperties_From_ServersElasticPool_Spec populates our ServersElasticPool_Spec from the provided source ServersElasticPool_Spec
+func (pool *ServersElasticPool_Spec) AssignProperties_From_ServersElasticPool_Spec(source *storage.ServersElasticPool_Spec) error {
 
 	// AzureName
 	pool.AzureName = source.AzureName
@@ -711,8 +711,8 @@ func (pool *Servers_ElasticPool_Spec) AssignProperties_From_Servers_ElasticPool_
 	return nil
 }
 
-// AssignProperties_To_Servers_ElasticPool_Spec populates the provided destination Servers_ElasticPool_Spec from our Servers_ElasticPool_Spec
-func (pool *Servers_ElasticPool_Spec) AssignProperties_To_Servers_ElasticPool_Spec(destination *storage.Servers_ElasticPool_Spec) error {
+// AssignProperties_To_ServersElasticPool_Spec populates the provided destination ServersElasticPool_Spec from our ServersElasticPool_Spec
+func (pool *ServersElasticPool_Spec) AssignProperties_To_ServersElasticPool_Spec(destination *storage.ServersElasticPool_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -804,8 +804,8 @@ func (pool *Servers_ElasticPool_Spec) AssignProperties_To_Servers_ElasticPool_Sp
 	return nil
 }
 
-// Initialize_From_Servers_ElasticPool_STATUS populates our Servers_ElasticPool_Spec from the provided source Servers_ElasticPool_STATUS
-func (pool *Servers_ElasticPool_Spec) Initialize_From_Servers_ElasticPool_STATUS(source *Servers_ElasticPool_STATUS) error {
+// Initialize_From_ServersElasticPool_STATUS populates our ServersElasticPool_Spec from the provided source ServersElasticPool_STATUS
+func (pool *ServersElasticPool_Spec) Initialize_From_ServersElasticPool_STATUS(source *ServersElasticPool_STATUS) error {
 
 	// HighAvailabilityReplicaCount
 	pool.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(source.HighAvailabilityReplicaCount)
@@ -875,14 +875,14 @@ func (pool *Servers_ElasticPool_Spec) Initialize_From_Servers_ElasticPool_STATUS
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (pool *Servers_ElasticPool_Spec) OriginalVersion() string {
+func (pool *ServersElasticPool_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (pool *Servers_ElasticPool_Spec) SetAzureName(azureName string) { pool.AzureName = azureName }
+func (pool *ServersElasticPool_Spec) SetAzureName(azureName string) { pool.AzureName = azureName }
 
-type Servers_ElasticPool_STATUS struct {
+type ServersElasticPool_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -944,25 +944,25 @@ type Servers_ElasticPool_STATUS struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_ElasticPool_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersElasticPool_STATUS{}
 
-// ConvertStatusFrom populates our Servers_ElasticPool_STATUS from the provided source
-func (pool *Servers_ElasticPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Servers_ElasticPool_STATUS)
+// ConvertStatusFrom populates our ServersElasticPool_STATUS from the provided source
+func (pool *ServersElasticPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServersElasticPool_STATUS)
 	if ok {
 		// Populate our instance from source
-		return pool.AssignProperties_From_Servers_ElasticPool_STATUS(src)
+		return pool.AssignProperties_From_ServersElasticPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_ElasticPool_STATUS{}
+	src = &storage.ServersElasticPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = pool.AssignProperties_From_Servers_ElasticPool_STATUS(src)
+	err = pool.AssignProperties_From_ServersElasticPool_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -970,17 +970,17 @@ func (pool *Servers_ElasticPool_STATUS) ConvertStatusFrom(source genruntime.Conv
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_ElasticPool_STATUS
-func (pool *Servers_ElasticPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Servers_ElasticPool_STATUS)
+// ConvertStatusTo populates the provided destination from our ServersElasticPool_STATUS
+func (pool *ServersElasticPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServersElasticPool_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return pool.AssignProperties_To_Servers_ElasticPool_STATUS(dst)
+		return pool.AssignProperties_To_ServersElasticPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_ElasticPool_STATUS{}
-	err := pool.AssignProperties_To_Servers_ElasticPool_STATUS(dst)
+	dst = &storage.ServersElasticPool_STATUS{}
+	err := pool.AssignProperties_To_ServersElasticPool_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -994,18 +994,18 @@ func (pool *Servers_ElasticPool_STATUS) ConvertStatusTo(destination genruntime.C
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Servers_ElasticPool_STATUS{}
+var _ genruntime.FromARMConverter = &ServersElasticPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (pool *Servers_ElasticPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_ElasticPool_STATUS_ARM{}
+func (pool *ServersElasticPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersElasticPool_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_ElasticPool_STATUS_ARM)
+func (pool *ServersElasticPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersElasticPool_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_ElasticPool_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersElasticPool_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1153,8 +1153,8 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignProperties_From_Servers_ElasticPool_STATUS populates our Servers_ElasticPool_STATUS from the provided source Servers_ElasticPool_STATUS
-func (pool *Servers_ElasticPool_STATUS) AssignProperties_From_Servers_ElasticPool_STATUS(source *storage.Servers_ElasticPool_STATUS) error {
+// AssignProperties_From_ServersElasticPool_STATUS populates our ServersElasticPool_STATUS from the provided source ServersElasticPool_STATUS
+func (pool *ServersElasticPool_STATUS) AssignProperties_From_ServersElasticPool_STATUS(source *storage.ServersElasticPool_STATUS) error {
 
 	// Conditions
 	pool.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1251,8 +1251,8 @@ func (pool *Servers_ElasticPool_STATUS) AssignProperties_From_Servers_ElasticPoo
 	return nil
 }
 
-// AssignProperties_To_Servers_ElasticPool_STATUS populates the provided destination Servers_ElasticPool_STATUS from our Servers_ElasticPool_STATUS
-func (pool *Servers_ElasticPool_STATUS) AssignProperties_To_Servers_ElasticPool_STATUS(destination *storage.Servers_ElasticPool_STATUS) error {
+// AssignProperties_To_ServersElasticPool_STATUS populates the provided destination ServersElasticPool_STATUS from our ServersElasticPool_STATUS
+func (pool *ServersElasticPool_STATUS) AssignProperties_To_ServersElasticPool_STATUS(destination *storage.ServersElasticPool_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -29,8 +29,8 @@ import (
 type StorageAccountsFileServicesShare struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_FileServices_Share_Spec   `json:"spec,omitempty"`
-	Status            StorageAccounts_FileServices_Share_STATUS `json:"status,omitempty"`
+	Spec              StorageAccountsFileServicesShare_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsFileServicesShare_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsFileServicesShare{}
@@ -147,7 +147,7 @@ func (share *StorageAccountsFileServicesShare) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (share *StorageAccountsFileServicesShare) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccounts_FileServices_Share_STATUS{}
+	return &StorageAccountsFileServicesShare_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -159,13 +159,13 @@ func (share *StorageAccountsFileServicesShare) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (share *StorageAccountsFileServicesShare) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccounts_FileServices_Share_STATUS); ok {
+	if st, ok := status.(*StorageAccountsFileServicesShare_STATUS); ok {
 		share.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccounts_FileServices_Share_STATUS
+	var st StorageAccountsFileServicesShare_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,18 +263,18 @@ func (share *StorageAccountsFileServicesShare) AssignProperties_From_StorageAcco
 	share.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccounts_FileServices_Share_Spec
-	err := spec.AssignProperties_From_StorageAccounts_FileServices_Share_Spec(&source.Spec)
+	var spec StorageAccountsFileServicesShare_Spec
+	err := spec.AssignProperties_From_StorageAccountsFileServicesShare_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_FileServices_Share_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsFileServicesShare_Spec() to populate field Spec")
 	}
 	share.Spec = spec
 
 	// Status
-	var status StorageAccounts_FileServices_Share_STATUS
-	err = status.AssignProperties_From_StorageAccounts_FileServices_Share_STATUS(&source.Status)
+	var status StorageAccountsFileServicesShare_STATUS
+	err = status.AssignProperties_From_StorageAccountsFileServicesShare_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_FileServices_Share_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsFileServicesShare_STATUS() to populate field Status")
 	}
 	share.Status = status
 
@@ -289,18 +289,18 @@ func (share *StorageAccountsFileServicesShare) AssignProperties_To_StorageAccoun
 	destination.ObjectMeta = *share.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.StorageAccounts_FileServices_Share_Spec
-	err := share.Spec.AssignProperties_To_StorageAccounts_FileServices_Share_Spec(&spec)
+	var spec storage.StorageAccountsFileServicesShare_Spec
+	err := share.Spec.AssignProperties_To_StorageAccountsFileServicesShare_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileServices_Share_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServicesShare_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.StorageAccounts_FileServices_Share_STATUS
-	err = share.Status.AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(&status)
+	var status storage.StorageAccountsFileServicesShare_STATUS
+	err = share.Status.AssignProperties_To_StorageAccountsFileServicesShare_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileServices_Share_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServicesShare_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -327,7 +327,7 @@ type StorageAccountsFileServicesShareList struct {
 	Items           []StorageAccountsFileServicesShare `json:"items"`
 }
 
-type StorageAccounts_FileServices_Share_Spec struct {
+type StorageAccountsFileServicesShare_Spec struct {
 	// AccessTier: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and
 	// Cool. FileStorage account can choose Premium.
 	AccessTier *FileShareProperties_AccessTier `json:"accessTier,omitempty"`
@@ -364,14 +364,14 @@ type StorageAccounts_FileServices_Share_Spec struct {
 	SignedIdentifiers []SignedIdentifier `json:"signedIdentifiers,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &StorageAccounts_FileServices_Share_Spec{}
+var _ genruntime.ARMTransformer = &StorageAccountsFileServicesShare_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (share *StorageAccounts_FileServices_Share_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (share *StorageAccountsFileServicesShare_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if share == nil {
 		return nil, nil
 	}
-	result := &StorageAccounts_FileServices_Share_Spec_ARM{}
+	result := &StorageAccountsFileServicesShare_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -424,15 +424,15 @@ func (share *StorageAccounts_FileServices_Share_Spec) ConvertToARM(resolved genr
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (share *StorageAccounts_FileServices_Share_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_FileServices_Share_Spec_ARM{}
+func (share *StorageAccountsFileServicesShare_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsFileServicesShare_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_FileServices_Share_Spec_ARM)
+func (share *StorageAccountsFileServicesShare_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsFileServicesShare_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_FileServices_Share_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsFileServicesShare_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AccessTier":
@@ -514,25 +514,25 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccounts_FileServices_Share_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsFileServicesShare_Spec{}
 
-// ConvertSpecFrom populates our StorageAccounts_FileServices_Share_Spec from the provided source
-func (share *StorageAccounts_FileServices_Share_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.StorageAccounts_FileServices_Share_Spec)
+// ConvertSpecFrom populates our StorageAccountsFileServicesShare_Spec from the provided source
+func (share *StorageAccountsFileServicesShare_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.StorageAccountsFileServicesShare_Spec)
 	if ok {
 		// Populate our instance from source
-		return share.AssignProperties_From_StorageAccounts_FileServices_Share_Spec(src)
+		return share.AssignProperties_From_StorageAccountsFileServicesShare_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_FileServices_Share_Spec{}
+	src = &storage.StorageAccountsFileServicesShare_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = share.AssignProperties_From_StorageAccounts_FileServices_Share_Spec(src)
+	err = share.AssignProperties_From_StorageAccountsFileServicesShare_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -540,17 +540,17 @@ func (share *StorageAccounts_FileServices_Share_Spec) ConvertSpecFrom(source gen
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccounts_FileServices_Share_Spec
-func (share *StorageAccounts_FileServices_Share_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.StorageAccounts_FileServices_Share_Spec)
+// ConvertSpecTo populates the provided destination from our StorageAccountsFileServicesShare_Spec
+func (share *StorageAccountsFileServicesShare_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.StorageAccountsFileServicesShare_Spec)
 	if ok {
 		// Populate destination from our instance
-		return share.AssignProperties_To_StorageAccounts_FileServices_Share_Spec(dst)
+		return share.AssignProperties_To_StorageAccountsFileServicesShare_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_FileServices_Share_Spec{}
-	err := share.AssignProperties_To_StorageAccounts_FileServices_Share_Spec(dst)
+	dst = &storage.StorageAccountsFileServicesShare_Spec{}
+	err := share.AssignProperties_To_StorageAccountsFileServicesShare_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -564,8 +564,8 @@ func (share *StorageAccounts_FileServices_Share_Spec) ConvertSpecTo(destination 
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_FileServices_Share_Spec populates our StorageAccounts_FileServices_Share_Spec from the provided source StorageAccounts_FileServices_Share_Spec
-func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_From_StorageAccounts_FileServices_Share_Spec(source *storage.StorageAccounts_FileServices_Share_Spec) error {
+// AssignProperties_From_StorageAccountsFileServicesShare_Spec populates our StorageAccountsFileServicesShare_Spec from the provided source StorageAccountsFileServicesShare_Spec
+func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_StorageAccountsFileServicesShare_Spec(source *storage.StorageAccountsFileServicesShare_Spec) error {
 
 	// AccessTier
 	if source.AccessTier != nil {
@@ -638,8 +638,8 @@ func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_From_Stor
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_FileServices_Share_Spec populates the provided destination StorageAccounts_FileServices_Share_Spec from our StorageAccounts_FileServices_Share_Spec
-func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_To_StorageAccounts_FileServices_Share_Spec(destination *storage.StorageAccounts_FileServices_Share_Spec) error {
+// AssignProperties_To_StorageAccountsFileServicesShare_Spec populates the provided destination StorageAccountsFileServicesShare_Spec from our StorageAccountsFileServicesShare_Spec
+func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_To_StorageAccountsFileServicesShare_Spec(destination *storage.StorageAccountsFileServicesShare_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -722,16 +722,16 @@ func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_To_Storag
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (share *StorageAccounts_FileServices_Share_Spec) OriginalVersion() string {
+func (share *StorageAccountsFileServicesShare_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (share *StorageAccounts_FileServices_Share_Spec) SetAzureName(azureName string) {
+func (share *StorageAccountsFileServicesShare_Spec) SetAzureName(azureName string) {
 	share.AzureName = azureName
 }
 
-type StorageAccounts_FileServices_Share_STATUS struct {
+type StorageAccountsFileServicesShare_STATUS struct {
 	// AccessTier: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and
 	// Cool. FileStorage account can choose Premium.
 	AccessTier *FileShareProperties_AccessTier_STATUS `json:"accessTier,omitempty"`
@@ -807,25 +807,25 @@ type StorageAccounts_FileServices_Share_STATUS struct {
 	Version *string `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccounts_FileServices_Share_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsFileServicesShare_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccounts_FileServices_Share_STATUS from the provided source
-func (share *StorageAccounts_FileServices_Share_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.StorageAccounts_FileServices_Share_STATUS)
+// ConvertStatusFrom populates our StorageAccountsFileServicesShare_STATUS from the provided source
+func (share *StorageAccountsFileServicesShare_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.StorageAccountsFileServicesShare_STATUS)
 	if ok {
 		// Populate our instance from source
-		return share.AssignProperties_From_StorageAccounts_FileServices_Share_STATUS(src)
+		return share.AssignProperties_From_StorageAccountsFileServicesShare_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.StorageAccounts_FileServices_Share_STATUS{}
+	src = &storage.StorageAccountsFileServicesShare_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = share.AssignProperties_From_StorageAccounts_FileServices_Share_STATUS(src)
+	err = share.AssignProperties_From_StorageAccountsFileServicesShare_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -833,17 +833,17 @@ func (share *StorageAccounts_FileServices_Share_STATUS) ConvertStatusFrom(source
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccounts_FileServices_Share_STATUS
-func (share *StorageAccounts_FileServices_Share_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.StorageAccounts_FileServices_Share_STATUS)
+// ConvertStatusTo populates the provided destination from our StorageAccountsFileServicesShare_STATUS
+func (share *StorageAccountsFileServicesShare_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.StorageAccountsFileServicesShare_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return share.AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(dst)
+		return share.AssignProperties_To_StorageAccountsFileServicesShare_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.StorageAccounts_FileServices_Share_STATUS{}
-	err := share.AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(dst)
+	dst = &storage.StorageAccountsFileServicesShare_STATUS{}
+	err := share.AssignProperties_To_StorageAccountsFileServicesShare_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -857,18 +857,18 @@ func (share *StorageAccounts_FileServices_Share_STATUS) ConvertStatusTo(destinat
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &StorageAccounts_FileServices_Share_STATUS{}
+var _ genruntime.FromARMConverter = &StorageAccountsFileServicesShare_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (share *StorageAccounts_FileServices_Share_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccounts_FileServices_Share_STATUS_ARM{}
+func (share *StorageAccountsFileServicesShare_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsFileServicesShare_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccounts_FileServices_Share_STATUS_ARM)
+func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsFileServicesShare_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_FileServices_Share_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsFileServicesShare_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AccessTier":
@@ -1081,8 +1081,8 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 	return nil
 }
 
-// AssignProperties_From_StorageAccounts_FileServices_Share_STATUS populates our StorageAccounts_FileServices_Share_STATUS from the provided source StorageAccounts_FileServices_Share_STATUS
-func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_From_StorageAccounts_FileServices_Share_STATUS(source *storage.StorageAccounts_FileServices_Share_STATUS) error {
+// AssignProperties_From_StorageAccountsFileServicesShare_STATUS populates our StorageAccountsFileServicesShare_STATUS from the provided source StorageAccountsFileServicesShare_STATUS
+func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_From_StorageAccountsFileServicesShare_STATUS(source *storage.StorageAccountsFileServicesShare_STATUS) error {
 
 	// AccessTier
 	if source.AccessTier != nil {
@@ -1213,8 +1213,8 @@ func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_From_St
 	return nil
 }
 
-// AssignProperties_To_StorageAccounts_FileServices_Share_STATUS populates the provided destination StorageAccounts_FileServices_Share_STATUS from our StorageAccounts_FileServices_Share_STATUS
-func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(destination *storage.StorageAccounts_FileServices_Share_STATUS) error {
+// AssignProperties_To_StorageAccountsFileServicesShare_STATUS populates the provided destination StorageAccountsFileServicesShare_STATUS from our StorageAccountsFileServicesShare_STATUS
+func (share *StorageAccountsFileServicesShare_STATUS) AssignProperties_To_StorageAccountsFileServicesShare_STATUS(destination *storage.StorageAccountsFileServicesShare_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

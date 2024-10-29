@@ -5,7 +5,7 @@ package v1api20210601
 
 import "encoding/json"
 
-type Profiles_Endpoint_STATUS_ARM struct {
+type ProfilesEndpoint_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 

@@ -28,8 +28,8 @@ import (
 type ServersAuditingSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_AuditingSetting_Spec   `json:"spec,omitempty"`
-	Status            Servers_AuditingSetting_STATUS `json:"status,omitempty"`
+	Spec              ServersAuditingSetting_Spec   `json:"spec,omitempty"`
+	Status            ServersAuditingSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersAuditingSetting{}
@@ -86,7 +86,7 @@ func (setting *ServersAuditingSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *ServersAuditingSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_AuditingSetting_STATUS{}
+	return &ServersAuditingSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -98,13 +98,13 @@ func (setting *ServersAuditingSetting) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (setting *ServersAuditingSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_AuditingSetting_STATUS); ok {
+	if st, ok := status.(*ServersAuditingSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_AuditingSetting_STATUS
+	var st ServersAuditingSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type ServersAuditingSettingList struct {
 	Items           []ServersAuditingSetting `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_AuditingSetting_Spec
-type Servers_AuditingSetting_Spec struct {
+// Storage version of v1api20211101.ServersAuditingSetting_Spec
+type ServersAuditingSetting_Spec struct {
 	AuditActionsAndGroups       []string `json:"auditActionsAndGroups,omitempty"`
 	IsAzureMonitorTargetEnabled *bool    `json:"isAzureMonitorTargetEnabled,omitempty"`
 	IsDevopsAuditEnabled        *bool    `json:"isDevopsAuditEnabled,omitempty"`
@@ -160,10 +160,10 @@ type Servers_AuditingSetting_Spec struct {
 	StorageEndpoint              *string                            `json:"storageEndpoint,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_AuditingSetting_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersAuditingSetting_Spec{}
 
-// ConvertSpecFrom populates our Servers_AuditingSetting_Spec from the provided source
-func (setting *Servers_AuditingSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersAuditingSetting_Spec from the provided source
+func (setting *ServersAuditingSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -171,8 +171,8 @@ func (setting *Servers_AuditingSetting_Spec) ConvertSpecFrom(source genruntime.C
 	return source.ConvertSpecTo(setting)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_AuditingSetting_Spec
-func (setting *Servers_AuditingSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersAuditingSetting_Spec
+func (setting *ServersAuditingSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -180,8 +180,8 @@ func (setting *Servers_AuditingSetting_Spec) ConvertSpecTo(destination genruntim
 	return destination.ConvertSpecFrom(setting)
 }
 
-// Storage version of v1api20211101.Servers_AuditingSetting_STATUS
-type Servers_AuditingSetting_STATUS struct {
+// Storage version of v1api20211101.ServersAuditingSetting_STATUS
+type ServersAuditingSetting_STATUS struct {
 	AuditActionsAndGroups        []string               `json:"auditActionsAndGroups,omitempty"`
 	Conditions                   []conditions.Condition `json:"conditions,omitempty"`
 	Id                           *string                `json:"id,omitempty"`
@@ -199,10 +199,10 @@ type Servers_AuditingSetting_STATUS struct {
 	Type                         *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_AuditingSetting_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersAuditingSetting_STATUS{}
 
-// ConvertStatusFrom populates our Servers_AuditingSetting_STATUS from the provided source
-func (setting *Servers_AuditingSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersAuditingSetting_STATUS from the provided source
+func (setting *ServersAuditingSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -210,8 +210,8 @@ func (setting *Servers_AuditingSetting_STATUS) ConvertStatusFrom(source genrunti
 	return source.ConvertStatusTo(setting)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_AuditingSetting_STATUS
-func (setting *Servers_AuditingSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersAuditingSetting_STATUS
+func (setting *ServersAuditingSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

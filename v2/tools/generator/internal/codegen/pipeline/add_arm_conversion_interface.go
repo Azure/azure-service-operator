@@ -37,18 +37,15 @@ func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory, config *c
 		})
 }
 
-// GetARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
-// If no matching definition can be found an error is returned.
-func GetARMTypeDefinition(
-	defs astmodel.TypeDefinitionSet,
+// LookupARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
+// Returns the definition and true if found; otherwise returns an empty definition and false.
+func LookupARMTypeDefinition(
 	name astmodel.InternalTypeName,
-) (astmodel.TypeDefinition, error) {
-	armDefinition, ok := defs[astmodel.CreateARMTypeName(name)]
-	if !ok {
-		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find ARM definition matching kube name %q", name)
-	}
-
-	return armDefinition, nil
+	defs astmodel.TypeDefinitionSet,
+) (astmodel.TypeDefinition, bool) {
+	armName := astmodel.CreateARMTypeName(name)
+	armDefinition, ok := defs[armName]
+	return armDefinition, ok
 }
 
 type armConversionApplier struct {
@@ -78,9 +75,9 @@ func (c *armConversionApplier) transformResourceSpecs() (astmodel.TypeDefinition
 			return nil, err
 		}
 
-		armSpecDefinition, err := GetARMTypeDefinition(c.definitions, specDefinition.Name())
-		if err != nil {
-			return nil, err
+		armSpecDefinition, ok := LookupARMTypeDefinition(specDefinition.Name(), c.definitions)
+		if !ok {
+			return nil, errors.Errorf("couldn't find ARM definition for spec %s", specDefinition.Name())
 		}
 
 		specDefinition, err = c.addARMConversionInterface(specDefinition, armSpecDefinition, armconversion.TypeKindSpec)
@@ -111,9 +108,9 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.TypeDefinit
 			continue
 		}
 
-		armStatusDefinition, err := GetARMTypeDefinition(c.definitions, td.Name())
-		if err != nil {
-			return nil, err
+		armStatusDefinition, ok := LookupARMTypeDefinition(td.Name(), c.definitions)
+		if !ok {
+			return nil, errors.Errorf("couldn't find ARM definition for status %s", td.Name())
 		}
 
 		statusDefinition, err := c.addARMConversionInterface(td, armStatusDefinition, armconversion.TypeKindStatus)
@@ -159,9 +156,9 @@ func (c *armConversionApplier) transformTypes() (astmodel.TypeDefinitionSet, err
 			continue
 		}
 
-		armDefinition, err := GetARMTypeDefinition(c.definitions, td.Name())
-		if err != nil {
-			return nil, err
+		armDefinition, ok := LookupARMTypeDefinition(td.Name(), c.definitions)
+		if !ok {
+			return nil, errors.Errorf("couldn't find ARM definition for %s", td.Name())
 		}
 
 		modifiedDef, err := c.addARMConversionInterface(td, armDefinition, armconversion.TypeKindOrdinary)

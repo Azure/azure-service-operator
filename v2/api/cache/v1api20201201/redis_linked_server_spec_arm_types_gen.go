@@ -5,27 +5,27 @@ package v1api20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Redis_LinkedServer_Spec_ARM struct {
+type RedisLinkedServer_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties required to create a linked server.
 	Properties *RedisLinkedServerCreateProperties_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Redis_LinkedServer_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &RedisLinkedServer_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (server Redis_LinkedServer_Spec_ARM) GetAPIVersion() string {
+func (server RedisLinkedServer_Spec_ARM) GetAPIVersion() string {
 	return "2020-12-01"
 }
 
 // GetName returns the Name of the resource
-func (server *Redis_LinkedServer_Spec_ARM) GetName() string {
+func (server *RedisLinkedServer_Spec_ARM) GetName() string {
 	return server.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/linkedServers"
-func (server *Redis_LinkedServer_Spec_ARM) GetType() string {
+func (server *RedisLinkedServer_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/linkedServers"
 }
 

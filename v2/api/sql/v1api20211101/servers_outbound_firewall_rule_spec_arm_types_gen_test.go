@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Servers_OutboundFirewallRule_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServersOutboundFirewallRule_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Servers_OutboundFirewallRule_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServers_OutboundFirewallRule_Spec_ARM, Servers_OutboundFirewallRule_Spec_ARMGenerator()))
+		"Round trip of ServersOutboundFirewallRule_Spec_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersOutboundFirewallRule_Spec_ARM, ServersOutboundFirewallRule_Spec_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServers_OutboundFirewallRule_Spec_ARM runs a test to see if a specific instance of Servers_OutboundFirewallRule_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServers_OutboundFirewallRule_Spec_ARM(subject Servers_OutboundFirewallRule_Spec_ARM) string {
+// RunJSONSerializationTestForServersOutboundFirewallRule_Spec_ARM runs a test to see if a specific instance of ServersOutboundFirewallRule_Spec_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersOutboundFirewallRule_Spec_ARM(subject ServersOutboundFirewallRule_Spec_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForServers_OutboundFirewallRule_Spec_ARM(subject Se
 	}
 
 	// Deserialize back into memory
-	var actual Servers_OutboundFirewallRule_Spec_ARM
+	var actual ServersOutboundFirewallRule_Spec_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,24 +56,24 @@ func RunJSONSerializationTestForServers_OutboundFirewallRule_Spec_ARM(subject Se
 	return ""
 }
 
-// Generator of Servers_OutboundFirewallRule_Spec_ARM instances for property testing - lazily instantiated by
-// Servers_OutboundFirewallRule_Spec_ARMGenerator()
-var servers_OutboundFirewallRule_Spec_ARMGenerator gopter.Gen
+// Generator of ServersOutboundFirewallRule_Spec_ARM instances for property testing - lazily instantiated by
+// ServersOutboundFirewallRule_Spec_ARMGenerator()
+var serversOutboundFirewallRule_Spec_ARMGenerator gopter.Gen
 
-// Servers_OutboundFirewallRule_Spec_ARMGenerator returns a generator of Servers_OutboundFirewallRule_Spec_ARM instances for property testing.
-func Servers_OutboundFirewallRule_Spec_ARMGenerator() gopter.Gen {
-	if servers_OutboundFirewallRule_Spec_ARMGenerator != nil {
-		return servers_OutboundFirewallRule_Spec_ARMGenerator
+// ServersOutboundFirewallRule_Spec_ARMGenerator returns a generator of ServersOutboundFirewallRule_Spec_ARM instances for property testing.
+func ServersOutboundFirewallRule_Spec_ARMGenerator() gopter.Gen {
+	if serversOutboundFirewallRule_Spec_ARMGenerator != nil {
+		return serversOutboundFirewallRule_Spec_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServers_OutboundFirewallRule_Spec_ARM(generators)
-	servers_OutboundFirewallRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(Servers_OutboundFirewallRule_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForServersOutboundFirewallRule_Spec_ARM(generators)
+	serversOutboundFirewallRule_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ServersOutboundFirewallRule_Spec_ARM{}), generators)
 
-	return servers_OutboundFirewallRule_Spec_ARMGenerator
+	return serversOutboundFirewallRule_Spec_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServers_OutboundFirewallRule_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServers_OutboundFirewallRule_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServersOutboundFirewallRule_Spec_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServersOutboundFirewallRule_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }

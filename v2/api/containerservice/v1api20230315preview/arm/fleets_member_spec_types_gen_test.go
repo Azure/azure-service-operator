@@ -79,20 +79,20 @@ func AddIndependentPropertyGeneratorsForFleetMemberProperties(gens map[string]go
 	gens["Group"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Fleets_Member_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FleetsMember_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Fleets_Member_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFleets_Member_Spec, Fleets_Member_SpecGenerator()))
+		"Round trip of FleetsMember_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetsMember_Spec, FleetsMember_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFleets_Member_Spec runs a test to see if a specific instance of Fleets_Member_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFleets_Member_Spec(subject Fleets_Member_Spec) string {
+// RunJSONSerializationTestForFleetsMember_Spec runs a test to see if a specific instance of FleetsMember_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetsMember_Spec(subject FleetsMember_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForFleets_Member_Spec(subject Fleets_Member_Spec) s
 	}
 
 	// Deserialize back into memory
-	var actual Fleets_Member_Spec
+	var actual FleetsMember_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,37 +118,37 @@ func RunJSONSerializationTestForFleets_Member_Spec(subject Fleets_Member_Spec) s
 	return ""
 }
 
-// Generator of Fleets_Member_Spec instances for property testing - lazily instantiated by Fleets_Member_SpecGenerator()
-var fleets_Member_SpecGenerator gopter.Gen
+// Generator of FleetsMember_Spec instances for property testing - lazily instantiated by FleetsMember_SpecGenerator()
+var fleetsMember_SpecGenerator gopter.Gen
 
-// Fleets_Member_SpecGenerator returns a generator of Fleets_Member_Spec instances for property testing.
-// We first initialize fleets_Member_SpecGenerator with a simplified generator based on the
+// FleetsMember_SpecGenerator returns a generator of FleetsMember_Spec instances for property testing.
+// We first initialize fleetsMember_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Fleets_Member_SpecGenerator() gopter.Gen {
-	if fleets_Member_SpecGenerator != nil {
-		return fleets_Member_SpecGenerator
+func FleetsMember_SpecGenerator() gopter.Gen {
+	if fleetsMember_SpecGenerator != nil {
+		return fleetsMember_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleets_Member_Spec(generators)
-	fleets_Member_SpecGenerator = gen.Struct(reflect.TypeOf(Fleets_Member_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForFleetsMember_Spec(generators)
+	fleetsMember_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsMember_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFleets_Member_Spec(generators)
-	AddRelatedPropertyGeneratorsForFleets_Member_Spec(generators)
-	fleets_Member_SpecGenerator = gen.Struct(reflect.TypeOf(Fleets_Member_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForFleetsMember_Spec(generators)
+	AddRelatedPropertyGeneratorsForFleetsMember_Spec(generators)
+	fleetsMember_SpecGenerator = gen.Struct(reflect.TypeOf(FleetsMember_Spec{}), generators)
 
-	return fleets_Member_SpecGenerator
+	return fleetsMember_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFleets_Member_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFleets_Member_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFleetsMember_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFleetsMember_Spec(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
 }
 
-// AddRelatedPropertyGeneratorsForFleets_Member_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFleets_Member_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForFleetsMember_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFleetsMember_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(FleetMemberPropertiesGenerator())
 }

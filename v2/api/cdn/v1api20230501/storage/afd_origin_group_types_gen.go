@@ -28,8 +28,8 @@ import (
 type AfdOriginGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_OriginGroup_Spec   `json:"spec,omitempty"`
-	Status            Profiles_OriginGroup_STATUS `json:"status,omitempty"`
+	Spec              AfdOriginGroup_Spec   `json:"spec,omitempty"`
+	Status            AfdOriginGroup_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &AfdOriginGroup{}
@@ -87,7 +87,7 @@ func (group *AfdOriginGroup) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *AfdOriginGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profiles_OriginGroup_STATUS{}
+	return &AfdOriginGroup_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (group *AfdOriginGroup) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (group *AfdOriginGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profiles_OriginGroup_STATUS); ok {
+	if st, ok := status.(*AfdOriginGroup_STATUS); ok {
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profiles_OriginGroup_STATUS
+	var st AfdOriginGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type AfdOriginGroupList struct {
 	Items           []AfdOriginGroup `json:"items"`
 }
 
-// Storage version of v1api20230501.Profiles_OriginGroup_Spec
-type Profiles_OriginGroup_Spec struct {
+// Storage version of v1api20230501.AfdOriginGroup_Spec
+type AfdOriginGroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName             string                           `json:"azureName,omitempty"`
@@ -157,10 +157,10 @@ type Profiles_OriginGroup_Spec struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                               `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_OriginGroup_Spec{}
+var _ genruntime.ConvertibleSpec = &AfdOriginGroup_Spec{}
 
-// ConvertSpecFrom populates our Profiles_OriginGroup_Spec from the provided source
-func (group *Profiles_OriginGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our AfdOriginGroup_Spec from the provided source
+func (group *AfdOriginGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -168,8 +168,8 @@ func (group *Profiles_OriginGroup_Spec) ConvertSpecFrom(source genruntime.Conver
 	return source.ConvertSpecTo(group)
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_OriginGroup_Spec
-func (group *Profiles_OriginGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our AfdOriginGroup_Spec
+func (group *AfdOriginGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -177,8 +177,8 @@ func (group *Profiles_OriginGroup_Spec) ConvertSpecTo(destination genruntime.Con
 	return destination.ConvertSpecFrom(group)
 }
 
-// Storage version of v1api20230501.Profiles_OriginGroup_STATUS
-type Profiles_OriginGroup_STATUS struct {
+// Storage version of v1api20230501.AfdOriginGroup_STATUS
+type AfdOriginGroup_STATUS struct {
 	Conditions                                            []conditions.Condition                  `json:"conditions,omitempty"`
 	DeploymentStatus                                      *string                                 `json:"deploymentStatus,omitempty"`
 	HealthProbeSettings                                   *HealthProbeParameters_STATUS           `json:"healthProbeSettings,omitempty"`
@@ -194,10 +194,10 @@ type Profiles_OriginGroup_STATUS struct {
 	Type                                                  *string                                 `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profiles_OriginGroup_STATUS{}
+var _ genruntime.ConvertibleStatus = &AfdOriginGroup_STATUS{}
 
-// ConvertStatusFrom populates our Profiles_OriginGroup_STATUS from the provided source
-func (group *Profiles_OriginGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our AfdOriginGroup_STATUS from the provided source
+func (group *AfdOriginGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -205,8 +205,8 @@ func (group *Profiles_OriginGroup_STATUS) ConvertStatusFrom(source genruntime.Co
 	return source.ConvertStatusTo(group)
 }
 
-// ConvertStatusTo populates the provided destination from our Profiles_OriginGroup_STATUS
-func (group *Profiles_OriginGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our AfdOriginGroup_STATUS
+func (group *AfdOriginGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

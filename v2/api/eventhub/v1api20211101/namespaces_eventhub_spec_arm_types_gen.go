@@ -5,27 +5,27 @@ package v1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Namespaces_Eventhub_Spec_ARM struct {
+type NamespacesEventhub_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to the Create Or Update Event Hub operation.
 	Properties *Namespaces_Eventhub_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Namespaces_Eventhub_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &NamespacesEventhub_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (eventhub Namespaces_Eventhub_Spec_ARM) GetAPIVersion() string {
+func (eventhub NamespacesEventhub_Spec_ARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (eventhub *Namespaces_Eventhub_Spec_ARM) GetName() string {
+func (eventhub *NamespacesEventhub_Spec_ARM) GetName() string {
 	return eventhub.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs"
-func (eventhub *Namespaces_Eventhub_Spec_ARM) GetType() string {
+func (eventhub *NamespacesEventhub_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs"
 }
 

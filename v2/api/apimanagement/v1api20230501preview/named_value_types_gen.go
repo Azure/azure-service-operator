@@ -30,8 +30,8 @@ import (
 type NamedValue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_NamedValue_Spec   `json:"spec,omitempty"`
-	Status            Service_NamedValue_STATUS `json:"status,omitempty"`
+	Spec              NamedValue_Spec   `json:"spec,omitempty"`
+	Status            NamedValue_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamedValue{}
@@ -149,7 +149,7 @@ func (value *NamedValue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (value *NamedValue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_NamedValue_STATUS{}
+	return &NamedValue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -161,13 +161,13 @@ func (value *NamedValue) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (value *NamedValue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_NamedValue_STATUS); ok {
+	if st, ok := status.(*NamedValue_STATUS); ok {
 		value.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_NamedValue_STATUS
+	var st NamedValue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,18 +277,18 @@ func (value *NamedValue) AssignProperties_From_NamedValue(source *storage.NamedV
 	value.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_NamedValue_Spec
-	err := spec.AssignProperties_From_Service_NamedValue_Spec(&source.Spec)
+	var spec NamedValue_Spec
+	err := spec.AssignProperties_From_NamedValue_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_NamedValue_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_NamedValue_Spec() to populate field Spec")
 	}
 	value.Spec = spec
 
 	// Status
-	var status Service_NamedValue_STATUS
-	err = status.AssignProperties_From_Service_NamedValue_STATUS(&source.Status)
+	var status NamedValue_STATUS
+	err = status.AssignProperties_From_NamedValue_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Service_NamedValue_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_NamedValue_STATUS() to populate field Status")
 	}
 	value.Status = status
 
@@ -303,18 +303,18 @@ func (value *NamedValue) AssignProperties_To_NamedValue(destination *storage.Nam
 	destination.ObjectMeta = *value.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_NamedValue_Spec
-	err := value.Spec.AssignProperties_To_Service_NamedValue_Spec(&spec)
+	var spec storage.NamedValue_Spec
+	err := value.Spec.AssignProperties_To_NamedValue_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_NamedValue_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_NamedValue_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_NamedValue_STATUS
-	err = value.Status.AssignProperties_To_Service_NamedValue_STATUS(&status)
+	var status storage.NamedValue_STATUS
+	err = value.Status.AssignProperties_To_NamedValue_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Service_NamedValue_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_NamedValue_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -341,7 +341,7 @@ type NamedValueList struct {
 	Items           []NamedValue `json:"items"`
 }
 
-type Service_NamedValue_Spec struct {
+type NamedValue_Spec struct {
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:Pattern="^[^*#&+:<>?]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -377,14 +377,14 @@ type Service_NamedValue_Spec struct {
 	Value *string `json:"value,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Service_NamedValue_Spec{}
+var _ genruntime.ARMTransformer = &NamedValue_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (value *Service_NamedValue_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (value *NamedValue_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if value == nil {
 		return nil, nil
 	}
-	result := &Service_NamedValue_Spec_ARM{}
+	result := &NamedValue_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -424,15 +424,15 @@ func (value *Service_NamedValue_Spec) ConvertToARM(resolved genruntime.ConvertTo
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (value *Service_NamedValue_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_NamedValue_Spec_ARM{}
+func (value *NamedValue_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamedValue_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (value *Service_NamedValue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_NamedValue_Spec_ARM)
+func (value *NamedValue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NamedValue_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_NamedValue_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamedValue_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -497,25 +497,25 @@ func (value *Service_NamedValue_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Service_NamedValue_Spec{}
+var _ genruntime.ConvertibleSpec = &NamedValue_Spec{}
 
-// ConvertSpecFrom populates our Service_NamedValue_Spec from the provided source
-func (value *Service_NamedValue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_NamedValue_Spec)
+// ConvertSpecFrom populates our NamedValue_Spec from the provided source
+func (value *NamedValue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.NamedValue_Spec)
 	if ok {
 		// Populate our instance from source
-		return value.AssignProperties_From_Service_NamedValue_Spec(src)
+		return value.AssignProperties_From_NamedValue_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_NamedValue_Spec{}
+	src = &storage.NamedValue_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = value.AssignProperties_From_Service_NamedValue_Spec(src)
+	err = value.AssignProperties_From_NamedValue_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -523,17 +523,17 @@ func (value *Service_NamedValue_Spec) ConvertSpecFrom(source genruntime.Converti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_NamedValue_Spec
-func (value *Service_NamedValue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_NamedValue_Spec)
+// ConvertSpecTo populates the provided destination from our NamedValue_Spec
+func (value *NamedValue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.NamedValue_Spec)
 	if ok {
 		// Populate destination from our instance
-		return value.AssignProperties_To_Service_NamedValue_Spec(dst)
+		return value.AssignProperties_To_NamedValue_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_NamedValue_Spec{}
-	err := value.AssignProperties_To_Service_NamedValue_Spec(dst)
+	dst = &storage.NamedValue_Spec{}
+	err := value.AssignProperties_To_NamedValue_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -547,8 +547,8 @@ func (value *Service_NamedValue_Spec) ConvertSpecTo(destination genruntime.Conve
 	return nil
 }
 
-// AssignProperties_From_Service_NamedValue_Spec populates our Service_NamedValue_Spec from the provided source Service_NamedValue_Spec
-func (value *Service_NamedValue_Spec) AssignProperties_From_Service_NamedValue_Spec(source *storage.Service_NamedValue_Spec) error {
+// AssignProperties_From_NamedValue_Spec populates our NamedValue_Spec from the provided source NamedValue_Spec
+func (value *NamedValue_Spec) AssignProperties_From_NamedValue_Spec(source *storage.NamedValue_Spec) error {
 
 	// AzureName
 	value.AzureName = source.AzureName
@@ -614,8 +614,8 @@ func (value *Service_NamedValue_Spec) AssignProperties_From_Service_NamedValue_S
 	return nil
 }
 
-// AssignProperties_To_Service_NamedValue_Spec populates the provided destination Service_NamedValue_Spec from our Service_NamedValue_Spec
-func (value *Service_NamedValue_Spec) AssignProperties_To_Service_NamedValue_Spec(destination *storage.Service_NamedValue_Spec) error {
+// AssignProperties_To_NamedValue_Spec populates the provided destination NamedValue_Spec from our NamedValue_Spec
+func (value *NamedValue_Spec) AssignProperties_To_NamedValue_Spec(destination *storage.NamedValue_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -694,14 +694,14 @@ func (value *Service_NamedValue_Spec) AssignProperties_To_Service_NamedValue_Spe
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (value *Service_NamedValue_Spec) OriginalVersion() string {
+func (value *NamedValue_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (value *Service_NamedValue_Spec) SetAzureName(azureName string) { value.AzureName = azureName }
+func (value *NamedValue_Spec) SetAzureName(azureName string) { value.AzureName = azureName }
 
-type Service_NamedValue_STATUS struct {
+type NamedValue_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -735,25 +735,25 @@ type Service_NamedValue_STATUS struct {
 	Value *string `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_NamedValue_STATUS{}
+var _ genruntime.ConvertibleStatus = &NamedValue_STATUS{}
 
-// ConvertStatusFrom populates our Service_NamedValue_STATUS from the provided source
-func (value *Service_NamedValue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_NamedValue_STATUS)
+// ConvertStatusFrom populates our NamedValue_STATUS from the provided source
+func (value *NamedValue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.NamedValue_STATUS)
 	if ok {
 		// Populate our instance from source
-		return value.AssignProperties_From_Service_NamedValue_STATUS(src)
+		return value.AssignProperties_From_NamedValue_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_NamedValue_STATUS{}
+	src = &storage.NamedValue_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = value.AssignProperties_From_Service_NamedValue_STATUS(src)
+	err = value.AssignProperties_From_NamedValue_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -761,17 +761,17 @@ func (value *Service_NamedValue_STATUS) ConvertStatusFrom(source genruntime.Conv
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_NamedValue_STATUS
-func (value *Service_NamedValue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_NamedValue_STATUS)
+// ConvertStatusTo populates the provided destination from our NamedValue_STATUS
+func (value *NamedValue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.NamedValue_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return value.AssignProperties_To_Service_NamedValue_STATUS(dst)
+		return value.AssignProperties_To_NamedValue_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_NamedValue_STATUS{}
-	err := value.AssignProperties_To_Service_NamedValue_STATUS(dst)
+	dst = &storage.NamedValue_STATUS{}
+	err := value.AssignProperties_To_NamedValue_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -785,18 +785,18 @@ func (value *Service_NamedValue_STATUS) ConvertStatusTo(destination genruntime.C
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Service_NamedValue_STATUS{}
+var _ genruntime.FromARMConverter = &NamedValue_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (value *Service_NamedValue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Service_NamedValue_STATUS_ARM{}
+func (value *NamedValue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamedValue_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (value *Service_NamedValue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Service_NamedValue_STATUS_ARM)
+func (value *NamedValue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NamedValue_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Service_NamedValue_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamedValue_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -881,8 +881,8 @@ func (value *Service_NamedValue_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignProperties_From_Service_NamedValue_STATUS populates our Service_NamedValue_STATUS from the provided source Service_NamedValue_STATUS
-func (value *Service_NamedValue_STATUS) AssignProperties_From_Service_NamedValue_STATUS(source *storage.Service_NamedValue_STATUS) error {
+// AssignProperties_From_NamedValue_STATUS populates our NamedValue_STATUS from the provided source NamedValue_STATUS
+func (value *NamedValue_STATUS) AssignProperties_From_NamedValue_STATUS(source *storage.NamedValue_STATUS) error {
 
 	// Conditions
 	value.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -932,8 +932,8 @@ func (value *Service_NamedValue_STATUS) AssignProperties_From_Service_NamedValue
 	return nil
 }
 
-// AssignProperties_To_Service_NamedValue_STATUS populates the provided destination Service_NamedValue_STATUS from our Service_NamedValue_STATUS
-func (value *Service_NamedValue_STATUS) AssignProperties_To_Service_NamedValue_STATUS(destination *storage.Service_NamedValue_STATUS) error {
+// AssignProperties_To_NamedValue_STATUS populates the provided destination NamedValue_STATUS from our NamedValue_STATUS
+func (value *NamedValue_STATUS) AssignProperties_To_NamedValue_STATUS(destination *storage.NamedValue_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

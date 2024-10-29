@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20211101
 
-type Servers_Databases_SecurityAlertPolicy_STATUS_ARM struct {
+type ServersDatabasesSecurityAlertPolicy_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 

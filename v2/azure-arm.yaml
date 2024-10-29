@@ -129,6 +129,22 @@ typeFilters:
     group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 
+#
+# When loading resources, it's possible for us to end up with a name collision if two resources 
+# specify similar URLs (we derive the names from the structure of the ARM URL specified for the 
+# resource). This is an extremely rare event.
+# Because this happens so early in the operation of our pipeline, our existing mechanisms for 
+# disambiguation and renaming can't be applied, so we special case them here.
+#
+# This is configuration of last resort; in most cases, you should use the objectModelConfiguration
+# to rename things as it is much more flexible.
+#
+typeLoaderRenames:
+  - group: insights
+    name: DiagnosticSetting
+    scope: Location
+    renameTo: SubscriptionDiagnosticSetting
+
 # Exclusions for packages that currently produce types including AnyType.
 # TODO: get rid of these, either by chasing the teams generating
 # weird json or by handling them differently in the generator.
@@ -368,6 +384,18 @@ typeTransformers:
   - group: machinelearningservices
     name: EncryptionProperty
     property: Status
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
+  - group: machinelearningservices
+    name: SystemCreatedStorageAccount
+    property: ArmResourceId
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+
+  - group: machinelearningservices
+    name: SystemCreatedAcrAccount
+    property: ArmResourceId
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
 
@@ -2447,6 +2475,7 @@ objectModelConfiguration:
       WebTestGeolocation:
         Id:
           $armReference: false
+
   keyvault:
     2021-04-01-preview:
       Vault:
@@ -2794,6 +2823,21 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         TenantId:
           $importConfigMapMode: optional
+      Registry:
+        $export: true
+        $supportedFrom: v2.10.0
+        $generatedConfigs:
+          DiscoveryUrl: $.Status.DiscoveryUrl
+          MlFlowRegistryUri: $.Status.MlFlowRegistryUri
+      PrivateEndpointResource:
+        SubnetArmId:
+          $armReference: true
+      ArmResourceId:
+        ResourceId:
+          $armReference: true
+      RegistryPrivateEndpointConnection:
+        Id:
+          $armReference: true
   monitor:
     2023-04-03:
       Account:
@@ -3080,6 +3124,9 @@ objectModelConfiguration:
       DnsForwardingRuleSets_ForwardingRule:
         $exportAs: DnsForwardingRuleSetsForwardingRule
         $supportedFrom: v2.2.0
+      DnsForwardingRuleSets_VirtualNetworkLink:
+        $exportAs: DnsForwardingRuleSetsVirtualNetworkLink
+        $supportedFrom: v2.10.0
       TargetDnsServer:
         IpAddress:
           $importConfigMapMode: optional
@@ -3121,6 +3168,9 @@ objectModelConfiguration:
       ApplicationGatewayWebApplicationFirewallPolicy:
         $exportAs: WebApplicationFirewallPolicy
         $supportedFrom: v2.10.0
+      ApplicationSecurityGroup:
+        $export: true
+        $supportedFrom: v2.10.0      
   network.frontdoor:
     2022-05-01:
       FrontDoorWebApplicationFirewallPolicy:
@@ -3600,6 +3650,7 @@ objectModelConfiguration:
         $export: true
         $exportAs: WorkspacesBigDataPool
         $supportedFrom: v2.0.0
+
   web:
     2022-03-01:
       ApiManagementConfig:

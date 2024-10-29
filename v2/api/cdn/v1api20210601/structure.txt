@@ -1545,7 +1545,7 @@ ProfilesEndpoint: Resource
     │       └── VaultName: *string
     └── WebApplicationFirewallPolicyLink: *Object (1 property)
         └── Id: *string
-Profiles_Endpoint_STATUS_ARM: Object (7 properties)
+ProfilesEndpoint_STATUS_ARM: Object (7 properties)
 ├── Id: *string
 ├── Location: *string
 ├── Name: *string
@@ -2256,7 +2256,7 @@ Profiles_Endpoint_STATUS_ARM: Object (7 properties)
 │       └── "user"
 ├── Tags: map[string]string
 └── Type: *string
-Profiles_Endpoint_Spec_ARM: Object (4 properties)
+ProfilesEndpoint_Spec_ARM: Object (4 properties)
 ├── Location: *string
 ├── Name: string
 ├── Properties: *Object (16 properties)

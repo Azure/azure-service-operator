@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20220901
 
-type StorageAccounts_FileServices_Share_STATUS_ARM struct {
+type StorageAccountsFileServicesShare_STATUS_ARM struct {
 	// Etag: Resource Etag.
 	Etag *string `json:"etag,omitempty"`
 

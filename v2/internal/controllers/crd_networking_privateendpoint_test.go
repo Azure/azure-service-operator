@@ -88,7 +88,7 @@ func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *
 
 	dnsZoneGroup := &network.PrivateEndpointsPrivateDnsZoneGroup{
 		ObjectMeta: tc.MakeObjectMeta("dnszonegroup"),
-		Spec: network.PrivateEndpoints_PrivateDnsZoneGroup_Spec{
+		Spec: network.PrivateEndpointsPrivateDnsZoneGroup_Spec{
 			Owner: testcommon.AsOwner(endpoint),
 			PrivateDnsZoneConfigs: []network.PrivateDnsZoneConfig{
 				{

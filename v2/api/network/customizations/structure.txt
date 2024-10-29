@@ -2,8 +2,10 @@
 github.com/Azure/azure-service-operator/v2/api/network/customizations
 ---------------------------------------------------------------------
 ApplicationGatewayExtension: Object (0 properties)
+ApplicationSecurityGroupExtension: Object (0 properties)
 BastionHostExtension: Object (0 properties)
 DnsForwardingRuleSetsForwardingRuleExtension: Object (0 properties)
+DnsForwardingRuleSetsVirtualNetworkLinkExtension: Object (0 properties)
 DnsForwardingRulesetExtension: Object (0 properties)
 DnsResolverExtension: Object (0 properties)
 DnsResolversInboundEndpointExtension: Object (0 properties)

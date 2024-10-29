@@ -825,6 +825,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20240401s.Registry)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20240401s.Workspace),
 		Indexes: []registration.Index{
@@ -1109,6 +1110,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsForwardingRuleSetsVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsForwardingRuleset)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolver)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolversInboundEndpoint)})
@@ -1118,6 +1120,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateLinkService)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PublicIPPrefix)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.ApplicationSecurityGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
@@ -1888,11 +1891,13 @@ func getKnownTypes() []client.Object {
 		new(machinelearningservices_v20210701s.WorkspacesConnection))
 	result = append(
 		result,
+		new(machinelearningservices_v20240401.Registry),
 		new(machinelearningservices_v20240401.Workspace),
 		new(machinelearningservices_v20240401.WorkspacesCompute),
 		new(machinelearningservices_v20240401.WorkspacesConnection))
 	result = append(
 		result,
+		new(machinelearningservices_v20240401s.Registry),
 		new(machinelearningservices_v20240401s.Workspace),
 		new(machinelearningservices_v20240401s.WorkspacesCompute),
 		new(machinelearningservices_v20240401s.WorkspacesConnection))
@@ -2001,6 +2006,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701.ApplicationGateway),
 		new(network_v20220701.BastionHost),
 		new(network_v20220701.DnsForwardingRuleSetsForwardingRule),
+		new(network_v20220701.DnsForwardingRuleSetsVirtualNetworkLink),
 		new(network_v20220701.DnsForwardingRuleset),
 		new(network_v20220701.DnsResolver),
 		new(network_v20220701.DnsResolversInboundEndpoint),
@@ -2015,6 +2021,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701s.ApplicationGateway),
 		new(network_v20220701s.BastionHost),
 		new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
+		new(network_v20220701s.DnsForwardingRuleSetsVirtualNetworkLink),
 		new(network_v20220701s.DnsForwardingRuleset),
 		new(network_v20220701s.DnsResolver),
 		new(network_v20220701s.DnsResolversInboundEndpoint),
@@ -2024,8 +2031,14 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup),
 		new(network_v20220701s.PrivateLinkService),
 		new(network_v20220701s.PublicIPPrefix))
-	result = append(result, new(network_v20240101.WebApplicationFirewallPolicy))
-	result = append(result, new(network_v20240101s.WebApplicationFirewallPolicy))
+	result = append(
+		result,
+		new(network_v20240101.ApplicationSecurityGroup),
+		new(network_v20240101.WebApplicationFirewallPolicy))
+	result = append(
+		result,
+		new(network_v20240101s.ApplicationSecurityGroup),
+		new(network_v20240101s.WebApplicationFirewallPolicy))
 	result = append(result, new(networkfrontdoor_v20220501.WebApplicationFirewallPolicy))
 	result = append(result, new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
@@ -2494,6 +2507,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.FluxConfigurationExtension{})
+	result = append(result, &machinelearningservices_customizations.RegistryExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
@@ -2501,8 +2515,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &monitor_customizations.AccountExtension{})
 	result = append(result, &network_customizations.ApplicationGatewayExtension{})
+	result = append(result, &network_customizations.ApplicationSecurityGroupExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
+	result = append(result, &network_customizations.DnsForwardingRuleSetsVirtualNetworkLinkExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
 	result = append(result, &network_customizations.DnsResolverExtension{})
 	result = append(result, &network_customizations.DnsResolversInboundEndpointExtension{})

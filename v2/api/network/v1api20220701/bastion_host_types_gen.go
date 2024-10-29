@@ -5,6 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -378,7 +379,7 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if host == nil {
 		return nil, nil
 	}
-	result := &BastionHost_Spec_ARM{}
+	result := &arm.BastionHost_Spec{}
 
 	// Set property "Location":
 	if host.Location != nil {
@@ -398,7 +399,7 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		host.EnableTunneling != nil ||
 		host.IpConfigurations != nil ||
 		host.ScaleUnits != nil {
-		result.Properties = &BastionHostPropertiesFormat_ARM{}
+		result.Properties = &arm.BastionHostPropertiesFormat{}
 	}
 	if host.DisableCopyPaste != nil {
 		disableCopyPaste := *host.DisableCopyPaste
@@ -429,7 +430,7 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*BastionHostIPConfiguration_ARM))
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*arm.BastionHostIPConfiguration))
 	}
 	if host.ScaleUnits != nil {
 		scaleUnits := *host.ScaleUnits
@@ -442,7 +443,7 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*Sku_ARM)
+		sku := *sku_ARM.(*arm.Sku)
 		result.Sku = &sku
 	}
 
@@ -458,14 +459,14 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (host *BastionHost_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BastionHost_Spec_ARM{}
+	return &arm.BastionHost_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BastionHost_Spec_ARM)
+	typedInput, ok := armInput.(arm.BastionHost_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHost_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BastionHost_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -1064,14 +1065,14 @@ var _ genruntime.FromARMConverter = &BastionHost_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (host *BastionHost_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BastionHost_STATUS_ARM{}
+	return &arm.BastionHost_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BastionHost_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BastionHost_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHost_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BastionHost_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1474,7 +1475,7 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &BastionHostIPConfiguration_ARM{}
+	result := &arm.BastionHostIPConfiguration{}
 
 	// Set property "Name":
 	if configuration.Name != nil {
@@ -1486,12 +1487,12 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 	if configuration.PrivateIPAllocationMethod != nil ||
 		configuration.PublicIPAddress != nil ||
 		configuration.Subnet != nil {
-		result.Properties = &BastionHostIPConfigurationPropertiesFormat_ARM{}
+		result.Properties = &arm.BastionHostIPConfigurationPropertiesFormat{}
 	}
 	if configuration.PrivateIPAllocationMethod != nil {
 		var temp string
 		temp = string(*configuration.PrivateIPAllocationMethod)
-		privateIPAllocationMethod := IPAllocationMethod_ARM(temp)
+		privateIPAllocationMethod := arm.IPAllocationMethod(temp)
 		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
 	}
 	if configuration.PublicIPAddress != nil {
@@ -1499,7 +1500,7 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddress := *publicIPAddress_ARM.(*BastionHostSubResource_ARM)
+		publicIPAddress := *publicIPAddress_ARM.(*arm.BastionHostSubResource)
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configuration.Subnet != nil {
@@ -1507,7 +1508,7 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		subnet := *subnet_ARM.(*BastionHostSubResource_ARM)
+		subnet := *subnet_ARM.(*arm.BastionHostSubResource)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -1515,14 +1516,14 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *BastionHostIPConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BastionHostIPConfiguration_ARM{}
+	return &arm.BastionHostIPConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *BastionHostIPConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BastionHostIPConfiguration_ARM)
+	typedInput, ok := armInput.(arm.BastionHostIPConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHostIPConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BastionHostIPConfiguration, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -1685,14 +1686,14 @@ var _ genruntime.FromARMConverter = &BastionHostIPConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *BastionHostIPConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BastionHostIPConfiguration_STATUS_ARM{}
+	return &arm.BastionHostIPConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *BastionHostIPConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BastionHostIPConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.BastionHostIPConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHostIPConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BastionHostIPConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1765,13 +1766,13 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &Sku_ARM{}
+	result := &arm.Sku{}
 
 	// Set property "Name":
 	if sku.Name != nil {
 		var temp string
 		temp = string(*sku.Name)
-		name := Sku_Name_ARM(temp)
+		name := arm.Sku_Name(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -1779,14 +1780,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_ARM{}
+	return &arm.Sku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_ARM)
+	typedInput, ok := armInput.(arm.Sku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -1866,14 +1867,14 @@ var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUS_ARM{}
+	return &arm.Sku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Sku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -1941,7 +1942,7 @@ func (resource *BastionHostSubResource) ConvertToARM(resolved genruntime.Convert
 	if resource == nil {
 		return nil, nil
 	}
-	result := &BastionHostSubResource_ARM{}
+	result := &arm.BastionHostSubResource{}
 
 	// Set property "Id":
 	if resource.Reference != nil {
@@ -1957,14 +1958,14 @@ func (resource *BastionHostSubResource) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *BastionHostSubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BastionHostSubResource_ARM{}
+	return &arm.BastionHostSubResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *BastionHostSubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(BastionHostSubResource_ARM)
+	_, ok := armInput.(arm.BastionHostSubResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHostSubResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BastionHostSubResource, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"

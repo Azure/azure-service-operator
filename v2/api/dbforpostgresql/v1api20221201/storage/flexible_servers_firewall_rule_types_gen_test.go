@@ -75,24 +75,24 @@ func FlexibleServersFirewallRuleGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = FlexibleServers_FirewallRule_SpecGenerator()
-	gens["Status"] = FlexibleServers_FirewallRule_STATUSGenerator()
+	gens["Spec"] = FlexibleServersFirewallRule_SpecGenerator()
+	gens["Status"] = FlexibleServersFirewallRule_STATUSGenerator()
 }
 
-func Test_FlexibleServers_FirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FlexibleServersFirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of FlexibleServers_FirewallRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServers_FirewallRule_STATUS, FlexibleServers_FirewallRule_STATUSGenerator()))
+		"Round trip of FlexibleServersFirewallRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServersFirewallRule_STATUS, FlexibleServersFirewallRule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFlexibleServers_FirewallRule_STATUS runs a test to see if a specific instance of FlexibleServers_FirewallRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServers_FirewallRule_STATUS(subject FlexibleServers_FirewallRule_STATUS) string {
+// RunJSONSerializationTestForFlexibleServersFirewallRule_STATUS runs a test to see if a specific instance of FlexibleServersFirewallRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServersFirewallRule_STATUS(subject FlexibleServersFirewallRule_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -100,7 +100,7 @@ func RunJSONSerializationTestForFlexibleServers_FirewallRule_STATUS(subject Flex
 	}
 
 	// Deserialize back into memory
-	var actual FlexibleServers_FirewallRule_STATUS
+	var actual FlexibleServersFirewallRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -118,34 +118,34 @@ func RunJSONSerializationTestForFlexibleServers_FirewallRule_STATUS(subject Flex
 	return ""
 }
 
-// Generator of FlexibleServers_FirewallRule_STATUS instances for property testing - lazily instantiated by
-// FlexibleServers_FirewallRule_STATUSGenerator()
-var flexibleServers_FirewallRule_STATUSGenerator gopter.Gen
+// Generator of FlexibleServersFirewallRule_STATUS instances for property testing - lazily instantiated by
+// FlexibleServersFirewallRule_STATUSGenerator()
+var flexibleServersFirewallRule_STATUSGenerator gopter.Gen
 
-// FlexibleServers_FirewallRule_STATUSGenerator returns a generator of FlexibleServers_FirewallRule_STATUS instances for property testing.
-// We first initialize flexibleServers_FirewallRule_STATUSGenerator with a simplified generator based on the
+// FlexibleServersFirewallRule_STATUSGenerator returns a generator of FlexibleServersFirewallRule_STATUS instances for property testing.
+// We first initialize flexibleServersFirewallRule_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func FlexibleServers_FirewallRule_STATUSGenerator() gopter.Gen {
-	if flexibleServers_FirewallRule_STATUSGenerator != nil {
-		return flexibleServers_FirewallRule_STATUSGenerator
+func FlexibleServersFirewallRule_STATUSGenerator() gopter.Gen {
+	if flexibleServersFirewallRule_STATUSGenerator != nil {
+		return flexibleServersFirewallRule_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_STATUS(generators)
-	flexibleServers_FirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_FirewallRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(generators)
+	flexibleServersFirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersFirewallRule_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServers_FirewallRule_STATUS(generators)
-	flexibleServers_FirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_FirewallRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(generators)
+	flexibleServersFirewallRule_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServersFirewallRule_STATUS{}), generators)
 
-	return flexibleServers_FirewallRule_STATUSGenerator
+	return flexibleServersFirewallRule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(gens map[string]gopter.Gen) {
 	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -153,25 +153,25 @@ func AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_STATUS(gens
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForFlexibleServers_FirewallRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServers_FirewallRule_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_FlexibleServers_FirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_FlexibleServersFirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of FlexibleServers_FirewallRule_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForFlexibleServers_FirewallRule_Spec, FlexibleServers_FirewallRule_SpecGenerator()))
+		"Round trip of FlexibleServersFirewallRule_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServersFirewallRule_Spec, FlexibleServersFirewallRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForFlexibleServers_FirewallRule_Spec runs a test to see if a specific instance of FlexibleServers_FirewallRule_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForFlexibleServers_FirewallRule_Spec(subject FlexibleServers_FirewallRule_Spec) string {
+// RunJSONSerializationTestForFlexibleServersFirewallRule_Spec runs a test to see if a specific instance of FlexibleServersFirewallRule_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServersFirewallRule_Spec(subject FlexibleServersFirewallRule_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -179,7 +179,7 @@ func RunJSONSerializationTestForFlexibleServers_FirewallRule_Spec(subject Flexib
 	}
 
 	// Deserialize back into memory
-	var actual FlexibleServers_FirewallRule_Spec
+	var actual FlexibleServersFirewallRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -197,25 +197,25 @@ func RunJSONSerializationTestForFlexibleServers_FirewallRule_Spec(subject Flexib
 	return ""
 }
 
-// Generator of FlexibleServers_FirewallRule_Spec instances for property testing - lazily instantiated by
-// FlexibleServers_FirewallRule_SpecGenerator()
-var flexibleServers_FirewallRule_SpecGenerator gopter.Gen
+// Generator of FlexibleServersFirewallRule_Spec instances for property testing - lazily instantiated by
+// FlexibleServersFirewallRule_SpecGenerator()
+var flexibleServersFirewallRule_SpecGenerator gopter.Gen
 
-// FlexibleServers_FirewallRule_SpecGenerator returns a generator of FlexibleServers_FirewallRule_Spec instances for property testing.
-func FlexibleServers_FirewallRule_SpecGenerator() gopter.Gen {
-	if flexibleServers_FirewallRule_SpecGenerator != nil {
-		return flexibleServers_FirewallRule_SpecGenerator
+// FlexibleServersFirewallRule_SpecGenerator returns a generator of FlexibleServersFirewallRule_Spec instances for property testing.
+func FlexibleServersFirewallRule_SpecGenerator() gopter.Gen {
+	if flexibleServersFirewallRule_SpecGenerator != nil {
+		return flexibleServersFirewallRule_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_Spec(generators)
-	flexibleServers_FirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_FirewallRule_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_Spec(generators)
+	flexibleServersFirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersFirewallRule_Spec{}), generators)
 
-	return flexibleServers_FirewallRule_SpecGenerator
+	return flexibleServersFirewallRule_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()

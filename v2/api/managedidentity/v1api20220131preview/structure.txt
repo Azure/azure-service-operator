@@ -21,7 +21,7 @@ FederatedIdentityCredential: Resource
     ├── Name: *string
     ├── Subject: *string
     └── Type: *string
-UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM: Object (4 properties)
+FederatedIdentityCredential_STATUS_ARM: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (3 properties)
@@ -29,7 +29,7 @@ UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM: Object (4 propert
 │   ├── Issuer: *string
 │   └── Subject: *string
 └── Type: *string
-UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM: Object (2 properties)
+FederatedIdentityCredential_Spec_ARM: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (3 properties)
     ├── Audiences: string[]

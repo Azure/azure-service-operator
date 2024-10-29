@@ -15,7 +15,7 @@ import (
 	"github.com/leanovate/gopter/arbitrary"
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
@@ -23,9 +23,9 @@ func Test_FuzzySetSubnets(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	vnet := &network.VirtualNetwork_Spec_ARM{
+	vnet := &arm.VirtualNetwork_Spec{
 		Location: to.Ptr("westus"),
-		Properties: &network.VirtualNetworkPropertiesFormat_ARM{
+		Properties: &arm.VirtualNetworkPropertiesFormat{
 			EnableDdosProtection: to.Ptr(true),
 		},
 	}
@@ -92,14 +92,14 @@ func Test_FuzzySetSubnets(t *testing.T) {
 func Test_FuzzySetSubnet(t *testing.T) {
 	t.Parallel()
 
-	embeddedType := reflect.TypeOf(network.Subnet_VirtualNetwork_SubResourceEmbedded_ARM{})
+	embeddedType := reflect.TypeOf(arm.Subnet_VirtualNetwork_SubResourceEmbedded{})
 	properties := gopter.NewProperties(nil)
 	arbitraries := arbitrary.DefaultArbitraries()
 
 	properties.Property(
 		"all subnet types can be converted between non-embedded and embedded",
 		arbitraries.ForAll(
-			func(subnet *network.VirtualNetworks_Subnet_Spec_ARM) (bool, error) {
+			func(subnet *arm.VirtualNetworksSubnet_Spec) (bool, error) {
 				val := reflect.New(embeddedType)
 
 				bytes, err := json.Marshal(subnet)

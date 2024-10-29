@@ -86,7 +86,7 @@ func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.Kn
 func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *networkvnet.VirtualNetworksSubnet {
 	return &networkvnet.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: networkvnet.VirtualNetworks_Subnet_Spec{
+		Spec: networkvnet.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
 			AddressPrefix: to.Ptr("10.0.0.0/24"),
 		},

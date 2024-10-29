@@ -160,36 +160,36 @@ func DnsZonesTXTRecordGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDnsZonesTXTRecord is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsZonesTXTRecord(gens map[string]gopter.Gen) {
-	gens["Spec"] = DnsZones_TXT_SpecGenerator()
-	gens["Status"] = DnsZones_TXT_STATUSGenerator()
+	gens["Spec"] = DnsZonesTXTRecord_SpecGenerator()
+	gens["Status"] = DnsZonesTXTRecord_STATUSGenerator()
 }
 
-func Test_DnsZones_TXT_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DnsZonesTXTRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DnsZones_TXT_STATUS to DnsZones_TXT_STATUS via AssignProperties_To_DnsZones_TXT_STATUS & AssignProperties_From_DnsZones_TXT_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDnsZones_TXT_STATUS, DnsZones_TXT_STATUSGenerator()))
+		"Round trip from DnsZonesTXTRecord_STATUS to DnsZonesTXTRecord_STATUS via AssignProperties_To_DnsZonesTXTRecord_STATUS & AssignProperties_From_DnsZonesTXTRecord_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDnsZonesTXTRecord_STATUS, DnsZonesTXTRecord_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_TXT_STATUS tests if a specific instance of DnsZones_TXT_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDnsZones_TXT_STATUS(subject DnsZones_TXT_STATUS) string {
+// RunPropertyAssignmentTestForDnsZonesTXTRecord_STATUS tests if a specific instance of DnsZonesTXTRecord_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDnsZonesTXTRecord_STATUS(subject DnsZonesTXTRecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DnsZones_TXT_STATUS
-	err := copied.AssignProperties_To_DnsZones_TXT_STATUS(&other)
+	var other storage.DnsZonesTXTRecord_STATUS
+	err := copied.AssignProperties_To_DnsZonesTXTRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DnsZones_TXT_STATUS
-	err = actual.AssignProperties_From_DnsZones_TXT_STATUS(&other)
+	var actual DnsZonesTXTRecord_STATUS
+	err = actual.AssignProperties_From_DnsZonesTXTRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -206,20 +206,20 @@ func RunPropertyAssignmentTestForDnsZones_TXT_STATUS(subject DnsZones_TXT_STATUS
 	return ""
 }
 
-func Test_DnsZones_TXT_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsZonesTXTRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsZones_TXT_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZones_TXT_STATUS, DnsZones_TXT_STATUSGenerator()))
+		"Round trip of DnsZonesTXTRecord_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesTXTRecord_STATUS, DnsZonesTXTRecord_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsZones_TXT_STATUS runs a test to see if a specific instance of DnsZones_TXT_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZones_TXT_STATUS(subject DnsZones_TXT_STATUS) string {
+// RunJSONSerializationTestForDnsZonesTXTRecord_STATUS runs a test to see if a specific instance of DnsZonesTXTRecord_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesTXTRecord_STATUS(subject DnsZonesTXTRecord_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -227,7 +227,7 @@ func RunJSONSerializationTestForDnsZones_TXT_STATUS(subject DnsZones_TXT_STATUS)
 	}
 
 	// Deserialize back into memory
-	var actual DnsZones_TXT_STATUS
+	var actual DnsZonesTXTRecord_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -245,34 +245,34 @@ func RunJSONSerializationTestForDnsZones_TXT_STATUS(subject DnsZones_TXT_STATUS)
 	return ""
 }
 
-// Generator of DnsZones_TXT_STATUS instances for property testing - lazily instantiated by
-// DnsZones_TXT_STATUSGenerator()
-var dnsZones_TXT_STATUSGenerator gopter.Gen
+// Generator of DnsZonesTXTRecord_STATUS instances for property testing - lazily instantiated by
+// DnsZonesTXTRecord_STATUSGenerator()
+var dnsZonesTXTRecord_STATUSGenerator gopter.Gen
 
-// DnsZones_TXT_STATUSGenerator returns a generator of DnsZones_TXT_STATUS instances for property testing.
-// We first initialize dnsZones_TXT_STATUSGenerator with a simplified generator based on the
+// DnsZonesTXTRecord_STATUSGenerator returns a generator of DnsZonesTXTRecord_STATUS instances for property testing.
+// We first initialize dnsZonesTXTRecord_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DnsZones_TXT_STATUSGenerator() gopter.Gen {
-	if dnsZones_TXT_STATUSGenerator != nil {
-		return dnsZones_TXT_STATUSGenerator
+func DnsZonesTXTRecord_STATUSGenerator() gopter.Gen {
+	if dnsZonesTXTRecord_STATUSGenerator != nil {
+		return dnsZonesTXTRecord_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_TXT_STATUS(generators)
-	dnsZones_TXT_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_TXT_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesTXTRecord_STATUS(generators)
+	dnsZonesTXTRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZonesTXTRecord_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_TXT_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDnsZones_TXT_STATUS(generators)
-	dnsZones_TXT_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZones_TXT_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesTXTRecord_STATUS(generators)
+	AddRelatedPropertyGeneratorsForDnsZonesTXTRecord_STATUS(generators)
+	dnsZonesTXTRecord_STATUSGenerator = gen.Struct(reflect.TypeOf(DnsZonesTXTRecord_STATUS{}), generators)
 
-	return dnsZones_TXT_STATUSGenerator
+	return dnsZonesTXTRecord_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsZones_TXT_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZones_TXT_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsZonesTXTRecord_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZonesTXTRecord_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
@@ -285,8 +285,8 @@ func AddIndependentPropertyGeneratorsForDnsZones_TXT_STATUS(gens map[string]gopt
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDnsZones_TXT_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZones_TXT_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsZonesTXTRecord_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZonesTXTRecord_STATUS(gens map[string]gopter.Gen) {
 	gens["AAAARecords"] = gen.SliceOf(AaaaRecord_STATUSGenerator())
 	gens["ARecords"] = gen.SliceOf(ARecord_STATUSGenerator())
 	gens["CNAMERecord"] = gen.PtrOf(CnameRecord_STATUSGenerator())
@@ -300,32 +300,32 @@ func AddRelatedPropertyGeneratorsForDnsZones_TXT_STATUS(gens map[string]gopter.G
 	gens["TargetResource"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
-func Test_DnsZones_TXT_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DnsZonesTXTRecord_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DnsZones_TXT_Spec to DnsZones_TXT_Spec via AssignProperties_To_DnsZones_TXT_Spec & AssignProperties_From_DnsZones_TXT_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDnsZones_TXT_Spec, DnsZones_TXT_SpecGenerator()))
+		"Round trip from DnsZonesTXTRecord_Spec to DnsZonesTXTRecord_Spec via AssignProperties_To_DnsZonesTXTRecord_Spec & AssignProperties_From_DnsZonesTXTRecord_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDnsZonesTXTRecord_Spec, DnsZonesTXTRecord_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_TXT_Spec tests if a specific instance of DnsZones_TXT_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDnsZones_TXT_Spec(subject DnsZones_TXT_Spec) string {
+// RunPropertyAssignmentTestForDnsZonesTXTRecord_Spec tests if a specific instance of DnsZonesTXTRecord_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDnsZonesTXTRecord_Spec(subject DnsZonesTXTRecord_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DnsZones_TXT_Spec
-	err := copied.AssignProperties_To_DnsZones_TXT_Spec(&other)
+	var other storage.DnsZonesTXTRecord_Spec
+	err := copied.AssignProperties_To_DnsZonesTXTRecord_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DnsZones_TXT_Spec
-	err = actual.AssignProperties_From_DnsZones_TXT_Spec(&other)
+	var actual DnsZonesTXTRecord_Spec
+	err = actual.AssignProperties_From_DnsZonesTXTRecord_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -342,20 +342,20 @@ func RunPropertyAssignmentTestForDnsZones_TXT_Spec(subject DnsZones_TXT_Spec) st
 	return ""
 }
 
-func Test_DnsZones_TXT_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DnsZonesTXTRecord_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DnsZones_TXT_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDnsZones_TXT_Spec, DnsZones_TXT_SpecGenerator()))
+		"Round trip of DnsZonesTXTRecord_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZonesTXTRecord_Spec, DnsZonesTXTRecord_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDnsZones_TXT_Spec runs a test to see if a specific instance of DnsZones_TXT_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDnsZones_TXT_Spec(subject DnsZones_TXT_Spec) string {
+// RunJSONSerializationTestForDnsZonesTXTRecord_Spec runs a test to see if a specific instance of DnsZonesTXTRecord_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZonesTXTRecord_Spec(subject DnsZonesTXTRecord_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -363,7 +363,7 @@ func RunJSONSerializationTestForDnsZones_TXT_Spec(subject DnsZones_TXT_Spec) str
 	}
 
 	// Deserialize back into memory
-	var actual DnsZones_TXT_Spec
+	var actual DnsZonesTXTRecord_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -381,33 +381,34 @@ func RunJSONSerializationTestForDnsZones_TXT_Spec(subject DnsZones_TXT_Spec) str
 	return ""
 }
 
-// Generator of DnsZones_TXT_Spec instances for property testing - lazily instantiated by DnsZones_TXT_SpecGenerator()
-var dnsZones_TXT_SpecGenerator gopter.Gen
+// Generator of DnsZonesTXTRecord_Spec instances for property testing - lazily instantiated by
+// DnsZonesTXTRecord_SpecGenerator()
+var dnsZonesTXTRecord_SpecGenerator gopter.Gen
 
-// DnsZones_TXT_SpecGenerator returns a generator of DnsZones_TXT_Spec instances for property testing.
-// We first initialize dnsZones_TXT_SpecGenerator with a simplified generator based on the
+// DnsZonesTXTRecord_SpecGenerator returns a generator of DnsZonesTXTRecord_Spec instances for property testing.
+// We first initialize dnsZonesTXTRecord_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DnsZones_TXT_SpecGenerator() gopter.Gen {
-	if dnsZones_TXT_SpecGenerator != nil {
-		return dnsZones_TXT_SpecGenerator
+func DnsZonesTXTRecord_SpecGenerator() gopter.Gen {
+	if dnsZonesTXTRecord_SpecGenerator != nil {
+		return dnsZonesTXTRecord_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_TXT_Spec(generators)
-	dnsZones_TXT_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_TXT_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesTXTRecord_Spec(generators)
+	dnsZonesTXTRecord_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZonesTXTRecord_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDnsZones_TXT_Spec(generators)
-	AddRelatedPropertyGeneratorsForDnsZones_TXT_Spec(generators)
-	dnsZones_TXT_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZones_TXT_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDnsZonesTXTRecord_Spec(generators)
+	AddRelatedPropertyGeneratorsForDnsZonesTXTRecord_Spec(generators)
+	dnsZonesTXTRecord_SpecGenerator = gen.Struct(reflect.TypeOf(DnsZonesTXTRecord_Spec{}), generators)
 
-	return dnsZones_TXT_SpecGenerator
+	return dnsZonesTXTRecord_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDnsZones_TXT_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDnsZones_TXT_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDnsZonesTXTRecord_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDnsZonesTXTRecord_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Metadata"] = gen.MapOf(
 		gen.AlphaString(),
@@ -415,8 +416,8 @@ func AddIndependentPropertyGeneratorsForDnsZones_TXT_Spec(gens map[string]gopter
 	gens["TTL"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForDnsZones_TXT_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDnsZones_TXT_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDnsZonesTXTRecord_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDnsZonesTXTRecord_Spec(gens map[string]gopter.Gen) {
 	gens["AAAARecords"] = gen.SliceOf(AaaaRecordGenerator())
 	gens["ARecords"] = gen.SliceOf(ARecordGenerator())
 	gens["CNAMERecord"] = gen.PtrOf(CnameRecordGenerator())

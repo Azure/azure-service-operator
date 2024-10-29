@@ -29,8 +29,8 @@ import (
 type ServersSecurityAlertPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_SecurityAlertPolicy_Spec   `json:"spec,omitempty"`
-	Status            Servers_SecurityAlertPolicy_STATUS `json:"status,omitempty"`
+	Spec              ServersSecurityAlertPolicy_Spec   `json:"spec,omitempty"`
+	Status            ServersSecurityAlertPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersSecurityAlertPolicy{}
@@ -87,11 +87,11 @@ var _ genruntime.ImportableResource = &ServersSecurityAlertPolicy{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (policy *ServersSecurityAlertPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Servers_SecurityAlertPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_Servers_SecurityAlertPolicy_STATUS(s)
+	if s, ok := status.(*ServersSecurityAlertPolicy_STATUS); ok {
+		return policy.Spec.Initialize_From_ServersSecurityAlertPolicy_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Servers_SecurityAlertPolicy_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServersSecurityAlertPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersSecurityAlertPolicy{}
@@ -136,7 +136,7 @@ func (policy *ServersSecurityAlertPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *ServersSecurityAlertPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_SecurityAlertPolicy_STATUS{}
+	return &ServersSecurityAlertPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -148,13 +148,13 @@ func (policy *ServersSecurityAlertPolicy) Owner() *genruntime.ResourceReference 
 // SetStatus sets the status of this resource
 func (policy *ServersSecurityAlertPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_SecurityAlertPolicy_STATUS); ok {
+	if st, ok := status.(*ServersSecurityAlertPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_SecurityAlertPolicy_STATUS
+	var st ServersSecurityAlertPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -252,18 +252,18 @@ func (policy *ServersSecurityAlertPolicy) AssignProperties_From_ServersSecurityA
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Servers_SecurityAlertPolicy_Spec
-	err := spec.AssignProperties_From_Servers_SecurityAlertPolicy_Spec(&source.Spec)
+	var spec ServersSecurityAlertPolicy_Spec
+	err := spec.AssignProperties_From_ServersSecurityAlertPolicy_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_SecurityAlertPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersSecurityAlertPolicy_Spec() to populate field Spec")
 	}
 	policy.Spec = spec
 
 	// Status
-	var status Servers_SecurityAlertPolicy_STATUS
-	err = status.AssignProperties_From_Servers_SecurityAlertPolicy_STATUS(&source.Status)
+	var status ServersSecurityAlertPolicy_STATUS
+	err = status.AssignProperties_From_ServersSecurityAlertPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Servers_SecurityAlertPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ServersSecurityAlertPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -278,18 +278,18 @@ func (policy *ServersSecurityAlertPolicy) AssignProperties_To_ServersSecurityAle
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Servers_SecurityAlertPolicy_Spec
-	err := policy.Spec.AssignProperties_To_Servers_SecurityAlertPolicy_Spec(&spec)
+	var spec storage.ServersSecurityAlertPolicy_Spec
+	err := policy.Spec.AssignProperties_To_ServersSecurityAlertPolicy_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_SecurityAlertPolicy_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersSecurityAlertPolicy_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Servers_SecurityAlertPolicy_STATUS
-	err = policy.Status.AssignProperties_To_Servers_SecurityAlertPolicy_STATUS(&status)
+	var status storage.ServersSecurityAlertPolicy_STATUS
+	err = policy.Status.AssignProperties_To_ServersSecurityAlertPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Servers_SecurityAlertPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ServersSecurityAlertPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -316,7 +316,7 @@ type ServersSecurityAlertPolicyList struct {
 	Items           []ServersSecurityAlertPolicy `json:"items"`
 }
 
-type Servers_SecurityAlertPolicy_Spec struct {
+type ServersSecurityAlertPolicy_Spec struct {
 	// DisabledAlerts: Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection,
 	// Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force
 	DisabledAlerts []string `json:"disabledAlerts,omitempty"`
@@ -349,14 +349,14 @@ type Servers_SecurityAlertPolicy_Spec struct {
 	StorageEndpoint *string `json:"storageEndpoint,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Servers_SecurityAlertPolicy_Spec{}
+var _ genruntime.ARMTransformer = &ServersSecurityAlertPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *Servers_SecurityAlertPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *ServersSecurityAlertPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	result := &Servers_SecurityAlertPolicy_Spec_ARM{}
+	result := &ServersSecurityAlertPolicy_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -407,15 +407,15 @@ func (policy *Servers_SecurityAlertPolicy_Spec) ConvertToARM(resolved genruntime
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *Servers_SecurityAlertPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_SecurityAlertPolicy_Spec_ARM{}
+func (policy *ServersSecurityAlertPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersSecurityAlertPolicy_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *Servers_SecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_SecurityAlertPolicy_Spec_ARM)
+func (policy *ServersSecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersSecurityAlertPolicy_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_SecurityAlertPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersSecurityAlertPolicy_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "DisabledAlerts":
@@ -484,25 +484,25 @@ func (policy *Servers_SecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_SecurityAlertPolicy_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersSecurityAlertPolicy_Spec{}
 
-// ConvertSpecFrom populates our Servers_SecurityAlertPolicy_Spec from the provided source
-func (policy *Servers_SecurityAlertPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Servers_SecurityAlertPolicy_Spec)
+// ConvertSpecFrom populates our ServersSecurityAlertPolicy_Spec from the provided source
+func (policy *ServersSecurityAlertPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServersSecurityAlertPolicy_Spec)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_Servers_SecurityAlertPolicy_Spec(src)
+		return policy.AssignProperties_From_ServersSecurityAlertPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_SecurityAlertPolicy_Spec{}
+	src = &storage.ServersSecurityAlertPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_Servers_SecurityAlertPolicy_Spec(src)
+	err = policy.AssignProperties_From_ServersSecurityAlertPolicy_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -510,17 +510,17 @@ func (policy *Servers_SecurityAlertPolicy_Spec) ConvertSpecFrom(source genruntim
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_SecurityAlertPolicy_Spec
-func (policy *Servers_SecurityAlertPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Servers_SecurityAlertPolicy_Spec)
+// ConvertSpecTo populates the provided destination from our ServersSecurityAlertPolicy_Spec
+func (policy *ServersSecurityAlertPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServersSecurityAlertPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_Servers_SecurityAlertPolicy_Spec(dst)
+		return policy.AssignProperties_To_ServersSecurityAlertPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_SecurityAlertPolicy_Spec{}
-	err := policy.AssignProperties_To_Servers_SecurityAlertPolicy_Spec(dst)
+	dst = &storage.ServersSecurityAlertPolicy_Spec{}
+	err := policy.AssignProperties_To_ServersSecurityAlertPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -534,8 +534,8 @@ func (policy *Servers_SecurityAlertPolicy_Spec) ConvertSpecTo(destination genrun
 	return nil
 }
 
-// AssignProperties_From_Servers_SecurityAlertPolicy_Spec populates our Servers_SecurityAlertPolicy_Spec from the provided source Servers_SecurityAlertPolicy_Spec
-func (policy *Servers_SecurityAlertPolicy_Spec) AssignProperties_From_Servers_SecurityAlertPolicy_Spec(source *storage.Servers_SecurityAlertPolicy_Spec) error {
+// AssignProperties_From_ServersSecurityAlertPolicy_Spec populates our ServersSecurityAlertPolicy_Spec from the provided source ServersSecurityAlertPolicy_Spec
+func (policy *ServersSecurityAlertPolicy_Spec) AssignProperties_From_ServersSecurityAlertPolicy_Spec(source *storage.ServersSecurityAlertPolicy_Spec) error {
 
 	// DisabledAlerts
 	policy.DisabledAlerts = genruntime.CloneSliceOfString(source.DisabledAlerts)
@@ -586,8 +586,8 @@ func (policy *Servers_SecurityAlertPolicy_Spec) AssignProperties_From_Servers_Se
 	return nil
 }
 
-// AssignProperties_To_Servers_SecurityAlertPolicy_Spec populates the provided destination Servers_SecurityAlertPolicy_Spec from our Servers_SecurityAlertPolicy_Spec
-func (policy *Servers_SecurityAlertPolicy_Spec) AssignProperties_To_Servers_SecurityAlertPolicy_Spec(destination *storage.Servers_SecurityAlertPolicy_Spec) error {
+// AssignProperties_To_ServersSecurityAlertPolicy_Spec populates the provided destination ServersSecurityAlertPolicy_Spec from our ServersSecurityAlertPolicy_Spec
+func (policy *ServersSecurityAlertPolicy_Spec) AssignProperties_To_ServersSecurityAlertPolicy_Spec(destination *storage.ServersSecurityAlertPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -649,8 +649,8 @@ func (policy *Servers_SecurityAlertPolicy_Spec) AssignProperties_To_Servers_Secu
 	return nil
 }
 
-// Initialize_From_Servers_SecurityAlertPolicy_STATUS populates our Servers_SecurityAlertPolicy_Spec from the provided source Servers_SecurityAlertPolicy_STATUS
-func (policy *Servers_SecurityAlertPolicy_Spec) Initialize_From_Servers_SecurityAlertPolicy_STATUS(source *Servers_SecurityAlertPolicy_STATUS) error {
+// Initialize_From_ServersSecurityAlertPolicy_STATUS populates our ServersSecurityAlertPolicy_Spec from the provided source ServersSecurityAlertPolicy_STATUS
+func (policy *ServersSecurityAlertPolicy_Spec) Initialize_From_ServersSecurityAlertPolicy_STATUS(source *ServersSecurityAlertPolicy_STATUS) error {
 
 	// DisabledAlerts
 	policy.DisabledAlerts = genruntime.CloneSliceOfString(source.DisabledAlerts)
@@ -685,11 +685,11 @@ func (policy *Servers_SecurityAlertPolicy_Spec) Initialize_From_Servers_Security
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (policy *Servers_SecurityAlertPolicy_Spec) OriginalVersion() string {
+func (policy *ServersSecurityAlertPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-type Servers_SecurityAlertPolicy_STATUS struct {
+type ServersSecurityAlertPolicy_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -730,25 +730,25 @@ type Servers_SecurityAlertPolicy_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_SecurityAlertPolicy_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersSecurityAlertPolicy_STATUS{}
 
-// ConvertStatusFrom populates our Servers_SecurityAlertPolicy_STATUS from the provided source
-func (policy *Servers_SecurityAlertPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Servers_SecurityAlertPolicy_STATUS)
+// ConvertStatusFrom populates our ServersSecurityAlertPolicy_STATUS from the provided source
+func (policy *ServersSecurityAlertPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServersSecurityAlertPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
-		return policy.AssignProperties_From_Servers_SecurityAlertPolicy_STATUS(src)
+		return policy.AssignProperties_From_ServersSecurityAlertPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Servers_SecurityAlertPolicy_STATUS{}
+	src = &storage.ServersSecurityAlertPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = policy.AssignProperties_From_Servers_SecurityAlertPolicy_STATUS(src)
+	err = policy.AssignProperties_From_ServersSecurityAlertPolicy_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -756,17 +756,17 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) ConvertStatusFrom(source genru
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_SecurityAlertPolicy_STATUS
-func (policy *Servers_SecurityAlertPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Servers_SecurityAlertPolicy_STATUS)
+// ConvertStatusTo populates the provided destination from our ServersSecurityAlertPolicy_STATUS
+func (policy *ServersSecurityAlertPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServersSecurityAlertPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return policy.AssignProperties_To_Servers_SecurityAlertPolicy_STATUS(dst)
+		return policy.AssignProperties_To_ServersSecurityAlertPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Servers_SecurityAlertPolicy_STATUS{}
-	err := policy.AssignProperties_To_Servers_SecurityAlertPolicy_STATUS(dst)
+	dst = &storage.ServersSecurityAlertPolicy_STATUS{}
+	err := policy.AssignProperties_To_ServersSecurityAlertPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -780,18 +780,18 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) ConvertStatusTo(destination ge
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Servers_SecurityAlertPolicy_STATUS{}
+var _ genruntime.FromARMConverter = &ServersSecurityAlertPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *Servers_SecurityAlertPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Servers_SecurityAlertPolicy_STATUS_ARM{}
+func (policy *ServersSecurityAlertPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServersSecurityAlertPolicy_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Servers_SecurityAlertPolicy_STATUS_ARM)
+func (policy *ServersSecurityAlertPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServersSecurityAlertPolicy_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_SecurityAlertPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersSecurityAlertPolicy_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -892,8 +892,8 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignProperties_From_Servers_SecurityAlertPolicy_STATUS populates our Servers_SecurityAlertPolicy_STATUS from the provided source Servers_SecurityAlertPolicy_STATUS
-func (policy *Servers_SecurityAlertPolicy_STATUS) AssignProperties_From_Servers_SecurityAlertPolicy_STATUS(source *storage.Servers_SecurityAlertPolicy_STATUS) error {
+// AssignProperties_From_ServersSecurityAlertPolicy_STATUS populates our ServersSecurityAlertPolicy_STATUS from the provided source ServersSecurityAlertPolicy_STATUS
+func (policy *ServersSecurityAlertPolicy_STATUS) AssignProperties_From_ServersSecurityAlertPolicy_STATUS(source *storage.ServersSecurityAlertPolicy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -955,8 +955,8 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) AssignProperties_From_Servers_
 	return nil
 }
 
-// AssignProperties_To_Servers_SecurityAlertPolicy_STATUS populates the provided destination Servers_SecurityAlertPolicy_STATUS from our Servers_SecurityAlertPolicy_STATUS
-func (policy *Servers_SecurityAlertPolicy_STATUS) AssignProperties_To_Servers_SecurityAlertPolicy_STATUS(destination *storage.Servers_SecurityAlertPolicy_STATUS) error {
+// AssignProperties_To_ServersSecurityAlertPolicy_STATUS populates the provided destination ServersSecurityAlertPolicy_STATUS from our ServersSecurityAlertPolicy_STATUS
+func (policy *ServersSecurityAlertPolicy_STATUS) AssignProperties_To_ServersSecurityAlertPolicy_STATUS(destination *storage.ServersSecurityAlertPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

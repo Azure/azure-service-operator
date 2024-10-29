@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20220901
 
-type StorageAccounts_BlobServices_Container_STATUS_ARM struct {
+type StorageAccountsBlobServicesContainer_STATUS_ARM struct {
 	// Etag: Resource Etag.
 	Etag *string `json:"etag,omitempty"`
 

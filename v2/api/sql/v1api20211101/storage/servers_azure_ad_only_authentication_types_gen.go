@@ -28,8 +28,8 @@ import (
 type ServersAzureADOnlyAuthentication struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_AzureADOnlyAuthentication_Spec   `json:"spec,omitempty"`
-	Status            Servers_AzureADOnlyAuthentication_STATUS `json:"status,omitempty"`
+	Spec              ServersAzureADOnlyAuthentication_Spec   `json:"spec,omitempty"`
+	Status            ServersAzureADOnlyAuthentication_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServersAzureADOnlyAuthentication{}
@@ -87,7 +87,7 @@ func (authentication *ServersAzureADOnlyAuthentication) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (authentication *ServersAzureADOnlyAuthentication) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Servers_AzureADOnlyAuthentication_STATUS{}
+	return &ServersAzureADOnlyAuthentication_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -99,13 +99,13 @@ func (authentication *ServersAzureADOnlyAuthentication) Owner() *genruntime.Reso
 // SetStatus sets the status of this resource
 func (authentication *ServersAzureADOnlyAuthentication) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Servers_AzureADOnlyAuthentication_STATUS); ok {
+	if st, ok := status.(*ServersAzureADOnlyAuthentication_STATUS); ok {
 		authentication.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Servers_AzureADOnlyAuthentication_STATUS
+	var st ServersAzureADOnlyAuthentication_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type ServersAzureADOnlyAuthenticationList struct {
 	Items           []ServersAzureADOnlyAuthentication `json:"items"`
 }
 
-// Storage version of v1api20211101.Servers_AzureADOnlyAuthentication_Spec
-type Servers_AzureADOnlyAuthentication_Spec struct {
+// Storage version of v1api20211101.ServersAzureADOnlyAuthentication_Spec
+type ServersAzureADOnlyAuthentication_Spec struct {
 	AzureADOnlyAuthentication *bool  `json:"azureADOnlyAuthentication,omitempty"`
 	OriginalVersion           string `json:"originalVersion,omitempty"`
 
@@ -151,10 +151,10 @@ type Servers_AzureADOnlyAuthentication_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_AzureADOnlyAuthentication_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersAzureADOnlyAuthentication_Spec{}
 
-// ConvertSpecFrom populates our Servers_AzureADOnlyAuthentication_Spec from the provided source
-func (authentication *Servers_AzureADOnlyAuthentication_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServersAzureADOnlyAuthentication_Spec from the provided source
+func (authentication *ServersAzureADOnlyAuthentication_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == authentication {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -162,8 +162,8 @@ func (authentication *Servers_AzureADOnlyAuthentication_Spec) ConvertSpecFrom(so
 	return source.ConvertSpecTo(authentication)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_AzureADOnlyAuthentication_Spec
-func (authentication *Servers_AzureADOnlyAuthentication_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServersAzureADOnlyAuthentication_Spec
+func (authentication *ServersAzureADOnlyAuthentication_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == authentication {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -171,8 +171,8 @@ func (authentication *Servers_AzureADOnlyAuthentication_Spec) ConvertSpecTo(dest
 	return destination.ConvertSpecFrom(authentication)
 }
 
-// Storage version of v1api20211101.Servers_AzureADOnlyAuthentication_STATUS
-type Servers_AzureADOnlyAuthentication_STATUS struct {
+// Storage version of v1api20211101.ServersAzureADOnlyAuthentication_STATUS
+type ServersAzureADOnlyAuthentication_STATUS struct {
 	AzureADOnlyAuthentication *bool                  `json:"azureADOnlyAuthentication,omitempty"`
 	Conditions                []conditions.Condition `json:"conditions,omitempty"`
 	Id                        *string                `json:"id,omitempty"`
@@ -181,10 +181,10 @@ type Servers_AzureADOnlyAuthentication_STATUS struct {
 	Type                      *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Servers_AzureADOnlyAuthentication_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServersAzureADOnlyAuthentication_STATUS{}
 
-// ConvertStatusFrom populates our Servers_AzureADOnlyAuthentication_STATUS from the provided source
-func (authentication *Servers_AzureADOnlyAuthentication_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServersAzureADOnlyAuthentication_STATUS from the provided source
+func (authentication *ServersAzureADOnlyAuthentication_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == authentication {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -192,8 +192,8 @@ func (authentication *Servers_AzureADOnlyAuthentication_STATUS) ConvertStatusFro
 	return source.ConvertStatusTo(authentication)
 }
 
-// ConvertStatusTo populates the provided destination from our Servers_AzureADOnlyAuthentication_STATUS
-func (authentication *Servers_AzureADOnlyAuthentication_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServersAzureADOnlyAuthentication_STATUS
+func (authentication *ServersAzureADOnlyAuthentication_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == authentication {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

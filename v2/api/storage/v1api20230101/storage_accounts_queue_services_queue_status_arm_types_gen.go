@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1api20230101
 
-type StorageAccounts_QueueServices_Queue_STATUS_ARM struct {
+type StorageAccountsQueueServicesQueue_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`

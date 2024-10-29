@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package arm
 
-type ManagedClusters_AgentPool_STATUS struct {
+type ManagedClustersAgentPool_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 

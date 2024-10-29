@@ -29,8 +29,8 @@ import (
 type LoadBalancersInboundNatRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              LoadBalancers_InboundNatRule_Spec   `json:"spec,omitempty"`
-	Status            LoadBalancers_InboundNatRule_STATUS `json:"status,omitempty"`
+	Spec              LoadBalancersInboundNatRule_Spec   `json:"spec,omitempty"`
+	Status            LoadBalancersInboundNatRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &LoadBalancersInboundNatRule{}
@@ -88,7 +88,7 @@ func (rule *LoadBalancersInboundNatRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *LoadBalancersInboundNatRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &LoadBalancers_InboundNatRule_STATUS{}
+	return &LoadBalancersInboundNatRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -100,13 +100,13 @@ func (rule *LoadBalancersInboundNatRule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (rule *LoadBalancersInboundNatRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*LoadBalancers_InboundNatRule_STATUS); ok {
+	if st, ok := status.(*LoadBalancersInboundNatRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st LoadBalancers_InboundNatRule_STATUS
+	var st LoadBalancersInboundNatRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -139,8 +139,8 @@ type LoadBalancersInboundNatRuleList struct {
 	Items           []LoadBalancersInboundNatRule `json:"items"`
 }
 
-// Storage version of v1api20201101.LoadBalancers_InboundNatRule_Spec
-type LoadBalancers_InboundNatRule_Spec struct {
+// Storage version of v1api20201101.LoadBalancersInboundNatRule_Spec
+type LoadBalancersInboundNatRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName               string       `json:"azureName,omitempty"`
@@ -161,10 +161,10 @@ type LoadBalancers_InboundNatRule_Spec struct {
 	Protocol    *string                            `json:"protocol,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &LoadBalancers_InboundNatRule_Spec{}
+var _ genruntime.ConvertibleSpec = &LoadBalancersInboundNatRule_Spec{}
 
-// ConvertSpecFrom populates our LoadBalancers_InboundNatRule_Spec from the provided source
-func (rule *LoadBalancers_InboundNatRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our LoadBalancersInboundNatRule_Spec from the provided source
+func (rule *LoadBalancersInboundNatRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -172,8 +172,8 @@ func (rule *LoadBalancers_InboundNatRule_Spec) ConvertSpecFrom(source genruntime
 	return source.ConvertSpecTo(rule)
 }
 
-// ConvertSpecTo populates the provided destination from our LoadBalancers_InboundNatRule_Spec
-func (rule *LoadBalancers_InboundNatRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our LoadBalancersInboundNatRule_Spec
+func (rule *LoadBalancersInboundNatRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -181,8 +181,8 @@ func (rule *LoadBalancers_InboundNatRule_Spec) ConvertSpecTo(destination genrunt
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v1api20201101.LoadBalancers_InboundNatRule_STATUS
-type LoadBalancers_InboundNatRule_STATUS struct {
+// Storage version of v1api20201101.LoadBalancersInboundNatRule_STATUS
+type LoadBalancersInboundNatRule_STATUS struct {
 	BackendIPConfiguration  *NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded `json:"backendIPConfiguration,omitempty"`
 	BackendPort             *int                                                                                     `json:"backendPort,omitempty"`
 	Conditions              []conditions.Condition                                                                   `json:"conditions,omitempty"`
@@ -200,10 +200,10 @@ type LoadBalancers_InboundNatRule_STATUS struct {
 	Type                    *string                                                                                  `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &LoadBalancers_InboundNatRule_STATUS{}
+var _ genruntime.ConvertibleStatus = &LoadBalancersInboundNatRule_STATUS{}
 
-// ConvertStatusFrom populates our LoadBalancers_InboundNatRule_STATUS from the provided source
-func (rule *LoadBalancers_InboundNatRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our LoadBalancersInboundNatRule_STATUS from the provided source
+func (rule *LoadBalancersInboundNatRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -211,8 +211,8 @@ func (rule *LoadBalancers_InboundNatRule_STATUS) ConvertStatusFrom(source genrun
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our LoadBalancers_InboundNatRule_STATUS
-func (rule *LoadBalancers_InboundNatRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our LoadBalancersInboundNatRule_STATUS
+func (rule *LoadBalancersInboundNatRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

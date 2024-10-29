@@ -115,7 +115,7 @@ func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *mac
 
 	connection := &machinelearningservices.WorkspacesConnection{
 		ObjectMeta: tc.MakeObjectMeta("conn"),
-		Spec: machinelearningservices.Workspaces_Connection_Spec{
+		Spec: machinelearningservices.WorkspacesConnection_Spec{
 			Owner:       testcommon.AsOwner(workspaces),
 			AuthType:    to.Ptr("PAT"),
 			Category:    to.Ptr("ACR"),
@@ -164,7 +164,7 @@ func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.K
 
 	wsCompute := &machinelearningservices.WorkspacesCompute{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("")),
-		Spec: machinelearningservices.Workspaces_Compute_Spec{
+		Spec: machinelearningservices.WorkspacesCompute_Spec{
 			Identity: &machinelearningservices.Identity{
 				Type: &identityType,
 			},
@@ -239,7 +239,7 @@ func newNetworkSecurityGroupRule(tc *testcommon.KubePerTestContext, owner *genru
 	// Network Security Group rule
 	return &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
-		Spec: network.NetworkSecurityGroups_SecurityRule_Spec{
+		Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 			Owner:                    owner,
 			Protocol:                 &protocol,
 			SourcePortRange:          to.Ptr("*"),

@@ -29,7 +29,7 @@ import (
 type AutoscaleSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Autoscalesetting_Spec   `json:"spec,omitempty"`
+	Spec              AutoscaleSetting_Spec   `json:"spec,omitempty"`
 	Status            Autoscalesetting_STATUS `json:"status,omitempty"`
 }
 
@@ -260,10 +260,10 @@ func (setting *AutoscaleSetting) AssignProperties_From_AutoscaleSetting(source *
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Autoscalesetting_Spec
-	err := spec.AssignProperties_From_Autoscalesetting_Spec(&source.Spec)
+	var spec AutoscaleSetting_Spec
+	err := spec.AssignProperties_From_AutoscaleSetting_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Autoscalesetting_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_AutoscaleSetting_Spec() to populate field Spec")
 	}
 	setting.Spec = spec
 
@@ -286,10 +286,10 @@ func (setting *AutoscaleSetting) AssignProperties_To_AutoscaleSetting(destinatio
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Autoscalesetting_Spec
-	err := setting.Spec.AssignProperties_To_Autoscalesetting_Spec(&spec)
+	var spec storage.AutoscaleSetting_Spec
+	err := setting.Spec.AssignProperties_To_AutoscaleSetting_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Autoscalesetting_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_AutoscaleSetting_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -329,7 +329,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-10-01")
 
-type Autoscalesetting_Spec struct {
+type AutoscaleSetting_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -374,18 +374,18 @@ type Autoscalesetting_Spec struct {
 	TargetResourceUriReference *genruntime.ResourceReference `armReference:"TargetResourceUri" json:"targetResourceUriReference,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Autoscalesetting_Spec{}
+var _ genruntime.ARMTransformer = &AutoscaleSetting_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (autoscalesetting *Autoscalesetting_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if autoscalesetting == nil {
+func (setting *AutoscaleSetting_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if setting == nil {
 		return nil, nil
 	}
-	result := &Autoscalesetting_Spec_ARM{}
+	result := &AutoscaleSetting_Spec_ARM{}
 
 	// Set property "Location":
-	if autoscalesetting.Location != nil {
-		location := *autoscalesetting.Location
+	if setting.Location != nil {
+		location := *setting.Location
 		result.Location = &location
 	}
 
@@ -393,51 +393,51 @@ func (autoscalesetting *Autoscalesetting_Spec) ConvertToARM(resolved genruntime.
 	result.Name = resolved.Name
 
 	// Set property "Properties":
-	if autoscalesetting.Enabled != nil ||
-		autoscalesetting.Name != nil ||
-		autoscalesetting.Notifications != nil ||
-		autoscalesetting.PredictiveAutoscalePolicy != nil ||
-		autoscalesetting.Profiles != nil ||
-		autoscalesetting.TargetResourceLocation != nil ||
-		autoscalesetting.TargetResourceUriReference != nil {
+	if setting.Enabled != nil ||
+		setting.Name != nil ||
+		setting.Notifications != nil ||
+		setting.PredictiveAutoscalePolicy != nil ||
+		setting.Profiles != nil ||
+		setting.TargetResourceLocation != nil ||
+		setting.TargetResourceUriReference != nil {
 		result.Properties = &AutoscaleSettingProperties_ARM{}
 	}
-	if autoscalesetting.Enabled != nil {
-		enabled := *autoscalesetting.Enabled
+	if setting.Enabled != nil {
+		enabled := *setting.Enabled
 		result.Properties.Enabled = &enabled
 	}
-	if autoscalesetting.Name != nil {
-		name := *autoscalesetting.Name
+	if setting.Name != nil {
+		name := *setting.Name
 		result.Properties.Name = &name
 	}
-	for _, item := range autoscalesetting.Notifications {
+	for _, item := range setting.Notifications {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.Notifications = append(result.Properties.Notifications, *item_ARM.(*AutoscaleNotification_ARM))
 	}
-	if autoscalesetting.PredictiveAutoscalePolicy != nil {
-		predictiveAutoscalePolicy_ARM, err := (*autoscalesetting.PredictiveAutoscalePolicy).ConvertToARM(resolved)
+	if setting.PredictiveAutoscalePolicy != nil {
+		predictiveAutoscalePolicy_ARM, err := (*setting.PredictiveAutoscalePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		predictiveAutoscalePolicy := *predictiveAutoscalePolicy_ARM.(*PredictiveAutoscalePolicy_ARM)
 		result.Properties.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 	}
-	for _, item := range autoscalesetting.Profiles {
+	for _, item := range setting.Profiles {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.Profiles = append(result.Properties.Profiles, *item_ARM.(*AutoscaleProfile_ARM))
 	}
-	if autoscalesetting.TargetResourceLocation != nil {
-		targetResourceLocation := *autoscalesetting.TargetResourceLocation
+	if setting.TargetResourceLocation != nil {
+		targetResourceLocation := *setting.TargetResourceLocation
 		result.Properties.TargetResourceLocation = &targetResourceLocation
 	}
-	if autoscalesetting.TargetResourceUriReference != nil {
-		targetResourceUriARMID, err := resolved.ResolvedReferences.Lookup(*autoscalesetting.TargetResourceUriReference)
+	if setting.TargetResourceUriReference != nil {
+		targetResourceUriARMID, err := resolved.ResolvedReferences.Lookup(*setting.TargetResourceUriReference)
 		if err != nil {
 			return nil, err
 		}
@@ -446,9 +446,9 @@ func (autoscalesetting *Autoscalesetting_Spec) ConvertToARM(resolved genruntime.
 	}
 
 	// Set property "Tags":
-	if autoscalesetting.Tags != nil {
-		result.Tags = make(map[string]string, len(autoscalesetting.Tags))
-		for key, value := range autoscalesetting.Tags {
+	if setting.Tags != nil {
+		result.Tags = make(map[string]string, len(setting.Tags))
+		for key, value := range setting.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -456,33 +456,33 @@ func (autoscalesetting *Autoscalesetting_Spec) ConvertToARM(resolved genruntime.
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoscalesetting *Autoscalesetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Autoscalesetting_Spec_ARM{}
+func (setting *AutoscaleSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AutoscaleSetting_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (autoscalesetting *Autoscalesetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Autoscalesetting_Spec_ARM)
+func (setting *AutoscaleSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AutoscaleSetting_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Autoscalesetting_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSetting_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
-	autoscalesetting.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	setting.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Enabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Enabled != nil {
 			enabled := *typedInput.Properties.Enabled
-			autoscalesetting.Enabled = &enabled
+			setting.Enabled = &enabled
 		}
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		autoscalesetting.Location = &location
+		setting.Location = &location
 	}
 
 	// Set property "Name":
@@ -490,7 +490,7 @@ func (autoscalesetting *Autoscalesetting_Spec) PopulateFromARM(owner genruntime.
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Name != nil {
 			name := *typedInput.Properties.Name
-			autoscalesetting.Name = &name
+			setting.Name = &name
 		}
 	}
 
@@ -503,12 +503,12 @@ func (autoscalesetting *Autoscalesetting_Spec) PopulateFromARM(owner genruntime.
 			if err != nil {
 				return err
 			}
-			autoscalesetting.Notifications = append(autoscalesetting.Notifications, item1)
+			setting.Notifications = append(setting.Notifications, item1)
 		}
 	}
 
 	// Set property "Owner":
-	autoscalesetting.Owner = &genruntime.KnownResourceReference{
+	setting.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
 	}
@@ -523,7 +523,7 @@ func (autoscalesetting *Autoscalesetting_Spec) PopulateFromARM(owner genruntime.
 				return err
 			}
 			predictiveAutoscalePolicy := predictiveAutoscalePolicy1
-			autoscalesetting.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
+			setting.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 		}
 	}
 
@@ -536,15 +536,15 @@ func (autoscalesetting *Autoscalesetting_Spec) PopulateFromARM(owner genruntime.
 			if err != nil {
 				return err
 			}
-			autoscalesetting.Profiles = append(autoscalesetting.Profiles, item1)
+			setting.Profiles = append(setting.Profiles, item1)
 		}
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		autoscalesetting.Tags = make(map[string]string, len(typedInput.Tags))
+		setting.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			autoscalesetting.Tags[key] = value
+			setting.Tags[key] = value
 		}
 	}
 
@@ -553,7 +553,7 @@ func (autoscalesetting *Autoscalesetting_Spec) PopulateFromARM(owner genruntime.
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetResourceLocation != nil {
 			targetResourceLocation := *typedInput.Properties.TargetResourceLocation
-			autoscalesetting.TargetResourceLocation = &targetResourceLocation
+			setting.TargetResourceLocation = &targetResourceLocation
 		}
 	}
 
@@ -563,25 +563,25 @@ func (autoscalesetting *Autoscalesetting_Spec) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Autoscalesetting_Spec{}
+var _ genruntime.ConvertibleSpec = &AutoscaleSetting_Spec{}
 
-// ConvertSpecFrom populates our Autoscalesetting_Spec from the provided source
-func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Autoscalesetting_Spec)
+// ConvertSpecFrom populates our AutoscaleSetting_Spec from the provided source
+func (setting *AutoscaleSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.AutoscaleSetting_Spec)
 	if ok {
 		// Populate our instance from source
-		return autoscalesetting.AssignProperties_From_Autoscalesetting_Spec(src)
+		return setting.AssignProperties_From_AutoscaleSetting_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Autoscalesetting_Spec{}
+	src = &storage.AutoscaleSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = autoscalesetting.AssignProperties_From_Autoscalesetting_Spec(src)
+	err = setting.AssignProperties_From_AutoscaleSetting_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -589,17 +589,17 @@ func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecFrom(source genruntime
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Autoscalesetting_Spec
-func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Autoscalesetting_Spec)
+// ConvertSpecTo populates the provided destination from our AutoscaleSetting_Spec
+func (setting *AutoscaleSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.AutoscaleSetting_Spec)
 	if ok {
 		// Populate destination from our instance
-		return autoscalesetting.AssignProperties_To_Autoscalesetting_Spec(dst)
+		return setting.AssignProperties_To_AutoscaleSetting_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Autoscalesetting_Spec{}
-	err := autoscalesetting.AssignProperties_To_Autoscalesetting_Spec(dst)
+	dst = &storage.AutoscaleSetting_Spec{}
+	err := setting.AssignProperties_To_AutoscaleSetting_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -613,25 +613,25 @@ func (autoscalesetting *Autoscalesetting_Spec) ConvertSpecTo(destination genrunt
 	return nil
 }
 
-// AssignProperties_From_Autoscalesetting_Spec populates our Autoscalesetting_Spec from the provided source Autoscalesetting_Spec
-func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_From_Autoscalesetting_Spec(source *storage.Autoscalesetting_Spec) error {
+// AssignProperties_From_AutoscaleSetting_Spec populates our AutoscaleSetting_Spec from the provided source AutoscaleSetting_Spec
+func (setting *AutoscaleSetting_Spec) AssignProperties_From_AutoscaleSetting_Spec(source *storage.AutoscaleSetting_Spec) error {
 
 	// AzureName
-	autoscalesetting.AzureName = source.AzureName
+	setting.AzureName = source.AzureName
 
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
-		autoscalesetting.Enabled = &enabled
+		setting.Enabled = &enabled
 	} else {
-		autoscalesetting.Enabled = nil
+		setting.Enabled = nil
 	}
 
 	// Location
-	autoscalesetting.Location = genruntime.ClonePointerToString(source.Location)
+	setting.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	autoscalesetting.Name = genruntime.ClonePointerToString(source.Name)
+	setting.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Notifications
 	if source.Notifications != nil {
@@ -646,17 +646,17 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_From_Autoscalese
 			}
 			notificationList[notificationIndex] = notification
 		}
-		autoscalesetting.Notifications = notificationList
+		setting.Notifications = notificationList
 	} else {
-		autoscalesetting.Notifications = nil
+		setting.Notifications = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		autoscalesetting.Owner = &owner
+		setting.Owner = &owner
 	} else {
-		autoscalesetting.Owner = nil
+		setting.Owner = nil
 	}
 
 	// PredictiveAutoscalePolicy
@@ -666,9 +666,9 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_From_Autoscalese
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_PredictiveAutoscalePolicy() to populate field PredictiveAutoscalePolicy")
 		}
-		autoscalesetting.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
+		setting.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 	} else {
-		autoscalesetting.PredictiveAutoscalePolicy = nil
+		setting.PredictiveAutoscalePolicy = nil
 	}
 
 	// Profiles
@@ -684,55 +684,55 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_From_Autoscalese
 			}
 			profileList[profileIndex] = profile
 		}
-		autoscalesetting.Profiles = profileList
+		setting.Profiles = profileList
 	} else {
-		autoscalesetting.Profiles = nil
+		setting.Profiles = nil
 	}
 
 	// Tags
-	autoscalesetting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TargetResourceLocation
-	autoscalesetting.TargetResourceLocation = genruntime.ClonePointerToString(source.TargetResourceLocation)
+	setting.TargetResourceLocation = genruntime.ClonePointerToString(source.TargetResourceLocation)
 
 	// TargetResourceUriReference
 	if source.TargetResourceUriReference != nil {
 		targetResourceUriReference := source.TargetResourceUriReference.Copy()
-		autoscalesetting.TargetResourceUriReference = &targetResourceUriReference
+		setting.TargetResourceUriReference = &targetResourceUriReference
 	} else {
-		autoscalesetting.TargetResourceUriReference = nil
+		setting.TargetResourceUriReference = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Autoscalesetting_Spec populates the provided destination Autoscalesetting_Spec from our Autoscalesetting_Spec
-func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesetting_Spec(destination *storage.Autoscalesetting_Spec) error {
+// AssignProperties_To_AutoscaleSetting_Spec populates the provided destination AutoscaleSetting_Spec from our AutoscaleSetting_Spec
+func (setting *AutoscaleSetting_Spec) AssignProperties_To_AutoscaleSetting_Spec(destination *storage.AutoscaleSetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = autoscalesetting.AzureName
+	destination.AzureName = setting.AzureName
 
 	// Enabled
-	if autoscalesetting.Enabled != nil {
-		enabled := *autoscalesetting.Enabled
+	if setting.Enabled != nil {
+		enabled := *setting.Enabled
 		destination.Enabled = &enabled
 	} else {
 		destination.Enabled = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(autoscalesetting.Location)
+	destination.Location = genruntime.ClonePointerToString(setting.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(autoscalesetting.Name)
+	destination.Name = genruntime.ClonePointerToString(setting.Name)
 
 	// Notifications
-	if autoscalesetting.Notifications != nil {
-		notificationList := make([]storage.AutoscaleNotification, len(autoscalesetting.Notifications))
-		for notificationIndex, notificationItem := range autoscalesetting.Notifications {
+	if setting.Notifications != nil {
+		notificationList := make([]storage.AutoscaleNotification, len(setting.Notifications))
+		for notificationIndex, notificationItem := range setting.Notifications {
 			// Shadow the loop variable to avoid aliasing
 			notificationItem := notificationItem
 			var notification storage.AutoscaleNotification
@@ -748,20 +748,20 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesett
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = autoscalesetting.OriginalVersion()
+	destination.OriginalVersion = setting.OriginalVersion()
 
 	// Owner
-	if autoscalesetting.Owner != nil {
-		owner := autoscalesetting.Owner.Copy()
+	if setting.Owner != nil {
+		owner := setting.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// PredictiveAutoscalePolicy
-	if autoscalesetting.PredictiveAutoscalePolicy != nil {
+	if setting.PredictiveAutoscalePolicy != nil {
 		var predictiveAutoscalePolicy storage.PredictiveAutoscalePolicy
-		err := autoscalesetting.PredictiveAutoscalePolicy.AssignProperties_To_PredictiveAutoscalePolicy(&predictiveAutoscalePolicy)
+		err := setting.PredictiveAutoscalePolicy.AssignProperties_To_PredictiveAutoscalePolicy(&predictiveAutoscalePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PredictiveAutoscalePolicy() to populate field PredictiveAutoscalePolicy")
 		}
@@ -771,9 +771,9 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesett
 	}
 
 	// Profiles
-	if autoscalesetting.Profiles != nil {
-		profileList := make([]storage.AutoscaleProfile, len(autoscalesetting.Profiles))
-		for profileIndex, profileItem := range autoscalesetting.Profiles {
+	if setting.Profiles != nil {
+		profileList := make([]storage.AutoscaleProfile, len(setting.Profiles))
+		for profileIndex, profileItem := range setting.Profiles {
 			// Shadow the loop variable to avoid aliasing
 			profileItem := profileItem
 			var profile storage.AutoscaleProfile
@@ -789,14 +789,14 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesett
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(autoscalesetting.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(setting.Tags)
 
 	// TargetResourceLocation
-	destination.TargetResourceLocation = genruntime.ClonePointerToString(autoscalesetting.TargetResourceLocation)
+	destination.TargetResourceLocation = genruntime.ClonePointerToString(setting.TargetResourceLocation)
 
 	// TargetResourceUriReference
-	if autoscalesetting.TargetResourceUriReference != nil {
-		targetResourceUriReference := autoscalesetting.TargetResourceUriReference.Copy()
+	if setting.TargetResourceUriReference != nil {
+		targetResourceUriReference := setting.TargetResourceUriReference.Copy()
 		destination.TargetResourceUriReference = &targetResourceUriReference
 	} else {
 		destination.TargetResourceUriReference = nil
@@ -813,22 +813,22 @@ func (autoscalesetting *Autoscalesetting_Spec) AssignProperties_To_Autoscalesett
 	return nil
 }
 
-// Initialize_From_Autoscalesetting_STATUS populates our Autoscalesetting_Spec from the provided source Autoscalesetting_STATUS
-func (autoscalesetting *Autoscalesetting_Spec) Initialize_From_Autoscalesetting_STATUS(source *Autoscalesetting_STATUS) error {
+// Initialize_From_Autoscalesetting_STATUS populates our AutoscaleSetting_Spec from the provided source Autoscalesetting_STATUS
+func (setting *AutoscaleSetting_Spec) Initialize_From_Autoscalesetting_STATUS(source *Autoscalesetting_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
-		autoscalesetting.Enabled = &enabled
+		setting.Enabled = &enabled
 	} else {
-		autoscalesetting.Enabled = nil
+		setting.Enabled = nil
 	}
 
 	// Location
-	autoscalesetting.Location = genruntime.ClonePointerToString(source.Location)
+	setting.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	autoscalesetting.Name = genruntime.ClonePointerToString(source.PropertiesName)
+	setting.Name = genruntime.ClonePointerToString(source.PropertiesName)
 
 	// Notifications
 	if source.Notifications != nil {
@@ -843,9 +843,9 @@ func (autoscalesetting *Autoscalesetting_Spec) Initialize_From_Autoscalesetting_
 			}
 			notificationList[notificationIndex] = notification
 		}
-		autoscalesetting.Notifications = notificationList
+		setting.Notifications = notificationList
 	} else {
-		autoscalesetting.Notifications = nil
+		setting.Notifications = nil
 	}
 
 	// PredictiveAutoscalePolicy
@@ -855,9 +855,9 @@ func (autoscalesetting *Autoscalesetting_Spec) Initialize_From_Autoscalesetting_
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_PredictiveAutoscalePolicy_STATUS() to populate field PredictiveAutoscalePolicy")
 		}
-		autoscalesetting.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
+		setting.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 	} else {
-		autoscalesetting.PredictiveAutoscalePolicy = nil
+		setting.PredictiveAutoscalePolicy = nil
 	}
 
 	// Profiles
@@ -873,30 +873,28 @@ func (autoscalesetting *Autoscalesetting_Spec) Initialize_From_Autoscalesetting_
 			}
 			profileList[profileIndex] = profile
 		}
-		autoscalesetting.Profiles = profileList
+		setting.Profiles = profileList
 	} else {
-		autoscalesetting.Profiles = nil
+		setting.Profiles = nil
 	}
 
 	// Tags
-	autoscalesetting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TargetResourceLocation
-	autoscalesetting.TargetResourceLocation = genruntime.ClonePointerToString(source.TargetResourceLocation)
+	setting.TargetResourceLocation = genruntime.ClonePointerToString(source.TargetResourceLocation)
 
 	// No error
 	return nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (autoscalesetting *Autoscalesetting_Spec) OriginalVersion() string {
+func (setting *AutoscaleSetting_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (autoscalesetting *Autoscalesetting_Spec) SetAzureName(azureName string) {
-	autoscalesetting.AzureName = azureName
-}
+func (setting *AutoscaleSetting_Spec) SetAzureName(azureName string) { setting.AzureName = azureName }
 
 type Autoscalesetting_STATUS struct {
 	// Conditions: The observed state of the resource

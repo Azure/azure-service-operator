@@ -127,7 +127,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20221201_CRUD(t *testing.T) {
 func FlexibleServer_Database_20221201_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	database := &postgresql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMeta("db"),
-		Spec: postgresql.FlexibleServers_Database_Spec{
+		Spec: postgresql.FlexibleServersDatabase_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
 			Charset: to.Ptr("utf8"),
 		},
@@ -141,7 +141,7 @@ func FlexibleServer_Database_20221201_CRUD(tc *testcommon.KubePerTestContext, fl
 func FlexibleServer_FirewallRule_20221201_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	firewall := &postgresql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
-		Spec: postgresql.FlexibleServers_FirewallRule_Spec{
+		Spec: postgresql.FlexibleServersFirewallRule_Spec{
 			Owner: testcommon.AsOwner(flexibleServer),
 			// I think that these rules are allow rules - somebody with this IP can access the server.
 			StartIpAddress: to.Ptr("1.2.3.4"),
@@ -158,7 +158,7 @@ func FlexibleServer_FirewallRule_20221201_CRUD(tc *testcommon.KubePerTestContext
 func FlexibleServer_Configuration_20221201_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	configuration := &postgresql.FlexibleServersConfiguration{
 		ObjectMeta: tc.MakeObjectMeta("pgaudit"),
-		Spec: postgresql.FlexibleServers_Configuration_Spec{
+		Spec: postgresql.FlexibleServersConfiguration_Spec{
 			Owner:     testcommon.AsOwner(flexibleServer),
 			AzureName: "pgaudit.log",
 			Source:    to.Ptr("user-override"),

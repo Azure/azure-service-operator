@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
@@ -61,6 +62,12 @@ func Test_Networking_ForwardingRuleSet_CRUD(t *testing.T) {
 				DnsForwardingRuleset_ForwardingRules_CRUD(tc, ruleSet)
 			},
 		},
+		testcommon.Subtest{
+			Name: "DnsForwardingRuleset VirtualNetwork Link CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				DnsForwardingRuleset_VirtualNetworkLink_CRUD(tc, rg, ruleSet)
+			},
+		},
 	)
 
 	tc.DeleteResourceAndWait(ruleSet)
@@ -75,7 +82,7 @@ func Test_Networking_ForwardingRuleSet_CRUD(t *testing.T) {
 func DnsForwardingRuleset_ForwardingRules_CRUD(tc *testcommon.KubePerTestContext, set *network.DnsForwardingRuleset) {
 	rule := &network.DnsForwardingRuleSetsForwardingRule{
 		ObjectMeta: tc.MakeObjectMeta("rule"),
-		Spec: network.DnsForwardingRulesets_ForwardingRule_Spec{
+		Spec: network.DnsForwardingRuleSetsForwardingRule_Spec{
 			DomainName:          to.Ptr("test."),
 			ForwardingRuleState: to.Ptr(network.ForwardingRuleProperties_ForwardingRuleState_Disabled),
 			Owner:               testcommon.AsOwner(set),
@@ -93,6 +100,31 @@ func DnsForwardingRuleset_ForwardingRules_CRUD(tc *testcommon.KubePerTestContext
 	armId := *rule.Status.Id
 
 	tc.DeleteResourceAndWait(rule)
+
+	// Ensure delete
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(network.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func DnsForwardingRuleset_VirtualNetworkLink_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, set *network.DnsForwardingRuleset) {
+	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
+	link := &network.DnsForwardingRuleSetsVirtualNetworkLink{
+		ObjectMeta: tc.MakeObjectMeta("rule"),
+		Spec: network.DnsForwardingRuleSetsVirtualNetworkLink_Spec{
+			Owner: testcommon.AsOwner(set),
+			VirtualNetwork: &network.DnsresolverSubResource{
+				Reference: tc.MakeReferenceFromResource(vnet),
+			},
+		},
+	}
+
+	tc.CreateResourcesAndWait(link, vnet)
+	tc.Expect(link.Status.Id).ToNot(BeNil())
+	armId := *link.Status.Id
+
+	tc.DeleteResourcesAndWait(link, vnet)
 
 	// Ensure delete
 	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(network.APIVersion_Value))

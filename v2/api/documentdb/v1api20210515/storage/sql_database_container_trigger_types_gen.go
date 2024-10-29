@@ -27,8 +27,8 @@ import (
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec   `json:"spec,omitempty"`
-	Status            DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS `json:"status,omitempty"`
+	Spec              SqlDatabaseContainerTrigger_Spec   `json:"spec,omitempty"`
+	Status            SqlDatabaseContainerTrigger_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
@@ -108,7 +108,7 @@ func (trigger *SqlDatabaseContainerTrigger) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
+	return &SqlDatabaseContainerTrigger_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -120,13 +120,13 @@ func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (trigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
+	if st, ok := status.(*SqlDatabaseContainerTrigger_STATUS); ok {
 		trigger.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
+	var st SqlDatabaseContainerTrigger_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -143,18 +143,18 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_From_SqlDatabaseCon
 	trigger.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
-	err := spec.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(&source.Spec)
+	var spec SqlDatabaseContainerTrigger_Spec
+	err := spec.AssignProperties_From_SqlDatabaseContainerTrigger_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerTrigger_Spec() to populate field Spec")
 	}
 	trigger.Spec = spec
 
 	// Status
-	var status DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
-	err = status.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(&source.Status)
+	var status SqlDatabaseContainerTrigger_STATUS
+	err = status.AssignProperties_From_SqlDatabaseContainerTrigger_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerTrigger_STATUS() to populate field Status")
 	}
 	trigger.Status = status
 
@@ -178,18 +178,18 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_To_SqlDatabaseConta
 	destination.ObjectMeta = *trigger.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
-	err := trigger.Spec.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(&spec)
+	var spec storage.SqlDatabaseContainerTrigger_Spec
+	err := trigger.Spec.AssignProperties_To_SqlDatabaseContainerTrigger_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerTrigger_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
-	err = trigger.Status.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(&status)
+	var status storage.SqlDatabaseContainerTrigger_STATUS
+	err = trigger.Status.AssignProperties_To_SqlDatabaseContainerTrigger_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerTrigger_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -231,8 +231,8 @@ type augmentConversionForSqlDatabaseContainerTrigger interface {
 	AssignPropertiesTo(dst *storage.SqlDatabaseContainerTrigger) error
 }
 
-// Storage version of v1api20210515.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
-type DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec struct {
+// Storage version of v1api20210515.SqlDatabaseContainerTrigger_Spec
+type SqlDatabaseContainerTrigger_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
@@ -250,25 +250,25 @@ type DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{}
+var _ genruntime.ConvertibleSpec = &SqlDatabaseContainerTrigger_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec from the provided source
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec)
+// ConvertSpecFrom populates our SqlDatabaseContainerTrigger_Spec from the provided source
+func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.SqlDatabaseContainerTrigger_Spec)
 	if ok {
 		// Populate our instance from source
-		return trigger.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(src)
+		return trigger.AssignProperties_From_SqlDatabaseContainerTrigger_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{}
+	src = &storage.SqlDatabaseContainerTrigger_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = trigger.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(src)
+	err = trigger.AssignProperties_From_SqlDatabaseContainerTrigger_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -276,17 +276,17 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpe
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec)
+// ConvertSpecTo populates the provided destination from our SqlDatabaseContainerTrigger_Spec
+func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.SqlDatabaseContainerTrigger_Spec)
 	if ok {
 		// Populate destination from our instance
-		return trigger.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(dst)
+		return trigger.AssignProperties_To_SqlDatabaseContainerTrigger_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec{}
-	err := trigger.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(dst)
+	dst = &storage.SqlDatabaseContainerTrigger_Spec{}
+	err := trigger.AssignProperties_To_SqlDatabaseContainerTrigger_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -300,8 +300,8 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpe
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(source *storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) error {
+// AssignProperties_From_SqlDatabaseContainerTrigger_Spec populates our SqlDatabaseContainerTrigger_Spec from the provided source SqlDatabaseContainerTrigger_Spec
+func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_From_SqlDatabaseContainerTrigger_Spec(source *storage.SqlDatabaseContainerTrigger_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -356,9 +356,9 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProp
 		trigger.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabaseContainerTrigger_Spec interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
-	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec); ok {
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForSqlDatabaseContainerTrigger_Spec); ok {
 		err := augmentedTrigger.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -369,8 +369,8 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProp
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec populates the provided destination DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec from our DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(destination *storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) error {
+// AssignProperties_To_SqlDatabaseContainerTrigger_Spec populates the provided destination SqlDatabaseContainerTrigger_Spec from our SqlDatabaseContainerTrigger_Spec
+func (trigger *SqlDatabaseContainerTrigger_Spec) AssignProperties_To_SqlDatabaseContainerTrigger_Spec(destination *storage.SqlDatabaseContainerTrigger_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(trigger.PropertyBag)
 
@@ -425,9 +425,9 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProp
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabaseContainerTrigger_Spec interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
-	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec); ok {
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForSqlDatabaseContainerTrigger_Spec); ok {
 		err := augmentedTrigger.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -438,8 +438,8 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProp
 	return nil
 }
 
-// Storage version of v1api20210515.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
-type DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS struct {
+// Storage version of v1api20210515.SqlDatabaseContainerTrigger_STATUS
+type SqlDatabaseContainerTrigger_STATUS struct {
 	Conditions  []conditions.Condition                   `json:"conditions,omitempty"`
 	Id          *string                                  `json:"id,omitempty"`
 	Location    *string                                  `json:"location,omitempty"`
@@ -450,25 +450,25 @@ type DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS struct {
 	Type        *string                                  `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
+var _ genruntime.ConvertibleStatus = &SqlDatabaseContainerTrigger_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS from the provided source
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS)
+// ConvertStatusFrom populates our SqlDatabaseContainerTrigger_STATUS from the provided source
+func (trigger *SqlDatabaseContainerTrigger_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.SqlDatabaseContainerTrigger_STATUS)
 	if ok {
 		// Populate our instance from source
-		return trigger.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(src)
+		return trigger.AssignProperties_From_SqlDatabaseContainerTrigger_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
+	src = &storage.SqlDatabaseContainerTrigger_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = trigger.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(src)
+	err = trigger.AssignProperties_From_SqlDatabaseContainerTrigger_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -476,17 +476,17 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) ConvertS
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS)
+// ConvertStatusTo populates the provided destination from our SqlDatabaseContainerTrigger_STATUS
+func (trigger *SqlDatabaseContainerTrigger_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.SqlDatabaseContainerTrigger_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return trigger.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(dst)
+		return trigger.AssignProperties_To_SqlDatabaseContainerTrigger_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
-	err := trigger.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(dst)
+	dst = &storage.SqlDatabaseContainerTrigger_STATUS{}
+	err := trigger.AssignProperties_To_SqlDatabaseContainerTrigger_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -500,8 +500,8 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) ConvertS
 	return nil
 }
 
-// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS from the provided source DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(source *storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) error {
+// AssignProperties_From_SqlDatabaseContainerTrigger_STATUS populates our SqlDatabaseContainerTrigger_STATUS from the provided source SqlDatabaseContainerTrigger_STATUS
+func (trigger *SqlDatabaseContainerTrigger_STATUS) AssignProperties_From_SqlDatabaseContainerTrigger_STATUS(source *storage.SqlDatabaseContainerTrigger_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -542,9 +542,9 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignPr
 		trigger.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabaseContainerTrigger_STATUS interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
-	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForSqlDatabaseContainerTrigger_STATUS); ok {
 		err := augmentedTrigger.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -555,8 +555,8 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignPr
 	return nil
 }
 
-// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS populates the provided destination DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS from our DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
-func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(destination *storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) error {
+// AssignProperties_To_SqlDatabaseContainerTrigger_STATUS populates the provided destination SqlDatabaseContainerTrigger_STATUS from our SqlDatabaseContainerTrigger_STATUS
+func (trigger *SqlDatabaseContainerTrigger_STATUS) AssignProperties_To_SqlDatabaseContainerTrigger_STATUS(destination *storage.SqlDatabaseContainerTrigger_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(trigger.PropertyBag)
 
@@ -597,9 +597,9 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignPr
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForSqlDatabaseContainerTrigger_STATUS interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
-	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForSqlDatabaseContainerTrigger_STATUS); ok {
 		err := augmentedTrigger.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -610,14 +610,14 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignPr
 	return nil
 }
 
-type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec interface {
-	AssignPropertiesFrom(src *storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) error
-	AssignPropertiesTo(dst *storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) error
+type augmentConversionForSqlDatabaseContainerTrigger_Spec interface {
+	AssignPropertiesFrom(src *storage.SqlDatabaseContainerTrigger_Spec) error
+	AssignPropertiesTo(dst *storage.SqlDatabaseContainerTrigger_Spec) error
 }
 
-type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS interface {
-	AssignPropertiesFrom(src *storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) error
-	AssignPropertiesTo(dst *storage.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) error
+type augmentConversionForSqlDatabaseContainerTrigger_STATUS interface {
+	AssignPropertiesFrom(src *storage.SqlDatabaseContainerTrigger_STATUS) error
+	AssignPropertiesTo(dst *storage.SqlDatabaseContainerTrigger_STATUS) error
 }
 
 // Storage version of v1api20210515.SqlTriggerGetProperties_Resource_STATUS

@@ -5,27 +5,27 @@ package v1api20220901
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type StorageAccounts_BlobService_Spec_ARM struct {
+type StorageAccountsBlobService_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Blob service.
 	Properties *StorageAccounts_BlobService_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobService_Spec_ARM{}
+var _ genruntime.ARMResourceSpec = &StorageAccountsBlobService_Spec_ARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-09-01"
-func (service StorageAccounts_BlobService_Spec_ARM) GetAPIVersion() string {
+func (service StorageAccountsBlobService_Spec_ARM) GetAPIVersion() string {
 	return "2022-09-01"
 }
 
 // GetName returns the Name of the resource
-func (service *StorageAccounts_BlobService_Spec_ARM) GetName() string {
+func (service *StorageAccountsBlobService_Spec_ARM) GetName() string {
 	return service.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
-func (service *StorageAccounts_BlobService_Spec_ARM) GetType() string {
+func (service *StorageAccountsBlobService_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 

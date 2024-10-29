@@ -29,8 +29,8 @@ import (
 type BackupVaultsBackupInstance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BackupVaults_BackupInstance_Spec   `json:"spec,omitempty"`
-	Status            BackupVaults_BackupInstance_STATUS `json:"status,omitempty"`
+	Spec              BackupVaultsBackupInstance_Spec   `json:"spec,omitempty"`
+	Status            BackupVaultsBackupInstance_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &BackupVaultsBackupInstance{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &BackupVaultsBackupInstance{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (instance *BackupVaultsBackupInstance) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*BackupVaults_BackupInstance_STATUS); ok {
-		return instance.Spec.Initialize_From_BackupVaults_BackupInstance_STATUS(s)
+	if s, ok := status.(*BackupVaultsBackupInstance_STATUS); ok {
+		return instance.Spec.Initialize_From_BackupVaultsBackupInstance_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type BackupVaults_BackupInstance_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type BackupVaultsBackupInstance_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &BackupVaultsBackupInstance{}
@@ -144,7 +144,7 @@ func (instance *BackupVaultsBackupInstance) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (instance *BackupVaultsBackupInstance) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BackupVaults_BackupInstance_STATUS{}
+	return &BackupVaultsBackupInstance_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (instance *BackupVaultsBackupInstance) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (instance *BackupVaultsBackupInstance) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BackupVaults_BackupInstance_STATUS); ok {
+	if st, ok := status.(*BackupVaultsBackupInstance_STATUS); ok {
 		instance.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BackupVaults_BackupInstance_STATUS
+	var st BackupVaultsBackupInstance_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (instance *BackupVaultsBackupInstance) AssignProperties_From_BackupVaultsBa
 	instance.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec BackupVaults_BackupInstance_Spec
-	err := spec.AssignProperties_From_BackupVaults_BackupInstance_Spec(&source.Spec)
+	var spec BackupVaultsBackupInstance_Spec
+	err := spec.AssignProperties_From_BackupVaultsBackupInstance_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BackupVaults_BackupInstance_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupInstance_Spec() to populate field Spec")
 	}
 	instance.Spec = spec
 
 	// Status
-	var status BackupVaults_BackupInstance_STATUS
-	err = status.AssignProperties_From_BackupVaults_BackupInstance_STATUS(&source.Status)
+	var status BackupVaultsBackupInstance_STATUS
+	err = status.AssignProperties_From_BackupVaultsBackupInstance_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_BackupVaults_BackupInstance_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_BackupVaultsBackupInstance_STATUS() to populate field Status")
 	}
 	instance.Status = status
 
@@ -286,18 +286,18 @@ func (instance *BackupVaultsBackupInstance) AssignProperties_To_BackupVaultsBack
 	destination.ObjectMeta = *instance.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.BackupVaults_BackupInstance_Spec
-	err := instance.Spec.AssignProperties_To_BackupVaults_BackupInstance_Spec(&spec)
+	var spec storage.BackupVaultsBackupInstance_Spec
+	err := instance.Spec.AssignProperties_To_BackupVaultsBackupInstance_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BackupVaults_BackupInstance_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupInstance_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.BackupVaults_BackupInstance_STATUS
-	err = instance.Status.AssignProperties_To_BackupVaults_BackupInstance_STATUS(&status)
+	var status storage.BackupVaultsBackupInstance_STATUS
+	err = instance.Status.AssignProperties_To_BackupVaultsBackupInstance_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_BackupVaults_BackupInstance_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_BackupVaultsBackupInstance_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type BackupVaultsBackupInstanceList struct {
 	Items           []BackupVaultsBackupInstance `json:"items"`
 }
 
-type BackupVaults_BackupInstance_Spec struct {
+type BackupVaultsBackupInstance_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -342,14 +342,14 @@ type BackupVaults_BackupInstance_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &BackupVaults_BackupInstance_Spec{}
+var _ genruntime.ARMTransformer = &BackupVaultsBackupInstance_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (instance *BackupVaults_BackupInstance_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (instance *BackupVaultsBackupInstance_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if instance == nil {
 		return nil, nil
 	}
-	result := &BackupVaults_BackupInstance_Spec_ARM{}
+	result := &BackupVaultsBackupInstance_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -375,15 +375,15 @@ func (instance *BackupVaults_BackupInstance_Spec) ConvertToARM(resolved genrunti
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (instance *BackupVaults_BackupInstance_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackupVaults_BackupInstance_Spec_ARM{}
+func (instance *BackupVaultsBackupInstance_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BackupVaultsBackupInstance_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (instance *BackupVaults_BackupInstance_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackupVaults_BackupInstance_Spec_ARM)
+func (instance *BackupVaultsBackupInstance_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(BackupVaultsBackupInstance_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVaults_BackupInstance_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVaultsBackupInstance_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -418,25 +418,25 @@ func (instance *BackupVaults_BackupInstance_Spec) PopulateFromARM(owner genrunti
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &BackupVaults_BackupInstance_Spec{}
+var _ genruntime.ConvertibleSpec = &BackupVaultsBackupInstance_Spec{}
 
-// ConvertSpecFrom populates our BackupVaults_BackupInstance_Spec from the provided source
-func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.BackupVaults_BackupInstance_Spec)
+// ConvertSpecFrom populates our BackupVaultsBackupInstance_Spec from the provided source
+func (instance *BackupVaultsBackupInstance_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.BackupVaultsBackupInstance_Spec)
 	if ok {
 		// Populate our instance from source
-		return instance.AssignProperties_From_BackupVaults_BackupInstance_Spec(src)
+		return instance.AssignProperties_From_BackupVaultsBackupInstance_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.BackupVaults_BackupInstance_Spec{}
+	src = &storage.BackupVaultsBackupInstance_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = instance.AssignProperties_From_BackupVaults_BackupInstance_Spec(src)
+	err = instance.AssignProperties_From_BackupVaultsBackupInstance_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -444,17 +444,17 @@ func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecFrom(source genrunt
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our BackupVaults_BackupInstance_Spec
-func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.BackupVaults_BackupInstance_Spec)
+// ConvertSpecTo populates the provided destination from our BackupVaultsBackupInstance_Spec
+func (instance *BackupVaultsBackupInstance_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.BackupVaultsBackupInstance_Spec)
 	if ok {
 		// Populate destination from our instance
-		return instance.AssignProperties_To_BackupVaults_BackupInstance_Spec(dst)
+		return instance.AssignProperties_To_BackupVaultsBackupInstance_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.BackupVaults_BackupInstance_Spec{}
-	err := instance.AssignProperties_To_BackupVaults_BackupInstance_Spec(dst)
+	dst = &storage.BackupVaultsBackupInstance_Spec{}
+	err := instance.AssignProperties_To_BackupVaultsBackupInstance_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -468,8 +468,8 @@ func (instance *BackupVaults_BackupInstance_Spec) ConvertSpecTo(destination genr
 	return nil
 }
 
-// AssignProperties_From_BackupVaults_BackupInstance_Spec populates our BackupVaults_BackupInstance_Spec from the provided source BackupVaults_BackupInstance_Spec
-func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_From_BackupVaults_BackupInstance_Spec(source *storage.BackupVaults_BackupInstance_Spec) error {
+// AssignProperties_From_BackupVaultsBackupInstance_Spec populates our BackupVaultsBackupInstance_Spec from the provided source BackupVaultsBackupInstance_Spec
+func (instance *BackupVaultsBackupInstance_Spec) AssignProperties_From_BackupVaultsBackupInstance_Spec(source *storage.BackupVaultsBackupInstance_Spec) error {
 
 	// AzureName
 	instance.AzureName = source.AzureName
@@ -501,8 +501,8 @@ func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_From_BackupVa
 	return nil
 }
 
-// AssignProperties_To_BackupVaults_BackupInstance_Spec populates the provided destination BackupVaults_BackupInstance_Spec from our BackupVaults_BackupInstance_Spec
-func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_To_BackupVaults_BackupInstance_Spec(destination *storage.BackupVaults_BackupInstance_Spec) error {
+// AssignProperties_To_BackupVaultsBackupInstance_Spec populates the provided destination BackupVaultsBackupInstance_Spec from our BackupVaultsBackupInstance_Spec
+func (instance *BackupVaultsBackupInstance_Spec) AssignProperties_To_BackupVaultsBackupInstance_Spec(destination *storage.BackupVaultsBackupInstance_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -546,8 +546,8 @@ func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_To_BackupVaul
 	return nil
 }
 
-// Initialize_From_BackupVaults_BackupInstance_STATUS populates our BackupVaults_BackupInstance_Spec from the provided source BackupVaults_BackupInstance_STATUS
-func (instance *BackupVaults_BackupInstance_Spec) Initialize_From_BackupVaults_BackupInstance_STATUS(source *BackupVaults_BackupInstance_STATUS) error {
+// Initialize_From_BackupVaultsBackupInstance_STATUS populates our BackupVaultsBackupInstance_Spec from the provided source BackupVaultsBackupInstance_STATUS
+func (instance *BackupVaultsBackupInstance_Spec) Initialize_From_BackupVaultsBackupInstance_STATUS(source *BackupVaultsBackupInstance_STATUS) error {
 
 	// Properties
 	if source.Properties != nil {
@@ -569,16 +569,16 @@ func (instance *BackupVaults_BackupInstance_Spec) Initialize_From_BackupVaults_B
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (instance *BackupVaults_BackupInstance_Spec) OriginalVersion() string {
+func (instance *BackupVaultsBackupInstance_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (instance *BackupVaults_BackupInstance_Spec) SetAzureName(azureName string) {
+func (instance *BackupVaultsBackupInstance_Spec) SetAzureName(azureName string) {
 	instance.AzureName = azureName
 }
 
-type BackupVaults_BackupInstance_STATUS struct {
+type BackupVaultsBackupInstance_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -601,25 +601,25 @@ type BackupVaults_BackupInstance_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BackupVaults_BackupInstance_STATUS{}
+var _ genruntime.ConvertibleStatus = &BackupVaultsBackupInstance_STATUS{}
 
-// ConvertStatusFrom populates our BackupVaults_BackupInstance_STATUS from the provided source
-func (instance *BackupVaults_BackupInstance_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.BackupVaults_BackupInstance_STATUS)
+// ConvertStatusFrom populates our BackupVaultsBackupInstance_STATUS from the provided source
+func (instance *BackupVaultsBackupInstance_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.BackupVaultsBackupInstance_STATUS)
 	if ok {
 		// Populate our instance from source
-		return instance.AssignProperties_From_BackupVaults_BackupInstance_STATUS(src)
+		return instance.AssignProperties_From_BackupVaultsBackupInstance_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.BackupVaults_BackupInstance_STATUS{}
+	src = &storage.BackupVaultsBackupInstance_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = instance.AssignProperties_From_BackupVaults_BackupInstance_STATUS(src)
+	err = instance.AssignProperties_From_BackupVaultsBackupInstance_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -627,17 +627,17 @@ func (instance *BackupVaults_BackupInstance_STATUS) ConvertStatusFrom(source gen
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our BackupVaults_BackupInstance_STATUS
-func (instance *BackupVaults_BackupInstance_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.BackupVaults_BackupInstance_STATUS)
+// ConvertStatusTo populates the provided destination from our BackupVaultsBackupInstance_STATUS
+func (instance *BackupVaultsBackupInstance_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.BackupVaultsBackupInstance_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return instance.AssignProperties_To_BackupVaults_BackupInstance_STATUS(dst)
+		return instance.AssignProperties_To_BackupVaultsBackupInstance_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.BackupVaults_BackupInstance_STATUS{}
-	err := instance.AssignProperties_To_BackupVaults_BackupInstance_STATUS(dst)
+	dst = &storage.BackupVaultsBackupInstance_STATUS{}
+	err := instance.AssignProperties_To_BackupVaultsBackupInstance_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -651,18 +651,18 @@ func (instance *BackupVaults_BackupInstance_STATUS) ConvertStatusTo(destination 
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &BackupVaults_BackupInstance_STATUS{}
+var _ genruntime.FromARMConverter = &BackupVaultsBackupInstance_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (instance *BackupVaults_BackupInstance_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackupVaults_BackupInstance_STATUS_ARM{}
+func (instance *BackupVaultsBackupInstance_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BackupVaultsBackupInstance_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (instance *BackupVaults_BackupInstance_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackupVaults_BackupInstance_STATUS_ARM)
+func (instance *BackupVaultsBackupInstance_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(BackupVaultsBackupInstance_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVaults_BackupInstance_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVaultsBackupInstance_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -719,8 +719,8 @@ func (instance *BackupVaults_BackupInstance_STATUS) PopulateFromARM(owner genrun
 	return nil
 }
 
-// AssignProperties_From_BackupVaults_BackupInstance_STATUS populates our BackupVaults_BackupInstance_STATUS from the provided source BackupVaults_BackupInstance_STATUS
-func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_From_BackupVaults_BackupInstance_STATUS(source *storage.BackupVaults_BackupInstance_STATUS) error {
+// AssignProperties_From_BackupVaultsBackupInstance_STATUS populates our BackupVaultsBackupInstance_STATUS from the provided source BackupVaultsBackupInstance_STATUS
+func (instance *BackupVaultsBackupInstance_STATUS) AssignProperties_From_BackupVaultsBackupInstance_STATUS(source *storage.BackupVaultsBackupInstance_STATUS) error {
 
 	// Conditions
 	instance.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -765,8 +765,8 @@ func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_From_Backup
 	return nil
 }
 
-// AssignProperties_To_BackupVaults_BackupInstance_STATUS populates the provided destination BackupVaults_BackupInstance_STATUS from our BackupVaults_BackupInstance_STATUS
-func (instance *BackupVaults_BackupInstance_STATUS) AssignProperties_To_BackupVaults_BackupInstance_STATUS(destination *storage.BackupVaults_BackupInstance_STATUS) error {
+// AssignProperties_To_BackupVaultsBackupInstance_STATUS populates the provided destination BackupVaultsBackupInstance_STATUS from our BackupVaultsBackupInstance_STATUS
+func (instance *BackupVaultsBackupInstance_STATUS) AssignProperties_To_BackupVaultsBackupInstance_STATUS(destination *storage.BackupVaultsBackupInstance_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -393,3 +393,40 @@ func makeResourceGroupParameter() spec.Parameter {
 		},
 	}
 }
+
+func TestCategorizeResourceScope(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		path     string
+		expected astmodel.ResourceScope
+	}{
+		"virtual machine": {
+			path:     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
+			expected: astmodel.ResourceScopeResourceGroup,
+		},
+		"role assignment": {
+			path:     "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+			expected: astmodel.ResourceScopeExtension,
+		},
+		"diagnostic setting": {
+			path:     "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/diagnosticSettings/{name}",
+			expected: astmodel.ResourceScopeLocation,
+		},
+		"diagnostic setting extension": {
+			path:     "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}",
+			expected: astmodel.ResourceScopeExtension,
+		},
+	}
+
+	for name, c := range cases {
+		c := c
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			scope := categorizeResourceScope(c.path)
+			g.Expect(scope).To(Equal(c.expected))
+		})
+	}
+}

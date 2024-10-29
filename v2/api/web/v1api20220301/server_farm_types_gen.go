@@ -29,8 +29,8 @@ import (
 type ServerFarm struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Serverfarm_Spec   `json:"spec,omitempty"`
-	Status            Serverfarm_STATUS `json:"status,omitempty"`
+	Spec              ServerFarm_Spec   `json:"spec,omitempty"`
+	Status            ServerFarm_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServerFarm{}
@@ -94,11 +94,11 @@ var _ genruntime.ImportableResource = &ServerFarm{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (farm *ServerFarm) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Serverfarm_STATUS); ok {
-		return farm.Spec.Initialize_From_Serverfarm_STATUS(s)
+	if s, ok := status.(*ServerFarm_STATUS); ok {
+		return farm.Spec.Initialize_From_ServerFarm_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Serverfarm_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServerFarm_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServerFarm{}
@@ -144,7 +144,7 @@ func (farm *ServerFarm) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (farm *ServerFarm) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Serverfarm_STATUS{}
+	return &ServerFarm_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -156,13 +156,13 @@ func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (farm *ServerFarm) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Serverfarm_STATUS); ok {
+	if st, ok := status.(*ServerFarm_STATUS); ok {
 		farm.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Serverfarm_STATUS
+	var st ServerFarm_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -260,18 +260,18 @@ func (farm *ServerFarm) AssignProperties_From_ServerFarm(source *storage.ServerF
 	farm.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Serverfarm_Spec
-	err := spec.AssignProperties_From_Serverfarm_Spec(&source.Spec)
+	var spec ServerFarm_Spec
+	err := spec.AssignProperties_From_ServerFarm_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Serverfarm_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_ServerFarm_Spec() to populate field Spec")
 	}
 	farm.Spec = spec
 
 	// Status
-	var status Serverfarm_STATUS
-	err = status.AssignProperties_From_Serverfarm_STATUS(&source.Status)
+	var status ServerFarm_STATUS
+	err = status.AssignProperties_From_ServerFarm_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Serverfarm_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ServerFarm_STATUS() to populate field Status")
 	}
 	farm.Status = status
 
@@ -286,18 +286,18 @@ func (farm *ServerFarm) AssignProperties_To_ServerFarm(destination *storage.Serv
 	destination.ObjectMeta = *farm.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Serverfarm_Spec
-	err := farm.Spec.AssignProperties_To_Serverfarm_Spec(&spec)
+	var spec storage.ServerFarm_Spec
+	err := farm.Spec.AssignProperties_To_ServerFarm_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Serverfarm_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_ServerFarm_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Serverfarm_STATUS
-	err = farm.Status.AssignProperties_To_Serverfarm_STATUS(&status)
+	var status storage.ServerFarm_STATUS
+	err = farm.Status.AssignProperties_To_ServerFarm_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Serverfarm_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ServerFarm_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -329,7 +329,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-03-01")
 
-type Serverfarm_Spec struct {
+type ServerFarm_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -405,18 +405,18 @@ type Serverfarm_Spec struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Serverfarm_Spec{}
+var _ genruntime.ARMTransformer = &ServerFarm_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if serverfarm == nil {
+func (farm *ServerFarm_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if farm == nil {
 		return nil, nil
 	}
-	result := &Serverfarm_Spec_ARM{}
+	result := &ServerFarm_Spec_ARM{}
 
 	// Set property "ExtendedLocation":
-	if serverfarm.ExtendedLocation != nil {
-		extendedLocation_ARM, err := (*serverfarm.ExtendedLocation).ConvertToARM(resolved)
+	if farm.ExtendedLocation != nil {
+		extendedLocation_ARM, err := (*farm.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -425,14 +425,14 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property "Kind":
-	if serverfarm.Kind != nil {
-		kind := *serverfarm.Kind
+	if farm.Kind != nil {
+		kind := *farm.Kind
 		result.Kind = &kind
 	}
 
 	// Set property "Location":
-	if serverfarm.Location != nil {
-		location := *serverfarm.Location
+	if farm.Location != nil {
+		location := *farm.Location
 		result.Location = &location
 	}
 
@@ -440,95 +440,95 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	result.Name = resolved.Name
 
 	// Set property "Properties":
-	if serverfarm.ElasticScaleEnabled != nil ||
-		serverfarm.FreeOfferExpirationTime != nil ||
-		serverfarm.HostingEnvironmentProfile != nil ||
-		serverfarm.HyperV != nil ||
-		serverfarm.IsSpot != nil ||
-		serverfarm.IsXenon != nil ||
-		serverfarm.KubeEnvironmentProfile != nil ||
-		serverfarm.MaximumElasticWorkerCount != nil ||
-		serverfarm.PerSiteScaling != nil ||
-		serverfarm.Reserved != nil ||
-		serverfarm.SpotExpirationTime != nil ||
-		serverfarm.TargetWorkerCount != nil ||
-		serverfarm.TargetWorkerSizeId != nil ||
-		serverfarm.WorkerTierName != nil ||
-		serverfarm.ZoneRedundant != nil {
+	if farm.ElasticScaleEnabled != nil ||
+		farm.FreeOfferExpirationTime != nil ||
+		farm.HostingEnvironmentProfile != nil ||
+		farm.HyperV != nil ||
+		farm.IsSpot != nil ||
+		farm.IsXenon != nil ||
+		farm.KubeEnvironmentProfile != nil ||
+		farm.MaximumElasticWorkerCount != nil ||
+		farm.PerSiteScaling != nil ||
+		farm.Reserved != nil ||
+		farm.SpotExpirationTime != nil ||
+		farm.TargetWorkerCount != nil ||
+		farm.TargetWorkerSizeId != nil ||
+		farm.WorkerTierName != nil ||
+		farm.ZoneRedundant != nil {
 		result.Properties = &Serverfarm_Properties_Spec_ARM{}
 	}
-	if serverfarm.ElasticScaleEnabled != nil {
-		elasticScaleEnabled := *serverfarm.ElasticScaleEnabled
+	if farm.ElasticScaleEnabled != nil {
+		elasticScaleEnabled := *farm.ElasticScaleEnabled
 		result.Properties.ElasticScaleEnabled = &elasticScaleEnabled
 	}
-	if serverfarm.FreeOfferExpirationTime != nil {
-		freeOfferExpirationTime := *serverfarm.FreeOfferExpirationTime
+	if farm.FreeOfferExpirationTime != nil {
+		freeOfferExpirationTime := *farm.FreeOfferExpirationTime
 		result.Properties.FreeOfferExpirationTime = &freeOfferExpirationTime
 	}
-	if serverfarm.HostingEnvironmentProfile != nil {
-		hostingEnvironmentProfile_ARM, err := (*serverfarm.HostingEnvironmentProfile).ConvertToARM(resolved)
+	if farm.HostingEnvironmentProfile != nil {
+		hostingEnvironmentProfile_ARM, err := (*farm.HostingEnvironmentProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		hostingEnvironmentProfile := *hostingEnvironmentProfile_ARM.(*HostingEnvironmentProfile_ARM)
 		result.Properties.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	}
-	if serverfarm.HyperV != nil {
-		hyperV := *serverfarm.HyperV
+	if farm.HyperV != nil {
+		hyperV := *farm.HyperV
 		result.Properties.HyperV = &hyperV
 	}
-	if serverfarm.IsSpot != nil {
-		isSpot := *serverfarm.IsSpot
+	if farm.IsSpot != nil {
+		isSpot := *farm.IsSpot
 		result.Properties.IsSpot = &isSpot
 	}
-	if serverfarm.IsXenon != nil {
-		isXenon := *serverfarm.IsXenon
+	if farm.IsXenon != nil {
+		isXenon := *farm.IsXenon
 		result.Properties.IsXenon = &isXenon
 	}
-	if serverfarm.KubeEnvironmentProfile != nil {
-		kubeEnvironmentProfile_ARM, err := (*serverfarm.KubeEnvironmentProfile).ConvertToARM(resolved)
+	if farm.KubeEnvironmentProfile != nil {
+		kubeEnvironmentProfile_ARM, err := (*farm.KubeEnvironmentProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		kubeEnvironmentProfile := *kubeEnvironmentProfile_ARM.(*KubeEnvironmentProfile_ARM)
 		result.Properties.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	}
-	if serverfarm.MaximumElasticWorkerCount != nil {
-		maximumElasticWorkerCount := *serverfarm.MaximumElasticWorkerCount
+	if farm.MaximumElasticWorkerCount != nil {
+		maximumElasticWorkerCount := *farm.MaximumElasticWorkerCount
 		result.Properties.MaximumElasticWorkerCount = &maximumElasticWorkerCount
 	}
-	if serverfarm.PerSiteScaling != nil {
-		perSiteScaling := *serverfarm.PerSiteScaling
+	if farm.PerSiteScaling != nil {
+		perSiteScaling := *farm.PerSiteScaling
 		result.Properties.PerSiteScaling = &perSiteScaling
 	}
-	if serverfarm.Reserved != nil {
-		reserved := *serverfarm.Reserved
+	if farm.Reserved != nil {
+		reserved := *farm.Reserved
 		result.Properties.Reserved = &reserved
 	}
-	if serverfarm.SpotExpirationTime != nil {
-		spotExpirationTime := *serverfarm.SpotExpirationTime
+	if farm.SpotExpirationTime != nil {
+		spotExpirationTime := *farm.SpotExpirationTime
 		result.Properties.SpotExpirationTime = &spotExpirationTime
 	}
-	if serverfarm.TargetWorkerCount != nil {
-		targetWorkerCount := *serverfarm.TargetWorkerCount
+	if farm.TargetWorkerCount != nil {
+		targetWorkerCount := *farm.TargetWorkerCount
 		result.Properties.TargetWorkerCount = &targetWorkerCount
 	}
-	if serverfarm.TargetWorkerSizeId != nil {
-		targetWorkerSizeId := *serverfarm.TargetWorkerSizeId
+	if farm.TargetWorkerSizeId != nil {
+		targetWorkerSizeId := *farm.TargetWorkerSizeId
 		result.Properties.TargetWorkerSizeId = &targetWorkerSizeId
 	}
-	if serverfarm.WorkerTierName != nil {
-		workerTierName := *serverfarm.WorkerTierName
+	if farm.WorkerTierName != nil {
+		workerTierName := *farm.WorkerTierName
 		result.Properties.WorkerTierName = &workerTierName
 	}
-	if serverfarm.ZoneRedundant != nil {
-		zoneRedundant := *serverfarm.ZoneRedundant
+	if farm.ZoneRedundant != nil {
+		zoneRedundant := *farm.ZoneRedundant
 		result.Properties.ZoneRedundant = &zoneRedundant
 	}
 
 	// Set property "Sku":
-	if serverfarm.Sku != nil {
-		sku_ARM, err := (*serverfarm.Sku).ConvertToARM(resolved)
+	if farm.Sku != nil {
+		sku_ARM, err := (*farm.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -537,9 +537,9 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 
 	// Set property "Tags":
-	if serverfarm.Tags != nil {
-		result.Tags = make(map[string]string, len(serverfarm.Tags))
-		for key, value := range serverfarm.Tags {
+	if farm.Tags != nil {
+		result.Tags = make(map[string]string, len(farm.Tags))
+		for key, value := range farm.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -547,26 +547,26 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (serverfarm *Serverfarm_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Serverfarm_Spec_ARM{}
+func (farm *ServerFarm_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServerFarm_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Serverfarm_Spec_ARM)
+func (farm *ServerFarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServerFarm_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Serverfarm_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerFarm_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AzureName":
-	serverfarm.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	farm.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "ElasticScaleEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ElasticScaleEnabled != nil {
 			elasticScaleEnabled := *typedInput.Properties.ElasticScaleEnabled
-			serverfarm.ElasticScaleEnabled = &elasticScaleEnabled
+			farm.ElasticScaleEnabled = &elasticScaleEnabled
 		}
 	}
 
@@ -578,7 +578,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			return err
 		}
 		extendedLocation := extendedLocation1
-		serverfarm.ExtendedLocation = &extendedLocation
+		farm.ExtendedLocation = &extendedLocation
 	}
 
 	// Set property "FreeOfferExpirationTime":
@@ -586,7 +586,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FreeOfferExpirationTime != nil {
 			freeOfferExpirationTime := *typedInput.Properties.FreeOfferExpirationTime
-			serverfarm.FreeOfferExpirationTime = &freeOfferExpirationTime
+			farm.FreeOfferExpirationTime = &freeOfferExpirationTime
 		}
 	}
 
@@ -600,7 +600,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			hostingEnvironmentProfile := hostingEnvironmentProfile1
-			serverfarm.HostingEnvironmentProfile = &hostingEnvironmentProfile
+			farm.HostingEnvironmentProfile = &hostingEnvironmentProfile
 		}
 	}
 
@@ -609,7 +609,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperV != nil {
 			hyperV := *typedInput.Properties.HyperV
-			serverfarm.HyperV = &hyperV
+			farm.HyperV = &hyperV
 		}
 	}
 
@@ -618,7 +618,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsSpot != nil {
 			isSpot := *typedInput.Properties.IsSpot
-			serverfarm.IsSpot = &isSpot
+			farm.IsSpot = &isSpot
 		}
 	}
 
@@ -627,14 +627,14 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsXenon != nil {
 			isXenon := *typedInput.Properties.IsXenon
-			serverfarm.IsXenon = &isXenon
+			farm.IsXenon = &isXenon
 		}
 	}
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
-		serverfarm.Kind = &kind
+		farm.Kind = &kind
 	}
 
 	// Set property "KubeEnvironmentProfile":
@@ -647,14 +647,14 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			kubeEnvironmentProfile := kubeEnvironmentProfile1
-			serverfarm.KubeEnvironmentProfile = &kubeEnvironmentProfile
+			farm.KubeEnvironmentProfile = &kubeEnvironmentProfile
 		}
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		serverfarm.Location = &location
+		farm.Location = &location
 	}
 
 	// Set property "MaximumElasticWorkerCount":
@@ -662,12 +662,12 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaximumElasticWorkerCount != nil {
 			maximumElasticWorkerCount := *typedInput.Properties.MaximumElasticWorkerCount
-			serverfarm.MaximumElasticWorkerCount = &maximumElasticWorkerCount
+			farm.MaximumElasticWorkerCount = &maximumElasticWorkerCount
 		}
 	}
 
 	// Set property "Owner":
-	serverfarm.Owner = &genruntime.KnownResourceReference{
+	farm.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
 	}
@@ -677,7 +677,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PerSiteScaling != nil {
 			perSiteScaling := *typedInput.Properties.PerSiteScaling
-			serverfarm.PerSiteScaling = &perSiteScaling
+			farm.PerSiteScaling = &perSiteScaling
 		}
 	}
 
@@ -686,7 +686,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Reserved != nil {
 			reserved := *typedInput.Properties.Reserved
-			serverfarm.Reserved = &reserved
+			farm.Reserved = &reserved
 		}
 	}
 
@@ -698,7 +698,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			return err
 		}
 		sku := sku1
-		serverfarm.Sku = &sku
+		farm.Sku = &sku
 	}
 
 	// Set property "SpotExpirationTime":
@@ -706,15 +706,15 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SpotExpirationTime != nil {
 			spotExpirationTime := *typedInput.Properties.SpotExpirationTime
-			serverfarm.SpotExpirationTime = &spotExpirationTime
+			farm.SpotExpirationTime = &spotExpirationTime
 		}
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		serverfarm.Tags = make(map[string]string, len(typedInput.Tags))
+		farm.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			serverfarm.Tags[key] = value
+			farm.Tags[key] = value
 		}
 	}
 
@@ -723,7 +723,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetWorkerCount != nil {
 			targetWorkerCount := *typedInput.Properties.TargetWorkerCount
-			serverfarm.TargetWorkerCount = &targetWorkerCount
+			farm.TargetWorkerCount = &targetWorkerCount
 		}
 	}
 
@@ -732,7 +732,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetWorkerSizeId != nil {
 			targetWorkerSizeId := *typedInput.Properties.TargetWorkerSizeId
-			serverfarm.TargetWorkerSizeId = &targetWorkerSizeId
+			farm.TargetWorkerSizeId = &targetWorkerSizeId
 		}
 	}
 
@@ -741,7 +741,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkerTierName != nil {
 			workerTierName := *typedInput.Properties.WorkerTierName
-			serverfarm.WorkerTierName = &workerTierName
+			farm.WorkerTierName = &workerTierName
 		}
 	}
 
@@ -750,7 +750,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundant != nil {
 			zoneRedundant := *typedInput.Properties.ZoneRedundant
-			serverfarm.ZoneRedundant = &zoneRedundant
+			farm.ZoneRedundant = &zoneRedundant
 		}
 	}
 
@@ -758,25 +758,25 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Serverfarm_Spec{}
+var _ genruntime.ConvertibleSpec = &ServerFarm_Spec{}
 
-// ConvertSpecFrom populates our Serverfarm_Spec from the provided source
-func (serverfarm *Serverfarm_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Serverfarm_Spec)
+// ConvertSpecFrom populates our ServerFarm_Spec from the provided source
+func (farm *ServerFarm_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServerFarm_Spec)
 	if ok {
 		// Populate our instance from source
-		return serverfarm.AssignProperties_From_Serverfarm_Spec(src)
+		return farm.AssignProperties_From_ServerFarm_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Serverfarm_Spec{}
+	src = &storage.ServerFarm_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = serverfarm.AssignProperties_From_Serverfarm_Spec(src)
+	err = farm.AssignProperties_From_ServerFarm_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -784,17 +784,17 @@ func (serverfarm *Serverfarm_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Serverfarm_Spec
-func (serverfarm *Serverfarm_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Serverfarm_Spec)
+// ConvertSpecTo populates the provided destination from our ServerFarm_Spec
+func (farm *ServerFarm_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServerFarm_Spec)
 	if ok {
 		// Populate destination from our instance
-		return serverfarm.AssignProperties_To_Serverfarm_Spec(dst)
+		return farm.AssignProperties_To_ServerFarm_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Serverfarm_Spec{}
-	err := serverfarm.AssignProperties_To_Serverfarm_Spec(dst)
+	dst = &storage.ServerFarm_Spec{}
+	err := farm.AssignProperties_To_ServerFarm_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -808,18 +808,18 @@ func (serverfarm *Serverfarm_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignProperties_From_Serverfarm_Spec populates our Serverfarm_Spec from the provided source Serverfarm_Spec
-func (serverfarm *Serverfarm_Spec) AssignProperties_From_Serverfarm_Spec(source *storage.Serverfarm_Spec) error {
+// AssignProperties_From_ServerFarm_Spec populates our ServerFarm_Spec from the provided source ServerFarm_Spec
+func (farm *ServerFarm_Spec) AssignProperties_From_ServerFarm_Spec(source *storage.ServerFarm_Spec) error {
 
 	// AzureName
-	serverfarm.AzureName = source.AzureName
+	farm.AzureName = source.AzureName
 
 	// ElasticScaleEnabled
 	if source.ElasticScaleEnabled != nil {
 		elasticScaleEnabled := *source.ElasticScaleEnabled
-		serverfarm.ElasticScaleEnabled = &elasticScaleEnabled
+		farm.ElasticScaleEnabled = &elasticScaleEnabled
 	} else {
-		serverfarm.ElasticScaleEnabled = nil
+		farm.ElasticScaleEnabled = nil
 	}
 
 	// ExtendedLocation
@@ -829,13 +829,13 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_From_Serverfarm_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
 		}
-		serverfarm.ExtendedLocation = &extendedLocation
+		farm.ExtendedLocation = &extendedLocation
 	} else {
-		serverfarm.ExtendedLocation = nil
+		farm.ExtendedLocation = nil
 	}
 
 	// FreeOfferExpirationTime
-	serverfarm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
+	farm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
 
 	// HostingEnvironmentProfile
 	if source.HostingEnvironmentProfile != nil {
@@ -844,37 +844,37 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_From_Serverfarm_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
 		}
-		serverfarm.HostingEnvironmentProfile = &hostingEnvironmentProfile
+		farm.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
-		serverfarm.HostingEnvironmentProfile = nil
+		farm.HostingEnvironmentProfile = nil
 	}
 
 	// HyperV
 	if source.HyperV != nil {
 		hyperV := *source.HyperV
-		serverfarm.HyperV = &hyperV
+		farm.HyperV = &hyperV
 	} else {
-		serverfarm.HyperV = nil
+		farm.HyperV = nil
 	}
 
 	// IsSpot
 	if source.IsSpot != nil {
 		isSpot := *source.IsSpot
-		serverfarm.IsSpot = &isSpot
+		farm.IsSpot = &isSpot
 	} else {
-		serverfarm.IsSpot = nil
+		farm.IsSpot = nil
 	}
 
 	// IsXenon
 	if source.IsXenon != nil {
 		isXenon := *source.IsXenon
-		serverfarm.IsXenon = &isXenon
+		farm.IsXenon = &isXenon
 	} else {
-		serverfarm.IsXenon = nil
+		farm.IsXenon = nil
 	}
 
 	// Kind
-	serverfarm.Kind = genruntime.ClonePointerToString(source.Kind)
+	farm.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// KubeEnvironmentProfile
 	if source.KubeEnvironmentProfile != nil {
@@ -883,39 +883,39 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_From_Serverfarm_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
 		}
-		serverfarm.KubeEnvironmentProfile = &kubeEnvironmentProfile
+		farm.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
-		serverfarm.KubeEnvironmentProfile = nil
+		farm.KubeEnvironmentProfile = nil
 	}
 
 	// Location
-	serverfarm.Location = genruntime.ClonePointerToString(source.Location)
+	farm.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaximumElasticWorkerCount
-	serverfarm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
+	farm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		serverfarm.Owner = &owner
+		farm.Owner = &owner
 	} else {
-		serverfarm.Owner = nil
+		farm.Owner = nil
 	}
 
 	// PerSiteScaling
 	if source.PerSiteScaling != nil {
 		perSiteScaling := *source.PerSiteScaling
-		serverfarm.PerSiteScaling = &perSiteScaling
+		farm.PerSiteScaling = &perSiteScaling
 	} else {
-		serverfarm.PerSiteScaling = nil
+		farm.PerSiteScaling = nil
 	}
 
 	// Reserved
 	if source.Reserved != nil {
 		reserved := *source.Reserved
-		serverfarm.Reserved = &reserved
+		farm.Reserved = &reserved
 	} else {
-		serverfarm.Reserved = nil
+		farm.Reserved = nil
 	}
 
 	// Sku
@@ -925,58 +925,58 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_From_Serverfarm_Spec(source 
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SkuDescription() to populate field Sku")
 		}
-		serverfarm.Sku = &sku
+		farm.Sku = &sku
 	} else {
-		serverfarm.Sku = nil
+		farm.Sku = nil
 	}
 
 	// SpotExpirationTime
-	serverfarm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
+	farm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
 
 	// Tags
-	serverfarm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	farm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TargetWorkerCount
-	serverfarm.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
+	farm.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
 
 	// TargetWorkerSizeId
-	serverfarm.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
+	farm.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
 
 	// WorkerTierName
-	serverfarm.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
+	farm.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
 
 	// ZoneRedundant
 	if source.ZoneRedundant != nil {
 		zoneRedundant := *source.ZoneRedundant
-		serverfarm.ZoneRedundant = &zoneRedundant
+		farm.ZoneRedundant = &zoneRedundant
 	} else {
-		serverfarm.ZoneRedundant = nil
+		farm.ZoneRedundant = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Serverfarm_Spec populates the provided destination Serverfarm_Spec from our Serverfarm_Spec
-func (serverfarm *Serverfarm_Spec) AssignProperties_To_Serverfarm_Spec(destination *storage.Serverfarm_Spec) error {
+// AssignProperties_To_ServerFarm_Spec populates the provided destination ServerFarm_Spec from our ServerFarm_Spec
+func (farm *ServerFarm_Spec) AssignProperties_To_ServerFarm_Spec(destination *storage.ServerFarm_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = serverfarm.AzureName
+	destination.AzureName = farm.AzureName
 
 	// ElasticScaleEnabled
-	if serverfarm.ElasticScaleEnabled != nil {
-		elasticScaleEnabled := *serverfarm.ElasticScaleEnabled
+	if farm.ElasticScaleEnabled != nil {
+		elasticScaleEnabled := *farm.ElasticScaleEnabled
 		destination.ElasticScaleEnabled = &elasticScaleEnabled
 	} else {
 		destination.ElasticScaleEnabled = nil
 	}
 
 	// ExtendedLocation
-	if serverfarm.ExtendedLocation != nil {
+	if farm.ExtendedLocation != nil {
 		var extendedLocation storage.ExtendedLocation
-		err := serverfarm.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
+		err := farm.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
 		}
@@ -986,12 +986,12 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_To_Serverfarm_Spec(destinati
 	}
 
 	// FreeOfferExpirationTime
-	destination.FreeOfferExpirationTime = genruntime.ClonePointerToString(serverfarm.FreeOfferExpirationTime)
+	destination.FreeOfferExpirationTime = genruntime.ClonePointerToString(farm.FreeOfferExpirationTime)
 
 	// HostingEnvironmentProfile
-	if serverfarm.HostingEnvironmentProfile != nil {
+	if farm.HostingEnvironmentProfile != nil {
 		var hostingEnvironmentProfile storage.HostingEnvironmentProfile
-		err := serverfarm.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile(&hostingEnvironmentProfile)
+		err := farm.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile(&hostingEnvironmentProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile() to populate field HostingEnvironmentProfile")
 		}
@@ -1001,36 +1001,36 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_To_Serverfarm_Spec(destinati
 	}
 
 	// HyperV
-	if serverfarm.HyperV != nil {
-		hyperV := *serverfarm.HyperV
+	if farm.HyperV != nil {
+		hyperV := *farm.HyperV
 		destination.HyperV = &hyperV
 	} else {
 		destination.HyperV = nil
 	}
 
 	// IsSpot
-	if serverfarm.IsSpot != nil {
-		isSpot := *serverfarm.IsSpot
+	if farm.IsSpot != nil {
+		isSpot := *farm.IsSpot
 		destination.IsSpot = &isSpot
 	} else {
 		destination.IsSpot = nil
 	}
 
 	// IsXenon
-	if serverfarm.IsXenon != nil {
-		isXenon := *serverfarm.IsXenon
+	if farm.IsXenon != nil {
+		isXenon := *farm.IsXenon
 		destination.IsXenon = &isXenon
 	} else {
 		destination.IsXenon = nil
 	}
 
 	// Kind
-	destination.Kind = genruntime.ClonePointerToString(serverfarm.Kind)
+	destination.Kind = genruntime.ClonePointerToString(farm.Kind)
 
 	// KubeEnvironmentProfile
-	if serverfarm.KubeEnvironmentProfile != nil {
+	if farm.KubeEnvironmentProfile != nil {
 		var kubeEnvironmentProfile storage.KubeEnvironmentProfile
-		err := serverfarm.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile(&kubeEnvironmentProfile)
+		err := farm.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile(&kubeEnvironmentProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile() to populate field KubeEnvironmentProfile")
 		}
@@ -1040,42 +1040,42 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_To_Serverfarm_Spec(destinati
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(serverfarm.Location)
+	destination.Location = genruntime.ClonePointerToString(farm.Location)
 
 	// MaximumElasticWorkerCount
-	destination.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(serverfarm.MaximumElasticWorkerCount)
+	destination.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(farm.MaximumElasticWorkerCount)
 
 	// OriginalVersion
-	destination.OriginalVersion = serverfarm.OriginalVersion()
+	destination.OriginalVersion = farm.OriginalVersion()
 
 	// Owner
-	if serverfarm.Owner != nil {
-		owner := serverfarm.Owner.Copy()
+	if farm.Owner != nil {
+		owner := farm.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// PerSiteScaling
-	if serverfarm.PerSiteScaling != nil {
-		perSiteScaling := *serverfarm.PerSiteScaling
+	if farm.PerSiteScaling != nil {
+		perSiteScaling := *farm.PerSiteScaling
 		destination.PerSiteScaling = &perSiteScaling
 	} else {
 		destination.PerSiteScaling = nil
 	}
 
 	// Reserved
-	if serverfarm.Reserved != nil {
-		reserved := *serverfarm.Reserved
+	if farm.Reserved != nil {
+		reserved := *farm.Reserved
 		destination.Reserved = &reserved
 	} else {
 		destination.Reserved = nil
 	}
 
 	// Sku
-	if serverfarm.Sku != nil {
+	if farm.Sku != nil {
 		var sku storage.SkuDescription
-		err := serverfarm.Sku.AssignProperties_To_SkuDescription(&sku)
+		err := farm.Sku.AssignProperties_To_SkuDescription(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SkuDescription() to populate field Sku")
 		}
@@ -1085,23 +1085,23 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_To_Serverfarm_Spec(destinati
 	}
 
 	// SpotExpirationTime
-	destination.SpotExpirationTime = genruntime.ClonePointerToString(serverfarm.SpotExpirationTime)
+	destination.SpotExpirationTime = genruntime.ClonePointerToString(farm.SpotExpirationTime)
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(serverfarm.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(farm.Tags)
 
 	// TargetWorkerCount
-	destination.TargetWorkerCount = genruntime.ClonePointerToInt(serverfarm.TargetWorkerCount)
+	destination.TargetWorkerCount = genruntime.ClonePointerToInt(farm.TargetWorkerCount)
 
 	// TargetWorkerSizeId
-	destination.TargetWorkerSizeId = genruntime.ClonePointerToInt(serverfarm.TargetWorkerSizeId)
+	destination.TargetWorkerSizeId = genruntime.ClonePointerToInt(farm.TargetWorkerSizeId)
 
 	// WorkerTierName
-	destination.WorkerTierName = genruntime.ClonePointerToString(serverfarm.WorkerTierName)
+	destination.WorkerTierName = genruntime.ClonePointerToString(farm.WorkerTierName)
 
 	// ZoneRedundant
-	if serverfarm.ZoneRedundant != nil {
-		zoneRedundant := *serverfarm.ZoneRedundant
+	if farm.ZoneRedundant != nil {
+		zoneRedundant := *farm.ZoneRedundant
 		destination.ZoneRedundant = &zoneRedundant
 	} else {
 		destination.ZoneRedundant = nil
@@ -1118,15 +1118,15 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_To_Serverfarm_Spec(destinati
 	return nil
 }
 
-// Initialize_From_Serverfarm_STATUS populates our Serverfarm_Spec from the provided source Serverfarm_STATUS
-func (serverfarm *Serverfarm_Spec) Initialize_From_Serverfarm_STATUS(source *Serverfarm_STATUS) error {
+// Initialize_From_ServerFarm_STATUS populates our ServerFarm_Spec from the provided source ServerFarm_STATUS
+func (farm *ServerFarm_Spec) Initialize_From_ServerFarm_STATUS(source *ServerFarm_STATUS) error {
 
 	// ElasticScaleEnabled
 	if source.ElasticScaleEnabled != nil {
 		elasticScaleEnabled := *source.ElasticScaleEnabled
-		serverfarm.ElasticScaleEnabled = &elasticScaleEnabled
+		farm.ElasticScaleEnabled = &elasticScaleEnabled
 	} else {
-		serverfarm.ElasticScaleEnabled = nil
+		farm.ElasticScaleEnabled = nil
 	}
 
 	// ExtendedLocation
@@ -1136,13 +1136,13 @@ func (serverfarm *Serverfarm_Spec) Initialize_From_Serverfarm_STATUS(source *Ser
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
-		serverfarm.ExtendedLocation = &extendedLocation
+		farm.ExtendedLocation = &extendedLocation
 	} else {
-		serverfarm.ExtendedLocation = nil
+		farm.ExtendedLocation = nil
 	}
 
 	// FreeOfferExpirationTime
-	serverfarm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
+	farm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
 
 	// HostingEnvironmentProfile
 	if source.HostingEnvironmentProfile != nil {
@@ -1151,37 +1151,37 @@ func (serverfarm *Serverfarm_Spec) Initialize_From_Serverfarm_STATUS(source *Ser
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
-		serverfarm.HostingEnvironmentProfile = &hostingEnvironmentProfile
+		farm.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
-		serverfarm.HostingEnvironmentProfile = nil
+		farm.HostingEnvironmentProfile = nil
 	}
 
 	// HyperV
 	if source.HyperV != nil {
 		hyperV := *source.HyperV
-		serverfarm.HyperV = &hyperV
+		farm.HyperV = &hyperV
 	} else {
-		serverfarm.HyperV = nil
+		farm.HyperV = nil
 	}
 
 	// IsSpot
 	if source.IsSpot != nil {
 		isSpot := *source.IsSpot
-		serverfarm.IsSpot = &isSpot
+		farm.IsSpot = &isSpot
 	} else {
-		serverfarm.IsSpot = nil
+		farm.IsSpot = nil
 	}
 
 	// IsXenon
 	if source.IsXenon != nil {
 		isXenon := *source.IsXenon
-		serverfarm.IsXenon = &isXenon
+		farm.IsXenon = &isXenon
 	} else {
-		serverfarm.IsXenon = nil
+		farm.IsXenon = nil
 	}
 
 	// Kind
-	serverfarm.Kind = genruntime.ClonePointerToString(source.Kind)
+	farm.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// KubeEnvironmentProfile
 	if source.KubeEnvironmentProfile != nil {
@@ -1190,31 +1190,31 @@ func (serverfarm *Serverfarm_Spec) Initialize_From_Serverfarm_STATUS(source *Ser
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
 		}
-		serverfarm.KubeEnvironmentProfile = &kubeEnvironmentProfile
+		farm.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
-		serverfarm.KubeEnvironmentProfile = nil
+		farm.KubeEnvironmentProfile = nil
 	}
 
 	// Location
-	serverfarm.Location = genruntime.ClonePointerToString(source.Location)
+	farm.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaximumElasticWorkerCount
-	serverfarm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
+	farm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
 
 	// PerSiteScaling
 	if source.PerSiteScaling != nil {
 		perSiteScaling := *source.PerSiteScaling
-		serverfarm.PerSiteScaling = &perSiteScaling
+		farm.PerSiteScaling = &perSiteScaling
 	} else {
-		serverfarm.PerSiteScaling = nil
+		farm.PerSiteScaling = nil
 	}
 
 	// Reserved
 	if source.Reserved != nil {
 		reserved := *source.Reserved
-		serverfarm.Reserved = &reserved
+		farm.Reserved = &reserved
 	} else {
-		serverfarm.Reserved = nil
+		farm.Reserved = nil
 	}
 
 	// Sku
@@ -1224,32 +1224,32 @@ func (serverfarm *Serverfarm_Spec) Initialize_From_Serverfarm_STATUS(source *Ser
 		if err != nil {
 			return errors.Wrap(err, "calling Initialize_From_SkuDescription_STATUS() to populate field Sku")
 		}
-		serverfarm.Sku = &sku
+		farm.Sku = &sku
 	} else {
-		serverfarm.Sku = nil
+		farm.Sku = nil
 	}
 
 	// SpotExpirationTime
-	serverfarm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
+	farm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
 
 	// Tags
-	serverfarm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	farm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TargetWorkerCount
-	serverfarm.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
+	farm.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
 
 	// TargetWorkerSizeId
-	serverfarm.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
+	farm.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
 
 	// WorkerTierName
-	serverfarm.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
+	farm.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
 
 	// ZoneRedundant
 	if source.ZoneRedundant != nil {
 		zoneRedundant := *source.ZoneRedundant
-		serverfarm.ZoneRedundant = &zoneRedundant
+		farm.ZoneRedundant = &zoneRedundant
 	} else {
-		serverfarm.ZoneRedundant = nil
+		farm.ZoneRedundant = nil
 	}
 
 	// No error
@@ -1257,14 +1257,14 @@ func (serverfarm *Serverfarm_Spec) Initialize_From_Serverfarm_STATUS(source *Ser
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (serverfarm *Serverfarm_Spec) OriginalVersion() string {
+func (farm *ServerFarm_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (serverfarm *Serverfarm_Spec) SetAzureName(azureName string) { serverfarm.AzureName = azureName }
+func (farm *ServerFarm_Spec) SetAzureName(azureName string) { farm.AzureName = azureName }
 
-type Serverfarm_STATUS struct {
+type ServerFarm_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -1365,25 +1365,25 @@ type Serverfarm_STATUS struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Serverfarm_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServerFarm_STATUS{}
 
-// ConvertStatusFrom populates our Serverfarm_STATUS from the provided source
-func (serverfarm *Serverfarm_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Serverfarm_STATUS)
+// ConvertStatusFrom populates our ServerFarm_STATUS from the provided source
+func (farm *ServerFarm_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServerFarm_STATUS)
 	if ok {
 		// Populate our instance from source
-		return serverfarm.AssignProperties_From_Serverfarm_STATUS(src)
+		return farm.AssignProperties_From_ServerFarm_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Serverfarm_STATUS{}
+	src = &storage.ServerFarm_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = serverfarm.AssignProperties_From_Serverfarm_STATUS(src)
+	err = farm.AssignProperties_From_ServerFarm_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1391,17 +1391,17 @@ func (serverfarm *Serverfarm_STATUS) ConvertStatusFrom(source genruntime.Convert
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Serverfarm_STATUS
-func (serverfarm *Serverfarm_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Serverfarm_STATUS)
+// ConvertStatusTo populates the provided destination from our ServerFarm_STATUS
+func (farm *ServerFarm_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServerFarm_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return serverfarm.AssignProperties_To_Serverfarm_STATUS(dst)
+		return farm.AssignProperties_To_ServerFarm_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Serverfarm_STATUS{}
-	err := serverfarm.AssignProperties_To_Serverfarm_STATUS(dst)
+	dst = &storage.ServerFarm_STATUS{}
+	err := farm.AssignProperties_To_ServerFarm_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1415,18 +1415,18 @@ func (serverfarm *Serverfarm_STATUS) ConvertStatusTo(destination genruntime.Conv
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Serverfarm_STATUS{}
+var _ genruntime.FromARMConverter = &ServerFarm_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (serverfarm *Serverfarm_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Serverfarm_STATUS_ARM{}
+func (farm *ServerFarm_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServerFarm_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Serverfarm_STATUS_ARM)
+func (farm *ServerFarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServerFarm_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Serverfarm_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerFarm_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1436,7 +1436,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ElasticScaleEnabled != nil {
 			elasticScaleEnabled := *typedInput.Properties.ElasticScaleEnabled
-			serverfarm.ElasticScaleEnabled = &elasticScaleEnabled
+			farm.ElasticScaleEnabled = &elasticScaleEnabled
 		}
 	}
 
@@ -1448,7 +1448,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			return err
 		}
 		extendedLocation := extendedLocation1
-		serverfarm.ExtendedLocation = &extendedLocation
+		farm.ExtendedLocation = &extendedLocation
 	}
 
 	// Set property "FreeOfferExpirationTime":
@@ -1456,7 +1456,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FreeOfferExpirationTime != nil {
 			freeOfferExpirationTime := *typedInput.Properties.FreeOfferExpirationTime
-			serverfarm.FreeOfferExpirationTime = &freeOfferExpirationTime
+			farm.FreeOfferExpirationTime = &freeOfferExpirationTime
 		}
 	}
 
@@ -1465,7 +1465,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GeoRegion != nil {
 			geoRegion := *typedInput.Properties.GeoRegion
-			serverfarm.GeoRegion = &geoRegion
+			farm.GeoRegion = &geoRegion
 		}
 	}
 
@@ -1479,7 +1479,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 				return err
 			}
 			hostingEnvironmentProfile := hostingEnvironmentProfile1
-			serverfarm.HostingEnvironmentProfile = &hostingEnvironmentProfile
+			farm.HostingEnvironmentProfile = &hostingEnvironmentProfile
 		}
 	}
 
@@ -1488,14 +1488,14 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperV != nil {
 			hyperV := *typedInput.Properties.HyperV
-			serverfarm.HyperV = &hyperV
+			farm.HyperV = &hyperV
 		}
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		serverfarm.Id = &id
+		farm.Id = &id
 	}
 
 	// Set property "IsSpot":
@@ -1503,7 +1503,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsSpot != nil {
 			isSpot := *typedInput.Properties.IsSpot
-			serverfarm.IsSpot = &isSpot
+			farm.IsSpot = &isSpot
 		}
 	}
 
@@ -1512,14 +1512,14 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsXenon != nil {
 			isXenon := *typedInput.Properties.IsXenon
-			serverfarm.IsXenon = &isXenon
+			farm.IsXenon = &isXenon
 		}
 	}
 
 	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
-		serverfarm.Kind = &kind
+		farm.Kind = &kind
 	}
 
 	// Set property "KubeEnvironmentProfile":
@@ -1532,14 +1532,14 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 				return err
 			}
 			kubeEnvironmentProfile := kubeEnvironmentProfile1
-			serverfarm.KubeEnvironmentProfile = &kubeEnvironmentProfile
+			farm.KubeEnvironmentProfile = &kubeEnvironmentProfile
 		}
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		serverfarm.Location = &location
+		farm.Location = &location
 	}
 
 	// Set property "MaximumElasticWorkerCount":
@@ -1547,7 +1547,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaximumElasticWorkerCount != nil {
 			maximumElasticWorkerCount := *typedInput.Properties.MaximumElasticWorkerCount
-			serverfarm.MaximumElasticWorkerCount = &maximumElasticWorkerCount
+			farm.MaximumElasticWorkerCount = &maximumElasticWorkerCount
 		}
 	}
 
@@ -1556,14 +1556,14 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaximumNumberOfWorkers != nil {
 			maximumNumberOfWorkers := *typedInput.Properties.MaximumNumberOfWorkers
-			serverfarm.MaximumNumberOfWorkers = &maximumNumberOfWorkers
+			farm.MaximumNumberOfWorkers = &maximumNumberOfWorkers
 		}
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		serverfarm.Name = &name
+		farm.Name = &name
 	}
 
 	// Set property "NumberOfSites":
@@ -1571,7 +1571,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfSites != nil {
 			numberOfSites := *typedInput.Properties.NumberOfSites
-			serverfarm.NumberOfSites = &numberOfSites
+			farm.NumberOfSites = &numberOfSites
 		}
 	}
 
@@ -1580,7 +1580,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfWorkers != nil {
 			numberOfWorkers := *typedInput.Properties.NumberOfWorkers
-			serverfarm.NumberOfWorkers = &numberOfWorkers
+			farm.NumberOfWorkers = &numberOfWorkers
 		}
 	}
 
@@ -1589,7 +1589,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PerSiteScaling != nil {
 			perSiteScaling := *typedInput.Properties.PerSiteScaling
-			serverfarm.PerSiteScaling = &perSiteScaling
+			farm.PerSiteScaling = &perSiteScaling
 		}
 	}
 
@@ -1600,7 +1600,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
 			provisioningState := Serverfarm_Properties_ProvisioningState_STATUS(temp)
-			serverfarm.ProvisioningState = &provisioningState
+			farm.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -1609,7 +1609,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Reserved != nil {
 			reserved := *typedInput.Properties.Reserved
-			serverfarm.Reserved = &reserved
+			farm.Reserved = &reserved
 		}
 	}
 
@@ -1618,7 +1618,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGroup != nil {
 			resourceGroup := *typedInput.Properties.ResourceGroup
-			serverfarm.ResourceGroup = &resourceGroup
+			farm.ResourceGroup = &resourceGroup
 		}
 	}
 
@@ -1630,7 +1630,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			return err
 		}
 		sku := sku1
-		serverfarm.Sku = &sku
+		farm.Sku = &sku
 	}
 
 	// Set property "SpotExpirationTime":
@@ -1638,7 +1638,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SpotExpirationTime != nil {
 			spotExpirationTime := *typedInput.Properties.SpotExpirationTime
-			serverfarm.SpotExpirationTime = &spotExpirationTime
+			farm.SpotExpirationTime = &spotExpirationTime
 		}
 	}
 
@@ -1649,7 +1649,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 			var temp string
 			temp = string(*typedInput.Properties.Status)
 			status := Serverfarm_Properties_Status_STATUS(temp)
-			serverfarm.Status = &status
+			farm.Status = &status
 		}
 	}
 
@@ -1658,15 +1658,15 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subscription != nil {
 			subscription := *typedInput.Properties.Subscription
-			serverfarm.Subscription = &subscription
+			farm.Subscription = &subscription
 		}
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		serverfarm.Tags = make(map[string]string, len(typedInput.Tags))
+		farm.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			serverfarm.Tags[key] = value
+			farm.Tags[key] = value
 		}
 	}
 
@@ -1675,7 +1675,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetWorkerCount != nil {
 			targetWorkerCount := *typedInput.Properties.TargetWorkerCount
-			serverfarm.TargetWorkerCount = &targetWorkerCount
+			farm.TargetWorkerCount = &targetWorkerCount
 		}
 	}
 
@@ -1684,14 +1684,14 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetWorkerSizeId != nil {
 			targetWorkerSizeId := *typedInput.Properties.TargetWorkerSizeId
-			serverfarm.TargetWorkerSizeId = &targetWorkerSizeId
+			farm.TargetWorkerSizeId = &targetWorkerSizeId
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		serverfarm.Type = &typeVar
+		farm.Type = &typeVar
 	}
 
 	// Set property "WorkerTierName":
@@ -1699,7 +1699,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkerTierName != nil {
 			workerTierName := *typedInput.Properties.WorkerTierName
-			serverfarm.WorkerTierName = &workerTierName
+			farm.WorkerTierName = &workerTierName
 		}
 	}
 
@@ -1708,7 +1708,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundant != nil {
 			zoneRedundant := *typedInput.Properties.ZoneRedundant
-			serverfarm.ZoneRedundant = &zoneRedundant
+			farm.ZoneRedundant = &zoneRedundant
 		}
 	}
 
@@ -1716,18 +1716,18 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-// AssignProperties_From_Serverfarm_STATUS populates our Serverfarm_STATUS from the provided source Serverfarm_STATUS
-func (serverfarm *Serverfarm_STATUS) AssignProperties_From_Serverfarm_STATUS(source *storage.Serverfarm_STATUS) error {
+// AssignProperties_From_ServerFarm_STATUS populates our ServerFarm_STATUS from the provided source ServerFarm_STATUS
+func (farm *ServerFarm_STATUS) AssignProperties_From_ServerFarm_STATUS(source *storage.ServerFarm_STATUS) error {
 
 	// Conditions
-	serverfarm.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	farm.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// ElasticScaleEnabled
 	if source.ElasticScaleEnabled != nil {
 		elasticScaleEnabled := *source.ElasticScaleEnabled
-		serverfarm.ElasticScaleEnabled = &elasticScaleEnabled
+		farm.ElasticScaleEnabled = &elasticScaleEnabled
 	} else {
-		serverfarm.ElasticScaleEnabled = nil
+		farm.ElasticScaleEnabled = nil
 	}
 
 	// ExtendedLocation
@@ -1737,16 +1737,16 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_From_Serverfarm_STATUS(sou
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
-		serverfarm.ExtendedLocation = &extendedLocation
+		farm.ExtendedLocation = &extendedLocation
 	} else {
-		serverfarm.ExtendedLocation = nil
+		farm.ExtendedLocation = nil
 	}
 
 	// FreeOfferExpirationTime
-	serverfarm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
+	farm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
 
 	// GeoRegion
-	serverfarm.GeoRegion = genruntime.ClonePointerToString(source.GeoRegion)
+	farm.GeoRegion = genruntime.ClonePointerToString(source.GeoRegion)
 
 	// HostingEnvironmentProfile
 	if source.HostingEnvironmentProfile != nil {
@@ -1755,40 +1755,40 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_From_Serverfarm_STATUS(sou
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
-		serverfarm.HostingEnvironmentProfile = &hostingEnvironmentProfile
+		farm.HostingEnvironmentProfile = &hostingEnvironmentProfile
 	} else {
-		serverfarm.HostingEnvironmentProfile = nil
+		farm.HostingEnvironmentProfile = nil
 	}
 
 	// HyperV
 	if source.HyperV != nil {
 		hyperV := *source.HyperV
-		serverfarm.HyperV = &hyperV
+		farm.HyperV = &hyperV
 	} else {
-		serverfarm.HyperV = nil
+		farm.HyperV = nil
 	}
 
 	// Id
-	serverfarm.Id = genruntime.ClonePointerToString(source.Id)
+	farm.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IsSpot
 	if source.IsSpot != nil {
 		isSpot := *source.IsSpot
-		serverfarm.IsSpot = &isSpot
+		farm.IsSpot = &isSpot
 	} else {
-		serverfarm.IsSpot = nil
+		farm.IsSpot = nil
 	}
 
 	// IsXenon
 	if source.IsXenon != nil {
 		isXenon := *source.IsXenon
-		serverfarm.IsXenon = &isXenon
+		farm.IsXenon = &isXenon
 	} else {
-		serverfarm.IsXenon = nil
+		farm.IsXenon = nil
 	}
 
 	// Kind
-	serverfarm.Kind = genruntime.ClonePointerToString(source.Kind)
+	farm.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// KubeEnvironmentProfile
 	if source.KubeEnvironmentProfile != nil {
@@ -1797,56 +1797,56 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_From_Serverfarm_STATUS(sou
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
 		}
-		serverfarm.KubeEnvironmentProfile = &kubeEnvironmentProfile
+		farm.KubeEnvironmentProfile = &kubeEnvironmentProfile
 	} else {
-		serverfarm.KubeEnvironmentProfile = nil
+		farm.KubeEnvironmentProfile = nil
 	}
 
 	// Location
-	serverfarm.Location = genruntime.ClonePointerToString(source.Location)
+	farm.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaximumElasticWorkerCount
-	serverfarm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
+	farm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
 
 	// MaximumNumberOfWorkers
-	serverfarm.MaximumNumberOfWorkers = genruntime.ClonePointerToInt(source.MaximumNumberOfWorkers)
+	farm.MaximumNumberOfWorkers = genruntime.ClonePointerToInt(source.MaximumNumberOfWorkers)
 
 	// Name
-	serverfarm.Name = genruntime.ClonePointerToString(source.Name)
+	farm.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NumberOfSites
-	serverfarm.NumberOfSites = genruntime.ClonePointerToInt(source.NumberOfSites)
+	farm.NumberOfSites = genruntime.ClonePointerToInt(source.NumberOfSites)
 
 	// NumberOfWorkers
-	serverfarm.NumberOfWorkers = genruntime.ClonePointerToInt(source.NumberOfWorkers)
+	farm.NumberOfWorkers = genruntime.ClonePointerToInt(source.NumberOfWorkers)
 
 	// PerSiteScaling
 	if source.PerSiteScaling != nil {
 		perSiteScaling := *source.PerSiteScaling
-		serverfarm.PerSiteScaling = &perSiteScaling
+		farm.PerSiteScaling = &perSiteScaling
 	} else {
-		serverfarm.PerSiteScaling = nil
+		farm.PerSiteScaling = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
 		provisioningStateTemp := genruntime.ToEnum(provisioningState, serverfarm_Properties_ProvisioningState_STATUS_Values)
-		serverfarm.ProvisioningState = &provisioningStateTemp
+		farm.ProvisioningState = &provisioningStateTemp
 	} else {
-		serverfarm.ProvisioningState = nil
+		farm.ProvisioningState = nil
 	}
 
 	// Reserved
 	if source.Reserved != nil {
 		reserved := *source.Reserved
-		serverfarm.Reserved = &reserved
+		farm.Reserved = &reserved
 	} else {
-		serverfarm.Reserved = nil
+		farm.Reserved = nil
 	}
 
 	// ResourceGroup
-	serverfarm.ResourceGroup = genruntime.ClonePointerToString(source.ResourceGroup)
+	farm.ResourceGroup = genruntime.ClonePointerToString(source.ResourceGroup)
 
 	// Sku
 	if source.Sku != nil {
@@ -1855,73 +1855,73 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_From_Serverfarm_STATUS(sou
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SkuDescription_STATUS() to populate field Sku")
 		}
-		serverfarm.Sku = &sku
+		farm.Sku = &sku
 	} else {
-		serverfarm.Sku = nil
+		farm.Sku = nil
 	}
 
 	// SpotExpirationTime
-	serverfarm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
+	farm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
 
 	// Status
 	if source.Status != nil {
 		status := *source.Status
 		statusTemp := genruntime.ToEnum(status, serverfarm_Properties_Status_STATUS_Values)
-		serverfarm.Status = &statusTemp
+		farm.Status = &statusTemp
 	} else {
-		serverfarm.Status = nil
+		farm.Status = nil
 	}
 
 	// Subscription
-	serverfarm.Subscription = genruntime.ClonePointerToString(source.Subscription)
+	farm.Subscription = genruntime.ClonePointerToString(source.Subscription)
 
 	// Tags
-	serverfarm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	farm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TargetWorkerCount
-	serverfarm.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
+	farm.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
 
 	// TargetWorkerSizeId
-	serverfarm.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
+	farm.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
 
 	// Type
-	serverfarm.Type = genruntime.ClonePointerToString(source.Type)
+	farm.Type = genruntime.ClonePointerToString(source.Type)
 
 	// WorkerTierName
-	serverfarm.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
+	farm.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
 
 	// ZoneRedundant
 	if source.ZoneRedundant != nil {
 		zoneRedundant := *source.ZoneRedundant
-		serverfarm.ZoneRedundant = &zoneRedundant
+		farm.ZoneRedundant = &zoneRedundant
 	} else {
-		serverfarm.ZoneRedundant = nil
+		farm.ZoneRedundant = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Serverfarm_STATUS populates the provided destination Serverfarm_STATUS from our Serverfarm_STATUS
-func (serverfarm *Serverfarm_STATUS) AssignProperties_To_Serverfarm_STATUS(destination *storage.Serverfarm_STATUS) error {
+// AssignProperties_To_ServerFarm_STATUS populates the provided destination ServerFarm_STATUS from our ServerFarm_STATUS
+func (farm *ServerFarm_STATUS) AssignProperties_To_ServerFarm_STATUS(destination *storage.ServerFarm_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(serverfarm.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(farm.Conditions)
 
 	// ElasticScaleEnabled
-	if serverfarm.ElasticScaleEnabled != nil {
-		elasticScaleEnabled := *serverfarm.ElasticScaleEnabled
+	if farm.ElasticScaleEnabled != nil {
+		elasticScaleEnabled := *farm.ElasticScaleEnabled
 		destination.ElasticScaleEnabled = &elasticScaleEnabled
 	} else {
 		destination.ElasticScaleEnabled = nil
 	}
 
 	// ExtendedLocation
-	if serverfarm.ExtendedLocation != nil {
+	if farm.ExtendedLocation != nil {
 		var extendedLocation storage.ExtendedLocation_STATUS
-		err := serverfarm.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		err := farm.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
@@ -1931,15 +1931,15 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_To_Serverfarm_STATUS(desti
 	}
 
 	// FreeOfferExpirationTime
-	destination.FreeOfferExpirationTime = genruntime.ClonePointerToString(serverfarm.FreeOfferExpirationTime)
+	destination.FreeOfferExpirationTime = genruntime.ClonePointerToString(farm.FreeOfferExpirationTime)
 
 	// GeoRegion
-	destination.GeoRegion = genruntime.ClonePointerToString(serverfarm.GeoRegion)
+	destination.GeoRegion = genruntime.ClonePointerToString(farm.GeoRegion)
 
 	// HostingEnvironmentProfile
-	if serverfarm.HostingEnvironmentProfile != nil {
+	if farm.HostingEnvironmentProfile != nil {
 		var hostingEnvironmentProfile storage.HostingEnvironmentProfile_STATUS
-		err := serverfarm.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile_STATUS(&hostingEnvironmentProfile)
+		err := farm.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile_STATUS(&hostingEnvironmentProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
 		}
@@ -1949,39 +1949,39 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_To_Serverfarm_STATUS(desti
 	}
 
 	// HyperV
-	if serverfarm.HyperV != nil {
-		hyperV := *serverfarm.HyperV
+	if farm.HyperV != nil {
+		hyperV := *farm.HyperV
 		destination.HyperV = &hyperV
 	} else {
 		destination.HyperV = nil
 	}
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(serverfarm.Id)
+	destination.Id = genruntime.ClonePointerToString(farm.Id)
 
 	// IsSpot
-	if serverfarm.IsSpot != nil {
-		isSpot := *serverfarm.IsSpot
+	if farm.IsSpot != nil {
+		isSpot := *farm.IsSpot
 		destination.IsSpot = &isSpot
 	} else {
 		destination.IsSpot = nil
 	}
 
 	// IsXenon
-	if serverfarm.IsXenon != nil {
-		isXenon := *serverfarm.IsXenon
+	if farm.IsXenon != nil {
+		isXenon := *farm.IsXenon
 		destination.IsXenon = &isXenon
 	} else {
 		destination.IsXenon = nil
 	}
 
 	// Kind
-	destination.Kind = genruntime.ClonePointerToString(serverfarm.Kind)
+	destination.Kind = genruntime.ClonePointerToString(farm.Kind)
 
 	// KubeEnvironmentProfile
-	if serverfarm.KubeEnvironmentProfile != nil {
+	if farm.KubeEnvironmentProfile != nil {
 		var kubeEnvironmentProfile storage.KubeEnvironmentProfile_STATUS
-		err := serverfarm.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile_STATUS(&kubeEnvironmentProfile)
+		err := farm.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile_STATUS(&kubeEnvironmentProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
 		}
@@ -1991,54 +1991,54 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_To_Serverfarm_STATUS(desti
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(serverfarm.Location)
+	destination.Location = genruntime.ClonePointerToString(farm.Location)
 
 	// MaximumElasticWorkerCount
-	destination.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(serverfarm.MaximumElasticWorkerCount)
+	destination.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(farm.MaximumElasticWorkerCount)
 
 	// MaximumNumberOfWorkers
-	destination.MaximumNumberOfWorkers = genruntime.ClonePointerToInt(serverfarm.MaximumNumberOfWorkers)
+	destination.MaximumNumberOfWorkers = genruntime.ClonePointerToInt(farm.MaximumNumberOfWorkers)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(serverfarm.Name)
+	destination.Name = genruntime.ClonePointerToString(farm.Name)
 
 	// NumberOfSites
-	destination.NumberOfSites = genruntime.ClonePointerToInt(serverfarm.NumberOfSites)
+	destination.NumberOfSites = genruntime.ClonePointerToInt(farm.NumberOfSites)
 
 	// NumberOfWorkers
-	destination.NumberOfWorkers = genruntime.ClonePointerToInt(serverfarm.NumberOfWorkers)
+	destination.NumberOfWorkers = genruntime.ClonePointerToInt(farm.NumberOfWorkers)
 
 	// PerSiteScaling
-	if serverfarm.PerSiteScaling != nil {
-		perSiteScaling := *serverfarm.PerSiteScaling
+	if farm.PerSiteScaling != nil {
+		perSiteScaling := *farm.PerSiteScaling
 		destination.PerSiteScaling = &perSiteScaling
 	} else {
 		destination.PerSiteScaling = nil
 	}
 
 	// ProvisioningState
-	if serverfarm.ProvisioningState != nil {
-		provisioningState := string(*serverfarm.ProvisioningState)
+	if farm.ProvisioningState != nil {
+		provisioningState := string(*farm.ProvisioningState)
 		destination.ProvisioningState = &provisioningState
 	} else {
 		destination.ProvisioningState = nil
 	}
 
 	// Reserved
-	if serverfarm.Reserved != nil {
-		reserved := *serverfarm.Reserved
+	if farm.Reserved != nil {
+		reserved := *farm.Reserved
 		destination.Reserved = &reserved
 	} else {
 		destination.Reserved = nil
 	}
 
 	// ResourceGroup
-	destination.ResourceGroup = genruntime.ClonePointerToString(serverfarm.ResourceGroup)
+	destination.ResourceGroup = genruntime.ClonePointerToString(farm.ResourceGroup)
 
 	// Sku
-	if serverfarm.Sku != nil {
+	if farm.Sku != nil {
 		var sku storage.SkuDescription_STATUS
-		err := serverfarm.Sku.AssignProperties_To_SkuDescription_STATUS(&sku)
+		err := farm.Sku.AssignProperties_To_SkuDescription_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SkuDescription_STATUS() to populate field Sku")
 		}
@@ -2048,37 +2048,37 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_To_Serverfarm_STATUS(desti
 	}
 
 	// SpotExpirationTime
-	destination.SpotExpirationTime = genruntime.ClonePointerToString(serverfarm.SpotExpirationTime)
+	destination.SpotExpirationTime = genruntime.ClonePointerToString(farm.SpotExpirationTime)
 
 	// Status
-	if serverfarm.Status != nil {
-		status := string(*serverfarm.Status)
+	if farm.Status != nil {
+		status := string(*farm.Status)
 		destination.Status = &status
 	} else {
 		destination.Status = nil
 	}
 
 	// Subscription
-	destination.Subscription = genruntime.ClonePointerToString(serverfarm.Subscription)
+	destination.Subscription = genruntime.ClonePointerToString(farm.Subscription)
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(serverfarm.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(farm.Tags)
 
 	// TargetWorkerCount
-	destination.TargetWorkerCount = genruntime.ClonePointerToInt(serverfarm.TargetWorkerCount)
+	destination.TargetWorkerCount = genruntime.ClonePointerToInt(farm.TargetWorkerCount)
 
 	// TargetWorkerSizeId
-	destination.TargetWorkerSizeId = genruntime.ClonePointerToInt(serverfarm.TargetWorkerSizeId)
+	destination.TargetWorkerSizeId = genruntime.ClonePointerToInt(farm.TargetWorkerSizeId)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(serverfarm.Type)
+	destination.Type = genruntime.ClonePointerToString(farm.Type)
 
 	// WorkerTierName
-	destination.WorkerTierName = genruntime.ClonePointerToString(serverfarm.WorkerTierName)
+	destination.WorkerTierName = genruntime.ClonePointerToString(farm.WorkerTierName)
 
 	// ZoneRedundant
-	if serverfarm.ZoneRedundant != nil {
-		zoneRedundant := *serverfarm.ZoneRedundant
+	if farm.ZoneRedundant != nil {
+		zoneRedundant := *farm.ZoneRedundant
 		destination.ZoneRedundant = &zoneRedundant
 	} else {
 		destination.ZoneRedundant = nil

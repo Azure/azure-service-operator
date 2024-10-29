@@ -64,7 +64,7 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 func PrivateDNSZones_CNAME_Record_Test(tc *testcommon.KubePerTestContext, zone *network.PrivateDnsZone) {
 	record := &network20200601.PrivateDnsZonesCNAMERecord{
 		ObjectMeta: tc.MakeObjectMetaWithName("record"),
-		Spec: network20200601.PrivateDnsZones_CNAME_Spec{
+		Spec: network20200601.PrivateDnsZonesCNAMERecord_Spec{
 			CnameRecord: &network20200601.CnameRecord{Cname: to.Ptr("asotest.com")},
 			Owner:       testcommon.AsOwner(zone),
 			Ttl:         to.Ptr(3600),
@@ -117,7 +117,7 @@ func newPrivateDNSZone(tc *testcommon.KubePerTestContext, name string, rg *resou
 func newVirtualNetworkLink(tc *testcommon.KubePerTestContext, dnsZone *network.PrivateDnsZone, vnet *network20201101.VirtualNetwork) *network20200601.PrivateDnsZonesVirtualNetworkLink {
 	links := &network20200601.PrivateDnsZonesVirtualNetworkLink{
 		ObjectMeta: tc.MakeObjectMetaWithName(dnsZone.Name + "-link"),
-		Spec: network20200601.PrivateDnsZones_VirtualNetworkLink_Spec{
+		Spec: network20200601.PrivateDnsZonesVirtualNetworkLink_Spec{
 			Location:            to.Ptr("global"),
 			Owner:               testcommon.AsOwner(dnsZone),
 			VirtualNetwork:      &network20200601.SubResource{Reference: tc.MakeReferenceFromResource(vnet)},

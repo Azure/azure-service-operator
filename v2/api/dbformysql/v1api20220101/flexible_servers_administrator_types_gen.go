@@ -30,8 +30,8 @@ import (
 type FlexibleServersAdministrator struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_Administrator_Spec   `json:"spec,omitempty"`
-	Status            FlexibleServers_Administrator_STATUS `json:"status,omitempty"`
+	Spec              FlexibleServersAdministrator_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServersAdministrator_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersAdministrator{}
@@ -141,7 +141,7 @@ func (administrator *FlexibleServersAdministrator) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (administrator *FlexibleServersAdministrator) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &FlexibleServers_Administrator_STATUS{}
+	return &FlexibleServersAdministrator_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
@@ -153,13 +153,13 @@ func (administrator *FlexibleServersAdministrator) Owner() *genruntime.ResourceR
 // SetStatus sets the status of this resource
 func (administrator *FlexibleServersAdministrator) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*FlexibleServers_Administrator_STATUS); ok {
+	if st, ok := status.(*FlexibleServersAdministrator_STATUS); ok {
 		administrator.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st FlexibleServers_Administrator_STATUS
+	var st FlexibleServersAdministrator_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -269,18 +269,18 @@ func (administrator *FlexibleServersAdministrator) AssignProperties_From_Flexibl
 	administrator.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec FlexibleServers_Administrator_Spec
-	err := spec.AssignProperties_From_FlexibleServers_Administrator_Spec(&source.Spec)
+	var spec FlexibleServersAdministrator_Spec
+	err := spec.AssignProperties_From_FlexibleServersAdministrator_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Administrator_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServersAdministrator_Spec() to populate field Spec")
 	}
 	administrator.Spec = spec
 
 	// Status
-	var status FlexibleServers_Administrator_STATUS
-	err = status.AssignProperties_From_FlexibleServers_Administrator_STATUS(&source.Status)
+	var status FlexibleServersAdministrator_STATUS
+	err = status.AssignProperties_From_FlexibleServersAdministrator_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Administrator_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServersAdministrator_STATUS() to populate field Status")
 	}
 	administrator.Status = status
 
@@ -295,18 +295,18 @@ func (administrator *FlexibleServersAdministrator) AssignProperties_To_FlexibleS
 	destination.ObjectMeta = *administrator.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.FlexibleServers_Administrator_Spec
-	err := administrator.Spec.AssignProperties_To_FlexibleServers_Administrator_Spec(&spec)
+	var spec storage.FlexibleServersAdministrator_Spec
+	err := administrator.Spec.AssignProperties_To_FlexibleServersAdministrator_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Administrator_Spec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServersAdministrator_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.FlexibleServers_Administrator_STATUS
-	err = administrator.Status.AssignProperties_To_FlexibleServers_Administrator_STATUS(&status)
+	var status storage.FlexibleServersAdministrator_STATUS
+	err = administrator.Status.AssignProperties_To_FlexibleServersAdministrator_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Administrator_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServersAdministrator_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -338,7 +338,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-01-01")
 
-type FlexibleServers_Administrator_Spec struct {
+type FlexibleServersAdministrator_Spec struct {
 	// AdministratorType: Type of the sever administrator.
 	AdministratorType *AdministratorProperties_AdministratorType `json:"administratorType,omitempty"`
 
@@ -367,14 +367,14 @@ type FlexibleServers_Administrator_Spec struct {
 	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
-var _ genruntime.ARMTransformer = &FlexibleServers_Administrator_Spec{}
+var _ genruntime.ARMTransformer = &FlexibleServersAdministrator_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (administrator *FlexibleServers_Administrator_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (administrator *FlexibleServersAdministrator_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if administrator == nil {
 		return nil, nil
 	}
-	result := &FlexibleServers_Administrator_Spec_ARM{}
+	result := &FlexibleServersAdministrator_Spec_ARM{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -435,15 +435,15 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertToARM(resolved g
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (administrator *FlexibleServers_Administrator_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServers_Administrator_Spec_ARM{}
+func (administrator *FlexibleServersAdministrator_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FlexibleServersAdministrator_Spec_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServers_Administrator_Spec_ARM)
+func (administrator *FlexibleServersAdministrator_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FlexibleServersAdministrator_Spec_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Administrator_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersAdministrator_Spec_ARM, got %T", armInput)
 	}
 
 	// Set property "AdministratorType":
@@ -500,25 +500,25 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_Administrator_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServersAdministrator_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServers_Administrator_Spec from the provided source
-func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.FlexibleServers_Administrator_Spec)
+// ConvertSpecFrom populates our FlexibleServersAdministrator_Spec from the provided source
+func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.FlexibleServersAdministrator_Spec)
 	if ok {
 		// Populate our instance from source
-		return administrator.AssignProperties_From_FlexibleServers_Administrator_Spec(src)
+		return administrator.AssignProperties_From_FlexibleServersAdministrator_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.FlexibleServers_Administrator_Spec{}
+	src = &storage.FlexibleServersAdministrator_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = administrator.AssignProperties_From_FlexibleServers_Administrator_Spec(src)
+	err = administrator.AssignProperties_From_FlexibleServersAdministrator_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -526,17 +526,17 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecFrom(source 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_Administrator_Spec
-func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.FlexibleServers_Administrator_Spec)
+// ConvertSpecTo populates the provided destination from our FlexibleServersAdministrator_Spec
+func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.FlexibleServersAdministrator_Spec)
 	if ok {
 		// Populate destination from our instance
-		return administrator.AssignProperties_To_FlexibleServers_Administrator_Spec(dst)
+		return administrator.AssignProperties_To_FlexibleServersAdministrator_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.FlexibleServers_Administrator_Spec{}
-	err := administrator.AssignProperties_To_FlexibleServers_Administrator_Spec(dst)
+	dst = &storage.FlexibleServersAdministrator_Spec{}
+	err := administrator.AssignProperties_To_FlexibleServersAdministrator_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -550,8 +550,8 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecTo(destinati
 	return nil
 }
 
-// AssignProperties_From_FlexibleServers_Administrator_Spec populates our FlexibleServers_Administrator_Spec from the provided source FlexibleServers_Administrator_Spec
-func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_FlexibleServers_Administrator_Spec(source *storage.FlexibleServers_Administrator_Spec) error {
+// AssignProperties_From_FlexibleServersAdministrator_Spec populates our FlexibleServersAdministrator_Spec from the provided source FlexibleServersAdministrator_Spec
+func (administrator *FlexibleServersAdministrator_Spec) AssignProperties_From_FlexibleServersAdministrator_Spec(source *storage.FlexibleServersAdministrator_Spec) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -607,8 +607,8 @@ func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_F
 	return nil
 }
 
-// AssignProperties_To_FlexibleServers_Administrator_Spec populates the provided destination FlexibleServers_Administrator_Spec from our FlexibleServers_Administrator_Spec
-func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_To_FlexibleServers_Administrator_Spec(destination *storage.FlexibleServers_Administrator_Spec) error {
+// AssignProperties_To_FlexibleServersAdministrator_Spec populates the provided destination FlexibleServersAdministrator_Spec from our FlexibleServersAdministrator_Spec
+func (administrator *FlexibleServersAdministrator_Spec) AssignProperties_To_FlexibleServersAdministrator_Spec(destination *storage.FlexibleServersAdministrator_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -676,11 +676,11 @@ func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_To_Fle
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (administrator *FlexibleServers_Administrator_Spec) OriginalVersion() string {
+func (administrator *FlexibleServersAdministrator_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-type FlexibleServers_Administrator_STATUS struct {
+type FlexibleServersAdministrator_STATUS struct {
 	// AdministratorType: Type of the sever administrator.
 	AdministratorType *AdministratorProperties_AdministratorType_STATUS `json:"administratorType,omitempty"`
 
@@ -713,25 +713,25 @@ type FlexibleServers_Administrator_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &FlexibleServers_Administrator_STATUS{}
+var _ genruntime.ConvertibleStatus = &FlexibleServersAdministrator_STATUS{}
 
-// ConvertStatusFrom populates our FlexibleServers_Administrator_STATUS from the provided source
-func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.FlexibleServers_Administrator_STATUS)
+// ConvertStatusFrom populates our FlexibleServersAdministrator_STATUS from the provided source
+func (administrator *FlexibleServersAdministrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.FlexibleServersAdministrator_STATUS)
 	if ok {
 		// Populate our instance from source
-		return administrator.AssignProperties_From_FlexibleServers_Administrator_STATUS(src)
+		return administrator.AssignProperties_From_FlexibleServersAdministrator_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.FlexibleServers_Administrator_STATUS{}
+	src = &storage.FlexibleServersAdministrator_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = administrator.AssignProperties_From_FlexibleServers_Administrator_STATUS(src)
+	err = administrator.AssignProperties_From_FlexibleServersAdministrator_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -739,17 +739,17 @@ func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusFrom(sou
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our FlexibleServers_Administrator_STATUS
-func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.FlexibleServers_Administrator_STATUS)
+// ConvertStatusTo populates the provided destination from our FlexibleServersAdministrator_STATUS
+func (administrator *FlexibleServersAdministrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.FlexibleServersAdministrator_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return administrator.AssignProperties_To_FlexibleServers_Administrator_STATUS(dst)
+		return administrator.AssignProperties_To_FlexibleServersAdministrator_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.FlexibleServers_Administrator_STATUS{}
-	err := administrator.AssignProperties_To_FlexibleServers_Administrator_STATUS(dst)
+	dst = &storage.FlexibleServersAdministrator_STATUS{}
+	err := administrator.AssignProperties_To_FlexibleServersAdministrator_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -763,18 +763,18 @@ func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusTo(desti
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &FlexibleServers_Administrator_STATUS{}
+var _ genruntime.FromARMConverter = &FlexibleServersAdministrator_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (administrator *FlexibleServers_Administrator_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServers_Administrator_STATUS_ARM{}
+func (administrator *FlexibleServersAdministrator_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FlexibleServersAdministrator_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServers_Administrator_STATUS_ARM)
+func (administrator *FlexibleServersAdministrator_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FlexibleServersAdministrator_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Administrator_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersAdministrator_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property "AdministratorType":
@@ -859,8 +859,8 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 	return nil
 }
 
-// AssignProperties_From_FlexibleServers_Administrator_STATUS populates our FlexibleServers_Administrator_STATUS from the provided source FlexibleServers_Administrator_STATUS
-func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From_FlexibleServers_Administrator_STATUS(source *storage.FlexibleServers_Administrator_STATUS) error {
+// AssignProperties_From_FlexibleServersAdministrator_STATUS populates our FlexibleServersAdministrator_STATUS from the provided source FlexibleServersAdministrator_STATUS
+func (administrator *FlexibleServersAdministrator_STATUS) AssignProperties_From_FlexibleServersAdministrator_STATUS(source *storage.FlexibleServersAdministrator_STATUS) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -911,8 +911,8 @@ func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From
 	return nil
 }
 
-// AssignProperties_To_FlexibleServers_Administrator_STATUS populates the provided destination FlexibleServers_Administrator_STATUS from our FlexibleServers_Administrator_STATUS
-func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_To_FlexibleServers_Administrator_STATUS(destination *storage.FlexibleServers_Administrator_STATUS) error {
+// AssignProperties_To_FlexibleServersAdministrator_STATUS populates the provided destination FlexibleServersAdministrator_STATUS from our FlexibleServersAdministrator_STATUS
+func (administrator *FlexibleServersAdministrator_STATUS) AssignProperties_To_FlexibleServersAdministrator_STATUS(destination *storage.FlexibleServersAdministrator_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
