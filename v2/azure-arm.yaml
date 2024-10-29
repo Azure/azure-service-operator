@@ -934,7 +934,7 @@ objectModelConfiguration:
     2021-04-01:
       SmartDetectorAlertRule:
         $export: true
-        $supportedFrom: v2.10.0
+        $supportedFrom: v2.11.0
       AlertRuleProperties:
         Scope:
           $armReference: true
