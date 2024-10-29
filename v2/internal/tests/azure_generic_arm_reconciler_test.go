@@ -19,6 +19,7 @@ import (
 
 	dbforpostgresqlstorage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
 	dbforpostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
+	dbforpostgresqlarm "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -137,7 +138,7 @@ func Test_Conversion_DiscoversConfigMapsNotOnStorageVersion(t *testing.T) {
 	resource, err := arm.ConvertToARMResourceImpl(ctx, storageVersion, testData.resolver, testData.subscriptionID)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	armType, ok := resource.Spec().(*dbforpostgresql.FlexibleServer_Spec_ARM)
+	armType, ok := resource.Spec().(*dbforpostgresqlarm.FlexibleServer_Spec)
 	g.Expect(ok).To(BeTrue(), "Expected resource.Spec() to be of type FlexibleServer_Spec_ARM")
 
 	g.Expect(resource.Spec().GetName()).To(Equal("mydb"))
