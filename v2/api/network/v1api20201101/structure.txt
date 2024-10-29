@@ -728,10 +728,9 @@ RouteTable: Resource
     └── Type: *string
 RouteTablesRoute: Resource
 ├── Owner: RouteTable
-├── Spec: Object (6 properties)
+├── Spec: Object (5 properties)
 │   ├── AddressPrefix: *string
 │   ├── AzureName: string
-│   ├── HasBgpOverride: *bool
 │   ├── NextHopIpAddress: *string
 │   ├── NextHopType: *Enum (5 values)
 │   │   ├── "Internet"

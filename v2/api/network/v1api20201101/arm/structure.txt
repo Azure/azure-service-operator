@@ -762,9 +762,8 @@ RouteTable_Spec: Object (4 properties)
 │   └── Routes: Object (4 properties)[]
 │       ├── Id: *string
 │       ├── Name: *string
-│       ├── Properties: *Object (4 properties)
+│       ├── Properties: *Object (3 properties)
 │       │   ├── AddressPrefix: *string
-│       │   ├── HasBgpOverride: *bool
 │       │   ├── NextHopIpAddress: *string
 │       │   └── NextHopType: *Enum (5 values)
 │       │       ├── "Internet"
@@ -796,9 +795,8 @@ RouteTablesRoute_STATUS: Object (5 properties)
 └── Type: *string
 RouteTablesRoute_Spec: Object (2 properties)
 ├── Name: string
-└── Properties: *Object (4 properties)
+└── Properties: *Object (3 properties)
     ├── AddressPrefix: *string
-    ├── HasBgpOverride: *bool
     ├── NextHopIpAddress: *string
     └── NextHopType: *Enum (5 values)
         ├── "Internet"

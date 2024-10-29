@@ -4693,11 +4693,6 @@ func (in *RouteTablesRoute_Spec) DeepCopyInto(out *RouteTablesRoute_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.HasBgpOverride != nil {
-		in, out := &in.HasBgpOverride, &out.HasBgpOverride
-		*out = new(bool)
-		**out = **in
-	}
 	if in.NextHopIpAddress != nil {
 		in, out := &in.NextHopIpAddress, &out.NextHopIpAddress
 		*out = new(string)
