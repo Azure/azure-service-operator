@@ -67,7 +67,9 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 	return extensions.PostReconcileCheckResultSuccess(), nil
 }
 
-func (extension *PrivateEndpointExtension) ExportKubernetesResources(
+var _ genruntime.KubernetesConfigExporter = &PrivateEndpointExtension{}
+
+func (extension *PrivateEndpointExtension) ExportKubernetesConfigMaps(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,

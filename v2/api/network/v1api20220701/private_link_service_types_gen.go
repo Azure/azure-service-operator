@@ -107,10 +107,10 @@ func (service *PrivateLinkService) InitializeSpec(status genruntime.ConvertibleS
 	return fmt.Errorf("expected Status of type PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded but received %T instead", status)
 }
 
-var _ genruntime.KubernetesExporter = &PrivateLinkService{}
+var _ genruntime.KubernetesConfigExporter = &PrivateLinkService{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (service *PrivateLinkService) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (service *PrivateLinkService) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(service.Namespace)
 	if service.Spec.OperatorSpec != nil && service.Spec.OperatorSpec.ConfigMaps != nil {
 		if service.Status.Alias != nil {

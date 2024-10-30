@@ -9,16 +9,15 @@ import (
 	"go/token"
 	"sort"
 
-	"github.com/pkg/errors"
-
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-// KubernetesExporterBuilder is a builder for creating genruntime.KubernetesExporter interface implementations.
-type KubernetesExporterBuilder struct {
+// KubernetesConfigExporterBuilder is a builder for creating genruntime.KubernetesConfigExporter interface implementations.
+type KubernetesConfigExporterBuilder struct {
 	resourceName astmodel.TypeName
 	resource     *astmodel.ResourceType
 	idFactory    astmodel.IdentifierFactory
@@ -26,14 +25,14 @@ type KubernetesExporterBuilder struct {
 	mappings map[string][]*astmodel.PropertyDefinition
 }
 
-// NewKubernetesExporterBuilder creates a new KubernetesExporterBuilder for the specified resource
-func NewKubernetesExporterBuilder(
+// NewKubernetesConfigExporterBuilder creates a new KubernetesConfigExporterBuilder for the specified resource
+func NewKubernetesConfigExporterBuilder(
 	resourceName astmodel.TypeName,
 	resource *astmodel.ResourceType,
 	idFactory astmodel.IdentifierFactory,
 	mappings map[string][]*astmodel.PropertyDefinition,
-) *KubernetesExporterBuilder {
-	return &KubernetesExporterBuilder{
+) *KubernetesConfigExporterBuilder {
+	return &KubernetesConfigExporterBuilder{
 		resourceName: resourceName,
 		resource:     resource,
 		idFactory:    idFactory,
@@ -41,24 +40,24 @@ func NewKubernetesExporterBuilder(
 	}
 }
 
-// ToInterfaceImplementation creates an InterfaceImplementation from the KubernetesExporterBuilder
-func (d *KubernetesExporterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplementation {
+// ToInterfaceImplementation creates an InterfaceImplementation from the KubernetesConfigExporterBuilder
+func (d *KubernetesConfigExporterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplementation {
 	funcs := []astmodel.Function{
 		NewResourceFunction(
-			"ExportKubernetesResources",
+			"ExportKubernetesConfigMaps",
 			d.resource,
 			d.idFactory,
-			d.exportKubernetesResources,
+			d.exportKubernetesConfigMaps,
 			astmodel.NewPackageReferenceSet(
 				astmodel.GenRuntimeReference,
 				astmodel.GenRuntimeConfigMapsReference,
 				astmodel.GenericARMClientReference,
+				astmodel.LogrReference,
 				astmodel.ControllerRuntimeClient,
-				astmodel.ContextReference,
-				astmodel.LogrReference)),
+				astmodel.ContextReference)),
 	}
 	return astmodel.NewInterfaceImplementation(
-		astmodel.KubernetesExporterType,
+		astmodel.KuberentesConfigExporterType,
 		funcs...)
 }
 
@@ -66,7 +65,7 @@ func (d *KubernetesExporterBuilder) ToInterfaceImplementation() *astmodel.Interf
 // the genruntime.KubernetesExporter interface.
 // Generates code like:
 //
-//	func (<receiver> *<receiverType>) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+//	func (<receiver> *<receiverType>) ExportKubernetesConfigMaps(ctx context.Context, obj MetaObject, armClient *genericarmclient.GenericClient, log logr.Logger) ([]client.Object, error) {
 //		collector := configmaps.NewCollector(<receiver>.Namespace)
 //		if <receiver>.Spec.OperatorSpec != nil && <receiver>.Spec.OperatorSpec.ConfigMaps != nil {
 //			if <receiver>.<propertyPath> != nil {
@@ -80,7 +79,7 @@ func (d *KubernetesExporterBuilder) ToInterfaceImplementation() *astmodel.Interf
 //		}
 //		return configmaps.SliceToClientObjectSlice(result), nil
 //	}
-func (d *KubernetesExporterBuilder) exportKubernetesResources(
+func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 	k *ResourceFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
@@ -214,28 +213,24 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	if err != nil {
 		return nil, errors.Wrap(err, "creating context type expression")
 	}
-
 	fn.AddParameter("_", contextTypeExpr)
 
 	metaObjectTypeExpr, err := astmodel.GenRuntimeMetaObjectType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, errors.Wrap(err, "creating meta object type expression")
 	}
-
 	fn.AddParameter("_", metaObjectTypeExpr)
 
 	clientTypeExpr, err := astmodel.NewOptionalType(astmodel.GenericClientType).AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, errors.Wrap(err, "creating client type expression")
 	}
-
 	fn.AddParameter("_", clientTypeExpr)
 
 	logrTypeExpr, err := astmodel.LogrType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, errors.Wrap(err, "creating logr type expression")
 	}
-
 	fn.AddParameter("_", logrTypeExpr)
 
 	objectArrayType, err := astmodel.NewArrayType(astmodel.ControllerRuntimeObjectType).
@@ -247,11 +242,11 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	fn.AddReturn(objectArrayType)
 	fn.AddReturn(dst.NewIdent("error"))
 
-	fn.AddComments("defines a resource which can create other resources in Kubernetes.")
+	fn.AddComments("defines a resource which can create ConfigMaps in Kubernetes.")
 	return fn.DefineFunc(), nil
 }
 
-func (d *KubernetesExporterBuilder) addCollectorStmt(
+func (d *KubernetesConfigExporterBuilder) addCollectorStmt(
 	receiverIdent string,
 	collectorIdent string,
 	propertyPath []*astmodel.PropertyDefinition,

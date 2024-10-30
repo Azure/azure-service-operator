@@ -107,10 +107,10 @@ func (topic *Topic) InitializeSpec(status genruntime.ConvertibleStatus) error {
 	return fmt.Errorf("expected Status of type Topic_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesExporter = &Topic{}
+var _ genruntime.KubernetesConfigExporter = &Topic{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (topic *Topic) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (topic *Topic) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(topic.Namespace)
 	if topic.Spec.OperatorSpec != nil && topic.Spec.OperatorSpec.ConfigMaps != nil {
 		if topic.Status.Endpoint != nil {

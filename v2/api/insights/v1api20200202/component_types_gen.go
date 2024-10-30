@@ -106,10 +106,10 @@ func (component *Component) InitializeSpec(status genruntime.ConvertibleStatus) 
 	return fmt.Errorf("expected Status of type Component_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesExporter = &Component{}
+var _ genruntime.KubernetesConfigExporter = &Component{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (component *Component) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (component *Component) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(component.Namespace)
 	if component.Spec.OperatorSpec != nil && component.Spec.OperatorSpec.ConfigMaps != nil {
 		if component.Status.ConnectionString != nil {

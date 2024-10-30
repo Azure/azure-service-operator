@@ -49,10 +49,10 @@ func (cluster *ManagedCluster) SetConditions(conditions conditions.Conditions) {
 	cluster.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesExporter = &ManagedCluster{}
+var _ genruntime.KubernetesConfigExporter = &ManagedCluster{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (cluster *ManagedCluster) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (cluster *ManagedCluster) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(cluster.Namespace)
 	if cluster.Spec.OperatorSpec != nil && cluster.Spec.OperatorSpec.ConfigMaps != nil {
 		if cluster.Status.OidcIssuerProfile != nil {

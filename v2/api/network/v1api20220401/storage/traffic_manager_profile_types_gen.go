@@ -49,10 +49,10 @@ func (profile *TrafficManagerProfile) SetConditions(conditions conditions.Condit
 	profile.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesExporter = &TrafficManagerProfile{}
+var _ genruntime.KubernetesConfigExporter = &TrafficManagerProfile{}
 
-// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
-func (profile *TrafficManagerProfile) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+// ExportKubernetesConfigMaps defines a resource which can create ConfigMaps in Kubernetes.
+func (profile *TrafficManagerProfile) ExportKubernetesConfigMaps(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
 	collector := configmaps.NewCollector(profile.Namespace)
 	if profile.Spec.OperatorSpec != nil && profile.Spec.OperatorSpec.ConfigMaps != nil {
 		if profile.Status.DnsConfig != nil {
