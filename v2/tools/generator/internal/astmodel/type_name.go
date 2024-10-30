@@ -43,7 +43,6 @@ var armPackageDenyList = set.Make(
 	"network.frontdoor",
 	"operationalinsights",
 	"resources",
-	"servicebus",
 	"signalrservice",
 	"sql",
 	"storage",
