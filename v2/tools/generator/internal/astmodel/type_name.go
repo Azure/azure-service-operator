@@ -47,8 +47,7 @@ var armPackageDenyList = set.Make(
 	"signalrservice",
 	"sql",
 	"storage",
-	"synapse",
-	"web")
+	"synapse")
 
 // CreateARMTypeName creates an ARM object type name
 func CreateARMTypeName(name InternalTypeName) InternalTypeName {
