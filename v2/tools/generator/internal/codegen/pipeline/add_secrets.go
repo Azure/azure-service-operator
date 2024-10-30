@@ -70,11 +70,13 @@ func applyConfigSecretOverrides(
 				isSecret, isSecretConfigured = config.ObjectModelConfiguration.IsSecret.Lookup(strippedTypeName, prop.PropertyName())
 			}
 
-			if maybeSecret && !prop.IsSecret() && !isSecretConfigured {
+			// If it's not a secret, but it looks like a secret, and we don't have any configuration to tell us for
+			// sure, request configuration so we know for sure.
+			if !prop.IsSecret() && maybeSecret && !isSecretConfigured {
 				// Property might be a secret, but isn't already configured as one,
 				// and we don't have config to tell us for sure
 				return nil, errors.Errorf(
-					"property %q might be a secret and must to be configured with $isSecret",
+					"property %s might be a secret and must be configured with $isSecret",
 					prop.PropertyName())
 			}
 
