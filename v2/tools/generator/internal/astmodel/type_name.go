@@ -27,7 +27,6 @@ const (
 var armPackageDenyList = set.Make(
 	"appconfiguration",
 	"authorization",
-	"cache",
 	"cdn",
 	"containerregistry",
 	"dataprotection",
