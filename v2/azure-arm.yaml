@@ -2660,9 +2660,6 @@ objectModelConfiguration:
           $isSecret: true
         PublicKeyData:
           $isSecret: true
-      DatabricksProperties:
-        DatabricksAccessToken:
-          $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
         $supportedFrom: v2.0.0-beta.2
@@ -2769,14 +2766,10 @@ objectModelConfiguration:
       UserAccountCredentials:
         AdminUserPassword:
           $isSecret: true
-        AdminUserSshPublicKey:
-          $isSecret: true
       VirtualMachineSshCredentials:
         Password:
           $isSecret: true
         PrivateKeyData:
-          $isSecret: true
-        PublicKeyData:
           $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
