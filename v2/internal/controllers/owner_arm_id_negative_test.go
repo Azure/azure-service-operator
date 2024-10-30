@@ -53,7 +53,7 @@ func Test_OwnerIsARMIDOfWrongType_Rejected(t *testing.T) {
 	tc.Expect(err).To(MatchError(ContainSubstring("expected owner ARM ID to be for a resource group, but was \"Microsoft.Compute/virtualMachines\"")))
 }
 
-func Test_OwnerIsNotARMIDFromDifferentSubscription_ResourceFails(t *testing.T) {
+func Test_OwnerIsKubernetesResourceFromDifferentSubscription_ResourceFails(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
