@@ -1361,6 +1361,9 @@ objectModelConfiguration:
         $isResource: false
       DeepCreatedOriginProperties_STATUS:
         $isResource: false
+      DomainValidationProperties:
+        ValidationToken:
+          $isSecret: false # Not a conventional secret; this is the token someone must provide to prove they own the domain
       Profile:
         $export: true
         $supportedFrom: v2.6.0
@@ -1454,6 +1457,12 @@ objectModelConfiguration:
         $isResource: false
       NetworkInterfaceReference_STATUS:
         $isResource: false
+      SshPublicKeySpec:
+        KeyData:
+          $isSecret: false
+      SshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -1517,6 +1526,12 @@ objectModelConfiguration:
         $isResource: false
       NetworkProfile_STATUS:
         $isResource: false
+      SshPublicKeySpec:
+        KeyData:
+          $isSecret: false
+      SshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       VMGalleryApplication:
         PackageReferenceId:
           $armReference: true
@@ -1631,6 +1646,12 @@ objectModelConfiguration:
   containerservice:
     $payloadType: explicitCollections
     2021-05-01:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -1671,6 +1692,12 @@ objectModelConfiguration:
         Id:
           $armReference: true
     2023-02-01:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0
@@ -1724,6 +1751,9 @@ objectModelConfiguration:
     2023-10-01:
       ContainerServiceNetworkProfile_NetworkPlugin:
         $renameTo: NetworkPlugin
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
       DelegatedResource:
         ResourceId:
           $armReference: true
@@ -1762,13 +1792,19 @@ objectModelConfiguration:
       ManagedClusterWindowsProfile:
         AdminPassword:
           $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $armReference: true
       ManagedClusters_TrustedAccessRoleBinding:
         $exportAs: TrustedAccessRoleBinding
         $supportedFrom: v2.8.0
+      PrivateLinkResource:
+        Id:
+          $armReference: true
     2023-11-02-preview:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       DelegatedResource:
         ResourceId:
           $armReference: true
@@ -1810,6 +1846,12 @@ objectModelConfiguration:
         Id:
           $armReference: true
     2024-04-02-preview:
+      ContainerServiceSshPublicKey:
+        KeyData:
+          $isSecret: false
+      ContainerServiceSshPublicKey_STATUS:
+        KeyData:
+          $isSecret: false
       DelegatedResource:
         ResourceId:
           $armReference: true
@@ -1847,12 +1889,12 @@ objectModelConfiguration:
       ManagedClusterWindowsProfile:
         AdminPassword:
           $isSecret: true
-      PrivateLinkResource:
-        Id:
-          $armReference: true
       ManagedClusters_TrustedAccessRoleBinding:
         $exportAs: TrustedAccessRoleBinding
         $supportedFrom: v2.8.0
+      PrivateLinkResource:
+        Id:
+          $armReference: true
   datafactory:
     2018-06-01:
       PurviewConfiguration:
@@ -2371,6 +2413,8 @@ objectModelConfiguration:
           $armReference: false
     2020-02-02:
       ApplicationInsightsComponentProperties:
+        HockeyAppToken:
+          $isSecret: false
         WorkspaceResourceId:
           $armReference: true
       Component:
@@ -2583,6 +2627,9 @@ objectModelConfiguration:
       Databricks:
         ResourceId:
           $armReference: true
+      DatabricksProperties:
+        DatabricksAccessToken:
+          $isSecret: true
       AKS:
         ResourceId:
           $armReference: true
@@ -2612,9 +2659,6 @@ objectModelConfiguration:
         PrivateKeyData:
           $isSecret: true
         PublicKeyData:
-          $isSecret: true
-      DatabricksProperties:
-        DatabricksAccessToken:
           $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
@@ -2722,14 +2766,10 @@ objectModelConfiguration:
       UserAccountCredentials:
         AdminUserPassword:
           $isSecret: true
-        AdminUserSshPublicKey:
-          $isSecret: true
       VirtualMachineSshCredentials:
         Password:
           $isSecret: true
         PrivateKeyData:
-          $isSecret: true
-        PublicKeyData:
           $isSecret: true
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
