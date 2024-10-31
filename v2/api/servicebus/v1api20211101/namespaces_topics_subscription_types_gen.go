@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -390,7 +391,7 @@ func (subscription *NamespacesTopicsSubscription_Spec) ConvertToARM(resolved gen
 	if subscription == nil {
 		return nil, nil
 	}
-	result := &NamespacesTopicsSubscription_Spec_ARM{}
+	result := &arm.NamespacesTopicsSubscription_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -409,7 +410,7 @@ func (subscription *NamespacesTopicsSubscription_Spec) ConvertToARM(resolved gen
 		subscription.LockDuration != nil ||
 		subscription.MaxDeliveryCount != nil ||
 		subscription.RequiresSession != nil {
-		result.Properties = &SBSubscriptionProperties_ARM{}
+		result.Properties = &arm.SBSubscriptionProperties{}
 	}
 	if subscription.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *subscription.AutoDeleteOnIdle
@@ -420,7 +421,7 @@ func (subscription *NamespacesTopicsSubscription_Spec) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		clientAffineProperties := *clientAffineProperties_ARM.(*SBClientAffineProperties_ARM)
+		clientAffineProperties := *clientAffineProperties_ARM.(*arm.SBClientAffineProperties)
 		result.Properties.ClientAffineProperties = &clientAffineProperties
 	}
 	if subscription.DeadLetteringOnFilterEvaluationExceptions != nil {
@@ -472,14 +473,14 @@ func (subscription *NamespacesTopicsSubscription_Spec) ConvertToARM(resolved gen
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subscription *NamespacesTopicsSubscription_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesTopicsSubscription_Spec_ARM{}
+	return &arm.NamespacesTopicsSubscription_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subscription *NamespacesTopicsSubscription_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesTopicsSubscription_Spec_ARM)
+	typedInput, ok := armInput.(arm.NamespacesTopicsSubscription_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopicsSubscription_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesTopicsSubscription_Spec, got %T", armInput)
 	}
 
 	// Set property "AutoDeleteOnIdle":
@@ -1089,14 +1090,14 @@ var _ genruntime.FromARMConverter = &NamespacesTopicsSubscription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subscription *NamespacesTopicsSubscription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesTopicsSubscription_STATUS_ARM{}
+	return &arm.NamespacesTopicsSubscription_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subscription *NamespacesTopicsSubscription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesTopicsSubscription_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NamespacesTopicsSubscription_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopicsSubscription_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesTopicsSubscription_STATUS, got %T", armInput)
 	}
 
 	// Set property "AccessedAt":
@@ -1630,7 +1631,7 @@ func (properties *SBClientAffineProperties) ConvertToARM(resolved genruntime.Con
 	if properties == nil {
 		return nil, nil
 	}
-	result := &SBClientAffineProperties_ARM{}
+	result := &arm.SBClientAffineProperties{}
 
 	// Set property "ClientId":
 	if properties.ClientId != nil {
@@ -1654,14 +1655,14 @@ func (properties *SBClientAffineProperties) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SBClientAffineProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SBClientAffineProperties_ARM{}
+	return &arm.SBClientAffineProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SBClientAffineProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SBClientAffineProperties_ARM)
+	typedInput, ok := armInput.(arm.SBClientAffineProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBClientAffineProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SBClientAffineProperties, got %T", armInput)
 	}
 
 	// Set property "ClientId":
@@ -1789,14 +1790,14 @@ var _ genruntime.FromARMConverter = &SBClientAffineProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SBClientAffineProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SBClientAffineProperties_STATUS_ARM{}
+	return &arm.SBClientAffineProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SBClientAffineProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SBClientAffineProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SBClientAffineProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBClientAffineProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SBClientAffineProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":

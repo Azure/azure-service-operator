@@ -5,6 +5,7 @@ package v1api20210101preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -387,7 +388,7 @@ func (subscription *NamespacesTopicsSubscription_Spec) ConvertToARM(resolved gen
 	if subscription == nil {
 		return nil, nil
 	}
-	result := &NamespacesTopicsSubscription_Spec_ARM{}
+	result := &arm.NamespacesTopicsSubscription_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -404,7 +405,7 @@ func (subscription *NamespacesTopicsSubscription_Spec) ConvertToARM(resolved gen
 		subscription.LockDuration != nil ||
 		subscription.MaxDeliveryCount != nil ||
 		subscription.RequiresSession != nil {
-		result.Properties = &SBSubscriptionProperties_ARM{}
+		result.Properties = &arm.SBSubscriptionProperties{}
 	}
 	if subscription.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *subscription.AutoDeleteOnIdle
@@ -455,14 +456,14 @@ func (subscription *NamespacesTopicsSubscription_Spec) ConvertToARM(resolved gen
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subscription *NamespacesTopicsSubscription_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesTopicsSubscription_Spec_ARM{}
+	return &arm.NamespacesTopicsSubscription_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subscription *NamespacesTopicsSubscription_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesTopicsSubscription_Spec_ARM)
+	typedInput, ok := armInput.(arm.NamespacesTopicsSubscription_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopicsSubscription_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesTopicsSubscription_Spec, got %T", armInput)
 	}
 
 	// Set property "AutoDeleteOnIdle":
@@ -919,14 +920,14 @@ var _ genruntime.FromARMConverter = &NamespacesTopicsSubscription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (subscription *NamespacesTopicsSubscription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesTopicsSubscription_STATUS_ARM{}
+	return &arm.NamespacesTopicsSubscription_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (subscription *NamespacesTopicsSubscription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesTopicsSubscription_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NamespacesTopicsSubscription_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopicsSubscription_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesTopicsSubscription_STATUS, got %T", armInput)
 	}
 
 	// Set property "AccessedAt":

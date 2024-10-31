@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -358,7 +359,7 @@ func (rule *NamespacesTopicsSubscriptionsRule_Spec) ConvertToARM(resolved genrun
 	if rule == nil {
 		return nil, nil
 	}
-	result := &NamespacesTopicsSubscriptionsRule_Spec_ARM{}
+	result := &arm.NamespacesTopicsSubscriptionsRule_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -368,14 +369,14 @@ func (rule *NamespacesTopicsSubscriptionsRule_Spec) ConvertToARM(resolved genrun
 		rule.CorrelationFilter != nil ||
 		rule.FilterType != nil ||
 		rule.SqlFilter != nil {
-		result.Properties = &Ruleproperties_ARM{}
+		result.Properties = &arm.Ruleproperties{}
 	}
 	if rule.Action != nil {
 		action_ARM, err := (*rule.Action).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		action := *action_ARM.(*Action_ARM)
+		action := *action_ARM.(*arm.Action)
 		result.Properties.Action = &action
 	}
 	if rule.CorrelationFilter != nil {
@@ -383,13 +384,13 @@ func (rule *NamespacesTopicsSubscriptionsRule_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		correlationFilter := *correlationFilter_ARM.(*CorrelationFilter_ARM)
+		correlationFilter := *correlationFilter_ARM.(*arm.CorrelationFilter)
 		result.Properties.CorrelationFilter = &correlationFilter
 	}
 	if rule.FilterType != nil {
 		var temp string
 		temp = string(*rule.FilterType)
-		filterType := FilterType_ARM(temp)
+		filterType := arm.FilterType(temp)
 		result.Properties.FilterType = &filterType
 	}
 	if rule.SqlFilter != nil {
@@ -397,7 +398,7 @@ func (rule *NamespacesTopicsSubscriptionsRule_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		sqlFilter := *sqlFilter_ARM.(*SqlFilter_ARM)
+		sqlFilter := *sqlFilter_ARM.(*arm.SqlFilter)
 		result.Properties.SqlFilter = &sqlFilter
 	}
 	return result, nil
@@ -405,14 +406,14 @@ func (rule *NamespacesTopicsSubscriptionsRule_Spec) ConvertToARM(resolved genrun
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NamespacesTopicsSubscriptionsRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesTopicsSubscriptionsRule_Spec_ARM{}
+	return &arm.NamespacesTopicsSubscriptionsRule_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NamespacesTopicsSubscriptionsRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesTopicsSubscriptionsRule_Spec_ARM)
+	typedInput, ok := armInput.(arm.NamespacesTopicsSubscriptionsRule_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopicsSubscriptionsRule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesTopicsSubscriptionsRule_Spec, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -817,14 +818,14 @@ var _ genruntime.FromARMConverter = &NamespacesTopicsSubscriptionsRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NamespacesTopicsSubscriptionsRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesTopicsSubscriptionsRule_STATUS_ARM{}
+	return &arm.NamespacesTopicsSubscriptionsRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NamespacesTopicsSubscriptionsRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesTopicsSubscriptionsRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NamespacesTopicsSubscriptionsRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopicsSubscriptionsRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesTopicsSubscriptionsRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Action":
@@ -1108,7 +1109,7 @@ func (action *Action) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if action == nil {
 		return nil, nil
 	}
-	result := &Action_ARM{}
+	result := &arm.Action{}
 
 	// Set property "CompatibilityLevel":
 	if action.CompatibilityLevel != nil {
@@ -1132,14 +1133,14 @@ func (action *Action) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *Action) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Action_ARM{}
+	return &arm.Action{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *Action) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Action_ARM)
+	typedInput, ok := armInput.(arm.Action)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Action_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Action, got %T", armInput)
 	}
 
 	// Set property "CompatibilityLevel":
@@ -1254,14 +1255,14 @@ var _ genruntime.FromARMConverter = &Action_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *Action_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Action_STATUS_ARM{}
+	return &arm.Action_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *Action_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Action_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Action_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Action_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Action_STATUS, got %T", armInput)
 	}
 
 	// Set property "CompatibilityLevel":
@@ -1377,7 +1378,7 @@ func (filter *CorrelationFilter) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if filter == nil {
 		return nil, nil
 	}
-	result := &CorrelationFilter_ARM{}
+	result := &arm.CorrelationFilter{}
 
 	// Set property "ContentType":
 	if filter.ContentType != nil {
@@ -1445,14 +1446,14 @@ func (filter *CorrelationFilter) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *CorrelationFilter) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CorrelationFilter_ARM{}
+	return &arm.CorrelationFilter{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *CorrelationFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CorrelationFilter_ARM)
+	typedInput, ok := armInput.(arm.CorrelationFilter)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorrelationFilter_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CorrelationFilter, got %T", armInput)
 	}
 
 	// Set property "ContentType":
@@ -1693,14 +1694,14 @@ var _ genruntime.FromARMConverter = &CorrelationFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *CorrelationFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CorrelationFilter_STATUS_ARM{}
+	return &arm.CorrelationFilter_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *CorrelationFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CorrelationFilter_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CorrelationFilter_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorrelationFilter_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CorrelationFilter_STATUS, got %T", armInput)
 	}
 
 	// Set property "ContentType":
@@ -1911,7 +1912,7 @@ func (filter *SqlFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if filter == nil {
 		return nil, nil
 	}
-	result := &SqlFilter_ARM{}
+	result := &arm.SqlFilter{}
 
 	// Set property "CompatibilityLevel":
 	if filter.CompatibilityLevel != nil {
@@ -1935,14 +1936,14 @@ func (filter *SqlFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *SqlFilter) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlFilter_ARM{}
+	return &arm.SqlFilter{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *SqlFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlFilter_ARM)
+	typedInput, ok := armInput.(arm.SqlFilter)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlFilter_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlFilter, got %T", armInput)
 	}
 
 	// Set property "CompatibilityLevel":
@@ -2056,14 +2057,14 @@ var _ genruntime.FromARMConverter = &SqlFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (filter *SqlFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlFilter_STATUS_ARM{}
+	return &arm.SqlFilter_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (filter *SqlFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlFilter_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SqlFilter_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlFilter_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlFilter_STATUS, got %T", armInput)
 	}
 
 	// Set property "CompatibilityLevel":
