@@ -27,7 +27,10 @@ fi
 # Print the current disk usage, useful for diagnosing what's gone wrong if
 # the disk fills up
 df -h
-du -h --threshold=1G --max-depth=5 / 2>&1 | grep -v 'denied' | sort -hr
+
+# Uncomment the below to show more disk stats (including what files are large).
+# Commented out as it can take a long time to run and slows CI down
+# du -h --threshold=1G --max-depth=5 / 2>&1 | grep -v 'denied' | sort -hr
 
 CONTAINERD="false"
 while [[ $# -gt 0 ]]; do
