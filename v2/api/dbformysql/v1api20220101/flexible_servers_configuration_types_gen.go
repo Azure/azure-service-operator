@@ -5,6 +5,7 @@ package v1api20220101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -355,7 +356,7 @@ func (configuration *FlexibleServersConfiguration_Spec) ConvertToARM(resolved ge
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &FlexibleServersConfiguration_Spec_ARM{}
+	result := &arm.FlexibleServersConfiguration_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -364,7 +365,7 @@ func (configuration *FlexibleServersConfiguration_Spec) ConvertToARM(resolved ge
 	if configuration.CurrentValue != nil ||
 		configuration.Source != nil ||
 		configuration.Value != nil {
-		result.Properties = &ConfigurationProperties_ARM{}
+		result.Properties = &arm.ConfigurationProperties{}
 	}
 	if configuration.CurrentValue != nil {
 		currentValue := *configuration.CurrentValue
@@ -373,7 +374,7 @@ func (configuration *FlexibleServersConfiguration_Spec) ConvertToARM(resolved ge
 	if configuration.Source != nil {
 		var temp string
 		temp = string(*configuration.Source)
-		source := ConfigurationProperties_Source_ARM(temp)
+		source := arm.ConfigurationProperties_Source(temp)
 		result.Properties.Source = &source
 	}
 	if configuration.Value != nil {
@@ -385,14 +386,14 @@ func (configuration *FlexibleServersConfiguration_Spec) ConvertToARM(resolved ge
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *FlexibleServersConfiguration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServersConfiguration_Spec_ARM{}
+	return &arm.FlexibleServersConfiguration_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *FlexibleServersConfiguration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServersConfiguration_Spec_ARM)
+	typedInput, ok := armInput.(arm.FlexibleServersConfiguration_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersConfiguration_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FlexibleServersConfiguration_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -679,14 +680,14 @@ var _ genruntime.FromARMConverter = &FlexibleServersConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *FlexibleServersConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServersConfiguration_STATUS_ARM{}
+	return &arm.FlexibleServersConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *FlexibleServersConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServersConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FlexibleServersConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FlexibleServersConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllowedValues":

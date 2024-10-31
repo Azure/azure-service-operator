@@ -5,6 +5,7 @@ package v1api20210501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -352,14 +353,14 @@ func (database *FlexibleServersDatabase_Spec) ConvertToARM(resolved genruntime.C
 	if database == nil {
 		return nil, nil
 	}
-	result := &FlexibleServersDatabase_Spec_ARM{}
+	result := &arm.FlexibleServersDatabase_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if database.Charset != nil || database.Collation != nil {
-		result.Properties = &DatabaseProperties_ARM{}
+		result.Properties = &arm.DatabaseProperties{}
 	}
 	if database.Charset != nil {
 		charset := *database.Charset
@@ -374,14 +375,14 @@ func (database *FlexibleServersDatabase_Spec) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *FlexibleServersDatabase_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServersDatabase_Spec_ARM{}
+	return &arm.FlexibleServersDatabase_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *FlexibleServersDatabase_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServersDatabase_Spec_ARM)
+	typedInput, ok := armInput.(arm.FlexibleServersDatabase_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersDatabase_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FlexibleServersDatabase_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -613,14 +614,14 @@ var _ genruntime.FromARMConverter = &FlexibleServersDatabase_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *FlexibleServersDatabase_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServersDatabase_STATUS_ARM{}
+	return &arm.FlexibleServersDatabase_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *FlexibleServersDatabase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServersDatabase_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FlexibleServersDatabase_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersDatabase_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FlexibleServersDatabase_STATUS, got %T", armInput)
 	}
 
 	// Set property "Charset":

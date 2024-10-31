@@ -5,6 +5,7 @@ package v1api20220101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -374,7 +375,7 @@ func (administrator *FlexibleServersAdministrator_Spec) ConvertToARM(resolved ge
 	if administrator == nil {
 		return nil, nil
 	}
-	result := &FlexibleServersAdministrator_Spec_ARM{}
+	result := &arm.FlexibleServersAdministrator_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -387,12 +388,12 @@ func (administrator *FlexibleServersAdministrator_Spec) ConvertToARM(resolved ge
 		administrator.SidFromConfig != nil ||
 		administrator.TenantId != nil ||
 		administrator.TenantIdFromConfig != nil {
-		result.Properties = &AdministratorProperties_ARM{}
+		result.Properties = &arm.AdministratorProperties{}
 	}
 	if administrator.AdministratorType != nil {
 		var temp string
 		temp = string(*administrator.AdministratorType)
-		administratorType := AdministratorProperties_AdministratorType_ARM(temp)
+		administratorType := arm.AdministratorProperties_AdministratorType(temp)
 		result.Properties.AdministratorType = &administratorType
 	}
 	if administrator.IdentityResourceReference != nil {
@@ -436,14 +437,14 @@ func (administrator *FlexibleServersAdministrator_Spec) ConvertToARM(resolved ge
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (administrator *FlexibleServersAdministrator_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServersAdministrator_Spec_ARM{}
+	return &arm.FlexibleServersAdministrator_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (administrator *FlexibleServersAdministrator_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServersAdministrator_Spec_ARM)
+	typedInput, ok := armInput.(arm.FlexibleServersAdministrator_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersAdministrator_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FlexibleServersAdministrator_Spec, got %T", armInput)
 	}
 
 	// Set property "AdministratorType":
@@ -767,14 +768,14 @@ var _ genruntime.FromARMConverter = &FlexibleServersAdministrator_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (administrator *FlexibleServersAdministrator_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServersAdministrator_STATUS_ARM{}
+	return &arm.FlexibleServersAdministrator_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (administrator *FlexibleServersAdministrator_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServersAdministrator_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FlexibleServersAdministrator_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersAdministrator_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FlexibleServersAdministrator_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdministratorType":
@@ -1015,14 +1016,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
