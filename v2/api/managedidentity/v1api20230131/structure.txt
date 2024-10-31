@@ -37,35 +37,6 @@ FederatedIdentityCredential: Resource
     │       ├── "ManagedIdentity"
     │       └── "User"
     └── Type: *string
-FederatedIdentityCredential_STATUS_ARM: Object (5 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (3 properties)
-│   ├── Audiences: string[]
-│   ├── Issuer: *string
-│   └── Subject: *string
-├── SystemData: *Object (6 properties)
-│   ├── CreatedAt: *string
-│   ├── CreatedBy: *string
-│   ├── CreatedByType: *Enum (4 values)
-│   │   ├── "Application"
-│   │   ├── "Key"
-│   │   ├── "ManagedIdentity"
-│   │   └── "User"
-│   ├── LastModifiedAt: *string
-│   ├── LastModifiedBy: *string
-│   └── LastModifiedByType: *Enum (4 values)
-│       ├── "Application"
-│       ├── "Key"
-│       ├── "ManagedIdentity"
-│       └── "User"
-└── Type: *string
-FederatedIdentityCredential_Spec_ARM: Object (2 properties)
-├── Name: string
-└── Properties: *Object (3 properties)
-    ├── Audiences: string[]
-    ├── Issuer: *string
-    └── Subject: *string
 UserAssignedIdentity: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (5 properties)
@@ -107,32 +78,3 @@ UserAssignedIdentity: Resource
     ├── Tags: map[string]string
     ├── TenantId: *string
     └── Type: *string
-UserAssignedIdentity_STATUS_ARM: Object (7 properties)
-├── Id: *string
-├── Location: *string
-├── Name: *string
-├── Properties: *Object (3 properties)
-│   ├── ClientId: *string
-│   ├── PrincipalId: *string
-│   └── TenantId: *string
-├── SystemData: *Object (6 properties)
-│   ├── CreatedAt: *string
-│   ├── CreatedBy: *string
-│   ├── CreatedByType: *Enum (4 values)
-│   │   ├── "Application"
-│   │   ├── "Key"
-│   │   ├── "ManagedIdentity"
-│   │   └── "User"
-│   ├── LastModifiedAt: *string
-│   ├── LastModifiedBy: *string
-│   └── LastModifiedByType: *Enum (4 values)
-│       ├── "Application"
-│       ├── "Key"
-│       ├── "ManagedIdentity"
-│       └── "User"
-├── Tags: map[string]string
-└── Type: *string
-UserAssignedIdentity_Spec_ARM: Object (3 properties)
-├── Location: *string
-├── Name: string
-└── Tags: map[string]string
