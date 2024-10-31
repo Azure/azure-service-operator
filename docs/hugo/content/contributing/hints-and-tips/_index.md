@@ -14,13 +14,13 @@ Generally speaking, don't make changes to the `azure-rest-api-specs` submodule u
 
 **Motivation**: changes to this submodule may have wide ranging effect - while Azure Resource Manager policies on backward compatible APIs mean that the _shape_ of resources is unlikely to change, documentation on resources and properties often does change. Including those changes in a PR along with other changes might make it unwieldy to review.
 
-If an update is necessary, create a separate PR that just updates the submodule, keeping those changes isolated. Once that's merged, you can create your new resource without any additional debris. 
+If an update is necessary, create a separate PR that just updates the submodule, keeping those changes isolated. Once that's merged, you can create your new resource without any additional debris.
 
 ### Error: loading schema from root
 
 If the submodule is missing, you'll see this error:
 
-```
+``` text
 error loading schema from root ... 
 open /azure-service-operator/v2/specs/azure-resource-manager-schemas/schemas/2019-04-01/deploymentTemplate.json 
 no such file or directory
@@ -38,7 +38,4 @@ One of the key features of ASO is that it takes care of sequencing - it works ou
 
 It's important that we exercise this in our tests. We've found in the past some resources where additional work was required to make this run smoothly - this is why we have extension points defined in the [`genruntime/extensions package`](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2@v2.10.0/pkg/genruntime/extensions).
 
-Instead of calling `tc.CreateResourceAndWait()` for each resource in turn, declare all the resources required for the test and then make a single call to `tc.CreateResourcesAndWait()` (note the plural in the name) to create them all at once. 
-
-
-
+Instead of calling `tc.CreateResourceAndWait()` for each resource in turn, declare all the resources required for the test and then make a single call to `tc.CreateResourcesAndWait()` (note the plural in the name) to create them all at once.
