@@ -31,7 +31,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as a one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="4593">
+  <meta itemprop="wordCount" content="4626">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -434,6 +434,8 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <a href="/azure-service-operator/reference/insights/v1api20180501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">insights.azure.com/v1api20180501preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
   <a href="/azure-service-operator/reference/insights/v1api20200202/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">insights.azure.com/v1api20200202</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20210501preview-li">
+  <a href="/azure-service-operator/reference/insights/v1api20210501preview/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20210501preview"><span class="">insights.azure.com/v1api20210501preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20220615-li">
   <a href="/azure-service-operator/reference/insights/v1api20220615/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20220615"><span class="">insights.azure.com/v1api20220615</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20221001-li">
@@ -827,6 +829,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#insights">Insights</a>
       <ul>
+        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#released-20">Released</a></li>
       </ul>
     </li>
@@ -2474,6 +2477,28 @@ grouped by the originating ARM service.
 </table>
 <h2 id="insights">Insights</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>insights.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Resource</th>
+          <th style="text-align: left">ARM Version</th>
+          <th style="text-align: left">CRD Version</th>
+          <th style="text-align: left">Supported From</th>
+          <th style="text-align: left">Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://azure.github.io/azure-service-operator/reference/insights/v1api20210501preview/#insights.azure.com/v1api20210501preview.DiagnosticSetting">DiagnosticSetting</a></td>
+          <td style="text-align: left">2021-05-01-preview</td>
+          <td style="text-align: left">v1api20210501preview</td>
+          <td style="text-align: left">v2.11.0</td>
+          <td style="text-align: left"><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api20210501preview/v1api20210501preview_diagnosticsetting.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
 <h3 id="released-20">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
