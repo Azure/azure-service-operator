@@ -43,7 +43,6 @@ var armPackageDenyList = set.Make(
 	"resources",
 	"signalrservice",
 	"sql",
-	"storage",
 	"synapse",
 	"web")
 
