@@ -5,6 +5,7 @@ package v1api20231115
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -364,7 +365,7 @@ func (assignment *SqlRoleAssignment_Spec) ConvertToARM(resolved genruntime.Conve
 	if assignment == nil {
 		return nil, nil
 	}
-	result := &SqlRoleAssignment_Spec_ARM{}
+	result := &arm.SqlRoleAssignment_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -374,7 +375,7 @@ func (assignment *SqlRoleAssignment_Spec) ConvertToARM(resolved genruntime.Conve
 		assignment.PrincipalIdFromConfig != nil ||
 		assignment.RoleDefinitionId != nil ||
 		assignment.Scope != nil {
-		result.Properties = &SqlRoleAssignmentResource_ARM{}
+		result.Properties = &arm.SqlRoleAssignmentResource{}
 	}
 	if assignment.PrincipalId != nil {
 		principalId := *assignment.PrincipalId
@@ -401,14 +402,14 @@ func (assignment *SqlRoleAssignment_Spec) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (assignment *SqlRoleAssignment_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlRoleAssignment_Spec_ARM{}
+	return &arm.SqlRoleAssignment_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (assignment *SqlRoleAssignment_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlRoleAssignment_Spec_ARM)
+	typedInput, ok := armInput.(arm.SqlRoleAssignment_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlRoleAssignment_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlRoleAssignment_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -689,14 +690,14 @@ var _ genruntime.FromARMConverter = &SqlRoleAssignment_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (assignment *SqlRoleAssignment_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlRoleAssignment_STATUS_ARM{}
+	return &arm.SqlRoleAssignment_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (assignment *SqlRoleAssignment_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlRoleAssignment_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SqlRoleAssignment_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlRoleAssignment_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlRoleAssignment_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

@@ -5,6 +5,7 @@ package v1api20231115
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -339,7 +340,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) ConvertToARM(res
 	if setting == nil {
 		return nil, nil
 	}
-	result := &MongodbDatabaseCollectionThroughputSetting_Spec_ARM{}
+	result := &arm.MongodbDatabaseCollectionThroughputSetting_Spec{}
 
 	// Set property "Location":
 	if setting.Location != nil {
@@ -352,14 +353,14 @@ func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) ConvertToARM(res
 
 	// Set property "Properties":
 	if setting.Resource != nil {
-		result.Properties = &ThroughputSettingsUpdateProperties_ARM{}
+		result.Properties = &arm.ThroughputSettingsUpdateProperties{}
 	}
 	if setting.Resource != nil {
 		resource_ARM, err := (*setting.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		resource := *resource_ARM.(*ThroughputSettingsResource_ARM)
+		resource := *resource_ARM.(*arm.ThroughputSettingsResource)
 		result.Properties.Resource = &resource
 	}
 
@@ -375,14 +376,14 @@ func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) ConvertToARM(res
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongodbDatabaseCollectionThroughputSetting_Spec_ARM{}
+	return &arm.MongodbDatabaseCollectionThroughputSetting_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongodbDatabaseCollectionThroughputSetting_Spec_ARM)
+	typedInput, ok := armInput.(arm.MongodbDatabaseCollectionThroughputSetting_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongodbDatabaseCollectionThroughputSetting_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MongodbDatabaseCollectionThroughputSetting_Spec, got %T", armInput)
 	}
 
 	// Set property "Location":
@@ -654,14 +655,14 @@ var _ genruntime.FromARMConverter = &MongodbDatabaseCollectionThroughputSetting_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *MongodbDatabaseCollectionThroughputSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongodbDatabaseCollectionThroughputSetting_STATUS_ARM{}
+	return &arm.MongodbDatabaseCollectionThroughputSetting_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *MongodbDatabaseCollectionThroughputSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongodbDatabaseCollectionThroughputSetting_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MongodbDatabaseCollectionThroughputSetting_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongodbDatabaseCollectionThroughputSetting_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MongodbDatabaseCollectionThroughputSetting_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -835,14 +836,14 @@ var _ genruntime.FromARMConverter = &ThroughputSettingsGetProperties_Resource_ST
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *ThroughputSettingsGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ThroughputSettingsGetProperties_Resource_STATUS_ARM{}
+	return &arm.ThroughputSettingsGetProperties_Resource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *ThroughputSettingsGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ThroughputSettingsGetProperties_Resource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ThroughputSettingsGetProperties_Resource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsGetProperties_Resource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ThroughputSettingsGetProperties_Resource_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutoscaleSettings":
@@ -1031,7 +1032,7 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 	if resource == nil {
 		return nil, nil
 	}
-	result := &ThroughputSettingsResource_ARM{}
+	result := &arm.ThroughputSettingsResource{}
 
 	// Set property "AutoscaleSettings":
 	if resource.AutoscaleSettings != nil {
@@ -1039,7 +1040,7 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		autoscaleSettings := *autoscaleSettings_ARM.(*AutoscaleSettingsResource_ARM)
+		autoscaleSettings := *autoscaleSettings_ARM.(*arm.AutoscaleSettingsResource)
 		result.AutoscaleSettings = &autoscaleSettings
 	}
 
@@ -1053,14 +1054,14 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *ThroughputSettingsResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ThroughputSettingsResource_ARM{}
+	return &arm.ThroughputSettingsResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *ThroughputSettingsResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ThroughputSettingsResource_ARM)
+	typedInput, ok := armInput.(arm.ThroughputSettingsResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ThroughputSettingsResource, got %T", armInput)
 	}
 
 	// Set property "AutoscaleSettings":
@@ -1176,7 +1177,7 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 	if resource == nil {
 		return nil, nil
 	}
-	result := &AutoscaleSettingsResource_ARM{}
+	result := &arm.AutoscaleSettingsResource{}
 
 	// Set property "AutoUpgradePolicy":
 	if resource.AutoUpgradePolicy != nil {
@@ -1184,7 +1185,7 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		autoUpgradePolicy := *autoUpgradePolicy_ARM.(*AutoUpgradePolicyResource_ARM)
+		autoUpgradePolicy := *autoUpgradePolicy_ARM.(*arm.AutoUpgradePolicyResource)
 		result.AutoUpgradePolicy = &autoUpgradePolicy
 	}
 
@@ -1198,14 +1199,14 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *AutoscaleSettingsResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleSettingsResource_ARM{}
+	return &arm.AutoscaleSettingsResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *AutoscaleSettingsResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleSettingsResource_ARM)
+	typedInput, ok := armInput.(arm.AutoscaleSettingsResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettingsResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoscaleSettingsResource, got %T", armInput)
 	}
 
 	// Set property "AutoUpgradePolicy":
@@ -1321,14 +1322,14 @@ var _ genruntime.FromARMConverter = &AutoscaleSettingsResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *AutoscaleSettingsResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleSettingsResource_STATUS_ARM{}
+	return &arm.AutoscaleSettingsResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *AutoscaleSettingsResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleSettingsResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AutoscaleSettingsResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettingsResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoscaleSettingsResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutoUpgradePolicy":
@@ -1430,7 +1431,7 @@ func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.Conv
 	if resource == nil {
 		return nil, nil
 	}
-	result := &AutoUpgradePolicyResource_ARM{}
+	result := &arm.AutoUpgradePolicyResource{}
 
 	// Set property "ThroughputPolicy":
 	if resource.ThroughputPolicy != nil {
@@ -1438,7 +1439,7 @@ func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		throughputPolicy := *throughputPolicy_ARM.(*ThroughputPolicyResource_ARM)
+		throughputPolicy := *throughputPolicy_ARM.(*arm.ThroughputPolicyResource)
 		result.ThroughputPolicy = &throughputPolicy
 	}
 	return result, nil
@@ -1446,14 +1447,14 @@ func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *AutoUpgradePolicyResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoUpgradePolicyResource_ARM{}
+	return &arm.AutoUpgradePolicyResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *AutoUpgradePolicyResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoUpgradePolicyResource_ARM)
+	typedInput, ok := armInput.(arm.AutoUpgradePolicyResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoUpgradePolicyResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoUpgradePolicyResource, got %T", armInput)
 	}
 
 	// Set property "ThroughputPolicy":
@@ -1547,14 +1548,14 @@ var _ genruntime.FromARMConverter = &AutoUpgradePolicyResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *AutoUpgradePolicyResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoUpgradePolicyResource_STATUS_ARM{}
+	return &arm.AutoUpgradePolicyResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *AutoUpgradePolicyResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoUpgradePolicyResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AutoUpgradePolicyResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoUpgradePolicyResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoUpgradePolicyResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "ThroughputPolicy":
@@ -1635,7 +1636,7 @@ func (resource *ThroughputPolicyResource) ConvertToARM(resolved genruntime.Conve
 	if resource == nil {
 		return nil, nil
 	}
-	result := &ThroughputPolicyResource_ARM{}
+	result := &arm.ThroughputPolicyResource{}
 
 	// Set property "IncrementPercent":
 	if resource.IncrementPercent != nil {
@@ -1653,14 +1654,14 @@ func (resource *ThroughputPolicyResource) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *ThroughputPolicyResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ThroughputPolicyResource_ARM{}
+	return &arm.ThroughputPolicyResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *ThroughputPolicyResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ThroughputPolicyResource_ARM)
+	typedInput, ok := armInput.(arm.ThroughputPolicyResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputPolicyResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ThroughputPolicyResource, got %T", armInput)
 	}
 
 	// Set property "IncrementPercent":
@@ -1755,14 +1756,14 @@ var _ genruntime.FromARMConverter = &ThroughputPolicyResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *ThroughputPolicyResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ThroughputPolicyResource_STATUS_ARM{}
+	return &arm.ThroughputPolicyResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *ThroughputPolicyResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ThroughputPolicyResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ThroughputPolicyResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputPolicyResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ThroughputPolicyResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "IncrementPercent":
