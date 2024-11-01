@@ -5,6 +5,7 @@ package v1api20201201
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -339,35 +340,35 @@ func (schedule *RedisPatchSchedule_Spec) ConvertToARM(resolved genruntime.Conver
 	if schedule == nil {
 		return nil, nil
 	}
-	result := &RedisPatchSchedule_Spec_ARM{}
+	result := &arm.RedisPatchSchedule_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if schedule.ScheduleEntries != nil {
-		result.Properties = &ScheduleEntries_ARM{}
+		result.Properties = &arm.ScheduleEntries{}
 	}
 	for _, item := range schedule.ScheduleEntries {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ScheduleEntries = append(result.Properties.ScheduleEntries, *item_ARM.(*ScheduleEntry_ARM))
+		result.Properties.ScheduleEntries = append(result.Properties.ScheduleEntries, *item_ARM.(*arm.ScheduleEntry))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schedule *RedisPatchSchedule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisPatchSchedule_Spec_ARM{}
+	return &arm.RedisPatchSchedule_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schedule *RedisPatchSchedule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisPatchSchedule_Spec_ARM)
+	typedInput, ok := armInput.(arm.RedisPatchSchedule_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisPatchSchedule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RedisPatchSchedule_Spec, got %T", armInput)
 	}
 
 	// Set property "Owner":
@@ -601,14 +602,14 @@ var _ genruntime.FromARMConverter = &RedisPatchSchedule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schedule *RedisPatchSchedule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisPatchSchedule_STATUS_ARM{}
+	return &arm.RedisPatchSchedule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schedule *RedisPatchSchedule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisPatchSchedule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RedisPatchSchedule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisPatchSchedule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RedisPatchSchedule_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -764,13 +765,13 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if entry == nil {
 		return nil, nil
 	}
-	result := &ScheduleEntry_ARM{}
+	result := &arm.ScheduleEntry{}
 
 	// Set property "DayOfWeek":
 	if entry.DayOfWeek != nil {
 		var temp string
 		temp = string(*entry.DayOfWeek)
-		dayOfWeek := ScheduleEntry_DayOfWeek_ARM(temp)
+		dayOfWeek := arm.ScheduleEntry_DayOfWeek(temp)
 		result.DayOfWeek = &dayOfWeek
 	}
 
@@ -790,14 +791,14 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (entry *ScheduleEntry) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScheduleEntry_ARM{}
+	return &arm.ScheduleEntry{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (entry *ScheduleEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScheduleEntry_ARM)
+	typedInput, ok := armInput.(arm.ScheduleEntry)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleEntry_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScheduleEntry, got %T", armInput)
 	}
 
 	// Set property "DayOfWeek":
@@ -892,14 +893,14 @@ var _ genruntime.FromARMConverter = &ScheduleEntry_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (entry *ScheduleEntry_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScheduleEntry_STATUS_ARM{}
+	return &arm.ScheduleEntry_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (entry *ScheduleEntry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScheduleEntry_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ScheduleEntry_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleEntry_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScheduleEntry_STATUS, got %T", armInput)
 	}
 
 	// Set property "DayOfWeek":
