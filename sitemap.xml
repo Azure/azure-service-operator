@@ -304,6 +304,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/hints-and-tips/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/reconcile-interface/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/</loc>

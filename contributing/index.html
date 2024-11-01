@@ -29,7 +29,7 @@
 
   <meta itemprop="name" content="Contributing to Azure Service Operator v2">
   <meta itemprop="description" content="How to contribute new resources to Azure Service Operator v2">
-  <meta itemprop="wordCount" content="241">
+  <meta itemprop="wordCount" content="177">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Contributing to Azure Service Operator v2">
   <meta name="twitter:description" content="How to contribute new resources to Azure Service Operator v2">
@@ -605,6 +605,8 @@
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdependencies-li">
   <a href="/azure-service-operator/contributing/dependencies/" title="Developer Dependencies" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdependencies"><span class="">Dependencies</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinghints-and-tips-li">
+  <a href="/azure-service-operator/contributing/hints-and-tips/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributinghints-and-tips"><span class="">Hints and Tips</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
   <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingtesting-li">
@@ -723,11 +725,6 @@
     <li><a href="#related-pages">Related pages</a></li>
     <li><a href="#directory-structure-of-the-operator">Directory structure of the operator</a></li>
     <li><a href="#submitting-a-pull-request">Submitting a pull request</a></li>
-    <li><a href="#common-problems-and-their-solutions">Common problems and their solutions</a>
-      <ul>
-        <li><a href="#error-loading-schema-from-root">Error loading schema from root</a></li>
-      </ul>
-    </li>
   </ul>
 </nav>
       </div>
@@ -774,14 +771,6 @@
 <p>Pull requests opened from forks of the azure-service-operator repository will initially have a <code>skipped</code> <code>Validate Pull Request / integration-tests</code> check which
 will prevent merging even if all other checks pass. Once a maintainer has looked at your PR and determined it is ready they will comment <code>/ok-to-test sha=&lt;sha&gt;</code>
 to kick off an integration test pass. If this check passes along with the other checks the PR can be merged.</p>
-<h2 id="common-problems-and-their-solutions">Common problems and their solutions</h2>
-<h3 id="error-loading-schema-from-root">Error loading schema from root</h3>
-<p>Full error:</p>
-<blockquote>
-<p>error loading schema from root &hellip; open /azure-service-operator/v2/specs/azure-resource-manager-schemas/schemas/2019-04-01/deploymentTemplate.json no such file or directory</p>
-</blockquote>
-<p>This git repo contains submodules. This error occurs when the submodules are missing, possibly because the repo was not cloned with <code>--recurse-submodules</code>.</p>
-<p>To resolve this problem, run <code>git submodule init</code> and <code>git submodule update</code> and then try building again.</p>
 
 	
 </div>
