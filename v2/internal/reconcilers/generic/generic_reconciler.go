@@ -51,6 +51,8 @@ type GenericReconciler struct {
 	GVK                       schema.GroupVersionKind
 	PositiveConditions        *conditions.PositiveConditionBuilder
 	RequeueIntervalCalculator interval.Calculator
+
+	PanicHandler func()
 }
 
 var _ reconcile.Reconciler = &GenericReconciler{} // GenericReconciler is a reconcile.Reconciler
@@ -72,6 +74,8 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	metaObj = metaObj.DeepCopyObject().(genruntime.MetaObject)
 
 	log := gr.LoggerFactory(metaObj).WithValues("name", req.Name, "namespace", req.Namespace)
+
+	defer gr.PanicHandler()
 	reconcilers.LogObj(log, Verbose, "Reconcile invoked", metaObj)
 
 	// Ensure the resource is tagged with the operator's namespace.
