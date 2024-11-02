@@ -10,7 +10,7 @@ spec:
   state: Enabled
   severity: Sev3
   frequency: PT1M
-  scopesReferences:
+  scopeReferences:
     - group: monitor.azure.com
       kind: Account
       name: aso-sample-acct
