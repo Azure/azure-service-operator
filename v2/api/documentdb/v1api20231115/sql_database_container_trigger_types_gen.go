@@ -5,6 +5,7 @@ package v1api20231115
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -355,7 +356,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertToARM(resolved genruntim
 	if trigger == nil {
 		return nil, nil
 	}
-	result := &SqlDatabaseContainerTrigger_Spec_ARM{}
+	result := &arm.SqlDatabaseContainerTrigger_Spec{}
 
 	// Set property "Location":
 	if trigger.Location != nil {
@@ -368,14 +369,14 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertToARM(resolved genruntim
 
 	// Set property "Properties":
 	if trigger.Options != nil || trigger.Resource != nil {
-		result.Properties = &SqlTriggerCreateUpdateProperties_ARM{}
+		result.Properties = &arm.SqlTriggerCreateUpdateProperties{}
 	}
 	if trigger.Options != nil {
 		options_ARM, err := (*trigger.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		options := *options_ARM.(*CreateUpdateOptions_ARM)
+		options := *options_ARM.(*arm.CreateUpdateOptions)
 		result.Properties.Options = &options
 	}
 	if trigger.Resource != nil {
@@ -383,7 +384,7 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		resource := *resource_ARM.(*SqlTriggerResource_ARM)
+		resource := *resource_ARM.(*arm.SqlTriggerResource)
 		result.Properties.Resource = &resource
 	}
 
@@ -399,14 +400,14 @@ func (trigger *SqlDatabaseContainerTrigger_Spec) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *SqlDatabaseContainerTrigger_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlDatabaseContainerTrigger_Spec_ARM{}
+	return &arm.SqlDatabaseContainerTrigger_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *SqlDatabaseContainerTrigger_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlDatabaseContainerTrigger_Spec_ARM)
+	typedInput, ok := armInput.(arm.SqlDatabaseContainerTrigger_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseContainerTrigger_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlDatabaseContainerTrigger_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -730,14 +731,14 @@ var _ genruntime.FromARMConverter = &SqlDatabaseContainerTrigger_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *SqlDatabaseContainerTrigger_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlDatabaseContainerTrigger_STATUS_ARM{}
+	return &arm.SqlDatabaseContainerTrigger_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *SqlDatabaseContainerTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlDatabaseContainerTrigger_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SqlDatabaseContainerTrigger_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseContainerTrigger_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlDatabaseContainerTrigger_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -902,14 +903,14 @@ var _ genruntime.FromARMConverter = &SqlTriggerGetProperties_Resource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SqlTriggerGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlTriggerGetProperties_Resource_STATUS_ARM{}
+	return &arm.SqlTriggerGetProperties_Resource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SqlTriggerGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlTriggerGetProperties_Resource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SqlTriggerGetProperties_Resource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlTriggerGetProperties_Resource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlTriggerGetProperties_Resource_STATUS, got %T", armInput)
 	}
 
 	// Set property "Body":
@@ -1082,7 +1083,7 @@ func (resource *SqlTriggerResource) ConvertToARM(resolved genruntime.ConvertToAR
 	if resource == nil {
 		return nil, nil
 	}
-	result := &SqlTriggerResource_ARM{}
+	result := &arm.SqlTriggerResource{}
 
 	// Set property "Body":
 	if resource.Body != nil {
@@ -1100,7 +1101,7 @@ func (resource *SqlTriggerResource) ConvertToARM(resolved genruntime.ConvertToAR
 	if resource.TriggerOperation != nil {
 		var temp string
 		temp = string(*resource.TriggerOperation)
-		triggerOperation := SqlTriggerResource_TriggerOperation_ARM(temp)
+		triggerOperation := arm.SqlTriggerResource_TriggerOperation(temp)
 		result.TriggerOperation = &triggerOperation
 	}
 
@@ -1108,7 +1109,7 @@ func (resource *SqlTriggerResource) ConvertToARM(resolved genruntime.ConvertToAR
 	if resource.TriggerType != nil {
 		var temp string
 		temp = string(*resource.TriggerType)
-		triggerType := SqlTriggerResource_TriggerType_ARM(temp)
+		triggerType := arm.SqlTriggerResource_TriggerType(temp)
 		result.TriggerType = &triggerType
 	}
 	return result, nil
@@ -1116,14 +1117,14 @@ func (resource *SqlTriggerResource) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *SqlTriggerResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlTriggerResource_ARM{}
+	return &arm.SqlTriggerResource{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *SqlTriggerResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlTriggerResource_ARM)
+	typedInput, ok := armInput.(arm.SqlTriggerResource)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlTriggerResource_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlTriggerResource, got %T", armInput)
 	}
 
 	// Set property "Body":

@@ -5,6 +5,7 @@ package v1api20231115
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -339,7 +340,7 @@ func (setting *MongodbDatabaseThroughputSetting_Spec) ConvertToARM(resolved genr
 	if setting == nil {
 		return nil, nil
 	}
-	result := &MongodbDatabaseThroughputSetting_Spec_ARM{}
+	result := &arm.MongodbDatabaseThroughputSetting_Spec{}
 
 	// Set property "Location":
 	if setting.Location != nil {
@@ -352,14 +353,14 @@ func (setting *MongodbDatabaseThroughputSetting_Spec) ConvertToARM(resolved genr
 
 	// Set property "Properties":
 	if setting.Resource != nil {
-		result.Properties = &ThroughputSettingsUpdateProperties_ARM{}
+		result.Properties = &arm.ThroughputSettingsUpdateProperties{}
 	}
 	if setting.Resource != nil {
 		resource_ARM, err := (*setting.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		resource := *resource_ARM.(*ThroughputSettingsResource_ARM)
+		resource := *resource_ARM.(*arm.ThroughputSettingsResource)
 		result.Properties.Resource = &resource
 	}
 
@@ -375,14 +376,14 @@ func (setting *MongodbDatabaseThroughputSetting_Spec) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *MongodbDatabaseThroughputSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongodbDatabaseThroughputSetting_Spec_ARM{}
+	return &arm.MongodbDatabaseThroughputSetting_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *MongodbDatabaseThroughputSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongodbDatabaseThroughputSetting_Spec_ARM)
+	typedInput, ok := armInput.(arm.MongodbDatabaseThroughputSetting_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongodbDatabaseThroughputSetting_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MongodbDatabaseThroughputSetting_Spec, got %T", armInput)
 	}
 
 	// Set property "Location":
@@ -654,14 +655,14 @@ var _ genruntime.FromARMConverter = &MongodbDatabaseThroughputSetting_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *MongodbDatabaseThroughputSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongodbDatabaseThroughputSetting_STATUS_ARM{}
+	return &arm.MongodbDatabaseThroughputSetting_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *MongodbDatabaseThroughputSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongodbDatabaseThroughputSetting_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MongodbDatabaseThroughputSetting_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongodbDatabaseThroughputSetting_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MongodbDatabaseThroughputSetting_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

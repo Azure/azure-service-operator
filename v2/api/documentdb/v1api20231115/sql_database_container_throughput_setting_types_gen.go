@@ -5,6 +5,7 @@ package v1api20231115
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -339,7 +340,7 @@ func (setting *SqlDatabaseContainerThroughputSetting_Spec) ConvertToARM(resolved
 	if setting == nil {
 		return nil, nil
 	}
-	result := &SqlDatabaseContainerThroughputSetting_Spec_ARM{}
+	result := &arm.SqlDatabaseContainerThroughputSetting_Spec{}
 
 	// Set property "Location":
 	if setting.Location != nil {
@@ -352,14 +353,14 @@ func (setting *SqlDatabaseContainerThroughputSetting_Spec) ConvertToARM(resolved
 
 	// Set property "Properties":
 	if setting.Resource != nil {
-		result.Properties = &ThroughputSettingsUpdateProperties_ARM{}
+		result.Properties = &arm.ThroughputSettingsUpdateProperties{}
 	}
 	if setting.Resource != nil {
 		resource_ARM, err := (*setting.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		resource := *resource_ARM.(*ThroughputSettingsResource_ARM)
+		resource := *resource_ARM.(*arm.ThroughputSettingsResource)
 		result.Properties.Resource = &resource
 	}
 
@@ -375,14 +376,14 @@ func (setting *SqlDatabaseContainerThroughputSetting_Spec) ConvertToARM(resolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *SqlDatabaseContainerThroughputSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlDatabaseContainerThroughputSetting_Spec_ARM{}
+	return &arm.SqlDatabaseContainerThroughputSetting_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *SqlDatabaseContainerThroughputSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlDatabaseContainerThroughputSetting_Spec_ARM)
+	typedInput, ok := armInput.(arm.SqlDatabaseContainerThroughputSetting_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseContainerThroughputSetting_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlDatabaseContainerThroughputSetting_Spec, got %T", armInput)
 	}
 
 	// Set property "Location":
@@ -654,14 +655,14 @@ var _ genruntime.FromARMConverter = &SqlDatabaseContainerThroughputSetting_STATU
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *SqlDatabaseContainerThroughputSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlDatabaseContainerThroughputSetting_STATUS_ARM{}
+	return &arm.SqlDatabaseContainerThroughputSetting_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *SqlDatabaseContainerThroughputSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlDatabaseContainerThroughputSetting_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SqlDatabaseContainerThroughputSetting_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseContainerThroughputSetting_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SqlDatabaseContainerThroughputSetting_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
