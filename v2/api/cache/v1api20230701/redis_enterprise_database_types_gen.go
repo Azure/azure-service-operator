@@ -5,6 +5,7 @@ package v1api20230701
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -365,7 +366,7 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertToARM(resolved genruntime.C
 	if database == nil {
 		return nil, nil
 	}
-	result := &RedisEnterpriseDatabase_Spec_ARM{}
+	result := &arm.RedisEnterpriseDatabase_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -378,24 +379,24 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertToARM(resolved genruntime.C
 		database.Modules != nil ||
 		database.Persistence != nil ||
 		database.Port != nil {
-		result.Properties = &DatabaseProperties_ARM{}
+		result.Properties = &arm.DatabaseProperties{}
 	}
 	if database.ClientProtocol != nil {
 		var temp string
 		temp = string(*database.ClientProtocol)
-		clientProtocol := DatabaseProperties_ClientProtocol_ARM(temp)
+		clientProtocol := arm.DatabaseProperties_ClientProtocol(temp)
 		result.Properties.ClientProtocol = &clientProtocol
 	}
 	if database.ClusteringPolicy != nil {
 		var temp string
 		temp = string(*database.ClusteringPolicy)
-		clusteringPolicy := DatabaseProperties_ClusteringPolicy_ARM(temp)
+		clusteringPolicy := arm.DatabaseProperties_ClusteringPolicy(temp)
 		result.Properties.ClusteringPolicy = &clusteringPolicy
 	}
 	if database.EvictionPolicy != nil {
 		var temp string
 		temp = string(*database.EvictionPolicy)
-		evictionPolicy := DatabaseProperties_EvictionPolicy_ARM(temp)
+		evictionPolicy := arm.DatabaseProperties_EvictionPolicy(temp)
 		result.Properties.EvictionPolicy = &evictionPolicy
 	}
 	if database.GeoReplication != nil {
@@ -403,7 +404,7 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		geoReplication := *geoReplication_ARM.(*DatabaseProperties_GeoReplication_ARM)
+		geoReplication := *geoReplication_ARM.(*arm.DatabaseProperties_GeoReplication)
 		result.Properties.GeoReplication = &geoReplication
 	}
 	for _, item := range database.Modules {
@@ -411,14 +412,14 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Modules = append(result.Properties.Modules, *item_ARM.(*Module_ARM))
+		result.Properties.Modules = append(result.Properties.Modules, *item_ARM.(*arm.Module))
 	}
 	if database.Persistence != nil {
 		persistence_ARM, err := (*database.Persistence).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		persistence := *persistence_ARM.(*Persistence_ARM)
+		persistence := *persistence_ARM.(*arm.Persistence)
 		result.Properties.Persistence = &persistence
 	}
 	if database.Port != nil {
@@ -430,14 +431,14 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *RedisEnterpriseDatabase_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisEnterpriseDatabase_Spec_ARM{}
+	return &arm.RedisEnterpriseDatabase_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *RedisEnterpriseDatabase_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisEnterpriseDatabase_Spec_ARM)
+	typedInput, ok := armInput.(arm.RedisEnterpriseDatabase_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterpriseDatabase_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RedisEnterpriseDatabase_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -958,14 +959,14 @@ var _ genruntime.FromARMConverter = &RedisEnterpriseDatabase_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *RedisEnterpriseDatabase_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisEnterpriseDatabase_STATUS_ARM{}
+	return &arm.RedisEnterpriseDatabase_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *RedisEnterpriseDatabase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisEnterpriseDatabase_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RedisEnterpriseDatabase_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterpriseDatabase_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RedisEnterpriseDatabase_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientProtocol":
@@ -1439,7 +1440,7 @@ func (replication *DatabaseProperties_GeoReplication) ConvertToARM(resolved genr
 	if replication == nil {
 		return nil, nil
 	}
-	result := &DatabaseProperties_GeoReplication_ARM{}
+	result := &arm.DatabaseProperties_GeoReplication{}
 
 	// Set property "GroupNickname":
 	if replication.GroupNickname != nil {
@@ -1453,21 +1454,21 @@ func (replication *DatabaseProperties_GeoReplication) ConvertToARM(resolved genr
 		if err != nil {
 			return nil, err
 		}
-		result.LinkedDatabases = append(result.LinkedDatabases, *item_ARM.(*LinkedDatabase_ARM))
+		result.LinkedDatabases = append(result.LinkedDatabases, *item_ARM.(*arm.LinkedDatabase))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (replication *DatabaseProperties_GeoReplication) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseProperties_GeoReplication_ARM{}
+	return &arm.DatabaseProperties_GeoReplication{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (replication *DatabaseProperties_GeoReplication) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseProperties_GeoReplication_ARM)
+	typedInput, ok := armInput.(arm.DatabaseProperties_GeoReplication)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseProperties_GeoReplication_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DatabaseProperties_GeoReplication, got %T", armInput)
 	}
 
 	// Set property "GroupNickname":
@@ -1595,14 +1596,14 @@ var _ genruntime.FromARMConverter = &DatabaseProperties_GeoReplication_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (replication *DatabaseProperties_GeoReplication_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseProperties_GeoReplication_STATUS_ARM{}
+	return &arm.DatabaseProperties_GeoReplication_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (replication *DatabaseProperties_GeoReplication_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseProperties_GeoReplication_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DatabaseProperties_GeoReplication_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseProperties_GeoReplication_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DatabaseProperties_GeoReplication_STATUS, got %T", armInput)
 	}
 
 	// Set property "GroupNickname":
@@ -1707,7 +1708,7 @@ func (module *Module) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if module == nil {
 		return nil, nil
 	}
-	result := &Module_ARM{}
+	result := &arm.Module{}
 
 	// Set property "Args":
 	if module.Args != nil {
@@ -1725,14 +1726,14 @@ func (module *Module) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (module *Module) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Module_ARM{}
+	return &arm.Module{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (module *Module) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Module_ARM)
+	typedInput, ok := armInput.(arm.Module)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Module_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Module, got %T", armInput)
 	}
 
 	// Set property "Args":
@@ -1815,14 +1816,14 @@ var _ genruntime.FromARMConverter = &Module_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (module *Module_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Module_STATUS_ARM{}
+	return &arm.Module_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (module *Module_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Module_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Module_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Module_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Module_STATUS, got %T", armInput)
 	}
 
 	// Set property "Args":
@@ -1910,7 +1911,7 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if persistence == nil {
 		return nil, nil
 	}
-	result := &Persistence_ARM{}
+	result := &arm.Persistence{}
 
 	// Set property "AofEnabled":
 	if persistence.AofEnabled != nil {
@@ -1922,7 +1923,7 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if persistence.AofFrequency != nil {
 		var temp string
 		temp = string(*persistence.AofFrequency)
-		aofFrequency := Persistence_AofFrequency_ARM(temp)
+		aofFrequency := arm.Persistence_AofFrequency(temp)
 		result.AofFrequency = &aofFrequency
 	}
 
@@ -1936,7 +1937,7 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if persistence.RdbFrequency != nil {
 		var temp string
 		temp = string(*persistence.RdbFrequency)
-		rdbFrequency := Persistence_RdbFrequency_ARM(temp)
+		rdbFrequency := arm.Persistence_RdbFrequency(temp)
 		result.RdbFrequency = &rdbFrequency
 	}
 	return result, nil
@@ -1944,14 +1945,14 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (persistence *Persistence) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Persistence_ARM{}
+	return &arm.Persistence{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (persistence *Persistence) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Persistence_ARM)
+	typedInput, ok := armInput.(arm.Persistence)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Persistence_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Persistence, got %T", armInput)
 	}
 
 	// Set property "AofEnabled":
@@ -2133,14 +2134,14 @@ var _ genruntime.FromARMConverter = &Persistence_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (persistence *Persistence_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Persistence_STATUS_ARM{}
+	return &arm.Persistence_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (persistence *Persistence_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Persistence_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Persistence_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Persistence_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Persistence_STATUS, got %T", armInput)
 	}
 
 	// Set property "AofEnabled":
@@ -2277,7 +2278,7 @@ func (database *LinkedDatabase) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if database == nil {
 		return nil, nil
 	}
-	result := &LinkedDatabase_ARM{}
+	result := &arm.LinkedDatabase{}
 
 	// Set property "Id":
 	if database.Reference != nil {
@@ -2293,14 +2294,14 @@ func (database *LinkedDatabase) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *LinkedDatabase) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinkedDatabase_ARM{}
+	return &arm.LinkedDatabase{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *LinkedDatabase) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(LinkedDatabase_ARM)
+	_, ok := armInput.(arm.LinkedDatabase)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinkedDatabase_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LinkedDatabase, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -2376,14 +2377,14 @@ var _ genruntime.FromARMConverter = &LinkedDatabase_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *LinkedDatabase_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LinkedDatabase_STATUS_ARM{}
+	return &arm.LinkedDatabase_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *LinkedDatabase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LinkedDatabase_STATUS_ARM)
+	typedInput, ok := armInput.(arm.LinkedDatabase_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinkedDatabase_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LinkedDatabase_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":

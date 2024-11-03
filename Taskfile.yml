@@ -73,6 +73,11 @@ tasks:
     cmds:
       - task: format-code # Run after the deps to avoid racing with generated file creation
 
+  setup:
+    desc: Perform setup tasks
+    cmds:
+      - "mkdir -p {{.TEST_OUT}}"
+
   ci:
     desc: Run all CI checks.
     cmds:
@@ -145,6 +150,7 @@ tasks:
     desc: Run {{.ASOCTL_APP}} unit tests and output coverage.
     dir: '{{.ASOCTL_ROOT}}'
     deps:
+      - setup
       - controller:generate-crds
     cmds:
       - defer: # want to run even on failure
@@ -221,6 +227,8 @@ tasks:
   generator:unit-tests-cover:
     desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
     dir: '{{.GENERATOR_ROOT}}'
+    deps:
+      - setup
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
@@ -317,6 +325,7 @@ tasks:
     desc: Run {{.CONTROLLER_APP}} unit tests and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
     deps:
+    - setup
     - controller:generate-crds
     - controller:bundle-crds # bundle-crds is here because some tests assert on generated CRD shape
     cmds:
@@ -536,7 +545,8 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
+    deps:
+      - setup
       - controller:run-kustomize-for-envtest
     cmds:
       - defer: # want to run even on failure

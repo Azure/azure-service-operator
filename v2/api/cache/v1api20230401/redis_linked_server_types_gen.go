@@ -5,6 +5,7 @@ package v1api20230401
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -416,14 +417,14 @@ var _ genruntime.FromARMConverter = &Redis_LinkedServer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *Redis_LinkedServer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Redis_LinkedServer_STATUS_ARM{}
+	return &arm.Redis_LinkedServer_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *Redis_LinkedServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Redis_LinkedServer_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Redis_LinkedServer_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_LinkedServer_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Redis_LinkedServer_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -631,7 +632,7 @@ func (server *RedisLinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if server == nil {
 		return nil, nil
 	}
-	result := &RedisLinkedServer_Spec_ARM{}
+	result := &arm.RedisLinkedServer_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -640,7 +641,7 @@ func (server *RedisLinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if server.LinkedRedisCacheLocation != nil ||
 		server.LinkedRedisCacheReference != nil ||
 		server.ServerRole != nil {
-		result.Properties = &RedisLinkedServerCreateProperties_ARM{}
+		result.Properties = &arm.RedisLinkedServerCreateProperties{}
 	}
 	if server.LinkedRedisCacheLocation != nil {
 		linkedRedisCacheLocation := *server.LinkedRedisCacheLocation
@@ -657,7 +658,7 @@ func (server *RedisLinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if server.ServerRole != nil {
 		var temp string
 		temp = string(*server.ServerRole)
-		serverRole := RedisLinkedServerCreateProperties_ServerRole_ARM(temp)
+		serverRole := arm.RedisLinkedServerCreateProperties_ServerRole(temp)
 		result.Properties.ServerRole = &serverRole
 	}
 	return result, nil
@@ -665,14 +666,14 @@ func (server *RedisLinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *RedisLinkedServer_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisLinkedServer_Spec_ARM{}
+	return &arm.RedisLinkedServer_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *RedisLinkedServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisLinkedServer_Spec_ARM)
+	typedInput, ok := armInput.(arm.RedisLinkedServer_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisLinkedServer_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RedisLinkedServer_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":

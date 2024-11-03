@@ -27,7 +27,6 @@ const (
 var armPackageDenyList = set.Make(
 	"appconfiguration",
 	"authorization",
-	"cache",
 	"cdn",
 	"containerregistry",
 	"dataprotection",
@@ -43,8 +42,7 @@ var armPackageDenyList = set.Make(
 	"resources",
 	"signalrservice",
 	"sql",
-	"synapse",
-	"web")
+	"synapse")
 
 // CreateARMTypeName creates an ARM object type name
 func CreateARMTypeName(name InternalTypeName) InternalTypeName {

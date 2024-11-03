@@ -87,6 +87,11 @@ typeFilters:
     because: This version of APIM is created in a matter of minutes
 
   - action: include
+    group: insights
+    version: v*20210501preview
+    because: We're using DiagnosticSetting from this.
+
+  - action: include
     group: common
     because: we need these for common resource properties
 
@@ -2475,6 +2480,19 @@ objectModelConfiguration:
       WebTestGeolocation:
         Id:
           $armReference: false
+    2021-05-01-preview:
+      DiagnosticSetting:
+        $export: true
+        $supportedFrom: v2.11.0
+      DiagnosticSettings:
+        MarketplacePartnerId:
+          $armReference: true
+        WorkspaceId:
+          $armReference: true
+        EventHubAuthorizationRuleId:
+          $armReference: true
+        StorageAccountId:
+          $armReference: true
 
   keyvault:
     2021-04-01-preview:
