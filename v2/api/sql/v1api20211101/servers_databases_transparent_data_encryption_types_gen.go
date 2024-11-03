@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -335,19 +336,19 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) ConvertToARM(r
 	if encryption == nil {
 		return nil, nil
 	}
-	result := &ServersDatabasesTransparentDataEncryption_Spec_ARM{}
+	result := &arm.ServersDatabasesTransparentDataEncryption_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if encryption.State != nil {
-		result.Properties = &TransparentDataEncryptionProperties_ARM{}
+		result.Properties = &arm.TransparentDataEncryptionProperties{}
 	}
 	if encryption.State != nil {
 		var temp string
 		temp = string(*encryption.State)
-		state := TransparentDataEncryptionProperties_State_ARM(temp)
+		state := arm.TransparentDataEncryptionProperties_State(temp)
 		result.Properties.State = &state
 	}
 	return result, nil
@@ -355,14 +356,14 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) ConvertToARM(r
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (encryption *ServersDatabasesTransparentDataEncryption_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersDatabasesTransparentDataEncryption_Spec_ARM{}
+	return &arm.ServersDatabasesTransparentDataEncryption_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (encryption *ServersDatabasesTransparentDataEncryption_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersDatabasesTransparentDataEncryption_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersDatabasesTransparentDataEncryption_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesTransparentDataEncryption_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabasesTransparentDataEncryption_Spec, got %T", armInput)
 	}
 
 	// Set property "Owner":
@@ -586,14 +587,14 @@ var _ genruntime.FromARMConverter = &ServersDatabasesTransparentDataEncryption_S
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersDatabasesTransparentDataEncryption_STATUS_ARM{}
+	return &arm.ServersDatabasesTransparentDataEncryption_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersDatabasesTransparentDataEncryption_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersDatabasesTransparentDataEncryption_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesTransparentDataEncryption_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabasesTransparentDataEncryption_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

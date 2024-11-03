@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -338,19 +339,19 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertToARM(
 	if policy == nil {
 		return nil, nil
 	}
-	result := &ServersDatabasesBackupShortTermRetentionPolicy_Spec_ARM{}
+	result := &arm.ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if policy.DiffBackupIntervalInHours != nil || policy.RetentionDays != nil {
-		result.Properties = &BackupShortTermRetentionPolicyProperties_ARM{}
+		result.Properties = &arm.BackupShortTermRetentionPolicyProperties{}
 	}
 	if policy.DiffBackupIntervalInHours != nil {
 		var temp int
 		temp = int(*policy.DiffBackupIntervalInHours)
-		diffBackupIntervalInHours := BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours_ARM(temp)
+		diffBackupIntervalInHours := arm.BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours(temp)
 		result.Properties.DiffBackupIntervalInHours = &diffBackupIntervalInHours
 	}
 	if policy.RetentionDays != nil {
@@ -362,14 +363,14 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertToARM(
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersDatabasesBackupShortTermRetentionPolicy_Spec_ARM{}
+	return &arm.ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersDatabasesBackupShortTermRetentionPolicy_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersDatabasesBackupShortTermRetentionPolicy_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesBackupShortTermRetentionPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabasesBackupShortTermRetentionPolicy_Spec, got %T", armInput)
 	}
 
 	// Set property "DiffBackupIntervalInHours":
@@ -614,14 +615,14 @@ var _ genruntime.FromARMConverter = &ServersDatabasesBackupShortTermRetentionPol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersDatabasesBackupShortTermRetentionPolicy_STATUS_ARM{}
+	return &arm.ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersDatabasesBackupShortTermRetentionPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersDatabasesBackupShortTermRetentionPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesBackupShortTermRetentionPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabasesBackupShortTermRetentionPolicy_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

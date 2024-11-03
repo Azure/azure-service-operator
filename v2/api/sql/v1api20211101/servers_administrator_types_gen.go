@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -367,7 +368,7 @@ func (administrator *ServersAdministrator_Spec) ConvertToARM(resolved genruntime
 	if administrator == nil {
 		return nil, nil
 	}
-	result := &ServersAdministrator_Spec_ARM{}
+	result := &arm.ServersAdministrator_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -379,12 +380,12 @@ func (administrator *ServersAdministrator_Spec) ConvertToARM(resolved genruntime
 		administrator.SidFromConfig != nil ||
 		administrator.TenantId != nil ||
 		administrator.TenantIdFromConfig != nil {
-		result.Properties = &AdministratorProperties_ARM{}
+		result.Properties = &arm.AdministratorProperties{}
 	}
 	if administrator.AdministratorType != nil {
 		var temp string
 		temp = string(*administrator.AdministratorType)
-		administratorType := AdministratorProperties_AdministratorType_ARM(temp)
+		administratorType := arm.AdministratorProperties_AdministratorType(temp)
 		result.Properties.AdministratorType = &administratorType
 	}
 	if administrator.Login != nil {
@@ -420,14 +421,14 @@ func (administrator *ServersAdministrator_Spec) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (administrator *ServersAdministrator_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersAdministrator_Spec_ARM{}
+	return &arm.ServersAdministrator_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (administrator *ServersAdministrator_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersAdministrator_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersAdministrator_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersAdministrator_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAdministrator_Spec, got %T", armInput)
 	}
 
 	// Set property "AdministratorType":
@@ -783,14 +784,14 @@ var _ genruntime.FromARMConverter = &ServersAdministrator_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (administrator *ServersAdministrator_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersAdministrator_STATUS_ARM{}
+	return &arm.ServersAdministrator_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (administrator *ServersAdministrator_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersAdministrator_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersAdministrator_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersAdministrator_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAdministrator_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdministratorType":

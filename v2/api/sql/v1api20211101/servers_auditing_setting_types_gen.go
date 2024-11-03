@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -452,7 +453,7 @@ func (setting *ServersAuditingSetting_Spec) ConvertToARM(resolved genruntime.Con
 	if setting == nil {
 		return nil, nil
 	}
-	result := &ServersAuditingSetting_Spec_ARM{}
+	result := &arm.ServersAuditingSetting_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -469,7 +470,7 @@ func (setting *ServersAuditingSetting_Spec) ConvertToARM(resolved genruntime.Con
 		setting.StorageAccountAccessKey != nil ||
 		setting.StorageAccountSubscriptionId != nil ||
 		setting.StorageEndpoint != nil {
-		result.Properties = &ServerBlobAuditingPolicyProperties_ARM{}
+		result.Properties = &arm.ServerBlobAuditingPolicyProperties{}
 	}
 	for _, item := range setting.AuditActionsAndGroups {
 		result.Properties.AuditActionsAndGroups = append(result.Properties.AuditActionsAndGroups, item)
@@ -501,7 +502,7 @@ func (setting *ServersAuditingSetting_Spec) ConvertToARM(resolved genruntime.Con
 	if setting.State != nil {
 		var temp string
 		temp = string(*setting.State)
-		state := ServerBlobAuditingPolicyProperties_State_ARM(temp)
+		state := arm.ServerBlobAuditingPolicyProperties_State(temp)
 		result.Properties.State = &state
 	}
 	if setting.StorageAccountAccessKey != nil {
@@ -525,14 +526,14 @@ func (setting *ServersAuditingSetting_Spec) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *ServersAuditingSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersAuditingSetting_Spec_ARM{}
+	return &arm.ServersAuditingSetting_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *ServersAuditingSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersAuditingSetting_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersAuditingSetting_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersAuditingSetting_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAuditingSetting_Spec, got %T", armInput)
 	}
 
 	// Set property "AuditActionsAndGroups":
@@ -1115,14 +1116,14 @@ var _ genruntime.FromARMConverter = &ServersAuditingSetting_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *ServersAuditingSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersAuditingSetting_STATUS_ARM{}
+	return &arm.ServersAuditingSetting_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *ServersAuditingSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersAuditingSetting_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersAuditingSetting_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersAuditingSetting_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAuditingSetting_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuditActionsAndGroups":

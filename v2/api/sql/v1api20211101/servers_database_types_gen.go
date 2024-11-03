@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -483,7 +484,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if database == nil {
 		return nil, nil
 	}
-	result := &ServersDatabase_Spec_ARM{}
+	result := &arm.ServersDatabase_Spec{}
 
 	// Set property "Identity":
 	if database.Identity != nil {
@@ -491,7 +492,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*DatabaseIdentity_ARM)
+		identity := *identity_ARM.(*arm.DatabaseIdentity)
 		result.Identity = &identity
 	}
 
@@ -530,7 +531,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		database.SourceDatabaseReference != nil ||
 		database.SourceResourceReference != nil ||
 		database.ZoneRedundant != nil {
-		result.Properties = &DatabaseProperties_ARM{}
+		result.Properties = &arm.DatabaseProperties{}
 	}
 	if database.AutoPauseDelay != nil {
 		autoPauseDelay := *database.AutoPauseDelay
@@ -539,7 +540,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if database.CatalogCollation != nil {
 		var temp string
 		temp = string(*database.CatalogCollation)
-		catalogCollation := DatabaseProperties_CatalogCollation_ARM(temp)
+		catalogCollation := arm.DatabaseProperties_CatalogCollation(temp)
 		result.Properties.CatalogCollation = &catalogCollation
 	}
 	if database.Collation != nil {
@@ -549,7 +550,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if database.CreateMode != nil {
 		var temp string
 		temp = string(*database.CreateMode)
-		createMode := DatabaseProperties_CreateMode_ARM(temp)
+		createMode := arm.DatabaseProperties_CreateMode(temp)
 		result.Properties.CreateMode = &createMode
 	}
 	if database.ElasticPoolReference != nil {
@@ -575,7 +576,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if database.LicenseType != nil {
 		var temp string
 		temp = string(*database.LicenseType)
-		licenseType := DatabaseProperties_LicenseType_ARM(temp)
+		licenseType := arm.DatabaseProperties_LicenseType(temp)
 		result.Properties.LicenseType = &licenseType
 	}
 	if database.LongTermRetentionBackupResourceReference != nil {
@@ -601,7 +602,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if database.ReadScale != nil {
 		var temp string
 		temp = string(*database.ReadScale)
-		readScale := DatabaseProperties_ReadScale_ARM(temp)
+		readScale := arm.DatabaseProperties_ReadScale(temp)
 		result.Properties.ReadScale = &readScale
 	}
 	if database.RecoverableDatabaseReference != nil {
@@ -623,7 +624,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if database.RequestedBackupStorageRedundancy != nil {
 		var temp string
 		temp = string(*database.RequestedBackupStorageRedundancy)
-		requestedBackupStorageRedundancy := DatabaseProperties_RequestedBackupStorageRedundancy_ARM(temp)
+		requestedBackupStorageRedundancy := arm.DatabaseProperties_RequestedBackupStorageRedundancy(temp)
 		result.Properties.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancy
 	}
 	if database.RestorableDroppedDatabaseReference != nil {
@@ -641,13 +642,13 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if database.SampleName != nil {
 		var temp string
 		temp = string(*database.SampleName)
-		sampleName := DatabaseProperties_SampleName_ARM(temp)
+		sampleName := arm.DatabaseProperties_SampleName(temp)
 		result.Properties.SampleName = &sampleName
 	}
 	if database.SecondaryType != nil {
 		var temp string
 		temp = string(*database.SecondaryType)
-		secondaryType := DatabaseProperties_SecondaryType_ARM(temp)
+		secondaryType := arm.DatabaseProperties_SecondaryType(temp)
 		result.Properties.SecondaryType = &secondaryType
 	}
 	if database.SourceDatabaseDeletionDate != nil {
@@ -681,7 +682,7 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*Sku_ARM)
+		sku := *sku_ARM.(*arm.Sku)
 		result.Sku = &sku
 	}
 
@@ -697,14 +698,14 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *ServersDatabase_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersDatabase_Spec_ARM{}
+	return &arm.ServersDatabase_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *ServersDatabase_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersDatabase_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersDatabase_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabase_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabase_Spec, got %T", armInput)
 	}
 
 	// Set property "AutoPauseDelay":
@@ -1907,14 +1908,14 @@ var _ genruntime.FromARMConverter = &ServersDatabase_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (database *ServersDatabase_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersDatabase_STATUS_ARM{}
+	return &arm.ServersDatabase_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (database *ServersDatabase_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersDatabase_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersDatabase_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabase_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabase_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutoPauseDelay":
@@ -2889,39 +2890,39 @@ func (identity *DatabaseIdentity) ConvertToARM(resolved genruntime.ConvertToARMR
 	if identity == nil {
 		return nil, nil
 	}
-	result := &DatabaseIdentity_ARM{}
+	result := &arm.DatabaseIdentity{}
 
 	// Set property "Type":
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := DatabaseIdentity_Type_ARM(temp)
+		typeVar := arm.DatabaseIdentity_Type(temp)
 		result.Type = &typeVar
 	}
 
 	// Set property "UserAssignedIdentities":
-	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
+	result.UserAssignedIdentities = make(map[string]arm.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
 		if err != nil {
 			return nil, err
 		}
 		key := identARMID
-		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
+		result.UserAssignedIdentities[key] = arm.UserAssignedIdentityDetails{}
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *DatabaseIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseIdentity_ARM{}
+	return &arm.DatabaseIdentity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *DatabaseIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseIdentity_ARM)
+	typedInput, ok := armInput.(arm.DatabaseIdentity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseIdentity_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DatabaseIdentity, got %T", armInput)
 	}
 
 	// Set property "Type":
@@ -3057,14 +3058,14 @@ var _ genruntime.FromARMConverter = &DatabaseIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *DatabaseIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseIdentity_STATUS_ARM{}
+	return &arm.DatabaseIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *DatabaseIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DatabaseIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DatabaseIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "TenantId":
@@ -3513,7 +3514,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &Sku_ARM{}
+	result := &arm.Sku{}
 
 	// Set property "Capacity":
 	if sku.Capacity != nil {
@@ -3549,14 +3550,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_ARM{}
+	return &arm.Sku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_ARM)
+	typedInput, ok := armInput.(arm.Sku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -3690,14 +3691,14 @@ var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUS_ARM{}
+	return &arm.Sku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Sku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -3827,14 +3828,14 @@ var _ genruntime.FromARMConverter = &DatabaseUserIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identity *DatabaseUserIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseUserIdentity_STATUS_ARM{}
+	return &arm.DatabaseUserIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identity *DatabaseUserIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseUserIdentity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DatabaseUserIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseUserIdentity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DatabaseUserIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClientId":

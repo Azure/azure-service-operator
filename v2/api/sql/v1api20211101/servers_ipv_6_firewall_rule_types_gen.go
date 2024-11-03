@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -350,14 +351,14 @@ func (rule *ServersIPV6FirewallRule_Spec) ConvertToARM(resolved genruntime.Conve
 	if rule == nil {
 		return nil, nil
 	}
-	result := &ServersIPV6FirewallRule_Spec_ARM{}
+	result := &arm.ServersIPV6FirewallRule_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if rule.EndIPv6Address != nil || rule.StartIPv6Address != nil {
-		result.Properties = &IPv6ServerFirewallRuleProperties_ARM{}
+		result.Properties = &arm.IPv6ServerFirewallRuleProperties{}
 	}
 	if rule.EndIPv6Address != nil {
 		endIPv6Address := *rule.EndIPv6Address
@@ -372,14 +373,14 @@ func (rule *ServersIPV6FirewallRule_Spec) ConvertToARM(resolved genruntime.Conve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ServersIPV6FirewallRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersIPV6FirewallRule_Spec_ARM{}
+	return &arm.ServersIPV6FirewallRule_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ServersIPV6FirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersIPV6FirewallRule_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersIPV6FirewallRule_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersIPV6FirewallRule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersIPV6FirewallRule_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -619,14 +620,14 @@ var _ genruntime.FromARMConverter = &ServersIPV6FirewallRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ServersIPV6FirewallRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersIPV6FirewallRule_STATUS_ARM{}
+	return &arm.ServersIPV6FirewallRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ServersIPV6FirewallRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersIPV6FirewallRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersIPV6FirewallRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersIPV6FirewallRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersIPV6FirewallRule_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
