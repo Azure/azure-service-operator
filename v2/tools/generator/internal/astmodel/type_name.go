@@ -40,7 +40,6 @@ var armPackageDenyList = set.Make(
 	"resources",
 	"signalrservice",
 	"sql",
-	"storage",
 	"synapse")
 
 // CreateARMTypeName creates an ARM object type name

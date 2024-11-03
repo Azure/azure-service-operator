@@ -5,6 +5,7 @@ package v1api20230101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -342,7 +343,7 @@ func (service *StorageAccountsFileService_Spec) ConvertToARM(resolved genruntime
 	if service == nil {
 		return nil, nil
 	}
-	result := &StorageAccountsFileService_Spec_ARM{}
+	result := &arm.StorageAccountsFileService_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -351,14 +352,14 @@ func (service *StorageAccountsFileService_Spec) ConvertToARM(resolved genruntime
 	if service.Cors != nil ||
 		service.ProtocolSettings != nil ||
 		service.ShareDeleteRetentionPolicy != nil {
-		result.Properties = &StorageAccounts_FileService_Properties_Spec_ARM{}
+		result.Properties = &arm.StorageAccounts_FileService_Properties_Spec{}
 	}
 	if service.Cors != nil {
 		cors_ARM, err := (*service.Cors).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		cors := *cors_ARM.(*CorsRules_ARM)
+		cors := *cors_ARM.(*arm.CorsRules)
 		result.Properties.Cors = &cors
 	}
 	if service.ProtocolSettings != nil {
@@ -366,7 +367,7 @@ func (service *StorageAccountsFileService_Spec) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		protocolSettings := *protocolSettings_ARM.(*ProtocolSettings_ARM)
+		protocolSettings := *protocolSettings_ARM.(*arm.ProtocolSettings)
 		result.Properties.ProtocolSettings = &protocolSettings
 	}
 	if service.ShareDeleteRetentionPolicy != nil {
@@ -374,7 +375,7 @@ func (service *StorageAccountsFileService_Spec) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		shareDeleteRetentionPolicy := *shareDeleteRetentionPolicy_ARM.(*DeleteRetentionPolicy_ARM)
+		shareDeleteRetentionPolicy := *shareDeleteRetentionPolicy_ARM.(*arm.DeleteRetentionPolicy)
 		result.Properties.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
 	}
 	return result, nil
@@ -382,14 +383,14 @@ func (service *StorageAccountsFileService_Spec) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (service *StorageAccountsFileService_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsFileService_Spec_ARM{}
+	return &arm.StorageAccountsFileService_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (service *StorageAccountsFileService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsFileService_Spec_ARM)
+	typedInput, ok := armInput.(arm.StorageAccountsFileService_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsFileService_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageAccountsFileService_Spec, got %T", armInput)
 	}
 
 	// Set property "Cors":
@@ -739,14 +740,14 @@ var _ genruntime.FromARMConverter = &StorageAccountsFileService_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (service *StorageAccountsFileService_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsFileService_STATUS_ARM{}
+	return &arm.StorageAccountsFileService_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (service *StorageAccountsFileService_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsFileService_STATUS_ARM)
+	typedInput, ok := armInput.(arm.StorageAccountsFileService_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsFileService_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageAccountsFileService_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -982,7 +983,7 @@ func (settings *ProtocolSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	if settings == nil {
 		return nil, nil
 	}
-	result := &ProtocolSettings_ARM{}
+	result := &arm.ProtocolSettings{}
 
 	// Set property "Smb":
 	if settings.Smb != nil {
@@ -990,7 +991,7 @@ func (settings *ProtocolSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		smb := *smb_ARM.(*SmbSetting_ARM)
+		smb := *smb_ARM.(*arm.SmbSetting)
 		result.Smb = &smb
 	}
 	return result, nil
@@ -998,14 +999,14 @@ func (settings *ProtocolSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ProtocolSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProtocolSettings_ARM{}
+	return &arm.ProtocolSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ProtocolSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProtocolSettings_ARM)
+	typedInput, ok := armInput.(arm.ProtocolSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProtocolSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ProtocolSettings, got %T", armInput)
 	}
 
 	// Set property "Smb":
@@ -1099,14 +1100,14 @@ var _ genruntime.FromARMConverter = &ProtocolSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ProtocolSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProtocolSettings_STATUS_ARM{}
+	return &arm.ProtocolSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ProtocolSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProtocolSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ProtocolSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProtocolSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ProtocolSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "Smb":
@@ -1200,7 +1201,7 @@ func (setting *SmbSetting) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if setting == nil {
 		return nil, nil
 	}
-	result := &SmbSetting_ARM{}
+	result := &arm.SmbSetting{}
 
 	// Set property "AuthenticationMethods":
 	if setting.AuthenticationMethods != nil {
@@ -1226,7 +1227,7 @@ func (setting *SmbSetting) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		multichannel := *multichannel_ARM.(*Multichannel_ARM)
+		multichannel := *multichannel_ARM.(*arm.Multichannel)
 		result.Multichannel = &multichannel
 	}
 
@@ -1240,14 +1241,14 @@ func (setting *SmbSetting) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *SmbSetting) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SmbSetting_ARM{}
+	return &arm.SmbSetting{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *SmbSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SmbSetting_ARM)
+	typedInput, ok := armInput.(arm.SmbSetting)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SmbSetting_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SmbSetting, got %T", armInput)
 	}
 
 	// Set property "AuthenticationMethods":
@@ -1417,14 +1418,14 @@ var _ genruntime.FromARMConverter = &SmbSetting_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *SmbSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SmbSetting_STATUS_ARM{}
+	return &arm.SmbSetting_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *SmbSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SmbSetting_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SmbSetting_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SmbSetting_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SmbSetting_STATUS, got %T", armInput)
 	}
 
 	// Set property "AuthenticationMethods":
@@ -1550,7 +1551,7 @@ func (multichannel *Multichannel) ConvertToARM(resolved genruntime.ConvertToARMR
 	if multichannel == nil {
 		return nil, nil
 	}
-	result := &Multichannel_ARM{}
+	result := &arm.Multichannel{}
 
 	// Set property "Enabled":
 	if multichannel.Enabled != nil {
@@ -1562,14 +1563,14 @@ func (multichannel *Multichannel) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (multichannel *Multichannel) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Multichannel_ARM{}
+	return &arm.Multichannel{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (multichannel *Multichannel) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Multichannel_ARM)
+	typedInput, ok := armInput.(arm.Multichannel)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Multichannel_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Multichannel, got %T", armInput)
 	}
 
 	// Set property "Enabled":
@@ -1646,14 +1647,14 @@ var _ genruntime.FromARMConverter = &Multichannel_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (multichannel *Multichannel_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Multichannel_STATUS_ARM{}
+	return &arm.Multichannel_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (multichannel *Multichannel_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Multichannel_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Multichannel_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Multichannel_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Multichannel_STATUS, got %T", armInput)
 	}
 
 	// Set property "Enabled":

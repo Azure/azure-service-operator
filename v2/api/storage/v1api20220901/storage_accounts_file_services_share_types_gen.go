@@ -5,6 +5,7 @@ package v1api20220901
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -371,7 +372,7 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertToARM(resolved genrun
 	if share == nil {
 		return nil, nil
 	}
-	result := &StorageAccountsFileServicesShare_Spec_ARM{}
+	result := &arm.StorageAccountsFileServicesShare_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -383,18 +384,18 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertToARM(resolved genrun
 		share.RootSquash != nil ||
 		share.ShareQuota != nil ||
 		share.SignedIdentifiers != nil {
-		result.Properties = &FileShareProperties_ARM{}
+		result.Properties = &arm.FileShareProperties{}
 	}
 	if share.AccessTier != nil {
 		var temp string
 		temp = string(*share.AccessTier)
-		accessTier := FileShareProperties_AccessTier_ARM(temp)
+		accessTier := arm.FileShareProperties_AccessTier(temp)
 		result.Properties.AccessTier = &accessTier
 	}
 	if share.EnabledProtocols != nil {
 		var temp string
 		temp = string(*share.EnabledProtocols)
-		enabledProtocols := FileShareProperties_EnabledProtocols_ARM(temp)
+		enabledProtocols := arm.FileShareProperties_EnabledProtocols(temp)
 		result.Properties.EnabledProtocols = &enabledProtocols
 	}
 	if share.Metadata != nil {
@@ -406,7 +407,7 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertToARM(resolved genrun
 	if share.RootSquash != nil {
 		var temp string
 		temp = string(*share.RootSquash)
-		rootSquash := FileShareProperties_RootSquash_ARM(temp)
+		rootSquash := arm.FileShareProperties_RootSquash(temp)
 		result.Properties.RootSquash = &rootSquash
 	}
 	if share.ShareQuota != nil {
@@ -418,21 +419,21 @@ func (share *StorageAccountsFileServicesShare_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SignedIdentifiers = append(result.Properties.SignedIdentifiers, *item_ARM.(*SignedIdentifier_ARM))
+		result.Properties.SignedIdentifiers = append(result.Properties.SignedIdentifiers, *item_ARM.(*arm.SignedIdentifier))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (share *StorageAccountsFileServicesShare_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsFileServicesShare_Spec_ARM{}
+	return &arm.StorageAccountsFileServicesShare_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (share *StorageAccountsFileServicesShare_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsFileServicesShare_Spec_ARM)
+	typedInput, ok := armInput.(arm.StorageAccountsFileServicesShare_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsFileServicesShare_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageAccountsFileServicesShare_Spec, got %T", armInput)
 	}
 
 	// Set property "AccessTier":
@@ -861,14 +862,14 @@ var _ genruntime.FromARMConverter = &StorageAccountsFileServicesShare_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (share *StorageAccountsFileServicesShare_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsFileServicesShare_STATUS_ARM{}
+	return &arm.StorageAccountsFileServicesShare_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (share *StorageAccountsFileServicesShare_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsFileServicesShare_STATUS_ARM)
+	typedInput, ok := armInput.(arm.StorageAccountsFileServicesShare_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsFileServicesShare_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageAccountsFileServicesShare_STATUS, got %T", armInput)
 	}
 
 	// Set property "AccessTier":
@@ -1501,7 +1502,7 @@ func (identifier *SignedIdentifier) ConvertToARM(resolved genruntime.ConvertToAR
 	if identifier == nil {
 		return nil, nil
 	}
-	result := &SignedIdentifier_ARM{}
+	result := &arm.SignedIdentifier{}
 
 	// Set property "AccessPolicy":
 	if identifier.AccessPolicy != nil {
@@ -1509,7 +1510,7 @@ func (identifier *SignedIdentifier) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		accessPolicy := *accessPolicy_ARM.(*AccessPolicy_ARM)
+		accessPolicy := *accessPolicy_ARM.(*arm.AccessPolicy)
 		result.AccessPolicy = &accessPolicy
 	}
 
@@ -1527,14 +1528,14 @@ func (identifier *SignedIdentifier) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identifier *SignedIdentifier) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SignedIdentifier_ARM{}
+	return &arm.SignedIdentifier{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identifier *SignedIdentifier) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SignedIdentifier_ARM)
+	typedInput, ok := armInput.(arm.SignedIdentifier)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SignedIdentifier_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SignedIdentifier, got %T", armInput)
 	}
 
 	// Set property "AccessPolicy":
@@ -1629,14 +1630,14 @@ var _ genruntime.FromARMConverter = &SignedIdentifier_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identifier *SignedIdentifier_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SignedIdentifier_STATUS_ARM{}
+	return &arm.SignedIdentifier_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identifier *SignedIdentifier_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SignedIdentifier_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SignedIdentifier_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SignedIdentifier_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SignedIdentifier_STATUS, got %T", armInput)
 	}
 
 	// Set property "AccessPolicy":
@@ -1731,7 +1732,7 @@ func (policy *AccessPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if policy == nil {
 		return nil, nil
 	}
-	result := &AccessPolicy_ARM{}
+	result := &arm.AccessPolicy{}
 
 	// Set property "ExpiryTime":
 	if policy.ExpiryTime != nil {
@@ -1755,14 +1756,14 @@ func (policy *AccessPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *AccessPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AccessPolicy_ARM{}
+	return &arm.AccessPolicy{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *AccessPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AccessPolicy_ARM)
+	typedInput, ok := armInput.(arm.AccessPolicy)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccessPolicy_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AccessPolicy, got %T", armInput)
 	}
 
 	// Set property "ExpiryTime":
@@ -1843,14 +1844,14 @@ var _ genruntime.FromARMConverter = &AccessPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *AccessPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AccessPolicy_STATUS_ARM{}
+	return &arm.AccessPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *AccessPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AccessPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AccessPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccessPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AccessPolicy_STATUS, got %T", armInput)
 	}
 
 	// Set property "ExpiryTime":

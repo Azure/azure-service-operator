@@ -5,6 +5,7 @@ package v1api20230101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -349,35 +350,35 @@ func (table *StorageAccountsTableServicesTable_Spec) ConvertToARM(resolved genru
 	if table == nil {
 		return nil, nil
 	}
-	result := &StorageAccountsTableServicesTable_Spec_ARM{}
+	result := &arm.StorageAccountsTableServicesTable_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if table.SignedIdentifiers != nil {
-		result.Properties = &TableProperties_ARM{}
+		result.Properties = &arm.TableProperties{}
 	}
 	for _, item := range table.SignedIdentifiers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SignedIdentifiers = append(result.Properties.SignedIdentifiers, *item_ARM.(*TableSignedIdentifier_ARM))
+		result.Properties.SignedIdentifiers = append(result.Properties.SignedIdentifiers, *item_ARM.(*arm.TableSignedIdentifier))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (table *StorageAccountsTableServicesTable_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsTableServicesTable_Spec_ARM{}
+	return &arm.StorageAccountsTableServicesTable_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (table *StorageAccountsTableServicesTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsTableServicesTable_Spec_ARM)
+	typedInput, ok := armInput.(arm.StorageAccountsTableServicesTable_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsTableServicesTable_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageAccountsTableServicesTable_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -650,14 +651,14 @@ var _ genruntime.FromARMConverter = &StorageAccountsTableServicesTable_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (table *StorageAccountsTableServicesTable_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsTableServicesTable_STATUS_ARM{}
+	return &arm.StorageAccountsTableServicesTable_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (table *StorageAccountsTableServicesTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsTableServicesTable_STATUS_ARM)
+	typedInput, ok := armInput.(arm.StorageAccountsTableServicesTable_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsTableServicesTable_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageAccountsTableServicesTable_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -812,7 +813,7 @@ func (identifier *TableSignedIdentifier) ConvertToARM(resolved genruntime.Conver
 	if identifier == nil {
 		return nil, nil
 	}
-	result := &TableSignedIdentifier_ARM{}
+	result := &arm.TableSignedIdentifier{}
 
 	// Set property "AccessPolicy":
 	if identifier.AccessPolicy != nil {
@@ -820,7 +821,7 @@ func (identifier *TableSignedIdentifier) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		accessPolicy := *accessPolicy_ARM.(*TableAccessPolicy_ARM)
+		accessPolicy := *accessPolicy_ARM.(*arm.TableAccessPolicy)
 		result.AccessPolicy = &accessPolicy
 	}
 
@@ -838,14 +839,14 @@ func (identifier *TableSignedIdentifier) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identifier *TableSignedIdentifier) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TableSignedIdentifier_ARM{}
+	return &arm.TableSignedIdentifier{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identifier *TableSignedIdentifier) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TableSignedIdentifier_ARM)
+	typedInput, ok := armInput.(arm.TableSignedIdentifier)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableSignedIdentifier_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TableSignedIdentifier, got %T", armInput)
 	}
 
 	// Set property "AccessPolicy":
@@ -968,14 +969,14 @@ var _ genruntime.FromARMConverter = &TableSignedIdentifier_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (identifier *TableSignedIdentifier_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TableSignedIdentifier_STATUS_ARM{}
+	return &arm.TableSignedIdentifier_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (identifier *TableSignedIdentifier_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TableSignedIdentifier_STATUS_ARM)
+	typedInput, ok := armInput.(arm.TableSignedIdentifier_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableSignedIdentifier_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TableSignedIdentifier_STATUS, got %T", armInput)
 	}
 
 	// Set property "AccessPolicy":
@@ -1072,7 +1073,7 @@ func (policy *TableAccessPolicy) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if policy == nil {
 		return nil, nil
 	}
-	result := &TableAccessPolicy_ARM{}
+	result := &arm.TableAccessPolicy{}
 
 	// Set property "ExpiryTime":
 	if policy.ExpiryTime != nil {
@@ -1096,14 +1097,14 @@ func (policy *TableAccessPolicy) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *TableAccessPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TableAccessPolicy_ARM{}
+	return &arm.TableAccessPolicy{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *TableAccessPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TableAccessPolicy_ARM)
+	typedInput, ok := armInput.(arm.TableAccessPolicy)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableAccessPolicy_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TableAccessPolicy, got %T", armInput)
 	}
 
 	// Set property "ExpiryTime":
@@ -1201,14 +1202,14 @@ var _ genruntime.FromARMConverter = &TableAccessPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *TableAccessPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TableAccessPolicy_STATUS_ARM{}
+	return &arm.TableAccessPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *TableAccessPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TableAccessPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.TableAccessPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableAccessPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TableAccessPolicy_STATUS, got %T", armInput)
 	}
 
 	// Set property "ExpiryTime":
