@@ -5,6 +5,7 @@ package v1api20180601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -353,14 +354,14 @@ func (configuration *Configuration_Spec) ConvertToARM(resolved genruntime.Conver
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &Configuration_Spec_ARM{}
+	result := &arm.Configuration_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if configuration.Source != nil || configuration.Value != nil {
-		result.Properties = &ConfigurationProperties_ARM{}
+		result.Properties = &arm.ConfigurationProperties{}
 	}
 	if configuration.Source != nil {
 		source := *configuration.Source
@@ -375,14 +376,14 @@ func (configuration *Configuration_Spec) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *Configuration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Configuration_Spec_ARM{}
+	return &arm.Configuration_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *Configuration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Configuration_Spec_ARM)
+	typedInput, ok := armInput.(arm.Configuration_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Configuration_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Configuration_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -636,14 +637,14 @@ var _ genruntime.FromARMConverter = &Configuration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *Configuration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Configuration_STATUS_ARM{}
+	return &arm.Configuration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *Configuration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Configuration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Configuration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Configuration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Configuration_STATUS, got %T", armInput)
 	}
 
 	// Set property "AllowedValues":
