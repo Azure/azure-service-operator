@@ -172,6 +172,33 @@ env:
         name: identity-details
 ```
 
+You can allow the other environment variables, volumes, and volume mounts to be injected automatically by the 
+[Azure Workload Identity webhook](https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html),
+or you can avoid running the Azure Workload Identity webhook entirely, but doing so requires that you manually 
+include the `azure-identity` volume and volumeMount, as well as set the `AZURE_TENANT_ID` variable 
+alongside `AZURE_CLIENT_ID` in every pod that needs workload identity.
+
+Sample VolumeMount:
+```yaml
+volumeMounts:
+  - mountPath: /var/run/secrets/azure/tokens/azure-identity-token
+    name: azure-identity-token
+    readOnly: true
+```
+
+Sample Volume:
+```yaml
+volumes:
+- name: azure-identity-token
+  projected:
+    defaultMode: 420
+    sources:
+      - serviceAccountToken:
+          audience: api://AzureADTokenExchange
+          expirationSeconds: 3600
+          path: azure-identity
+```
+
 ### How can I feed the output of one resource into a parameter for the next?
 
 The answer changes a bit depending on the nature of the parameter.
