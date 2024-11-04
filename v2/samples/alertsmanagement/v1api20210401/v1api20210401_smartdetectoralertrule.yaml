@@ -12,7 +12,9 @@ spec:
   frequency: PT1M
   detector:
     Reference:
-      Name: FailureAnomaliesDetector
+      group: alertsmanagement.azure.com
+      kind: SmartDetectorAlertRule
+      name: FailureAnomaliesDetector
   actionGroups:
     GroupReferences:
       - group: insights.azure.com
