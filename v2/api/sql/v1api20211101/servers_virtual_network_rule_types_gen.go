@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -350,14 +351,14 @@ func (rule *ServersVirtualNetworkRule_Spec) ConvertToARM(resolved genruntime.Con
 	if rule == nil {
 		return nil, nil
 	}
-	result := &ServersVirtualNetworkRule_Spec_ARM{}
+	result := &arm.ServersVirtualNetworkRule_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if rule.IgnoreMissingVnetServiceEndpoint != nil || rule.VirtualNetworkSubnetReference != nil {
-		result.Properties = &VirtualNetworkRuleProperties_ARM{}
+		result.Properties = &arm.VirtualNetworkRuleProperties{}
 	}
 	if rule.IgnoreMissingVnetServiceEndpoint != nil {
 		ignoreMissingVnetServiceEndpoint := *rule.IgnoreMissingVnetServiceEndpoint
@@ -376,14 +377,14 @@ func (rule *ServersVirtualNetworkRule_Spec) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ServersVirtualNetworkRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersVirtualNetworkRule_Spec_ARM{}
+	return &arm.ServersVirtualNetworkRule_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ServersVirtualNetworkRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersVirtualNetworkRule_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersVirtualNetworkRule_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersVirtualNetworkRule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersVirtualNetworkRule_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -650,14 +651,14 @@ var _ genruntime.FromARMConverter = &ServersVirtualNetworkRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ServersVirtualNetworkRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersVirtualNetworkRule_STATUS_ARM{}
+	return &arm.ServersVirtualNetworkRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ServersVirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersVirtualNetworkRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersVirtualNetworkRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersVirtualNetworkRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersVirtualNetworkRule_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -336,19 +337,19 @@ func (setting *ServersAdvancedThreatProtectionSetting_Spec) ConvertToARM(resolve
 	if setting == nil {
 		return nil, nil
 	}
-	result := &ServersAdvancedThreatProtectionSetting_Spec_ARM{}
+	result := &arm.ServersAdvancedThreatProtectionSetting_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if setting.State != nil {
-		result.Properties = &AdvancedThreatProtectionProperties_ARM{}
+		result.Properties = &arm.AdvancedThreatProtectionProperties{}
 	}
 	if setting.State != nil {
 		var temp string
 		temp = string(*setting.State)
-		state := AdvancedThreatProtectionProperties_State_ARM(temp)
+		state := arm.AdvancedThreatProtectionProperties_State(temp)
 		result.Properties.State = &state
 	}
 	return result, nil
@@ -356,14 +357,14 @@ func (setting *ServersAdvancedThreatProtectionSetting_Spec) ConvertToARM(resolve
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *ServersAdvancedThreatProtectionSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersAdvancedThreatProtectionSetting_Spec_ARM{}
+	return &arm.ServersAdvancedThreatProtectionSetting_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *ServersAdvancedThreatProtectionSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersAdvancedThreatProtectionSetting_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersAdvancedThreatProtectionSetting_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersAdvancedThreatProtectionSetting_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAdvancedThreatProtectionSetting_Spec, got %T", armInput)
 	}
 
 	// Set property "Owner":
@@ -594,14 +595,14 @@ var _ genruntime.FromARMConverter = &ServersAdvancedThreatProtectionSetting_STAT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *ServersAdvancedThreatProtectionSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersAdvancedThreatProtectionSetting_STATUS_ARM{}
+	return &arm.ServersAdvancedThreatProtectionSetting_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *ServersAdvancedThreatProtectionSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersAdvancedThreatProtectionSetting_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersAdvancedThreatProtectionSetting_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersAdvancedThreatProtectionSetting_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAdvancedThreatProtectionSetting_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -809,14 +810,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":

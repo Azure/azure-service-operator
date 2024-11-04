@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -360,7 +361,7 @@ func (group *ServersFailoverGroup_Spec) ConvertToARM(resolved genruntime.Convert
 	if group == nil {
 		return nil, nil
 	}
-	result := &ServersFailoverGroup_Spec_ARM{}
+	result := &arm.ServersFailoverGroup_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -370,7 +371,7 @@ func (group *ServersFailoverGroup_Spec) ConvertToARM(resolved genruntime.Convert
 		group.PartnerServers != nil ||
 		group.ReadOnlyEndpoint != nil ||
 		group.ReadWriteEndpoint != nil {
-		result.Properties = &FailoverGroupProperties_ARM{}
+		result.Properties = &arm.FailoverGroupProperties{}
 	}
 	for _, item := range group.DatabasesReferences {
 		itemARMID, err := resolved.ResolvedReferences.Lookup(item)
@@ -384,14 +385,14 @@ func (group *ServersFailoverGroup_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PartnerServers = append(result.Properties.PartnerServers, *item_ARM.(*PartnerInfo_ARM))
+		result.Properties.PartnerServers = append(result.Properties.PartnerServers, *item_ARM.(*arm.PartnerInfo))
 	}
 	if group.ReadOnlyEndpoint != nil {
 		readOnlyEndpoint_ARM, err := (*group.ReadOnlyEndpoint).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		readOnlyEndpoint := *readOnlyEndpoint_ARM.(*FailoverGroupReadOnlyEndpoint_ARM)
+		readOnlyEndpoint := *readOnlyEndpoint_ARM.(*arm.FailoverGroupReadOnlyEndpoint)
 		result.Properties.ReadOnlyEndpoint = &readOnlyEndpoint
 	}
 	if group.ReadWriteEndpoint != nil {
@@ -399,7 +400,7 @@ func (group *ServersFailoverGroup_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		readWriteEndpoint := *readWriteEndpoint_ARM.(*FailoverGroupReadWriteEndpoint_ARM)
+		readWriteEndpoint := *readWriteEndpoint_ARM.(*arm.FailoverGroupReadWriteEndpoint)
 		result.Properties.ReadWriteEndpoint = &readWriteEndpoint
 	}
 
@@ -415,14 +416,14 @@ func (group *ServersFailoverGroup_Spec) ConvertToARM(resolved genruntime.Convert
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ServersFailoverGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersFailoverGroup_Spec_ARM{}
+	return &arm.ServersFailoverGroup_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ServersFailoverGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersFailoverGroup_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersFailoverGroup_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersFailoverGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersFailoverGroup_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -855,14 +856,14 @@ var _ genruntime.FromARMConverter = &ServersFailoverGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ServersFailoverGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersFailoverGroup_STATUS_ARM{}
+	return &arm.ServersFailoverGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ServersFailoverGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersFailoverGroup_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersFailoverGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersFailoverGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersFailoverGroup_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1170,13 +1171,13 @@ func (endpoint *FailoverGroupReadOnlyEndpoint) ConvertToARM(resolved genruntime.
 	if endpoint == nil {
 		return nil, nil
 	}
-	result := &FailoverGroupReadOnlyEndpoint_ARM{}
+	result := &arm.FailoverGroupReadOnlyEndpoint{}
 
 	// Set property "FailoverPolicy":
 	if endpoint.FailoverPolicy != nil {
 		var temp string
 		temp = string(*endpoint.FailoverPolicy)
-		failoverPolicy := FailoverGroupReadOnlyEndpoint_FailoverPolicy_ARM(temp)
+		failoverPolicy := arm.FailoverGroupReadOnlyEndpoint_FailoverPolicy(temp)
 		result.FailoverPolicy = &failoverPolicy
 	}
 	return result, nil
@@ -1184,14 +1185,14 @@ func (endpoint *FailoverGroupReadOnlyEndpoint) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *FailoverGroupReadOnlyEndpoint) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FailoverGroupReadOnlyEndpoint_ARM{}
+	return &arm.FailoverGroupReadOnlyEndpoint{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *FailoverGroupReadOnlyEndpoint) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FailoverGroupReadOnlyEndpoint_ARM)
+	typedInput, ok := armInput.(arm.FailoverGroupReadOnlyEndpoint)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailoverGroupReadOnlyEndpoint_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FailoverGroupReadOnlyEndpoint, got %T", armInput)
 	}
 
 	// Set property "FailoverPolicy":
@@ -1271,14 +1272,14 @@ var _ genruntime.FromARMConverter = &FailoverGroupReadOnlyEndpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *FailoverGroupReadOnlyEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FailoverGroupReadOnlyEndpoint_STATUS_ARM{}
+	return &arm.FailoverGroupReadOnlyEndpoint_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *FailoverGroupReadOnlyEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FailoverGroupReadOnlyEndpoint_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FailoverGroupReadOnlyEndpoint_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailoverGroupReadOnlyEndpoint_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FailoverGroupReadOnlyEndpoint_STATUS, got %T", armInput)
 	}
 
 	// Set property "FailoverPolicy":
@@ -1352,13 +1353,13 @@ func (endpoint *FailoverGroupReadWriteEndpoint) ConvertToARM(resolved genruntime
 	if endpoint == nil {
 		return nil, nil
 	}
-	result := &FailoverGroupReadWriteEndpoint_ARM{}
+	result := &arm.FailoverGroupReadWriteEndpoint{}
 
 	// Set property "FailoverPolicy":
 	if endpoint.FailoverPolicy != nil {
 		var temp string
 		temp = string(*endpoint.FailoverPolicy)
-		failoverPolicy := FailoverGroupReadWriteEndpoint_FailoverPolicy_ARM(temp)
+		failoverPolicy := arm.FailoverGroupReadWriteEndpoint_FailoverPolicy(temp)
 		result.FailoverPolicy = &failoverPolicy
 	}
 
@@ -1372,14 +1373,14 @@ func (endpoint *FailoverGroupReadWriteEndpoint) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *FailoverGroupReadWriteEndpoint) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FailoverGroupReadWriteEndpoint_ARM{}
+	return &arm.FailoverGroupReadWriteEndpoint{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *FailoverGroupReadWriteEndpoint) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FailoverGroupReadWriteEndpoint_ARM)
+	typedInput, ok := armInput.(arm.FailoverGroupReadWriteEndpoint)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailoverGroupReadWriteEndpoint_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FailoverGroupReadWriteEndpoint, got %T", armInput)
 	}
 
 	// Set property "FailoverPolicy":
@@ -1479,14 +1480,14 @@ var _ genruntime.FromARMConverter = &FailoverGroupReadWriteEndpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (endpoint *FailoverGroupReadWriteEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FailoverGroupReadWriteEndpoint_STATUS_ARM{}
+	return &arm.FailoverGroupReadWriteEndpoint_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (endpoint *FailoverGroupReadWriteEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FailoverGroupReadWriteEndpoint_STATUS_ARM)
+	typedInput, ok := armInput.(arm.FailoverGroupReadWriteEndpoint_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailoverGroupReadWriteEndpoint_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.FailoverGroupReadWriteEndpoint_STATUS, got %T", armInput)
 	}
 
 	// Set property "FailoverPolicy":
@@ -1567,7 +1568,7 @@ func (info *PartnerInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if info == nil {
 		return nil, nil
 	}
-	result := &PartnerInfo_ARM{}
+	result := &arm.PartnerInfo{}
 
 	// Set property "Id":
 	if info.Reference != nil {
@@ -1583,14 +1584,14 @@ func (info *PartnerInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *PartnerInfo) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PartnerInfo_ARM{}
+	return &arm.PartnerInfo{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *PartnerInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(PartnerInfo_ARM)
+	_, ok := armInput.(arm.PartnerInfo)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PartnerInfo_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PartnerInfo, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -1669,14 +1670,14 @@ var _ genruntime.FromARMConverter = &PartnerInfo_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (info *PartnerInfo_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PartnerInfo_STATUS_ARM{}
+	return &arm.PartnerInfo_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (info *PartnerInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PartnerInfo_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PartnerInfo_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PartnerInfo_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PartnerInfo_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":

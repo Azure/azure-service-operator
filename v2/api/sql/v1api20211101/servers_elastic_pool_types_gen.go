@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -383,7 +384,7 @@ func (pool *ServersElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if pool == nil {
 		return nil, nil
 	}
-	result := &ServersElasticPool_Spec_ARM{}
+	result := &arm.ServersElasticPool_Spec{}
 
 	// Set property "Location":
 	if pool.Location != nil {
@@ -402,7 +403,7 @@ func (pool *ServersElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		pool.MinCapacity != nil ||
 		pool.PerDatabaseSettings != nil ||
 		pool.ZoneRedundant != nil {
-		result.Properties = &ElasticPoolProperties_ARM{}
+		result.Properties = &arm.ElasticPoolProperties{}
 	}
 	if pool.HighAvailabilityReplicaCount != nil {
 		highAvailabilityReplicaCount := *pool.HighAvailabilityReplicaCount
@@ -411,7 +412,7 @@ func (pool *ServersElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if pool.LicenseType != nil {
 		var temp string
 		temp = string(*pool.LicenseType)
-		licenseType := ElasticPoolProperties_LicenseType_ARM(temp)
+		licenseType := arm.ElasticPoolProperties_LicenseType(temp)
 		result.Properties.LicenseType = &licenseType
 	}
 	if pool.MaintenanceConfigurationId != nil {
@@ -431,7 +432,7 @@ func (pool *ServersElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		perDatabaseSettings := *perDatabaseSettings_ARM.(*ElasticPoolPerDatabaseSettings_ARM)
+		perDatabaseSettings := *perDatabaseSettings_ARM.(*arm.ElasticPoolPerDatabaseSettings)
 		result.Properties.PerDatabaseSettings = &perDatabaseSettings
 	}
 	if pool.ZoneRedundant != nil {
@@ -445,7 +446,7 @@ func (pool *ServersElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*Sku_ARM)
+		sku := *sku_ARM.(*arm.Sku)
 		result.Sku = &sku
 	}
 
@@ -461,14 +462,14 @@ func (pool *ServersElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *ServersElasticPool_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersElasticPool_Spec_ARM{}
+	return &arm.ServersElasticPool_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *ServersElasticPool_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersElasticPool_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersElasticPool_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersElasticPool_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersElasticPool_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -998,14 +999,14 @@ var _ genruntime.FromARMConverter = &ServersElasticPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (pool *ServersElasticPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersElasticPool_STATUS_ARM{}
+	return &arm.ServersElasticPool_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (pool *ServersElasticPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersElasticPool_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersElasticPool_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersElasticPool_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersElasticPool_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1372,7 +1373,7 @@ func (settings *ElasticPoolPerDatabaseSettings) ConvertToARM(resolved genruntime
 	if settings == nil {
 		return nil, nil
 	}
-	result := &ElasticPoolPerDatabaseSettings_ARM{}
+	result := &arm.ElasticPoolPerDatabaseSettings{}
 
 	// Set property "MaxCapacity":
 	if settings.MaxCapacity != nil {
@@ -1390,14 +1391,14 @@ func (settings *ElasticPoolPerDatabaseSettings) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ElasticPoolPerDatabaseSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ElasticPoolPerDatabaseSettings_ARM{}
+	return &arm.ElasticPoolPerDatabaseSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ElasticPoolPerDatabaseSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ElasticPoolPerDatabaseSettings_ARM)
+	typedInput, ok := armInput.(arm.ElasticPoolPerDatabaseSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ElasticPoolPerDatabaseSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ElasticPoolPerDatabaseSettings, got %T", armInput)
 	}
 
 	// Set property "MaxCapacity":
@@ -1507,14 +1508,14 @@ var _ genruntime.FromARMConverter = &ElasticPoolPerDatabaseSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *ElasticPoolPerDatabaseSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ElasticPoolPerDatabaseSettings_STATUS_ARM{}
+	return &arm.ElasticPoolPerDatabaseSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *ElasticPoolPerDatabaseSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ElasticPoolPerDatabaseSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ElasticPoolPerDatabaseSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ElasticPoolPerDatabaseSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ElasticPoolPerDatabaseSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "MaxCapacity":

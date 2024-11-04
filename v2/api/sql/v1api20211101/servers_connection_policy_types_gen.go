@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -335,19 +336,19 @@ func (policy *ServersConnectionPolicy_Spec) ConvertToARM(resolved genruntime.Con
 	if policy == nil {
 		return nil, nil
 	}
-	result := &ServersConnectionPolicy_Spec_ARM{}
+	result := &arm.ServersConnectionPolicy_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if policy.ConnectionType != nil {
-		result.Properties = &ServerConnectionPolicyProperties_ARM{}
+		result.Properties = &arm.ServerConnectionPolicyProperties{}
 	}
 	if policy.ConnectionType != nil {
 		var temp string
 		temp = string(*policy.ConnectionType)
-		connectionType := ServerConnectionPolicyProperties_ConnectionType_ARM(temp)
+		connectionType := arm.ServerConnectionPolicyProperties_ConnectionType(temp)
 		result.Properties.ConnectionType = &connectionType
 	}
 	return result, nil
@@ -355,14 +356,14 @@ func (policy *ServersConnectionPolicy_Spec) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ServersConnectionPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersConnectionPolicy_Spec_ARM{}
+	return &arm.ServersConnectionPolicy_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ServersConnectionPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersConnectionPolicy_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersConnectionPolicy_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersConnectionPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersConnectionPolicy_Spec, got %T", armInput)
 	}
 
 	// Set property "ConnectionType":
@@ -592,14 +593,14 @@ var _ genruntime.FromARMConverter = &ServersConnectionPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ServersConnectionPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersConnectionPolicy_STATUS_ARM{}
+	return &arm.ServersConnectionPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ServersConnectionPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersConnectionPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersConnectionPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersConnectionPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersConnectionPolicy_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

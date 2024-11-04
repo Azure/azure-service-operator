@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -356,7 +357,7 @@ func (policy *ServersSecurityAlertPolicy_Spec) ConvertToARM(resolved genruntime.
 	if policy == nil {
 		return nil, nil
 	}
-	result := &ServersSecurityAlertPolicy_Spec_ARM{}
+	result := &arm.ServersSecurityAlertPolicy_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -369,7 +370,7 @@ func (policy *ServersSecurityAlertPolicy_Spec) ConvertToARM(resolved genruntime.
 		policy.State != nil ||
 		policy.StorageAccountAccessKey != nil ||
 		policy.StorageEndpoint != nil {
-		result.Properties = &ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_ARM{}
+		result.Properties = &arm.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties{}
 	}
 	for _, item := range policy.DisabledAlerts {
 		result.Properties.DisabledAlerts = append(result.Properties.DisabledAlerts, item)
@@ -388,7 +389,7 @@ func (policy *ServersSecurityAlertPolicy_Spec) ConvertToARM(resolved genruntime.
 	if policy.State != nil {
 		var temp string
 		temp = string(*policy.State)
-		state := ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_ARM(temp)
+		state := arm.ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State(temp)
 		result.Properties.State = &state
 	}
 	if policy.StorageAccountAccessKey != nil {
@@ -408,14 +409,14 @@ func (policy *ServersSecurityAlertPolicy_Spec) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ServersSecurityAlertPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersSecurityAlertPolicy_Spec_ARM{}
+	return &arm.ServersSecurityAlertPolicy_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ServersSecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersSecurityAlertPolicy_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersSecurityAlertPolicy_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersSecurityAlertPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersSecurityAlertPolicy_Spec, got %T", armInput)
 	}
 
 	// Set property "DisabledAlerts":
@@ -784,14 +785,14 @@ var _ genruntime.FromARMConverter = &ServersSecurityAlertPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *ServersSecurityAlertPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersSecurityAlertPolicy_STATUS_ARM{}
+	return &arm.ServersSecurityAlertPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *ServersSecurityAlertPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersSecurityAlertPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersSecurityAlertPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersSecurityAlertPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersSecurityAlertPolicy_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

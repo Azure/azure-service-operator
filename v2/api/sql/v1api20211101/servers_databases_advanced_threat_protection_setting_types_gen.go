@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -336,19 +337,19 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) ConvertToAR
 	if setting == nil {
 		return nil, nil
 	}
-	result := &ServersDatabasesAdvancedThreatProtectionSetting_Spec_ARM{}
+	result := &arm.ServersDatabasesAdvancedThreatProtectionSetting_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if setting.State != nil {
-		result.Properties = &AdvancedThreatProtectionProperties_ARM{}
+		result.Properties = &arm.AdvancedThreatProtectionProperties{}
 	}
 	if setting.State != nil {
 		var temp string
 		temp = string(*setting.State)
-		state := AdvancedThreatProtectionProperties_State_ARM(temp)
+		state := arm.AdvancedThreatProtectionProperties_State(temp)
 		result.Properties.State = &state
 	}
 	return result, nil
@@ -356,14 +357,14 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersDatabasesAdvancedThreatProtectionSetting_Spec_ARM{}
+	return &arm.ServersDatabasesAdvancedThreatProtectionSetting_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersDatabasesAdvancedThreatProtectionSetting_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersDatabasesAdvancedThreatProtectionSetting_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesAdvancedThreatProtectionSetting_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabasesAdvancedThreatProtectionSetting_Spec, got %T", armInput)
 	}
 
 	// Set property "Owner":
@@ -594,14 +595,14 @@ var _ genruntime.FromARMConverter = &ServersDatabasesAdvancedThreatProtectionSet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersDatabasesAdvancedThreatProtectionSetting_STATUS_ARM{}
+	return &arm.ServersDatabasesAdvancedThreatProtectionSetting_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersDatabasesAdvancedThreatProtectionSetting_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersDatabasesAdvancedThreatProtectionSetting_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersDatabasesAdvancedThreatProtectionSetting_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabasesAdvancedThreatProtectionSetting_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

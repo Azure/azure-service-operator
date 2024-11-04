@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -336,14 +337,14 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) ConvertToARM(resolv
 	if authentication == nil {
 		return nil, nil
 	}
-	result := &ServersAzureADOnlyAuthentication_Spec_ARM{}
+	result := &arm.ServersAzureADOnlyAuthentication_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if authentication.AzureADOnlyAuthentication != nil {
-		result.Properties = &AzureADOnlyAuthProperties_ARM{}
+		result.Properties = &arm.AzureADOnlyAuthProperties{}
 	}
 	if authentication.AzureADOnlyAuthentication != nil {
 		azureADOnlyAuthentication := *authentication.AzureADOnlyAuthentication
@@ -354,14 +355,14 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) ConvertToARM(resolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (authentication *ServersAzureADOnlyAuthentication_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersAzureADOnlyAuthentication_Spec_ARM{}
+	return &arm.ServersAzureADOnlyAuthentication_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (authentication *ServersAzureADOnlyAuthentication_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersAzureADOnlyAuthentication_Spec_ARM)
+	typedInput, ok := armInput.(arm.ServersAzureADOnlyAuthentication_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersAzureADOnlyAuthentication_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAzureADOnlyAuthentication_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureADOnlyAuthentication":
@@ -582,14 +583,14 @@ var _ genruntime.FromARMConverter = &ServersAzureADOnlyAuthentication_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (authentication *ServersAzureADOnlyAuthentication_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServersAzureADOnlyAuthentication_STATUS_ARM{}
+	return &arm.ServersAzureADOnlyAuthentication_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (authentication *ServersAzureADOnlyAuthentication_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServersAzureADOnlyAuthentication_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServersAzureADOnlyAuthentication_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServersAzureADOnlyAuthentication_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersAzureADOnlyAuthentication_STATUS, got %T", armInput)
 	}
 
 	// Set property "AzureADOnlyAuthentication":
