@@ -32,7 +32,7 @@ How are CVEs dealt with? The ASO controller container is built on distroless, an
   <meta itemprop="name" content="FAQ">
   <meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven’t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
 How are CVEs dealt with? The ASO controller container is built on distroless, and as such has a relatively minimal surface area. Most CVEs that impact ASO are related to the Golang packages used by the controller.">
-  <meta itemprop="wordCount" content="2113">
+  <meta itemprop="wordCount" content="2202">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="FAQ">
   <meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven’t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
@@ -920,6 +920,26 @@ environment variable into the pods on which the ServiceAccount is used.</p>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">configMapKeyRef</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">clientId</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-details</span>
+</span></span></code></pre></div><p>You can allow the other environment variables, volumes, and volume mounts to be injected automatically by the
+<a href="https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html">Azure Workload Identity webhook</a>,
+or you can avoid running the Azure Workload Identity webhook entirely, but doing so requires that you manually
+include the <code>azure-identity</code> volume and volumeMount, as well as set the <code>AZURE_TENANT_ID</code> variable
+alongside <code>AZURE_CLIENT_ID</code> in every pod that needs workload identity.</p>
+<p>Sample VolumeMount:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/var/run/secrets/azure/tokens/azure-identity-token</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">azure-identity-token</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">readOnly</span>: <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><p>Sample Volume:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">azure-identity-token</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">projected</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">defaultMode</span>: <span style="color:#ae81ff">420</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">sources</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">serviceAccountToken</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">audience</span>: <span style="color:#ae81ff">api://AzureADTokenExchange</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">expirationSeconds</span>: <span style="color:#ae81ff">3600</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">path</span>: <span style="color:#ae81ff">azure-identity</span>
 </span></span></code></pre></div><h3 id="how-can-i-feed-the-output-of-one-resource-into-a-parameter-for-the-next">How can I feed the output of one resource into a parameter for the next?</h3>
 <p>The answer changes a bit depending on the nature of the parameter.</p>
 <p>For resource ownership: Set the <code>spec.owner.name</code> field of the dependent resource to be &ldquo;owned by&rdquo; the owning resource.

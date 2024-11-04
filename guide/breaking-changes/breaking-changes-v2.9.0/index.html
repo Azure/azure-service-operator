@@ -35,7 +35,7 @@ Action required: If the authorization.azure.com/RoleAssignment resource is used 
   <meta itemprop="description" content="DelegatedManagedIdentityResourceId is now a secret The RoleAssignment property .spec.delegatedManagedIdentityResourceId has been changed from a string to a SecretReference and renamed to .spec.delegatedManagedIdentityResourceReference.
 We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we’ve decided to make a break to correct this issue.
 Action required: If the authorization.azure.com/RoleAssignment resource is used in your cluster, and if you are using the DelegatedManagedIdentityResourceId property, you’ll need to change your resource to use the new DelegatedManagedIdentityResourceReference property, pulling the value from a secret.">
-  <meta itemprop="wordCount" content="147">
+  <meta itemprop="wordCount" content="188">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="v2.9.0 Breaking Changes">
   <meta name="twitter:description" content="DelegatedManagedIdentityResourceId is now a secret The RoleAssignment property .spec.delegatedManagedIdentityResourceId has been changed from a string to a SecretReference and renamed to .spec.delegatedManagedIdentityResourceReference.
@@ -755,13 +755,28 @@ Action required: If the authorization.azure.com/RoleAssignment resource is used 
 		
 </header>
 	<h1 id="delegatedmanagedidentityresourceid-is-now-a-secret">DelegatedManagedIdentityResourceId is now a secret</h1>
-<p>The RoleAssignment property <code>.spec.delegatedManagedIdentityResourceId</code> has been changed from a string to a SecretReference and renamed to <code>.spec.delegatedManagedIdentityResourceReference</code>.</p>
+<p>The RoleAssignment property <code>.spec.delegatedManagedIdentityResourceId</code> has been changed from a string to a
+SecretReference and renamed to <code>.spec.delegatedManagedIdentityResourceReference</code>.</p>
 <p>We try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security
 problem and as such we&rsquo;ve decided to make a break to correct this issue.</p>
-<p><strong>Action required:</strong> If the <code>authorization.azure.com/RoleAssignment</code> resource is used in your cluster, and if you are using the <code>DelegatedManagedIdentityResourceId</code> property, you&rsquo;ll need to change your resource to use the new <code>DelegatedManagedIdentityResourceReference</code> property, pulling the value from a secret.</p>
+<p><strong>Action required:</strong> If the <code>authorization.azure.com/RoleAssignment</code> resource is used in your cluster, and if you are
+using the <code>DelegatedManagedIdentityResourceId</code> property, you&rsquo;ll need to change your resource to use the new
+<code>DelegatedManagedIdentityResourceReference</code> property, pulling the value from a secret.</p>
 <h1 id="containerservice-version-v1api20230202preview-has-been-deleted">ContainerService version v1api20230202preview has been deleted</h1>
-<p>The AKS preview version <code>2023-02-02-preview</code> has been deprecated by AKS and is no longer supported. We&rsquo;ve removed it from the operator to prevent unrecoverable errors from occurring.</p>
-<p><strong>Action required:</strong> If you are using this specific version, change your resources to use a different version <em>before</em> you upgrade to v2.9.0.</p>
+<p>The AKS preview version <code>2023-02-02-preview</code> has been deprecated by AKS and is no longer supported. We&rsquo;ve removed it
+from the operator to prevent unrecoverable errors from occurring.</p>
+<p><strong>Action required:</strong></p>
+<ul>
+<li>If you are using this specific version, change your resources to use a different version <em>before</em> you upgrade to v2.9.0.</li>
+<li>Check if the <code>trustedaccessrolebindings.containerservice.azure.com</code> CRD is installed. If it is, check if the
+<code>status.storedVersions</code> field contains the <code>v1api20230202previewstorage</code> API.
+<ul>
+<li>If it doesn&rsquo;t, no action is needed.</li>
+<li>If it <strong>does</strong>, download the latest <a href="https://github.com/Azure/azure-service-operator/releases/tag/experimental">experimental</a>
+or v2.11.0+ asoctl and run <code>asoctl clean crds</code>.</li>
+</ul>
+</li>
+</ul>
 
 	
 </div>
