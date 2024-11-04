@@ -5,6 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -346,21 +347,21 @@ func (secret *Secret_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if secret == nil {
 		return nil, nil
 	}
-	result := &Secret_Spec_ARM{}
+	result := &arm.Secret_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if secret.Parameters != nil {
-		result.Properties = &SecretProperties_ARM{}
+		result.Properties = &arm.SecretProperties{}
 	}
 	if secret.Parameters != nil {
 		parameters_ARM, err := (*secret.Parameters).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		parameters := *parameters_ARM.(*SecretParameters_ARM)
+		parameters := *parameters_ARM.(*arm.SecretParameters)
 		result.Properties.Parameters = &parameters
 	}
 	return result, nil
@@ -368,14 +369,14 @@ func (secret *Secret_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (secret *Secret_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Secret_Spec_ARM{}
+	return &arm.Secret_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (secret *Secret_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Secret_Spec_ARM)
+	typedInput, ok := armInput.(arm.Secret_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Secret_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Secret_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -635,14 +636,14 @@ var _ genruntime.FromARMConverter = &Secret_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (secret *Secret_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Secret_STATUS_ARM{}
+	return &arm.Secret_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (secret *Secret_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Secret_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Secret_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Secret_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Secret_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -881,7 +882,7 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &SecretParameters_ARM{}
+	result := &arm.SecretParameters{}
 
 	// Set property "AzureFirstPartyManagedCertificate":
 	if parameters.AzureFirstPartyManagedCertificate != nil {
@@ -889,7 +890,7 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		azureFirstPartyManagedCertificate := *azureFirstPartyManagedCertificate_ARM.(*AzureFirstPartyManagedCertificateParameters_ARM)
+		azureFirstPartyManagedCertificate := *azureFirstPartyManagedCertificate_ARM.(*arm.AzureFirstPartyManagedCertificateParameters)
 		result.AzureFirstPartyManagedCertificate = &azureFirstPartyManagedCertificate
 	}
 
@@ -899,7 +900,7 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		customerCertificate := *customerCertificate_ARM.(*CustomerCertificateParameters_ARM)
+		customerCertificate := *customerCertificate_ARM.(*arm.CustomerCertificateParameters)
 		result.CustomerCertificate = &customerCertificate
 	}
 
@@ -909,7 +910,7 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		managedCertificate := *managedCertificate_ARM.(*ManagedCertificateParameters_ARM)
+		managedCertificate := *managedCertificate_ARM.(*arm.ManagedCertificateParameters)
 		result.ManagedCertificate = &managedCertificate
 	}
 
@@ -919,7 +920,7 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		urlSigningKey := *urlSigningKey_ARM.(*UrlSigningKeyParameters_ARM)
+		urlSigningKey := *urlSigningKey_ARM.(*arm.UrlSigningKeyParameters)
 		result.UrlSigningKey = &urlSigningKey
 	}
 	return result, nil
@@ -927,14 +928,14 @@ func (parameters *SecretParameters) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecretParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecretParameters_ARM{}
+	return &arm.SecretParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecretParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecretParameters_ARM)
+	typedInput, ok := armInput.(arm.SecretParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecretParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecretParameters, got %T", armInput)
 	}
 
 	// Set property "AzureFirstPartyManagedCertificate":
@@ -1177,14 +1178,14 @@ var _ genruntime.FromARMConverter = &SecretParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecretParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecretParameters_STATUS_ARM{}
+	return &arm.SecretParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecretParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecretParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecretParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecretParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecretParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "AzureFirstPartyManagedCertificate":
@@ -1405,7 +1406,7 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) ConvertToARM(reso
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &AzureFirstPartyManagedCertificateParameters_ARM{}
+	result := &arm.AzureFirstPartyManagedCertificateParameters{}
 
 	// Set property "SubjectAlternativeNames":
 	for _, item := range parameters.SubjectAlternativeNames {
@@ -1414,10 +1415,10 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) ConvertToARM(reso
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		var temp AzureFirstPartyManagedCertificateParameters_Type_ARM
+		var temp arm.AzureFirstPartyManagedCertificateParameters_Type
 		var temp1 string
 		temp1 = string(*parameters.Type)
-		temp = AzureFirstPartyManagedCertificateParameters_Type_ARM(temp1)
+		temp = arm.AzureFirstPartyManagedCertificateParameters_Type(temp1)
 		result.Type = temp
 	}
 	return result, nil
@@ -1425,14 +1426,14 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) ConvertToARM(reso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *AzureFirstPartyManagedCertificateParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureFirstPartyManagedCertificateParameters_ARM{}
+	return &arm.AzureFirstPartyManagedCertificateParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *AzureFirstPartyManagedCertificateParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureFirstPartyManagedCertificateParameters_ARM)
+	typedInput, ok := armInput.(arm.AzureFirstPartyManagedCertificateParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFirstPartyManagedCertificateParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureFirstPartyManagedCertificateParameters, got %T", armInput)
 	}
 
 	// Set property "SubjectAlternativeNames":
@@ -1541,14 +1542,14 @@ var _ genruntime.FromARMConverter = &AzureFirstPartyManagedCertificateParameters
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureFirstPartyManagedCertificateParameters_STATUS_ARM{}
+	return &arm.AzureFirstPartyManagedCertificateParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureFirstPartyManagedCertificateParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AzureFirstPartyManagedCertificateParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFirstPartyManagedCertificateParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureFirstPartyManagedCertificateParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "CertificateAuthority":
@@ -1722,7 +1723,7 @@ func (parameters *CustomerCertificateParameters) ConvertToARM(resolved genruntim
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &CustomerCertificateParameters_ARM{}
+	result := &arm.CustomerCertificateParameters{}
 
 	// Set property "SecretSource":
 	if parameters.SecretSource != nil {
@@ -1730,7 +1731,7 @@ func (parameters *CustomerCertificateParameters) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		secretSource := *secretSource_ARM.(*ResourceReference_ARM)
+		secretSource := *secretSource_ARM.(*arm.ResourceReference)
 		result.SecretSource = &secretSource
 	}
 
@@ -1747,10 +1748,10 @@ func (parameters *CustomerCertificateParameters) ConvertToARM(resolved genruntim
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		var temp CustomerCertificateParameters_Type_ARM
+		var temp arm.CustomerCertificateParameters_Type
 		var temp1 string
 		temp1 = string(*parameters.Type)
-		temp = CustomerCertificateParameters_Type_ARM(temp1)
+		temp = arm.CustomerCertificateParameters_Type(temp1)
 		result.Type = temp
 	}
 
@@ -1764,14 +1765,14 @@ func (parameters *CustomerCertificateParameters) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *CustomerCertificateParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomerCertificateParameters_ARM{}
+	return &arm.CustomerCertificateParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *CustomerCertificateParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomerCertificateParameters_ARM)
+	typedInput, ok := armInput.(arm.CustomerCertificateParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomerCertificateParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomerCertificateParameters, got %T", armInput)
 	}
 
 	// Set property "SecretSource":
@@ -1978,14 +1979,14 @@ var _ genruntime.FromARMConverter = &CustomerCertificateParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *CustomerCertificateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomerCertificateParameters_STATUS_ARM{}
+	return &arm.CustomerCertificateParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *CustomerCertificateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomerCertificateParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CustomerCertificateParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomerCertificateParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CustomerCertificateParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "CertificateAuthority":
@@ -2179,14 +2180,14 @@ func (parameters *ManagedCertificateParameters) ConvertToARM(resolved genruntime
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &ManagedCertificateParameters_ARM{}
+	result := &arm.ManagedCertificateParameters{}
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		var temp ManagedCertificateParameters_Type_ARM
+		var temp arm.ManagedCertificateParameters_Type
 		var temp1 string
 		temp1 = string(*parameters.Type)
-		temp = ManagedCertificateParameters_Type_ARM(temp1)
+		temp = arm.ManagedCertificateParameters_Type(temp1)
 		result.Type = temp
 	}
 	return result, nil
@@ -2194,14 +2195,14 @@ func (parameters *ManagedCertificateParameters) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *ManagedCertificateParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedCertificateParameters_ARM{}
+	return &arm.ManagedCertificateParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *ManagedCertificateParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedCertificateParameters_ARM)
+	typedInput, ok := armInput.(arm.ManagedCertificateParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedCertificateParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedCertificateParameters, got %T", armInput)
 	}
 
 	// Set property "Type":
@@ -2283,14 +2284,14 @@ var _ genruntime.FromARMConverter = &ManagedCertificateParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *ManagedCertificateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedCertificateParameters_STATUS_ARM{}
+	return &arm.ManagedCertificateParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *ManagedCertificateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedCertificateParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ManagedCertificateParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedCertificateParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ManagedCertificateParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "ExpirationDate":
@@ -2393,7 +2394,7 @@ func (parameters *UrlSigningKeyParameters) ConvertToARM(resolved genruntime.Conv
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &UrlSigningKeyParameters_ARM{}
+	result := &arm.UrlSigningKeyParameters{}
 
 	// Set property "KeyId":
 	if parameters.KeyId != nil {
@@ -2407,7 +2408,7 @@ func (parameters *UrlSigningKeyParameters) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		secretSource := *secretSource_ARM.(*ResourceReference_ARM)
+		secretSource := *secretSource_ARM.(*arm.ResourceReference)
 		result.SecretSource = &secretSource
 	}
 
@@ -2419,10 +2420,10 @@ func (parameters *UrlSigningKeyParameters) ConvertToARM(resolved genruntime.Conv
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		var temp UrlSigningKeyParameters_Type_ARM
+		var temp arm.UrlSigningKeyParameters_Type
 		var temp1 string
 		temp1 = string(*parameters.Type)
-		temp = UrlSigningKeyParameters_Type_ARM(temp1)
+		temp = arm.UrlSigningKeyParameters_Type(temp1)
 		result.Type = temp
 	}
 	return result, nil
@@ -2430,14 +2431,14 @@ func (parameters *UrlSigningKeyParameters) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *UrlSigningKeyParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlSigningKeyParameters_ARM{}
+	return &arm.UrlSigningKeyParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *UrlSigningKeyParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlSigningKeyParameters_ARM)
+	typedInput, ok := armInput.(arm.UrlSigningKeyParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningKeyParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UrlSigningKeyParameters, got %T", armInput)
 	}
 
 	// Set property "KeyId":
@@ -2601,14 +2602,14 @@ var _ genruntime.FromARMConverter = &UrlSigningKeyParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *UrlSigningKeyParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlSigningKeyParameters_STATUS_ARM{}
+	return &arm.UrlSigningKeyParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *UrlSigningKeyParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlSigningKeyParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.UrlSigningKeyParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningKeyParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UrlSigningKeyParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "KeyId":
