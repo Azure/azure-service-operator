@@ -5,6 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -359,7 +360,7 @@ func (group *AfdOriginGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	if group == nil {
 		return nil, nil
 	}
-	result := &AfdOriginGroup_Spec_ARM{}
+	result := &arm.AfdOriginGroup_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -369,14 +370,14 @@ func (group *AfdOriginGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		group.LoadBalancingSettings != nil ||
 		group.SessionAffinityState != nil ||
 		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		result.Properties = &AFDOriginGroupProperties_ARM{}
+		result.Properties = &arm.AFDOriginGroupProperties{}
 	}
 	if group.HealthProbeSettings != nil {
 		healthProbeSettings_ARM, err := (*group.HealthProbeSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		healthProbeSettings := *healthProbeSettings_ARM.(*HealthProbeParameters_ARM)
+		healthProbeSettings := *healthProbeSettings_ARM.(*arm.HealthProbeParameters)
 		result.Properties.HealthProbeSettings = &healthProbeSettings
 	}
 	if group.LoadBalancingSettings != nil {
@@ -384,13 +385,13 @@ func (group *AfdOriginGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		loadBalancingSettings := *loadBalancingSettings_ARM.(*LoadBalancingSettingsParameters_ARM)
+		loadBalancingSettings := *loadBalancingSettings_ARM.(*arm.LoadBalancingSettingsParameters)
 		result.Properties.LoadBalancingSettings = &loadBalancingSettings
 	}
 	if group.SessionAffinityState != nil {
 		var temp string
 		temp = string(*group.SessionAffinityState)
-		sessionAffinityState := AFDOriginGroupProperties_SessionAffinityState_ARM(temp)
+		sessionAffinityState := arm.AFDOriginGroupProperties_SessionAffinityState(temp)
 		result.Properties.SessionAffinityState = &sessionAffinityState
 	}
 	if group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
@@ -402,14 +403,14 @@ func (group *AfdOriginGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *AfdOriginGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdOriginGroup_Spec_ARM{}
+	return &arm.AfdOriginGroup_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *AfdOriginGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdOriginGroup_Spec_ARM)
+	typedInput, ok := armInput.(arm.AfdOriginGroup_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdOriginGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdOriginGroup_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -799,14 +800,14 @@ var _ genruntime.FromARMConverter = &AfdOriginGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *AfdOriginGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdOriginGroup_STATUS_ARM{}
+	return &arm.AfdOriginGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *AfdOriginGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdOriginGroup_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AfdOriginGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdOriginGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdOriginGroup_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1192,7 +1193,7 @@ func (parameters *HealthProbeParameters) ConvertToARM(resolved genruntime.Conver
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &HealthProbeParameters_ARM{}
+	result := &arm.HealthProbeParameters{}
 
 	// Set property "ProbeIntervalInSeconds":
 	if parameters.ProbeIntervalInSeconds != nil {
@@ -1210,7 +1211,7 @@ func (parameters *HealthProbeParameters) ConvertToARM(resolved genruntime.Conver
 	if parameters.ProbeProtocol != nil {
 		var temp string
 		temp = string(*parameters.ProbeProtocol)
-		probeProtocol := HealthProbeParameters_ProbeProtocol_ARM(temp)
+		probeProtocol := arm.HealthProbeParameters_ProbeProtocol(temp)
 		result.ProbeProtocol = &probeProtocol
 	}
 
@@ -1218,7 +1219,7 @@ func (parameters *HealthProbeParameters) ConvertToARM(resolved genruntime.Conver
 	if parameters.ProbeRequestType != nil {
 		var temp string
 		temp = string(*parameters.ProbeRequestType)
-		probeRequestType := HealthProbeParameters_ProbeRequestType_ARM(temp)
+		probeRequestType := arm.HealthProbeParameters_ProbeRequestType(temp)
 		result.ProbeRequestType = &probeRequestType
 	}
 	return result, nil
@@ -1226,14 +1227,14 @@ func (parameters *HealthProbeParameters) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *HealthProbeParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HealthProbeParameters_ARM{}
+	return &arm.HealthProbeParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *HealthProbeParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HealthProbeParameters_ARM)
+	typedInput, ok := armInput.(arm.HealthProbeParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HealthProbeParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HealthProbeParameters, got %T", armInput)
 	}
 
 	// Set property "ProbeIntervalInSeconds":
@@ -1400,14 +1401,14 @@ var _ genruntime.FromARMConverter = &HealthProbeParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *HealthProbeParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HealthProbeParameters_STATUS_ARM{}
+	return &arm.HealthProbeParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *HealthProbeParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HealthProbeParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.HealthProbeParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HealthProbeParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.HealthProbeParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "ProbeIntervalInSeconds":
@@ -1530,7 +1531,7 @@ func (parameters *LoadBalancingSettingsParameters) ConvertToARM(resolved genrunt
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &LoadBalancingSettingsParameters_ARM{}
+	result := &arm.LoadBalancingSettingsParameters{}
 
 	// Set property "AdditionalLatencyInMilliseconds":
 	if parameters.AdditionalLatencyInMilliseconds != nil {
@@ -1554,14 +1555,14 @@ func (parameters *LoadBalancingSettingsParameters) ConvertToARM(resolved genrunt
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *LoadBalancingSettingsParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancingSettingsParameters_ARM{}
+	return &arm.LoadBalancingSettingsParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *LoadBalancingSettingsParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancingSettingsParameters_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancingSettingsParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingSettingsParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancingSettingsParameters, got %T", armInput)
 	}
 
 	// Set property "AdditionalLatencyInMilliseconds":
@@ -1659,14 +1660,14 @@ var _ genruntime.FromARMConverter = &LoadBalancingSettingsParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *LoadBalancingSettingsParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancingSettingsParameters_STATUS_ARM{}
+	return &arm.LoadBalancingSettingsParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *LoadBalancingSettingsParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancingSettingsParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.LoadBalancingSettingsParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingSettingsParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LoadBalancingSettingsParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdditionalLatencyInMilliseconds":

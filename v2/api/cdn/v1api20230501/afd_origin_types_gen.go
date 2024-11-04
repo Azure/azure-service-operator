@@ -5,6 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -386,7 +387,7 @@ func (origin *AfdOrigin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if origin == nil {
 		return nil, nil
 	}
-	result := &AfdOrigin_Spec_ARM{}
+	result := &arm.AfdOrigin_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -402,20 +403,20 @@ func (origin *AfdOrigin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		origin.Priority != nil ||
 		origin.SharedPrivateLinkResource != nil ||
 		origin.Weight != nil {
-		result.Properties = &AFDOriginProperties_ARM{}
+		result.Properties = &arm.AFDOriginProperties{}
 	}
 	if origin.AzureOrigin != nil {
 		azureOrigin_ARM, err := (*origin.AzureOrigin).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		azureOrigin := *azureOrigin_ARM.(*ResourceReference_ARM)
+		azureOrigin := *azureOrigin_ARM.(*arm.ResourceReference)
 		result.Properties.AzureOrigin = &azureOrigin
 	}
 	if origin.EnabledState != nil {
 		var temp string
 		temp = string(*origin.EnabledState)
-		enabledState := AFDOriginProperties_EnabledState_ARM(temp)
+		enabledState := arm.AFDOriginProperties_EnabledState(temp)
 		result.Properties.EnabledState = &enabledState
 	}
 	if origin.EnforceCertificateNameCheck != nil {
@@ -447,7 +448,7 @@ func (origin *AfdOrigin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		sharedPrivateLinkResource := *sharedPrivateLinkResource_ARM.(*SharedPrivateLinkResourceProperties_ARM)
+		sharedPrivateLinkResource := *sharedPrivateLinkResource_ARM.(*arm.SharedPrivateLinkResourceProperties)
 		result.Properties.SharedPrivateLinkResource = &sharedPrivateLinkResource
 	}
 	if origin.Weight != nil {
@@ -459,14 +460,14 @@ func (origin *AfdOrigin_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (origin *AfdOrigin_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdOrigin_Spec_ARM{}
+	return &arm.AfdOrigin_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (origin *AfdOrigin_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdOrigin_Spec_ARM)
+	typedInput, ok := armInput.(arm.AfdOrigin_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdOrigin_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdOrigin_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -1045,14 +1046,14 @@ var _ genruntime.FromARMConverter = &AfdOrigin_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (origin *AfdOrigin_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdOrigin_STATUS_ARM{}
+	return &arm.AfdOrigin_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (origin *AfdOrigin_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdOrigin_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AfdOrigin_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdOrigin_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdOrigin_STATUS, got %T", armInput)
 	}
 
 	// Set property "AzureOrigin":
@@ -1539,7 +1540,7 @@ func (properties *SharedPrivateLinkResourceProperties) ConvertToARM(resolved gen
 	if properties == nil {
 		return nil, nil
 	}
-	result := &SharedPrivateLinkResourceProperties_ARM{}
+	result := &arm.SharedPrivateLinkResourceProperties{}
 
 	// Set property "GroupId":
 	if properties.GroupId != nil {
@@ -1553,7 +1554,7 @@ func (properties *SharedPrivateLinkResourceProperties) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		privateLink := *privateLink_ARM.(*ResourceReference_ARM)
+		privateLink := *privateLink_ARM.(*arm.ResourceReference)
 		result.PrivateLink = &privateLink
 	}
 
@@ -1573,7 +1574,7 @@ func (properties *SharedPrivateLinkResourceProperties) ConvertToARM(resolved gen
 	if properties.Status != nil {
 		var temp string
 		temp = string(*properties.Status)
-		status := SharedPrivateLinkResourceProperties_Status_ARM(temp)
+		status := arm.SharedPrivateLinkResourceProperties_Status(temp)
 		result.Status = &status
 	}
 	return result, nil
@@ -1581,14 +1582,14 @@ func (properties *SharedPrivateLinkResourceProperties) ConvertToARM(resolved gen
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SharedPrivateLinkResourceProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SharedPrivateLinkResourceProperties_ARM{}
+	return &arm.SharedPrivateLinkResourceProperties{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SharedPrivateLinkResourceProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SharedPrivateLinkResourceProperties_ARM)
+	typedInput, ok := armInput.(arm.SharedPrivateLinkResourceProperties)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedPrivateLinkResourceProperties_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedPrivateLinkResourceProperties, got %T", armInput)
 	}
 
 	// Set property "GroupId":
@@ -1772,14 +1773,14 @@ var _ genruntime.FromARMConverter = &SharedPrivateLinkResourceProperties_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *SharedPrivateLinkResourceProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SharedPrivateLinkResourceProperties_STATUS_ARM{}
+	return &arm.SharedPrivateLinkResourceProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *SharedPrivateLinkResourceProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SharedPrivateLinkResourceProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SharedPrivateLinkResourceProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedPrivateLinkResourceProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedPrivateLinkResourceProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "GroupId":

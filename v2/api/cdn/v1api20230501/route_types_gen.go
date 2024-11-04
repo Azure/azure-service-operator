@@ -5,6 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -379,7 +380,7 @@ func (route *Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if route == nil {
 		return nil, nil
 	}
-	result := &Route_Spec_ARM{}
+	result := &arm.Route_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -396,14 +397,14 @@ func (route *Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		route.PatternsToMatch != nil ||
 		route.RuleSets != nil ||
 		route.SupportedProtocols != nil {
-		result.Properties = &RouteProperties_ARM{}
+		result.Properties = &arm.RouteProperties{}
 	}
 	if route.CacheConfiguration != nil {
 		cacheConfiguration_ARM, err := (*route.CacheConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		cacheConfiguration := *cacheConfiguration_ARM.(*AfdRouteCacheConfiguration_ARM)
+		cacheConfiguration := *cacheConfiguration_ARM.(*arm.AfdRouteCacheConfiguration)
 		result.Properties.CacheConfiguration = &cacheConfiguration
 	}
 	for _, item := range route.CustomDomains {
@@ -411,30 +412,30 @@ func (route *Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.CustomDomains = append(result.Properties.CustomDomains, *item_ARM.(*ActivatedResourceReference_ARM))
+		result.Properties.CustomDomains = append(result.Properties.CustomDomains, *item_ARM.(*arm.ActivatedResourceReference))
 	}
 	if route.EnabledState != nil {
 		var temp string
 		temp = string(*route.EnabledState)
-		enabledState := RouteProperties_EnabledState_ARM(temp)
+		enabledState := arm.RouteProperties_EnabledState(temp)
 		result.Properties.EnabledState = &enabledState
 	}
 	if route.ForwardingProtocol != nil {
 		var temp string
 		temp = string(*route.ForwardingProtocol)
-		forwardingProtocol := RouteProperties_ForwardingProtocol_ARM(temp)
+		forwardingProtocol := arm.RouteProperties_ForwardingProtocol(temp)
 		result.Properties.ForwardingProtocol = &forwardingProtocol
 	}
 	if route.HttpsRedirect != nil {
 		var temp string
 		temp = string(*route.HttpsRedirect)
-		httpsRedirect := RouteProperties_HttpsRedirect_ARM(temp)
+		httpsRedirect := arm.RouteProperties_HttpsRedirect(temp)
 		result.Properties.HttpsRedirect = &httpsRedirect
 	}
 	if route.LinkToDefaultDomain != nil {
 		var temp string
 		temp = string(*route.LinkToDefaultDomain)
-		linkToDefaultDomain := RouteProperties_LinkToDefaultDomain_ARM(temp)
+		linkToDefaultDomain := arm.RouteProperties_LinkToDefaultDomain(temp)
 		result.Properties.LinkToDefaultDomain = &linkToDefaultDomain
 	}
 	if route.OriginGroup != nil {
@@ -442,7 +443,7 @@ func (route *Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		originGroup := *originGroup_ARM.(*ResourceReference_ARM)
+		originGroup := *originGroup_ARM.(*arm.ResourceReference)
 		result.Properties.OriginGroup = &originGroup
 	}
 	if route.OriginPath != nil {
@@ -457,26 +458,26 @@ func (route *Route_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.RuleSets = append(result.Properties.RuleSets, *item_ARM.(*ResourceReference_ARM))
+		result.Properties.RuleSets = append(result.Properties.RuleSets, *item_ARM.(*arm.ResourceReference))
 	}
 	for _, item := range route.SupportedProtocols {
 		var temp string
 		temp = string(item)
-		result.Properties.SupportedProtocols = append(result.Properties.SupportedProtocols, AFDEndpointProtocols_ARM(temp))
+		result.Properties.SupportedProtocols = append(result.Properties.SupportedProtocols, arm.AFDEndpointProtocols(temp))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (route *Route_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Route_Spec_ARM{}
+	return &arm.Route_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (route *Route_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Route_Spec_ARM)
+	typedInput, ok := armInput.(arm.Route_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Route_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Route_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -1182,14 +1183,14 @@ var _ genruntime.FromARMConverter = &Route_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (route *Route_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Route_STATUS_ARM{}
+	return &arm.Route_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (route *Route_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Route_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Route_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Route_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Route_STATUS, got %T", armInput)
 	}
 
 	// Set property "CacheConfiguration":
@@ -1733,7 +1734,7 @@ func (reference *ActivatedResourceReference) ConvertToARM(resolved genruntime.Co
 	if reference == nil {
 		return nil, nil
 	}
-	result := &ActivatedResourceReference_ARM{}
+	result := &arm.ActivatedResourceReference{}
 
 	// Set property "Id":
 	if reference.Reference != nil {
@@ -1749,14 +1750,14 @@ func (reference *ActivatedResourceReference) ConvertToARM(resolved genruntime.Co
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ActivatedResourceReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ActivatedResourceReference_ARM{}
+	return &arm.ActivatedResourceReference{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ActivatedResourceReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ActivatedResourceReference_ARM)
+	_, ok := armInput.(arm.ActivatedResourceReference)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActivatedResourceReference_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActivatedResourceReference, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -1844,14 +1845,14 @@ var _ genruntime.FromARMConverter = &ActivatedResourceReference_STATUS_Profiles_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_ARM{}
+	return &arm.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1943,7 +1944,7 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 	if configuration == nil {
 		return nil, nil
 	}
-	result := &AfdRouteCacheConfiguration_ARM{}
+	result := &arm.AfdRouteCacheConfiguration{}
 
 	// Set property "CompressionSettings":
 	if configuration.CompressionSettings != nil {
@@ -1951,7 +1952,7 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		compressionSettings := *compressionSettings_ARM.(*CompressionSettings_ARM)
+		compressionSettings := *compressionSettings_ARM.(*arm.CompressionSettings)
 		result.CompressionSettings = &compressionSettings
 	}
 
@@ -1965,7 +1966,7 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 	if configuration.QueryStringCachingBehavior != nil {
 		var temp string
 		temp = string(*configuration.QueryStringCachingBehavior)
-		queryStringCachingBehavior := AfdRouteCacheConfiguration_QueryStringCachingBehavior_ARM(temp)
+		queryStringCachingBehavior := arm.AfdRouteCacheConfiguration_QueryStringCachingBehavior(temp)
 		result.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
 	return result, nil
@@ -1973,14 +1974,14 @@ func (configuration *AfdRouteCacheConfiguration) ConvertToARM(resolved genruntim
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *AfdRouteCacheConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdRouteCacheConfiguration_ARM{}
+	return &arm.AfdRouteCacheConfiguration{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *AfdRouteCacheConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdRouteCacheConfiguration_ARM)
+	typedInput, ok := armInput.(arm.AfdRouteCacheConfiguration)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdRouteCacheConfiguration_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdRouteCacheConfiguration, got %T", armInput)
 	}
 
 	// Set property "CompressionSettings":
@@ -2130,14 +2131,14 @@ var _ genruntime.FromARMConverter = &AfdRouteCacheConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (configuration *AfdRouteCacheConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdRouteCacheConfiguration_STATUS_ARM{}
+	return &arm.AfdRouteCacheConfiguration_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *AfdRouteCacheConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdRouteCacheConfiguration_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AfdRouteCacheConfiguration_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdRouteCacheConfiguration_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdRouteCacheConfiguration_STATUS, got %T", armInput)
 	}
 
 	// Set property "CompressionSettings":
@@ -2397,14 +2398,14 @@ var _ genruntime.FromARMConverter = &ActivatedResourceReference_STATUS_Profiles_
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_ARM{}
+	return &arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_ARM)
+	typedInput, ok := armInput.(arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -2499,7 +2500,7 @@ func (settings *CompressionSettings) ConvertToARM(resolved genruntime.ConvertToA
 	if settings == nil {
 		return nil, nil
 	}
-	result := &CompressionSettings_ARM{}
+	result := &arm.CompressionSettings{}
 
 	// Set property "ContentTypesToCompress":
 	for _, item := range settings.ContentTypesToCompress {
@@ -2516,14 +2517,14 @@ func (settings *CompressionSettings) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *CompressionSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CompressionSettings_ARM{}
+	return &arm.CompressionSettings{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *CompressionSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CompressionSettings_ARM)
+	typedInput, ok := armInput.(arm.CompressionSettings)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompressionSettings_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CompressionSettings, got %T", armInput)
 	}
 
 	// Set property "ContentTypesToCompress":
@@ -2619,14 +2620,14 @@ var _ genruntime.FromARMConverter = &CompressionSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (settings *CompressionSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CompressionSettings_STATUS_ARM{}
+	return &arm.CompressionSettings_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (settings *CompressionSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CompressionSettings_STATUS_ARM)
+	typedInput, ok := armInput.(arm.CompressionSettings_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompressionSettings_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CompressionSettings_STATUS, got %T", armInput)
 	}
 
 	// Set property "ContentTypesToCompress":

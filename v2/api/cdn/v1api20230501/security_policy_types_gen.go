@@ -5,6 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -346,21 +347,21 @@ func (policy *SecurityPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if policy == nil {
 		return nil, nil
 	}
-	result := &SecurityPolicy_Spec_ARM{}
+	result := &arm.SecurityPolicy_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if policy.Parameters != nil {
-		result.Properties = &SecurityPolicyProperties_ARM{}
+		result.Properties = &arm.SecurityPolicyProperties{}
 	}
 	if policy.Parameters != nil {
 		parameters_ARM, err := (*policy.Parameters).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		parameters := *parameters_ARM.(*SecurityPolicyPropertiesParameters_ARM)
+		parameters := *parameters_ARM.(*arm.SecurityPolicyPropertiesParameters)
 		result.Properties.Parameters = &parameters
 	}
 	return result, nil
@@ -368,14 +369,14 @@ func (policy *SecurityPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *SecurityPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicy_Spec_ARM{}
+	return &arm.SecurityPolicy_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *SecurityPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicy_Spec_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicy_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicy_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicy_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -635,14 +636,14 @@ var _ genruntime.FromARMConverter = &SecurityPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *SecurityPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicy_STATUS_ARM{}
+	return &arm.SecurityPolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *SecurityPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicy_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -908,7 +909,7 @@ func (parameters *SecurityPolicyPropertiesParameters) ConvertToARM(resolved genr
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &SecurityPolicyPropertiesParameters_ARM{}
+	result := &arm.SecurityPolicyPropertiesParameters{}
 
 	// Set property "WebApplicationFirewall":
 	if parameters.WebApplicationFirewall != nil {
@@ -916,7 +917,7 @@ func (parameters *SecurityPolicyPropertiesParameters) ConvertToARM(resolved genr
 		if err != nil {
 			return nil, err
 		}
-		webApplicationFirewall := *webApplicationFirewall_ARM.(*SecurityPolicyWebApplicationFirewallParameters_ARM)
+		webApplicationFirewall := *webApplicationFirewall_ARM.(*arm.SecurityPolicyWebApplicationFirewallParameters)
 		result.WebApplicationFirewall = &webApplicationFirewall
 	}
 	return result, nil
@@ -924,14 +925,14 @@ func (parameters *SecurityPolicyPropertiesParameters) ConvertToARM(resolved genr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecurityPolicyPropertiesParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyPropertiesParameters_ARM{}
+	return &arm.SecurityPolicyPropertiesParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecurityPolicyPropertiesParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyPropertiesParameters_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyPropertiesParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyPropertiesParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyPropertiesParameters, got %T", armInput)
 	}
 
 	// Set property "WebApplicationFirewall":
@@ -1024,14 +1025,14 @@ var _ genruntime.FromARMConverter = &SecurityPolicyPropertiesParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecurityPolicyPropertiesParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyPropertiesParameters_STATUS_ARM{}
+	return &arm.SecurityPolicyPropertiesParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecurityPolicyPropertiesParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyPropertiesParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyPropertiesParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyPropertiesParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyPropertiesParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "WebApplicationFirewall":
@@ -1115,7 +1116,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &SecurityPolicyWebApplicationFirewallParameters_ARM{}
+	result := &arm.SecurityPolicyWebApplicationFirewallParameters{}
 
 	// Set property "Associations":
 	for _, item := range parameters.Associations {
@@ -1123,15 +1124,15 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 		if err != nil {
 			return nil, err
 		}
-		result.Associations = append(result.Associations, *item_ARM.(*SecurityPolicyWebApplicationFirewallAssociation_ARM))
+		result.Associations = append(result.Associations, *item_ARM.(*arm.SecurityPolicyWebApplicationFirewallAssociation))
 	}
 
 	// Set property "Type":
 	if parameters.Type != nil {
-		var temp SecurityPolicyWebApplicationFirewallParameters_Type_ARM
+		var temp arm.SecurityPolicyWebApplicationFirewallParameters_Type
 		var temp1 string
 		temp1 = string(*parameters.Type)
-		temp = SecurityPolicyWebApplicationFirewallParameters_Type_ARM(temp1)
+		temp = arm.SecurityPolicyWebApplicationFirewallParameters_Type(temp1)
 		result.Type = temp
 	}
 
@@ -1141,7 +1142,7 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 		if err != nil {
 			return nil, err
 		}
-		wafPolicy := *wafPolicy_ARM.(*ResourceReference_ARM)
+		wafPolicy := *wafPolicy_ARM.(*arm.ResourceReference)
 		result.WafPolicy = &wafPolicy
 	}
 	return result, nil
@@ -1149,14 +1150,14 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) ConvertToARM(r
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecurityPolicyWebApplicationFirewallParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyWebApplicationFirewallParameters_ARM{}
+	return &arm.SecurityPolicyWebApplicationFirewallParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecurityPolicyWebApplicationFirewallParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyWebApplicationFirewallParameters_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyWebApplicationFirewallParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyWebApplicationFirewallParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyWebApplicationFirewallParameters, got %T", armInput)
 	}
 
 	// Set property "Associations":
@@ -1351,14 +1352,14 @@ var _ genruntime.FromARMConverter = &SecurityPolicyWebApplicationFirewallParamet
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyWebApplicationFirewallParameters_STATUS_ARM{}
+	return &arm.SecurityPolicyWebApplicationFirewallParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyWebApplicationFirewallParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyWebApplicationFirewallParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyWebApplicationFirewallParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyWebApplicationFirewallParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "Associations":
@@ -1509,7 +1510,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) ConvertToARM
 	if association == nil {
 		return nil, nil
 	}
-	result := &SecurityPolicyWebApplicationFirewallAssociation_ARM{}
+	result := &arm.SecurityPolicyWebApplicationFirewallAssociation{}
 
 	// Set property "Domains":
 	for _, item := range association.Domains {
@@ -1517,7 +1518,7 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.Domains = append(result.Domains, *item_ARM.(*ActivatedResourceReference_ARM))
+		result.Domains = append(result.Domains, *item_ARM.(*arm.ActivatedResourceReference))
 	}
 
 	// Set property "PatternsToMatch":
@@ -1529,14 +1530,14 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (association *SecurityPolicyWebApplicationFirewallAssociation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyWebApplicationFirewallAssociation_ARM{}
+	return &arm.SecurityPolicyWebApplicationFirewallAssociation{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (association *SecurityPolicyWebApplicationFirewallAssociation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyWebApplicationFirewallAssociation_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyWebApplicationFirewallAssociation)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyWebApplicationFirewallAssociation_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyWebApplicationFirewallAssociation, got %T", armInput)
 	}
 
 	// Set property "Domains":
@@ -1664,14 +1665,14 @@ var _ genruntime.FromARMConverter = &SecurityPolicyWebApplicationFirewallAssocia
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityPolicyWebApplicationFirewallAssociation_STATUS_ARM{}
+	return &arm.SecurityPolicyWebApplicationFirewallAssociation_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (association *SecurityPolicyWebApplicationFirewallAssociation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SecurityPolicyWebApplicationFirewallAssociation_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SecurityPolicyWebApplicationFirewallAssociation_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityPolicyWebApplicationFirewallAssociation_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SecurityPolicyWebApplicationFirewallAssociation_STATUS, got %T", armInput)
 	}
 
 	// Set property "Domains":
