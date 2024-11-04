@@ -32,7 +32,6 @@ var armPackageDenyList = set.Make(
 	"dbformariadb",
 	"eventgrid",
 	"eventhub",
-	"insights",
 	"kusto",
 	"operationalinsights",
 	"resources",
