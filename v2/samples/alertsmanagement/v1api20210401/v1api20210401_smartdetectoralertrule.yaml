@@ -10,6 +10,14 @@ spec:
   state: Enabled
   severity: Sev3
   frequency: PT1M
+  detector:
+    Reference:
+      Name: FailureAnomaliesDetector
+  actionGroups:
+    GroupReferences:
+      - group: insights.azure.com
+        kind: ActionGroup
+        name: MyActionGroup
   scopeReferences:
     - group: monitor.azure.com
       kind: Account
