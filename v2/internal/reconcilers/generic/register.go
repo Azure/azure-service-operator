@@ -36,6 +36,8 @@ type Options struct {
 	RequeueIntervalCalculator interval.Calculator
 	Config                    config.Values
 	LoggerFactory             func(obj metav1.Object) logr.Logger
+
+	PanicHandler func()
 }
 
 func RegisterWebhooks(mgr ctrl.Manager, objs []client.Object) error {
@@ -126,6 +128,7 @@ func register(
 		GVK:                       gvk,
 		PositiveConditions:        positiveConditions,
 		RequeueIntervalCalculator: options.RequeueIntervalCalculator,
+		PanicHandler:              options.PanicHandler,
 	}
 
 	builder := ctrl.NewControllerManagedBy(mgr).

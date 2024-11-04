@@ -14,6 +14,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"strings"
 	"sync"
 	"time"
@@ -90,10 +91,8 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	// Switch logger below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	// import (ctrl "sigs.k8s.io/controller-runtime")
-	// cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
-	// log := textlogger.NewLogger(cfg)
-	// ctrl.SetLogger(log)
+	// logger := textlogger.NewLogger(textlogger.NewConfig(textlogger.Verbosity(logging.Debug)))
+	// ctrl.SetLogger(logger)
 	ctrl.SetLogger(logr.Discard())
 
 	log.Println("Starting envtest")
@@ -160,15 +159,6 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
 	}
 
-	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
-	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	//
-	// import (ctrl "sigs.k8s.io/controller-runtime")
-	// cfg := textlogger.NewConfig(textlogger.Verbosity(Debug)) // Use verbose logging in tests
-	// log := textlogger.NewLogger(cfg)
-	// ctrl.SetLogger(log)
-	ctrl.SetLogger(logr.Discard())
-
 	loggerFactory := func(obj metav1.Object) logr.Logger {
 		result := namespaceResources.Lookup(obj.GetNamespace())
 		if result == nil {
@@ -224,6 +214,14 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			LogConstructor: func(request *reconcile.Request) logr.Logger {
 				return ctrl.Log
 			},
+		},
+		// Specified here because usually controller-runtime logging would detect panics and log them for us
+		// but in the case of envtest we disable those logs because they're too verbose.
+		PanicHandler: func() {
+			if e := recover(); e != nil {
+				stack := debug.Stack()
+				log.Printf("panic: %s\nstack:%s\n", e, stack)
+			}
 		},
 		RequeueIntervalCalculator: interval.NewCalculator(
 			interval.CalculatorParameters{
