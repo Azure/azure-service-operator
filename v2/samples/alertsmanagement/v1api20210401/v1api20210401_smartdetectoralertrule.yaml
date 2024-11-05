@@ -19,7 +19,7 @@ spec:
     GroupReferences:
       - group: insights.azure.com
         kind: ActionGroup
-        name: MyActionGroup
+        name: aso-sample-group
   scopeReferences:
     - group: monitor.azure.com
       kind: Account
