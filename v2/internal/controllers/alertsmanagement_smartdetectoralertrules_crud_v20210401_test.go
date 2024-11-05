@@ -47,12 +47,8 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 	// This was adapted from https://learn.microsoft.com/en-us/rest/api/monitor/smart-detector-alert-rules/create-or-update?view=rest-monitor-2019-06-01&tabs=HTTP#create-or-update-a-smart-detector-alert-rule
 	state := alertsmanagement.AlertRuleProperties_State("Enabled")
 	severity := alertsmanagement.AlertRuleProperties_Severity("Sev3")
-	detectorId := &alertsmanagement.Detector{
-		Reference: &genruntime.ResourceReference{
-			Group: "alertsmanagement.azure.com",
-			Kind:  "SmartDetectorAlertRule",
-			Name:  "FailureAnomaliesDetector",
-		},
+	detectorId := &alertsmanagement.Detector_STATUS{
+		Id: to.Ptr("FailureAnomaliesDetector"),
 	}
 	actionGroup := &alertsmanagement.ActionGroupsInformation{
 		GroupReferences: []genruntime.ResourceReference{
