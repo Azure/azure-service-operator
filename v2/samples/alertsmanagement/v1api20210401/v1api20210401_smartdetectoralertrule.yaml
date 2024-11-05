@@ -11,10 +11,7 @@ spec:
   severity: Sev3
   frequency: PT1M
   detector:
-    Reference:
-      group: alertsmanagement.azure.com
-      kind: SmartDetectorAlertRule
-      name: FailureAnomaliesDetector
+    id: FailureAnomaliesDetector
   actionGroups:
     GroupReferences:
       - group: insights.azure.com
