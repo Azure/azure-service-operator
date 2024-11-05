@@ -1,7 +1,7 @@
 ---
 title: "v2.9.0 Breaking Changes"
 linkTitle: "v2.9.0"
-weight: -25  # This should be 5 lower than the previous breaking change document
+weight: -35  # This should be 5 lower than the previous breaking change document
 ---
 
 # DelegatedManagedIdentityResourceId is now a secret
