@@ -5,6 +5,7 @@ package v1api20210601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -386,7 +387,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if workspace == nil {
 		return nil, nil
 	}
-	result := &Workspace_Spec_ARM{}
+	result := &arm.Workspace_Spec{}
 
 	// Set property "Etag":
 	if workspace.Etag != nil {
@@ -412,14 +413,14 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		workspace.RetentionInDays != nil ||
 		workspace.Sku != nil ||
 		workspace.WorkspaceCapping != nil {
-		result.Properties = &WorkspaceProperties_ARM{}
+		result.Properties = &arm.WorkspaceProperties{}
 	}
 	if workspace.Features != nil {
 		features_ARM, err := (*workspace.Features).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		features := *features_ARM.(*WorkspaceFeatures_ARM)
+		features := *features_ARM.(*arm.WorkspaceFeatures)
 		result.Properties.Features = &features
 	}
 	if workspace.ForceCmkForQuery != nil {
@@ -429,19 +430,19 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if workspace.ProvisioningState != nil {
 		var temp string
 		temp = string(*workspace.ProvisioningState)
-		provisioningState := WorkspaceProperties_ProvisioningState_ARM(temp)
+		provisioningState := arm.WorkspaceProperties_ProvisioningState(temp)
 		result.Properties.ProvisioningState = &provisioningState
 	}
 	if workspace.PublicNetworkAccessForIngestion != nil {
 		var temp string
 		temp = string(*workspace.PublicNetworkAccessForIngestion)
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_ARM(temp)
+		publicNetworkAccessForIngestion := arm.PublicNetworkAccessType(temp)
 		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	}
 	if workspace.PublicNetworkAccessForQuery != nil {
 		var temp string
 		temp = string(*workspace.PublicNetworkAccessForQuery)
-		publicNetworkAccessForQuery := PublicNetworkAccessType_ARM(temp)
+		publicNetworkAccessForQuery := arm.PublicNetworkAccessType(temp)
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
 	if workspace.RetentionInDays != nil {
@@ -453,7 +454,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*WorkspaceSku_ARM)
+		sku := *sku_ARM.(*arm.WorkspaceSku)
 		result.Properties.Sku = &sku
 	}
 	if workspace.WorkspaceCapping != nil {
@@ -461,7 +462,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		workspaceCapping := *workspaceCapping_ARM.(*WorkspaceCapping_ARM)
+		workspaceCapping := *workspaceCapping_ARM.(*arm.WorkspaceCapping)
 		result.Properties.WorkspaceCapping = &workspaceCapping
 	}
 
@@ -477,14 +478,14 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspace *Workspace_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_Spec_ARM{}
+	return &arm.Workspace_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_Spec_ARM)
+	typedInput, ok := armInput.(arm.Workspace_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Workspace_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -1085,14 +1086,14 @@ var _ genruntime.FromARMConverter = &Workspace_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspace *Workspace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_STATUS_ARM{}
+	return &arm.Workspace_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Workspace_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Workspace_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1549,14 +1550,14 @@ var _ genruntime.FromARMConverter = &PrivateLinkScopedResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *PrivateLinkScopedResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkScopedResource_STATUS_ARM{}
+	return &arm.PrivateLinkScopedResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateLinkScopedResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateLinkScopedResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "ResourceId":
@@ -1652,7 +1653,7 @@ func (capping *WorkspaceCapping) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if capping == nil {
 		return nil, nil
 	}
-	result := &WorkspaceCapping_ARM{}
+	result := &arm.WorkspaceCapping{}
 
 	// Set property "DailyQuotaGb":
 	if capping.DailyQuotaGb != nil {
@@ -1664,14 +1665,14 @@ func (capping *WorkspaceCapping) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capping *WorkspaceCapping) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceCapping_ARM{}
+	return &arm.WorkspaceCapping{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capping *WorkspaceCapping) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceCapping_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceCapping)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCapping_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceCapping, got %T", armInput)
 	}
 
 	// Set property "DailyQuotaGb":
@@ -1754,14 +1755,14 @@ var _ genruntime.FromARMConverter = &WorkspaceCapping_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capping *WorkspaceCapping_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceCapping_STATUS_ARM{}
+	return &arm.WorkspaceCapping_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capping *WorkspaceCapping_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceCapping_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceCapping_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCapping_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceCapping_STATUS, got %T", armInput)
 	}
 
 	// Set property "DailyQuotaGb":
@@ -1875,7 +1876,7 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 	if features == nil {
 		return nil, nil
 	}
-	result := &WorkspaceFeatures_ARM{}
+	result := &arm.WorkspaceFeatures{}
 
 	// Set property "ClusterResourceId":
 	if features.ClusterResourceReference != nil {
@@ -1915,14 +1916,14 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (features *WorkspaceFeatures) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceFeatures_ARM{}
+	return &arm.WorkspaceFeatures{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceFeatures_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceFeatures)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceFeatures, got %T", armInput)
 	}
 
 	// no assignment for property "ClusterResourceReference"
@@ -2127,14 +2128,14 @@ var _ genruntime.FromARMConverter = &WorkspaceFeatures_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (features *WorkspaceFeatures_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceFeatures_STATUS_ARM{}
+	return &arm.WorkspaceFeatures_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (features *WorkspaceFeatures_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceFeatures_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceFeatures_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceFeatures_STATUS, got %T", armInput)
 	}
 
 	// Set property "ClusterResourceId":
@@ -2329,13 +2330,13 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 	if workspaceSku == nil {
 		return nil, nil
 	}
-	result := &WorkspaceSku_ARM{}
+	result := &arm.WorkspaceSku{}
 
 	// Set property "CapacityReservationLevel":
 	if workspaceSku.CapacityReservationLevel != nil {
 		var temp int
 		temp = int(*workspaceSku.CapacityReservationLevel)
-		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel_ARM(temp)
+		capacityReservationLevel := arm.WorkspaceSku_CapacityReservationLevel(temp)
 		result.CapacityReservationLevel = &capacityReservationLevel
 	}
 
@@ -2343,7 +2344,7 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 	if workspaceSku.Name != nil {
 		var temp string
 		temp = string(*workspaceSku.Name)
-		name := WorkspaceSku_Name_ARM(temp)
+		name := arm.WorkspaceSku_Name(temp)
 		result.Name = &name
 	}
 	return result, nil
@@ -2351,14 +2352,14 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspaceSku *WorkspaceSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceSku_ARM{}
+	return &arm.WorkspaceSku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspaceSku *WorkspaceSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceSku_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceSku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceSku, got %T", armInput)
 	}
 
 	// Set property "CapacityReservationLevel":
@@ -2477,14 +2478,14 @@ var _ genruntime.FromARMConverter = &WorkspaceSku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (workspaceSku *WorkspaceSku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WorkspaceSku_STATUS_ARM{}
+	return &arm.WorkspaceSku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (workspaceSku *WorkspaceSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WorkspaceSku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WorkspaceSku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WorkspaceSku_STATUS, got %T", armInput)
 	}
 
 	// Set property "CapacityReservationLevel":
