@@ -5,6 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -356,7 +357,7 @@ func (group *ResourceGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if group == nil {
 		return nil, nil
 	}
-	result := &ResourceGroup_Spec_ARM{}
+	result := &arm.ResourceGroup_Spec{}
 
 	// Set property "Location":
 	if group.Location != nil {
@@ -385,14 +386,14 @@ func (group *ResourceGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ResourceGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceGroup_Spec_ARM{}
+	return &arm.ResourceGroup_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ResourceGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceGroup_Spec_ARM)
+	typedInput, ok := armInput.(arm.ResourceGroup_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceGroup_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -628,14 +629,14 @@ var _ genruntime.FromARMConverter = &ResourceGroup_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ResourceGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceGroup_STATUS_ARM{}
+	return &arm.ResourceGroup_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ResourceGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceGroup_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ResourceGroup_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceGroup_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceGroup_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -792,14 +793,14 @@ var _ genruntime.FromARMConverter = &ResourceGroupProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ResourceGroupProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceGroupProperties_STATUS_ARM{}
+	return &arm.ResourceGroupProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ResourceGroupProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceGroupProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ResourceGroupProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceGroupProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceGroupProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ProvisioningState":
