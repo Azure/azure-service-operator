@@ -5,6 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -373,33 +374,33 @@ func (rule *NamespacesAuthorizationRule_Spec) ConvertToARM(resolved genruntime.C
 	if rule == nil {
 		return nil, nil
 	}
-	result := &NamespacesAuthorizationRule_Spec_ARM{}
+	result := &arm.NamespacesAuthorizationRule_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
 	if rule.Rights != nil {
-		result.Properties = &Namespaces_AuthorizationRule_Properties_Spec_ARM{}
+		result.Properties = &arm.Namespaces_AuthorizationRule_Properties_Spec{}
 	}
 	for _, item := range rule.Rights {
 		var temp string
 		temp = string(item)
-		result.Properties.Rights = append(result.Properties.Rights, Namespaces_AuthorizationRule_Properties_Rights_Spec_ARM(temp))
+		result.Properties.Rights = append(result.Properties.Rights, arm.Namespaces_AuthorizationRule_Properties_Rights_Spec(temp))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NamespacesAuthorizationRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesAuthorizationRule_Spec_ARM{}
+	return &arm.NamespacesAuthorizationRule_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NamespacesAuthorizationRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesAuthorizationRule_Spec_ARM)
+	typedInput, ok := armInput.(arm.NamespacesAuthorizationRule_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesAuthorizationRule_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesAuthorizationRule_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -684,14 +685,14 @@ var _ genruntime.FromARMConverter = &NamespacesAuthorizationRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *NamespacesAuthorizationRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesAuthorizationRule_STATUS_ARM{}
+	return &arm.NamespacesAuthorizationRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *NamespacesAuthorizationRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesAuthorizationRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.NamespacesAuthorizationRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesAuthorizationRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.NamespacesAuthorizationRule_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
