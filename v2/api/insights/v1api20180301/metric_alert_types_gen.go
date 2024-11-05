@@ -5,6 +5,7 @@ package v1api20180301
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -399,7 +400,7 @@ func (alert *MetricAlert_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if alert == nil {
 		return nil, nil
 	}
-	result := &MetricAlert_Spec_ARM{}
+	result := &arm.MetricAlert_Spec{}
 
 	// Set property "Location":
 	if alert.Location != nil {
@@ -422,14 +423,14 @@ func (alert *MetricAlert_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		alert.TargetResourceRegion != nil ||
 		alert.TargetResourceType != nil ||
 		alert.WindowSize != nil {
-		result.Properties = &MetricAlertProperties_ARM{}
+		result.Properties = &arm.MetricAlertProperties{}
 	}
 	for _, item := range alert.Actions {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Actions = append(result.Properties.Actions, *item_ARM.(*MetricAlertAction_ARM))
+		result.Properties.Actions = append(result.Properties.Actions, *item_ARM.(*arm.MetricAlertAction))
 	}
 	if alert.AutoMitigate != nil {
 		autoMitigate := *alert.AutoMitigate
@@ -440,7 +441,7 @@ func (alert *MetricAlert_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		criteria := *criteria_ARM.(*MetricAlertCriteria_ARM)
+		criteria := *criteria_ARM.(*arm.MetricAlertCriteria)
 		result.Properties.Criteria = &criteria
 	}
 	if alert.Description != nil {
@@ -491,14 +492,14 @@ func (alert *MetricAlert_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (alert *MetricAlert_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlert_Spec_ARM{}
+	return &arm.MetricAlert_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (alert *MetricAlert_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlert_Spec_ARM)
+	typedInput, ok := armInput.(arm.MetricAlert_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlert_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlert_Spec, got %T", armInput)
 	}
 
 	// Set property "Actions":
@@ -1095,14 +1096,14 @@ var _ genruntime.FromARMConverter = &MetricAlert_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (alert *MetricAlert_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlert_STATUS_ARM{}
+	return &arm.MetricAlert_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (alert *MetricAlert_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlert_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MetricAlert_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlert_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlert_STATUS, got %T", armInput)
 	}
 
 	// Set property "Actions":
@@ -1500,7 +1501,7 @@ func (action *MetricAlertAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if action == nil {
 		return nil, nil
 	}
-	result := &MetricAlertAction_ARM{}
+	result := &arm.MetricAlertAction{}
 
 	// Set property "ActionGroupId":
 	if action.ActionGroupId != nil {
@@ -1520,14 +1521,14 @@ func (action *MetricAlertAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *MetricAlertAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlertAction_ARM{}
+	return &arm.MetricAlertAction{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *MetricAlertAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlertAction_ARM)
+	typedInput, ok := armInput.(arm.MetricAlertAction)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlertAction_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlertAction, got %T", armInput)
 	}
 
 	// Set property "ActionGroupId":
@@ -1610,14 +1611,14 @@ var _ genruntime.FromARMConverter = &MetricAlertAction_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *MetricAlertAction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlertAction_STATUS_ARM{}
+	return &arm.MetricAlertAction_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *MetricAlertAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlertAction_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MetricAlertAction_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlertAction_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlertAction_STATUS, got %T", armInput)
 	}
 
 	// Set property "ActionGroupId":
@@ -1691,7 +1692,7 @@ func (criteria *MetricAlertCriteria) ConvertToARM(resolved genruntime.ConvertToA
 	if criteria == nil {
 		return nil, nil
 	}
-	result := &MetricAlertCriteria_ARM{}
+	result := &arm.MetricAlertCriteria{}
 
 	// Set property "MicrosoftAzureMonitorMultipleResourceMultipleMetric":
 	if criteria.MicrosoftAzureMonitorMultipleResourceMultipleMetric != nil {
@@ -1699,7 +1700,7 @@ func (criteria *MetricAlertCriteria) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		microsoftAzureMonitorMultipleResourceMultipleMetric := *microsoftAzureMonitorMultipleResourceMultipleMetric_ARM.(*MetricAlertMultipleResourceMultipleMetricCriteria_ARM)
+		microsoftAzureMonitorMultipleResourceMultipleMetric := *microsoftAzureMonitorMultipleResourceMultipleMetric_ARM.(*arm.MetricAlertMultipleResourceMultipleMetricCriteria)
 		result.MicrosoftAzureMonitorMultipleResourceMultipleMetric = &microsoftAzureMonitorMultipleResourceMultipleMetric
 	}
 
@@ -1709,7 +1710,7 @@ func (criteria *MetricAlertCriteria) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		microsoftAzureMonitorSingleResourceMultipleMetric := *microsoftAzureMonitorSingleResourceMultipleMetric_ARM.(*MetricAlertSingleResourceMultipleMetricCriteria_ARM)
+		microsoftAzureMonitorSingleResourceMultipleMetric := *microsoftAzureMonitorSingleResourceMultipleMetric_ARM.(*arm.MetricAlertSingleResourceMultipleMetricCriteria)
 		result.MicrosoftAzureMonitorSingleResourceMultipleMetric = &microsoftAzureMonitorSingleResourceMultipleMetric
 	}
 
@@ -1719,7 +1720,7 @@ func (criteria *MetricAlertCriteria) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		microsoftAzureMonitorWebtestLocationAvailability := *microsoftAzureMonitorWebtestLocationAvailability_ARM.(*WebtestLocationAvailabilityCriteria_ARM)
+		microsoftAzureMonitorWebtestLocationAvailability := *microsoftAzureMonitorWebtestLocationAvailability_ARM.(*arm.WebtestLocationAvailabilityCriteria)
 		result.MicrosoftAzureMonitorWebtestLocationAvailability = &microsoftAzureMonitorWebtestLocationAvailability
 	}
 	return result, nil
@@ -1727,14 +1728,14 @@ func (criteria *MetricAlertCriteria) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MetricAlertCriteria) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlertCriteria_ARM{}
+	return &arm.MetricAlertCriteria{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MetricAlertCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlertCriteria_ARM)
+	typedInput, ok := armInput.(arm.MetricAlertCriteria)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlertCriteria_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlertCriteria, got %T", armInput)
 	}
 
 	// Set property "MicrosoftAzureMonitorMultipleResourceMultipleMetric":
@@ -1927,14 +1928,14 @@ var _ genruntime.FromARMConverter = &MetricAlertCriteria_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MetricAlertCriteria_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlertCriteria_STATUS_ARM{}
+	return &arm.MetricAlertCriteria_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MetricAlertCriteria_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlertCriteria_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MetricAlertCriteria_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlertCriteria_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlertCriteria_STATUS, got %T", armInput)
 	}
 
 	// Set property "MicrosoftAzureMonitorMultipleResourceMultipleMetric":
@@ -2087,7 +2088,7 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) ConvertToARM(
 	if criteria == nil {
 		return nil, nil
 	}
-	result := &MetricAlertMultipleResourceMultipleMetricCriteria_ARM{}
+	result := &arm.MetricAlertMultipleResourceMultipleMetricCriteria{}
 
 	// Set property "AdditionalProperties":
 	if criteria.AdditionalProperties != nil {
@@ -2103,15 +2104,15 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) ConvertToARM(
 		if err != nil {
 			return nil, err
 		}
-		result.AllOf = append(result.AllOf, *item_ARM.(*MultiMetricCriteria_ARM))
+		result.AllOf = append(result.AllOf, *item_ARM.(*arm.MultiMetricCriteria))
 	}
 
 	// Set property "OdataType":
 	if criteria.OdataType != nil {
-		var temp MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM
+		var temp arm.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType
 		var temp1 string
 		temp1 = string(*criteria.OdataType)
-		temp = MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_ARM(temp1)
+		temp = arm.MetricAlertMultipleResourceMultipleMetricCriteria_OdataType(temp1)
 		result.OdataType = temp
 	}
 	return result, nil
@@ -2119,14 +2120,14 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) ConvertToARM(
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlertMultipleResourceMultipleMetricCriteria_ARM{}
+	return &arm.MetricAlertMultipleResourceMultipleMetricCriteria{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlertMultipleResourceMultipleMetricCriteria_ARM)
+	typedInput, ok := armInput.(arm.MetricAlertMultipleResourceMultipleMetricCriteria)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlertMultipleResourceMultipleMetricCriteria_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlertMultipleResourceMultipleMetricCriteria, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -2320,14 +2321,14 @@ var _ genruntime.FromARMConverter = &MetricAlertMultipleResourceMultipleMetricCr
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM{}
+	return &arm.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlertMultipleResourceMultipleMetricCriteria_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -2479,7 +2480,7 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) ConvertToARM(re
 	if criteria == nil {
 		return nil, nil
 	}
-	result := &MetricAlertSingleResourceMultipleMetricCriteria_ARM{}
+	result := &arm.MetricAlertSingleResourceMultipleMetricCriteria{}
 
 	// Set property "AdditionalProperties":
 	if criteria.AdditionalProperties != nil {
@@ -2495,15 +2496,15 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) ConvertToARM(re
 		if err != nil {
 			return nil, err
 		}
-		result.AllOf = append(result.AllOf, *item_ARM.(*MetricCriteria_ARM))
+		result.AllOf = append(result.AllOf, *item_ARM.(*arm.MetricCriteria))
 	}
 
 	// Set property "OdataType":
 	if criteria.OdataType != nil {
-		var temp MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM
+		var temp arm.MetricAlertSingleResourceMultipleMetricCriteria_OdataType
 		var temp1 string
 		temp1 = string(*criteria.OdataType)
-		temp = MetricAlertSingleResourceMultipleMetricCriteria_OdataType_ARM(temp1)
+		temp = arm.MetricAlertSingleResourceMultipleMetricCriteria_OdataType(temp1)
 		result.OdataType = temp
 	}
 	return result, nil
@@ -2511,14 +2512,14 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) ConvertToARM(re
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlertSingleResourceMultipleMetricCriteria_ARM{}
+	return &arm.MetricAlertSingleResourceMultipleMetricCriteria{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlertSingleResourceMultipleMetricCriteria_ARM)
+	typedInput, ok := armInput.(arm.MetricAlertSingleResourceMultipleMetricCriteria)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlertSingleResourceMultipleMetricCriteria_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlertSingleResourceMultipleMetricCriteria, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -2712,14 +2713,14 @@ var _ genruntime.FromARMConverter = &MetricAlertSingleResourceMultipleMetricCrit
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM{}
+	return &arm.MetricAlertSingleResourceMultipleMetricCriteria_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MetricAlertSingleResourceMultipleMetricCriteria_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricAlertSingleResourceMultipleMetricCriteria_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricAlertSingleResourceMultipleMetricCriteria_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -2880,7 +2881,7 @@ func (criteria *WebtestLocationAvailabilityCriteria) ConvertToARM(resolved genru
 	if criteria == nil {
 		return nil, nil
 	}
-	result := &WebtestLocationAvailabilityCriteria_ARM{}
+	result := &arm.WebtestLocationAvailabilityCriteria{}
 
 	// Set property "AdditionalProperties":
 	if criteria.AdditionalProperties != nil {
@@ -2908,10 +2909,10 @@ func (criteria *WebtestLocationAvailabilityCriteria) ConvertToARM(resolved genru
 
 	// Set property "OdataType":
 	if criteria.OdataType != nil {
-		var temp WebtestLocationAvailabilityCriteria_OdataType_ARM
+		var temp arm.WebtestLocationAvailabilityCriteria_OdataType
 		var temp1 string
 		temp1 = string(*criteria.OdataType)
-		temp = WebtestLocationAvailabilityCriteria_OdataType_ARM(temp1)
+		temp = arm.WebtestLocationAvailabilityCriteria_OdataType(temp1)
 		result.OdataType = temp
 	}
 
@@ -2925,14 +2926,14 @@ func (criteria *WebtestLocationAvailabilityCriteria) ConvertToARM(resolved genru
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *WebtestLocationAvailabilityCriteria) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebtestLocationAvailabilityCriteria_ARM{}
+	return &arm.WebtestLocationAvailabilityCriteria{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *WebtestLocationAvailabilityCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebtestLocationAvailabilityCriteria_ARM)
+	typedInput, ok := armInput.(arm.WebtestLocationAvailabilityCriteria)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebtestLocationAvailabilityCriteria_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebtestLocationAvailabilityCriteria, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -3139,14 +3140,14 @@ var _ genruntime.FromARMConverter = &WebtestLocationAvailabilityCriteria_STATUS{
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *WebtestLocationAvailabilityCriteria_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebtestLocationAvailabilityCriteria_STATUS_ARM{}
+	return &arm.WebtestLocationAvailabilityCriteria_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *WebtestLocationAvailabilityCriteria_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebtestLocationAvailabilityCriteria_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebtestLocationAvailabilityCriteria_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebtestLocationAvailabilityCriteria_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebtestLocationAvailabilityCriteria_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -3363,7 +3364,7 @@ func (criteria *MetricCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if criteria == nil {
 		return nil, nil
 	}
-	result := &MetricCriteria_ARM{}
+	result := &arm.MetricCriteria{}
 
 	// Set property "AdditionalProperties":
 	if criteria.AdditionalProperties != nil {
@@ -3375,10 +3376,10 @@ func (criteria *MetricCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "CriterionType":
 	if criteria.CriterionType != nil {
-		var temp MetricCriteria_CriterionType_ARM
+		var temp arm.MetricCriteria_CriterionType
 		var temp1 string
 		temp1 = string(*criteria.CriterionType)
-		temp = MetricCriteria_CriterionType_ARM(temp1)
+		temp = arm.MetricCriteria_CriterionType(temp1)
 		result.CriterionType = temp
 	}
 
@@ -3388,7 +3389,7 @@ func (criteria *MetricCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		result.Dimensions = append(result.Dimensions, *item_ARM.(*MetricDimension_ARM))
+		result.Dimensions = append(result.Dimensions, *item_ARM.(*arm.MetricDimension))
 	}
 
 	// Set property "MetricName":
@@ -3413,7 +3414,7 @@ func (criteria *MetricCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if criteria.Operator != nil {
 		var temp string
 		temp = string(*criteria.Operator)
-		operator := MetricCriteria_Operator_ARM(temp)
+		operator := arm.MetricCriteria_Operator(temp)
 		result.Operator = &operator
 	}
 
@@ -3433,7 +3434,7 @@ func (criteria *MetricCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if criteria.TimeAggregation != nil {
 		var temp string
 		temp = string(*criteria.TimeAggregation)
-		timeAggregation := MetricCriteria_TimeAggregation_ARM(temp)
+		timeAggregation := arm.MetricCriteria_TimeAggregation(temp)
 		result.TimeAggregation = &timeAggregation
 	}
 	return result, nil
@@ -3441,14 +3442,14 @@ func (criteria *MetricCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MetricCriteria) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricCriteria_ARM{}
+	return &arm.MetricCriteria{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MetricCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricCriteria_ARM)
+	typedInput, ok := armInput.(arm.MetricCriteria)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricCriteria_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricCriteria, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -3835,14 +3836,14 @@ var _ genruntime.FromARMConverter = &MetricCriteria_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MetricCriteria_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricCriteria_STATUS_ARM{}
+	return &arm.MetricCriteria_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MetricCriteria_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricCriteria_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MetricCriteria_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricCriteria_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricCriteria_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -4121,7 +4122,7 @@ func (criteria *MultiMetricCriteria) ConvertToARM(resolved genruntime.ConvertToA
 	if criteria == nil {
 		return nil, nil
 	}
-	result := &MultiMetricCriteria_ARM{}
+	result := &arm.MultiMetricCriteria{}
 
 	// Set property "Dynamic":
 	if criteria.Dynamic != nil {
@@ -4129,7 +4130,7 @@ func (criteria *MultiMetricCriteria) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		dynamic := *dynamic_ARM.(*DynamicMetricCriteria_ARM)
+		dynamic := *dynamic_ARM.(*arm.DynamicMetricCriteria)
 		result.Dynamic = &dynamic
 	}
 
@@ -4139,7 +4140,7 @@ func (criteria *MultiMetricCriteria) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		static := *static_ARM.(*MetricCriteria_ARM)
+		static := *static_ARM.(*arm.MetricCriteria)
 		result.Static = &static
 	}
 	return result, nil
@@ -4147,14 +4148,14 @@ func (criteria *MultiMetricCriteria) ConvertToARM(resolved genruntime.ConvertToA
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MultiMetricCriteria) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MultiMetricCriteria_ARM{}
+	return &arm.MultiMetricCriteria{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MultiMetricCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MultiMetricCriteria_ARM)
+	typedInput, ok := armInput.(arm.MultiMetricCriteria)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MultiMetricCriteria_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MultiMetricCriteria, got %T", armInput)
 	}
 
 	// Set property "Dynamic":
@@ -4297,14 +4298,14 @@ var _ genruntime.FromARMConverter = &MultiMetricCriteria_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *MultiMetricCriteria_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MultiMetricCriteria_STATUS_ARM{}
+	return &arm.MultiMetricCriteria_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *MultiMetricCriteria_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MultiMetricCriteria_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MultiMetricCriteria_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MultiMetricCriteria_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MultiMetricCriteria_STATUS, got %T", armInput)
 	}
 
 	// Set property "Dynamic":
@@ -4478,7 +4479,7 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 	if criteria == nil {
 		return nil, nil
 	}
-	result := &DynamicMetricCriteria_ARM{}
+	result := &arm.DynamicMetricCriteria{}
 
 	// Set property "AdditionalProperties":
 	if criteria.AdditionalProperties != nil {
@@ -4492,16 +4493,16 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 	if criteria.AlertSensitivity != nil {
 		var temp string
 		temp = string(*criteria.AlertSensitivity)
-		alertSensitivity := DynamicMetricCriteria_AlertSensitivity_ARM(temp)
+		alertSensitivity := arm.DynamicMetricCriteria_AlertSensitivity(temp)
 		result.AlertSensitivity = &alertSensitivity
 	}
 
 	// Set property "CriterionType":
 	if criteria.CriterionType != nil {
-		var temp DynamicMetricCriteria_CriterionType_ARM
+		var temp arm.DynamicMetricCriteria_CriterionType
 		var temp1 string
 		temp1 = string(*criteria.CriterionType)
-		temp = DynamicMetricCriteria_CriterionType_ARM(temp1)
+		temp = arm.DynamicMetricCriteria_CriterionType(temp1)
 		result.CriterionType = temp
 	}
 
@@ -4511,7 +4512,7 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Dimensions = append(result.Dimensions, *item_ARM.(*MetricDimension_ARM))
+		result.Dimensions = append(result.Dimensions, *item_ARM.(*arm.MetricDimension))
 	}
 
 	// Set property "FailingPeriods":
@@ -4520,7 +4521,7 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		failingPeriods := *failingPeriods_ARM.(*DynamicThresholdFailingPeriods_ARM)
+		failingPeriods := *failingPeriods_ARM.(*arm.DynamicThresholdFailingPeriods)
 		result.FailingPeriods = &failingPeriods
 	}
 
@@ -4552,7 +4553,7 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 	if criteria.Operator != nil {
 		var temp string
 		temp = string(*criteria.Operator)
-		operator := DynamicMetricCriteria_Operator_ARM(temp)
+		operator := arm.DynamicMetricCriteria_Operator(temp)
 		result.Operator = &operator
 	}
 
@@ -4566,7 +4567,7 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 	if criteria.TimeAggregation != nil {
 		var temp string
 		temp = string(*criteria.TimeAggregation)
-		timeAggregation := DynamicMetricCriteria_TimeAggregation_ARM(temp)
+		timeAggregation := arm.DynamicMetricCriteria_TimeAggregation(temp)
 		result.TimeAggregation = &timeAggregation
 	}
 	return result, nil
@@ -4574,14 +4575,14 @@ func (criteria *DynamicMetricCriteria) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *DynamicMetricCriteria) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DynamicMetricCriteria_ARM{}
+	return &arm.DynamicMetricCriteria{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *DynamicMetricCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DynamicMetricCriteria_ARM)
+	typedInput, ok := armInput.(arm.DynamicMetricCriteria)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DynamicMetricCriteria_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DynamicMetricCriteria, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -5042,14 +5043,14 @@ var _ genruntime.FromARMConverter = &DynamicMetricCriteria_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (criteria *DynamicMetricCriteria_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DynamicMetricCriteria_STATUS_ARM{}
+	return &arm.DynamicMetricCriteria_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (criteria *DynamicMetricCriteria_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DynamicMetricCriteria_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DynamicMetricCriteria_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DynamicMetricCriteria_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DynamicMetricCriteria_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdditionalProperties":
@@ -5482,7 +5483,7 @@ func (dimension *MetricDimension) ConvertToARM(resolved genruntime.ConvertToARMR
 	if dimension == nil {
 		return nil, nil
 	}
-	result := &MetricDimension_ARM{}
+	result := &arm.MetricDimension{}
 
 	// Set property "Name":
 	if dimension.Name != nil {
@@ -5505,14 +5506,14 @@ func (dimension *MetricDimension) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (dimension *MetricDimension) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricDimension_ARM{}
+	return &arm.MetricDimension{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (dimension *MetricDimension) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricDimension_ARM)
+	typedInput, ok := armInput.(arm.MetricDimension)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricDimension_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricDimension, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -5609,14 +5610,14 @@ var _ genruntime.FromARMConverter = &MetricDimension_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (dimension *MetricDimension_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricDimension_STATUS_ARM{}
+	return &arm.MetricDimension_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (dimension *MetricDimension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricDimension_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MetricDimension_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricDimension_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricDimension_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -5821,7 +5822,7 @@ func (periods *DynamicThresholdFailingPeriods) ConvertToARM(resolved genruntime.
 	if periods == nil {
 		return nil, nil
 	}
-	result := &DynamicThresholdFailingPeriods_ARM{}
+	result := &arm.DynamicThresholdFailingPeriods{}
 
 	// Set property "MinFailingPeriodsToAlert":
 	if periods.MinFailingPeriodsToAlert != nil {
@@ -5839,14 +5840,14 @@ func (periods *DynamicThresholdFailingPeriods) ConvertToARM(resolved genruntime.
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (periods *DynamicThresholdFailingPeriods) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DynamicThresholdFailingPeriods_ARM{}
+	return &arm.DynamicThresholdFailingPeriods{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (periods *DynamicThresholdFailingPeriods) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DynamicThresholdFailingPeriods_ARM)
+	typedInput, ok := armInput.(arm.DynamicThresholdFailingPeriods)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DynamicThresholdFailingPeriods_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DynamicThresholdFailingPeriods, got %T", armInput)
 	}
 
 	// Set property "MinFailingPeriodsToAlert":
@@ -5958,14 +5959,14 @@ var _ genruntime.FromARMConverter = &DynamicThresholdFailingPeriods_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (periods *DynamicThresholdFailingPeriods_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DynamicThresholdFailingPeriods_STATUS_ARM{}
+	return &arm.DynamicThresholdFailingPeriods_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (periods *DynamicThresholdFailingPeriods_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DynamicThresholdFailingPeriods_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DynamicThresholdFailingPeriods_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DynamicThresholdFailingPeriods_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DynamicThresholdFailingPeriods_STATUS, got %T", armInput)
 	}
 
 	// Set property "MinFailingPeriodsToAlert":

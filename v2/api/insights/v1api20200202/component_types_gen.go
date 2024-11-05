@@ -6,6 +6,7 @@ package v1api20200202
 import (
 	"context"
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
@@ -460,7 +461,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component == nil {
 		return nil, nil
 	}
-	result := &Component_Spec_ARM{}
+	result := &arm.Component_Spec{}
 
 	// Set property "Etag":
 	if component.Etag != nil {
@@ -498,12 +499,12 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		component.RetentionInDays != nil ||
 		component.SamplingPercentage != nil ||
 		component.WorkspaceResourceReference != nil {
-		result.Properties = &ApplicationInsightsComponentProperties_ARM{}
+		result.Properties = &arm.ApplicationInsightsComponentProperties{}
 	}
 	if component.Application_Type != nil {
 		var temp string
 		temp = string(*component.Application_Type)
-		applicationType := ApplicationInsightsComponentProperties_Application_Type_ARM(temp)
+		applicationType := arm.ApplicationInsightsComponentProperties_Application_Type(temp)
 		result.Properties.Application_Type = &applicationType
 	}
 	if component.DisableIpMasking != nil {
@@ -517,7 +518,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component.Flow_Type != nil {
 		var temp string
 		temp = string(*component.Flow_Type)
-		flowType := ApplicationInsightsComponentProperties_Flow_Type_ARM(temp)
+		flowType := arm.ApplicationInsightsComponentProperties_Flow_Type(temp)
 		result.Properties.Flow_Type = &flowType
 	}
 	if component.ForceCustomerStorageForProfiler != nil {
@@ -535,25 +536,25 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component.IngestionMode != nil {
 		var temp string
 		temp = string(*component.IngestionMode)
-		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_ARM(temp)
+		ingestionMode := arm.ApplicationInsightsComponentProperties_IngestionMode(temp)
 		result.Properties.IngestionMode = &ingestionMode
 	}
 	if component.PublicNetworkAccessForIngestion != nil {
 		var temp string
 		temp = string(*component.PublicNetworkAccessForIngestion)
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_ARM(temp)
+		publicNetworkAccessForIngestion := arm.PublicNetworkAccessType(temp)
 		result.Properties.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	}
 	if component.PublicNetworkAccessForQuery != nil {
 		var temp string
 		temp = string(*component.PublicNetworkAccessForQuery)
-		publicNetworkAccessForQuery := PublicNetworkAccessType_ARM(temp)
+		publicNetworkAccessForQuery := arm.PublicNetworkAccessType(temp)
 		result.Properties.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	}
 	if component.Request_Source != nil {
 		var temp string
 		temp = string(*component.Request_Source)
-		requestSource := ApplicationInsightsComponentProperties_Request_Source_ARM(temp)
+		requestSource := arm.ApplicationInsightsComponentProperties_Request_Source(temp)
 		result.Properties.Request_Source = &requestSource
 	}
 	if component.RetentionInDays != nil {
@@ -585,14 +586,14 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (component *Component_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Component_Spec_ARM{}
+	return &arm.Component_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Component_Spec_ARM)
+	typedInput, ok := armInput.(arm.Component_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Component_Spec, got %T", armInput)
 	}
 
 	// Set property "Application_Type":
@@ -1417,14 +1418,14 @@ var _ genruntime.FromARMConverter = &Component_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (component *Component_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Component_STATUS_ARM{}
+	return &arm.Component_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Component_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Component_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Component_STATUS, got %T", armInput)
 	}
 
 	// Set property "AppId":
@@ -2247,14 +2248,14 @@ var _ genruntime.FromARMConverter = &PrivateLinkScopedResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *PrivateLinkScopedResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkScopedResource_STATUS_ARM{}
+	return &arm.PrivateLinkScopedResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkScopedResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateLinkScopedResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateLinkScopedResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "ResourceId":

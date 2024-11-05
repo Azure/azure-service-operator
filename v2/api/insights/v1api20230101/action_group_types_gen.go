@@ -5,6 +5,7 @@ package v1api20230101
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -394,7 +395,7 @@ func (group *ActionGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if group == nil {
 		return nil, nil
 	}
-	result := &ActionGroup_Spec_ARM{}
+	result := &arm.ActionGroup_Spec{}
 
 	// Set property "Location":
 	if group.Location != nil {
@@ -419,42 +420,42 @@ func (group *ActionGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		group.SmsReceivers != nil ||
 		group.VoiceReceivers != nil ||
 		group.WebhookReceivers != nil {
-		result.Properties = &ActionGroupSpec_ARM{}
+		result.Properties = &arm.ActionGroupSpec{}
 	}
 	for _, item := range group.ArmRoleReceivers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ArmRoleReceivers = append(result.Properties.ArmRoleReceivers, *item_ARM.(*ArmRoleReceiver_ARM))
+		result.Properties.ArmRoleReceivers = append(result.Properties.ArmRoleReceivers, *item_ARM.(*arm.ArmRoleReceiver))
 	}
 	for _, item := range group.AutomationRunbookReceivers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.AutomationRunbookReceivers = append(result.Properties.AutomationRunbookReceivers, *item_ARM.(*AutomationRunbookReceiver_ARM))
+		result.Properties.AutomationRunbookReceivers = append(result.Properties.AutomationRunbookReceivers, *item_ARM.(*arm.AutomationRunbookReceiver))
 	}
 	for _, item := range group.AzureAppPushReceivers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.AzureAppPushReceivers = append(result.Properties.AzureAppPushReceivers, *item_ARM.(*AzureAppPushReceiver_ARM))
+		result.Properties.AzureAppPushReceivers = append(result.Properties.AzureAppPushReceivers, *item_ARM.(*arm.AzureAppPushReceiver))
 	}
 	for _, item := range group.AzureFunctionReceivers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.AzureFunctionReceivers = append(result.Properties.AzureFunctionReceivers, *item_ARM.(*AzureFunctionReceiver_ARM))
+		result.Properties.AzureFunctionReceivers = append(result.Properties.AzureFunctionReceivers, *item_ARM.(*arm.AzureFunctionReceiver))
 	}
 	for _, item := range group.EmailReceivers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.EmailReceivers = append(result.Properties.EmailReceivers, *item_ARM.(*EmailReceiver_ARM))
+		result.Properties.EmailReceivers = append(result.Properties.EmailReceivers, *item_ARM.(*arm.EmailReceiver))
 	}
 	if group.Enabled != nil {
 		enabled := *group.Enabled
@@ -465,7 +466,7 @@ func (group *ActionGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.EventHubReceivers = append(result.Properties.EventHubReceivers, *item_ARM.(*EventHubReceiver_ARM))
+		result.Properties.EventHubReceivers = append(result.Properties.EventHubReceivers, *item_ARM.(*arm.EventHubReceiver))
 	}
 	if group.GroupShortName != nil {
 		groupShortName := *group.GroupShortName
@@ -476,35 +477,35 @@ func (group *ActionGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ItsmReceivers = append(result.Properties.ItsmReceivers, *item_ARM.(*ItsmReceiver_ARM))
+		result.Properties.ItsmReceivers = append(result.Properties.ItsmReceivers, *item_ARM.(*arm.ItsmReceiver))
 	}
 	for _, item := range group.LogicAppReceivers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LogicAppReceivers = append(result.Properties.LogicAppReceivers, *item_ARM.(*LogicAppReceiver_ARM))
+		result.Properties.LogicAppReceivers = append(result.Properties.LogicAppReceivers, *item_ARM.(*arm.LogicAppReceiver))
 	}
 	for _, item := range group.SmsReceivers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SmsReceivers = append(result.Properties.SmsReceivers, *item_ARM.(*SmsReceiver_ARM))
+		result.Properties.SmsReceivers = append(result.Properties.SmsReceivers, *item_ARM.(*arm.SmsReceiver))
 	}
 	for _, item := range group.VoiceReceivers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.VoiceReceivers = append(result.Properties.VoiceReceivers, *item_ARM.(*VoiceReceiver_ARM))
+		result.Properties.VoiceReceivers = append(result.Properties.VoiceReceivers, *item_ARM.(*arm.VoiceReceiver))
 	}
 	for _, item := range group.WebhookReceivers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.WebhookReceivers = append(result.Properties.WebhookReceivers, *item_ARM.(*WebhookReceiver_ARM))
+		result.Properties.WebhookReceivers = append(result.Properties.WebhookReceivers, *item_ARM.(*arm.WebhookReceiver))
 	}
 
 	// Set property "Tags":
@@ -519,14 +520,14 @@ func (group *ActionGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (group *ActionGroup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ActionGroup_Spec_ARM{}
+	return &arm.ActionGroup_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (group *ActionGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ActionGroup_Spec_ARM)
+	typedInput, ok := armInput.(arm.ActionGroup_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActionGroup_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActionGroup_Spec, got %T", armInput)
 	}
 
 	// Set property "ArmRoleReceivers":
@@ -1606,14 +1607,14 @@ var _ genruntime.FromARMConverter = &ActionGroupResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (resource *ActionGroupResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ActionGroupResource_STATUS_ARM{}
+	return &arm.ActionGroupResource_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (resource *ActionGroupResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ActionGroupResource_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ActionGroupResource_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActionGroupResource_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActionGroupResource_STATUS, got %T", armInput)
 	}
 
 	// Set property "ArmRoleReceivers":
@@ -2318,7 +2319,7 @@ func (receiver *ArmRoleReceiver) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &ArmRoleReceiver_ARM{}
+	result := &arm.ArmRoleReceiver{}
 
 	// Set property "Name":
 	if receiver.Name != nil {
@@ -2342,14 +2343,14 @@ func (receiver *ArmRoleReceiver) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *ArmRoleReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ArmRoleReceiver_ARM{}
+	return &arm.ArmRoleReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *ArmRoleReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ArmRoleReceiver_ARM)
+	typedInput, ok := armInput.(arm.ArmRoleReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmRoleReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ArmRoleReceiver, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2462,14 +2463,14 @@ var _ genruntime.FromARMConverter = &ArmRoleReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *ArmRoleReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ArmRoleReceiver_STATUS_ARM{}
+	return &arm.ArmRoleReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *ArmRoleReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ArmRoleReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ArmRoleReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmRoleReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ArmRoleReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "Name":
@@ -2580,7 +2581,7 @@ func (receiver *AutomationRunbookReceiver) ConvertToARM(resolved genruntime.Conv
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &AutomationRunbookReceiver_ARM{}
+	result := &arm.AutomationRunbookReceiver{}
 
 	// Set property "AutomationAccountId":
 	if receiver.AutomationAccountId != nil {
@@ -2632,14 +2633,14 @@ func (receiver *AutomationRunbookReceiver) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *AutomationRunbookReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutomationRunbookReceiver_ARM{}
+	return &arm.AutomationRunbookReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *AutomationRunbookReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutomationRunbookReceiver_ARM)
+	typedInput, ok := armInput.(arm.AutomationRunbookReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutomationRunbookReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutomationRunbookReceiver, got %T", armInput)
 	}
 
 	// Set property "AutomationAccountId":
@@ -2850,14 +2851,14 @@ var _ genruntime.FromARMConverter = &AutomationRunbookReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *AutomationRunbookReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutomationRunbookReceiver_STATUS_ARM{}
+	return &arm.AutomationRunbookReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *AutomationRunbookReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutomationRunbookReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AutomationRunbookReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutomationRunbookReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutomationRunbookReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "AutomationAccountId":
@@ -3009,7 +3010,7 @@ func (receiver *AzureAppPushReceiver) ConvertToARM(resolved genruntime.ConvertTo
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &AzureAppPushReceiver_ARM{}
+	result := &arm.AzureAppPushReceiver{}
 
 	// Set property "EmailAddress":
 	if receiver.EmailAddress != nil {
@@ -3027,14 +3028,14 @@ func (receiver *AzureAppPushReceiver) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *AzureAppPushReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureAppPushReceiver_ARM{}
+	return &arm.AzureAppPushReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *AzureAppPushReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureAppPushReceiver_ARM)
+	typedInput, ok := armInput.(arm.AzureAppPushReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureAppPushReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureAppPushReceiver, got %T", armInput)
 	}
 
 	// Set property "EmailAddress":
@@ -3114,14 +3115,14 @@ var _ genruntime.FromARMConverter = &AzureAppPushReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *AzureAppPushReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureAppPushReceiver_STATUS_ARM{}
+	return &arm.AzureAppPushReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *AzureAppPushReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureAppPushReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AzureAppPushReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureAppPushReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureAppPushReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "EmailAddress":
@@ -3204,7 +3205,7 @@ func (receiver *AzureFunctionReceiver) ConvertToARM(resolved genruntime.ConvertT
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &AzureFunctionReceiver_ARM{}
+	result := &arm.AzureFunctionReceiver{}
 
 	// Set property "FunctionAppResourceId":
 	if receiver.FunctionAppResourceReference != nil {
@@ -3244,14 +3245,14 @@ func (receiver *AzureFunctionReceiver) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *AzureFunctionReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureFunctionReceiver_ARM{}
+	return &arm.AzureFunctionReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *AzureFunctionReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureFunctionReceiver_ARM)
+	typedInput, ok := armInput.(arm.AzureFunctionReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFunctionReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureFunctionReceiver, got %T", armInput)
 	}
 
 	// no assignment for property "FunctionAppResourceReference"
@@ -3411,14 +3412,14 @@ var _ genruntime.FromARMConverter = &AzureFunctionReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *AzureFunctionReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AzureFunctionReceiver_STATUS_ARM{}
+	return &arm.AzureFunctionReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *AzureFunctionReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AzureFunctionReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AzureFunctionReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFunctionReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AzureFunctionReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "FunctionAppResourceId":
@@ -3539,7 +3540,7 @@ func (receiver *EmailReceiver) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &EmailReceiver_ARM{}
+	result := &arm.EmailReceiver{}
 
 	// Set property "EmailAddress":
 	if receiver.EmailAddress != nil {
@@ -3563,14 +3564,14 @@ func (receiver *EmailReceiver) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *EmailReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EmailReceiver_ARM{}
+	return &arm.EmailReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *EmailReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EmailReceiver_ARM)
+	typedInput, ok := armInput.(arm.EmailReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EmailReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EmailReceiver, got %T", armInput)
 	}
 
 	// Set property "EmailAddress":
@@ -3686,14 +3687,14 @@ var _ genruntime.FromARMConverter = &EmailReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *EmailReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EmailReceiver_STATUS_ARM{}
+	return &arm.EmailReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *EmailReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EmailReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.EmailReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EmailReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EmailReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "EmailAddress":
@@ -3826,7 +3827,7 @@ func (receiver *EventHubReceiver) ConvertToARM(resolved genruntime.ConvertToARMR
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &EventHubReceiver_ARM{}
+	result := &arm.EventHubReceiver{}
 
 	// Set property "EventHubName":
 	if receiver.EventHubName != nil {
@@ -3868,14 +3869,14 @@ func (receiver *EventHubReceiver) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *EventHubReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventHubReceiver_ARM{}
+	return &arm.EventHubReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *EventHubReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventHubReceiver_ARM)
+	typedInput, ok := armInput.(arm.EventHubReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EventHubReceiver, got %T", armInput)
 	}
 
 	// Set property "EventHubName":
@@ -4042,14 +4043,14 @@ var _ genruntime.FromARMConverter = &EventHubReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *EventHubReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EventHubReceiver_STATUS_ARM{}
+	return &arm.EventHubReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *EventHubReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EventHubReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.EventHubReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EventHubReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "EventHubName":
@@ -4193,7 +4194,7 @@ func (receiver *ItsmReceiver) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &ItsmReceiver_ARM{}
+	result := &arm.ItsmReceiver{}
 
 	// Set property "ConnectionId":
 	if receiver.ConnectionId != nil {
@@ -4229,14 +4230,14 @@ func (receiver *ItsmReceiver) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *ItsmReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ItsmReceiver_ARM{}
+	return &arm.ItsmReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *ItsmReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ItsmReceiver_ARM)
+	typedInput, ok := armInput.(arm.ItsmReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ItsmReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ItsmReceiver, got %T", armInput)
 	}
 
 	// Set property "ConnectionId":
@@ -4372,14 +4373,14 @@ var _ genruntime.FromARMConverter = &ItsmReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *ItsmReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ItsmReceiver_STATUS_ARM{}
+	return &arm.ItsmReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *ItsmReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ItsmReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ItsmReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ItsmReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ItsmReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "ConnectionId":
@@ -4494,7 +4495,7 @@ func (receiver *LogicAppReceiver) ConvertToARM(resolved genruntime.ConvertToARMR
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &LogicAppReceiver_ARM{}
+	result := &arm.LogicAppReceiver{}
 
 	// Set property "CallbackUrl":
 	if receiver.CallbackUrl != nil {
@@ -4528,14 +4529,14 @@ func (receiver *LogicAppReceiver) ConvertToARM(resolved genruntime.ConvertToARMR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *LogicAppReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LogicAppReceiver_ARM{}
+	return &arm.LogicAppReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *LogicAppReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LogicAppReceiver_ARM)
+	typedInput, ok := armInput.(arm.LogicAppReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LogicAppReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LogicAppReceiver, got %T", armInput)
 	}
 
 	// Set property "CallbackUrl":
@@ -4677,14 +4678,14 @@ var _ genruntime.FromARMConverter = &LogicAppReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *LogicAppReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LogicAppReceiver_STATUS_ARM{}
+	return &arm.LogicAppReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *LogicAppReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LogicAppReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.LogicAppReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LogicAppReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.LogicAppReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "CallbackUrl":
@@ -4794,7 +4795,7 @@ func (receiver *SmsReceiver) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &SmsReceiver_ARM{}
+	result := &arm.SmsReceiver{}
 
 	// Set property "CountryCode":
 	if receiver.CountryCode != nil {
@@ -4818,14 +4819,14 @@ func (receiver *SmsReceiver) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *SmsReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SmsReceiver_ARM{}
+	return &arm.SmsReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *SmsReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SmsReceiver_ARM)
+	typedInput, ok := armInput.(arm.SmsReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SmsReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SmsReceiver, got %T", armInput)
 	}
 
 	// Set property "CountryCode":
@@ -4926,14 +4927,14 @@ var _ genruntime.FromARMConverter = &SmsReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *SmsReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SmsReceiver_STATUS_ARM{}
+	return &arm.SmsReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *SmsReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SmsReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SmsReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SmsReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SmsReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "CountryCode":
@@ -5046,7 +5047,7 @@ func (receiver *VoiceReceiver) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &VoiceReceiver_ARM{}
+	result := &arm.VoiceReceiver{}
 
 	// Set property "CountryCode":
 	if receiver.CountryCode != nil {
@@ -5070,14 +5071,14 @@ func (receiver *VoiceReceiver) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *VoiceReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VoiceReceiver_ARM{}
+	return &arm.VoiceReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *VoiceReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VoiceReceiver_ARM)
+	typedInput, ok := armInput.(arm.VoiceReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VoiceReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VoiceReceiver, got %T", armInput)
 	}
 
 	// Set property "CountryCode":
@@ -5175,14 +5176,14 @@ var _ genruntime.FromARMConverter = &VoiceReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *VoiceReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VoiceReceiver_STATUS_ARM{}
+	return &arm.VoiceReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *VoiceReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VoiceReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.VoiceReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VoiceReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VoiceReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "CountryCode":
@@ -5281,7 +5282,7 @@ func (receiver *WebhookReceiver) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if receiver == nil {
 		return nil, nil
 	}
-	result := &WebhookReceiver_ARM{}
+	result := &arm.WebhookReceiver{}
 
 	// Set property "IdentifierUri":
 	if receiver.IdentifierUri != nil {
@@ -5329,14 +5330,14 @@ func (receiver *WebhookReceiver) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *WebhookReceiver) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebhookReceiver_ARM{}
+	return &arm.WebhookReceiver{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *WebhookReceiver) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebhookReceiver_ARM)
+	typedInput, ok := armInput.(arm.WebhookReceiver)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebhookReceiver_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebhookReceiver, got %T", armInput)
 	}
 
 	// Set property "IdentifierUri":
@@ -5536,14 +5537,14 @@ var _ genruntime.FromARMConverter = &WebhookReceiver_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (receiver *WebhookReceiver_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebhookReceiver_STATUS_ARM{}
+	return &arm.WebhookReceiver_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (receiver *WebhookReceiver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebhookReceiver_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebhookReceiver_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebhookReceiver_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebhookReceiver_STATUS, got %T", armInput)
 	}
 
 	// Set property "IdentifierUri":
