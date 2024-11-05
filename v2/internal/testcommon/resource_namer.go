@@ -37,14 +37,8 @@ type ResourceNamer struct {
 }
 
 // WithTestName returns a new ResourceNamer configured based on the provided test name.
-// If the original ResourceNamer was entirely random (mode == ResourceNamerModeRandom),
-// the returned namer is not actually based on the test name and is instead still entirely random
+// The mode of the original resource namer is preserved.
 func (n ResourceNamer) WithTestName(testName string) ResourceNamer {
-	// Short circuit for the case we're supposed to be totally random, as we already are
-	if n.mode == ResourceNamerModeRandom {
-		return n
-	}
-
 	return n.NewResourceNamer(testName)
 }
 
