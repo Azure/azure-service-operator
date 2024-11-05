@@ -93,17 +93,15 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 	var updated int
 	var asoCRDsSeen int
-	deprecatedVersionRegexp := regexp.MustCompile(`((v1alpha1api|v1beta)\d{8}(preview)?(storage)?|v1beta1)`) // handcrafted (non-ARM) resources have v1beta1 version
 
 	for _, crd := range crds {
-		crd := crd
-
 		asoCRDsSeen++
-		newStoredVersions, deprecatedVersion := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
+		newStoredVersions, deprecatedVersions := getDeprecatedStorageVersions(crd)
 
 		// If there is no new version found other than the matched version, we short circuit here, as there is no updated version found in the CRDs
 		if len(newStoredVersions) <= 0 {
-			return errors.New(fmt.Sprintf("it doesn't look like your version of ASO is one that supports deprecating version %q. Have you upgraded ASO yet?", deprecatedVersion))
+			// TODO: test?
+			return errors.Errorf("it doesn't look like your version of ASO is one that supports deprecating CRD %q, versions %q. Have you upgraded ASO yet?", crd.Name, deprecatedVersions)
 		}
 
 		// If the slice was not updated, there is no version to deprecate.
@@ -266,18 +264,41 @@ func (c *Cleaner) getObjectsForMigration(ctx context.Context, crd apiextensions.
 	return list, nil
 }
 
-// removeMatchingStoredVersions returns a new list of storedVersions by removing the non-storage matched version
-func removeMatchingStoredVersions(oldVersions []string, versionRegexp *regexp.Regexp) ([]string, string) {
-	newStoredVersions := make([]string, 0, len(oldVersions))
-	var matchedStoredVersion string
-	for _, version := range oldVersions {
-		if versionRegexp.MatchString(version) {
-			matchedStoredVersion = version
+var deprecatedVersionRegexp = regexp.MustCompile(`((v1alpha1api|v1beta)\d{8}(preview)?(storage)?|v1beta1)`) // handcrafted (non-ARM) resources have v1beta1 version
+
+// deprecatedVersionsMap is a map of crd name to a collection of deprecated versions
+var deprecatedVersionsMap = map[string][]string{
+	"trustedaccessrolebindings.containerservice.azure.com": {"v1api20230202previewstorage"},
+}
+
+func isVersionDeprecated(crd apiextensions.CustomResourceDefinition, version string) bool {
+	if deprecatedVersionRegexp.MatchString(version) {
+		return true
+	}
+
+	for _, deprecatedVersion := range deprecatedVersionsMap[crd.Name] {
+		if deprecatedVersion == version {
+			return true
+		}
+	}
+
+	return false
+}
+
+// getDeprecatedStorageVersions returns a new list of storedVersions by removing the deprecated versions
+func getDeprecatedStorageVersions(crd apiextensions.CustomResourceDefinition) ([]string, []string) {
+	storedVersions := crd.Status.StoredVersions
+
+	newStoredVersions := make([]string, 0, len(storedVersions))
+	var removedVersions []string
+	for _, version := range storedVersions {
+		if isVersionDeprecated(crd, version) {
+			removedVersions = append(removedVersions, version)
 			continue
 		}
 
 		newStoredVersions = append(newStoredVersions, version)
 	}
 
-	return newStoredVersions, matchedStoredVersion
+	return newStoredVersions, removedVersions
 }

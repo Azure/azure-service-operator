@@ -25,13 +25,9 @@ const (
 )
 
 var armPackageDenyList = set.Make(
-	"appconfiguration",
 	"authorization",
-	"cdn",
 	"dataprotection",
-	"dbformariadb",
 	"eventhub",
-	"insights",
 	"kusto",
 	"operationalinsights",
 	"resources",

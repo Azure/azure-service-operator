@@ -5,6 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -361,7 +362,7 @@ func (domain *AfdCustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if domain == nil {
 		return nil, nil
 	}
-	result := &AfdCustomDomain_Spec_ARM{}
+	result := &arm.AfdCustomDomain_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -372,14 +373,14 @@ func (domain *AfdCustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		domain.HostName != nil ||
 		domain.PreValidatedCustomDomainResourceId != nil ||
 		domain.TlsSettings != nil {
-		result.Properties = &AFDDomainProperties_ARM{}
+		result.Properties = &arm.AFDDomainProperties{}
 	}
 	if domain.AzureDnsZone != nil {
 		azureDnsZone_ARM, err := (*domain.AzureDnsZone).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		azureDnsZone := *azureDnsZone_ARM.(*ResourceReference_ARM)
+		azureDnsZone := *azureDnsZone_ARM.(*arm.ResourceReference)
 		result.Properties.AzureDnsZone = &azureDnsZone
 	}
 	if domain.ExtendedProperties != nil {
@@ -397,7 +398,7 @@ func (domain *AfdCustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		preValidatedCustomDomainResourceId := *preValidatedCustomDomainResourceId_ARM.(*ResourceReference_ARM)
+		preValidatedCustomDomainResourceId := *preValidatedCustomDomainResourceId_ARM.(*arm.ResourceReference)
 		result.Properties.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
 	}
 	if domain.TlsSettings != nil {
@@ -405,7 +406,7 @@ func (domain *AfdCustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		tlsSettings := *tlsSettings_ARM.(*AFDDomainHttpsParameters_ARM)
+		tlsSettings := *tlsSettings_ARM.(*arm.AFDDomainHttpsParameters)
 		result.Properties.TlsSettings = &tlsSettings
 	}
 	return result, nil
@@ -413,14 +414,14 @@ func (domain *AfdCustomDomain_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (domain *AfdCustomDomain_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdCustomDomain_Spec_ARM{}
+	return &arm.AfdCustomDomain_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (domain *AfdCustomDomain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdCustomDomain_Spec_ARM)
+	typedInput, ok := armInput.(arm.AfdCustomDomain_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdCustomDomain_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdCustomDomain_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureDnsZone":
@@ -839,14 +840,14 @@ var _ genruntime.FromARMConverter = &AfdCustomDomain_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (domain *AfdCustomDomain_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AfdCustomDomain_STATUS_ARM{}
+	return &arm.AfdCustomDomain_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (domain *AfdCustomDomain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AfdCustomDomain_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AfdCustomDomain_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AfdCustomDomain_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AfdCustomDomain_STATUS, got %T", armInput)
 	}
 
 	// Set property "AzureDnsZone":
@@ -1263,13 +1264,13 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 	if parameters == nil {
 		return nil, nil
 	}
-	result := &AFDDomainHttpsParameters_ARM{}
+	result := &arm.AFDDomainHttpsParameters{}
 
 	// Set property "CertificateType":
 	if parameters.CertificateType != nil {
 		var temp string
 		temp = string(*parameters.CertificateType)
-		certificateType := AFDDomainHttpsParameters_CertificateType_ARM(temp)
+		certificateType := arm.AFDDomainHttpsParameters_CertificateType(temp)
 		result.CertificateType = &certificateType
 	}
 
@@ -1277,7 +1278,7 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 	if parameters.MinimumTlsVersion != nil {
 		var temp string
 		temp = string(*parameters.MinimumTlsVersion)
-		minimumTlsVersion := AFDDomainHttpsParameters_MinimumTlsVersion_ARM(temp)
+		minimumTlsVersion := arm.AFDDomainHttpsParameters_MinimumTlsVersion(temp)
 		result.MinimumTlsVersion = &minimumTlsVersion
 	}
 
@@ -1287,7 +1288,7 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		secret := *secret_ARM.(*ResourceReference_ARM)
+		secret := *secret_ARM.(*arm.ResourceReference)
 		result.Secret = &secret
 	}
 	return result, nil
@@ -1295,14 +1296,14 @@ func (parameters *AFDDomainHttpsParameters) ConvertToARM(resolved genruntime.Con
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *AFDDomainHttpsParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AFDDomainHttpsParameters_ARM{}
+	return &arm.AFDDomainHttpsParameters{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *AFDDomainHttpsParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AFDDomainHttpsParameters_ARM)
+	typedInput, ok := armInput.(arm.AFDDomainHttpsParameters)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AFDDomainHttpsParameters_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AFDDomainHttpsParameters, got %T", armInput)
 	}
 
 	// Set property "CertificateType":
@@ -1468,14 +1469,14 @@ var _ genruntime.FromARMConverter = &AFDDomainHttpsParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (parameters *AFDDomainHttpsParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AFDDomainHttpsParameters_STATUS_ARM{}
+	return &arm.AFDDomainHttpsParameters_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (parameters *AFDDomainHttpsParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AFDDomainHttpsParameters_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AFDDomainHttpsParameters_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AFDDomainHttpsParameters_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AFDDomainHttpsParameters_STATUS, got %T", armInput)
 	}
 
 	// Set property "CertificateType":
@@ -1666,14 +1667,14 @@ var _ genruntime.FromARMConverter = &DomainValidationProperties_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *DomainValidationProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DomainValidationProperties_STATUS_ARM{}
+	return &arm.DomainValidationProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *DomainValidationProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DomainValidationProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.DomainValidationProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DomainValidationProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.DomainValidationProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "ExpirationDate":
@@ -1740,7 +1741,7 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 	if reference == nil {
 		return nil, nil
 	}
-	result := &ResourceReference_ARM{}
+	result := &arm.ResourceReference{}
 
 	// Set property "Id":
 	if reference.Reference != nil {
@@ -1756,14 +1757,14 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ResourceReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceReference_ARM{}
+	return &arm.ResourceReference{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ResourceReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(ResourceReference_ARM)
+	_, ok := armInput.(arm.ResourceReference)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceReference, got %T", armInput)
 	}
 
 	// no assignment for property "Reference"
@@ -1836,14 +1837,14 @@ var _ genruntime.FromARMConverter = &ResourceReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (reference *ResourceReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceReference_STATUS_ARM{}
+	return &arm.ResourceReference_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (reference *ResourceReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceReference_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ResourceReference_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ResourceReference_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1910,14 +1911,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":

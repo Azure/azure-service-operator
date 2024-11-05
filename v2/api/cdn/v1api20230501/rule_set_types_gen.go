@@ -5,6 +5,7 @@ package v1api20230501
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -343,7 +344,7 @@ func (ruleSet *RuleSet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if ruleSet == nil {
 		return nil, nil
 	}
-	result := &RuleSet_Spec_ARM{}
+	result := &arm.RuleSet_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -352,14 +353,14 @@ func (ruleSet *RuleSet_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *RuleSet_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RuleSet_Spec_ARM{}
+	return &arm.RuleSet_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *RuleSet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RuleSet_Spec_ARM)
+	typedInput, ok := armInput.(arm.RuleSet_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RuleSet_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RuleSet_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -566,14 +567,14 @@ var _ genruntime.FromARMConverter = &RuleSet_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (ruleSet *RuleSet_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RuleSet_STATUS_ARM{}
+	return &arm.RuleSet_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (ruleSet *RuleSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RuleSet_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RuleSet_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RuleSet_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RuleSet_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"

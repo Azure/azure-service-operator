@@ -5,6 +5,7 @@ package v1api20180601
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -379,7 +380,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if server == nil {
 		return nil, nil
 	}
-	result := &Server_Spec_ARM{}
+	result := &arm.Server_Spec{}
 
 	// Set property "Location":
 	if server.Location != nil {
@@ -396,7 +397,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		properties := *properties_ARM.(*ServerPropertiesForCreate_ARM)
+		properties := *properties_ARM.(*arm.ServerPropertiesForCreate)
 		result.Properties = &properties
 	}
 
@@ -406,7 +407,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		sku := *sku_ARM.(*Sku_ARM)
+		sku := *sku_ARM.(*arm.Sku)
 		result.Sku = &sku
 	}
 
@@ -422,14 +423,14 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *Server_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Server_Spec_ARM{}
+	return &arm.Server_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Server_Spec_ARM)
+	typedInput, ok := armInput.(arm.Server_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Server_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -818,14 +819,14 @@ var _ genruntime.FromARMConverter = &Server_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (server *Server_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Server_STATUS_ARM{}
+	return &arm.Server_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Server_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Server_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Server_STATUS, got %T", armInput)
 	}
 
 	// Set property "AdministratorLogin":
@@ -1376,14 +1377,14 @@ var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (connection *ServerPrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPrivateEndpointConnection_STATUS_ARM{}
+	return &arm.ServerPrivateEndpointConnection_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (connection *ServerPrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPrivateEndpointConnection_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServerPrivateEndpointConnection_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnection_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServerPrivateEndpointConnection_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -1496,7 +1497,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 	if create == nil {
 		return nil, nil
 	}
-	result := &ServerPropertiesForCreate_ARM{}
+	result := &arm.ServerPropertiesForCreate{}
 
 	// Set property "Default":
 	if create.Default != nil {
@@ -1504,7 +1505,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		def := *default_ARM.(*ServerPropertiesForDefaultCreate_ARM)
+		def := *default_ARM.(*arm.ServerPropertiesForDefaultCreate)
 		result.Default = &def
 	}
 
@@ -1514,7 +1515,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		geoRestore := *geoRestore_ARM.(*ServerPropertiesForGeoRestore_ARM)
+		geoRestore := *geoRestore_ARM.(*arm.ServerPropertiesForGeoRestore)
 		result.GeoRestore = &geoRestore
 	}
 
@@ -1524,7 +1525,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		pointInTimeRestore := *pointInTimeRestore_ARM.(*ServerPropertiesForRestore_ARM)
+		pointInTimeRestore := *pointInTimeRestore_ARM.(*arm.ServerPropertiesForRestore)
 		result.PointInTimeRestore = &pointInTimeRestore
 	}
 
@@ -1534,7 +1535,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		replica := *replica_ARM.(*ServerPropertiesForReplica_ARM)
+		replica := *replica_ARM.(*arm.ServerPropertiesForReplica)
 		result.Replica = &replica
 	}
 	return result, nil
@@ -1542,14 +1543,14 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (create *ServerPropertiesForCreate) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPropertiesForCreate_ARM{}
+	return &arm.ServerPropertiesForCreate{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPropertiesForCreate_ARM)
+	typedInput, ok := armInput.(arm.ServerPropertiesForCreate)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForCreate_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServerPropertiesForCreate, got %T", armInput)
 	}
 
 	// Set property "Default":
@@ -1760,7 +1761,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	result := &Sku_ARM{}
+	result := &arm.Sku{}
 
 	// Set property "Capacity":
 	if sku.Capacity != nil {
@@ -1790,7 +1791,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku.Tier != nil {
 		var temp string
 		temp = string(*sku.Tier)
-		tier := Sku_Tier_ARM(temp)
+		tier := arm.Sku_Tier(temp)
 		result.Tier = &tier
 	}
 	return result, nil
@@ -1798,14 +1799,14 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_ARM{}
+	return &arm.Sku{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_ARM)
+	typedInput, ok := armInput.(arm.Sku)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -1972,14 +1973,14 @@ var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_STATUS_ARM{}
+	return &arm.Sku_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Sku_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Sku_STATUS, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -2115,14 +2116,14 @@ var _ genruntime.FromARMConverter = &StorageProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *StorageProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageProfile_STATUS_ARM{}
+	return &arm.StorageProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *StorageProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.StorageProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "BackupRetentionDays":
@@ -2287,14 +2288,14 @@ var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnectionProperties_S
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (properties *ServerPrivateEndpointConnectionProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPrivateEndpointConnectionProperties_STATUS_ARM{}
+	return &arm.ServerPrivateEndpointConnectionProperties_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (properties *ServerPrivateEndpointConnectionProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPrivateEndpointConnectionProperties_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServerPrivateEndpointConnectionProperties_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnectionProperties_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServerPrivateEndpointConnectionProperties_STATUS, got %T", armInput)
 	}
 
 	// Set property "PrivateEndpoint":
@@ -2457,7 +2458,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	if create == nil {
 		return nil, nil
 	}
-	result := &ServerPropertiesForDefaultCreate_ARM{}
+	result := &arm.ServerPropertiesForDefaultCreate{}
 
 	// Set property "AdministratorLogin":
 	if create.AdministratorLogin != nil {
@@ -2477,10 +2478,10 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 
 	// Set property "CreateMode":
 	if create.CreateMode != nil {
-		var temp ServerPropertiesForDefaultCreate_CreateMode_ARM
+		var temp arm.ServerPropertiesForDefaultCreate_CreateMode
 		var temp1 string
 		temp1 = string(*create.CreateMode)
-		temp = ServerPropertiesForDefaultCreate_CreateMode_ARM(temp1)
+		temp = arm.ServerPropertiesForDefaultCreate_CreateMode(temp1)
 		result.CreateMode = temp
 	}
 
@@ -2488,7 +2489,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	if create.MinimalTlsVersion != nil {
 		var temp string
 		temp = string(*create.MinimalTlsVersion)
-		minimalTlsVersion := MinimalTlsVersion_ARM(temp)
+		minimalTlsVersion := arm.MinimalTlsVersion(temp)
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
@@ -2496,7 +2497,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	if create.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*create.PublicNetworkAccess)
-		publicNetworkAccess := PublicNetworkAccess_ARM(temp)
+		publicNetworkAccess := arm.PublicNetworkAccess(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -2504,7 +2505,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	if create.SslEnforcement != nil {
 		var temp string
 		temp = string(*create.SslEnforcement)
-		sslEnforcement := SslEnforcement_ARM(temp)
+		sslEnforcement := arm.SslEnforcement(temp)
 		result.SslEnforcement = &sslEnforcement
 	}
 
@@ -2514,7 +2515,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
+		storageProfile := *storageProfile_ARM.(*arm.StorageProfile)
 		result.StorageProfile = &storageProfile
 	}
 
@@ -2522,7 +2523,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	if create.Version != nil {
 		var temp string
 		temp = string(*create.Version)
-		version := ServerVersion_ARM(temp)
+		version := arm.ServerVersion(temp)
 		result.Version = &version
 	}
 	return result, nil
@@ -2530,14 +2531,14 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (create *ServerPropertiesForDefaultCreate) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPropertiesForDefaultCreate_ARM{}
+	return &arm.ServerPropertiesForDefaultCreate{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (create *ServerPropertiesForDefaultCreate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPropertiesForDefaultCreate_ARM)
+	typedInput, ok := armInput.(arm.ServerPropertiesForDefaultCreate)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForDefaultCreate_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServerPropertiesForDefaultCreate, got %T", armInput)
 	}
 
 	// Set property "AdministratorLogin":
@@ -2789,14 +2790,14 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 	if restore == nil {
 		return nil, nil
 	}
-	result := &ServerPropertiesForGeoRestore_ARM{}
+	result := &arm.ServerPropertiesForGeoRestore{}
 
 	// Set property "CreateMode":
 	if restore.CreateMode != nil {
-		var temp ServerPropertiesForGeoRestore_CreateMode_ARM
+		var temp arm.ServerPropertiesForGeoRestore_CreateMode
 		var temp1 string
 		temp1 = string(*restore.CreateMode)
-		temp = ServerPropertiesForGeoRestore_CreateMode_ARM(temp1)
+		temp = arm.ServerPropertiesForGeoRestore_CreateMode(temp1)
 		result.CreateMode = temp
 	}
 
@@ -2804,7 +2805,7 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 	if restore.MinimalTlsVersion != nil {
 		var temp string
 		temp = string(*restore.MinimalTlsVersion)
-		minimalTlsVersion := MinimalTlsVersion_ARM(temp)
+		minimalTlsVersion := arm.MinimalTlsVersion(temp)
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
@@ -2812,7 +2813,7 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 	if restore.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*restore.PublicNetworkAccess)
-		publicNetworkAccess := PublicNetworkAccess_ARM(temp)
+		publicNetworkAccess := arm.PublicNetworkAccess(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -2826,7 +2827,7 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 	if restore.SslEnforcement != nil {
 		var temp string
 		temp = string(*restore.SslEnforcement)
-		sslEnforcement := SslEnforcement_ARM(temp)
+		sslEnforcement := arm.SslEnforcement(temp)
 		result.SslEnforcement = &sslEnforcement
 	}
 
@@ -2836,7 +2837,7 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
+		storageProfile := *storageProfile_ARM.(*arm.StorageProfile)
 		result.StorageProfile = &storageProfile
 	}
 
@@ -2844,7 +2845,7 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 	if restore.Version != nil {
 		var temp string
 		temp = string(*restore.Version)
-		version := ServerVersion_ARM(temp)
+		version := arm.ServerVersion(temp)
 		result.Version = &version
 	}
 	return result, nil
@@ -2852,14 +2853,14 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (restore *ServerPropertiesForGeoRestore) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPropertiesForGeoRestore_ARM{}
+	return &arm.ServerPropertiesForGeoRestore{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (restore *ServerPropertiesForGeoRestore) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPropertiesForGeoRestore_ARM)
+	typedInput, ok := armInput.(arm.ServerPropertiesForGeoRestore)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForGeoRestore_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServerPropertiesForGeoRestore, got %T", armInput)
 	}
 
 	// Set property "CreateMode":
@@ -3093,14 +3094,14 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 	if replica == nil {
 		return nil, nil
 	}
-	result := &ServerPropertiesForReplica_ARM{}
+	result := &arm.ServerPropertiesForReplica{}
 
 	// Set property "CreateMode":
 	if replica.CreateMode != nil {
-		var temp ServerPropertiesForReplica_CreateMode_ARM
+		var temp arm.ServerPropertiesForReplica_CreateMode
 		var temp1 string
 		temp1 = string(*replica.CreateMode)
-		temp = ServerPropertiesForReplica_CreateMode_ARM(temp1)
+		temp = arm.ServerPropertiesForReplica_CreateMode(temp1)
 		result.CreateMode = temp
 	}
 
@@ -3108,7 +3109,7 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 	if replica.MinimalTlsVersion != nil {
 		var temp string
 		temp = string(*replica.MinimalTlsVersion)
-		minimalTlsVersion := MinimalTlsVersion_ARM(temp)
+		minimalTlsVersion := arm.MinimalTlsVersion(temp)
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
@@ -3116,7 +3117,7 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 	if replica.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*replica.PublicNetworkAccess)
-		publicNetworkAccess := PublicNetworkAccess_ARM(temp)
+		publicNetworkAccess := arm.PublicNetworkAccess(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -3130,7 +3131,7 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 	if replica.SslEnforcement != nil {
 		var temp string
 		temp = string(*replica.SslEnforcement)
-		sslEnforcement := SslEnforcement_ARM(temp)
+		sslEnforcement := arm.SslEnforcement(temp)
 		result.SslEnforcement = &sslEnforcement
 	}
 
@@ -3140,7 +3141,7 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
+		storageProfile := *storageProfile_ARM.(*arm.StorageProfile)
 		result.StorageProfile = &storageProfile
 	}
 
@@ -3148,7 +3149,7 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 	if replica.Version != nil {
 		var temp string
 		temp = string(*replica.Version)
-		version := ServerVersion_ARM(temp)
+		version := arm.ServerVersion(temp)
 		result.Version = &version
 	}
 	return result, nil
@@ -3156,14 +3157,14 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (replica *ServerPropertiesForReplica) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPropertiesForReplica_ARM{}
+	return &arm.ServerPropertiesForReplica{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (replica *ServerPropertiesForReplica) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPropertiesForReplica_ARM)
+	typedInput, ok := armInput.(arm.ServerPropertiesForReplica)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForReplica_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServerPropertiesForReplica, got %T", armInput)
 	}
 
 	// Set property "CreateMode":
@@ -3401,14 +3402,14 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 	if restore == nil {
 		return nil, nil
 	}
-	result := &ServerPropertiesForRestore_ARM{}
+	result := &arm.ServerPropertiesForRestore{}
 
 	// Set property "CreateMode":
 	if restore.CreateMode != nil {
-		var temp ServerPropertiesForRestore_CreateMode_ARM
+		var temp arm.ServerPropertiesForRestore_CreateMode
 		var temp1 string
 		temp1 = string(*restore.CreateMode)
-		temp = ServerPropertiesForRestore_CreateMode_ARM(temp1)
+		temp = arm.ServerPropertiesForRestore_CreateMode(temp1)
 		result.CreateMode = temp
 	}
 
@@ -3416,7 +3417,7 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 	if restore.MinimalTlsVersion != nil {
 		var temp string
 		temp = string(*restore.MinimalTlsVersion)
-		minimalTlsVersion := MinimalTlsVersion_ARM(temp)
+		minimalTlsVersion := arm.MinimalTlsVersion(temp)
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
@@ -3424,7 +3425,7 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 	if restore.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*restore.PublicNetworkAccess)
-		publicNetworkAccess := PublicNetworkAccess_ARM(temp)
+		publicNetworkAccess := arm.PublicNetworkAccess(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -3444,7 +3445,7 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 	if restore.SslEnforcement != nil {
 		var temp string
 		temp = string(*restore.SslEnforcement)
-		sslEnforcement := SslEnforcement_ARM(temp)
+		sslEnforcement := arm.SslEnforcement(temp)
 		result.SslEnforcement = &sslEnforcement
 	}
 
@@ -3454,7 +3455,7 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
+		storageProfile := *storageProfile_ARM.(*arm.StorageProfile)
 		result.StorageProfile = &storageProfile
 	}
 
@@ -3462,7 +3463,7 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 	if restore.Version != nil {
 		var temp string
 		temp = string(*restore.Version)
-		version := ServerVersion_ARM(temp)
+		version := arm.ServerVersion(temp)
 		result.Version = &version
 	}
 	return result, nil
@@ -3470,14 +3471,14 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (restore *ServerPropertiesForRestore) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPropertiesForRestore_ARM{}
+	return &arm.ServerPropertiesForRestore{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (restore *ServerPropertiesForRestore) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPropertiesForRestore_ARM)
+	typedInput, ok := armInput.(arm.ServerPropertiesForRestore)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForRestore_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServerPropertiesForRestore, got %T", armInput)
 	}
 
 	// Set property "CreateMode":
@@ -3775,14 +3776,14 @@ var _ genruntime.FromARMConverter = &PrivateEndpointProperty_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (property *PrivateEndpointProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointProperty_STATUS_ARM{}
+	return &arm.PrivateEndpointProperty_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (property *PrivateEndpointProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointProperty_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PrivateEndpointProperty_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointProperty_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PrivateEndpointProperty_STATUS, got %T", armInput)
 	}
 
 	// Set property "Id":
@@ -3874,14 +3875,14 @@ var _ genruntime.FromARMConverter = &ServerPrivateLinkServiceConnectionStateProp
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM{}
+	return &arm.ServerPrivateLinkServiceConnectionStateProperty_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ServerPrivateLinkServiceConnectionStateProperty_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServerPrivateLinkServiceConnectionStateProperty_STATUS, got %T", armInput)
 	}
 
 	// Set property "ActionsRequired":
@@ -4065,7 +4066,7 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile == nil {
 		return nil, nil
 	}
-	result := &StorageProfile_ARM{}
+	result := &arm.StorageProfile{}
 
 	// Set property "BackupRetentionDays":
 	if profile.BackupRetentionDays != nil {
@@ -4077,7 +4078,7 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile.GeoRedundantBackup != nil {
 		var temp string
 		temp = string(*profile.GeoRedundantBackup)
-		geoRedundantBackup := StorageProfile_GeoRedundantBackup_ARM(temp)
+		geoRedundantBackup := arm.StorageProfile_GeoRedundantBackup(temp)
 		result.GeoRedundantBackup = &geoRedundantBackup
 	}
 
@@ -4085,7 +4086,7 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile.StorageAutogrow != nil {
 		var temp string
 		temp = string(*profile.StorageAutogrow)
-		storageAutogrow := StorageProfile_StorageAutogrow_ARM(temp)
+		storageAutogrow := arm.StorageProfile_StorageAutogrow(temp)
 		result.StorageAutogrow = &storageAutogrow
 	}
 
@@ -4099,14 +4100,14 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *StorageProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageProfile_ARM{}
+	return &arm.StorageProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *StorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageProfile_ARM)
+	typedInput, ok := armInput.(arm.StorageProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.StorageProfile, got %T", armInput)
 	}
 
 	// Set property "BackupRetentionDays":

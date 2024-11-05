@@ -5,6 +5,7 @@ package v1api20221001
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -381,7 +382,7 @@ func (setting *AutoscaleSetting_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if setting == nil {
 		return nil, nil
 	}
-	result := &AutoscaleSetting_Spec_ARM{}
+	result := &arm.AutoscaleSetting_Spec{}
 
 	// Set property "Location":
 	if setting.Location != nil {
@@ -400,7 +401,7 @@ func (setting *AutoscaleSetting_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		setting.Profiles != nil ||
 		setting.TargetResourceLocation != nil ||
 		setting.TargetResourceUriReference != nil {
-		result.Properties = &AutoscaleSettingProperties_ARM{}
+		result.Properties = &arm.AutoscaleSettingProperties{}
 	}
 	if setting.Enabled != nil {
 		enabled := *setting.Enabled
@@ -415,14 +416,14 @@ func (setting *AutoscaleSetting_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Notifications = append(result.Properties.Notifications, *item_ARM.(*AutoscaleNotification_ARM))
+		result.Properties.Notifications = append(result.Properties.Notifications, *item_ARM.(*arm.AutoscaleNotification))
 	}
 	if setting.PredictiveAutoscalePolicy != nil {
 		predictiveAutoscalePolicy_ARM, err := (*setting.PredictiveAutoscalePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		predictiveAutoscalePolicy := *predictiveAutoscalePolicy_ARM.(*PredictiveAutoscalePolicy_ARM)
+		predictiveAutoscalePolicy := *predictiveAutoscalePolicy_ARM.(*arm.PredictiveAutoscalePolicy)
 		result.Properties.PredictiveAutoscalePolicy = &predictiveAutoscalePolicy
 	}
 	for _, item := range setting.Profiles {
@@ -430,7 +431,7 @@ func (setting *AutoscaleSetting_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Profiles = append(result.Properties.Profiles, *item_ARM.(*AutoscaleProfile_ARM))
+		result.Properties.Profiles = append(result.Properties.Profiles, *item_ARM.(*arm.AutoscaleProfile))
 	}
 	if setting.TargetResourceLocation != nil {
 		targetResourceLocation := *setting.TargetResourceLocation
@@ -457,14 +458,14 @@ func (setting *AutoscaleSetting_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (setting *AutoscaleSetting_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleSetting_Spec_ARM{}
+	return &arm.AutoscaleSetting_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (setting *AutoscaleSetting_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleSetting_Spec_ARM)
+	typedInput, ok := armInput.(arm.AutoscaleSetting_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSetting_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoscaleSetting_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -997,14 +998,14 @@ var _ genruntime.FromARMConverter = &Autoscalesetting_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (autoscalesetting *Autoscalesetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Autoscalesetting_STATUS_ARM{}
+	return &arm.Autoscalesetting_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (autoscalesetting *Autoscalesetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Autoscalesetting_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Autoscalesetting_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Autoscalesetting_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Autoscalesetting_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -1365,7 +1366,7 @@ func (notification *AutoscaleNotification) ConvertToARM(resolved genruntime.Conv
 	if notification == nil {
 		return nil, nil
 	}
-	result := &AutoscaleNotification_ARM{}
+	result := &arm.AutoscaleNotification{}
 
 	// Set property "Email":
 	if notification.Email != nil {
@@ -1373,7 +1374,7 @@ func (notification *AutoscaleNotification) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		email := *email_ARM.(*EmailNotification_ARM)
+		email := *email_ARM.(*arm.EmailNotification)
 		result.Email = &email
 	}
 
@@ -1381,7 +1382,7 @@ func (notification *AutoscaleNotification) ConvertToARM(resolved genruntime.Conv
 	if notification.Operation != nil {
 		var temp string
 		temp = string(*notification.Operation)
-		operation := AutoscaleNotification_Operation_ARM(temp)
+		operation := arm.AutoscaleNotification_Operation(temp)
 		result.Operation = &operation
 	}
 
@@ -1391,21 +1392,21 @@ func (notification *AutoscaleNotification) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		result.Webhooks = append(result.Webhooks, *item_ARM.(*WebhookNotification_ARM))
+		result.Webhooks = append(result.Webhooks, *item_ARM.(*arm.WebhookNotification))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (notification *AutoscaleNotification) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleNotification_ARM{}
+	return &arm.AutoscaleNotification{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (notification *AutoscaleNotification) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleNotification_ARM)
+	typedInput, ok := armInput.(arm.AutoscaleNotification)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleNotification_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoscaleNotification, got %T", armInput)
 	}
 
 	// Set property "Email":
@@ -1602,14 +1603,14 @@ var _ genruntime.FromARMConverter = &AutoscaleNotification_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (notification *AutoscaleNotification_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleNotification_STATUS_ARM{}
+	return &arm.AutoscaleNotification_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (notification *AutoscaleNotification_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleNotification_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AutoscaleNotification_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleNotification_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoscaleNotification_STATUS, got %T", armInput)
 	}
 
 	// Set property "Email":
@@ -1774,7 +1775,7 @@ func (profile *AutoscaleProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if profile == nil {
 		return nil, nil
 	}
-	result := &AutoscaleProfile_ARM{}
+	result := &arm.AutoscaleProfile{}
 
 	// Set property "Capacity":
 	if profile.Capacity != nil {
@@ -1782,7 +1783,7 @@ func (profile *AutoscaleProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		capacity := *capacity_ARM.(*ScaleCapacity_ARM)
+		capacity := *capacity_ARM.(*arm.ScaleCapacity)
 		result.Capacity = &capacity
 	}
 
@@ -1792,7 +1793,7 @@ func (profile *AutoscaleProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		fixedDate := *fixedDate_ARM.(*TimeWindow_ARM)
+		fixedDate := *fixedDate_ARM.(*arm.TimeWindow)
 		result.FixedDate = &fixedDate
 	}
 
@@ -1808,7 +1809,7 @@ func (profile *AutoscaleProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		recurrence := *recurrence_ARM.(*Recurrence_ARM)
+		recurrence := *recurrence_ARM.(*arm.Recurrence)
 		result.Recurrence = &recurrence
 	}
 
@@ -1818,21 +1819,21 @@ func (profile *AutoscaleProfile) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		result.Rules = append(result.Rules, *item_ARM.(*ScaleRule_ARM))
+		result.Rules = append(result.Rules, *item_ARM.(*arm.ScaleRule))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *AutoscaleProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleProfile_ARM{}
+	return &arm.AutoscaleProfile{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *AutoscaleProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleProfile_ARM)
+	typedInput, ok := armInput.(arm.AutoscaleProfile)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoscaleProfile, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -2115,14 +2116,14 @@ var _ genruntime.FromARMConverter = &AutoscaleProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (profile *AutoscaleProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleProfile_STATUS_ARM{}
+	return &arm.AutoscaleProfile_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (profile *AutoscaleProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleProfile_STATUS_ARM)
+	typedInput, ok := armInput.(arm.AutoscaleProfile_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleProfile_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.AutoscaleProfile_STATUS, got %T", armInput)
 	}
 
 	// Set property "Capacity":
@@ -2333,7 +2334,7 @@ func (policy *PredictiveAutoscalePolicy) ConvertToARM(resolved genruntime.Conver
 	if policy == nil {
 		return nil, nil
 	}
-	result := &PredictiveAutoscalePolicy_ARM{}
+	result := &arm.PredictiveAutoscalePolicy{}
 
 	// Set property "ScaleLookAheadTime":
 	if policy.ScaleLookAheadTime != nil {
@@ -2345,7 +2346,7 @@ func (policy *PredictiveAutoscalePolicy) ConvertToARM(resolved genruntime.Conver
 	if policy.ScaleMode != nil {
 		var temp string
 		temp = string(*policy.ScaleMode)
-		scaleMode := PredictiveAutoscalePolicy_ScaleMode_ARM(temp)
+		scaleMode := arm.PredictiveAutoscalePolicy_ScaleMode(temp)
 		result.ScaleMode = &scaleMode
 	}
 	return result, nil
@@ -2353,14 +2354,14 @@ func (policy *PredictiveAutoscalePolicy) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *PredictiveAutoscalePolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PredictiveAutoscalePolicy_ARM{}
+	return &arm.PredictiveAutoscalePolicy{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *PredictiveAutoscalePolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PredictiveAutoscalePolicy_ARM)
+	typedInput, ok := armInput.(arm.PredictiveAutoscalePolicy)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PredictiveAutoscalePolicy_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PredictiveAutoscalePolicy, got %T", armInput)
 	}
 
 	// Set property "ScaleLookAheadTime":
@@ -2459,14 +2460,14 @@ var _ genruntime.FromARMConverter = &PredictiveAutoscalePolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (policy *PredictiveAutoscalePolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PredictiveAutoscalePolicy_STATUS_ARM{}
+	return &arm.PredictiveAutoscalePolicy_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (policy *PredictiveAutoscalePolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PredictiveAutoscalePolicy_STATUS_ARM)
+	typedInput, ok := armInput.(arm.PredictiveAutoscalePolicy_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PredictiveAutoscalePolicy_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.PredictiveAutoscalePolicy_STATUS, got %T", armInput)
 	}
 
 	// Set property "ScaleLookAheadTime":
@@ -2558,14 +2559,14 @@ var _ genruntime.FromARMConverter = &SystemData_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_STATUS_ARM{}
+	return &arm.SystemData_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_STATUS_ARM)
+	typedInput, ok := armInput.(arm.SystemData_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData_STATUS, got %T", armInput)
 	}
 
 	// Set property "CreatedAt":
@@ -2731,7 +2732,7 @@ func (notification *EmailNotification) ConvertToARM(resolved genruntime.ConvertT
 	if notification == nil {
 		return nil, nil
 	}
-	result := &EmailNotification_ARM{}
+	result := &arm.EmailNotification{}
 
 	// Set property "CustomEmails":
 	for _, item := range notification.CustomEmails {
@@ -2754,14 +2755,14 @@ func (notification *EmailNotification) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (notification *EmailNotification) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EmailNotification_ARM{}
+	return &arm.EmailNotification{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (notification *EmailNotification) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EmailNotification_ARM)
+	typedInput, ok := armInput.(arm.EmailNotification)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EmailNotification_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EmailNotification, got %T", armInput)
 	}
 
 	// Set property "CustomEmails":
@@ -2888,14 +2889,14 @@ var _ genruntime.FromARMConverter = &EmailNotification_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (notification *EmailNotification_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EmailNotification_STATUS_ARM{}
+	return &arm.EmailNotification_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (notification *EmailNotification_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EmailNotification_STATUS_ARM)
+	typedInput, ok := armInput.(arm.EmailNotification_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EmailNotification_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.EmailNotification_STATUS, got %T", armInput)
 	}
 
 	// Set property "CustomEmails":
@@ -3031,13 +3032,13 @@ func (recurrence *Recurrence) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if recurrence == nil {
 		return nil, nil
 	}
-	result := &Recurrence_ARM{}
+	result := &arm.Recurrence{}
 
 	// Set property "Frequency":
 	if recurrence.Frequency != nil {
 		var temp string
 		temp = string(*recurrence.Frequency)
-		frequency := Recurrence_Frequency_ARM(temp)
+		frequency := arm.Recurrence_Frequency(temp)
 		result.Frequency = &frequency
 	}
 
@@ -3047,7 +3048,7 @@ func (recurrence *Recurrence) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		schedule := *schedule_ARM.(*RecurrentSchedule_ARM)
+		schedule := *schedule_ARM.(*arm.RecurrentSchedule)
 		result.Schedule = &schedule
 	}
 	return result, nil
@@ -3055,14 +3056,14 @@ func (recurrence *Recurrence) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (recurrence *Recurrence) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Recurrence_ARM{}
+	return &arm.Recurrence{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (recurrence *Recurrence) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Recurrence_ARM)
+	typedInput, ok := armInput.(arm.Recurrence)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Recurrence_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Recurrence, got %T", armInput)
 	}
 
 	// Set property "Frequency":
@@ -3196,14 +3197,14 @@ var _ genruntime.FromARMConverter = &Recurrence_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (recurrence *Recurrence_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Recurrence_STATUS_ARM{}
+	return &arm.Recurrence_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (recurrence *Recurrence_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Recurrence_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Recurrence_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Recurrence_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Recurrence_STATUS, got %T", armInput)
 	}
 
 	// Set property "Frequency":
@@ -3317,7 +3318,7 @@ func (capacity *ScaleCapacity) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if capacity == nil {
 		return nil, nil
 	}
-	result := &ScaleCapacity_ARM{}
+	result := &arm.ScaleCapacity{}
 
 	// Set property "Default":
 	if capacity.Default != nil {
@@ -3341,14 +3342,14 @@ func (capacity *ScaleCapacity) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capacity *ScaleCapacity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleCapacity_ARM{}
+	return &arm.ScaleCapacity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capacity *ScaleCapacity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleCapacity_ARM)
+	typedInput, ok := armInput.(arm.ScaleCapacity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleCapacity_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleCapacity, got %T", armInput)
 	}
 
 	// Set property "Default":
@@ -3451,14 +3452,14 @@ var _ genruntime.FromARMConverter = &ScaleCapacity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (capacity *ScaleCapacity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleCapacity_STATUS_ARM{}
+	return &arm.ScaleCapacity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (capacity *ScaleCapacity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleCapacity_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ScaleCapacity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleCapacity_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleCapacity_STATUS, got %T", armInput)
 	}
 
 	// Set property "Default":
@@ -3542,7 +3543,7 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	if rule == nil {
 		return nil, nil
 	}
-	result := &ScaleRule_ARM{}
+	result := &arm.ScaleRule{}
 
 	// Set property "MetricTrigger":
 	if rule.MetricTrigger != nil {
@@ -3550,7 +3551,7 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		if err != nil {
 			return nil, err
 		}
-		metricTrigger := *metricTrigger_ARM.(*MetricTrigger_ARM)
+		metricTrigger := *metricTrigger_ARM.(*arm.MetricTrigger)
 		result.MetricTrigger = &metricTrigger
 	}
 
@@ -3560,7 +3561,7 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		if err != nil {
 			return nil, err
 		}
-		scaleAction := *scaleAction_ARM.(*ScaleAction_ARM)
+		scaleAction := *scaleAction_ARM.(*arm.ScaleAction)
 		result.ScaleAction = &scaleAction
 	}
 	return result, nil
@@ -3568,14 +3569,14 @@ func (rule *ScaleRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ScaleRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleRule_ARM{}
+	return &arm.ScaleRule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ScaleRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleRule_ARM)
+	typedInput, ok := armInput.(arm.ScaleRule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleRule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleRule, got %T", armInput)
 	}
 
 	// Set property "MetricTrigger":
@@ -3721,14 +3722,14 @@ var _ genruntime.FromARMConverter = &ScaleRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (rule *ScaleRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleRule_STATUS_ARM{}
+	return &arm.ScaleRule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (rule *ScaleRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleRule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ScaleRule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleRule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleRule_STATUS, got %T", armInput)
 	}
 
 	// Set property "MetricTrigger":
@@ -3905,7 +3906,7 @@ func (window *TimeWindow) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if window == nil {
 		return nil, nil
 	}
-	result := &TimeWindow_ARM{}
+	result := &arm.TimeWindow{}
 
 	// Set property "End":
 	if window.End != nil {
@@ -3929,14 +3930,14 @@ func (window *TimeWindow) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (window *TimeWindow) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TimeWindow_ARM{}
+	return &arm.TimeWindow{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (window *TimeWindow) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TimeWindow_ARM)
+	typedInput, ok := armInput.(arm.TimeWindow)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TimeWindow_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TimeWindow, got %T", armInput)
 	}
 
 	// Set property "End":
@@ -4058,14 +4059,14 @@ var _ genruntime.FromARMConverter = &TimeWindow_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (window *TimeWindow_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TimeWindow_STATUS_ARM{}
+	return &arm.TimeWindow_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (window *TimeWindow_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TimeWindow_STATUS_ARM)
+	typedInput, ok := armInput.(arm.TimeWindow_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TimeWindow_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.TimeWindow_STATUS, got %T", armInput)
 	}
 
 	// Set property "End":
@@ -4147,7 +4148,7 @@ func (notification *WebhookNotification) ConvertToARM(resolved genruntime.Conver
 	if notification == nil {
 		return nil, nil
 	}
-	result := &WebhookNotification_ARM{}
+	result := &arm.WebhookNotification{}
 
 	// Set property "Properties":
 	if notification.Properties != nil {
@@ -4167,14 +4168,14 @@ func (notification *WebhookNotification) ConvertToARM(resolved genruntime.Conver
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (notification *WebhookNotification) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebhookNotification_ARM{}
+	return &arm.WebhookNotification{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (notification *WebhookNotification) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebhookNotification_ARM)
+	typedInput, ok := armInput.(arm.WebhookNotification)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebhookNotification_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebhookNotification, got %T", armInput)
 	}
 
 	// Set property "Properties":
@@ -4256,14 +4257,14 @@ var _ genruntime.FromARMConverter = &WebhookNotification_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (notification *WebhookNotification_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebhookNotification_STATUS_ARM{}
+	return &arm.WebhookNotification_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (notification *WebhookNotification_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebhookNotification_STATUS_ARM)
+	typedInput, ok := armInput.(arm.WebhookNotification_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebhookNotification_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.WebhookNotification_STATUS, got %T", armInput)
 	}
 
 	// Set property "Properties":
@@ -4377,7 +4378,7 @@ func (trigger *MetricTrigger) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if trigger == nil {
 		return nil, nil
 	}
-	result := &MetricTrigger_ARM{}
+	result := &arm.MetricTrigger{}
 
 	// Set property "Dimensions":
 	for _, item := range trigger.Dimensions {
@@ -4385,7 +4386,7 @@ func (trigger *MetricTrigger) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.Dimensions = append(result.Dimensions, *item_ARM.(*ScaleRuleMetricDimension_ARM))
+		result.Dimensions = append(result.Dimensions, *item_ARM.(*arm.ScaleRuleMetricDimension))
 	}
 
 	// Set property "DividePerInstance":
@@ -4426,7 +4427,7 @@ func (trigger *MetricTrigger) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if trigger.Operator != nil {
 		var temp string
 		temp = string(*trigger.Operator)
-		operator := MetricTrigger_Operator_ARM(temp)
+		operator := arm.MetricTrigger_Operator(temp)
 		result.Operator = &operator
 	}
 
@@ -4434,7 +4435,7 @@ func (trigger *MetricTrigger) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if trigger.Statistic != nil {
 		var temp string
 		temp = string(*trigger.Statistic)
-		statistic := MetricTrigger_Statistic_ARM(temp)
+		statistic := arm.MetricTrigger_Statistic(temp)
 		result.Statistic = &statistic
 	}
 
@@ -4448,7 +4449,7 @@ func (trigger *MetricTrigger) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if trigger.TimeAggregation != nil {
 		var temp string
 		temp = string(*trigger.TimeAggregation)
-		timeAggregation := MetricTrigger_TimeAggregation_ARM(temp)
+		timeAggregation := arm.MetricTrigger_TimeAggregation(temp)
 		result.TimeAggregation = &timeAggregation
 	}
 
@@ -4468,14 +4469,14 @@ func (trigger *MetricTrigger) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *MetricTrigger) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricTrigger_ARM{}
+	return &arm.MetricTrigger{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *MetricTrigger) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricTrigger_ARM)
+	typedInput, ok := armInput.(arm.MetricTrigger)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricTrigger_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricTrigger, got %T", armInput)
 	}
 
 	// Set property "Dimensions":
@@ -4883,14 +4884,14 @@ var _ genruntime.FromARMConverter = &MetricTrigger_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (trigger *MetricTrigger_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MetricTrigger_STATUS_ARM{}
+	return &arm.MetricTrigger_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (trigger *MetricTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MetricTrigger_STATUS_ARM)
+	typedInput, ok := armInput.(arm.MetricTrigger_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MetricTrigger_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MetricTrigger_STATUS, got %T", armInput)
 	}
 
 	// Set property "Dimensions":
@@ -5258,7 +5259,7 @@ func (schedule *RecurrentSchedule) ConvertToARM(resolved genruntime.ConvertToARM
 	if schedule == nil {
 		return nil, nil
 	}
-	result := &RecurrentSchedule_ARM{}
+	result := &arm.RecurrentSchedule{}
 
 	// Set property "Days":
 	for _, item := range schedule.Days {
@@ -5285,14 +5286,14 @@ func (schedule *RecurrentSchedule) ConvertToARM(resolved genruntime.ConvertToARM
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schedule *RecurrentSchedule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RecurrentSchedule_ARM{}
+	return &arm.RecurrentSchedule{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schedule *RecurrentSchedule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RecurrentSchedule_ARM)
+	typedInput, ok := armInput.(arm.RecurrentSchedule)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RecurrentSchedule_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RecurrentSchedule, got %T", armInput)
 	}
 
 	// Set property "Days":
@@ -5492,14 +5493,14 @@ var _ genruntime.FromARMConverter = &RecurrentSchedule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (schedule *RecurrentSchedule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RecurrentSchedule_STATUS_ARM{}
+	return &arm.RecurrentSchedule_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (schedule *RecurrentSchedule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RecurrentSchedule_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RecurrentSchedule_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RecurrentSchedule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RecurrentSchedule_STATUS, got %T", armInput)
 	}
 
 	// Set property "Days":
@@ -5641,7 +5642,7 @@ func (action *ScaleAction) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if action == nil {
 		return nil, nil
 	}
-	result := &ScaleAction_ARM{}
+	result := &arm.ScaleAction{}
 
 	// Set property "Cooldown":
 	if action.Cooldown != nil {
@@ -5653,7 +5654,7 @@ func (action *ScaleAction) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if action.Direction != nil {
 		var temp string
 		temp = string(*action.Direction)
-		direction := ScaleAction_Direction_ARM(temp)
+		direction := arm.ScaleAction_Direction(temp)
 		result.Direction = &direction
 	}
 
@@ -5661,7 +5662,7 @@ func (action *ScaleAction) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if action.Type != nil {
 		var temp string
 		temp = string(*action.Type)
-		typeVar := ScaleAction_Type_ARM(temp)
+		typeVar := arm.ScaleAction_Type(temp)
 		result.Type = &typeVar
 	}
 
@@ -5675,14 +5676,14 @@ func (action *ScaleAction) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *ScaleAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleAction_ARM{}
+	return &arm.ScaleAction{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *ScaleAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleAction_ARM)
+	typedInput, ok := armInput.(arm.ScaleAction)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleAction_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleAction, got %T", armInput)
 	}
 
 	// Set property "Cooldown":
@@ -5839,14 +5840,14 @@ var _ genruntime.FromARMConverter = &ScaleAction_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (action *ScaleAction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleAction_STATUS_ARM{}
+	return &arm.ScaleAction_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (action *ScaleAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleAction_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ScaleAction_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleAction_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleAction_STATUS, got %T", armInput)
 	}
 
 	// Set property "Cooldown":
@@ -6169,7 +6170,7 @@ func (dimension *ScaleRuleMetricDimension) ConvertToARM(resolved genruntime.Conv
 	if dimension == nil {
 		return nil, nil
 	}
-	result := &ScaleRuleMetricDimension_ARM{}
+	result := &arm.ScaleRuleMetricDimension{}
 
 	// Set property "DimensionName":
 	if dimension.DimensionName != nil {
@@ -6181,7 +6182,7 @@ func (dimension *ScaleRuleMetricDimension) ConvertToARM(resolved genruntime.Conv
 	if dimension.Operator != nil {
 		var temp string
 		temp = string(*dimension.Operator)
-		operator := ScaleRuleMetricDimension_Operator_ARM(temp)
+		operator := arm.ScaleRuleMetricDimension_Operator(temp)
 		result.Operator = &operator
 	}
 
@@ -6194,14 +6195,14 @@ func (dimension *ScaleRuleMetricDimension) ConvertToARM(resolved genruntime.Conv
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (dimension *ScaleRuleMetricDimension) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleRuleMetricDimension_ARM{}
+	return &arm.ScaleRuleMetricDimension{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (dimension *ScaleRuleMetricDimension) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleRuleMetricDimension_ARM)
+	typedInput, ok := armInput.(arm.ScaleRuleMetricDimension)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleRuleMetricDimension_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleRuleMetricDimension, got %T", armInput)
 	}
 
 	// Set property "DimensionName":
@@ -6320,14 +6321,14 @@ var _ genruntime.FromARMConverter = &ScaleRuleMetricDimension_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (dimension *ScaleRuleMetricDimension_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ScaleRuleMetricDimension_STATUS_ARM{}
+	return &arm.ScaleRuleMetricDimension_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (dimension *ScaleRuleMetricDimension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ScaleRuleMetricDimension_STATUS_ARM)
+	typedInput, ok := armInput.(arm.ScaleRuleMetricDimension_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScaleRuleMetricDimension_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ScaleRuleMetricDimension_STATUS, got %T", armInput)
 	}
 
 	// Set property "DimensionName":
