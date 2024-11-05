@@ -51,21 +51,26 @@ func (n ResourceNamer) WithTestName(testName string) ResourceNamer {
 // NewResourceNamer returns a ResourceNamer that generates random
 // suffixes based upon the test name
 func (rnc ResourceNameConfig) NewResourceNamer(testName string) ResourceNamer {
-	var r *rand.Rand
-	if rnc.mode == ResourceNamerModeRandom {
-		//nolint:gosec // do not want cryptographic randomness here
-		r = rand.New(rand.NewSource(time.Now().UnixNano()))
-	} else {
-		hasher := fnv.New64()
-		n, err := hasher.Write([]byte(testName))
-		if n != len(testName) || err != nil {
-			panic("failed to write hash")
-		}
-
-		seed := hasher.Sum64()
-		//nolint:gosec // do not want cryptographic randomness here
-		r = rand.New(rand.NewSource(int64(seed)))
+	// Calculate an initial seed based on the test name
+	hasher := fnv.New64()
+	n, err := hasher.Write([]byte(testName))
+	if n != len(testName) || err != nil {
+		panic("failed to write hash")
 	}
+
+	//nolint:gosec // don't care about int overflow
+	seed := int64(hasher.Sum64())
+
+	// This seed is enough to get the same sequence of "random" values every time.
+	// If we want a different sequence every time, include time as part of the seed too
+	if rnc.mode == ResourceNamerModeRandom {
+		t := time.Now().UnixNano()
+		seed = seed ^ t
+	}
+
+	src := rand.NewSource(seed)
+	//nolint:gosec // do not need/want cryptographic randomness here
+	r := rand.New(src)
 
 	return ResourceNamer{
 		ResourceNameConfig: rnc,
