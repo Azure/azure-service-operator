@@ -34,11 +34,11 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 		},
 	}
 	ag := &insights.ActionGroup{
-		ObjectMeta: tc.MakeObjectMeta("actiongroup"),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("actiongroup")),
 		Spec: insights.ActionGroup_Spec{
-			Enabled:        to.Ptr(true),
-			GroupShortName: to.Ptr("actiongroup"),
-			Location:       tc.AzureRegion,
+			Enabled:        to.Ptr(false),
+			GroupShortName: to.Ptr("ag"),
+			Location:       to.Ptr("global"),
 			Owner:          testcommon.AsOwner(rg),
 		},
 	}
@@ -49,7 +49,9 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 	severity := alertsmanagement.AlertRuleProperties_Severity("Sev3")
 	detectorId := &alertsmanagement.Detector{
 		Reference: &genruntime.ResourceReference{
-			ARMID: "VMMemoryLeak",
+			Group: "alertsmanagement.azure.com",
+			Kind:  "SmartDetectorAlertRule",
+			Name:  "FailureAnomaliesDetector",
 		},
 	}
 	actionGroup := &alertsmanagement.ActionGroupsInformation{
