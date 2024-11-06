@@ -53,6 +53,7 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 			Kind:  "SmartDetectorAlertRule",
 			Name:  "FailureAnomaliesDetector",
 		},
+	}
 	actionGroup := &alertsmanagement.ActionGroupsInformation{
 		GroupReferences: []genruntime.ResourceReference{
 			*tc.MakeReferenceFromResource(ag),
