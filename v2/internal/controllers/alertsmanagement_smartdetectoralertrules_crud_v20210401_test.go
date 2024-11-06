@@ -49,9 +49,7 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 	severity := alertsmanagement.AlertRuleProperties_Severity("Sev3")
 	detectorId := &alertsmanagement.Detector{
 		Reference: &genruntime.ResourceReference{
-			Group: "alertsmanagement.azure.com",
-			Kind:  "SmartDetectorAlertRule",
-			Name:  "FailureAnomaliesDetector",
+			ARMID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Insights/detectors/detectorName",
 		},
 	}
 	actionGroup := &alertsmanagement.ActionGroupsInformation{

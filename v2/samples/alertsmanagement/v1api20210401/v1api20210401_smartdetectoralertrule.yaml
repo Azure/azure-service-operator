@@ -1,10 +1,10 @@
 apiVersion: alertsmanagement.azure.com/v1api20210401
 kind: SmartDetectorAlertRule
 metadata:
-  name: FailureAnomaliesDetector
+  name: aso-sample-smart-alert-rule
   namespace: default
 spec:
-  location: westus2
+  location: global
   owner:
     name: aso-sample-rg
   state: Enabled
@@ -12,9 +12,7 @@ spec:
   frequency: PT1M
   detector:
     Reference:
-      group: alertsmanagement.azure.com
-      kind: SmartDetectorAlertRule
-      name: FailureAnomaliesDetector
+      armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Insights/detectors/FailureAnomaliesDetector
   actionGroups:
     GroupReferences:
       - group: insights.azure.com
