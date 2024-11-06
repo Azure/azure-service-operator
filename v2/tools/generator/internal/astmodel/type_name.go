@@ -25,13 +25,11 @@ const (
 )
 
 var armPackageDenyList = set.Make(
-	"authorization",
 	"dataprotection",
 	"eventhub",
 	"kusto",
 	"operationalinsights",
-	"resources",
-	"synapse")
+	"resources")
 
 // CreateARMTypeName creates an ARM object type name
 func CreateARMTypeName(name InternalTypeName) InternalTypeName {

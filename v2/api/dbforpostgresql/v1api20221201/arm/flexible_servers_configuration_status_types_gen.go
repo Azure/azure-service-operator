@@ -47,13 +47,13 @@ type ConfigurationProperties_STATUS struct {
 	// IsReadOnly: Configuration read-only or not.
 	IsReadOnly *bool `json:"isReadOnly,omitempty"`
 
-	// Source: Source of the configuration.
+	// Source: Source of the configuration. Required to update the configuration.
 	Source *string `json:"source,omitempty"`
 
 	// Unit: Configuration unit.
 	Unit *string `json:"unit,omitempty"`
 
-	// Value: Value of the configuration.
+	// Value: Value of the configuration. Required to update the configuration.
 	Value *string `json:"value,omitempty"`
 }
 

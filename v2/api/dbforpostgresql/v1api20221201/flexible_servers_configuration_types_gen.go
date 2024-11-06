@@ -337,10 +337,10 @@ type FlexibleServersConfiguration_Spec struct {
 	// reference to a dbforpostgresql.azure.com/FlexibleServer resource
 	Owner *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 
-	// Source: Source of the configuration.
+	// Source: Source of the configuration. Required to update the configuration.
 	Source *string `json:"source,omitempty"`
 
-	// Value: Value of the configuration.
+	// Value: Value of the configuration. Required to update the configuration.
 	Value *string `json:"value,omitempty"`
 }
 
@@ -582,7 +582,7 @@ type FlexibleServersConfiguration_STATUS struct {
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// Source: Source of the configuration.
+	// Source: Source of the configuration. Required to update the configuration.
 	Source *string `json:"source,omitempty"`
 
 	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
@@ -594,7 +594,7 @@ type FlexibleServersConfiguration_STATUS struct {
 	// Unit: Configuration unit.
 	Unit *string `json:"unit,omitempty"`
 
-	// Value: Value of the configuration.
+	// Value: Value of the configuration. Required to update the configuration.
 	Value *string `json:"value,omitempty"`
 }
 

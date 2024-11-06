@@ -31,9 +31,9 @@ func (configuration *FlexibleServersConfiguration_Spec) GetType() string {
 
 // The properties of a configuration.
 type ConfigurationProperties struct {
-	// Source: Source of the configuration.
+	// Source: Source of the configuration. Required to update the configuration.
 	Source *string `json:"source,omitempty"`
 
-	// Value: Value of the configuration.
+	// Value: Value of the configuration. Required to update the configuration.
 	Value *string `json:"value,omitempty"`
 }
