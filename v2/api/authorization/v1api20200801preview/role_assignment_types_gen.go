@@ -5,6 +5,7 @@ package v1api20200801preview
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -379,7 +380,7 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if assignment == nil {
 		return nil, nil
 	}
-	result := &RoleAssignment_Spec_ARM{}
+	result := &arm.RoleAssignment_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -393,7 +394,7 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		assignment.PrincipalIdFromConfig != nil ||
 		assignment.PrincipalType != nil ||
 		assignment.RoleDefinitionReference != nil {
-		result.Properties = &RoleAssignmentProperties_ARM{}
+		result.Properties = &arm.RoleAssignmentProperties{}
 	}
 	if assignment.Condition != nil {
 		condition := *assignment.Condition
@@ -430,7 +431,7 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if assignment.PrincipalType != nil {
 		var temp string
 		temp = string(*assignment.PrincipalType)
-		principalType := RoleAssignmentProperties_PrincipalType_ARM(temp)
+		principalType := arm.RoleAssignmentProperties_PrincipalType(temp)
 		result.Properties.PrincipalType = &principalType
 	}
 	if assignment.RoleDefinitionReference != nil {
@@ -446,14 +447,14 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (assignment *RoleAssignment_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoleAssignment_Spec_ARM{}
+	return &arm.RoleAssignment_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoleAssignment_Spec_ARM)
+	typedInput, ok := armInput.(arm.RoleAssignment_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleAssignment_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoleAssignment_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -849,14 +850,14 @@ var _ genruntime.FromARMConverter = &RoleAssignment_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (assignment *RoleAssignment_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoleAssignment_STATUS_ARM{}
+	return &arm.RoleAssignment_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoleAssignment_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoleAssignment_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleAssignment_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoleAssignment_STATUS, got %T", armInput)
 	}
 
 	// Set property "Condition":
