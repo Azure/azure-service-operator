@@ -25,7 +25,6 @@ const (
 )
 
 var armPackageDenyList = set.Make(
-	"eventhub",
   "kusto")
 
 // CreateARMTypeName creates an ARM object type name
