@@ -1,0 +1,15 @@
+apiVersion: containerservice.azure.com/v1api20240901
+kind: MaintenanceConfiguration
+metadata:
+  name: aksmanagedautoupgradeschedule
+  namespace: default
+spec:
+  owner:
+    name: sample-managedcluster-20240901
+  maintenanceWindow:
+    schedule:
+      weekly:
+        dayOfWeek: Saturday
+        intervalWeeks: 1
+    durationHours: 12
+    startTime: 00:00

@@ -5,6 +5,7 @@ package v1api20220401
 
 import (
 	"fmt"
+	arm "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -345,7 +346,7 @@ func (definition *RoleDefinition_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if definition == nil {
 		return nil, nil
 	}
-	result := &RoleDefinition_Spec_ARM{}
+	result := &arm.RoleDefinition_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -356,7 +357,7 @@ func (definition *RoleDefinition_Spec) ConvertToARM(resolved genruntime.ConvertT
 		definition.Permissions != nil ||
 		definition.RoleName != nil ||
 		definition.Type != nil {
-		result.Properties = &RoleDefinitionProperties_ARM{}
+		result.Properties = &arm.RoleDefinitionProperties{}
 	}
 	for _, item := range definition.AssignableScopesReferences {
 		itemARMID, err := resolved.ResolvedReferences.Lookup(item)
@@ -374,7 +375,7 @@ func (definition *RoleDefinition_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Permissions = append(result.Properties.Permissions, *item_ARM.(*Permission_ARM))
+		result.Properties.Permissions = append(result.Properties.Permissions, *item_ARM.(*arm.Permission))
 	}
 	if definition.RoleName != nil {
 		roleName := *definition.RoleName
@@ -389,14 +390,14 @@ func (definition *RoleDefinition_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *RoleDefinition_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoleDefinition_Spec_ARM{}
+	return &arm.RoleDefinition_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *RoleDefinition_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoleDefinition_Spec_ARM)
+	typedInput, ok := armInput.(arm.RoleDefinition_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleDefinition_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoleDefinition_Spec, got %T", armInput)
 	}
 
 	// no assignment for property "AssignableScopesReferences"
@@ -795,14 +796,14 @@ var _ genruntime.FromARMConverter = &RoleDefinition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (definition *RoleDefinition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RoleDefinition_STATUS_ARM{}
+	return &arm.RoleDefinition_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (definition *RoleDefinition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RoleDefinition_STATUS_ARM)
+	typedInput, ok := armInput.(arm.RoleDefinition_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleDefinition_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.RoleDefinition_STATUS, got %T", armInput)
 	}
 
 	// Set property "AssignableScopes":
@@ -1066,7 +1067,7 @@ func (permission *Permission) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if permission == nil {
 		return nil, nil
 	}
-	result := &Permission_ARM{}
+	result := &arm.Permission{}
 
 	// Set property "Actions":
 	for _, item := range permission.Actions {
@@ -1092,14 +1093,14 @@ func (permission *Permission) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (permission *Permission) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Permission_ARM{}
+	return &arm.Permission{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (permission *Permission) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Permission_ARM)
+	typedInput, ok := armInput.(arm.Permission)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Permission_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Permission, got %T", armInput)
 	}
 
 	// Set property "Actions":
@@ -1211,14 +1212,14 @@ var _ genruntime.FromARMConverter = &Permission_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
 func (permission *Permission_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Permission_STATUS_ARM{}
+	return &arm.Permission_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (permission *Permission_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Permission_STATUS_ARM)
+	typedInput, ok := armInput.(arm.Permission_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Permission_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Permission_STATUS, got %T", armInput)
 	}
 
 	// Set property "Actions":

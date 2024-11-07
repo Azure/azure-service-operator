@@ -1598,7 +1598,6 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 }
 
 // Storage version of v1api20210501.AgentPoolUpgradeSettings
-// Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings struct {
 	MaxSurge    *string                `json:"maxSurge,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1661,7 +1660,6 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSe
 }
 
 // Storage version of v1api20210501.AgentPoolUpgradeSettings_STATUS
-// Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings_STATUS struct {
 	MaxSurge    *string                `json:"maxSurge,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1734,7 +1732,6 @@ type augmentConversionForManagedClustersAgentPool_STATUS interface {
 }
 
 // Storage version of v1api20210501.KubeletConfig
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
@@ -1887,7 +1884,6 @@ func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *stor
 }
 
 // Storage version of v1api20210501.KubeletConfig_STATUS
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig_STATUS struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
@@ -2040,7 +2036,6 @@ func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(des
 }
 
 // Storage version of v1api20210501.LinuxOSConfig
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
@@ -2142,7 +2137,6 @@ func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *stor
 }
 
 // Storage version of v1api20210501.LinuxOSConfig_STATUS
-// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig_STATUS struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
@@ -2274,7 +2268,6 @@ type augmentConversionForLinuxOSConfig_STATUS interface {
 }
 
 // Storage version of v1api20210501.SysctlConfig
-// Sysctl settings for Linux agent nodes.
 type SysctlConfig struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`
@@ -2536,7 +2529,6 @@ func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *storag
 }
 
 // Storage version of v1api20210501.SysctlConfig_STATUS
-// Sysctl settings for Linux agent nodes.
 type SysctlConfig_STATUS struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`

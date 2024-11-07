@@ -56,22 +56,36 @@ var _ conversion.Convertible = &ManagedCluster{}
 
 // ConvertFrom populates our ManagedCluster from the provided hub ManagedCluster
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20231001/storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ManagedCluster
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return cluster.AssignProperties_From_ManagedCluster(source)
+	err = cluster.AssignProperties_From_ManagedCluster(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to cluster")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ManagedCluster from our ManagedCluster
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20231001/storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ManagedCluster
+	err := cluster.AssignProperties_To_ManagedCluster(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from cluster")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return cluster.AssignProperties_To_ManagedCluster(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1api20231001-managedcluster,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclusters,verbs=create;update,versions=v1api20231001,name=default.v1api20231001.managedclusters.containerservice.azure.com,admissionReviewVersions=v1
@@ -96,17 +110,6 @@ func (cluster *ManagedCluster) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the ManagedCluster resource
 func (cluster *ManagedCluster) defaultImpl() { cluster.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &ManagedCluster{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (cluster *ManagedCluster) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ManagedCluster_STATUS); ok {
-		return cluster.Spec.Initialize_From_ManagedCluster_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ManagedCluster_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesConfigExporter = &ManagedCluster{}
 
@@ -2193,383 +2196,6 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 	return nil
 }
 
-// Initialize_From_ManagedCluster_STATUS populates our ManagedCluster_Spec from the provided source ManagedCluster_STATUS
-func (cluster *ManagedCluster_Spec) Initialize_From_ManagedCluster_STATUS(source *ManagedCluster_STATUS) error {
-
-	// AadProfile
-	if source.AadProfile != nil {
-		var aadProfile ManagedClusterAADProfile
-		err := aadProfile.Initialize_From_ManagedClusterAADProfile_STATUS(source.AadProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterAADProfile_STATUS() to populate field AadProfile")
-		}
-		cluster.AadProfile = &aadProfile
-	} else {
-		cluster.AadProfile = nil
-	}
-
-	// AddonProfiles
-	if source.AddonProfiles != nil {
-		addonProfileMap := make(map[string]ManagedClusterAddonProfile, len(source.AddonProfiles))
-		for addonProfileKey, addonProfileValue := range source.AddonProfiles {
-			// Shadow the loop variable to avoid aliasing
-			addonProfileValue := addonProfileValue
-			var addonProfile ManagedClusterAddonProfile
-			err := addonProfile.Initialize_From_ManagedClusterAddonProfile_STATUS(&addonProfileValue)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedClusterAddonProfile_STATUS() to populate field AddonProfiles")
-			}
-			addonProfileMap[addonProfileKey] = addonProfile
-		}
-		cluster.AddonProfiles = addonProfileMap
-	} else {
-		cluster.AddonProfiles = nil
-	}
-
-	// AgentPoolProfiles
-	if source.AgentPoolProfiles != nil {
-		agentPoolProfileList := make([]ManagedClusterAgentPoolProfile, len(source.AgentPoolProfiles))
-		for agentPoolProfileIndex, agentPoolProfileItem := range source.AgentPoolProfiles {
-			// Shadow the loop variable to avoid aliasing
-			agentPoolProfileItem := agentPoolProfileItem
-			var agentPoolProfile ManagedClusterAgentPoolProfile
-			err := agentPoolProfile.Initialize_From_ManagedClusterAgentPoolProfile_STATUS(&agentPoolProfileItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedClusterAgentPoolProfile_STATUS() to populate field AgentPoolProfiles")
-			}
-			agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
-		}
-		cluster.AgentPoolProfiles = agentPoolProfileList
-	} else {
-		cluster.AgentPoolProfiles = nil
-	}
-
-	// ApiServerAccessProfile
-	if source.ApiServerAccessProfile != nil {
-		var apiServerAccessProfile ManagedClusterAPIServerAccessProfile
-		err := apiServerAccessProfile.Initialize_From_ManagedClusterAPIServerAccessProfile_STATUS(source.ApiServerAccessProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterAPIServerAccessProfile_STATUS() to populate field ApiServerAccessProfile")
-		}
-		cluster.ApiServerAccessProfile = &apiServerAccessProfile
-	} else {
-		cluster.ApiServerAccessProfile = nil
-	}
-
-	// AutoScalerProfile
-	if source.AutoScalerProfile != nil {
-		var autoScalerProfile ManagedClusterProperties_AutoScalerProfile
-		err := autoScalerProfile.Initialize_From_ManagedClusterProperties_AutoScalerProfile_STATUS(source.AutoScalerProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterProperties_AutoScalerProfile_STATUS() to populate field AutoScalerProfile")
-		}
-		cluster.AutoScalerProfile = &autoScalerProfile
-	} else {
-		cluster.AutoScalerProfile = nil
-	}
-
-	// AutoUpgradeProfile
-	if source.AutoUpgradeProfile != nil {
-		var autoUpgradeProfile ManagedClusterAutoUpgradeProfile
-		err := autoUpgradeProfile.Initialize_From_ManagedClusterAutoUpgradeProfile_STATUS(source.AutoUpgradeProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterAutoUpgradeProfile_STATUS() to populate field AutoUpgradeProfile")
-		}
-		cluster.AutoUpgradeProfile = &autoUpgradeProfile
-	} else {
-		cluster.AutoUpgradeProfile = nil
-	}
-
-	// AzureMonitorProfile
-	if source.AzureMonitorProfile != nil {
-		var azureMonitorProfile ManagedClusterAzureMonitorProfile
-		err := azureMonitorProfile.Initialize_From_ManagedClusterAzureMonitorProfile_STATUS(source.AzureMonitorProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterAzureMonitorProfile_STATUS() to populate field AzureMonitorProfile")
-		}
-		cluster.AzureMonitorProfile = &azureMonitorProfile
-	} else {
-		cluster.AzureMonitorProfile = nil
-	}
-
-	// DisableLocalAccounts
-	if source.DisableLocalAccounts != nil {
-		disableLocalAccount := *source.DisableLocalAccounts
-		cluster.DisableLocalAccounts = &disableLocalAccount
-	} else {
-		cluster.DisableLocalAccounts = nil
-	}
-
-	// DnsPrefix
-	cluster.DnsPrefix = genruntime.ClonePointerToString(source.DnsPrefix)
-
-	// EnablePodSecurityPolicy
-	if source.EnablePodSecurityPolicy != nil {
-		enablePodSecurityPolicy := *source.EnablePodSecurityPolicy
-		cluster.EnablePodSecurityPolicy = &enablePodSecurityPolicy
-	} else {
-		cluster.EnablePodSecurityPolicy = nil
-	}
-
-	// EnableRBAC
-	if source.EnableRBAC != nil {
-		enableRBAC := *source.EnableRBAC
-		cluster.EnableRBAC = &enableRBAC
-	} else {
-		cluster.EnableRBAC = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		cluster.ExtendedLocation = &extendedLocation
-	} else {
-		cluster.ExtendedLocation = nil
-	}
-
-	// FqdnSubdomain
-	cluster.FqdnSubdomain = genruntime.ClonePointerToString(source.FqdnSubdomain)
-
-	// HttpProxyConfig
-	if source.HttpProxyConfig != nil {
-		var httpProxyConfig ManagedClusterHTTPProxyConfig
-		err := httpProxyConfig.Initialize_From_ManagedClusterHTTPProxyConfig_STATUS(source.HttpProxyConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterHTTPProxyConfig_STATUS() to populate field HttpProxyConfig")
-		}
-		cluster.HttpProxyConfig = &httpProxyConfig
-	} else {
-		cluster.HttpProxyConfig = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedClusterIdentity
-		err := identity.Initialize_From_ManagedClusterIdentity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterIdentity_STATUS() to populate field Identity")
-		}
-		cluster.Identity = &identity
-	} else {
-		cluster.Identity = nil
-	}
-
-	// IdentityProfile
-	if source.IdentityProfile != nil {
-		identityProfileMap := make(map[string]UserAssignedIdentity, len(source.IdentityProfile))
-		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
-			// Shadow the loop variable to avoid aliasing
-			identityProfileValue := identityProfileValue
-			var identityProfile UserAssignedIdentity
-			err := identityProfile.Initialize_From_UserAssignedIdentity_STATUS(&identityProfileValue)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_UserAssignedIdentity_STATUS() to populate field IdentityProfile")
-			}
-			identityProfileMap[identityProfileKey] = identityProfile
-		}
-		cluster.IdentityProfile = identityProfileMap
-	} else {
-		cluster.IdentityProfile = nil
-	}
-
-	// KubernetesVersion
-	cluster.KubernetesVersion = genruntime.ClonePointerToString(source.KubernetesVersion)
-
-	// LinuxProfile
-	if source.LinuxProfile != nil {
-		var linuxProfile ContainerServiceLinuxProfile
-		err := linuxProfile.Initialize_From_ContainerServiceLinuxProfile_STATUS(source.LinuxProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerServiceLinuxProfile_STATUS() to populate field LinuxProfile")
-		}
-		cluster.LinuxProfile = &linuxProfile
-	} else {
-		cluster.LinuxProfile = nil
-	}
-
-	// Location
-	cluster.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkProfile
-	if source.NetworkProfile != nil {
-		var networkProfile ContainerServiceNetworkProfile
-		err := networkProfile.Initialize_From_ContainerServiceNetworkProfile_STATUS(source.NetworkProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerServiceNetworkProfile_STATUS() to populate field NetworkProfile")
-		}
-		cluster.NetworkProfile = &networkProfile
-	} else {
-		cluster.NetworkProfile = nil
-	}
-
-	// NodeResourceGroup
-	cluster.NodeResourceGroup = genruntime.ClonePointerToString(source.NodeResourceGroup)
-
-	// OidcIssuerProfile
-	if source.OidcIssuerProfile != nil {
-		var oidcIssuerProfile ManagedClusterOIDCIssuerProfile
-		err := oidcIssuerProfile.Initialize_From_ManagedClusterOIDCIssuerProfile_STATUS(source.OidcIssuerProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterOIDCIssuerProfile_STATUS() to populate field OidcIssuerProfile")
-		}
-		cluster.OidcIssuerProfile = &oidcIssuerProfile
-	} else {
-		cluster.OidcIssuerProfile = nil
-	}
-
-	// PodIdentityProfile
-	if source.PodIdentityProfile != nil {
-		var podIdentityProfile ManagedClusterPodIdentityProfile
-		err := podIdentityProfile.Initialize_From_ManagedClusterPodIdentityProfile_STATUS(source.PodIdentityProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterPodIdentityProfile_STATUS() to populate field PodIdentityProfile")
-		}
-		cluster.PodIdentityProfile = &podIdentityProfile
-	} else {
-		cluster.PodIdentityProfile = nil
-	}
-
-	// PrivateLinkResources
-	if source.PrivateLinkResources != nil {
-		privateLinkResourceList := make([]PrivateLinkResource, len(source.PrivateLinkResources))
-		for privateLinkResourceIndex, privateLinkResourceItem := range source.PrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkResourceItem := privateLinkResourceItem
-			var privateLinkResource PrivateLinkResource
-			err := privateLinkResource.Initialize_From_PrivateLinkResource_STATUS(&privateLinkResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_PrivateLinkResource_STATUS() to populate field PrivateLinkResources")
-			}
-			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
-		}
-		cluster.PrivateLinkResources = privateLinkResourceList
-	} else {
-		cluster.PrivateLinkResources = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), managedClusterProperties_PublicNetworkAccess_Values)
-		cluster.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		cluster.PublicNetworkAccess = nil
-	}
-
-	// SecurityProfile
-	if source.SecurityProfile != nil {
-		var securityProfile ManagedClusterSecurityProfile
-		err := securityProfile.Initialize_From_ManagedClusterSecurityProfile_STATUS(source.SecurityProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterSecurityProfile_STATUS() to populate field SecurityProfile")
-		}
-		cluster.SecurityProfile = &securityProfile
-	} else {
-		cluster.SecurityProfile = nil
-	}
-
-	// ServiceMeshProfile
-	if source.ServiceMeshProfile != nil {
-		var serviceMeshProfile ServiceMeshProfile
-		err := serviceMeshProfile.Initialize_From_ServiceMeshProfile_STATUS(source.ServiceMeshProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ServiceMeshProfile_STATUS() to populate field ServiceMeshProfile")
-		}
-		cluster.ServiceMeshProfile = &serviceMeshProfile
-	} else {
-		cluster.ServiceMeshProfile = nil
-	}
-
-	// ServicePrincipalProfile
-	if source.ServicePrincipalProfile != nil {
-		var servicePrincipalProfile ManagedClusterServicePrincipalProfile
-		err := servicePrincipalProfile.Initialize_From_ManagedClusterServicePrincipalProfile_STATUS(source.ServicePrincipalProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterServicePrincipalProfile_STATUS() to populate field ServicePrincipalProfile")
-		}
-		cluster.ServicePrincipalProfile = &servicePrincipalProfile
-	} else {
-		cluster.ServicePrincipalProfile = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku ManagedClusterSKU
-		err := sku.Initialize_From_ManagedClusterSKU_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterSKU_STATUS() to populate field Sku")
-		}
-		cluster.Sku = &sku
-	} else {
-		cluster.Sku = nil
-	}
-
-	// StorageProfile
-	if source.StorageProfile != nil {
-		var storageProfile ManagedClusterStorageProfile
-		err := storageProfile.Initialize_From_ManagedClusterStorageProfile_STATUS(source.StorageProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterStorageProfile_STATUS() to populate field StorageProfile")
-		}
-		cluster.StorageProfile = &storageProfile
-	} else {
-		cluster.StorageProfile = nil
-	}
-
-	// SupportPlan
-	if source.SupportPlan != nil {
-		supportPlan := genruntime.ToEnum(string(*source.SupportPlan), kubernetesSupportPlan_Values)
-		cluster.SupportPlan = &supportPlan
-	} else {
-		cluster.SupportPlan = nil
-	}
-
-	// Tags
-	cluster.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// UpgradeSettings
-	if source.UpgradeSettings != nil {
-		var upgradeSetting ClusterUpgradeSettings
-		err := upgradeSetting.Initialize_From_ClusterUpgradeSettings_STATUS(source.UpgradeSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ClusterUpgradeSettings_STATUS() to populate field UpgradeSettings")
-		}
-		cluster.UpgradeSettings = &upgradeSetting
-	} else {
-		cluster.UpgradeSettings = nil
-	}
-
-	// WindowsProfile
-	if source.WindowsProfile != nil {
-		var windowsProfile ManagedClusterWindowsProfile
-		err := windowsProfile.Initialize_From_ManagedClusterWindowsProfile_STATUS(source.WindowsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterWindowsProfile_STATUS() to populate field WindowsProfile")
-		}
-		cluster.WindowsProfile = &windowsProfile
-	} else {
-		cluster.WindowsProfile = nil
-	}
-
-	// WorkloadAutoScalerProfile
-	if source.WorkloadAutoScalerProfile != nil {
-		var workloadAutoScalerProfile ManagedClusterWorkloadAutoScalerProfile
-		err := workloadAutoScalerProfile.Initialize_From_ManagedClusterWorkloadAutoScalerProfile_STATUS(source.WorkloadAutoScalerProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterWorkloadAutoScalerProfile_STATUS() to populate field WorkloadAutoScalerProfile")
-		}
-		cluster.WorkloadAutoScalerProfile = &workloadAutoScalerProfile
-	} else {
-		cluster.WorkloadAutoScalerProfile = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (cluster *ManagedCluster_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -4346,25 +3972,6 @@ func (settings *ClusterUpgradeSettings) AssignProperties_To_ClusterUpgradeSettin
 	return nil
 }
 
-// Initialize_From_ClusterUpgradeSettings_STATUS populates our ClusterUpgradeSettings from the provided source ClusterUpgradeSettings_STATUS
-func (settings *ClusterUpgradeSettings) Initialize_From_ClusterUpgradeSettings_STATUS(source *ClusterUpgradeSettings_STATUS) error {
-
-	// OverrideSettings
-	if source.OverrideSettings != nil {
-		var overrideSetting UpgradeOverrideSettings
-		err := overrideSetting.Initialize_From_UpgradeOverrideSettings_STATUS(source.OverrideSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_UpgradeOverrideSettings_STATUS() to populate field OverrideSettings")
-		}
-		settings.OverrideSettings = &overrideSetting
-	} else {
-		settings.OverrideSettings = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Settings for upgrading a cluster.
 type ClusterUpgradeSettings_STATUS struct {
 	// OverrideSettings: Settings for overrides.
@@ -4576,33 +4183,6 @@ func (profile *ContainerServiceLinuxProfile) AssignProperties_To_ContainerServic
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ContainerServiceLinuxProfile_STATUS populates our ContainerServiceLinuxProfile from the provided source ContainerServiceLinuxProfile_STATUS
-func (profile *ContainerServiceLinuxProfile) Initialize_From_ContainerServiceLinuxProfile_STATUS(source *ContainerServiceLinuxProfile_STATUS) error {
-
-	// AdminUsername
-	if source.AdminUsername != nil {
-		adminUsername := *source.AdminUsername
-		profile.AdminUsername = &adminUsername
-	} else {
-		profile.AdminUsername = nil
-	}
-
-	// Ssh
-	if source.Ssh != nil {
-		var ssh ContainerServiceSshConfiguration
-		err := ssh.Initialize_From_ContainerServiceSshConfiguration_STATUS(source.Ssh)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerServiceSshConfiguration_STATUS() to populate field Ssh")
-		}
-		profile.Ssh = &ssh
-	} else {
-		profile.Ssh = nil
 	}
 
 	// No error
@@ -5292,137 +4872,6 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServ
 	return nil
 }
 
-// Initialize_From_ContainerServiceNetworkProfile_STATUS populates our ContainerServiceNetworkProfile from the provided source ContainerServiceNetworkProfile_STATUS
-func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceNetworkProfile_STATUS(source *ContainerServiceNetworkProfile_STATUS) error {
-
-	// DnsServiceIP
-	if source.DnsServiceIP != nil {
-		dnsServiceIP := *source.DnsServiceIP
-		profile.DnsServiceIP = &dnsServiceIP
-	} else {
-		profile.DnsServiceIP = nil
-	}
-
-	// IpFamilies
-	if source.IpFamilies != nil {
-		ipFamilyList := make([]ContainerServiceNetworkProfile_IpFamilies, len(source.IpFamilies))
-		for ipFamilyIndex, ipFamilyItem := range source.IpFamilies {
-			// Shadow the loop variable to avoid aliasing
-			ipFamilyItem := ipFamilyItem
-			ipFamily := genruntime.ToEnum(string(ipFamilyItem), containerServiceNetworkProfile_IpFamilies_Values)
-			ipFamilyList[ipFamilyIndex] = ipFamily
-		}
-		profile.IpFamilies = ipFamilyList
-	} else {
-		profile.IpFamilies = nil
-	}
-
-	// LoadBalancerProfile
-	if source.LoadBalancerProfile != nil {
-		var loadBalancerProfile ManagedClusterLoadBalancerProfile
-		err := loadBalancerProfile.Initialize_From_ManagedClusterLoadBalancerProfile_STATUS(source.LoadBalancerProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterLoadBalancerProfile_STATUS() to populate field LoadBalancerProfile")
-		}
-		profile.LoadBalancerProfile = &loadBalancerProfile
-	} else {
-		profile.LoadBalancerProfile = nil
-	}
-
-	// LoadBalancerSku
-	if source.LoadBalancerSku != nil {
-		loadBalancerSku := genruntime.ToEnum(string(*source.LoadBalancerSku), containerServiceNetworkProfile_LoadBalancerSku_Values)
-		profile.LoadBalancerSku = &loadBalancerSku
-	} else {
-		profile.LoadBalancerSku = nil
-	}
-
-	// NatGatewayProfile
-	if source.NatGatewayProfile != nil {
-		var natGatewayProfile ManagedClusterNATGatewayProfile
-		err := natGatewayProfile.Initialize_From_ManagedClusterNATGatewayProfile_STATUS(source.NatGatewayProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterNATGatewayProfile_STATUS() to populate field NatGatewayProfile")
-		}
-		profile.NatGatewayProfile = &natGatewayProfile
-	} else {
-		profile.NatGatewayProfile = nil
-	}
-
-	// NetworkDataplane
-	if source.NetworkDataplane != nil {
-		networkDataplane := genruntime.ToEnum(string(*source.NetworkDataplane), containerServiceNetworkProfile_NetworkDataplane_Values)
-		profile.NetworkDataplane = &networkDataplane
-	} else {
-		profile.NetworkDataplane = nil
-	}
-
-	// NetworkMode
-	if source.NetworkMode != nil {
-		networkMode := genruntime.ToEnum(string(*source.NetworkMode), containerServiceNetworkProfile_NetworkMode_Values)
-		profile.NetworkMode = &networkMode
-	} else {
-		profile.NetworkMode = nil
-	}
-
-	// NetworkPlugin
-	if source.NetworkPlugin != nil {
-		networkPlugin := genruntime.ToEnum(string(*source.NetworkPlugin), networkPlugin_Values)
-		profile.NetworkPlugin = &networkPlugin
-	} else {
-		profile.NetworkPlugin = nil
-	}
-
-	// NetworkPluginMode
-	if source.NetworkPluginMode != nil {
-		networkPluginMode := genruntime.ToEnum(string(*source.NetworkPluginMode), containerServiceNetworkProfile_NetworkPluginMode_Values)
-		profile.NetworkPluginMode = &networkPluginMode
-	} else {
-		profile.NetworkPluginMode = nil
-	}
-
-	// NetworkPolicy
-	if source.NetworkPolicy != nil {
-		networkPolicy := genruntime.ToEnum(string(*source.NetworkPolicy), containerServiceNetworkProfile_NetworkPolicy_Values)
-		profile.NetworkPolicy = &networkPolicy
-	} else {
-		profile.NetworkPolicy = nil
-	}
-
-	// OutboundType
-	if source.OutboundType != nil {
-		outboundType := genruntime.ToEnum(string(*source.OutboundType), containerServiceNetworkProfile_OutboundType_Values)
-		profile.OutboundType = &outboundType
-	} else {
-		profile.OutboundType = nil
-	}
-
-	// PodCidr
-	if source.PodCidr != nil {
-		podCidr := *source.PodCidr
-		profile.PodCidr = &podCidr
-	} else {
-		profile.PodCidr = nil
-	}
-
-	// PodCidrs
-	profile.PodCidrs = genruntime.CloneSliceOfString(source.PodCidrs)
-
-	// ServiceCidr
-	if source.ServiceCidr != nil {
-		serviceCidr := *source.ServiceCidr
-		profile.ServiceCidr = &serviceCidr
-	} else {
-		profile.ServiceCidr = nil
-	}
-
-	// ServiceCidrs
-	profile.ServiceCidrs = genruntime.CloneSliceOfString(source.ServiceCidrs)
-
-	// No error
-	return nil
-}
-
 // Profile of network configuration.
 type ContainerServiceNetworkProfile_STATUS struct {
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
@@ -5966,24 +5415,6 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
-// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
-
-	// Name
-	location.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
@@ -6319,44 +5750,6 @@ func (profile *ManagedClusterAADProfile) AssignProperties_To_ManagedClusterAADPr
 	return nil
 }
 
-// Initialize_From_ManagedClusterAADProfile_STATUS populates our ManagedClusterAADProfile from the provided source ManagedClusterAADProfile_STATUS
-func (profile *ManagedClusterAADProfile) Initialize_From_ManagedClusterAADProfile_STATUS(source *ManagedClusterAADProfile_STATUS) error {
-
-	// AdminGroupObjectIDs
-	profile.AdminGroupObjectIDs = genruntime.CloneSliceOfString(source.AdminGroupObjectIDs)
-
-	// ClientAppID
-	profile.ClientAppID = genruntime.ClonePointerToString(source.ClientAppID)
-
-	// EnableAzureRBAC
-	if source.EnableAzureRBAC != nil {
-		enableAzureRBAC := *source.EnableAzureRBAC
-		profile.EnableAzureRBAC = &enableAzureRBAC
-	} else {
-		profile.EnableAzureRBAC = nil
-	}
-
-	// Managed
-	if source.Managed != nil {
-		managed := *source.Managed
-		profile.Managed = &managed
-	} else {
-		profile.Managed = nil
-	}
-
-	// ServerAppID
-	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
-
-	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
-
-	// TenantID
-	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
-
-	// No error
-	return nil
-}
-
 // For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile_STATUS struct {
 	// AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.
@@ -6630,24 +6023,6 @@ func (profile *ManagedClusterAddonProfile) AssignProperties_To_ManagedClusterAdd
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterAddonProfile_STATUS populates our ManagedClusterAddonProfile from the provided source ManagedClusterAddonProfile_STATUS
-func (profile *ManagedClusterAddonProfile) Initialize_From_ManagedClusterAddonProfile_STATUS(source *ManagedClusterAddonProfile_STATUS) error {
-
-	// Config
-	profile.Config = genruntime.CloneMapOfStringToString(source.Config)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		profile.Enabled = &enabled
-	} else {
-		profile.Enabled = nil
 	}
 
 	// No error
@@ -8219,267 +7594,6 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 	return nil
 }
 
-// Initialize_From_ManagedClusterAgentPoolProfile_STATUS populates our ManagedClusterAgentPoolProfile from the provided source ManagedClusterAgentPoolProfile_STATUS
-func (profile *ManagedClusterAgentPoolProfile) Initialize_From_ManagedClusterAgentPoolProfile_STATUS(source *ManagedClusterAgentPoolProfile_STATUS) error {
-
-	// AvailabilityZones
-	profile.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
-
-	// Count
-	profile.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// CreationData
-	if source.CreationData != nil {
-		var creationDatum CreationData
-		err := creationDatum.Initialize_From_CreationData_STATUS(source.CreationData)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CreationData_STATUS() to populate field CreationData")
-		}
-		profile.CreationData = &creationDatum
-	} else {
-		profile.CreationData = nil
-	}
-
-	// EnableAutoScaling
-	if source.EnableAutoScaling != nil {
-		enableAutoScaling := *source.EnableAutoScaling
-		profile.EnableAutoScaling = &enableAutoScaling
-	} else {
-		profile.EnableAutoScaling = nil
-	}
-
-	// EnableEncryptionAtHost
-	if source.EnableEncryptionAtHost != nil {
-		enableEncryptionAtHost := *source.EnableEncryptionAtHost
-		profile.EnableEncryptionAtHost = &enableEncryptionAtHost
-	} else {
-		profile.EnableEncryptionAtHost = nil
-	}
-
-	// EnableFIPS
-	if source.EnableFIPS != nil {
-		enableFIPS := *source.EnableFIPS
-		profile.EnableFIPS = &enableFIPS
-	} else {
-		profile.EnableFIPS = nil
-	}
-
-	// EnableNodePublicIP
-	if source.EnableNodePublicIP != nil {
-		enableNodePublicIP := *source.EnableNodePublicIP
-		profile.EnableNodePublicIP = &enableNodePublicIP
-	} else {
-		profile.EnableNodePublicIP = nil
-	}
-
-	// EnableUltraSSD
-	if source.EnableUltraSSD != nil {
-		enableUltraSSD := *source.EnableUltraSSD
-		profile.EnableUltraSSD = &enableUltraSSD
-	} else {
-		profile.EnableUltraSSD = nil
-	}
-
-	// GpuInstanceProfile
-	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := genruntime.ToEnum(string(*source.GpuInstanceProfile), gPUInstanceProfile_Values)
-		profile.GpuInstanceProfile = &gpuInstanceProfile
-	} else {
-		profile.GpuInstanceProfile = nil
-	}
-
-	// KubeletConfig
-	if source.KubeletConfig != nil {
-		var kubeletConfig KubeletConfig
-		err := kubeletConfig.Initialize_From_KubeletConfig_STATUS(source.KubeletConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KubeletConfig_STATUS() to populate field KubeletConfig")
-		}
-		profile.KubeletConfig = &kubeletConfig
-	} else {
-		profile.KubeletConfig = nil
-	}
-
-	// KubeletDiskType
-	if source.KubeletDiskType != nil {
-		kubeletDiskType := genruntime.ToEnum(string(*source.KubeletDiskType), kubeletDiskType_Values)
-		profile.KubeletDiskType = &kubeletDiskType
-	} else {
-		profile.KubeletDiskType = nil
-	}
-
-	// LinuxOSConfig
-	if source.LinuxOSConfig != nil {
-		var linuxOSConfig LinuxOSConfig
-		err := linuxOSConfig.Initialize_From_LinuxOSConfig_STATUS(source.LinuxOSConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_LinuxOSConfig_STATUS() to populate field LinuxOSConfig")
-		}
-		profile.LinuxOSConfig = &linuxOSConfig
-	} else {
-		profile.LinuxOSConfig = nil
-	}
-
-	// MaxCount
-	profile.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
-
-	// MaxPods
-	profile.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
-
-	// MinCount
-	profile.MinCount = genruntime.ClonePointerToInt(source.MinCount)
-
-	// Mode
-	if source.Mode != nil {
-		mode := genruntime.ToEnum(string(*source.Mode), agentPoolMode_Values)
-		profile.Mode = &mode
-	} else {
-		profile.Mode = nil
-	}
-
-	// Name
-	if source.Name != nil {
-		name := *source.Name
-		profile.Name = &name
-	} else {
-		profile.Name = nil
-	}
-
-	// NetworkProfile
-	if source.NetworkProfile != nil {
-		var networkProfile AgentPoolNetworkProfile
-		err := networkProfile.Initialize_From_AgentPoolNetworkProfile_STATUS(source.NetworkProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AgentPoolNetworkProfile_STATUS() to populate field NetworkProfile")
-		}
-		profile.NetworkProfile = &networkProfile
-	} else {
-		profile.NetworkProfile = nil
-	}
-
-	// NodeLabels
-	profile.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
-
-	// NodeTaints
-	profile.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
-
-	// OrchestratorVersion
-	profile.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
-
-	// OsDiskSizeGB
-	if source.OsDiskSizeGB != nil {
-		osDiskSizeGB := ContainerServiceOSDisk(*source.OsDiskSizeGB)
-		profile.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		profile.OsDiskSizeGB = nil
-	}
-
-	// OsDiskType
-	if source.OsDiskType != nil {
-		osDiskType := genruntime.ToEnum(string(*source.OsDiskType), oSDiskType_Values)
-		profile.OsDiskType = &osDiskType
-	} else {
-		profile.OsDiskType = nil
-	}
-
-	// OsSKU
-	if source.OsSKU != nil {
-		osSKU := genruntime.ToEnum(string(*source.OsSKU), oSSKU_Values)
-		profile.OsSKU = &osSKU
-	} else {
-		profile.OsSKU = nil
-	}
-
-	// OsType
-	if source.OsType != nil {
-		osType := genruntime.ToEnum(string(*source.OsType), oSType_Values)
-		profile.OsType = &osType
-	} else {
-		profile.OsType = nil
-	}
-
-	// PowerState
-	if source.PowerState != nil {
-		var powerState PowerState
-		err := powerState.Initialize_From_PowerState_STATUS(source.PowerState)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PowerState_STATUS() to populate field PowerState")
-		}
-		profile.PowerState = &powerState
-	} else {
-		profile.PowerState = nil
-	}
-
-	// ScaleDownMode
-	if source.ScaleDownMode != nil {
-		scaleDownMode := genruntime.ToEnum(string(*source.ScaleDownMode), scaleDownMode_Values)
-		profile.ScaleDownMode = &scaleDownMode
-	} else {
-		profile.ScaleDownMode = nil
-	}
-
-	// ScaleSetEvictionPolicy
-	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := genruntime.ToEnum(string(*source.ScaleSetEvictionPolicy), scaleSetEvictionPolicy_Values)
-		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	} else {
-		profile.ScaleSetEvictionPolicy = nil
-	}
-
-	// ScaleSetPriority
-	if source.ScaleSetPriority != nil {
-		scaleSetPriority := genruntime.ToEnum(string(*source.ScaleSetPriority), scaleSetPriority_Values)
-		profile.ScaleSetPriority = &scaleSetPriority
-	} else {
-		profile.ScaleSetPriority = nil
-	}
-
-	// SpotMaxPrice
-	if source.SpotMaxPrice != nil {
-		spotMaxPrice := *source.SpotMaxPrice
-		profile.SpotMaxPrice = &spotMaxPrice
-	} else {
-		profile.SpotMaxPrice = nil
-	}
-
-	// Tags
-	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), agentPoolType_Values)
-		profile.Type = &typeVar
-	} else {
-		profile.Type = nil
-	}
-
-	// UpgradeSettings
-	if source.UpgradeSettings != nil {
-		var upgradeSetting AgentPoolUpgradeSettings
-		err := upgradeSetting.Initialize_From_AgentPoolUpgradeSettings_STATUS(source.UpgradeSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
-		}
-		profile.UpgradeSettings = &upgradeSetting
-	} else {
-		profile.UpgradeSettings = nil
-	}
-
-	// VmSize
-	profile.VmSize = genruntime.ClonePointerToString(source.VmSize)
-
-	// WorkloadRuntime
-	if source.WorkloadRuntime != nil {
-		workloadRuntime := genruntime.ToEnum(string(*source.WorkloadRuntime), workloadRuntime_Values)
-		profile.WorkloadRuntime = &workloadRuntime
-	} else {
-		profile.WorkloadRuntime = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Profile for the container service agent pool.
 type ManagedClusterAgentPoolProfile_STATUS struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
@@ -9754,43 +8868,6 @@ func (profile *ManagedClusterAPIServerAccessProfile) AssignProperties_To_Managed
 	return nil
 }
 
-// Initialize_From_ManagedClusterAPIServerAccessProfile_STATUS populates our ManagedClusterAPIServerAccessProfile from the provided source ManagedClusterAPIServerAccessProfile_STATUS
-func (profile *ManagedClusterAPIServerAccessProfile) Initialize_From_ManagedClusterAPIServerAccessProfile_STATUS(source *ManagedClusterAPIServerAccessProfile_STATUS) error {
-
-	// AuthorizedIPRanges
-	profile.AuthorizedIPRanges = genruntime.CloneSliceOfString(source.AuthorizedIPRanges)
-
-	// DisableRunCommand
-	if source.DisableRunCommand != nil {
-		disableRunCommand := *source.DisableRunCommand
-		profile.DisableRunCommand = &disableRunCommand
-	} else {
-		profile.DisableRunCommand = nil
-	}
-
-	// EnablePrivateCluster
-	if source.EnablePrivateCluster != nil {
-		enablePrivateCluster := *source.EnablePrivateCluster
-		profile.EnablePrivateCluster = &enablePrivateCluster
-	} else {
-		profile.EnablePrivateCluster = nil
-	}
-
-	// EnablePrivateClusterPublicFQDN
-	if source.EnablePrivateClusterPublicFQDN != nil {
-		enablePrivateClusterPublicFQDN := *source.EnablePrivateClusterPublicFQDN
-		profile.EnablePrivateClusterPublicFQDN = &enablePrivateClusterPublicFQDN
-	} else {
-		profile.EnablePrivateClusterPublicFQDN = nil
-	}
-
-	// PrivateDNSZone
-	profile.PrivateDNSZone = genruntime.ClonePointerToString(source.PrivateDNSZone)
-
-	// No error
-	return nil
-}
-
 // Access profile for managed cluster API server.
 type ManagedClusterAPIServerAccessProfile_STATUS struct {
 	// AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with
@@ -10070,29 +9147,6 @@ func (profile *ManagedClusterAutoUpgradeProfile) AssignProperties_To_ManagedClus
 	return nil
 }
 
-// Initialize_From_ManagedClusterAutoUpgradeProfile_STATUS populates our ManagedClusterAutoUpgradeProfile from the provided source ManagedClusterAutoUpgradeProfile_STATUS
-func (profile *ManagedClusterAutoUpgradeProfile) Initialize_From_ManagedClusterAutoUpgradeProfile_STATUS(source *ManagedClusterAutoUpgradeProfile_STATUS) error {
-
-	// NodeOSUpgradeChannel
-	if source.NodeOSUpgradeChannel != nil {
-		nodeOSUpgradeChannel := genruntime.ToEnum(string(*source.NodeOSUpgradeChannel), managedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_Values)
-		profile.NodeOSUpgradeChannel = &nodeOSUpgradeChannel
-	} else {
-		profile.NodeOSUpgradeChannel = nil
-	}
-
-	// UpgradeChannel
-	if source.UpgradeChannel != nil {
-		upgradeChannel := genruntime.ToEnum(string(*source.UpgradeChannel), managedClusterAutoUpgradeProfile_UpgradeChannel_Values)
-		profile.UpgradeChannel = &upgradeChannel
-	} else {
-		profile.UpgradeChannel = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Auto upgrade profile for a managed cluster.
 type ManagedClusterAutoUpgradeProfile_STATUS struct {
 	// NodeOSUpgradeChannel: Manner in which the OS on your nodes is updated. The default is NodeImage.
@@ -10291,25 +9345,6 @@ func (profile *ManagedClusterAzureMonitorProfile) AssignProperties_To_ManagedClu
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterAzureMonitorProfile_STATUS populates our ManagedClusterAzureMonitorProfile from the provided source ManagedClusterAzureMonitorProfile_STATUS
-func (profile *ManagedClusterAzureMonitorProfile) Initialize_From_ManagedClusterAzureMonitorProfile_STATUS(source *ManagedClusterAzureMonitorProfile_STATUS) error {
-
-	// Metrics
-	if source.Metrics != nil {
-		var metric ManagedClusterAzureMonitorProfileMetrics
-		err := metric.Initialize_From_ManagedClusterAzureMonitorProfileMetrics_STATUS(source.Metrics)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterAzureMonitorProfileMetrics_STATUS() to populate field Metrics")
-		}
-		profile.Metrics = &metric
-	} else {
-		profile.Metrics = nil
 	}
 
 	// No error
@@ -10530,25 +9565,6 @@ func (config *ManagedClusterHTTPProxyConfig) AssignProperties_To_ManagedClusterH
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterHTTPProxyConfig_STATUS populates our ManagedClusterHTTPProxyConfig from the provided source ManagedClusterHTTPProxyConfig_STATUS
-func (config *ManagedClusterHTTPProxyConfig) Initialize_From_ManagedClusterHTTPProxyConfig_STATUS(source *ManagedClusterHTTPProxyConfig_STATUS) error {
-
-	// HttpProxy
-	config.HttpProxy = genruntime.ClonePointerToString(source.HttpProxy)
-
-	// HttpsProxy
-	config.HttpsProxy = genruntime.ClonePointerToString(source.HttpsProxy)
-
-	// NoProxy
-	config.NoProxy = genruntime.CloneSliceOfString(source.NoProxy)
-
-	// TrustedCa
-	config.TrustedCa = genruntime.ClonePointerToString(source.TrustedCa)
 
 	// No error
 	return nil
@@ -10865,51 +9881,6 @@ func (identity *ManagedClusterIdentity) AssignProperties_To_ManagedClusterIdenti
 	return nil
 }
 
-// Initialize_From_ManagedClusterIdentity_STATUS populates our ManagedClusterIdentity from the provided source ManagedClusterIdentity_STATUS
-func (identity *ManagedClusterIdentity) Initialize_From_ManagedClusterIdentity_STATUS(source *ManagedClusterIdentity_STATUS) error {
-
-	// DelegatedResources
-	if source.DelegatedResources != nil {
-		delegatedResourceMap := make(map[string]DelegatedResource, len(source.DelegatedResources))
-		for delegatedResourceKey, delegatedResourceValue := range source.DelegatedResources {
-			// Shadow the loop variable to avoid aliasing
-			delegatedResourceValue := delegatedResourceValue
-			var delegatedResource DelegatedResource
-			err := delegatedResource.Initialize_From_DelegatedResource_STATUS(&delegatedResourceValue)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_DelegatedResource_STATUS() to populate field DelegatedResources")
-			}
-			delegatedResourceMap[delegatedResourceKey] = delegatedResource
-		}
-		identity.DelegatedResources = delegatedResourceMap
-	} else {
-		identity.DelegatedResources = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedClusterIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Identity for the managed cluster.
 type ManagedClusterIdentity_STATUS struct {
 	// DelegatedResources: The delegated identity resources assigned to this managed cluster. This can only be set by another
@@ -11197,21 +10168,6 @@ func (profile *ManagedClusterOIDCIssuerProfile) AssignProperties_To_ManagedClust
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterOIDCIssuerProfile_STATUS populates our ManagedClusterOIDCIssuerProfile from the provided source ManagedClusterOIDCIssuerProfile_STATUS
-func (profile *ManagedClusterOIDCIssuerProfile) Initialize_From_ManagedClusterOIDCIssuerProfile_STATUS(source *ManagedClusterOIDCIssuerProfile_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		profile.Enabled = &enabled
-	} else {
-		profile.Enabled = nil
 	}
 
 	// No error
@@ -11611,65 +10567,6 @@ func (profile *ManagedClusterPodIdentityProfile) AssignProperties_To_ManagedClus
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterPodIdentityProfile_STATUS populates our ManagedClusterPodIdentityProfile from the provided source ManagedClusterPodIdentityProfile_STATUS
-func (profile *ManagedClusterPodIdentityProfile) Initialize_From_ManagedClusterPodIdentityProfile_STATUS(source *ManagedClusterPodIdentityProfile_STATUS) error {
-
-	// AllowNetworkPluginKubenet
-	if source.AllowNetworkPluginKubenet != nil {
-		allowNetworkPluginKubenet := *source.AllowNetworkPluginKubenet
-		profile.AllowNetworkPluginKubenet = &allowNetworkPluginKubenet
-	} else {
-		profile.AllowNetworkPluginKubenet = nil
-	}
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		profile.Enabled = &enabled
-	} else {
-		profile.Enabled = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]ManagedClusterPodIdentity, len(source.UserAssignedIdentities))
-		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity ManagedClusterPodIdentity
-			err := userAssignedIdentity.Initialize_From_ManagedClusterPodIdentity_STATUS(&userAssignedIdentityItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedClusterPodIdentity_STATUS() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
-		}
-		profile.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		profile.UserAssignedIdentities = nil
-	}
-
-	// UserAssignedIdentityExceptions
-	if source.UserAssignedIdentityExceptions != nil {
-		userAssignedIdentityExceptionList := make([]ManagedClusterPodIdentityException, len(source.UserAssignedIdentityExceptions))
-		for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range source.UserAssignedIdentityExceptions {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
-			var userAssignedIdentityException ManagedClusterPodIdentityException
-			err := userAssignedIdentityException.Initialize_From_ManagedClusterPodIdentityException_STATUS(&userAssignedIdentityExceptionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagedClusterPodIdentityException_STATUS() to populate field UserAssignedIdentityExceptions")
-			}
-			userAssignedIdentityExceptionList[userAssignedIdentityExceptionIndex] = userAssignedIdentityException
-		}
-		profile.UserAssignedIdentityExceptions = userAssignedIdentityExceptionList
-	} else {
-		profile.UserAssignedIdentityExceptions = nil
 	}
 
 	// No error
@@ -12306,69 +11203,6 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_To_M
 	return nil
 }
 
-// Initialize_From_ManagedClusterProperties_AutoScalerProfile_STATUS populates our ManagedClusterProperties_AutoScalerProfile from the provided source ManagedClusterProperties_AutoScalerProfile_STATUS
-func (profile *ManagedClusterProperties_AutoScalerProfile) Initialize_From_ManagedClusterProperties_AutoScalerProfile_STATUS(source *ManagedClusterProperties_AutoScalerProfile_STATUS) error {
-
-	// BalanceSimilarNodeGroups
-	profile.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(source.BalanceSimilarNodeGroups)
-
-	// Expander
-	if source.Expander != nil {
-		expander := genruntime.ToEnum(string(*source.Expander), managedClusterProperties_AutoScalerProfile_Expander_Values)
-		profile.Expander = &expander
-	} else {
-		profile.Expander = nil
-	}
-
-	// MaxEmptyBulkDelete
-	profile.MaxEmptyBulkDelete = genruntime.ClonePointerToString(source.MaxEmptyBulkDelete)
-
-	// MaxGracefulTerminationSec
-	profile.MaxGracefulTerminationSec = genruntime.ClonePointerToString(source.MaxGracefulTerminationSec)
-
-	// MaxNodeProvisionTime
-	profile.MaxNodeProvisionTime = genruntime.ClonePointerToString(source.MaxNodeProvisionTime)
-
-	// MaxTotalUnreadyPercentage
-	profile.MaxTotalUnreadyPercentage = genruntime.ClonePointerToString(source.MaxTotalUnreadyPercentage)
-
-	// NewPodScaleUpDelay
-	profile.NewPodScaleUpDelay = genruntime.ClonePointerToString(source.NewPodScaleUpDelay)
-
-	// OkTotalUnreadyCount
-	profile.OkTotalUnreadyCount = genruntime.ClonePointerToString(source.OkTotalUnreadyCount)
-
-	// ScaleDownDelayAfterAdd
-	profile.ScaleDownDelayAfterAdd = genruntime.ClonePointerToString(source.ScaleDownDelayAfterAdd)
-
-	// ScaleDownDelayAfterDelete
-	profile.ScaleDownDelayAfterDelete = genruntime.ClonePointerToString(source.ScaleDownDelayAfterDelete)
-
-	// ScaleDownDelayAfterFailure
-	profile.ScaleDownDelayAfterFailure = genruntime.ClonePointerToString(source.ScaleDownDelayAfterFailure)
-
-	// ScaleDownUnneededTime
-	profile.ScaleDownUnneededTime = genruntime.ClonePointerToString(source.ScaleDownUnneededTime)
-
-	// ScaleDownUnreadyTime
-	profile.ScaleDownUnreadyTime = genruntime.ClonePointerToString(source.ScaleDownUnreadyTime)
-
-	// ScaleDownUtilizationThreshold
-	profile.ScaleDownUtilizationThreshold = genruntime.ClonePointerToString(source.ScaleDownUtilizationThreshold)
-
-	// ScanInterval
-	profile.ScanInterval = genruntime.ClonePointerToString(source.ScanInterval)
-
-	// SkipNodesWithLocalStorage
-	profile.SkipNodesWithLocalStorage = genruntime.ClonePointerToString(source.SkipNodesWithLocalStorage)
-
-	// SkipNodesWithSystemPods
-	profile.SkipNodesWithSystemPods = genruntime.ClonePointerToString(source.SkipNodesWithSystemPods)
-
-	// No error
-	return nil
-}
-
 type ManagedClusterProperties_AutoScalerProfile_STATUS struct {
 	// BalanceSimilarNodeGroups: Valid values are 'true' and 'false'
 	BalanceSimilarNodeGroups *string `json:"balance-similar-node-groups,omitempty"`
@@ -12964,61 +11798,6 @@ func (profile *ManagedClusterSecurityProfile) AssignProperties_To_ManagedCluster
 	return nil
 }
 
-// Initialize_From_ManagedClusterSecurityProfile_STATUS populates our ManagedClusterSecurityProfile from the provided source ManagedClusterSecurityProfile_STATUS
-func (profile *ManagedClusterSecurityProfile) Initialize_From_ManagedClusterSecurityProfile_STATUS(source *ManagedClusterSecurityProfile_STATUS) error {
-
-	// AzureKeyVaultKms
-	if source.AzureKeyVaultKms != nil {
-		var azureKeyVaultKm AzureKeyVaultKms
-		err := azureKeyVaultKm.Initialize_From_AzureKeyVaultKms_STATUS(source.AzureKeyVaultKms)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureKeyVaultKms_STATUS() to populate field AzureKeyVaultKms")
-		}
-		profile.AzureKeyVaultKms = &azureKeyVaultKm
-	} else {
-		profile.AzureKeyVaultKms = nil
-	}
-
-	// Defender
-	if source.Defender != nil {
-		var defender ManagedClusterSecurityProfileDefender
-		err := defender.Initialize_From_ManagedClusterSecurityProfileDefender_STATUS(source.Defender)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterSecurityProfileDefender_STATUS() to populate field Defender")
-		}
-		profile.Defender = &defender
-	} else {
-		profile.Defender = nil
-	}
-
-	// ImageCleaner
-	if source.ImageCleaner != nil {
-		var imageCleaner ManagedClusterSecurityProfileImageCleaner
-		err := imageCleaner.Initialize_From_ManagedClusterSecurityProfileImageCleaner_STATUS(source.ImageCleaner)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterSecurityProfileImageCleaner_STATUS() to populate field ImageCleaner")
-		}
-		profile.ImageCleaner = &imageCleaner
-	} else {
-		profile.ImageCleaner = nil
-	}
-
-	// WorkloadIdentity
-	if source.WorkloadIdentity != nil {
-		var workloadIdentity ManagedClusterSecurityProfileWorkloadIdentity
-		err := workloadIdentity.Initialize_From_ManagedClusterSecurityProfileWorkloadIdentity_STATUS(source.WorkloadIdentity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterSecurityProfileWorkloadIdentity_STATUS() to populate field WorkloadIdentity")
-		}
-		profile.WorkloadIdentity = &workloadIdentity
-	} else {
-		profile.WorkloadIdentity = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Security profile for the container service cluster.
 type ManagedClusterSecurityProfile_STATUS struct {
 	// AzureKeyVaultKms: Azure Key Vault [key management
@@ -13323,16 +12102,6 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_To_Manage
 	return nil
 }
 
-// Initialize_From_ManagedClusterServicePrincipalProfile_STATUS populates our ManagedClusterServicePrincipalProfile from the provided source ManagedClusterServicePrincipalProfile_STATUS
-func (profile *ManagedClusterServicePrincipalProfile) Initialize_From_ManagedClusterServicePrincipalProfile_STATUS(source *ManagedClusterServicePrincipalProfile_STATUS) error {
-
-	// ClientId
-	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// No error
-	return nil
-}
-
 // Information about a service principal identity for the cluster to use for manipulating Azure APIs.
 type ManagedClusterServicePrincipalProfile_STATUS struct {
 	// ClientId: The ID for the service principal.
@@ -13512,29 +12281,6 @@ func (clusterSKU *ManagedClusterSKU) AssignProperties_To_ManagedClusterSKU(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterSKU_STATUS populates our ManagedClusterSKU from the provided source ManagedClusterSKU_STATUS
-func (clusterSKU *ManagedClusterSKU) Initialize_From_ManagedClusterSKU_STATUS(source *ManagedClusterSKU_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), managedClusterSKU_Name_Values)
-		clusterSKU.Name = &name
-	} else {
-		clusterSKU.Name = nil
-	}
-
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), managedClusterSKU_Tier_Values)
-		clusterSKU.Tier = &tier
-	} else {
-		clusterSKU.Tier = nil
 	}
 
 	// No error
@@ -13881,61 +12627,6 @@ func (profile *ManagedClusterStorageProfile) AssignProperties_To_ManagedClusterS
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterStorageProfile_STATUS populates our ManagedClusterStorageProfile from the provided source ManagedClusterStorageProfile_STATUS
-func (profile *ManagedClusterStorageProfile) Initialize_From_ManagedClusterStorageProfile_STATUS(source *ManagedClusterStorageProfile_STATUS) error {
-
-	// BlobCSIDriver
-	if source.BlobCSIDriver != nil {
-		var blobCSIDriver ManagedClusterStorageProfileBlobCSIDriver
-		err := blobCSIDriver.Initialize_From_ManagedClusterStorageProfileBlobCSIDriver_STATUS(source.BlobCSIDriver)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterStorageProfileBlobCSIDriver_STATUS() to populate field BlobCSIDriver")
-		}
-		profile.BlobCSIDriver = &blobCSIDriver
-	} else {
-		profile.BlobCSIDriver = nil
-	}
-
-	// DiskCSIDriver
-	if source.DiskCSIDriver != nil {
-		var diskCSIDriver ManagedClusterStorageProfileDiskCSIDriver
-		err := diskCSIDriver.Initialize_From_ManagedClusterStorageProfileDiskCSIDriver_STATUS(source.DiskCSIDriver)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterStorageProfileDiskCSIDriver_STATUS() to populate field DiskCSIDriver")
-		}
-		profile.DiskCSIDriver = &diskCSIDriver
-	} else {
-		profile.DiskCSIDriver = nil
-	}
-
-	// FileCSIDriver
-	if source.FileCSIDriver != nil {
-		var fileCSIDriver ManagedClusterStorageProfileFileCSIDriver
-		err := fileCSIDriver.Initialize_From_ManagedClusterStorageProfileFileCSIDriver_STATUS(source.FileCSIDriver)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterStorageProfileFileCSIDriver_STATUS() to populate field FileCSIDriver")
-		}
-		profile.FileCSIDriver = &fileCSIDriver
-	} else {
-		profile.FileCSIDriver = nil
-	}
-
-	// SnapshotController
-	if source.SnapshotController != nil {
-		var snapshotController ManagedClusterStorageProfileSnapshotController
-		err := snapshotController.Initialize_From_ManagedClusterStorageProfileSnapshotController_STATUS(source.SnapshotController)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterStorageProfileSnapshotController_STATUS() to populate field SnapshotController")
-		}
-		profile.SnapshotController = &snapshotController
-	} else {
-		profile.SnapshotController = nil
 	}
 
 	// No error
@@ -14376,44 +13067,6 @@ func (profile *ManagedClusterWindowsProfile) AssignProperties_To_ManagedClusterW
 	return nil
 }
 
-// Initialize_From_ManagedClusterWindowsProfile_STATUS populates our ManagedClusterWindowsProfile from the provided source ManagedClusterWindowsProfile_STATUS
-func (profile *ManagedClusterWindowsProfile) Initialize_From_ManagedClusterWindowsProfile_STATUS(source *ManagedClusterWindowsProfile_STATUS) error {
-
-	// AdminUsername
-	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
-
-	// EnableCSIProxy
-	if source.EnableCSIProxy != nil {
-		enableCSIProxy := *source.EnableCSIProxy
-		profile.EnableCSIProxy = &enableCSIProxy
-	} else {
-		profile.EnableCSIProxy = nil
-	}
-
-	// GmsaProfile
-	if source.GmsaProfile != nil {
-		var gmsaProfile WindowsGmsaProfile
-		err := gmsaProfile.Initialize_From_WindowsGmsaProfile_STATUS(source.GmsaProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WindowsGmsaProfile_STATUS() to populate field GmsaProfile")
-		}
-		profile.GmsaProfile = &gmsaProfile
-	} else {
-		profile.GmsaProfile = nil
-	}
-
-	// LicenseType
-	if source.LicenseType != nil {
-		licenseType := genruntime.ToEnum(string(*source.LicenseType), managedClusterWindowsProfile_LicenseType_Values)
-		profile.LicenseType = &licenseType
-	} else {
-		profile.LicenseType = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Profile for Windows VMs in the managed cluster.
 type ManagedClusterWindowsProfile_STATUS struct {
 	// AdminUsername: Specifies the name of the administrator account.
@@ -14715,37 +13368,6 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) AssignProperties_To_Mana
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterWorkloadAutoScalerProfile_STATUS populates our ManagedClusterWorkloadAutoScalerProfile from the provided source ManagedClusterWorkloadAutoScalerProfile_STATUS
-func (profile *ManagedClusterWorkloadAutoScalerProfile) Initialize_From_ManagedClusterWorkloadAutoScalerProfile_STATUS(source *ManagedClusterWorkloadAutoScalerProfile_STATUS) error {
-
-	// Keda
-	if source.Keda != nil {
-		var kedum ManagedClusterWorkloadAutoScalerProfileKeda
-		err := kedum.Initialize_From_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS(source.Keda)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS() to populate field Keda")
-		}
-		profile.Keda = &kedum
-	} else {
-		profile.Keda = nil
-	}
-
-	// VerticalPodAutoscaler
-	if source.VerticalPodAutoscaler != nil {
-		var verticalPodAutoscaler ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
-		err := verticalPodAutoscaler.Initialize_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(source.VerticalPodAutoscaler)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS() to populate field VerticalPodAutoscaler")
-		}
-		profile.VerticalPodAutoscaler = &verticalPodAutoscaler
-	} else {
-		profile.VerticalPodAutoscaler = nil
 	}
 
 	// No error
@@ -15110,33 +13732,6 @@ func (resource *PrivateLinkResource) AssignProperties_To_PrivateLinkResource(des
 	return nil
 }
 
-// Initialize_From_PrivateLinkResource_STATUS populates our PrivateLinkResource from the provided source PrivateLinkResource_STATUS
-func (resource *PrivateLinkResource) Initialize_From_PrivateLinkResource_STATUS(source *PrivateLinkResource_STATUS) error {
-
-	// GroupId
-	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
-
-	// Name
-	resource.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
-
-	// RequiredMembers
-	resource.RequiredMembers = genruntime.CloneSliceOfString(source.RequiredMembers)
-
-	// Type
-	resource.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
 // A private link resource
 type PrivateLinkResource_STATUS struct {
 	// GroupId: The group ID of the resource.
@@ -15402,33 +13997,6 @@ func (profile *ServiceMeshProfile) AssignProperties_To_ServiceMeshProfile(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServiceMeshProfile_STATUS populates our ServiceMeshProfile from the provided source ServiceMeshProfile_STATUS
-func (profile *ServiceMeshProfile) Initialize_From_ServiceMeshProfile_STATUS(source *ServiceMeshProfile_STATUS) error {
-
-	// Istio
-	if source.Istio != nil {
-		var istio IstioServiceMesh
-		err := istio.Initialize_From_IstioServiceMesh_STATUS(source.Istio)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IstioServiceMesh_STATUS() to populate field Istio")
-		}
-		profile.Istio = &istio
-	} else {
-		profile.Istio = nil
-	}
-
-	// Mode
-	if source.Mode != nil {
-		mode := genruntime.ToEnum(string(*source.Mode), serviceMeshProfile_Mode_Values)
-		profile.Mode = &mode
-	} else {
-		profile.Mode = nil
 	}
 
 	// No error
@@ -15831,27 +14399,6 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	return nil
 }
 
-// Initialize_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity) Initialize_From_UserAssignedIdentity_STATUS(source *UserAssignedIdentity_STATUS) error {
-
-	// ClientId
-	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// ObjectId
-	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		identity.ResourceReference = &resourceReference
-	} else {
-		identity.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Details about a user assigned identity.
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: The client ID of the user assigned identity.
@@ -16113,40 +14660,6 @@ func (vaultKms *AzureKeyVaultKms) AssignProperties_To_AzureKeyVaultKms(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureKeyVaultKms_STATUS populates our AzureKeyVaultKms from the provided source AzureKeyVaultKms_STATUS
-func (vaultKms *AzureKeyVaultKms) Initialize_From_AzureKeyVaultKms_STATUS(source *AzureKeyVaultKms_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		vaultKms.Enabled = &enabled
-	} else {
-		vaultKms.Enabled = nil
-	}
-
-	// KeyId
-	vaultKms.KeyId = genruntime.ClonePointerToString(source.KeyId)
-
-	// KeyVaultNetworkAccess
-	if source.KeyVaultNetworkAccess != nil {
-		keyVaultNetworkAccess := genruntime.ToEnum(string(*source.KeyVaultNetworkAccess), azureKeyVaultKms_KeyVaultNetworkAccess_Values)
-		vaultKms.KeyVaultNetworkAccess = &keyVaultNetworkAccess
-	} else {
-		vaultKms.KeyVaultNetworkAccess = nil
-	}
-
-	// KeyVaultResourceReference
-	if source.KeyVaultResourceId != nil {
-		keyVaultResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.KeyVaultResourceId)
-		vaultKms.KeyVaultResourceReference = &keyVaultResourceReference
-	} else {
-		vaultKms.KeyVaultResourceReference = nil
 	}
 
 	// No error
@@ -16606,31 +15119,6 @@ func (configuration *ContainerServiceSshConfiguration) AssignProperties_To_Conta
 	return nil
 }
 
-// Initialize_From_ContainerServiceSshConfiguration_STATUS populates our ContainerServiceSshConfiguration from the provided source ContainerServiceSshConfiguration_STATUS
-func (configuration *ContainerServiceSshConfiguration) Initialize_From_ContainerServiceSshConfiguration_STATUS(source *ContainerServiceSshConfiguration_STATUS) error {
-
-	// PublicKeys
-	if source.PublicKeys != nil {
-		publicKeyList := make([]ContainerServiceSshPublicKey, len(source.PublicKeys))
-		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
-			// Shadow the loop variable to avoid aliasing
-			publicKeyItem := publicKeyItem
-			var publicKey ContainerServiceSshPublicKey
-			err := publicKey.Initialize_From_ContainerServiceSshPublicKey_STATUS(&publicKeyItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ContainerServiceSshPublicKey_STATUS() to populate field PublicKeys")
-			}
-			publicKeyList[publicKeyIndex] = publicKey
-		}
-		configuration.PublicKeys = publicKeyList
-	} else {
-		configuration.PublicKeys = nil
-	}
-
-	// No error
-	return nil
-}
-
 // SSH configuration for Linux-based VMs running on Azure.
 type ContainerServiceSshConfiguration_STATUS struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
@@ -16876,35 +15364,6 @@ func (resource *DelegatedResource) AssignProperties_To_DelegatedResource(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DelegatedResource_STATUS populates our DelegatedResource from the provided source DelegatedResource_STATUS
-func (resource *DelegatedResource) Initialize_From_DelegatedResource_STATUS(source *DelegatedResource_STATUS) error {
-
-	// Location
-	resource.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ReferralResource
-	resource.ReferralResource = genruntime.ClonePointerToString(source.ReferralResource)
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		resource.ResourceReference = &resourceReference
-	} else {
-		resource.ResourceReference = nil
-	}
-
-	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		resource.TenantId = &tenantId
-	} else {
-		resource.TenantId = nil
 	}
 
 	// No error
@@ -17222,50 +15681,6 @@ func (mesh *IstioServiceMesh) AssignProperties_To_IstioServiceMesh(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IstioServiceMesh_STATUS populates our IstioServiceMesh from the provided source IstioServiceMesh_STATUS
-func (mesh *IstioServiceMesh) Initialize_From_IstioServiceMesh_STATUS(source *IstioServiceMesh_STATUS) error {
-
-	// CertificateAuthority
-	if source.CertificateAuthority != nil {
-		var certificateAuthority IstioCertificateAuthority
-		err := certificateAuthority.Initialize_From_IstioCertificateAuthority_STATUS(source.CertificateAuthority)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IstioCertificateAuthority_STATUS() to populate field CertificateAuthority")
-		}
-		mesh.CertificateAuthority = &certificateAuthority
-	} else {
-		mesh.CertificateAuthority = nil
-	}
-
-	// Components
-	if source.Components != nil {
-		var component IstioComponents
-		err := component.Initialize_From_IstioComponents_STATUS(source.Components)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IstioComponents_STATUS() to populate field Components")
-		}
-		mesh.Components = &component
-	} else {
-		mesh.Components = nil
-	}
-
-	// Revisions
-	if source.Revisions != nil {
-		revisionList := make([]string, len(source.Revisions))
-		for revisionIndex, revisionItem := range source.Revisions {
-			// Shadow the loop variable to avoid aliasing
-			revisionItem := revisionItem
-			revisionList[revisionIndex] = revisionItem
-		}
-		mesh.Revisions = revisionList
-	} else {
-		mesh.Revisions = nil
 	}
 
 	// No error
@@ -17611,33 +16026,6 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics) AssignProperties_To_Man
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterAzureMonitorProfileMetrics_STATUS populates our ManagedClusterAzureMonitorProfileMetrics from the provided source ManagedClusterAzureMonitorProfileMetrics_STATUS
-func (metrics *ManagedClusterAzureMonitorProfileMetrics) Initialize_From_ManagedClusterAzureMonitorProfileMetrics_STATUS(source *ManagedClusterAzureMonitorProfileMetrics_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		metrics.Enabled = &enabled
-	} else {
-		metrics.Enabled = nil
-	}
-
-	// KubeStateMetrics
-	if source.KubeStateMetrics != nil {
-		var kubeStateMetric ManagedClusterAzureMonitorProfileKubeStateMetrics
-		err := kubeStateMetric.Initialize_From_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS(source.KubeStateMetrics)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS() to populate field KubeStateMetrics")
-		}
-		metrics.KubeStateMetrics = &kubeStateMetric
-	} else {
-		metrics.KubeStateMetrics = nil
 	}
 
 	// No error
@@ -18250,99 +16638,6 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 	return nil
 }
 
-// Initialize_From_ManagedClusterLoadBalancerProfile_STATUS populates our ManagedClusterLoadBalancerProfile from the provided source ManagedClusterLoadBalancerProfile_STATUS
-func (profile *ManagedClusterLoadBalancerProfile) Initialize_From_ManagedClusterLoadBalancerProfile_STATUS(source *ManagedClusterLoadBalancerProfile_STATUS) error {
-
-	// AllocatedOutboundPorts
-	if source.AllocatedOutboundPorts != nil {
-		allocatedOutboundPort := *source.AllocatedOutboundPorts
-		profile.AllocatedOutboundPorts = &allocatedOutboundPort
-	} else {
-		profile.AllocatedOutboundPorts = nil
-	}
-
-	// BackendPoolType
-	if source.BackendPoolType != nil {
-		backendPoolType := genruntime.ToEnum(string(*source.BackendPoolType), managedClusterLoadBalancerProfile_BackendPoolType_Values)
-		profile.BackendPoolType = &backendPoolType
-	} else {
-		profile.BackendPoolType = nil
-	}
-
-	// EffectiveOutboundIPs
-	if source.EffectiveOutboundIPs != nil {
-		effectiveOutboundIPList := make([]ResourceReference, len(source.EffectiveOutboundIPs))
-		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range source.EffectiveOutboundIPs {
-			// Shadow the loop variable to avoid aliasing
-			effectiveOutboundIPItem := effectiveOutboundIPItem
-			var effectiveOutboundIP ResourceReference
-			err := effectiveOutboundIP.Initialize_From_ResourceReference_STATUS(&effectiveOutboundIPItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field EffectiveOutboundIPs")
-			}
-			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
-		}
-		profile.EffectiveOutboundIPs = effectiveOutboundIPList
-	} else {
-		profile.EffectiveOutboundIPs = nil
-	}
-
-	// EnableMultipleStandardLoadBalancers
-	if source.EnableMultipleStandardLoadBalancers != nil {
-		enableMultipleStandardLoadBalancer := *source.EnableMultipleStandardLoadBalancers
-		profile.EnableMultipleStandardLoadBalancers = &enableMultipleStandardLoadBalancer
-	} else {
-		profile.EnableMultipleStandardLoadBalancers = nil
-	}
-
-	// IdleTimeoutInMinutes
-	if source.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *source.IdleTimeoutInMinutes
-		profile.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		profile.IdleTimeoutInMinutes = nil
-	}
-
-	// ManagedOutboundIPs
-	if source.ManagedOutboundIPs != nil {
-		var managedOutboundIP ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
-		err := managedOutboundIP.Initialize_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(source.ManagedOutboundIPs)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIPs")
-		}
-		profile.ManagedOutboundIPs = &managedOutboundIP
-	} else {
-		profile.ManagedOutboundIPs = nil
-	}
-
-	// OutboundIPPrefixes
-	if source.OutboundIPPrefixes != nil {
-		var outboundIPPrefix ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
-		err := outboundIPPrefix.Initialize_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(source.OutboundIPPrefixes)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS() to populate field OutboundIPPrefixes")
-		}
-		profile.OutboundIPPrefixes = &outboundIPPrefix
-	} else {
-		profile.OutboundIPPrefixes = nil
-	}
-
-	// OutboundIPs
-	if source.OutboundIPs != nil {
-		var outboundIP ManagedClusterLoadBalancerProfile_OutboundIPs
-		err := outboundIP.Initialize_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(source.OutboundIPs)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS() to populate field OutboundIPs")
-		}
-		profile.OutboundIPs = &outboundIP
-	} else {
-		profile.OutboundIPs = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Profile of the managed cluster load balancer.
 type ManagedClusterLoadBalancerProfile_STATUS struct {
 	// AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000
@@ -18828,51 +17123,6 @@ func (profile *ManagedClusterNATGatewayProfile) AssignProperties_To_ManagedClust
 	return nil
 }
 
-// Initialize_From_ManagedClusterNATGatewayProfile_STATUS populates our ManagedClusterNATGatewayProfile from the provided source ManagedClusterNATGatewayProfile_STATUS
-func (profile *ManagedClusterNATGatewayProfile) Initialize_From_ManagedClusterNATGatewayProfile_STATUS(source *ManagedClusterNATGatewayProfile_STATUS) error {
-
-	// EffectiveOutboundIPs
-	if source.EffectiveOutboundIPs != nil {
-		effectiveOutboundIPList := make([]ResourceReference, len(source.EffectiveOutboundIPs))
-		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range source.EffectiveOutboundIPs {
-			// Shadow the loop variable to avoid aliasing
-			effectiveOutboundIPItem := effectiveOutboundIPItem
-			var effectiveOutboundIP ResourceReference
-			err := effectiveOutboundIP.Initialize_From_ResourceReference_STATUS(&effectiveOutboundIPItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field EffectiveOutboundIPs")
-			}
-			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
-		}
-		profile.EffectiveOutboundIPs = effectiveOutboundIPList
-	} else {
-		profile.EffectiveOutboundIPs = nil
-	}
-
-	// IdleTimeoutInMinutes
-	if source.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *source.IdleTimeoutInMinutes
-		profile.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		profile.IdleTimeoutInMinutes = nil
-	}
-
-	// ManagedOutboundIPProfile
-	if source.ManagedOutboundIPProfile != nil {
-		var managedOutboundIPProfile ManagedClusterManagedOutboundIPProfile
-		err := managedOutboundIPProfile.Initialize_From_ManagedClusterManagedOutboundIPProfile_STATUS(source.ManagedOutboundIPProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterManagedOutboundIPProfile_STATUS() to populate field ManagedOutboundIPProfile")
-		}
-		profile.ManagedOutboundIPProfile = &managedOutboundIPProfile
-	} else {
-		profile.ManagedOutboundIPProfile = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Profile of the managed cluster NAT gateway.
 type ManagedClusterNATGatewayProfile_STATUS struct {
 	// EffectiveOutboundIPs: The effective outbound IP resources of the cluster NAT gateway.
@@ -19316,34 +17566,6 @@ func (identity *ManagedClusterPodIdentity) AssignProperties_To_ManagedClusterPod
 	return nil
 }
 
-// Initialize_From_ManagedClusterPodIdentity_STATUS populates our ManagedClusterPodIdentity from the provided source ManagedClusterPodIdentity_STATUS
-func (identity *ManagedClusterPodIdentity) Initialize_From_ManagedClusterPodIdentity_STATUS(source *ManagedClusterPodIdentity_STATUS) error {
-
-	// BindingSelector
-	identity.BindingSelector = genruntime.ClonePointerToString(source.BindingSelector)
-
-	// Identity
-	if source.Identity != nil {
-		var identityLocal UserAssignedIdentity
-		err := identityLocal.Initialize_From_UserAssignedIdentity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_UserAssignedIdentity_STATUS() to populate field Identity")
-		}
-		identity.Identity = &identityLocal
-	} else {
-		identity.Identity = nil
-	}
-
-	// Name
-	identity.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Namespace
-	identity.Namespace = genruntime.ClonePointerToString(source.Namespace)
-
-	// No error
-	return nil
-}
-
 // Details about the pod identity assigned to the Managed Cluster.
 type ManagedClusterPodIdentity_STATUS struct {
 	// BindingSelector: The binding selector to use for the AzureIdentityBinding resource.
@@ -19659,22 +17881,6 @@ func (exception *ManagedClusterPodIdentityException) AssignProperties_To_Managed
 	return nil
 }
 
-// Initialize_From_ManagedClusterPodIdentityException_STATUS populates our ManagedClusterPodIdentityException from the provided source ManagedClusterPodIdentityException_STATUS
-func (exception *ManagedClusterPodIdentityException) Initialize_From_ManagedClusterPodIdentityException_STATUS(source *ManagedClusterPodIdentityException_STATUS) error {
-
-	// Name
-	exception.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Namespace
-	exception.Namespace = genruntime.ClonePointerToString(source.Namespace)
-
-	// PodLabels
-	exception.PodLabels = genruntime.CloneMapOfStringToString(source.PodLabels)
-
-	// No error
-	return nil
-}
-
 // See [disable AAD Pod Identity for a specific
 // Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 type ManagedClusterPodIdentityException_STATUS struct {
@@ -19936,33 +18142,6 @@ func (defender *ManagedClusterSecurityProfileDefender) AssignProperties_To_Manag
 	return nil
 }
 
-// Initialize_From_ManagedClusterSecurityProfileDefender_STATUS populates our ManagedClusterSecurityProfileDefender from the provided source ManagedClusterSecurityProfileDefender_STATUS
-func (defender *ManagedClusterSecurityProfileDefender) Initialize_From_ManagedClusterSecurityProfileDefender_STATUS(source *ManagedClusterSecurityProfileDefender_STATUS) error {
-
-	// LogAnalyticsWorkspaceResourceReference
-	if source.LogAnalyticsWorkspaceResourceId != nil {
-		logAnalyticsWorkspaceResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.LogAnalyticsWorkspaceResourceId)
-		defender.LogAnalyticsWorkspaceResourceReference = &logAnalyticsWorkspaceResourceReference
-	} else {
-		defender.LogAnalyticsWorkspaceResourceReference = nil
-	}
-
-	// SecurityMonitoring
-	if source.SecurityMonitoring != nil {
-		var securityMonitoring ManagedClusterSecurityProfileDefenderSecurityMonitoring
-		err := securityMonitoring.Initialize_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS(source.SecurityMonitoring)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS() to populate field SecurityMonitoring")
-		}
-		defender.SecurityMonitoring = &securityMonitoring
-	} else {
-		defender.SecurityMonitoring = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Microsoft Defender settings for the security profile.
 type ManagedClusterSecurityProfileDefender_STATUS struct {
 	// LogAnalyticsWorkspaceResourceId: Resource ID of the Log Analytics workspace to be associated with Microsoft Defender.
@@ -20168,24 +18347,6 @@ func (cleaner *ManagedClusterSecurityProfileImageCleaner) AssignProperties_To_Ma
 	return nil
 }
 
-// Initialize_From_ManagedClusterSecurityProfileImageCleaner_STATUS populates our ManagedClusterSecurityProfileImageCleaner from the provided source ManagedClusterSecurityProfileImageCleaner_STATUS
-func (cleaner *ManagedClusterSecurityProfileImageCleaner) Initialize_From_ManagedClusterSecurityProfileImageCleaner_STATUS(source *ManagedClusterSecurityProfileImageCleaner_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		cleaner.Enabled = &enabled
-	} else {
-		cleaner.Enabled = nil
-	}
-
-	// IntervalHours
-	cleaner.IntervalHours = genruntime.ClonePointerToInt(source.IntervalHours)
-
-	// No error
-	return nil
-}
-
 // Image Cleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. Here
 // are settings for the security profile.
 type ManagedClusterSecurityProfileImageCleaner_STATUS struct {
@@ -20349,21 +18510,6 @@ func (identity *ManagedClusterSecurityProfileWorkloadIdentity) AssignProperties_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterSecurityProfileWorkloadIdentity_STATUS populates our ManagedClusterSecurityProfileWorkloadIdentity from the provided source ManagedClusterSecurityProfileWorkloadIdentity_STATUS
-func (identity *ManagedClusterSecurityProfileWorkloadIdentity) Initialize_From_ManagedClusterSecurityProfileWorkloadIdentity_STATUS(source *ManagedClusterSecurityProfileWorkloadIdentity_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		identity.Enabled = &enabled
-	} else {
-		identity.Enabled = nil
 	}
 
 	// No error
@@ -20573,21 +18719,6 @@ func (driver *ManagedClusterStorageProfileBlobCSIDriver) AssignProperties_To_Man
 	return nil
 }
 
-// Initialize_From_ManagedClusterStorageProfileBlobCSIDriver_STATUS populates our ManagedClusterStorageProfileBlobCSIDriver from the provided source ManagedClusterStorageProfileBlobCSIDriver_STATUS
-func (driver *ManagedClusterStorageProfileBlobCSIDriver) Initialize_From_ManagedClusterStorageProfileBlobCSIDriver_STATUS(source *ManagedClusterStorageProfileBlobCSIDriver_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		driver.Enabled = &enabled
-	} else {
-		driver.Enabled = nil
-	}
-
-	// No error
-	return nil
-}
-
 // AzureBlob CSI Driver settings for the storage profile.
 type ManagedClusterStorageProfileBlobCSIDriver_STATUS struct {
 	// Enabled: Whether to enable AzureBlob CSI Driver. The default value is false.
@@ -20735,21 +18866,6 @@ func (driver *ManagedClusterStorageProfileDiskCSIDriver) AssignProperties_To_Man
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterStorageProfileDiskCSIDriver_STATUS populates our ManagedClusterStorageProfileDiskCSIDriver from the provided source ManagedClusterStorageProfileDiskCSIDriver_STATUS
-func (driver *ManagedClusterStorageProfileDiskCSIDriver) Initialize_From_ManagedClusterStorageProfileDiskCSIDriver_STATUS(source *ManagedClusterStorageProfileDiskCSIDriver_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		driver.Enabled = &enabled
-	} else {
-		driver.Enabled = nil
 	}
 
 	// No error
@@ -20909,21 +19025,6 @@ func (driver *ManagedClusterStorageProfileFileCSIDriver) AssignProperties_To_Man
 	return nil
 }
 
-// Initialize_From_ManagedClusterStorageProfileFileCSIDriver_STATUS populates our ManagedClusterStorageProfileFileCSIDriver from the provided source ManagedClusterStorageProfileFileCSIDriver_STATUS
-func (driver *ManagedClusterStorageProfileFileCSIDriver) Initialize_From_ManagedClusterStorageProfileFileCSIDriver_STATUS(source *ManagedClusterStorageProfileFileCSIDriver_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		driver.Enabled = &enabled
-	} else {
-		driver.Enabled = nil
-	}
-
-	// No error
-	return nil
-}
-
 // AzureFile CSI Driver settings for the storage profile.
 type ManagedClusterStorageProfileFileCSIDriver_STATUS struct {
 	// Enabled: Whether to enable AzureFile CSI Driver. The default value is true.
@@ -21071,21 +19172,6 @@ func (controller *ManagedClusterStorageProfileSnapshotController) AssignProperti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterStorageProfileSnapshotController_STATUS populates our ManagedClusterStorageProfileSnapshotController from the provided source ManagedClusterStorageProfileSnapshotController_STATUS
-func (controller *ManagedClusterStorageProfileSnapshotController) Initialize_From_ManagedClusterStorageProfileSnapshotController_STATUS(source *ManagedClusterStorageProfileSnapshotController_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		controller.Enabled = &enabled
-	} else {
-		controller.Enabled = nil
 	}
 
 	// No error
@@ -21273,21 +19359,6 @@ func (keda *ManagedClusterWorkloadAutoScalerProfileKeda) AssignProperties_To_Man
 	return nil
 }
 
-// Initialize_From_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS populates our ManagedClusterWorkloadAutoScalerProfileKeda from the provided source ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
-func (keda *ManagedClusterWorkloadAutoScalerProfileKeda) Initialize_From_ManagedClusterWorkloadAutoScalerProfileKeda_STATUS(source *ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		keda.Enabled = &enabled
-	} else {
-		keda.Enabled = nil
-	}
-
-	// No error
-	return nil
-}
-
 // KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile.
 type ManagedClusterWorkloadAutoScalerProfileKeda_STATUS struct {
 	// Enabled: Whether to enable KEDA.
@@ -21436,21 +19507,6 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS populates our ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler from the provided source ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
-func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) Initialize_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(source *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		autoscaler.Enabled = &enabled
-	} else {
-		autoscaler.Enabled = nil
 	}
 
 	// No error
@@ -21724,24 +19780,6 @@ func (settings *UpgradeOverrideSettings) AssignProperties_To_UpgradeOverrideSett
 	return nil
 }
 
-// Initialize_From_UpgradeOverrideSettings_STATUS populates our UpgradeOverrideSettings from the provided source UpgradeOverrideSettings_STATUS
-func (settings *UpgradeOverrideSettings) Initialize_From_UpgradeOverrideSettings_STATUS(source *UpgradeOverrideSettings_STATUS) error {
-
-	// ForceUpgrade
-	if source.ForceUpgrade != nil {
-		forceUpgrade := *source.ForceUpgrade
-		settings.ForceUpgrade = &forceUpgrade
-	} else {
-		settings.ForceUpgrade = nil
-	}
-
-	// Until
-	settings.Until = genruntime.ClonePointerToString(source.Until)
-
-	// No error
-	return nil
-}
-
 // Settings for overrides when upgrading a cluster.
 type UpgradeOverrideSettings_STATUS struct {
 	// ForceUpgrade: Whether to force upgrade the cluster. Note that this option instructs upgrade operation to bypass upgrade
@@ -21991,27 +20029,6 @@ func (profile *WindowsGmsaProfile) AssignProperties_To_WindowsGmsaProfile(destin
 	return nil
 }
 
-// Initialize_From_WindowsGmsaProfile_STATUS populates our WindowsGmsaProfile from the provided source WindowsGmsaProfile_STATUS
-func (profile *WindowsGmsaProfile) Initialize_From_WindowsGmsaProfile_STATUS(source *WindowsGmsaProfile_STATUS) error {
-
-	// DnsServer
-	profile.DnsServer = genruntime.ClonePointerToString(source.DnsServer)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		profile.Enabled = &enabled
-	} else {
-		profile.Enabled = nil
-	}
-
-	// RootDomainName
-	profile.RootDomainName = genruntime.ClonePointerToString(source.RootDomainName)
-
-	// No error
-	return nil
-}
-
 // Windows gMSA Profile in the managed cluster.
 type WindowsGmsaProfile_STATUS struct {
 	// DnsServer: Specifies the DNS server for Windows gMSA.
@@ -22216,16 +20233,6 @@ func (publicKey *ContainerServiceSshPublicKey) AssignProperties_To_ContainerServ
 	return nil
 }
 
-// Initialize_From_ContainerServiceSshPublicKey_STATUS populates our ContainerServiceSshPublicKey from the provided source ContainerServiceSshPublicKey_STATUS
-func (publicKey *ContainerServiceSshPublicKey) Initialize_From_ContainerServiceSshPublicKey_STATUS(source *ContainerServiceSshPublicKey_STATUS) error {
-
-	// KeyData
-	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
-
-	// No error
-	return nil
-}
-
 // Contains information about SSH certificate public key data.
 type ContainerServiceSshPublicKey_STATUS struct {
 	// KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
@@ -22382,25 +20389,6 @@ func (authority *IstioCertificateAuthority) AssignProperties_To_IstioCertificate
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IstioCertificateAuthority_STATUS populates our IstioCertificateAuthority from the provided source IstioCertificateAuthority_STATUS
-func (authority *IstioCertificateAuthority) Initialize_From_IstioCertificateAuthority_STATUS(source *IstioCertificateAuthority_STATUS) error {
-
-	// Plugin
-	if source.Plugin != nil {
-		var plugin IstioPluginCertificateAuthority
-		err := plugin.Initialize_From_IstioPluginCertificateAuthority_STATUS(source.Plugin)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IstioPluginCertificateAuthority_STATUS() to populate field Plugin")
-		}
-		authority.Plugin = &plugin
-	} else {
-		authority.Plugin = nil
 	}
 
 	// No error
@@ -22659,49 +20647,6 @@ func (components *IstioComponents) AssignProperties_To_IstioComponents(destinati
 	return nil
 }
 
-// Initialize_From_IstioComponents_STATUS populates our IstioComponents from the provided source IstioComponents_STATUS
-func (components *IstioComponents) Initialize_From_IstioComponents_STATUS(source *IstioComponents_STATUS) error {
-
-	// EgressGateways
-	if source.EgressGateways != nil {
-		egressGatewayList := make([]IstioEgressGateway, len(source.EgressGateways))
-		for egressGatewayIndex, egressGatewayItem := range source.EgressGateways {
-			// Shadow the loop variable to avoid aliasing
-			egressGatewayItem := egressGatewayItem
-			var egressGateway IstioEgressGateway
-			err := egressGateway.Initialize_From_IstioEgressGateway_STATUS(&egressGatewayItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IstioEgressGateway_STATUS() to populate field EgressGateways")
-			}
-			egressGatewayList[egressGatewayIndex] = egressGateway
-		}
-		components.EgressGateways = egressGatewayList
-	} else {
-		components.EgressGateways = nil
-	}
-
-	// IngressGateways
-	if source.IngressGateways != nil {
-		ingressGatewayList := make([]IstioIngressGateway, len(source.IngressGateways))
-		for ingressGatewayIndex, ingressGatewayItem := range source.IngressGateways {
-			// Shadow the loop variable to avoid aliasing
-			ingressGatewayItem := ingressGatewayItem
-			var ingressGateway IstioIngressGateway
-			err := ingressGateway.Initialize_From_IstioIngressGateway_STATUS(&ingressGatewayItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IstioIngressGateway_STATUS() to populate field IngressGateways")
-			}
-			ingressGatewayList[ingressGatewayIndex] = ingressGateway
-		}
-		components.IngressGateways = ingressGatewayList
-	} else {
-		components.IngressGateways = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Istio components configuration.
 type IstioComponents_STATUS struct {
 	// EgressGateways: Istio egress gateways.
@@ -22945,19 +20890,6 @@ func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics) AssignProperti
 	return nil
 }
 
-// Initialize_From_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS populates our ManagedClusterAzureMonitorProfileKubeStateMetrics from the provided source ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
-func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics) Initialize_From_ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS(source *ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) error {
-
-	// MetricAnnotationsAllowList
-	metrics.MetricAnnotationsAllowList = genruntime.ClonePointerToString(source.MetricAnnotationsAllowList)
-
-	// MetricLabelsAllowlist
-	metrics.MetricLabelsAllowlist = genruntime.ClonePointerToString(source.MetricLabelsAllowlist)
-
-	// No error
-	return nil
-}
-
 // Kube State Metrics profile for the Azure Managed Prometheus addon. These optional settings are for the
 // kube-state-metrics pod that is deployed with the addon. See aka.ms/AzureManagedPrometheus-optional-parameters for
 // details.
@@ -23185,29 +21117,6 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignPropertie
 	return nil
 }
 
-// Initialize_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS populates our ManagedClusterLoadBalancerProfile_ManagedOutboundIPs from the provided source ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
-func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) Initialize_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(source *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error {
-
-	// Count
-	if source.Count != nil {
-		count := *source.Count
-		iPs.Count = &count
-	} else {
-		iPs.Count = nil
-	}
-
-	// CountIPv6
-	if source.CountIPv6 != nil {
-		countIPv6 := *source.CountIPv6
-		iPs.CountIPv6 = &countIPv6
-	} else {
-		iPs.CountIPv6 = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS struct {
 	// Count: The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values
 	// must be in the range of 1 to 100 (inclusive). The default value is 1.
@@ -23387,31 +21296,6 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS populates our ManagedClusterLoadBalancerProfile_OutboundIPPrefixes from the provided source ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
-func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) Initialize_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(source *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error {
-
-	// PublicIPPrefixes
-	if source.PublicIPPrefixes != nil {
-		publicIPPrefixList := make([]ResourceReference, len(source.PublicIPPrefixes))
-		for publicIPPrefixIndex, publicIPPrefixItem := range source.PublicIPPrefixes {
-			// Shadow the loop variable to avoid aliasing
-			publicIPPrefixItem := publicIPPrefixItem
-			var publicIPPrefix ResourceReference
-			err := publicIPPrefix.Initialize_From_ResourceReference_STATUS(&publicIPPrefixItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field PublicIPPrefixes")
-			}
-			publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
-		}
-		prefixes.PublicIPPrefixes = publicIPPrefixList
-	} else {
-		prefixes.PublicIPPrefixes = nil
 	}
 
 	// No error
@@ -23620,31 +21504,6 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_To_Ma
 	return nil
 }
 
-// Initialize_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS populates our ManagedClusterLoadBalancerProfile_OutboundIPs from the provided source ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
-func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) Initialize_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(source *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error {
-
-	// PublicIPs
-	if source.PublicIPs != nil {
-		publicIPList := make([]ResourceReference, len(source.PublicIPs))
-		for publicIPIndex, publicIPItem := range source.PublicIPs {
-			// Shadow the loop variable to avoid aliasing
-			publicIPItem := publicIPItem
-			var publicIP ResourceReference
-			err := publicIP.Initialize_From_ResourceReference_STATUS(&publicIPItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field PublicIPs")
-			}
-			publicIPList[publicIPIndex] = publicIP
-		}
-		iPs.PublicIPs = publicIPList
-	} else {
-		iPs.PublicIPs = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS struct {
 	// PublicIPs: A list of public IP resources.
 	PublicIPs []ResourceReference_STATUS `json:"publicIPs,omitempty"`
@@ -23818,21 +21677,6 @@ func (profile *ManagedClusterManagedOutboundIPProfile) AssignProperties_To_Manag
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedClusterManagedOutboundIPProfile_STATUS populates our ManagedClusterManagedOutboundIPProfile from the provided source ManagedClusterManagedOutboundIPProfile_STATUS
-func (profile *ManagedClusterManagedOutboundIPProfile) Initialize_From_ManagedClusterManagedOutboundIPProfile_STATUS(source *ManagedClusterManagedOutboundIPProfile_STATUS) error {
-
-	// Count
-	if source.Count != nil {
-		count := *source.Count
-		profile.Count = &count
-	} else {
-		profile.Count = nil
 	}
 
 	// No error
@@ -24085,21 +21929,6 @@ func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring) Assig
 	return nil
 }
 
-// Initialize_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS populates our ManagedClusterSecurityProfileDefenderSecurityMonitoring from the provided source ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
-func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring) Initialize_From_ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS(source *ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		monitoring.Enabled = &enabled
-	} else {
-		monitoring.Enabled = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Microsoft Defender settings for the security profile threat detection.
 type ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS struct {
 	// Enabled: Whether to enable Defender threat detection
@@ -24247,21 +22076,6 @@ func (reference *ResourceReference) AssignProperties_To_ResourceReference(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ResourceReference_STATUS populates our ResourceReference from the provided source ResourceReference_STATUS
-func (reference *ResourceReference) Initialize_From_ResourceReference_STATUS(source *ResourceReference_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
 	}
 
 	// No error
@@ -24432,24 +22246,6 @@ func (gateway *IstioEgressGateway) AssignProperties_To_IstioEgressGateway(destin
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IstioEgressGateway_STATUS populates our IstioEgressGateway from the provided source IstioEgressGateway_STATUS
-func (gateway *IstioEgressGateway) Initialize_From_IstioEgressGateway_STATUS(source *IstioEgressGateway_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		gateway.Enabled = &enabled
-	} else {
-		gateway.Enabled = nil
-	}
-
-	// NodeSelector
-	gateway.NodeSelector = genruntime.CloneMapOfStringToString(source.NodeSelector)
 
 	// No error
 	return nil
@@ -24658,29 +22454,6 @@ func (gateway *IstioIngressGateway) AssignProperties_To_IstioIngressGateway(dest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IstioIngressGateway_STATUS populates our IstioIngressGateway from the provided source IstioIngressGateway_STATUS
-func (gateway *IstioIngressGateway) Initialize_From_IstioIngressGateway_STATUS(source *IstioIngressGateway_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		gateway.Enabled = &enabled
-	} else {
-		gateway.Enabled = nil
-	}
-
-	// Mode
-	if source.Mode != nil {
-		mode := genruntime.ToEnum(string(*source.Mode), istioIngressGateway_Mode_Values)
-		gateway.Mode = &mode
-	} else {
-		gateway.Mode = nil
 	}
 
 	// No error
@@ -24948,33 +22721,6 @@ func (authority *IstioPluginCertificateAuthority) AssignProperties_To_IstioPlugi
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IstioPluginCertificateAuthority_STATUS populates our IstioPluginCertificateAuthority from the provided source IstioPluginCertificateAuthority_STATUS
-func (authority *IstioPluginCertificateAuthority) Initialize_From_IstioPluginCertificateAuthority_STATUS(source *IstioPluginCertificateAuthority_STATUS) error {
-
-	// CertChainObjectName
-	authority.CertChainObjectName = genruntime.ClonePointerToString(source.CertChainObjectName)
-
-	// CertObjectName
-	authority.CertObjectName = genruntime.ClonePointerToString(source.CertObjectName)
-
-	// KeyObjectName
-	authority.KeyObjectName = genruntime.ClonePointerToString(source.KeyObjectName)
-
-	// KeyVaultReference
-	if source.KeyVaultId != nil {
-		keyVaultReference := genruntime.CreateResourceReferenceFromARMID(*source.KeyVaultId)
-		authority.KeyVaultReference = &keyVaultReference
-	} else {
-		authority.KeyVaultReference = nil
-	}
-
-	// RootCertObjectName
-	authority.RootCertObjectName = genruntime.ClonePointerToString(source.RootCertObjectName)
 
 	// No error
 	return nil

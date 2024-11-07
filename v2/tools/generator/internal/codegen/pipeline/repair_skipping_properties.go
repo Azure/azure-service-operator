@@ -156,8 +156,14 @@ func (repairer *skippingPropertyRepairer) RepairSkippedProperties() (astmodel.Ty
 			continue
 		}
 
-		// If the repair added any new types (mostly it won't), include them in the result
-		result.AddTypes(defs)
+		// If the repair added any new types (mostly it won't), include them in the result.
+		// Duplicates are allowed as long as they are structurally identical, as the same type
+		// may be reached from multiple chains in a given API version.
+		err = result.AddTypesAllowDuplicates(defs)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
 	}
 
 	if len(errs) > 0 {

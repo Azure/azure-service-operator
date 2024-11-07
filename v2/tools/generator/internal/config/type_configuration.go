@@ -43,6 +43,7 @@ type TypeConfiguration struct {
 	RenameTo                 configurable[string]                              // Give this type a different name in the generated code
 	ResourceEmbeddedInParent configurable[string]                              // String specifying resource name of parent
 	SupportedFrom            configurable[string]                              // Label specifying the first ASO release supporting the resource
+	StripDocumentation       configurable[bool]                                // Boolean directing the generator to strip documentation on the resource and all referenced objects. Only supported on resources.
 }
 
 const (
@@ -58,6 +59,7 @@ const (
 	operatorSpecPropertiesTag   = "$operatorSpecProperties"   // A set of additional properties to inject into the operatorSpec of a resource
 	renameTo                    = "$renameTo"                 // String specifying the new name of a type
 	resourceEmbeddedInParentTag = "$resourceEmbeddedInParent" // String specifying resource name of parent
+	stripDocumentationTag       = "$stripDocumentation"       // Boolean directing the generator to strip documentation on the resource and all referenced objects. Only supported on resources.
 	supportedFromTag            = "$supportedFrom"            // Label specifying the first ASO release supporting the resource
 )
 
@@ -86,6 +88,7 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 		OperatorSpecProperties:   makeConfigurable[[]OperatorSpecPropertyConfiguration](operatorSpecPropertiesTag, scope),
 		RenameTo:                 makeConfigurable[string](renameTo, scope),
 		ResourceEmbeddedInParent: makeConfigurable[string](resourceEmbeddedInParentTag, scope),
+		StripDocumentation:       makeConfigurable[bool](stripDocumentationTag, scope),
 		SupportedFrom:            makeConfigurable[string](supportedFromTag, scope),
 	}
 }
@@ -277,7 +280,19 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		// $SupportedFrom
+		// $stripDocumentation
+		if strings.EqualFold(lastId, stripDocumentationTag) && c.Kind == yaml.ScalarNode {
+			var stripDocs bool
+			err := c.Decode(&stripDocs)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", stripDocumentationTag)
+			}
+
+			tc.StripDocumentation.Set(stripDocs)
+			continue
+		}
+
+		// $supportedFrom
 		if strings.EqualFold(lastId, supportedFromTag) && c.Kind == yaml.ScalarNode {
 			tc.SupportedFrom.Set(c.Value)
 			continue
