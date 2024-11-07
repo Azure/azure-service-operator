@@ -46,6 +46,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/expressions/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/secrets/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/keyvaults/</loc>

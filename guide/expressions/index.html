@@ -17,26 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>v2.1.0 Breaking Changes | Azure Service Operator</title>
-<meta name="description" content="The operator no longer installs CRDs by default Action required: When installing ASO for the first time, you must now specify crdPattern (for Helm) or --crd-patterns (in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.
-When upgrading ASO, existing CRDs will be automatically updated to the new version but new CRDs added in that release will not automatically be installed. This means that when upgrading the operator, if you don&rsquo;t want to use any CRDs newly added in that release you don&rsquo;t need to do anything.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/">
+<title>CEL Expressions | Azure Service Operator</title>
+<meta name="description" content="Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
+Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
+Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/expressions/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="v2.1.0 Breaking Changes">
-  <meta property="og:description" content="The operator no longer installs CRDs by default Action required: When installing ASO for the first time, you must now specify crdPattern (for Helm) or --crd-patterns (in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.
-When upgrading ASO, existing CRDs will be automatically updated to the new version but new CRDs added in that release will not automatically be installed. This means that when upgrading the operator, if you don’t want to use any CRDs newly added in that release you don’t need to do anything.">
+  <meta property="og:title" content="CEL Expressions">
+  <meta property="og:description" content="Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
+Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
+Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="v2.1.0 Breaking Changes">
-  <meta itemprop="description" content="The operator no longer installs CRDs by default Action required: When installing ASO for the first time, you must now specify crdPattern (for Helm) or --crd-patterns (in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.
-When upgrading ASO, existing CRDs will be automatically updated to the new version but new CRDs added in that release will not automatically be installed. This means that when upgrading the operator, if you don’t want to use any CRDs newly added in that release you don’t need to do anything.">
-  <meta itemprop="wordCount" content="294">
+  <meta itemprop="name" content="CEL Expressions">
+  <meta itemprop="description" content="Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
+Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
+Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
+  <meta itemprop="wordCount" content="624">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="v2.1.0 Breaking Changes">
-  <meta name="twitter:description" content="The operator no longer installs CRDs by default Action required: When installing ASO for the first time, you must now specify crdPattern (for Helm) or --crd-patterns (in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.
-When upgrading ASO, existing CRDs will be automatically updated to the new version but new CRDs added in that release will not automatically be installed. This means that when upgrading the operator, if you don’t want to use any CRDs newly added in that release you don’t need to do anything.">
+  <meta name="twitter:title" content="CEL Expressions">
+  <meta name="twitter:description" content="Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
+Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
+Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
 
 
 
@@ -138,26 +142,26 @@ When upgrading ASO, existing CRDs will be automatically updated to the new versi
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.10.0/" title="v2.10.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100"><span class="">v2.10.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.9.0/" title="v2.9.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v290"><span class="">v2.9.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.8.0/" title="v2.8.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v280"><span class="">v2.8.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/" title="v2.6.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v260"><span class="">v2.6.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/" title="v2.2.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220"><span class="">v2.2.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="td-sidebar-nav-active-item">v2.1.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="">v2.1.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
@@ -167,8 +171,8 @@ When upgrading ASO, existing CRDs will be automatically updated to the new versi
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
-  <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">expressions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideexpressions-li">
+  <a href="/azure-service-operator/guide/expressions/" title="CEL Expressions" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="td-sidebar-nav-active-item">expressions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
@@ -730,11 +734,13 @@ When upgrading ASO, existing CRDs will be automatically updated to the new versi
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#the-operator-no-longer-installs-crds-by-default">The operator no longer installs CRDs by default</a></li>
-    <li><a href="#serviceoperatorazurecomcredential-from-no-longer-supports-cross-namespace-secret-references"><code>serviceoperator.azure.com/credential-from</code> no longer supports cross namespace secret references</a></li>
-    <li><a href="#upcoming-breaking-changes">Upcoming breaking changes</a>
+    <li><a href="#expressions-in-aso">Expressions in ASO</a>
       <ul>
-        <li><a href="#aks-managedclusterserviceprincipalprofilesecret-will-change-from-string-to-genruntimesecretreference">AKS ManagedClusterServicePrincipalProfile.Secret will change from <code>string</code> to <code>genruntime.SecretReference</code></a></li>
+        <li><a href="#inputs">Inputs</a></li>
+        <li><a href="#outputs">Outputs</a></li>
+        <li><a href="#cel-options-language-features-and-libraries">CEL options, language features, and libraries</a></li>
+        <li><a href="#escaping">Escaping</a></li>
+        <li><a href="#examples">Examples</a></li>
       </ul>
     </li>
   </ul>
@@ -752,42 +758,272 @@ When upgrading ASO, existing CRDs will be automatically updated to the new versi
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/guide/">Guide</a></li>
-  <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/breaking-changes/">Breaking Changes</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    v2.1.0</li>
+    expressions</li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>v2.1.0 Breaking Changes</h1>
+	<h1>CEL Expressions</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<h2 id="the-operator-no-longer-installs-crds-by-default">The operator no longer installs CRDs by default</h2>
-<p><strong>Action required:</strong> When installing ASO for the first time, you must now specify <code>crdPattern</code> (for Helm) or <code>--crd-patterns</code>
-(in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.</p>
-<p>When upgrading ASO, existing CRDs will be automatically updated to the new version but new CRDs added in that release
-will not automatically be installed.
-This means that when upgrading the operator, if you don&rsquo;t want to use any CRDs newly added in that release you don&rsquo;t
-need to do anything.</p>
-<p><strong>Action required:</strong> When upgrading ASO, if you want to install new CRDs (for example CRDs just added in the version of
-ASO you are upgrading to) you must specify <code>crdPattern</code> (Helm) or <code>--crd-patterns</code> (YAML) to install the CRDs.
-For example: if you do want to use a newly added CRD (such as <code>network.azure.com/bastionHosts</code> mentioned
-below), you would need to specify <code>crdPatterns=network.azure.com/*</code> when performing the upgrade.</p>
-<p>See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD management in ASO</a> for more details
-about this change and why it was made.</p>
-<h2 id="serviceoperatorazurecomcredential-from-no-longer-supports-cross-namespace-secret-references"><code>serviceoperator.azure.com/credential-from</code> no longer supports cross namespace secret references</h2>
-<p>This was never documented as supported but worked unintentionally. The feature now works as it was always documented:
-allowing references to secrets only if the secret is in the same namespace as the resource itself.</p>
-<p>This was a security issue which we had to close.</p>
-<p>See <a href="https://github.com/Azure/azure-service-operator/pull/2919">#2919</a></p>
-<h2 id="upcoming-breaking-changes">Upcoming breaking changes</h2>
-<h3 id="aks-managedclusterserviceprincipalprofilesecret-will-change-from-string-to-genruntimesecretreference">AKS ManagedClusterServicePrincipalProfile.Secret will change from <code>string</code> to <code>genruntime.SecretReference</code></h3>
-<p>We realized that this field contains a secret and as such <em>should not be specified</em>. Secrets should not appear in plain
-text in CRs. We will be making a breaking change in 2.2.0 to resolve this issue.</p>
-<p><strong>In the meantime:</strong> We strongly recommend you use managed identity (the default) for your clusters.</p>
+	<h2 id="expressions-in-aso">Expressions in ASO</h2>
+<p>ASO offers some support for <a href="https://github.com/google/cel-spec">Common Expression Language (CEL)</a> expressions.</p>
+<p>Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:</p>
+<ul>
+<li>Applications that need connection strings with specific (possibly non-standard) formats.</li>
+<li>Exporting arbitrary fields from a resource for use by other applications.</li>
+<li>Exporting static text alongside dynamic data.</li>
+</ul>
+<p>CEL expressions are currently supported on most resources via the <code>spec.operatorSpec.configMapExpressions</code> and
+<code>spec.operatorSpec.secretExpressions</code> fields, which allow configuring expressions output
+to ConfigMaps and Secrets, respectively.</p>
+<h3 id="inputs">Inputs</h3>
+<p>Expressions have access to the following inputs:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Type</th>
+          <th style="text-align: left">Variable(s)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">ConfigMap</td>
+          <td style="text-align: left"><code>self</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Secret</td>
+          <td style="text-align: left"><code>self</code>, <code>secret</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><code>self</code>: The resource itself.</p>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    <p><code>self</code> represents the resource at the version you last applied the resource at. So for example if <code>v1api20200101</code>
+has a <code>self.spec.foo</code> field that has been <em>removed</em> in <code>v1api20220101</code>, you can still refer to <code>self.spec.foo</code>
+in your expressions as long as you&rsquo;re <code>kubectl apply</code>-ing the resource with the <code>v1api20200101</code> version.</p>
+<p>This also holds for new fields, you can refer to newly added fields <em>only in the API versions that have those fields</em>.</p>
+
+
+</div>
+
+<p><code>secret</code>: A set of secrets associated with the resource. The specific secrets supported vary by resource type,
+but can be found on the <code>spec.operatorSpec.secrets</code> type.
+For example, <a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/#eventhub.azure.com/v1api20211101.NamespaceOperatorSecrets">eventhub Namespace</a>
+supports the following 4 secrets:</p>
+<ul>
+<li><code>primaryConnectionString</code></li>
+<li><code>primaryKey</code></li>
+<li><code>secondaryConnectionString</code></li>
+<li><code>secondaryKey</code></li>
+</ul>
+<h3 id="outputs">Outputs</h3>
+<p>Expressions for <code>spec.operatorSpec.configMapExpressions</code> and <code>spec.operatorSpec.secretExpressions</code>
+must output <code>string</code> or <code>map[string]string</code> data. Any other expression output type will be rejected.</p>
+<h3 id="cel-options-language-features-and-libraries">CEL options, language features, and libraries</h3>
+<p>Compare with <a href="https://kubernetes.io/docs/reference/using-api/cel/#cel-options-language-features-and-libraries">Kubernetes supported options</a></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Feature</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#macros">Standard macros</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#list-of-standard-definitions">Standard functions</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/cel#DefaultUTCTimeZone">Default UTC Time Zone</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/cel#EagerlyValidateDeclarations">Eagerly Validate Declarations</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/ext#Strings">Extended String Library, version 3</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/cel#OptionalTypes">Optional Types</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pkg.go.dev/github.com/google/cel-go/cel#CrossTypeNumericComparisons">Cross Type Numeric comparisons</a></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="escaping">Escaping</h3>
+<p>ASO follows the <a href="https://kubernetes.io/docs/reference/using-api/cel/#escaping">same escaping rules as Kubernetes</a>,
+except we don&rsquo;t escape CEL keywords.</p>
+<p>While escaping isn&rsquo;t required for most properties, CEL doesn&rsquo;t support the <code>.</code>, <code>-</code>, or <code>/</code> characters in expressions, so
+properties whose names contain these characters must be escaped. The escaping rules are:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Escape sequence</th>
+          <th style="text-align: left">Property name equivalent</th>
+          <th style="text-align: left">Unescaped example</th>
+          <th style="text-align: left">Escaped example</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">__underscores__</td>
+          <td style="text-align: left">__</td>
+          <td style="text-align: left">my__field</td>
+          <td style="text-align: left">my__underscores__field</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">__dot__</td>
+          <td style="text-align: left">.</td>
+          <td style="text-align: left">my.field</td>
+          <td style="text-align: left">my__dot__field</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">__dash__</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">my-field</td>
+          <td style="text-align: left">my__dash__field</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">__slash__</td>
+          <td style="text-align: left">/</td>
+          <td style="text-align: left">my/field</td>
+          <td style="text-align: left">my__slash__field</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">__{keyword}__</td>
+          <td style="text-align: left"><a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md#syntax">CEL RESERVED keyword (false, true, in, null)</a></td>
+          <td style="text-align: left">false</td>
+          <td style="text-align: left">__false__</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="examples">Examples</h3>
+<p>These examples are all written for a simple
+<a href="https://azure.github.io/azure-service-operator/reference/cache/v1api20230801/#cache.azure.com/v1api20230801.Redis">cache.Redis</a>.
+There&rsquo;s nothing special about Redis it&rsquo;s just used as an example.</p>
+<p>In each of these examples, we start with the given Redis and apply the expression as mentioned in the example itself.</p>
+<p>It might be useful to refer to
+the <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">DestinationExpression</a>
+documentation to understand what the <code>name</code>/<code>key</code>/<code>value</code> fields are doing in all of these examples.</p>
+<p>For more advanced examples, refer to the
+<a href="https://github.com/google/cel-spec/blob/master/doc/langdef.md">CEL language definition</a>.</p>
+<p><strong>Sample Redis:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cache.azure.com/v1api20230801</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Redis</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sampleredis1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">foo</span>: <span style="color:#ae81ff">bar</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">baz</span>: <span style="color:#ae81ff">qux</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westus2</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">owner</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sku</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">family</span>: <span style="color:#ae81ff">P</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Premium</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">capacity</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">enableNonSslPort</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">minimumTlsVersion</span>: <span style="color:#e6db74">&#34;1.2&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">redisConfiguration</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">maxmemory-delta</span>: <span style="color:#e6db74">&#34;10&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">maxmemory-policy</span>: <span style="color:#ae81ff">allkeys-lru</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">redisVersion</span>: <span style="color:#e6db74">&#34;6&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">zones</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;2&#34;</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;3&#34;</span> 
+</span></span></code></pre></div>
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    Just to keep it simple, the sample YAML doesn&rsquo;t include status. Real resources have status, and you can build your
+CEL expressions with <code>self.status</code> in addition to <code>self.spec</code> or <code>self.metadata</code>.
+
+</div>
+
+<h4 id="a-full-example">A full example</h4>
+<p>Expression snippet:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">operatorSpec</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">configMapExpressions</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-configmap</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">location</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value</span>: <span style="color:#ae81ff">self.spec.location</span>
+</span></span></code></pre></div><p>Output (ConfigMap):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-configmap</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">data</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westus2</span>
+</span></span></code></pre></div><p>From here on, we&rsquo;ll elide the supporting YAML of the above example and just focus on the CEL expression input (<code>value</code>)
+and the resulting output, still based on the example <code>Redis</code> above.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Description</th>
+          <th style="text-align: left">Expression</th>
+          <th style="text-align: left">Result</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Hardcoded string</td>
+          <td style="text-align: left"><code>&quot;helloworld&quot;</code></td>
+          <td style="text-align: left"><code>helloworld</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Formatted string</td>
+          <td style="text-align: left"><code>&quot;%s:%d&quot;.format([self.spec.location, 7])</code></td>
+          <td style="text-align: left"><code>westus2:7</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">String math</td>
+          <td style="text-align: left"><code>self.metadata.namespace + &quot;:&quot; + self.metadata.name</code></td>
+          <td style="text-align: left"><code>default:sampleredis1</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Int output (error)</td>
+          <td style="text-align: left"><code>self.spec.sku.capacity</code></td>
+          <td style="text-align: left">Error, expression &ldquo;self.spec.sku.capacity&rdquo; must return one of [string,map(string, string)], but was int</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Coerce to string</td>
+          <td style="text-align: left"><code>string(self.spec.sku.capacity)</code></td>
+          <td style="text-align: left"><code>1</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Map output</td>
+          <td style="text-align: left"><code>self.metadata.annotations</code></td>
+          <td style="text-align: left"><code>{&quot;foo&quot;: &quot;bar&quot;, &quot;baz&quot;: &quot;qux&quot;}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Array macro</td>
+          <td style="text-align: left"><code>self.spec.zones.filter(a, int(a) % 2 == 0).join(&quot;-&quot;)</code></td>
+          <td style="text-align: left"><code>2-4</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Select array item</td>
+          <td style="text-align: left"><code>self.spec.zones[0]</code></td>
+          <td style="text-align: left"><code>1</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Select map item</td>
+          <td style="text-align: left"><code>self.metadata.annotations[&quot;foo&quot;]</code></td>
+          <td style="text-align: left"><code>bar</code></td>
+      </tr>
+  </tbody>
+</table>
 
 	
 </div>
