@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForAfdOriginGroup(gens map[string]gopter.Gen) {
 	gens["Status"] = AfdOriginGroup_STATUSGenerator()
 }
 
+func Test_AfdOriginGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOriginGroupOperatorSpec to AfdOriginGroupOperatorSpec via AssignProperties_To_AfdOriginGroupOperatorSpec & AssignProperties_From_AfdOriginGroupOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec, AfdOriginGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec tests if a specific instance of AfdOriginGroupOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec(subject AfdOriginGroupOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOriginGroupOperatorSpec
+	err := copied.AssignProperties_To_AfdOriginGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOriginGroupOperatorSpec
+	err = actual.AssignProperties_From_AfdOriginGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_AfdOriginGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AfdOriginGroupOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAfdOriginGroupOperatorSpec, AfdOriginGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAfdOriginGroupOperatorSpec runs a test to see if a specific instance of AfdOriginGroupOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAfdOriginGroupOperatorSpec(subject AfdOriginGroupOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AfdOriginGroupOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AfdOriginGroupOperatorSpec instances for property testing - lazily instantiated by
+// AfdOriginGroupOperatorSpecGenerator()
+var afdOriginGroupOperatorSpecGenerator gopter.Gen
+
+// AfdOriginGroupOperatorSpecGenerator returns a generator of AfdOriginGroupOperatorSpec instances for property testing.
+func AfdOriginGroupOperatorSpecGenerator() gopter.Gen {
+	if afdOriginGroupOperatorSpecGenerator != nil {
+		return afdOriginGroupOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	afdOriginGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroupOperatorSpec{}), generators)
+
+	return afdOriginGroupOperatorSpecGenerator
+}
+
 func Test_AfdOriginGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -417,6 +514,7 @@ func AddIndependentPropertyGeneratorsForAfdOriginGroup_Spec(gens map[string]gopt
 func AddRelatedPropertyGeneratorsForAfdOriginGroup_Spec(gens map[string]gopter.Gen) {
 	gens["HealthProbeSettings"] = gen.PtrOf(HealthProbeParametersGenerator())
 	gens["LoadBalancingSettings"] = gen.PtrOf(LoadBalancingSettingsParametersGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(AfdOriginGroupOperatorSpecGenerator())
 }
 
 func Test_HealthProbeParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

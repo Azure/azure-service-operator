@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (pool *ManagedClustersAgentPool) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (pool *ManagedClustersAgentPool) SetConditions(conditions conditions.Conditions) {
 	pool.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ManagedClustersAgentPool{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (pool *ManagedClustersAgentPool) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if pool.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return pool.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ManagedClustersAgentPool{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (pool *ManagedClustersAgentPool) SecretDestinationExpressions() []*core.DestinationExpression {
+	if pool.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return pool.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ManagedClustersAgentPool{}
@@ -173,14 +196,15 @@ type ManagedClustersAgentPool_Spec struct {
 
 	// NodePublicIPPrefixReference: This is of the form:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
-	NodePublicIPPrefixReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixReference,omitempty"`
-	NodeTaints                  []string                      `json:"nodeTaints,omitempty" serializationType:"explicitEmptyCollection"`
-	OrchestratorVersion         *string                       `json:"orchestratorVersion,omitempty"`
-	OriginalVersion             string                        `json:"originalVersion,omitempty"`
-	OsDiskSizeGB                *int                          `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                  *string                       `json:"osDiskType,omitempty"`
-	OsSKU                       *string                       `json:"osSKU,omitempty"`
-	OsType                      *string                       `json:"osType,omitempty"`
+	NodePublicIPPrefixReference *genruntime.ResourceReference         `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixReference,omitempty"`
+	NodeTaints                  []string                              `json:"nodeTaints,omitempty" serializationType:"explicitEmptyCollection"`
+	OperatorSpec                *ManagedClustersAgentPoolOperatorSpec `json:"operatorSpec,omitempty"`
+	OrchestratorVersion         *string                               `json:"orchestratorVersion,omitempty"`
+	OriginalVersion             string                                `json:"originalVersion,omitempty"`
+	OsDiskSizeGB                *int                                  `json:"osDiskSizeGB,omitempty"`
+	OsDiskType                  *string                               `json:"osDiskType,omitempty"`
+	OsSKU                       *string                               `json:"osSKU,omitempty"`
+	OsType                      *string                               `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -444,6 +468,14 @@ type LinuxOSConfig_STATUS struct {
 	Sysctls                    *SysctlConfig_STATUS   `json:"sysctls,omitempty"`
 	TransparentHugePageDefrag  *string                `json:"transparentHugePageDefrag,omitempty"`
 	TransparentHugePageEnabled *string                `json:"transparentHugePageEnabled,omitempty"`
+}
+
+// Storage version of v1api20240901.ManagedClustersAgentPoolOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ManagedClustersAgentPoolOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20240901.PowerState

@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (function *SqlDatabaseContainerUserDefinedFunction) ConvertTo(hub conversio
 	}
 
 	return function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction(destination)
+}
+
+var _ configmaps.Exporter = &SqlDatabaseContainerUserDefinedFunction{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (function *SqlDatabaseContainerUserDefinedFunction) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if function.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return function.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlDatabaseContainerUserDefinedFunction{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (function *SqlDatabaseContainerUserDefinedFunction) SecretDestinationExpressions() []*core.DestinationExpression {
+	if function.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return function.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerUserDefinedFunction{}
@@ -235,10 +258,11 @@ type augmentConversionForSqlDatabaseContainerUserDefinedFunction interface {
 type SqlDatabaseContainerUserDefinedFunction_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string               `json:"azureName,omitempty"`
-	Location        *string              `json:"location,omitempty"`
-	Options         *CreateUpdateOptions `json:"options,omitempty"`
-	OriginalVersion string               `json:"originalVersion,omitempty"`
+	AzureName       string                                               `json:"azureName,omitempty"`
+	Location        *string                                              `json:"location,omitempty"`
+	OperatorSpec    *SqlDatabaseContainerUserDefinedFunctionOperatorSpec `json:"operatorSpec,omitempty"`
+	Options         *CreateUpdateOptions                                 `json:"options,omitempty"`
+	OriginalVersion string                                               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -311,6 +335,18 @@ func (function *SqlDatabaseContainerUserDefinedFunction_Spec) AssignProperties_F
 	// Location
 	function.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+		err := operatorSpec.AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec() to populate field OperatorSpec")
+		}
+		function.OperatorSpec = &operatorSpec
+	} else {
+		function.OperatorSpec = nil
+	}
+
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions
@@ -379,6 +415,18 @@ func (function *SqlDatabaseContainerUserDefinedFunction_Spec) AssignProperties_T
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(function.Location)
+
+	// OperatorSpec
+	if function.OperatorSpec != nil {
+		var operatorSpec storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+		err := function.OperatorSpec.AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// Options
 	if function.Options != nil {
@@ -620,6 +668,136 @@ type augmentConversionForSqlDatabaseContainerUserDefinedFunction_STATUS interfac
 	AssignPropertiesTo(dst *storage.SqlDatabaseContainerUserDefinedFunction_STATUS) error
 }
 
+// Storage version of v1api20210515.SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlDatabaseContainerUserDefinedFunctionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec populates our SqlDatabaseContainerUserDefinedFunctionOperatorSpec from the provided source SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+func (operator *SqlDatabaseContainerUserDefinedFunctionOperatorSpec) AssignProperties_From_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(source *storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec populates the provided destination SqlDatabaseContainerUserDefinedFunctionOperatorSpec from our SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+func (operator *SqlDatabaseContainerUserDefinedFunctionOperatorSpec) AssignProperties_To_SqlDatabaseContainerUserDefinedFunctionOperatorSpec(destination *storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS
 type SqlUserDefinedFunctionGetProperties_Resource_STATUS struct {
 	Body        *string                `json:"body,omitempty"`
@@ -788,6 +966,11 @@ func (resource *SqlUserDefinedFunctionResource) AssignProperties_To_SqlUserDefin
 
 	// No error
 	return nil
+}
+
+type augmentConversionForSqlDatabaseContainerUserDefinedFunctionOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec) error
+	AssignPropertiesTo(dst *storage.SqlDatabaseContainerUserDefinedFunctionOperatorSpec) error
 }
 
 type augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS interface {

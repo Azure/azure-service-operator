@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (balancer *LoadBalancer) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (balancer *LoadBalancer) SetConditions(conditions conditions.Conditions) {
 	balancer.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &LoadBalancer{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (balancer *LoadBalancer) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if balancer.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return balancer.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &LoadBalancer{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (balancer *LoadBalancer) SecretDestinationExpressions() []*core.DestinationExpression {
+	if balancer.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return balancer.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &LoadBalancer{}
@@ -157,6 +180,7 @@ type LoadBalancer_Spec struct {
 	InboundNatRules          []InboundNatRule_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
 	LoadBalancingRules       []LoadBalancingRule                                        `json:"loadBalancingRules,omitempty"`
 	Location                 *string                                                    `json:"location,omitempty"`
+	OperatorSpec             *LoadBalancerOperatorSpec                                  `json:"operatorSpec,omitempty"`
 	OriginalVersion          string                                                     `json:"originalVersion,omitempty"`
 	OutboundRules            []OutboundRule                                             `json:"outboundRules,omitempty"`
 
@@ -500,6 +524,14 @@ type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	Protocol                *string                                                                  `json:"protocol,omitempty"`
 	ProvisioningState       *string                                                                  `json:"provisioningState,omitempty"`
 	Type                    *string                                                                  `json:"type,omitempty"`
+}
+
+// Storage version of v1api20201101.LoadBalancerOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type LoadBalancerOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20201101.LoadBalancerSku

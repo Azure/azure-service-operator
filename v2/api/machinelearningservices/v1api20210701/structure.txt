@@ -32,7 +32,9 @@ Workspace: Resource
 │   ├── ImageBuildCompute: *string
 │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (1 property)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (7 properties)
 │   │       ├── AppInsightsInstrumentationKey: *genruntime.SecretDestination
 │   │       ├── ContainerRegistryPassword: *genruntime.SecretDestination
@@ -179,7 +181,7 @@ Workspace: Resource
     └── WorkspaceId: *string
 WorkspacesCompute: Resource
 ├── Owner: Workspace
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── Identity: *Object (2 properties)
 │   │   ├── Type: *Enum (4 values)
@@ -190,6 +192,9 @@ WorkspacesCompute: Resource
 │   │   └── UserAssignedIdentities: Object (1 property)[]
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Properties: *Object (10 properties)
 │   │   ├── AKS: *Object (6 properties)
@@ -1005,10 +1010,13 @@ WorkspacesCompute: Resource
     └── Type: *string
 WorkspacesConnection: Resource
 ├── Owner: Workspace
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AuthType: *string
 │   ├── AzureName: string
 │   ├── Category: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Target: *string
 │   ├── Value: *string

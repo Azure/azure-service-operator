@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (group *ApplicationSecurityGroup) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (group *ApplicationSecurityGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ApplicationSecurityGroup{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (group *ApplicationSecurityGroup) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ApplicationSecurityGroup{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (group *ApplicationSecurityGroup) SecretDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ApplicationSecurityGroup{}
@@ -148,9 +171,10 @@ const APIVersion_Value = APIVersion("2024-01-01")
 type ApplicationSecurityGroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string                                `json:"azureName,omitempty"`
+	Location        *string                               `json:"location,omitempty"`
+	OperatorSpec    *ApplicationSecurityGroupOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -214,6 +238,14 @@ func (group *ApplicationSecurityGroup_STATUS) ConvertStatusTo(destination genrun
 	}
 
 	return destination.ConvertStatusFrom(group)
+}
+
+// Storage version of v1api20240101.ApplicationSecurityGroupOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ApplicationSecurityGroupOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

@@ -339,6 +339,61 @@ func AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare(gens map[st
 	gens["Status"] = StorageAccountsFileServicesShare_STATUSGenerator()
 }
 
+func Test_StorageAccountsFileServicesShareOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccountsFileServicesShareOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsFileServicesShareOperatorSpec, StorageAccountsFileServicesShareOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccountsFileServicesShareOperatorSpec runs a test to see if a specific instance of StorageAccountsFileServicesShareOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsFileServicesShareOperatorSpec(subject StorageAccountsFileServicesShareOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccountsFileServicesShareOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccountsFileServicesShareOperatorSpec instances for property testing - lazily instantiated by
+// StorageAccountsFileServicesShareOperatorSpecGenerator()
+var storageAccountsFileServicesShareOperatorSpecGenerator gopter.Gen
+
+// StorageAccountsFileServicesShareOperatorSpecGenerator returns a generator of StorageAccountsFileServicesShareOperatorSpec instances for property testing.
+func StorageAccountsFileServicesShareOperatorSpecGenerator() gopter.Gen {
+	if storageAccountsFileServicesShareOperatorSpecGenerator != nil {
+		return storageAccountsFileServicesShareOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	storageAccountsFileServicesShareOperatorSpecGenerator = gen.Struct(reflect.TypeOf(StorageAccountsFileServicesShareOperatorSpec{}), generators)
+
+	return storageAccountsFileServicesShareOperatorSpecGenerator
+}
+
 func Test_StorageAccountsFileServicesShare_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -516,5 +571,6 @@ func AddIndependentPropertyGeneratorsForStorageAccountsFileServicesShare_Spec(ge
 
 // AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(StorageAccountsFileServicesShareOperatorSpecGenerator())
 	gens["SignedIdentifiers"] = gen.SliceOf(SignedIdentifierGenerator())
 }

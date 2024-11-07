@@ -78,6 +78,61 @@ func AddRelatedPropertyGeneratorsForDatabase(gens map[string]gopter.Gen) {
 	gens["Status"] = Database_STATUSGenerator()
 }
 
+func Test_DatabaseOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DatabaseOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseOperatorSpec, DatabaseOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDatabaseOperatorSpec runs a test to see if a specific instance of DatabaseOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseOperatorSpec(subject DatabaseOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DatabaseOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DatabaseOperatorSpec instances for property testing - lazily instantiated by
+// DatabaseOperatorSpecGenerator()
+var databaseOperatorSpecGenerator gopter.Gen
+
+// DatabaseOperatorSpecGenerator returns a generator of DatabaseOperatorSpec instances for property testing.
+func DatabaseOperatorSpecGenerator() gopter.Gen {
+	if databaseOperatorSpecGenerator != nil {
+		return databaseOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	databaseOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DatabaseOperatorSpec{}), generators)
+
+	return databaseOperatorSpecGenerator
+}
+
 func Test_Database_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -185,6 +240,9 @@ func RunJSONSerializationTestForDatabase_Spec(subject Database_Spec) string {
 var database_SpecGenerator gopter.Gen
 
 // Database_SpecGenerator returns a generator of Database_Spec instances for property testing.
+// We first initialize database_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func Database_SpecGenerator() gopter.Gen {
 	if database_SpecGenerator != nil {
 		return database_SpecGenerator
@@ -192,6 +250,12 @@ func Database_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForDatabase_Spec(generators)
+	database_SpecGenerator = gen.Struct(reflect.TypeOf(Database_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDatabase_Spec(generators)
+	AddRelatedPropertyGeneratorsForDatabase_Spec(generators)
 	database_SpecGenerator = gen.Struct(reflect.TypeOf(Database_Spec{}), generators)
 
 	return database_SpecGenerator
@@ -203,4 +267,9 @@ func AddIndependentPropertyGeneratorsForDatabase_Spec(gens map[string]gopter.Gen
 	gens["Charset"] = gen.PtrOf(gen.AlphaString())
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForDatabase_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabase_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(DatabaseOperatorSpecGenerator())
 }

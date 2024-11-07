@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (policy *StorageAccountsManagementPolicy) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (policy *StorageAccountsManagementPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &StorageAccountsManagementPolicy{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (policy *StorageAccountsManagementPolicy) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccountsManagementPolicy{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (policy *StorageAccountsManagementPolicy) SecretDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
@@ -140,7 +163,8 @@ type StorageAccountsManagementPolicyList struct {
 
 // Storage version of v1api20230101.StorageAccountsManagementPolicy_Spec
 type StorageAccountsManagementPolicy_Spec struct {
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	OperatorSpec    *StorageAccountsManagementPolicyOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -216,6 +240,14 @@ type ManagementPolicySchema struct {
 type ManagementPolicySchema_STATUS struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Rules       []ManagementPolicyRule_STATUS `json:"rules,omitempty"`
+}
+
+// Storage version of v1api20230101.StorageAccountsManagementPolicyOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountsManagementPolicyOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230101.ManagementPolicyRule

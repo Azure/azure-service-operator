@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -76,6 +79,26 @@ func (service *StorageAccountsBlobService) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return nil
+}
+
+var _ configmaps.Exporter = &StorageAccountsBlobService{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (service *StorageAccountsBlobService) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return service.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccountsBlobService{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (service *StorageAccountsBlobService) SecretDestinationExpressions() []*core.DestinationExpression {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return service.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
@@ -245,15 +268,16 @@ type augmentConversionForStorageAccountsBlobService interface {
 
 // Storage version of v1api20210401.StorageAccountsBlobService_Spec
 type StorageAccountsBlobService_Spec struct {
-	AutomaticSnapshotPolicyEnabled *bool                         `json:"automaticSnapshotPolicyEnabled,omitempty"`
-	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRules                    `json:"cors,omitempty"`
-	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
-	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
-	OriginalVersion                string                        `json:"originalVersion,omitempty"`
+	AutomaticSnapshotPolicyEnabled *bool                                   `json:"automaticSnapshotPolicyEnabled,omitempty"`
+	ChangeFeed                     *ChangeFeed                             `json:"changeFeed,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy                  `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules                              `json:"cors,omitempty"`
+	DefaultServiceVersion          *string                                 `json:"defaultServiceVersion,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy                  `json:"deleteRetentionPolicy,omitempty"`
+	IsVersioningEnabled            *bool                                   `json:"isVersioningEnabled,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy           `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	OperatorSpec                   *StorageAccountsBlobServiceOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                string                                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -398,6 +422,18 @@ func (service *StorageAccountsBlobService_Spec) AssignProperties_From_StorageAcc
 		service.LastAccessTimeTrackingPolicy = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec StorageAccountsBlobServiceOperatorSpec
+		err := operatorSpec.AssignProperties_From_StorageAccountsBlobServiceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsBlobServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		service.OperatorSpec = &operatorSpec
+	} else {
+		service.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	service.OriginalVersion = source.OriginalVersion
 
@@ -523,6 +559,18 @@ func (service *StorageAccountsBlobService_Spec) AssignProperties_To_StorageAccou
 		destination.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
 	} else {
 		destination.LastAccessTimeTrackingPolicy = nil
+	}
+
+	// OperatorSpec
+	if service.OperatorSpec != nil {
+		var operatorSpec storage.StorageAccountsBlobServiceOperatorSpec
+		err := service.OperatorSpec.AssignProperties_To_StorageAccountsBlobServiceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsBlobServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -1835,6 +1883,136 @@ func (properties *RestorePolicyProperties_STATUS) AssignProperties_To_RestorePol
 	return nil
 }
 
+// Storage version of v1api20210401.StorageAccountsBlobServiceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountsBlobServiceOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_StorageAccountsBlobServiceOperatorSpec populates our StorageAccountsBlobServiceOperatorSpec from the provided source StorageAccountsBlobServiceOperatorSpec
+func (operator *StorageAccountsBlobServiceOperatorSpec) AssignProperties_From_StorageAccountsBlobServiceOperatorSpec(source *storage.StorageAccountsBlobServiceOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccountsBlobServiceOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForStorageAccountsBlobServiceOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccountsBlobServiceOperatorSpec populates the provided destination StorageAccountsBlobServiceOperatorSpec from our StorageAccountsBlobServiceOperatorSpec
+func (operator *StorageAccountsBlobServiceOperatorSpec) AssignProperties_To_StorageAccountsBlobServiceOperatorSpec(destination *storage.StorageAccountsBlobServiceOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccountsBlobServiceOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForStorageAccountsBlobServiceOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 type augmentConversionForChangeFeed interface {
 	AssignPropertiesFrom(src *storage.ChangeFeed) error
 	AssignPropertiesTo(dst *storage.ChangeFeed) error
@@ -1883,6 +2061,11 @@ type augmentConversionForRestorePolicyProperties interface {
 type augmentConversionForRestorePolicyProperties_STATUS interface {
 	AssignPropertiesFrom(src *storage.RestorePolicyProperties_STATUS) error
 	AssignPropertiesTo(dst *storage.RestorePolicyProperties_STATUS) error
+}
+
+type augmentConversionForStorageAccountsBlobServiceOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.StorageAccountsBlobServiceOperatorSpec) error
+	AssignPropertiesTo(dst *storage.StorageAccountsBlobServiceOperatorSpec) error
 }
 
 // Storage version of v1api20210401.CorsRule

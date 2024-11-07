@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (server *RedisLinkedServer) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (server *RedisLinkedServer) SetConditions(conditions conditions.Conditions) {
 	server.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &RedisLinkedServer{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (server *RedisLinkedServer) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return server.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RedisLinkedServer{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (server *RedisLinkedServer) SecretDestinationExpressions() []*core.DestinationExpression {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return server.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &RedisLinkedServer{}
@@ -182,8 +205,9 @@ type RedisLinkedServer_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
-	LinkedRedisCacheReference *genruntime.ResourceReference `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
-	OriginalVersion           string                        `json:"originalVersion,omitempty"`
+	LinkedRedisCacheReference *genruntime.ResourceReference  `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
+	OperatorSpec              *RedisLinkedServerOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion           string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -212,6 +236,14 @@ func (server *RedisLinkedServer_Spec) ConvertSpecTo(destination genruntime.Conve
 	}
 
 	return destination.ConvertSpecFrom(server)
+}
+
+// Storage version of v1api20230801.RedisLinkedServerOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RedisLinkedServerOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

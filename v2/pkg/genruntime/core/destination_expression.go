@@ -25,7 +25,8 @@ type DestinationExpression struct {
 	// map[string]string.
 	Key string `json:"key,omitempty"`
 
-	// Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information see TODO (improve this)
+	// Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+	// on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
 	// +kubebuilder:validation:Required
 	Value string `json:"value,omitempty"`
 }

@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (setting *ServersDatabasesAuditingSetting) GetConditions() conditions.Condi
 // SetConditions sets the conditions on the resource status
 func (setting *ServersDatabasesAuditingSetting) SetConditions(conditions conditions.Conditions) {
 	setting.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersDatabasesAuditingSetting{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (setting *ServersDatabasesAuditingSetting) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersDatabasesAuditingSetting{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (setting *ServersDatabasesAuditingSetting) SecretDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesAuditingSetting{}
@@ -139,11 +162,12 @@ type ServersDatabasesAuditingSettingList struct {
 
 // Storage version of v1api20211101.ServersDatabasesAuditingSetting_Spec
 type ServersDatabasesAuditingSetting_Spec struct {
-	AuditActionsAndGroups       []string `json:"auditActionsAndGroups,omitempty"`
-	IsAzureMonitorTargetEnabled *bool    `json:"isAzureMonitorTargetEnabled,omitempty"`
-	IsManagedIdentityInUse      *bool    `json:"isManagedIdentityInUse,omitempty"`
-	IsStorageSecondaryKeyInUse  *bool    `json:"isStorageSecondaryKeyInUse,omitempty"`
-	OriginalVersion             string   `json:"originalVersion,omitempty"`
+	AuditActionsAndGroups       []string                                     `json:"auditActionsAndGroups,omitempty"`
+	IsAzureMonitorTargetEnabled *bool                                        `json:"isAzureMonitorTargetEnabled,omitempty"`
+	IsManagedIdentityInUse      *bool                                        `json:"isManagedIdentityInUse,omitempty"`
+	IsStorageSecondaryKeyInUse  *bool                                        `json:"isStorageSecondaryKeyInUse,omitempty"`
+	OperatorSpec                *ServersDatabasesAuditingSettingOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion             string                                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -216,6 +240,14 @@ func (setting *ServersDatabasesAuditingSetting_STATUS) ConvertStatusTo(destinati
 	}
 
 	return destination.ConvertStatusFrom(setting)
+}
+
+// Storage version of v1api20211101.ServersDatabasesAuditingSettingOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersDatabasesAuditingSettingOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

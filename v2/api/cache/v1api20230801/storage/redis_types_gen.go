@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (redis *Redis) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (redis *Redis) SetConditions(conditions conditions.Conditions) {
 	redis.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Redis{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (redis *Redis) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if redis.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return redis.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Redis{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (redis *Redis) SecretDestinationExpressions() []*core.DestinationExpression {
+	if redis.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return redis.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Redis{}
@@ -321,8 +344,10 @@ type RedisLinkedServer_STATUS struct {
 // Storage version of v1api20230801.RedisOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RedisOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secrets     *RedisOperatorSecrets  `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *RedisOperatorSecrets         `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230801.RedisProperties_RedisConfiguration_STATUS

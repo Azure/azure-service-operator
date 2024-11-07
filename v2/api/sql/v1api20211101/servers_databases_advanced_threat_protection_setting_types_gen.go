@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -83,6 +86,26 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) Default() {
 
 // defaultImpl applies the code generated defaults to the ServersDatabasesAdvancedThreatProtectionSetting resource
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) defaultImpl() {}
+
+var _ configmaps.Exporter = &ServersDatabasesAdvancedThreatProtectionSetting{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersDatabasesAdvancedThreatProtectionSetting{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) SecretDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ServersDatabasesAdvancedThreatProtectionSetting{}
 
@@ -201,7 +224,7 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ValidateUpdate(o
 
 // createValidations validates the creation of the resource
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){setting.validateResourceReferences, setting.validateOwnerReference}
+	return []func() (admission.Warnings, error){setting.validateResourceReferences, setting.validateOwnerReference, setting.validateSecretDestinations, setting.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,7 +242,21 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) updateValidation
 		func(old runtime.Object) (admission.Warnings, error) {
 			return setting.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return setting.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return setting.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) validateConfigMapDestinations() (admission.Warnings, error) {
+	if setting.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(setting, nil, setting.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -234,6 +271,14 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) validateResource
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (setting *ServersDatabasesAdvancedThreatProtectionSetting) validateSecretDestinations() (admission.Warnings, error) {
+	if setting.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(setting, nil, setting.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -318,6 +363,10 @@ type ServersDatabasesAdvancedThreatProtectionSettingList struct {
 }
 
 type ServersDatabasesAdvancedThreatProtectionSetting_Spec struct {
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -366,6 +415,8 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) PopulateFro
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabasesAdvancedThreatProtectionSetting_Spec, got %T", armInput)
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	setting.Owner = &genruntime.KnownResourceReference{
@@ -441,6 +492,18 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) ConvertSpec
 // AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_Spec populates our ServersDatabasesAdvancedThreatProtectionSetting_Spec from the provided source ServersDatabasesAdvancedThreatProtectionSetting_Spec
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting_Spec(source *storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec) error {
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		setting.OperatorSpec = &operatorSpec
+	} else {
+		setting.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -466,6 +529,18 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) AssignPrope
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_Spec(destination *storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// OperatorSpec
+	if setting.OperatorSpec != nil {
+		var operatorSpec storage.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+		err := setting.OperatorSpec.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = setting.OriginalVersion()
@@ -742,6 +817,110 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) AssignPro
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(setting.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec populates our ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec from the provided source ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+func (operator *ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec(source *storage.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec populates the provided destination ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec from our ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+func (operator *ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec(destination *storage.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

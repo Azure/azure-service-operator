@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2022-03-01"
 ServerFarm: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (22 properties)
+├── Spec: Object (23 properties)
 │   ├── AzureName: string
 │   ├── ElasticScaleEnabled: *bool
 │   ├── ExtendedLocation: *Object (1 property)
@@ -21,6 +21,9 @@ ServerFarm: Resource
 │   │   └── Reference: *genruntime.ResourceReference
 │   ├── Location: *string
 │   ├── MaximumElasticWorkerCount: *int
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PerSiteScaling: *bool
 │   ├── Reserved: *bool
@@ -114,7 +117,7 @@ ServerFarm: Resource
     └── ZoneRedundant: *bool
 Site: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (34 properties)
+├── Spec: Object (35 properties)
 │   ├── AzureName: string
 │   ├── ClientAffinityEnabled: *bool
 │   ├── ClientCertEnabled: *bool
@@ -171,6 +174,9 @@ Site: Resource
 │   ├── KeyVaultReferenceIdentity: *string
 │   ├── Kind: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PublicNetworkAccess: *string
 │   ├── RedundancyMode: *Enum (5 values)

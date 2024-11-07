@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink(gens map[s
 	gens["Status"] = PrivateDnsZonesVirtualNetworkLink_STATUSGenerator()
 }
 
+func Test_PrivateDnsZonesVirtualNetworkLinkOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateDnsZonesVirtualNetworkLinkOperatorSpec to PrivateDnsZonesVirtualNetworkLinkOperatorSpec via AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec & AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLinkOperatorSpec, PrivateDnsZonesVirtualNetworkLinkOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLinkOperatorSpec tests if a specific instance of PrivateDnsZonesVirtualNetworkLinkOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLinkOperatorSpec(subject PrivateDnsZonesVirtualNetworkLinkOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+	err := copied.AssignProperties_To_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+	err = actual.AssignProperties_From_PrivateDnsZonesVirtualNetworkLinkOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_PrivateDnsZonesVirtualNetworkLinkOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateDnsZonesVirtualNetworkLinkOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateDnsZonesVirtualNetworkLinkOperatorSpec, PrivateDnsZonesVirtualNetworkLinkOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateDnsZonesVirtualNetworkLinkOperatorSpec runs a test to see if a specific instance of PrivateDnsZonesVirtualNetworkLinkOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateDnsZonesVirtualNetworkLinkOperatorSpec(subject PrivateDnsZonesVirtualNetworkLinkOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateDnsZonesVirtualNetworkLinkOperatorSpec instances for property testing - lazily instantiated by
+// PrivateDnsZonesVirtualNetworkLinkOperatorSpecGenerator()
+var privateDnsZonesVirtualNetworkLinkOperatorSpecGenerator gopter.Gen
+
+// PrivateDnsZonesVirtualNetworkLinkOperatorSpecGenerator returns a generator of PrivateDnsZonesVirtualNetworkLinkOperatorSpec instances for property testing.
+func PrivateDnsZonesVirtualNetworkLinkOperatorSpecGenerator() gopter.Gen {
+	if privateDnsZonesVirtualNetworkLinkOperatorSpecGenerator != nil {
+		return privateDnsZonesVirtualNetworkLinkOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	privateDnsZonesVirtualNetworkLinkOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZonesVirtualNetworkLinkOperatorSpec{}), generators)
+
+	return privateDnsZonesVirtualNetworkLinkOperatorSpecGenerator
+}
+
 func Test_PrivateDnsZonesVirtualNetworkLink_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -418,6 +515,7 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec(g
 
 // AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateDnsZonesVirtualNetworkLink_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(PrivateDnsZonesVirtualNetworkLinkOperatorSpecGenerator())
 	gens["VirtualNetwork"] = gen.PtrOf(SubResourceGenerator())
 }
 

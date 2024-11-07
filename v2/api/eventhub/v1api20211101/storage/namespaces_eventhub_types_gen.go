@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (eventhub *NamespacesEventhub) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (eventhub *NamespacesEventhub) SetConditions(conditions conditions.Conditions) {
 	eventhub.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &NamespacesEventhub{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (eventhub *NamespacesEventhub) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if eventhub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return eventhub.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesEventhub{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (eventhub *NamespacesEventhub) SecretDestinationExpressions() []*core.DestinationExpression {
+	if eventhub.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return eventhub.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesEventhub{}
@@ -142,10 +165,11 @@ type NamespacesEventhubList struct {
 type NamespacesEventhub_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName              string              `json:"azureName,omitempty"`
-	CaptureDescription     *CaptureDescription `json:"captureDescription,omitempty"`
-	MessageRetentionInDays *int                `json:"messageRetentionInDays,omitempty"`
-	OriginalVersion        string              `json:"originalVersion,omitempty"`
+	AzureName              string                          `json:"azureName,omitempty"`
+	CaptureDescription     *CaptureDescription             `json:"captureDescription,omitempty"`
+	MessageRetentionInDays *int                            `json:"messageRetentionInDays,omitempty"`
+	OperatorSpec           *NamespacesEventhubOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion        string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -236,6 +260,14 @@ type CaptureDescription_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SizeLimitInBytes  *int                   `json:"sizeLimitInBytes,omitempty"`
 	SkipEmptyArchives *bool                  `json:"skipEmptyArchives,omitempty"`
+}
+
+// Storage version of v1api20211101.NamespacesEventhubOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesEventhubOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20211101.Destination

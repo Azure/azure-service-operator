@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (collection *MongodbDatabaseCollection) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the MongodbDatabaseCollection resource
 func (collection *MongodbDatabaseCollection) defaultImpl() { collection.defaultAzureName() }
+
+var _ configmaps.Exporter = &MongodbDatabaseCollection{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (collection *MongodbDatabaseCollection) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if collection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return collection.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &MongodbDatabaseCollection{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (collection *MongodbDatabaseCollection) SecretDestinationExpressions() []*core.DestinationExpression {
+	if collection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return collection.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &MongodbDatabaseCollection{}
 
@@ -209,7 +232,7 @@ func (collection *MongodbDatabaseCollection) ValidateUpdate(old runtime.Object) 
 
 // createValidations validates the creation of the resource
 func (collection *MongodbDatabaseCollection) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){collection.validateResourceReferences, collection.validateOwnerReference}
+	return []func() (admission.Warnings, error){collection.validateResourceReferences, collection.validateOwnerReference, collection.validateSecretDestinations, collection.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (collection *MongodbDatabaseCollection) updateValidations() []func(old runt
 		func(old runtime.Object) (admission.Warnings, error) {
 			return collection.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return collection.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return collection.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (collection *MongodbDatabaseCollection) validateConfigMapDestinations() (admission.Warnings, error) {
+	if collection.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(collection, nil, collection.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (collection *MongodbDatabaseCollection) validateResourceReferences() (admis
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (collection *MongodbDatabaseCollection) validateSecretDestinations() (admission.Warnings, error) {
+	if collection.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(collection, nil, collection.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -333,6 +378,10 @@ type MongodbDatabaseCollection_Spec struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *MongodbDatabaseCollectionOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
 	Options *CreateUpdateOptions `json:"options,omitempty"`
@@ -418,6 +467,8 @@ func (collection *MongodbDatabaseCollection_Spec) PopulateFromARM(owner genrunti
 		location := *typedInput.Location
 		collection.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Options":
 	// copying flattened property:
@@ -524,6 +575,18 @@ func (collection *MongodbDatabaseCollection_Spec) AssignProperties_From_MongodbD
 	// Location
 	collection.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec MongodbDatabaseCollectionOperatorSpec
+		err := operatorSpec.AssignProperties_From_MongodbDatabaseCollectionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_MongodbDatabaseCollectionOperatorSpec() to populate field OperatorSpec")
+		}
+		collection.OperatorSpec = &operatorSpec
+	} else {
+		collection.OperatorSpec = nil
+	}
+
 	// Options
 	if source.Options != nil {
 		var option CreateUpdateOptions
@@ -573,6 +636,18 @@ func (collection *MongodbDatabaseCollection_Spec) AssignProperties_To_MongodbDat
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(collection.Location)
+
+	// OperatorSpec
+	if collection.OperatorSpec != nil {
+		var operatorSpec storage.MongodbDatabaseCollectionOperatorSpec
+		err := collection.OperatorSpec.AssignProperties_To_MongodbDatabaseCollectionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_MongodbDatabaseCollectionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// Options
 	if collection.Options != nil {
@@ -1501,6 +1576,110 @@ func (resource *MongoDBCollectionResource) Initialize_From_MongoDBCollectionGetP
 
 	// ShardKey
 	resource.ShardKey = genruntime.CloneMapOfStringToString(source.ShardKey)
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type MongodbDatabaseCollectionOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_MongodbDatabaseCollectionOperatorSpec populates our MongodbDatabaseCollectionOperatorSpec from the provided source MongodbDatabaseCollectionOperatorSpec
+func (operator *MongodbDatabaseCollectionOperatorSpec) AssignProperties_From_MongodbDatabaseCollectionOperatorSpec(source *storage.MongodbDatabaseCollectionOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_MongodbDatabaseCollectionOperatorSpec populates the provided destination MongodbDatabaseCollectionOperatorSpec from our MongodbDatabaseCollectionOperatorSpec
+func (operator *MongodbDatabaseCollectionOperatorSpec) AssignProperties_To_MongodbDatabaseCollectionOperatorSpec(destination *storage.MongodbDatabaseCollectionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

@@ -13,6 +13,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -95,6 +97,26 @@ func (profile *TrafficManagerProfile) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the TrafficManagerProfile resource
 func (profile *TrafficManagerProfile) defaultImpl() { profile.defaultAzureName() }
+
+var _ configmaps.Exporter = &TrafficManagerProfile{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (profile *TrafficManagerProfile) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if profile.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return profile.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &TrafficManagerProfile{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (profile *TrafficManagerProfile) SecretDestinationExpressions() []*core.DestinationExpression {
+	if profile.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return profile.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &TrafficManagerProfile{}
 
@@ -233,7 +255,7 @@ func (profile *TrafficManagerProfile) ValidateUpdate(old runtime.Object) (admiss
 
 // createValidations validates the creation of the resource
 func (profile *TrafficManagerProfile) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){profile.validateResourceReferences, profile.validateOwnerReference, profile.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){profile.validateResourceReferences, profile.validateOwnerReference, profile.validateSecretDestinations, profile.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -252,6 +274,9 @@ func (profile *TrafficManagerProfile) updateValidations() []func(old runtime.Obj
 			return profile.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return profile.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return profile.validateConfigMapDestinations()
 		},
 	}
@@ -262,13 +287,13 @@ func (profile *TrafficManagerProfile) validateConfigMapDestinations() (admission
 	if profile.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if profile.Spec.OperatorSpec.ConfigMaps == nil {
-		return nil, nil
+	var toValidate []*genruntime.ConfigMapDestination
+	if profile.Spec.OperatorSpec.ConfigMaps != nil {
+		toValidate = []*genruntime.ConfigMapDestination{
+			profile.Spec.OperatorSpec.ConfigMaps.DnsConfigFqdn,
+		}
 	}
-	toValidate := []*genruntime.ConfigMapDestination{
-		profile.Spec.OperatorSpec.ConfigMaps.DnsConfigFqdn,
-	}
-	return configmaps.ValidateDestinations(toValidate)
+	return configmaps.ValidateDestinations(profile, toValidate, profile.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -283,6 +308,14 @@ func (profile *TrafficManagerProfile) validateResourceReferences() (admission.Wa
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (profile *TrafficManagerProfile) validateSecretDestinations() (admission.Warnings, error) {
+	if profile.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(profile, nil, profile.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -2559,12 +2592,36 @@ var profileProperties_TrafficViewEnrollmentStatus_STATUS_Values = map[string]Pro
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type TrafficManagerProfileOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
 	// ConfigMaps: configures where to place operator written ConfigMaps.
 	ConfigMaps *TrafficManagerProfileOperatorConfigMaps `json:"configMaps,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // AssignProperties_From_TrafficManagerProfileOperatorSpec populates our TrafficManagerProfileOperatorSpec from the provided source TrafficManagerProfileOperatorSpec
 func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_From_TrafficManagerProfileOperatorSpec(source *storage.TrafficManagerProfileOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -2578,6 +2635,24 @@ func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_From_Traffic
 		operator.ConfigMaps = nil
 	}
 
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
 	// No error
 	return nil
 }
@@ -2586,6 +2661,24 @@ func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_From_Traffic
 func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_To_TrafficManagerProfileOperatorSpec(destination *storage.TrafficManagerProfileOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
@@ -2597,6 +2690,24 @@ func (operator *TrafficManagerProfileOperatorSpec) AssignProperties_To_TrafficMa
 		destination.ConfigMaps = &configMap
 	} else {
 		destination.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

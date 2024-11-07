@@ -26,6 +26,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/record"
+	"k8s.io/klog/v2/textlogger"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -38,9 +39,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
+	"github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
@@ -89,9 +92,10 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		Scheme: scheme,
 	}
 
-	// Switch logger below if we want controller-runtime logs in the tests.
+	logger := textlogger.NewLogger(textlogger.NewConfig(textlogger.Verbosity(logging.Debug)))
+
+	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	// logger := textlogger.NewLogger(textlogger.NewConfig(textlogger.Verbosity(logging.Debug)))
 	// ctrl.SetLogger(logger)
 	ctrl.SetLogger(logr.Discard())
 
@@ -182,6 +186,15 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	testIndexer := NewIndexer(mgr.GetScheme())
 	indexer := kubeclient.NewAndIndexer(mgr.GetFieldIndexer(), testIndexer)
 	kubeClient := kubeclient.NewClient(NewClient(mgr.GetClient(), testIndexer))
+	expressionEvaluator, err := asocel.NewExpressionEvaluator(asocel.Log(logger))
+	// Note that we don't start expressionEvaluator here because we're in a test context and turning cache eviction
+	// on is probably overkill.
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating expression evaluator")
+	}
+
+	// This means a single evaluator will be used for all envtests. For the purposes of testing that's probably OK...
+	asocel.RegisterEvaluator(expressionEvaluator)
 
 	credentialProviderWrapper := &credentialProviderWrapper{namespaceResources: namespaceResources}
 
@@ -243,6 +256,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			credentialProviderWrapper,
 			kubeClient,
 			positiveConditions,
+			expressionEvaluator,
 			options)
 		if err != nil {
 			return nil, err

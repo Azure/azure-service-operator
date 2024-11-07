@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the DnsForwardingRuleSetsVirtualNetworkLink resource
 func (link *DnsForwardingRuleSetsVirtualNetworkLink) defaultImpl() { link.defaultAzureName() }
+
+var _ configmaps.Exporter = &DnsForwardingRuleSetsVirtualNetworkLink{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (link *DnsForwardingRuleSetsVirtualNetworkLink) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return link.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DnsForwardingRuleSetsVirtualNetworkLink{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (link *DnsForwardingRuleSetsVirtualNetworkLink) SecretDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return link.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &DnsForwardingRuleSetsVirtualNetworkLink{}
 
@@ -209,7 +232,7 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) ValidateUpdate(old runtime.
 
 // createValidations validates the creation of the resource
 func (link *DnsForwardingRuleSetsVirtualNetworkLink) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){link.validateResourceReferences, link.validateOwnerReference}
+	return []func() (admission.Warnings, error){link.validateResourceReferences, link.validateOwnerReference, link.validateSecretDestinations, link.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) updateValidations() []func(
 		func(old runtime.Object) (admission.Warnings, error) {
 			return link.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return link.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return link.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (link *DnsForwardingRuleSetsVirtualNetworkLink) validateConfigMapDestinations() (admission.Warnings, error) {
+	if link.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(link, nil, link.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink) validateResourceReferences(
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (link *DnsForwardingRuleSetsVirtualNetworkLink) validateSecretDestinations() (admission.Warnings, error) {
+	if link.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(link, nil, link.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -333,6 +378,10 @@ type DnsForwardingRuleSetsVirtualNetworkLink_Spec struct {
 	// Metadata: Metadata attached to the virtual network link.
 	Metadata map[string]string `json:"metadata,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -402,6 +451,8 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) PopulateFromARM(owner 
 			}
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	link.Owner = &genruntime.KnownResourceReference{
@@ -486,6 +537,18 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_From_
 	// Metadata
 	link.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
+		err := operatorSpec.AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+		}
+		link.OperatorSpec = &operatorSpec
+	} else {
+		link.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -520,6 +583,18 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_Spec) AssignProperties_To_Dn
 
 	// Metadata
 	destination.Metadata = genruntime.CloneMapOfStringToString(link.Metadata)
+
+	// OperatorSpec
+	if link.OperatorSpec != nil {
+		var operatorSpec storage.DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
+		err := link.OperatorSpec.AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = link.OriginalVersion()
@@ -870,6 +945,110 @@ func (link *DnsForwardingRuleSetsVirtualNetworkLink_STATUS) AssignProperties_To_
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
 		destination.VirtualNetwork = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec populates our DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec from the provided source DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
+func (operator *DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec) AssignProperties_From_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(source *storage.DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec populates the provided destination DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec from our DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec
+func (operator *DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec) AssignProperties_To_DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec(destination *storage.DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForDnsResolversInboundEndpoint(gens map[string]
 	gens["Status"] = DnsResolversInboundEndpoint_STATUSGenerator()
 }
 
+func Test_DnsResolversInboundEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsResolversInboundEndpointOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsResolversInboundEndpointOperatorSpec, DnsResolversInboundEndpointOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsResolversInboundEndpointOperatorSpec runs a test to see if a specific instance of DnsResolversInboundEndpointOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsResolversInboundEndpointOperatorSpec(subject DnsResolversInboundEndpointOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsResolversInboundEndpointOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsResolversInboundEndpointOperatorSpec instances for property testing - lazily instantiated by
+// DnsResolversInboundEndpointOperatorSpecGenerator()
+var dnsResolversInboundEndpointOperatorSpecGenerator gopter.Gen
+
+// DnsResolversInboundEndpointOperatorSpecGenerator returns a generator of DnsResolversInboundEndpointOperatorSpec instances for property testing.
+func DnsResolversInboundEndpointOperatorSpecGenerator() gopter.Gen {
+	if dnsResolversInboundEndpointOperatorSpecGenerator != nil {
+		return dnsResolversInboundEndpointOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	dnsResolversInboundEndpointOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DnsResolversInboundEndpointOperatorSpec{}), generators)
+
+	return dnsResolversInboundEndpointOperatorSpecGenerator
+}
+
 func Test_DnsResolversInboundEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -242,6 +297,7 @@ func AddIndependentPropertyGeneratorsForDnsResolversInboundEndpoint_Spec(gens ma
 // AddRelatedPropertyGeneratorsForDnsResolversInboundEndpoint_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsResolversInboundEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["IpConfigurations"] = gen.SliceOf(IpConfigurationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DnsResolversInboundEndpointOperatorSpecGenerator())
 }
 
 func Test_IpConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

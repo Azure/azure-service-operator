@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForRedisPatchSchedule(gens map[string]gopter.Ge
 	gens["Status"] = RedisPatchSchedule_STATUSGenerator()
 }
 
+func Test_RedisPatchScheduleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisPatchScheduleOperatorSpec to RedisPatchScheduleOperatorSpec via AssignProperties_To_RedisPatchScheduleOperatorSpec & AssignProperties_From_RedisPatchScheduleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisPatchScheduleOperatorSpec, RedisPatchScheduleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisPatchScheduleOperatorSpec tests if a specific instance of RedisPatchScheduleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisPatchScheduleOperatorSpec(subject RedisPatchScheduleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230401s.RedisPatchScheduleOperatorSpec
+	err := copied.AssignProperties_To_RedisPatchScheduleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisPatchScheduleOperatorSpec
+	err = actual.AssignProperties_From_RedisPatchScheduleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisPatchScheduleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RedisPatchScheduleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisPatchScheduleOperatorSpec, RedisPatchScheduleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedisPatchScheduleOperatorSpec runs a test to see if a specific instance of RedisPatchScheduleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisPatchScheduleOperatorSpec(subject RedisPatchScheduleOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RedisPatchScheduleOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RedisPatchScheduleOperatorSpec instances for property testing - lazily instantiated by
+// RedisPatchScheduleOperatorSpecGenerator()
+var redisPatchScheduleOperatorSpecGenerator gopter.Gen
+
+// RedisPatchScheduleOperatorSpecGenerator returns a generator of RedisPatchScheduleOperatorSpec instances for property testing.
+func RedisPatchScheduleOperatorSpecGenerator() gopter.Gen {
+	if redisPatchScheduleOperatorSpecGenerator != nil {
+		return redisPatchScheduleOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	redisPatchScheduleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RedisPatchScheduleOperatorSpec{}), generators)
+
+	return redisPatchScheduleOperatorSpecGenerator
+}
+
 func Test_RedisPatchSchedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -385,6 +482,7 @@ func RedisPatchSchedule_SpecGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRedisPatchSchedule_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisPatchSchedule_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(RedisPatchScheduleOperatorSpecGenerator())
 	gens["ScheduleEntries"] = gen.SliceOf(ScheduleEntryGenerator())
 }
 

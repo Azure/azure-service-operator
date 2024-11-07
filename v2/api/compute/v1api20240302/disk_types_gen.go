@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (disk *Disk) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Disk resource
 func (disk *Disk) defaultImpl() { disk.defaultAzureName() }
+
+var _ configmaps.Exporter = &Disk{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (disk *Disk) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if disk.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return disk.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Disk{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (disk *Disk) SecretDestinationExpressions() []*core.DestinationExpression {
+	if disk.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return disk.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Disk{}
 
@@ -209,7 +232,7 @@ func (disk *Disk) ValidateUpdate(old runtime.Object) (admission.Warnings, error)
 
 // createValidations validates the creation of the resource
 func (disk *Disk) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){disk.validateResourceReferences, disk.validateOwnerReference}
+	return []func() (admission.Warnings, error){disk.validateResourceReferences, disk.validateOwnerReference, disk.validateSecretDestinations, disk.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (disk *Disk) updateValidations() []func(old runtime.Object) (admission.Warn
 		func(old runtime.Object) (admission.Warnings, error) {
 			return disk.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return disk.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return disk.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (disk *Disk) validateConfigMapDestinations() (admission.Warnings, error) {
+	if disk.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(disk, nil, disk.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (disk *Disk) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (disk *Disk) validateSecretDestinations() (admission.Warnings, error) {
+	if disk.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(disk, nil, disk.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -396,6 +441,10 @@ type Disk_Spec struct {
 
 	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *DiskOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// OptimizedForFrequentAttach: Setting this property to true improves reliability and performance of data disks that are
 	// frequently (more than 5 times a day) by detached from one virtual machine and attached to another. This property should
@@ -834,6 +883,8 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "OptimizedForFrequentAttach":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1135,6 +1186,18 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *storage.Disk_Spec
 		disk.NetworkAccessPolicy = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DiskOperatorSpec
+		err := operatorSpec.AssignProperties_From_DiskOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DiskOperatorSpec() to populate field OperatorSpec")
+		}
+		disk.OperatorSpec = &operatorSpec
+	} else {
+		disk.OperatorSpec = nil
+	}
+
 	// OptimizedForFrequentAttach
 	if source.OptimizedForFrequentAttach != nil {
 		optimizedForFrequentAttach := *source.OptimizedForFrequentAttach
@@ -1361,6 +1424,18 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 		destination.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		destination.NetworkAccessPolicy = nil
+	}
+
+	// OperatorSpec
+	if disk.OperatorSpec != nil {
+		var operatorSpec storage.DiskOperatorSpec
+		err := disk.OperatorSpec.AssignProperties_To_DiskOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DiskOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OptimizedForFrequentAttach
@@ -3771,6 +3846,110 @@ const (
 var dataAccessAuthMode_STATUS_Values = map[string]DataAccessAuthMode_STATUS{
 	"azureactivedirectory": DataAccessAuthMode_STATUS_AzureActiveDirectory,
 	"none":                 DataAccessAuthMode_STATUS_None,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DiskOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DiskOperatorSpec populates our DiskOperatorSpec from the provided source DiskOperatorSpec
+func (operator *DiskOperatorSpec) AssignProperties_From_DiskOperatorSpec(source *storage.DiskOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DiskOperatorSpec populates the provided destination DiskOperatorSpec from our DiskOperatorSpec
+func (operator *DiskOperatorSpec) AssignProperties_To_DiskOperatorSpec(destination *storage.DiskOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // +kubebuilder:validation:Enum={"V1","V2"}

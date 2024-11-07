@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (record *DnsZonesAAAARecord) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the DnsZonesAAAARecord resource
 func (record *DnsZonesAAAARecord) defaultImpl() { record.defaultAzureName() }
+
+var _ configmaps.Exporter = &DnsZonesAAAARecord{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (record *DnsZonesAAAARecord) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if record.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return record.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DnsZonesAAAARecord{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (record *DnsZonesAAAARecord) SecretDestinationExpressions() []*core.DestinationExpression {
+	if record.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return record.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &DnsZonesAAAARecord{}
 
@@ -209,7 +232,7 @@ func (record *DnsZonesAAAARecord) ValidateUpdate(old runtime.Object) (admission.
 
 // createValidations validates the creation of the resource
 func (record *DnsZonesAAAARecord) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){record.validateResourceReferences, record.validateOwnerReference}
+	return []func() (admission.Warnings, error){record.validateResourceReferences, record.validateOwnerReference, record.validateSecretDestinations, record.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (record *DnsZonesAAAARecord) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) (admission.Warnings, error) {
 			return record.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return record.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return record.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (record *DnsZonesAAAARecord) validateConfigMapDestinations() (admission.Warnings, error) {
+	if record.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(record, nil, record.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (record *DnsZonesAAAARecord) validateResourceReferences() (admission.Warnin
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (record *DnsZonesAAAARecord) validateSecretDestinations() (admission.Warnings, error) {
+	if record.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(record, nil, record.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -350,6 +395,10 @@ type DnsZonesAAAARecord_Spec struct {
 
 	// NSRecords: The list of NS records in the record set.
 	NSRecords []NsRecord `json:"NSRecords,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *DnsZonesAAAARecordOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -602,6 +651,8 @@ func (record *DnsZonesAAAARecord_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	record.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -849,6 +900,18 @@ func (record *DnsZonesAAAARecord_Spec) AssignProperties_From_DnsZonesAAAARecord_
 		record.NSRecords = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DnsZonesAAAARecordOperatorSpec
+		err := operatorSpec.AssignProperties_From_DnsZonesAAAARecordOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DnsZonesAAAARecordOperatorSpec() to populate field OperatorSpec")
+		}
+		record.OperatorSpec = &operatorSpec
+	} else {
+		record.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1053,6 +1116,18 @@ func (record *DnsZonesAAAARecord_Spec) AssignProperties_To_DnsZonesAAAARecord_Sp
 		destination.NSRecords = nsRecordList
 	} else {
 		destination.NSRecords = nil
+	}
+
+	// OperatorSpec
+	if record.OperatorSpec != nil {
+		var operatorSpec storage.DnsZonesAAAARecordOperatorSpec
+		err := record.OperatorSpec.AssignProperties_To_DnsZonesAAAARecordOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DnsZonesAAAARecordOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -2774,6 +2849,110 @@ func (record *CnameRecord_STATUS) AssignProperties_To_CnameRecord_STATUS(destina
 
 	// Cname
 	destination.Cname = genruntime.ClonePointerToString(record.Cname)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DnsZonesAAAARecordOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DnsZonesAAAARecordOperatorSpec populates our DnsZonesAAAARecordOperatorSpec from the provided source DnsZonesAAAARecordOperatorSpec
+func (operator *DnsZonesAAAARecordOperatorSpec) AssignProperties_From_DnsZonesAAAARecordOperatorSpec(source *storage.DnsZonesAAAARecordOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DnsZonesAAAARecordOperatorSpec populates the provided destination DnsZonesAAAARecordOperatorSpec from our DnsZonesAAAARecordOperatorSpec
+func (operator *DnsZonesAAAARecordOperatorSpec) AssignProperties_To_DnsZonesAAAARecordOperatorSpec(destination *storage.DnsZonesAAAARecordOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

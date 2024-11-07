@@ -5,9 +5,13 @@ APIVersion: Enum (1 value)
 └── "2018-05-01"
 DnsZone: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -41,7 +45,7 @@ DnsZone: Resource
     └── ZoneType: *string
 DnsZonesAAAARecord: Resource
 ├── Owner: network/v1api20180501.DnsZone
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AAAARecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -65,6 +69,10 @@ DnsZonesAAAARecord: Resource
 │   ├── NSRecords: Object (2 properties)[]
 │   │   ├── Nsdname: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PTRRecords: Object (2 properties)[]
@@ -151,7 +159,7 @@ DnsZonesAAAARecord: Resource
     └── Type: *string
 DnsZonesARecord: Resource
 ├── Owner: network/v1api20180501.DnsZone
-├── Spec: Object (18 properties)
+├── Spec: Object (19 properties)
 │   ├── AAAARecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -176,6 +184,10 @@ DnsZonesARecord: Resource
 │   ├── NSRecords: Object (2 properties)[]
 │   │   ├── Nsdname: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PTRRecords: Object (2 properties)[]
@@ -262,7 +274,7 @@ DnsZonesARecord: Resource
     └── Type: *string
 DnsZonesCAARecord: Resource
 ├── Owner: network/v1api20180501.DnsZone
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AAAARecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -286,6 +298,10 @@ DnsZonesCAARecord: Resource
 │   ├── NSRecords: Object (2 properties)[]
 │   │   ├── Nsdname: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PTRRecords: Object (2 properties)[]
@@ -372,7 +388,7 @@ DnsZonesCAARecord: Resource
     └── Type: *string
 DnsZonesCNAMERecord: Resource
 ├── Owner: network/v1api20180501.DnsZone
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AAAARecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -396,6 +412,10 @@ DnsZonesCNAMERecord: Resource
 │   ├── NSRecords: Object (2 properties)[]
 │   │   ├── Nsdname: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PTRRecords: Object (2 properties)[]
@@ -482,7 +502,7 @@ DnsZonesCNAMERecord: Resource
     └── Type: *string
 DnsZonesMXRecord: Resource
 ├── Owner: network/v1api20180501.DnsZone
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AAAARecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -506,6 +526,10 @@ DnsZonesMXRecord: Resource
 │   ├── NSRecords: Object (2 properties)[]
 │   │   ├── Nsdname: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PTRRecords: Object (2 properties)[]
@@ -592,7 +616,7 @@ DnsZonesMXRecord: Resource
     └── Type: *string
 DnsZonesNSRecord: Resource
 ├── Owner: network/v1api20180501.DnsZone
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AAAARecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -616,6 +640,10 @@ DnsZonesNSRecord: Resource
 │   ├── NSRecords: Object (2 properties)[]
 │   │   ├── Nsdname: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PTRRecords: Object (2 properties)[]
@@ -702,7 +730,7 @@ DnsZonesNSRecord: Resource
     └── Type: *string
 DnsZonesPTRRecord: Resource
 ├── Owner: network/v1api20180501.DnsZone
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AAAARecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -726,6 +754,10 @@ DnsZonesPTRRecord: Resource
 │   ├── NSRecords: Object (2 properties)[]
 │   │   ├── Nsdname: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PTRRecords: Object (2 properties)[]
@@ -812,7 +844,7 @@ DnsZonesPTRRecord: Resource
     └── Type: *string
 DnsZonesSRVRecord: Resource
 ├── Owner: network/v1api20180501.DnsZone
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AAAARecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -836,6 +868,10 @@ DnsZonesSRVRecord: Resource
 │   ├── NSRecords: Object (2 properties)[]
 │   │   ├── Nsdname: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PTRRecords: Object (2 properties)[]
@@ -922,7 +958,7 @@ DnsZonesSRVRecord: Resource
     └── Type: *string
 DnsZonesTXTRecord: Resource
 ├── Owner: network/v1api20180501.DnsZone
-├── Spec: Object (17 properties)
+├── Spec: Object (18 properties)
 │   ├── AAAARecords: Object (2 properties)[]
 │   │   ├── Ipv6Address: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
@@ -946,6 +982,10 @@ DnsZonesTXTRecord: Resource
 │   ├── NSRecords: Object (2 properties)[]
 │   │   ├── Nsdname: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PTRRecords: Object (2 properties)[]

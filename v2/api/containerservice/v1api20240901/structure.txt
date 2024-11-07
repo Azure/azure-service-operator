@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2024-09-01"
 MaintenanceConfiguration: Resource
 ├── Owner: ManagedCluster
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── AzureName: string
 │   ├── MaintenanceWindow: *Object (6 properties)
 │   │   ├── DurationHours: Validated<*int> (2 rules)
@@ -64,6 +64,9 @@ MaintenanceConfiguration: Resource
 │   ├── NotAllowedTime: Object (2 properties)[]
 │   │   ├── End: *string
 │   │   └── Start: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── TimeInWeek: Object (2 properties)[]
 │       ├── Day: *Enum (7 values)
@@ -503,9 +506,11 @@ ManagedCluster: Resource
 │   │       └── "Unrestricted"
 │   ├── OidcIssuerProfile: *Object (1 property)
 │   │   └── Enabled: *bool
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (1 property)
 │   │   │   └── OIDCIssuerProfile: *genruntime.ConfigMapDestination
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (2 properties)
 │   │       ├── AdminCredentials: *genruntime.SecretDestination
 │   │       └── UserCredentials: *genruntime.SecretDestination
@@ -1098,7 +1103,7 @@ ManagedCluster: Resource
             └── Enabled: *bool
 ManagedClustersAgentPool: Resource
 ├── Owner: ManagedCluster
-├── Spec: Object (44 properties)
+├── Spec: Object (45 properties)
 │   ├── AvailabilityZones: string[]
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 12
@@ -1199,6 +1204,9 @@ ManagedClustersAgentPool: Resource
 │   ├── NodeLabels: map[string]string
 │   ├── NodePublicIPPrefixReference: *genruntime.ResourceReference
 │   ├── NodeTaints: string[]
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OrchestratorVersion: *string
 │   ├── OsDiskSizeGB: *Validated<int> (2 rules)
 │   │   ├── Rule 0: Maximum: 2048
@@ -1398,11 +1406,14 @@ ManagedClustersAgentPool: Resource
         └── "WasmWasi"
 TrustedAccessRoleBinding: Resource
 ├── Owner: ManagedCluster
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 24
 │   │   ├── Rule 1: MinLength: 1
 │   │   └── Rule 2: Pattern: "^([A-Za-z0-9-])+$"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Roles: string[]
 │   └── SourceResourceReference: *genruntime.ResourceReference

@@ -9,6 +9,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -47,6 +49,26 @@ func (vault *BackupVault) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (vault *BackupVault) SetConditions(conditions conditions.Conditions) {
 	vault.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &BackupVault{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (vault *BackupVault) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if vault.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return vault.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &BackupVault{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (vault *BackupVault) SecretDestinationExpressions() []*core.DestinationExpression {
+	if vault.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return vault.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesConfigExporter = &BackupVault{}
@@ -263,8 +285,10 @@ type BackupVault_STATUS struct {
 // Storage version of v1api20231101.BackupVaultOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type BackupVaultOperatorSpec struct {
-	ConfigMaps  *BackupVaultOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression  `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *BackupVaultOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression  `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20231101.BackupVaultSpec

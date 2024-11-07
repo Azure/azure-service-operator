@@ -11,6 +11,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -98,6 +100,26 @@ func (assignment *SqlRoleAssignment) Default() {
 
 // defaultImpl applies the code generated defaults to the SqlRoleAssignment resource
 func (assignment *SqlRoleAssignment) defaultImpl() {}
+
+var _ configmaps.Exporter = &SqlRoleAssignment{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (assignment *SqlRoleAssignment) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return assignment.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlRoleAssignment{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (assignment *SqlRoleAssignment) SecretDestinationExpressions() []*core.DestinationExpression {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return assignment.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &SqlRoleAssignment{}
 
@@ -206,7 +228,7 @@ func (assignment *SqlRoleAssignment) ValidateUpdate(old runtime.Object) (admissi
 
 // createValidations validates the creation of the resource
 func (assignment *SqlRoleAssignment) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){assignment.validateResourceReferences, assignment.validateOwnerReference, assignment.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){assignment.validateResourceReferences, assignment.validateOwnerReference, assignment.validateSecretDestinations, assignment.validateConfigMapDestinations, assignment.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -225,9 +247,23 @@ func (assignment *SqlRoleAssignment) updateValidations() []func(old runtime.Obje
 			return assignment.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return assignment.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return assignment.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return assignment.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (assignment *SqlRoleAssignment) validateConfigMapDestinations() (admission.Warnings, error) {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(assignment, nil, assignment.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -251,6 +287,14 @@ func (assignment *SqlRoleAssignment) validateResourceReferences() (admission.War
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (assignment *SqlRoleAssignment) validateSecretDestinations() (admission.Warnings, error) {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(assignment, nil, assignment.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -339,6 +383,10 @@ type SqlRoleAssignment_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SqlRoleAssignmentOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -417,6 +465,8 @@ func (assignment *SqlRoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "AzureName":
 	assignment.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	assignment.Owner = &genruntime.KnownResourceReference{
@@ -513,6 +563,18 @@ func (assignment *SqlRoleAssignment_Spec) AssignProperties_From_SqlRoleAssignmen
 	// AzureName
 	assignment.AzureName = source.AzureName
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SqlRoleAssignmentOperatorSpec
+		err := operatorSpec.AssignProperties_From_SqlRoleAssignmentOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SqlRoleAssignmentOperatorSpec() to populate field OperatorSpec")
+		}
+		assignment.OperatorSpec = &operatorSpec
+	} else {
+		assignment.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -549,6 +611,18 @@ func (assignment *SqlRoleAssignment_Spec) AssignProperties_To_SqlRoleAssignment_
 
 	// AzureName
 	destination.AzureName = assignment.AzureName
+
+	// OperatorSpec
+	if assignment.OperatorSpec != nil {
+		var operatorSpec storage.SqlRoleAssignmentOperatorSpec
+		err := assignment.OperatorSpec.AssignProperties_To_SqlRoleAssignmentOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SqlRoleAssignmentOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = assignment.OriginalVersion()
@@ -791,6 +865,110 @@ func (assignment *SqlRoleAssignment_STATUS) AssignProperties_To_SqlRoleAssignmen
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(assignment.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlRoleAssignmentOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_SqlRoleAssignmentOperatorSpec populates our SqlRoleAssignmentOperatorSpec from the provided source SqlRoleAssignmentOperatorSpec
+func (operator *SqlRoleAssignmentOperatorSpec) AssignProperties_From_SqlRoleAssignmentOperatorSpec(source *storage.SqlRoleAssignmentOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SqlRoleAssignmentOperatorSpec populates the provided destination SqlRoleAssignmentOperatorSpec from our SqlRoleAssignmentOperatorSpec
+func (operator *SqlRoleAssignmentOperatorSpec) AssignProperties_To_SqlRoleAssignmentOperatorSpec(destination *storage.SqlRoleAssignmentOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

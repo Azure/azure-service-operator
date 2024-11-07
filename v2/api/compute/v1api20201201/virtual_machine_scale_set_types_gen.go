@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -105,6 +108,26 @@ func (scaleSet *VirtualMachineScaleSet) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the VirtualMachineScaleSet resource
 func (scaleSet *VirtualMachineScaleSet) defaultImpl() { scaleSet.defaultAzureName() }
+
+var _ configmaps.Exporter = &VirtualMachineScaleSet{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (scaleSet *VirtualMachineScaleSet) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if scaleSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return scaleSet.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &VirtualMachineScaleSet{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (scaleSet *VirtualMachineScaleSet) SecretDestinationExpressions() []*core.DestinationExpression {
+	if scaleSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return scaleSet.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &VirtualMachineScaleSet{}
 
@@ -213,7 +236,7 @@ func (scaleSet *VirtualMachineScaleSet) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (scaleSet *VirtualMachineScaleSet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){scaleSet.validateResourceReferences, scaleSet.validateOwnerReference}
+	return []func() (admission.Warnings, error){scaleSet.validateResourceReferences, scaleSet.validateOwnerReference, scaleSet.validateSecretDestinations, scaleSet.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -231,7 +254,21 @@ func (scaleSet *VirtualMachineScaleSet) updateValidations() []func(old runtime.O
 		func(old runtime.Object) (admission.Warnings, error) {
 			return scaleSet.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return scaleSet.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return scaleSet.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (scaleSet *VirtualMachineScaleSet) validateConfigMapDestinations() (admission.Warnings, error) {
+	if scaleSet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(scaleSet, nil, scaleSet.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -246,6 +283,14 @@ func (scaleSet *VirtualMachineScaleSet) validateResourceReferences() (admission.
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (scaleSet *VirtualMachineScaleSet) validateSecretDestinations() (admission.Warnings, error) {
+	if scaleSet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(scaleSet, nil, scaleSet.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -360,6 +405,10 @@ type VirtualMachineScaleSet_Spec struct {
 	// +kubebuilder:validation:Required
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *VirtualMachineScaleSetOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// OrchestrationMode: Specifies the orchestration mode for the virtual machine scale set.
 	OrchestrationMode *OrchestrationMode `json:"orchestrationMode,omitempty"`
@@ -681,6 +730,8 @@ func (scaleSet *VirtualMachineScaleSet_Spec) PopulateFromARM(owner genruntime.Ar
 		scaleSet.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "OrchestrationMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -956,6 +1007,18 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignProperties_From_VirtualMachin
 	// Location
 	scaleSet.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec VirtualMachineScaleSetOperatorSpec
+		err := operatorSpec.AssignProperties_From_VirtualMachineScaleSetOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineScaleSetOperatorSpec() to populate field OperatorSpec")
+		}
+		scaleSet.OperatorSpec = &operatorSpec
+	} else {
+		scaleSet.OperatorSpec = nil
+	}
+
 	// OrchestrationMode
 	if source.OrchestrationMode != nil {
 		orchestrationMode := *source.OrchestrationMode
@@ -1160,6 +1223,18 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignProperties_To_VirtualMachineS
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(scaleSet.Location)
+
+	// OperatorSpec
+	if scaleSet.OperatorSpec != nil {
+		var operatorSpec storage.VirtualMachineScaleSetOperatorSpec
+		err := scaleSet.OperatorSpec.AssignProperties_To_VirtualMachineScaleSetOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSetOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OrchestrationMode
 	if scaleSet.OrchestrationMode != nil {
@@ -3419,6 +3494,110 @@ func (identity *VirtualMachineScaleSetIdentity_STATUS) AssignProperties_To_Virtu
 		destination.UserAssignedIdentities = userAssignedIdentityMap
 	} else {
 		destination.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VirtualMachineScaleSetOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_VirtualMachineScaleSetOperatorSpec populates our VirtualMachineScaleSetOperatorSpec from the provided source VirtualMachineScaleSetOperatorSpec
+func (operator *VirtualMachineScaleSetOperatorSpec) AssignProperties_From_VirtualMachineScaleSetOperatorSpec(source *storage.VirtualMachineScaleSetOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachineScaleSetOperatorSpec populates the provided destination VirtualMachineScaleSetOperatorSpec from our VirtualMachineScaleSetOperatorSpec
+func (operator *VirtualMachineScaleSetOperatorSpec) AssignProperties_To_VirtualMachineScaleSetOperatorSpec(destination *storage.VirtualMachineScaleSetOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

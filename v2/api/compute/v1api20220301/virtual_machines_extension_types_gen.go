@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -91,6 +94,26 @@ func (extension *VirtualMachinesExtension) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the VirtualMachinesExtension resource
 func (extension *VirtualMachinesExtension) defaultImpl() { extension.defaultAzureName() }
+
+var _ configmaps.Exporter = &VirtualMachinesExtension{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (extension *VirtualMachinesExtension) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if extension.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return extension.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &VirtualMachinesExtension{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (extension *VirtualMachinesExtension) SecretDestinationExpressions() []*core.DestinationExpression {
+	if extension.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return extension.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &VirtualMachinesExtension{}
 
@@ -210,7 +233,7 @@ func (extension *VirtualMachinesExtension) ValidateUpdate(old runtime.Object) (a
 
 // createValidations validates the creation of the resource
 func (extension *VirtualMachinesExtension) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){extension.validateResourceReferences, extension.validateOwnerReference}
+	return []func() (admission.Warnings, error){extension.validateResourceReferences, extension.validateOwnerReference, extension.validateSecretDestinations, extension.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -228,7 +251,21 @@ func (extension *VirtualMachinesExtension) updateValidations() []func(old runtim
 		func(old runtime.Object) (admission.Warnings, error) {
 			return extension.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return extension.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return extension.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (extension *VirtualMachinesExtension) validateConfigMapDestinations() (admission.Warnings, error) {
+	if extension.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(extension, nil, extension.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -243,6 +280,14 @@ func (extension *VirtualMachinesExtension) validateResourceReferences() (admissi
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (extension *VirtualMachinesExtension) validateSecretDestinations() (admission.Warnings, error) {
+	if extension.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(extension, nil, extension.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -348,6 +393,10 @@ type VirtualMachinesExtension_Spec struct {
 
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *VirtualMachinesExtensionOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -547,6 +596,8 @@ func (extension *VirtualMachinesExtension_Spec) PopulateFromARM(owner genruntime
 		extension.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	extension.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -718,6 +769,18 @@ func (extension *VirtualMachinesExtension_Spec) AssignProperties_From_VirtualMac
 	// Location
 	extension.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec VirtualMachinesExtensionOperatorSpec
+		err := operatorSpec.AssignProperties_From_VirtualMachinesExtensionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachinesExtensionOperatorSpec() to populate field OperatorSpec")
+		}
+		extension.OperatorSpec = &operatorSpec
+	} else {
+		extension.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -824,6 +887,18 @@ func (extension *VirtualMachinesExtension_Spec) AssignProperties_To_VirtualMachi
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(extension.Location)
+
+	// OperatorSpec
+	if extension.OperatorSpec != nil {
+		var operatorSpec storage.VirtualMachinesExtensionOperatorSpec
+		err := extension.OperatorSpec.AssignProperties_To_VirtualMachinesExtensionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachinesExtensionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = extension.OriginalVersion()
@@ -1937,6 +2012,110 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_To_Virt
 
 	// TypeHandlerVersion
 	destination.TypeHandlerVersion = genruntime.ClonePointerToString(view.TypeHandlerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VirtualMachinesExtensionOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_VirtualMachinesExtensionOperatorSpec populates our VirtualMachinesExtensionOperatorSpec from the provided source VirtualMachinesExtensionOperatorSpec
+func (operator *VirtualMachinesExtensionOperatorSpec) AssignProperties_From_VirtualMachinesExtensionOperatorSpec(source *storage.VirtualMachinesExtensionOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachinesExtensionOperatorSpec populates the provided destination VirtualMachinesExtensionOperatorSpec from our VirtualMachinesExtensionOperatorSpec
+func (operator *VirtualMachinesExtensionOperatorSpec) AssignProperties_To_VirtualMachinesExtensionOperatorSpec(destination *storage.VirtualMachinesExtensionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

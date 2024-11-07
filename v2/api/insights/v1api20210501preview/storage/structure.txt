@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1api20210501preview/sto
 APIVersion: Enum (1 value)
 └── "2021-05-01-preview"
 DiagnosticSetting: Resource
-├── Spec: Object (13 properties)
+├── Spec: Object (14 properties)
 │   ├── AzureName: string
 │   ├── EventHubAuthorizationRuleReference: *genruntime.ResourceReference
 │   ├── EventHubName: *string
@@ -28,6 +28,10 @@ DiagnosticSetting: Resource
 │   │   │   ├── Enabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   └── TimeGrain: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   ├── PropertyBag: genruntime.PropertyBag

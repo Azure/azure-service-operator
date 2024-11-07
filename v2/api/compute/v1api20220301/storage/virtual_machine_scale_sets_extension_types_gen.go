@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -43,6 +46,26 @@ func (extension *VirtualMachineScaleSetsExtension) GetConditions() conditions.Co
 // SetConditions sets the conditions on the resource status
 func (extension *VirtualMachineScaleSetsExtension) SetConditions(conditions conditions.Conditions) {
 	extension.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &VirtualMachineScaleSetsExtension{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (extension *VirtualMachineScaleSetsExtension) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if extension.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return extension.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &VirtualMachineScaleSetsExtension{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (extension *VirtualMachineScaleSetsExtension) SecretDestinationExpressions() []*core.DestinationExpression {
+	if extension.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return extension.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachineScaleSetsExtension{}
@@ -145,10 +168,11 @@ type VirtualMachineScaleSetsExtension_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName              string  `json:"azureName,omitempty"`
-	EnableAutomaticUpgrade *bool   `json:"enableAutomaticUpgrade,omitempty"`
-	ForceUpdateTag         *string `json:"forceUpdateTag,omitempty"`
-	OriginalVersion        string  `json:"originalVersion,omitempty"`
+	AzureName              string                                        `json:"azureName,omitempty"`
+	EnableAutomaticUpgrade *bool                                         `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag         *string                                       `json:"forceUpdateTag,omitempty"`
+	OperatorSpec           *VirtualMachineScaleSetsExtensionOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion        string                                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -240,6 +264,14 @@ type KeyVaultSecretReference_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
 	SourceVault *SubResource_STATUS    `json:"sourceVault,omitempty"`
+}
+
+// Storage version of v1api20220301.VirtualMachineScaleSetsExtensionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VirtualMachineScaleSetsExtensionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

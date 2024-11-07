@@ -1021,6 +1021,103 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(gens map[string]gopt
 	gens["Status"] = RedisEnterpriseDatabase_STATUSGenerator()
 }
 
+func Test_RedisEnterpriseDatabaseOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterpriseDatabaseOperatorSpec to RedisEnterpriseDatabaseOperatorSpec via AssignProperties_To_RedisEnterpriseDatabaseOperatorSpec & AssignProperties_From_RedisEnterpriseDatabaseOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterpriseDatabaseOperatorSpec, RedisEnterpriseDatabaseOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisEnterpriseDatabaseOperatorSpec tests if a specific instance of RedisEnterpriseDatabaseOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterpriseDatabaseOperatorSpec(subject RedisEnterpriseDatabaseOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisEnterpriseDatabaseOperatorSpec
+	err := copied.AssignProperties_To_RedisEnterpriseDatabaseOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisEnterpriseDatabaseOperatorSpec
+	err = actual.AssignProperties_From_RedisEnterpriseDatabaseOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisEnterpriseDatabaseOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RedisEnterpriseDatabaseOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabaseOperatorSpec, RedisEnterpriseDatabaseOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedisEnterpriseDatabaseOperatorSpec runs a test to see if a specific instance of RedisEnterpriseDatabaseOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterpriseDatabaseOperatorSpec(subject RedisEnterpriseDatabaseOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RedisEnterpriseDatabaseOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RedisEnterpriseDatabaseOperatorSpec instances for property testing - lazily instantiated by
+// RedisEnterpriseDatabaseOperatorSpecGenerator()
+var redisEnterpriseDatabaseOperatorSpecGenerator gopter.Gen
+
+// RedisEnterpriseDatabaseOperatorSpecGenerator returns a generator of RedisEnterpriseDatabaseOperatorSpec instances for property testing.
+func RedisEnterpriseDatabaseOperatorSpecGenerator() gopter.Gen {
+	if redisEnterpriseDatabaseOperatorSpecGenerator != nil {
+		return redisEnterpriseDatabaseOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	redisEnterpriseDatabaseOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabaseOperatorSpec{}), generators)
+
+	return redisEnterpriseDatabaseOperatorSpecGenerator
+}
+
 func Test_RedisEnterpriseDatabase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1302,5 +1399,6 @@ func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_Spec(gens map[st
 func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_Spec(gens map[string]gopter.Gen) {
 	gens["GeoReplication"] = gen.PtrOf(DatabaseProperties_GeoReplicationGenerator())
 	gens["Modules"] = gen.SliceOf(ModuleGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(RedisEnterpriseDatabaseOperatorSpecGenerator())
 	gens["Persistence"] = gen.PtrOf(PersistenceGenerator())
 }

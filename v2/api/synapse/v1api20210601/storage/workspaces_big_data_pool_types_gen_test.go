@@ -836,6 +836,61 @@ func AddRelatedPropertyGeneratorsForWorkspacesBigDataPool(gens map[string]gopter
 	gens["Status"] = WorkspacesBigDataPool_STATUSGenerator()
 }
 
+func Test_WorkspacesBigDataPoolOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WorkspacesBigDataPoolOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspacesBigDataPoolOperatorSpec, WorkspacesBigDataPoolOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspacesBigDataPoolOperatorSpec runs a test to see if a specific instance of WorkspacesBigDataPoolOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspacesBigDataPoolOperatorSpec(subject WorkspacesBigDataPoolOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WorkspacesBigDataPoolOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WorkspacesBigDataPoolOperatorSpec instances for property testing - lazily instantiated by
+// WorkspacesBigDataPoolOperatorSpecGenerator()
+var workspacesBigDataPoolOperatorSpecGenerator gopter.Gen
+
+// WorkspacesBigDataPoolOperatorSpecGenerator returns a generator of WorkspacesBigDataPoolOperatorSpec instances for property testing.
+func WorkspacesBigDataPoolOperatorSpecGenerator() gopter.Gen {
+	if workspacesBigDataPoolOperatorSpecGenerator != nil {
+		return workspacesBigDataPoolOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	workspacesBigDataPoolOperatorSpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesBigDataPoolOperatorSpec{}), generators)
+
+	return workspacesBigDataPoolOperatorSpecGenerator
+}
+
 func Test_WorkspacesBigDataPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1028,5 +1083,6 @@ func AddRelatedPropertyGeneratorsForWorkspacesBigDataPool_Spec(gens map[string]g
 	gens["CustomLibraries"] = gen.SliceOf(LibraryInfoGenerator())
 	gens["DynamicExecutorAllocation"] = gen.PtrOf(DynamicExecutorAllocationGenerator())
 	gens["LibraryRequirements"] = gen.PtrOf(LibraryRequirementsGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(WorkspacesBigDataPoolOperatorSpecGenerator())
 	gens["SparkConfigProperties"] = gen.PtrOf(SparkConfigPropertiesGenerator())
 }

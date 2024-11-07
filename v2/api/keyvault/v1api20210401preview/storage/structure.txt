@@ -5,9 +5,13 @@ APIVersion: Enum (1 value)
 └── "2021-04-01-preview"
 Vault: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Properties: *Object (16 properties)
@@ -139,6 +143,7 @@ augmentConversionForSku: Interface
 augmentConversionForSku_STATUS: Interface
 augmentConversionForSystemData_STATUS: Interface
 augmentConversionForVault: Interface
+augmentConversionForVaultOperatorSpec: Interface
 augmentConversionForVaultProperties: Interface
 augmentConversionForVaultProperties_STATUS: Interface
 augmentConversionForVault_STATUS: Interface

@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (member *FleetsMember) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (member *FleetsMember) SetConditions(conditions conditions.Conditions) {
 	member.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &FleetsMember{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (member *FleetsMember) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if member.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return member.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FleetsMember{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (member *FleetsMember) SecretDestinationExpressions() []*core.DestinationExpression {
+	if member.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return member.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &FleetsMember{}
@@ -150,6 +173,7 @@ type FleetsMember_Spec struct {
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'.
 	ClusterResourceReference *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
 	Group                    *string                       `json:"group,omitempty"`
+	OperatorSpec             *FleetsMemberOperatorSpec     `json:"operatorSpec,omitempty"`
 	OriginalVersion          string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -212,6 +236,14 @@ func (member *FleetsMember_STATUS) ConvertStatusTo(destination genruntime.Conver
 	}
 
 	return destination.ConvertStatusFrom(member)
+}
+
+// Storage version of v1api20230315preview.FleetsMemberOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FleetsMemberOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

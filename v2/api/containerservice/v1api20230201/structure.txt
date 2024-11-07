@@ -289,10 +289,12 @@ ManagedCluster: Resource
 │   ├── NodeResourceGroup: *string
 │   ├── OidcIssuerProfile: *Object (1 property)
 │   │   └── Enabled: *bool
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (2 properties)
 │   │   │   ├── OIDCIssuerProfile: *genruntime.ConfigMapDestination
 │   │   │   └── PrincipalId: *genruntime.ConfigMapDestination
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (2 properties)
 │   │       ├── AdminCredentials: *genruntime.SecretDestination
 │   │       └── UserCredentials: *genruntime.SecretDestination
@@ -762,7 +764,7 @@ ManagedCluster: Resource
             └── Enabled: *bool
 ManagedClustersAgentPool: Resource
 ├── Owner: ManagedCluster
-├── Spec: Object (40 properties)
+├── Spec: Object (41 properties)
 │   ├── AvailabilityZones: string[]
 │   ├── AzureName: string
 │   ├── Count: *int
@@ -838,6 +840,9 @@ ManagedClustersAgentPool: Resource
 │   ├── NodeLabels: map[string]string
 │   ├── NodePublicIPPrefixReference: *genruntime.ResourceReference
 │   ├── NodeTaints: string[]
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OrchestratorVersion: *string
 │   ├── OsDiskSizeGB: *Validated<int> (2 rules)
 │   │   ├── Rule 0: Maximum: 2048

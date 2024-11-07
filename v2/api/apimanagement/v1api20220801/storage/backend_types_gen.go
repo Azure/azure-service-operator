@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (backend *Backend) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (backend *Backend) SetConditions(conditions conditions.Conditions) {
 	backend.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Backend{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (backend *Backend) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if backend.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return backend.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Backend{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (backend *Backend) SecretDestinationExpressions() []*core.DestinationExpression {
+	if backend.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return backend.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Backend{}
@@ -146,6 +169,7 @@ type Backend_Spec struct {
 	AzureName       string                      `json:"azureName,omitempty"`
 	Credentials     *BackendCredentialsContract `json:"credentials,omitempty"`
 	Description     *string                     `json:"description,omitempty"`
+	OperatorSpec    *BackendOperatorSpec        `json:"operatorSpec,omitempty"`
 	OriginalVersion string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -244,6 +268,14 @@ type BackendCredentialsContract_STATUS struct {
 	Header         map[string][]string                           `json:"header,omitempty"`
 	PropertyBag    genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
 	Query          map[string][]string                           `json:"query,omitempty"`
+}
+
+// Storage version of v1api20220801.BackendOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type BackendOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220801.BackendProperties

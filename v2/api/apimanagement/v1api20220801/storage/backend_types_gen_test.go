@@ -366,6 +366,61 @@ func AddRelatedPropertyGeneratorsForBackendCredentialsContract_STATUS(gens map[s
 	gens["Authorization"] = gen.PtrOf(BackendAuthorizationHeaderCredentials_STATUSGenerator())
 }
 
+func Test_BackendOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackendOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackendOperatorSpec, BackendOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackendOperatorSpec runs a test to see if a specific instance of BackendOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendOperatorSpec(subject BackendOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackendOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackendOperatorSpec instances for property testing - lazily instantiated by
+// BackendOperatorSpecGenerator()
+var backendOperatorSpecGenerator gopter.Gen
+
+// BackendOperatorSpecGenerator returns a generator of BackendOperatorSpec instances for property testing.
+func BackendOperatorSpecGenerator() gopter.Gen {
+	if backendOperatorSpecGenerator != nil {
+		return backendOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	backendOperatorSpecGenerator = gen.Struct(reflect.TypeOf(BackendOperatorSpec{}), generators)
+
+	return backendOperatorSpecGenerator
+}
+
 func Test_BackendProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1054,6 +1109,7 @@ func AddIndependentPropertyGeneratorsForBackend_Spec(gens map[string]gopter.Gen)
 // AddRelatedPropertyGeneratorsForBackend_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackend_Spec(gens map[string]gopter.Gen) {
 	gens["Credentials"] = gen.PtrOf(BackendCredentialsContractGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(BackendOperatorSpecGenerator())
 	gens["Properties"] = gen.PtrOf(BackendPropertiesGenerator())
 	gens["Proxy"] = gen.PtrOf(BackendProxyContractGenerator())
 	gens["Tls"] = gen.PtrOf(BackendTlsPropertiesGenerator())

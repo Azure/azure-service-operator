@@ -620,6 +620,103 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhub(gens map[string]gopter.Ge
 	gens["Status"] = NamespacesEventhub_STATUSGenerator()
 }
 
+func Test_NamespacesEventhubOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesEventhubOperatorSpec to NamespacesEventhubOperatorSpec via AssignProperties_To_NamespacesEventhubOperatorSpec & AssignProperties_From_NamespacesEventhubOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesEventhubOperatorSpec, NamespacesEventhubOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesEventhubOperatorSpec tests if a specific instance of NamespacesEventhubOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesEventhubOperatorSpec(subject NamespacesEventhubOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.NamespacesEventhubOperatorSpec
+	err := copied.AssignProperties_To_NamespacesEventhubOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesEventhubOperatorSpec
+	err = actual.AssignProperties_From_NamespacesEventhubOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NamespacesEventhubOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NamespacesEventhubOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubOperatorSpec, NamespacesEventhubOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespacesEventhubOperatorSpec runs a test to see if a specific instance of NamespacesEventhubOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesEventhubOperatorSpec(subject NamespacesEventhubOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NamespacesEventhubOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NamespacesEventhubOperatorSpec instances for property testing - lazily instantiated by
+// NamespacesEventhubOperatorSpecGenerator()
+var namespacesEventhubOperatorSpecGenerator gopter.Gen
+
+// NamespacesEventhubOperatorSpecGenerator returns a generator of NamespacesEventhubOperatorSpec instances for property testing.
+func NamespacesEventhubOperatorSpecGenerator() gopter.Gen {
+	if namespacesEventhubOperatorSpecGenerator != nil {
+		return namespacesEventhubOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	namespacesEventhubOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubOperatorSpec{}), generators)
+
+	return namespacesEventhubOperatorSpecGenerator
+}
+
 func Test_NamespacesEventhub_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -873,4 +970,5 @@ func AddIndependentPropertyGeneratorsForNamespacesEventhub_Spec(gens map[string]
 // AddRelatedPropertyGeneratorsForNamespacesEventhub_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhub_Spec(gens map[string]gopter.Gen) {
 	gens["CaptureDescription"] = gen.PtrOf(CaptureDescriptionGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(NamespacesEventhubOperatorSpecGenerator())
 }

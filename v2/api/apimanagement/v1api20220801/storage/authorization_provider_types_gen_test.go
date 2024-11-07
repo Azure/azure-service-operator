@@ -350,6 +350,61 @@ func AddRelatedPropertyGeneratorsForAuthorizationProviderOAuth2Settings_STATUS(g
 	gens["GrantTypes"] = gen.PtrOf(AuthorizationProviderOAuth2GrantTypes_STATUSGenerator())
 }
 
+func Test_AuthorizationProviderOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AuthorizationProviderOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAuthorizationProviderOperatorSpec, AuthorizationProviderOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAuthorizationProviderOperatorSpec runs a test to see if a specific instance of AuthorizationProviderOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAuthorizationProviderOperatorSpec(subject AuthorizationProviderOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AuthorizationProviderOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AuthorizationProviderOperatorSpec instances for property testing - lazily instantiated by
+// AuthorizationProviderOperatorSpecGenerator()
+var authorizationProviderOperatorSpecGenerator gopter.Gen
+
+// AuthorizationProviderOperatorSpecGenerator returns a generator of AuthorizationProviderOperatorSpec instances for property testing.
+func AuthorizationProviderOperatorSpecGenerator() gopter.Gen {
+	if authorizationProviderOperatorSpecGenerator != nil {
+		return authorizationProviderOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	authorizationProviderOperatorSpecGenerator = gen.Struct(reflect.TypeOf(AuthorizationProviderOperatorSpec{}), generators)
+
+	return authorizationProviderOperatorSpecGenerator
+}
+
 func Test_AuthorizationProvider_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -505,4 +560,5 @@ func AddIndependentPropertyGeneratorsForAuthorizationProvider_Spec(gens map[stri
 // AddRelatedPropertyGeneratorsForAuthorizationProvider_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAuthorizationProvider_Spec(gens map[string]gopter.Gen) {
 	gens["Oauth2"] = gen.PtrOf(AuthorizationProviderOAuth2SettingsGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(AuthorizationProviderOperatorSpecGenerator())
 }

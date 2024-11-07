@@ -686,6 +686,102 @@ func AddIndependentPropertyGeneratorsForApiLicenseInformation_STATUS(gens map[st
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApiOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiOperatorSpec to ApiOperatorSpec via AssignProperties_To_ApiOperatorSpec & AssignProperties_From_ApiOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiOperatorSpec, ApiOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiOperatorSpec tests if a specific instance of ApiOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApiOperatorSpec(subject ApiOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApiOperatorSpec
+	err := copied.AssignProperties_To_ApiOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiOperatorSpec
+	err = actual.AssignProperties_From_ApiOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApiOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApiOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiOperatorSpec, ApiOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApiOperatorSpec runs a test to see if a specific instance of ApiOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiOperatorSpec(subject ApiOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApiOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApiOperatorSpec instances for property testing - lazily instantiated by ApiOperatorSpecGenerator()
+var apiOperatorSpecGenerator gopter.Gen
+
+// ApiOperatorSpecGenerator returns a generator of ApiOperatorSpec instances for property testing.
+func ApiOperatorSpecGenerator() gopter.Gen {
+	if apiOperatorSpecGenerator != nil {
+		return apiOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	apiOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ApiOperatorSpec{}), generators)
+
+	return apiOperatorSpecGenerator
+}
+
 func Test_ApiVersionSetContractDetails_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1175,6 +1271,7 @@ func AddRelatedPropertyGeneratorsForApi_Spec(gens map[string]gopter.Gen) {
 	gens["AuthenticationSettings"] = gen.PtrOf(AuthenticationSettingsContractGenerator())
 	gens["Contact"] = gen.PtrOf(ApiContactInformationGenerator())
 	gens["License"] = gen.PtrOf(ApiLicenseInformationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ApiOperatorSpecGenerator())
 	gens["SubscriptionKeyParameterNames"] = gen.PtrOf(SubscriptionKeyParameterNamesContractGenerator())
 	gens["WsdlSelector"] = gen.PtrOf(ApiCreateOrUpdateProperties_WsdlSelectorGenerator())
 }

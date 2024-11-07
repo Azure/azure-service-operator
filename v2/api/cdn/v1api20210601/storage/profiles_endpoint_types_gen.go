@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (endpoint *ProfilesEndpoint) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (endpoint *ProfilesEndpoint) SetConditions(conditions conditions.Conditions) {
 	endpoint.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ProfilesEndpoint{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (endpoint *ProfilesEndpoint) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if endpoint.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return endpoint.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ProfilesEndpoint{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (endpoint *ProfilesEndpoint) SecretDestinationExpressions() []*core.DestinationExpression {
+	if endpoint.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return endpoint.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ProfilesEndpoint{}
@@ -152,6 +175,7 @@ type ProfilesEndpoint_Spec struct {
 	IsHttpAllowed          *bool                              `json:"isHttpAllowed,omitempty"`
 	IsHttpsAllowed         *bool                              `json:"isHttpsAllowed,omitempty"`
 	Location               *string                            `json:"location,omitempty"`
+	OperatorSpec           *ProfilesEndpointOperatorSpec      `json:"operatorSpec,omitempty"`
 	OptimizationType       *string                            `json:"optimizationType,omitempty"`
 	OriginGroups           []DeepCreatedOriginGroup           `json:"originGroups,omitempty"`
 	OriginHostHeader       *string                            `json:"originHostHeader,omitempty"`
@@ -364,6 +388,14 @@ type GeoFilter_STATUS struct {
 	CountryCodes []string               `json:"countryCodes,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RelativePath *string                `json:"relativePath,omitempty"`
+}
+
+// Storage version of v1api20210601.ProfilesEndpointOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ProfilesEndpointOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20210601.ResourceReference

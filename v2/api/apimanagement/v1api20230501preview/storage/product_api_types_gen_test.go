@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForProductApi(gens map[string]gopter.Gen) {
 	gens["Status"] = ProductApi_STATUSGenerator()
 }
 
+func Test_ProductApiOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ProductApiOperatorSpec to ProductApiOperatorSpec via AssignProperties_To_ProductApiOperatorSpec & AssignProperties_From_ProductApiOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForProductApiOperatorSpec, ProductApiOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForProductApiOperatorSpec tests if a specific instance of ProductApiOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForProductApiOperatorSpec(subject ProductApiOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ProductApiOperatorSpec
+	err := copied.AssignProperties_To_ProductApiOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ProductApiOperatorSpec
+	err = actual.AssignProperties_From_ProductApiOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ProductApiOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ProductApiOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForProductApiOperatorSpec, ProductApiOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForProductApiOperatorSpec runs a test to see if a specific instance of ProductApiOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForProductApiOperatorSpec(subject ProductApiOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ProductApiOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ProductApiOperatorSpec instances for property testing - lazily instantiated by
+// ProductApiOperatorSpecGenerator()
+var productApiOperatorSpecGenerator gopter.Gen
+
+// ProductApiOperatorSpecGenerator returns a generator of ProductApiOperatorSpec instances for property testing.
+func ProductApiOperatorSpecGenerator() gopter.Gen {
+	if productApiOperatorSpecGenerator != nil {
+		return productApiOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	productApiOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ProductApiOperatorSpec{}), generators)
+
+	return productApiOperatorSpecGenerator
+}
+
 func Test_ProductApi_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -345,6 +442,9 @@ func RunJSONSerializationTestForProductApi_Spec(subject ProductApi_Spec) string 
 var productApi_SpecGenerator gopter.Gen
 
 // ProductApi_SpecGenerator returns a generator of ProductApi_Spec instances for property testing.
+// We first initialize productApi_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ProductApi_SpecGenerator() gopter.Gen {
 	if productApi_SpecGenerator != nil {
 		return productApi_SpecGenerator
@@ -354,6 +454,12 @@ func ProductApi_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForProductApi_Spec(generators)
 	productApi_SpecGenerator = gen.Struct(reflect.TypeOf(ProductApi_Spec{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForProductApi_Spec(generators)
+	AddRelatedPropertyGeneratorsForProductApi_Spec(generators)
+	productApi_SpecGenerator = gen.Struct(reflect.TypeOf(ProductApi_Spec{}), generators)
+
 	return productApi_SpecGenerator
 }
 
@@ -361,4 +467,9 @@ func ProductApi_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForProductApi_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+// AddRelatedPropertyGeneratorsForProductApi_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForProductApi_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ProductApiOperatorSpecGenerator())
 }

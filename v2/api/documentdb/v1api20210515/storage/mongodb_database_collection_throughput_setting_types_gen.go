@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertTo(hub convers
 	}
 
 	return setting.AssignProperties_To_MongodbDatabaseCollectionThroughputSetting(destination)
+}
+
+var _ configmaps.Exporter = &MongodbDatabaseCollectionThroughputSetting{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (setting *MongodbDatabaseCollectionThroughputSetting) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &MongodbDatabaseCollectionThroughputSetting{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (setting *MongodbDatabaseCollectionThroughputSetting) SecretDestinationExpressions() []*core.DestinationExpression {
+	if setting.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return setting.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollectionThroughputSetting{}
@@ -232,8 +255,9 @@ type augmentConversionForMongodbDatabaseCollectionThroughputSetting interface {
 
 // Storage version of v1api20210515.MongodbDatabaseCollectionThroughputSetting_Spec
 type MongodbDatabaseCollectionThroughputSetting_Spec struct {
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	Location        *string                                                 `json:"location,omitempty"`
+	OperatorSpec    *MongodbDatabaseCollectionThroughputSettingOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -303,6 +327,18 @@ func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) AssignProperties
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec MongodbDatabaseCollectionThroughputSettingOperatorSpec
+		err := operatorSpec.AssignProperties_From_MongodbDatabaseCollectionThroughputSettingOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_MongodbDatabaseCollectionThroughputSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		setting.OperatorSpec = &operatorSpec
+	} else {
+		setting.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	setting.OriginalVersion = source.OriginalVersion
 
@@ -356,6 +392,18 @@ func (setting *MongodbDatabaseCollectionThroughputSetting_Spec) AssignProperties
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)
+
+	// OperatorSpec
+	if setting.OperatorSpec != nil {
+		var operatorSpec storage.MongodbDatabaseCollectionThroughputSettingOperatorSpec
+		err := setting.OperatorSpec.AssignProperties_To_MongodbDatabaseCollectionThroughputSettingOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_MongodbDatabaseCollectionThroughputSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = setting.OriginalVersion
@@ -583,6 +631,136 @@ type augmentConversionForMongodbDatabaseCollectionThroughputSetting_Spec interfa
 type augmentConversionForMongodbDatabaseCollectionThroughputSetting_STATUS interface {
 	AssignPropertiesFrom(src *storage.MongodbDatabaseCollectionThroughputSetting_STATUS) error
 	AssignPropertiesTo(dst *storage.MongodbDatabaseCollectionThroughputSetting_STATUS) error
+}
+
+// Storage version of v1api20210515.MongodbDatabaseCollectionThroughputSettingOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type MongodbDatabaseCollectionThroughputSettingOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_MongodbDatabaseCollectionThroughputSettingOperatorSpec populates our MongodbDatabaseCollectionThroughputSettingOperatorSpec from the provided source MongodbDatabaseCollectionThroughputSettingOperatorSpec
+func (operator *MongodbDatabaseCollectionThroughputSettingOperatorSpec) AssignProperties_From_MongodbDatabaseCollectionThroughputSettingOperatorSpec(source *storage.MongodbDatabaseCollectionThroughputSettingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForMongodbDatabaseCollectionThroughputSettingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForMongodbDatabaseCollectionThroughputSettingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_MongodbDatabaseCollectionThroughputSettingOperatorSpec populates the provided destination MongodbDatabaseCollectionThroughputSettingOperatorSpec from our MongodbDatabaseCollectionThroughputSettingOperatorSpec
+func (operator *MongodbDatabaseCollectionThroughputSettingOperatorSpec) AssignProperties_To_MongodbDatabaseCollectionThroughputSettingOperatorSpec(destination *storage.MongodbDatabaseCollectionThroughputSettingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForMongodbDatabaseCollectionThroughputSettingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForMongodbDatabaseCollectionThroughputSettingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210515.ThroughputSettingsGetProperties_Resource_STATUS
@@ -843,6 +1021,11 @@ func (resource *ThroughputSettingsResource) AssignProperties_To_ThroughputSettin
 
 	// No error
 	return nil
+}
+
+type augmentConversionForMongodbDatabaseCollectionThroughputSettingOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.MongodbDatabaseCollectionThroughputSettingOperatorSpec) error
+	AssignPropertiesTo(dst *storage.MongodbDatabaseCollectionThroughputSettingOperatorSpec) error
 }
 
 type augmentConversionForThroughputSettingsGetProperties_Resource_STATUS interface {

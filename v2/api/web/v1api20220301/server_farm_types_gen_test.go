@@ -982,6 +982,103 @@ func AddRelatedPropertyGeneratorsForServerFarm(gens map[string]gopter.Gen) {
 	gens["Status"] = ServerFarm_STATUSGenerator()
 }
 
+func Test_ServerFarmOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServerFarmOperatorSpec to ServerFarmOperatorSpec via AssignProperties_To_ServerFarmOperatorSpec & AssignProperties_From_ServerFarmOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServerFarmOperatorSpec, ServerFarmOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServerFarmOperatorSpec tests if a specific instance of ServerFarmOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServerFarmOperatorSpec(subject ServerFarmOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServerFarmOperatorSpec
+	err := copied.AssignProperties_To_ServerFarmOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServerFarmOperatorSpec
+	err = actual.AssignProperties_From_ServerFarmOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServerFarmOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerFarmOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerFarmOperatorSpec, ServerFarmOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerFarmOperatorSpec runs a test to see if a specific instance of ServerFarmOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerFarmOperatorSpec(subject ServerFarmOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerFarmOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerFarmOperatorSpec instances for property testing - lazily instantiated by
+// ServerFarmOperatorSpecGenerator()
+var serverFarmOperatorSpecGenerator gopter.Gen
+
+// ServerFarmOperatorSpecGenerator returns a generator of ServerFarmOperatorSpec instances for property testing.
+func ServerFarmOperatorSpecGenerator() gopter.Gen {
+	if serverFarmOperatorSpecGenerator != nil {
+		return serverFarmOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	serverFarmOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServerFarmOperatorSpec{}), generators)
+
+	return serverFarmOperatorSpecGenerator
+}
+
 func Test_ServerFarm_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1268,6 +1365,7 @@ func AddRelatedPropertyGeneratorsForServerFarm_Spec(gens map[string]gopter.Gen) 
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["HostingEnvironmentProfile"] = gen.PtrOf(HostingEnvironmentProfileGenerator())
 	gens["KubeEnvironmentProfile"] = gen.PtrOf(KubeEnvironmentProfileGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ServerFarmOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(SkuDescriptionGenerator())
 }
 

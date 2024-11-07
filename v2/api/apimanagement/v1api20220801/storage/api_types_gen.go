@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -41,6 +44,26 @@ func (api *Api) GetConditions() conditions.Conditions {
 
 // SetConditions sets the conditions on the resource status
 func (api *Api) SetConditions(conditions conditions.Conditions) { api.Status.Conditions = conditions }
+
+var _ configmaps.Exporter = &Api{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (api *Api) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if api.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return api.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Api{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (api *Api) SecretDestinationExpressions() []*core.DestinationExpression {
+	if api.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return api.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &Api{}
 
@@ -159,6 +182,7 @@ type Api_Spec struct {
 	Format          *string                `json:"format,omitempty"`
 	IsCurrent       *bool                  `json:"isCurrent,omitempty"`
 	License         *ApiLicenseInformation `json:"license,omitempty"`
+	OperatorSpec    *ApiOperatorSpec       `json:"operatorSpec,omitempty"`
 	OriginalVersion string                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -297,6 +321,14 @@ type ApiLicenseInformation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Url         *string                `json:"url,omitempty"`
+}
+
+// Storage version of v1api20220801.ApiOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ApiOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220801.ApiVersionSetContractDetails

@@ -1073,6 +1073,103 @@ func AddIndependentPropertyGeneratorsForFactoryIdentity_STATUS(gens map[string]g
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(FactoryIdentity_Type_STATUS_SystemAssigned, FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned, FactoryIdentity_Type_STATUS_UserAssigned))
 }
 
+func Test_FactoryOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FactoryOperatorSpec to FactoryOperatorSpec via AssignProperties_To_FactoryOperatorSpec & AssignProperties_From_FactoryOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFactoryOperatorSpec, FactoryOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFactoryOperatorSpec tests if a specific instance of FactoryOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFactoryOperatorSpec(subject FactoryOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FactoryOperatorSpec
+	err := copied.AssignProperties_To_FactoryOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FactoryOperatorSpec
+	err = actual.AssignProperties_From_FactoryOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FactoryOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FactoryOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFactoryOperatorSpec, FactoryOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFactoryOperatorSpec runs a test to see if a specific instance of FactoryOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFactoryOperatorSpec(subject FactoryOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FactoryOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FactoryOperatorSpec instances for property testing - lazily instantiated by
+// FactoryOperatorSpecGenerator()
+var factoryOperatorSpecGenerator gopter.Gen
+
+// FactoryOperatorSpecGenerator returns a generator of FactoryOperatorSpec instances for property testing.
+func FactoryOperatorSpecGenerator() gopter.Gen {
+	if factoryOperatorSpecGenerator != nil {
+		return factoryOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	factoryOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FactoryOperatorSpec{}), generators)
+
+	return factoryOperatorSpecGenerator
+}
+
 func Test_FactoryRepoConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1779,6 +1876,7 @@ func AddRelatedPropertyGeneratorsForFactory_Spec(gens map[string]gopter.Gen) {
 		gen.AlphaString(),
 		GlobalParameterSpecificationGenerator())
 	gens["Identity"] = gen.PtrOf(FactoryIdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(FactoryOperatorSpecGenerator())
 	gens["PurviewConfiguration"] = gen.PtrOf(PurviewConfigurationGenerator())
 	gens["RepoConfiguration"] = gen.PtrOf(FactoryRepoConfigurationGenerator())
 }

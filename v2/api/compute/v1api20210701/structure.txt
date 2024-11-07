@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2021-07-01"
 Image: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
@@ -15,6 +15,9 @@ Image: Resource
 │   │   ├── "V1"
 │   │   └── "V2"
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── SourceVirtualMachine: *Object (1 property)
 │   │   └── Reference: *genruntime.ResourceReference

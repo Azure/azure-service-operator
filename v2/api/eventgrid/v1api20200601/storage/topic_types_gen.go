@@ -9,6 +9,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -47,6 +49,26 @@ func (topic *Topic) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (topic *Topic) SetConditions(conditions conditions.Conditions) {
 	topic.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Topic{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (topic *Topic) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Topic{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (topic *Topic) SecretDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesConfigExporter = &Topic{}
@@ -252,9 +274,11 @@ type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
 // Storage version of v1api20200601.TopicOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type TopicOperatorSpec struct {
-	ConfigMaps  *TopicOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
-	Secrets     *TopicOperatorSecrets    `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *TopicOperatorConfigMaps      `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *TopicOperatorSecrets         `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20200601.TopicOperatorConfigMaps

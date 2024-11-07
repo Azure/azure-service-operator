@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2018-05-01-preview"
 Webtest: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (18 properties)
+├── Spec: Object (19 properties)
 │   ├── AzureName: string
 │   ├── Configuration: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -19,6 +19,10 @@ Webtest: Resource
 │   │   ├── Id: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── Name: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -106,5 +110,6 @@ augmentConversionForWebTestProperties_ValidationRules_ContentValidation: Interfa
 augmentConversionForWebTestProperties_ValidationRules_ContentValidation_STATUS: Interface
 augmentConversionForWebTestProperties_ValidationRules_STATUS: Interface
 augmentConversionForWebtest: Interface
+augmentConversionForWebtestOperatorSpec: Interface
 augmentConversionForWebtest_STATUS: Interface
 augmentConversionForWebtest_Spec: Interface

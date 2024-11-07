@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2018-06-01"
 Factory: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (11 properties)
+├── Spec: Object (12 properties)
 │   ├── AdditionalProperties: map[string]v1.JSON
 │   ├── AzureName: Validated<string> (3 rules)
 │   │   ├── Rule 0: MaxLength: 63
@@ -34,6 +34,9 @@ Factory: Resource
 │   │   └── UserAssignedIdentities: Object (1 property)[]
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   ├── "Disabled"

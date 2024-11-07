@@ -54,15 +54,24 @@ type SimpleSpec2 struct {
 	DashField                   string                             `json:"dash-field,omitempty"`
 	DashUnderscoreField         string                             `json:"dash-__field,omitempty"`
 
+	Slice []string `json:"slice,omitempty"`
+
 	// odata.type is the only field I'm seeing in ASO that has this format, and there aren't many of those
 	DotField string `json:"dot.field,omitempty"`
 
 	// There aren't currently any fields in ASO that have this format, but testing it here anyway just to be safe
 	SlashField string `json:"slash/field,omitempty"`
 
-	Const string `json:"const,omitempty"` // This is a CEL keyword
-	Break string `json:"break,omitempty"` // This is a CEL keyword
-	Loop  string `json:"loop,omitempty"`  // This is a CEL keyword
+	Const     string `json:"const,omitempty"`     // This is a CEL reserved word to enable easier embedding
+	Break     string `json:"break,omitempty"`     // This is a CEL reserved word to enable easier embedding
+	False     string `json:"false,omitempty"`     // This is a CEL reserved word
+	True      string `json:"true,omitempty"`      // This is a CEL reserved word
+	In        string `json:"in,omitempty"`        // This is a CEL reserved word
+	Null      string `json:"null,omitempty"`      // This is a CEL reserved word
+	Int       string `json:"int,omitempty"`       // This ISN'T a CEL reserved word
+	String    string `json:"string,omitempty"`    // This ISN'T a CEL reserved word
+	EndsWith  string `json:"endsWith,omitempty"`  // This ISN'T a CEL reserved word
+	Namespace string `json:"namespace,omitempty"` // This is a CEL reserved word to enable easier embedding
 }
 
 type SimpleStatus2 struct {
@@ -134,6 +143,17 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			expectedErr: "expression \"7\" must return one of [string,map(string, string)], but was int",
 		},
 		{
+			name:        "direct map output",
+			self:        newSimpleResource(),
+			expression:  `self.metadata.annotations`,
+			expectedStr: "hello-help",
+			expectedMap: map[string]string{
+				"pizza":  "no",
+				"fruit":  "yes",
+				"cookie": "yes",
+			},
+		},
+		{
 			name: "unstructured type simple string output",
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
@@ -197,6 +217,19 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 				}),
 			expression:  `string(self.spec.untyped.nestedStruct.mode)`, // There is no mode type
 			expectedErr: "failed to eval CEL expression: \"string(self.spec.untyped.nestedStruct.mode)\": no such key: mode",
+		},
+		{
+			name: "slice comprehension",
+			self: newSimpleResource2Customized(
+				func(r *SimpleResource2) {
+					r.Spec.Slice = []string{
+						"hello",
+						"world",
+						"help",
+					}
+				}),
+			expression:  `self.spec.slice.filter(a, a.startsWith("hel")).join("-")`,
+			expectedStr: "hello-help",
 		},
 		{
 			name: "simple secret access",
@@ -298,15 +331,22 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			expectedStr: "hello",
 		},
 		{
-			name: "reserved fields works as expected",
+			name: "reserved fields and functions work as expected",
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
-					r.Spec.Const = "hello"
-					r.Spec.Break = " there"
-					r.Spec.Loop = " friend"
+					r.Spec.Const = "hello! "
+					r.Spec.Break = "hello! "
+					r.Spec.False = "This "
+					r.Spec.True = "is "
+					r.Spec.In = "a "
+					r.Spec.Null = "test. "
+					r.Spec.EndsWith = "I"
+					r.Spec.String = " hope"
+					r.Spec.Int = " it"
+					r.Spec.Namespace = " works."
 				}),
-			expression:  `self.spec.const + self.spec.break + self.spec.loop`,
-			expectedStr: "hello there friend",
+			expression:  `self.spec.const + self.spec.break + self.spec.__false__ + self.spec.__true__ + self.spec.__in__ + self.spec.__null__ + self.spec.endsWith + self.spec.string + self.spec.int + self.spec.namespace`,
+			expectedStr: "hello! hello! This is a test. I hope it works.",
 		},
 	}
 
@@ -509,6 +549,11 @@ func newSimpleResource() *SimpleResource {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "mysimpleresource",
 			Namespace: "default",
+			Annotations: map[string]string{
+				"pizza":  "no",
+				"fruit":  "yes",
+				"cookie": "yes",
+			},
 		},
 		Spec: SimpleSpec{
 			Location: "eastus",

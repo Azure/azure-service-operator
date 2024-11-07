@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (endpoint *ProfilesEndpoint) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the ProfilesEndpoint resource
 func (endpoint *ProfilesEndpoint) defaultImpl() { endpoint.defaultAzureName() }
+
+var _ configmaps.Exporter = &ProfilesEndpoint{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (endpoint *ProfilesEndpoint) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if endpoint.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return endpoint.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ProfilesEndpoint{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (endpoint *ProfilesEndpoint) SecretDestinationExpressions() []*core.DestinationExpression {
+	if endpoint.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return endpoint.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ProfilesEndpoint{}
 
@@ -209,7 +232,7 @@ func (endpoint *ProfilesEndpoint) ValidateUpdate(old runtime.Object) (admission.
 
 // createValidations validates the creation of the resource
 func (endpoint *ProfilesEndpoint) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){endpoint.validateResourceReferences, endpoint.validateOwnerReference}
+	return []func() (admission.Warnings, error){endpoint.validateResourceReferences, endpoint.validateOwnerReference, endpoint.validateSecretDestinations, endpoint.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (endpoint *ProfilesEndpoint) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) (admission.Warnings, error) {
 			return endpoint.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return endpoint.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return endpoint.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (endpoint *ProfilesEndpoint) validateConfigMapDestinations() (admission.Warnings, error) {
+	if endpoint.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(endpoint, nil, endpoint.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (endpoint *ProfilesEndpoint) validateResourceReferences() (admission.Warnin
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (endpoint *ProfilesEndpoint) validateSecretDestinations() (admission.Warnings, error) {
+	if endpoint.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(endpoint, nil, endpoint.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -359,6 +404,10 @@ type ProfilesEndpoint_Spec struct {
 	// +kubebuilder:validation:Required
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ProfilesEndpointOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
@@ -643,6 +692,8 @@ func (endpoint *ProfilesEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		endpoint.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "OptimizationType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -891,6 +942,18 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_From_ProfilesEndpoint_Sp
 	// Location
 	endpoint.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ProfilesEndpointOperatorSpec
+		err := operatorSpec.AssignProperties_From_ProfilesEndpointOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ProfilesEndpointOperatorSpec() to populate field OperatorSpec")
+		}
+		endpoint.OperatorSpec = &operatorSpec
+	} else {
+		endpoint.OperatorSpec = nil
+	}
+
 	// OptimizationType
 	if source.OptimizationType != nil {
 		optimizationType := *source.OptimizationType
@@ -1078,6 +1141,18 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_To_ProfilesEndpoint_Spec
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(endpoint.Location)
+
+	// OperatorSpec
+	if endpoint.OperatorSpec != nil {
+		var operatorSpec storage.ProfilesEndpointOperatorSpec
+		err := endpoint.OperatorSpec.AssignProperties_To_ProfilesEndpointOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ProfilesEndpointOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OptimizationType
 	if endpoint.OptimizationType != nil {
@@ -4483,6 +4558,110 @@ var optimizationType_STATUS_Values = map[string]OptimizationType_STATUS{
 	"generalwebdelivery":          OptimizationType_STATUS_GeneralWebDelivery,
 	"largefiledownload":           OptimizationType_STATUS_LargeFileDownload,
 	"videoondemandmediastreaming": OptimizationType_STATUS_VideoOnDemandMediaStreaming,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ProfilesEndpointOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ProfilesEndpointOperatorSpec populates our ProfilesEndpointOperatorSpec from the provided source ProfilesEndpointOperatorSpec
+func (operator *ProfilesEndpointOperatorSpec) AssignProperties_From_ProfilesEndpointOperatorSpec(source *storage.ProfilesEndpointOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ProfilesEndpointOperatorSpec populates the provided destination ProfilesEndpointOperatorSpec from our ProfilesEndpointOperatorSpec
+func (operator *ProfilesEndpointOperatorSpec) AssignProperties_To_ProfilesEndpointOperatorSpec(destination *storage.ProfilesEndpointOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass

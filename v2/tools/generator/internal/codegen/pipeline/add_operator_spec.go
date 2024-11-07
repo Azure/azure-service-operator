@@ -15,6 +15,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
 const AddOperatorSpecStageID = "addOperatorSpec"
@@ -37,6 +38,21 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 				}
 				result.AddTypes(newDefs)
 				exportedTypeNameConfigMaps.Add(resource.Name(), exportedConfigMaps)
+
+				// Add the DynamicConfigMapExporter and DynamicSecretExporter to the resources which need it
+				rt := resource.Type().(*astmodel.ResourceType)
+				dynamicConfigMapExporter := functions.NewConfigMapExporterInterface(
+					resource.Name(),
+					rt,
+					idFactory)
+				dynamicSecretExporter := functions.NewSecretsExporterInterface(
+					resource.Name(),
+					rt,
+					idFactory)
+
+				rt = rt.WithInterface(dynamicConfigMapExporter.ToInterfaceImplementation())
+				rt = rt.WithInterface(dynamicSecretExporter.ToInterfaceImplementation())
+				result.Add(resource.WithType(rt))
 			}
 
 			// confirm that operator spec specific configuration was used. Note that this also indirectly confirms that
@@ -78,10 +94,10 @@ func createOperatorSpecIfNeeded(
 	}
 
 	// Look up Azure generated secrets for this resource
-	secrets, hasSecrets := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
+	secrets, _ := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
 
 	// Look up custom operatorSpec properties for this resource
-	operatorSpecProperties, hasOperatorSpecProperties := configuration.ObjectModelConfiguration.OperatorSpecProperties.Lookup(resolved.ResourceDef.Name())
+	operatorSpecProperties, _ := configuration.ObjectModelConfiguration.OperatorSpecProperties.Lookup(resolved.ResourceDef.Name())
 
 	// Lookup any properties that might be exported to config maps
 	configs, exportedProperties, err := getConfigMapProperties(defs, configuration, resource)
@@ -89,16 +105,11 @@ func createOperatorSpecIfNeeded(
 		return nil, nil, errors.Wrapf(err, "finding properties allowed to export as config maps")
 	}
 
-	hasConfigMapProperties := len(configs) != 0
-
-	if !hasSecrets && !hasConfigMapProperties && !hasOperatorSpecProperties {
-		// We don't need to make an OperatorSpec type
-		return nil, nil, nil
-	}
-
 	builder := newOperatorSpecBuilder(configuration, idFactory, resolved.ResourceDef)
-	builder.addSecretsToOperatorSpec(secrets)
+	builder.addSecrets(secrets)
 	builder.addConfigs(configs)
+	builder.addDynamicSecrets()
+	builder.addDynamicConfigMaps()
 	builder.addCustomProperties(operatorSpecProperties)
 
 	operatorSpec, err := builder.build()
@@ -332,29 +343,46 @@ func (b *operatorSpecBuilder) newOperatorSpecProperty(operatorSpec astmodel.Type
 	return prop
 }
 
-func (b *operatorSpecBuilder) newSecretsProperty(secretsTypeName astmodel.TypeName) *astmodel.PropertyDefinition {
-	secretProp := astmodel.NewPropertyDefinition(
-		b.idFactory.CreatePropertyName(astmodel.OperatorSpecSecretsProperty, astmodel.Exported),
-		b.idFactory.CreateStringIdentifier(astmodel.OperatorSpecSecretsProperty, astmodel.NotExported),
-		secretsTypeName)
-	secretProp = secretProp.WithDescription("configures where to place Azure generated secrets.")
-	secretProp = secretProp.MakeTypeOptional()
+func (b *operatorSpecBuilder) newProperty(typ astmodel.Type, propertyName string, description string) *astmodel.PropertyDefinition {
+	prop := astmodel.NewPropertyDefinition(
+		b.idFactory.CreatePropertyName(propertyName, astmodel.Exported),
+		b.idFactory.CreateStringIdentifier(propertyName, astmodel.NotExported),
+		typ)
+	prop = prop.WithDescription(description)
+	prop = prop.MakeTypeOptional()
 
-	return secretProp
+	return prop
+}
+
+func (b *operatorSpecBuilder) newSecretsProperty(secretTypeName astmodel.TypeName) *astmodel.PropertyDefinition {
+	return b.newProperty(
+		secretTypeName,
+		astmodel.OperatorSpecSecretsProperty,
+		"configures where to place Azure generated secrets.")
 }
 
 func (b *operatorSpecBuilder) newConfigMapProperty(configMapTypeName astmodel.TypeName) *astmodel.PropertyDefinition {
-	configMapProp := astmodel.NewPropertyDefinition(
-		b.idFactory.CreatePropertyName(astmodel.OperatorSpecConfigMapsProperty, astmodel.Exported),
-		b.idFactory.CreateStringIdentifier(astmodel.OperatorSpecConfigMapsProperty, astmodel.NotExported),
-		configMapTypeName)
-	configMapProp = configMapProp.WithDescription("configures where to place operator written ConfigMaps.")
-	configMapProp = configMapProp.MakeTypeOptional()
-
-	return configMapProp
+	return b.newProperty(
+		configMapTypeName,
+		astmodel.OperatorSpecConfigMapsProperty,
+		"configures where to place operator written ConfigMaps.")
 }
 
-func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
+func (b *operatorSpecBuilder) newDynamicConfigMapProperty() *astmodel.PropertyDefinition {
+	return b.newProperty(
+		astmodel.DestinationExpressionCollectionType,
+		astmodel.OperatorSpecConfigMapExpressionsProperty,
+		"configures where to place operator written dynamic ConfigMaps (created with CEL expressions).")
+}
+
+func (b *operatorSpecBuilder) newDynamicSecretProperty() *astmodel.PropertyDefinition {
+	return b.newProperty(
+		astmodel.DestinationExpressionCollectionType,
+		astmodel.OperatorSpecSecretExpressionsProperty,
+		"configures where to place operator written dynamic secrets (created with CEL expressions).")
+}
+
+func (b *operatorSpecBuilder) addSecrets(
 	azureGeneratedSecrets []string,
 ) {
 	if len(azureGeneratedSecrets) == 0 {
@@ -469,4 +497,16 @@ func (b *operatorSpecBuilder) build() (astmodel.TypeDefinition, error) {
 		"interpreted by the operator directly rather than being passed to Azure"
 	def = def.WithDescription(description)
 	return def, nil
+}
+
+func (b *operatorSpecBuilder) addDynamicConfigMaps() {
+	// Add the "configMaps" property to the operator spec
+	configMapProp := b.newDynamicConfigMapProperty()
+	b.operatorSpecType = b.operatorSpecType.WithProperty(configMapProp)
+}
+
+func (b *operatorSpecBuilder) addDynamicSecrets() {
+	// Add the "configMaps" property to the operator spec
+	configMapProp := b.newDynamicSecretProperty()
+	b.operatorSpecType = b.operatorSpecType.WithProperty(configMapProp)
 }

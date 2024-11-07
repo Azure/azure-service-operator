@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForDnsZone(gens map[string]gopter.Gen) {
 	gens["Status"] = DnsZone_STATUSGenerator()
 }
 
+func Test_DnsZoneOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DnsZoneOperatorSpec to DnsZoneOperatorSpec via AssignProperties_To_DnsZoneOperatorSpec & AssignProperties_From_DnsZoneOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDnsZoneOperatorSpec, DnsZoneOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDnsZoneOperatorSpec tests if a specific instance of DnsZoneOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDnsZoneOperatorSpec(subject DnsZoneOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DnsZoneOperatorSpec
+	err := copied.AssignProperties_To_DnsZoneOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DnsZoneOperatorSpec
+	err = actual.AssignProperties_From_DnsZoneOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DnsZoneOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DnsZoneOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDnsZoneOperatorSpec, DnsZoneOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDnsZoneOperatorSpec runs a test to see if a specific instance of DnsZoneOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDnsZoneOperatorSpec(subject DnsZoneOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DnsZoneOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DnsZoneOperatorSpec instances for property testing - lazily instantiated by
+// DnsZoneOperatorSpecGenerator()
+var dnsZoneOperatorSpecGenerator gopter.Gen
+
+// DnsZoneOperatorSpecGenerator returns a generator of DnsZoneOperatorSpec instances for property testing.
+func DnsZoneOperatorSpecGenerator() gopter.Gen {
+	if dnsZoneOperatorSpecGenerator != nil {
+		return dnsZoneOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	dnsZoneOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DnsZoneOperatorSpec{}), generators)
+
+	return dnsZoneOperatorSpecGenerator
+}
+
 func Test_DnsZone_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -411,6 +508,7 @@ func AddIndependentPropertyGeneratorsForDnsZone_Spec(gens map[string]gopter.Gen)
 
 // AddRelatedPropertyGeneratorsForDnsZone_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDnsZone_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(DnsZoneOperatorSpecGenerator())
 	gens["RegistrationVirtualNetworks"] = gen.SliceOf(SubResourceGenerator())
 	gens["ResolutionVirtualNetworks"] = gen.SliceOf(SubResourceGenerator())
 }

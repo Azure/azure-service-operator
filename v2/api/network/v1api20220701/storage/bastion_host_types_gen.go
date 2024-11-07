@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (host *BastionHost) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (host *BastionHost) SetConditions(conditions conditions.Conditions) {
 	host.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &BastionHost{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (host *BastionHost) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if host.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return host.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &BastionHost{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (host *BastionHost) SecretDestinationExpressions() []*core.DestinationExpression {
+	if host.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return host.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &BastionHost{}
@@ -151,6 +174,7 @@ type BastionHost_Spec struct {
 	EnableTunneling     *bool                        `json:"enableTunneling,omitempty"`
 	IpConfigurations    []BastionHostIPConfiguration `json:"ipConfigurations,omitempty"`
 	Location            *string                      `json:"location,omitempty"`
+	OperatorSpec        *BastionHostOperatorSpec     `json:"operatorSpec,omitempty"`
 	OriginalVersion     string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -242,6 +266,14 @@ type BastionHostIPConfiguration struct {
 type BastionHostIPConfiguration_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20220701.BastionHostOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type BastionHostOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220701.Sku

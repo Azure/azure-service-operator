@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -83,6 +86,26 @@ func (encryption *ServersDatabasesTransparentDataEncryption) Default() {
 
 // defaultImpl applies the code generated defaults to the ServersDatabasesTransparentDataEncryption resource
 func (encryption *ServersDatabasesTransparentDataEncryption) defaultImpl() {}
+
+var _ configmaps.Exporter = &ServersDatabasesTransparentDataEncryption{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (encryption *ServersDatabasesTransparentDataEncryption) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if encryption.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return encryption.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersDatabasesTransparentDataEncryption{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (encryption *ServersDatabasesTransparentDataEncryption) SecretDestinationExpressions() []*core.DestinationExpression {
+	if encryption.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return encryption.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ServersDatabasesTransparentDataEncryption{}
 
@@ -201,7 +224,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) ValidateUpdate(old 
 
 // createValidations validates the creation of the resource
 func (encryption *ServersDatabasesTransparentDataEncryption) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){encryption.validateResourceReferences, encryption.validateOwnerReference}
+	return []func() (admission.Warnings, error){encryption.validateResourceReferences, encryption.validateOwnerReference, encryption.validateSecretDestinations, encryption.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,7 +242,21 @@ func (encryption *ServersDatabasesTransparentDataEncryption) updateValidations()
 		func(old runtime.Object) (admission.Warnings, error) {
 			return encryption.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return encryption.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return encryption.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (encryption *ServersDatabasesTransparentDataEncryption) validateConfigMapDestinations() (admission.Warnings, error) {
+	if encryption.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(encryption, nil, encryption.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -234,6 +271,14 @@ func (encryption *ServersDatabasesTransparentDataEncryption) validateResourceRef
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (encryption *ServersDatabasesTransparentDataEncryption) validateSecretDestinations() (admission.Warnings, error) {
+	if encryption.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(encryption, nil, encryption.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -318,6 +363,10 @@ type ServersDatabasesTransparentDataEncryptionList struct {
 }
 
 type ServersDatabasesTransparentDataEncryption_Spec struct {
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ServersDatabasesTransparentDataEncryptionOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -365,6 +414,8 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) PopulateFromAR
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServersDatabasesTransparentDataEncryption_Spec, got %T", armInput)
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	encryption.Owner = &genruntime.KnownResourceReference{
@@ -440,6 +491,18 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) ConvertSpecTo(
 // AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec populates our ServersDatabasesTransparentDataEncryption_Spec from the provided source ServersDatabasesTransparentDataEncryption_Spec
 func (encryption *ServersDatabasesTransparentDataEncryption_Spec) AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec(source *storage.ServersDatabasesTransparentDataEncryption_Spec) error {
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersDatabasesTransparentDataEncryptionOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec() to populate field OperatorSpec")
+		}
+		encryption.OperatorSpec = &operatorSpec
+	} else {
+		encryption.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -465,6 +528,18 @@ func (encryption *ServersDatabasesTransparentDataEncryption_Spec) AssignProperti
 func (encryption *ServersDatabasesTransparentDataEncryption_Spec) AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(destination *storage.ServersDatabasesTransparentDataEncryption_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// OperatorSpec
+	if encryption.OperatorSpec != nil {
+		var operatorSpec storage.ServersDatabasesTransparentDataEncryptionOperatorSpec
+		err := encryption.OperatorSpec.AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = encryption.OriginalVersion()
@@ -684,6 +759,110 @@ func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) AssignProper
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(encryption.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersDatabasesTransparentDataEncryptionOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec populates our ServersDatabasesTransparentDataEncryptionOperatorSpec from the provided source ServersDatabasesTransparentDataEncryptionOperatorSpec
+func (operator *ServersDatabasesTransparentDataEncryptionOperatorSpec) AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec(source *storage.ServersDatabasesTransparentDataEncryptionOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec populates the provided destination ServersDatabasesTransparentDataEncryptionOperatorSpec from our ServersDatabasesTransparentDataEncryptionOperatorSpec
+func (operator *ServersDatabasesTransparentDataEncryptionOperatorSpec) AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec(destination *storage.ServersDatabasesTransparentDataEncryptionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

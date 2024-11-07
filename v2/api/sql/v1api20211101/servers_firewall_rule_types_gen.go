@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (rule *ServersFirewallRule) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the ServersFirewallRule resource
 func (rule *ServersFirewallRule) defaultImpl() { rule.defaultAzureName() }
+
+var _ configmaps.Exporter = &ServersFirewallRule{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (rule *ServersFirewallRule) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersFirewallRule{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (rule *ServersFirewallRule) SecretDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ServersFirewallRule{}
 
@@ -209,7 +232,7 @@ func (rule *ServersFirewallRule) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (rule *ServersFirewallRule) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference}
+	return []func() (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference, rule.validateSecretDestinations, rule.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (rule *ServersFirewallRule) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return rule.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return rule.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return rule.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (rule *ServersFirewallRule) validateConfigMapDestinations() (admission.Warnings, error) {
+	if rule.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(rule, nil, rule.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (rule *ServersFirewallRule) validateResourceReferences() (admission.Warning
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (rule *ServersFirewallRule) validateSecretDestinations() (admission.Warnings, error) {
+	if rule.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(rule, nil, rule.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -334,6 +379,10 @@ type ServersFirewallRule_Spec struct {
 	// startIpAddress. Use value '0.0.0.0' for all Azure-internal IP addresses.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ServersFirewallRuleOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -395,6 +444,8 @@ func (rule *ServersFirewallRule_Spec) PopulateFromARM(owner genruntime.Arbitrary
 			rule.EndIpAddress = &endIpAddress
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	rule.Owner = &genruntime.KnownResourceReference{
@@ -474,6 +525,18 @@ func (rule *ServersFirewallRule_Spec) AssignProperties_From_ServersFirewallRule_
 	// EndIpAddress
 	rule.EndIpAddress = genruntime.ClonePointerToString(source.EndIpAddress)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersFirewallRuleOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersFirewallRuleOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServersFirewallRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		rule.OperatorSpec = &operatorSpec
+	} else {
+		rule.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -499,6 +562,18 @@ func (rule *ServersFirewallRule_Spec) AssignProperties_To_ServersFirewallRule_Sp
 
 	// EndIpAddress
 	destination.EndIpAddress = genruntime.ClonePointerToString(rule.EndIpAddress)
+
+	// OperatorSpec
+	if rule.OperatorSpec != nil {
+		var operatorSpec storage.ServersFirewallRuleOperatorSpec
+		err := rule.OperatorSpec.AssignProperties_To_ServersFirewallRuleOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServersFirewallRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
@@ -721,6 +796,110 @@ func (rule *ServersFirewallRule_STATUS) AssignProperties_To_ServersFirewallRule_
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersFirewallRuleOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersFirewallRuleOperatorSpec populates our ServersFirewallRuleOperatorSpec from the provided source ServersFirewallRuleOperatorSpec
+func (operator *ServersFirewallRuleOperatorSpec) AssignProperties_From_ServersFirewallRuleOperatorSpec(source *storage.ServersFirewallRuleOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersFirewallRuleOperatorSpec populates the provided destination ServersFirewallRuleOperatorSpec from our ServersFirewallRuleOperatorSpec
+func (operator *ServersFirewallRuleOperatorSpec) AssignProperties_To_ServersFirewallRuleOperatorSpec(destination *storage.ServersFirewallRuleOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

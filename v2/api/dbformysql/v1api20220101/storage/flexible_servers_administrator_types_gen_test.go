@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForFlexibleServersAdministrator(gens map[string
 	gens["Status"] = FlexibleServersAdministrator_STATUSGenerator()
 }
 
+func Test_FlexibleServersAdministratorOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersAdministratorOperatorSpec to FlexibleServersAdministratorOperatorSpec via AssignProperties_To_FlexibleServersAdministratorOperatorSpec & AssignProperties_From_FlexibleServersAdministratorOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersAdministratorOperatorSpec, FlexibleServersAdministratorOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersAdministratorOperatorSpec tests if a specific instance of FlexibleServersAdministratorOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersAdministratorOperatorSpec(subject FlexibleServersAdministratorOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FlexibleServersAdministratorOperatorSpec
+	err := copied.AssignProperties_To_FlexibleServersAdministratorOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersAdministratorOperatorSpec
+	err = actual.AssignProperties_From_FlexibleServersAdministratorOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FlexibleServersAdministratorOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FlexibleServersAdministratorOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServersAdministratorOperatorSpec, FlexibleServersAdministratorOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFlexibleServersAdministratorOperatorSpec runs a test to see if a specific instance of FlexibleServersAdministratorOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServersAdministratorOperatorSpec(subject FlexibleServersAdministratorOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FlexibleServersAdministratorOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FlexibleServersAdministratorOperatorSpec instances for property testing - lazily instantiated by
+// FlexibleServersAdministratorOperatorSpecGenerator()
+var flexibleServersAdministratorOperatorSpecGenerator gopter.Gen
+
+// FlexibleServersAdministratorOperatorSpecGenerator returns a generator of FlexibleServersAdministratorOperatorSpec instances for property testing.
+func FlexibleServersAdministratorOperatorSpecGenerator() gopter.Gen {
+	if flexibleServersAdministratorOperatorSpecGenerator != nil {
+		return flexibleServersAdministratorOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	flexibleServersAdministratorOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdministratorOperatorSpec{}), generators)
+
+	return flexibleServersAdministratorOperatorSpecGenerator
+}
+
 func Test_FlexibleServersAdministrator_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -375,6 +472,9 @@ func RunJSONSerializationTestForFlexibleServersAdministrator_Spec(subject Flexib
 var flexibleServersAdministrator_SpecGenerator gopter.Gen
 
 // FlexibleServersAdministrator_SpecGenerator returns a generator of FlexibleServersAdministrator_Spec instances for property testing.
+// We first initialize flexibleServersAdministrator_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func FlexibleServersAdministrator_SpecGenerator() gopter.Gen {
 	if flexibleServersAdministrator_SpecGenerator != nil {
 		return flexibleServersAdministrator_SpecGenerator
@@ -382,6 +482,12 @@ func FlexibleServersAdministrator_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_Spec(generators)
+	flexibleServersAdministrator_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdministrator_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_Spec(generators)
+	AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_Spec(generators)
 	flexibleServersAdministrator_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersAdministrator_Spec{}), generators)
 
 	return flexibleServersAdministrator_SpecGenerator
@@ -394,6 +500,11 @@ func AddIndependentPropertyGeneratorsForFlexibleServersAdministrator_Spec(gens m
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Sid"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFlexibleServersAdministrator_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(FlexibleServersAdministratorOperatorSpecGenerator())
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

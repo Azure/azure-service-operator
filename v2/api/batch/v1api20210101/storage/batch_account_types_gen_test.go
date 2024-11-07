@@ -411,6 +411,61 @@ func AddIndependentPropertyGeneratorsForBatchAccountIdentity_UserAssignedIdentit
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_BatchAccountOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BatchAccountOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBatchAccountOperatorSpec, BatchAccountOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBatchAccountOperatorSpec runs a test to see if a specific instance of BatchAccountOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBatchAccountOperatorSpec(subject BatchAccountOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BatchAccountOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BatchAccountOperatorSpec instances for property testing - lazily instantiated by
+// BatchAccountOperatorSpecGenerator()
+var batchAccountOperatorSpecGenerator gopter.Gen
+
+// BatchAccountOperatorSpecGenerator returns a generator of BatchAccountOperatorSpec instances for property testing.
+func BatchAccountOperatorSpecGenerator() gopter.Gen {
+	if batchAccountOperatorSpecGenerator != nil {
+		return batchAccountOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	batchAccountOperatorSpecGenerator = gen.Struct(reflect.TypeOf(BatchAccountOperatorSpec{}), generators)
+
+	return batchAccountOperatorSpecGenerator
+}
+
 func Test_BatchAccount_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -588,6 +643,7 @@ func AddRelatedPropertyGeneratorsForBatchAccount_Spec(gens map[string]gopter.Gen
 	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesGenerator())
 	gens["Identity"] = gen.PtrOf(BatchAccountIdentityGenerator())
 	gens["KeyVaultReference"] = gen.PtrOf(KeyVaultReferenceGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(BatchAccountOperatorSpecGenerator())
 }
 
 func Test_EncryptionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

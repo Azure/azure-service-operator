@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseContainerStoredProcedure(gens map
 	gens["Status"] = SqlDatabaseContainerStoredProcedure_STATUSGenerator()
 }
 
+func Test_SqlDatabaseContainerStoredProcedureOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SqlDatabaseContainerStoredProcedureOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlDatabaseContainerStoredProcedureOperatorSpec, SqlDatabaseContainerStoredProcedureOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSqlDatabaseContainerStoredProcedureOperatorSpec runs a test to see if a specific instance of SqlDatabaseContainerStoredProcedureOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlDatabaseContainerStoredProcedureOperatorSpec(subject SqlDatabaseContainerStoredProcedureOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SqlDatabaseContainerStoredProcedureOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SqlDatabaseContainerStoredProcedureOperatorSpec instances for property testing - lazily instantiated by
+// SqlDatabaseContainerStoredProcedureOperatorSpecGenerator()
+var sqlDatabaseContainerStoredProcedureOperatorSpecGenerator gopter.Gen
+
+// SqlDatabaseContainerStoredProcedureOperatorSpecGenerator returns a generator of SqlDatabaseContainerStoredProcedureOperatorSpec instances for property testing.
+func SqlDatabaseContainerStoredProcedureOperatorSpecGenerator() gopter.Gen {
+	if sqlDatabaseContainerStoredProcedureOperatorSpecGenerator != nil {
+		return sqlDatabaseContainerStoredProcedureOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	sqlDatabaseContainerStoredProcedureOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseContainerStoredProcedureOperatorSpec{}), generators)
+
+	return sqlDatabaseContainerStoredProcedureOperatorSpecGenerator
+}
+
 func Test_SqlDatabaseContainerStoredProcedure_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -237,6 +292,7 @@ func AddIndependentPropertyGeneratorsForSqlDatabaseContainerStoredProcedure_Spec
 
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainerStoredProcedure_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerStoredProcedure_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(SqlDatabaseContainerStoredProcedureOperatorSpecGenerator())
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
 	gens["Resource"] = gen.PtrOf(SqlStoredProcedureResourceGenerator())
 }

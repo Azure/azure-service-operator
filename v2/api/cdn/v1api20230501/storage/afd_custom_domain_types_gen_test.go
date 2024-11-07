@@ -230,6 +230,61 @@ func AddRelatedPropertyGeneratorsForAfdCustomDomain(gens map[string]gopter.Gen) 
 	gens["Status"] = AfdCustomDomain_STATUSGenerator()
 }
 
+func Test_AfdCustomDomainOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AfdCustomDomainOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAfdCustomDomainOperatorSpec, AfdCustomDomainOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAfdCustomDomainOperatorSpec runs a test to see if a specific instance of AfdCustomDomainOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAfdCustomDomainOperatorSpec(subject AfdCustomDomainOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AfdCustomDomainOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AfdCustomDomainOperatorSpec instances for property testing - lazily instantiated by
+// AfdCustomDomainOperatorSpecGenerator()
+var afdCustomDomainOperatorSpecGenerator gopter.Gen
+
+// AfdCustomDomainOperatorSpecGenerator returns a generator of AfdCustomDomainOperatorSpec instances for property testing.
+func AfdCustomDomainOperatorSpecGenerator() gopter.Gen {
+	if afdCustomDomainOperatorSpecGenerator != nil {
+		return afdCustomDomainOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	afdCustomDomainOperatorSpecGenerator = gen.Struct(reflect.TypeOf(AfdCustomDomainOperatorSpec{}), generators)
+
+	return afdCustomDomainOperatorSpecGenerator
+}
+
 func Test_AfdCustomDomain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -397,6 +452,7 @@ func AddIndependentPropertyGeneratorsForAfdCustomDomain_Spec(gens map[string]gop
 // AddRelatedPropertyGeneratorsForAfdCustomDomain_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAfdCustomDomain_Spec(gens map[string]gopter.Gen) {
 	gens["AzureDnsZone"] = gen.PtrOf(ResourceReferenceGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(AfdCustomDomainOperatorSpecGenerator())
 	gens["PreValidatedCustomDomainResourceId"] = gen.PtrOf(ResourceReferenceGenerator())
 	gens["TlsSettings"] = gen.PtrOf(AFDDomainHttpsParametersGenerator())
 }

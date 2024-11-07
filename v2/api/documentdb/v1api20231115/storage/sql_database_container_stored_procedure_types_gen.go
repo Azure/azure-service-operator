@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (procedure *SqlDatabaseContainerStoredProcedure) GetConditions() conditions
 // SetConditions sets the conditions on the resource status
 func (procedure *SqlDatabaseContainerStoredProcedure) SetConditions(conditions conditions.Conditions) {
 	procedure.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &SqlDatabaseContainerStoredProcedure{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (procedure *SqlDatabaseContainerStoredProcedure) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if procedure.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return procedure.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &SqlDatabaseContainerStoredProcedure{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (procedure *SqlDatabaseContainerStoredProcedure) SecretDestinationExpressions() []*core.DestinationExpression {
+	if procedure.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return procedure.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerStoredProcedure{}
@@ -142,10 +165,11 @@ type SqlDatabaseContainerStoredProcedureList struct {
 type SqlDatabaseContainerStoredProcedure_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string               `json:"azureName,omitempty"`
-	Location        *string              `json:"location,omitempty"`
-	Options         *CreateUpdateOptions `json:"options,omitempty"`
-	OriginalVersion string               `json:"originalVersion,omitempty"`
+	AzureName       string                                           `json:"azureName,omitempty"`
+	Location        *string                                          `json:"location,omitempty"`
+	OperatorSpec    *SqlDatabaseContainerStoredProcedureOperatorSpec `json:"operatorSpec,omitempty"`
+	Options         *CreateUpdateOptions                             `json:"options,omitempty"`
+	OriginalVersion string                                           `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -207,6 +231,14 @@ func (procedure *SqlDatabaseContainerStoredProcedure_STATUS) ConvertStatusTo(des
 	}
 
 	return destination.ConvertStatusFrom(procedure)
+}
+
+// Storage version of v1api20231115.SqlDatabaseContainerStoredProcedureOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SqlDatabaseContainerStoredProcedureOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20231115.SqlStoredProcedureGetProperties_Resource_STATUS

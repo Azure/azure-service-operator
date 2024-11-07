@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (link *PrivateDnsZonesVirtualNetworkLink) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (link *PrivateDnsZonesVirtualNetworkLink) SetConditions(conditions conditions.Conditions) {
 	link.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &PrivateDnsZonesVirtualNetworkLink{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (link *PrivateDnsZonesVirtualNetworkLink) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return link.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PrivateDnsZonesVirtualNetworkLink{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (link *PrivateDnsZonesVirtualNetworkLink) SecretDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return link.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &PrivateDnsZonesVirtualNetworkLink{}
@@ -143,10 +166,11 @@ type PrivateDnsZonesVirtualNetworkLinkList struct {
 type PrivateDnsZonesVirtualNetworkLink_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Etag            *string `json:"etag,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string                                         `json:"azureName,omitempty"`
+	Etag            *string                                        `json:"etag,omitempty"`
+	Location        *string                                        `json:"location,omitempty"`
+	OperatorSpec    *PrivateDnsZonesVirtualNetworkLinkOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -213,6 +237,14 @@ func (link *PrivateDnsZonesVirtualNetworkLink_STATUS) ConvertStatusTo(destinatio
 	}
 
 	return destination.ConvertStatusFrom(link)
+}
+
+// Storage version of v1api20200601.PrivateDnsZonesVirtualNetworkLinkOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PrivateDnsZonesVirtualNetworkLinkOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20200601.SubResource

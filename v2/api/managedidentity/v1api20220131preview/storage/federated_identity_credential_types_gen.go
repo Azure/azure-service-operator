@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (credential *FederatedIdentityCredential) ConvertTo(hub conversion.Hub) err
 	}
 
 	return credential.AssignProperties_To_FederatedIdentityCredential(destination)
+}
+
+var _ configmaps.Exporter = &FederatedIdentityCredential{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (credential *FederatedIdentityCredential) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if credential.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return credential.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FederatedIdentityCredential{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (credential *FederatedIdentityCredential) SecretDestinationExpressions() []*core.DestinationExpression {
+	if credential.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return credential.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &FederatedIdentityCredential{}
@@ -243,10 +266,11 @@ type FederatedIdentityCredential_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName        string                         `json:"azureName,omitempty"`
-	Issuer           *string                        `json:"issuer,omitempty" optionalConfigMapPair:"Issuer"`
-	IssuerFromConfig *genruntime.ConfigMapReference `json:"issuerFromConfig,omitempty" optionalConfigMapPair:"Issuer"`
-	OriginalVersion  string                         `json:"originalVersion,omitempty"`
+	AzureName        string                                   `json:"azureName,omitempty"`
+	Issuer           *string                                  `json:"issuer,omitempty" optionalConfigMapPair:"Issuer"`
+	IssuerFromConfig *genruntime.ConfigMapReference           `json:"issuerFromConfig,omitempty" optionalConfigMapPair:"Issuer"`
+	OperatorSpec     *FederatedIdentityCredentialOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion  string                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -330,6 +354,18 @@ func (credential *FederatedIdentityCredential_Spec) AssignProperties_From_Federa
 		credential.IssuerFromConfig = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FederatedIdentityCredentialOperatorSpec
+		err := operatorSpec.AssignProperties_From_FederatedIdentityCredentialOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FederatedIdentityCredentialOperatorSpec() to populate field OperatorSpec")
+		}
+		credential.OperatorSpec = &operatorSpec
+	} else {
+		credential.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	credential.OriginalVersion = source.OriginalVersion
 
@@ -392,6 +428,18 @@ func (credential *FederatedIdentityCredential_Spec) AssignProperties_To_Federate
 		destination.IssuerFromConfig = &issuerFromConfig
 	} else {
 		destination.IssuerFromConfig = nil
+	}
+
+	// OperatorSpec
+	if credential.OperatorSpec != nil {
+		var operatorSpec storage.FederatedIdentityCredentialOperatorSpec
+		err := credential.OperatorSpec.AssignProperties_To_FederatedIdentityCredentialOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FederatedIdentityCredentialOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -618,6 +666,141 @@ type augmentConversionForFederatedIdentityCredential_Spec interface {
 type augmentConversionForFederatedIdentityCredential_STATUS interface {
 	AssignPropertiesFrom(src *storage.FederatedIdentityCredential_STATUS) error
 	AssignPropertiesTo(dst *storage.FederatedIdentityCredential_STATUS) error
+}
+
+// Storage version of v1api20220131preview.FederatedIdentityCredentialOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FederatedIdentityCredentialOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FederatedIdentityCredentialOperatorSpec populates our FederatedIdentityCredentialOperatorSpec from the provided source FederatedIdentityCredentialOperatorSpec
+func (operator *FederatedIdentityCredentialOperatorSpec) AssignProperties_From_FederatedIdentityCredentialOperatorSpec(source *storage.FederatedIdentityCredentialOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFederatedIdentityCredentialOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFederatedIdentityCredentialOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FederatedIdentityCredentialOperatorSpec populates the provided destination FederatedIdentityCredentialOperatorSpec from our FederatedIdentityCredentialOperatorSpec
+func (operator *FederatedIdentityCredentialOperatorSpec) AssignProperties_To_FederatedIdentityCredentialOperatorSpec(destination *storage.FederatedIdentityCredentialOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFederatedIdentityCredentialOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFederatedIdentityCredentialOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForFederatedIdentityCredentialOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.FederatedIdentityCredentialOperatorSpec) error
+	AssignPropertiesTo(dst *storage.FederatedIdentityCredentialOperatorSpec) error
 }
 
 func init() {

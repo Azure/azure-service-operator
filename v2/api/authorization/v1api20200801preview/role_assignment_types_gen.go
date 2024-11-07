@@ -11,6 +11,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -98,6 +100,26 @@ func (assignment *RoleAssignment) Default() {
 
 // defaultImpl applies the code generated defaults to the RoleAssignment resource
 func (assignment *RoleAssignment) defaultImpl() {}
+
+var _ configmaps.Exporter = &RoleAssignment{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (assignment *RoleAssignment) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return assignment.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &RoleAssignment{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (assignment *RoleAssignment) SecretDestinationExpressions() []*core.DestinationExpression {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return assignment.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &RoleAssignment{}
 
@@ -205,7 +227,7 @@ func (assignment *RoleAssignment) ValidateUpdate(old runtime.Object) (admission.
 
 // createValidations validates the creation of the resource
 func (assignment *RoleAssignment) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){assignment.validateResourceReferences, assignment.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){assignment.validateResourceReferences, assignment.validateSecretDestinations, assignment.validateConfigMapDestinations, assignment.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -221,9 +243,23 @@ func (assignment *RoleAssignment) updateValidations() []func(old runtime.Object)
 		},
 		assignment.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return assignment.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return assignment.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return assignment.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (assignment *RoleAssignment) validateConfigMapDestinations() (admission.Warnings, error) {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(assignment, nil, assignment.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -242,6 +278,14 @@ func (assignment *RoleAssignment) validateResourceReferences() (admission.Warnin
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (assignment *RoleAssignment) validateSecretDestinations() (admission.Warnings, error) {
+	if assignment.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(assignment, nil, assignment.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -1126,17 +1170,59 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_To_RoleAssignment_STAT
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RoleAssignmentOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
 	// NamingConvention: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or
 	// 'random'.
 	// +kubebuilder:validation:Enum={"random","stable"}
 	NamingConvention *string `json:"namingConvention,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // AssignProperties_From_RoleAssignmentOperatorSpec populates our RoleAssignmentOperatorSpec from the provided source RoleAssignmentOperatorSpec
 func (operator *RoleAssignmentOperatorSpec) AssignProperties_From_RoleAssignmentOperatorSpec(source *storage.RoleAssignmentOperatorSpec) error {
 
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
 	// NamingConvention
 	operator.NamingConvention = genruntime.ClonePointerToString(source.NamingConvention)
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
 
 	// No error
 	return nil
@@ -1147,8 +1233,44 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_To_RoleAssignmentOp
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
 	// NamingConvention
 	destination.NamingConvention = genruntime.ClonePointerToString(operator.NamingConvention)
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

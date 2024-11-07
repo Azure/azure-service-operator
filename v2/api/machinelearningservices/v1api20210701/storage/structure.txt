@@ -33,8 +33,10 @@ Workspace: Resource
 │   ├── ImageBuildCompute: *string
 │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (8 properties)
 │   │       ├── AppInsightsInstrumentationKey: *genruntime.SecretDestination
 │   │       ├── ContainerRegistryPassword: *genruntime.SecretDestination
@@ -160,7 +162,7 @@ Workspace: Resource
     └── WorkspaceId: *string
 WorkspacesCompute: Resource
 ├── Owner: machinelearningservices/v1api20210701.Workspace
-├── Spec: Object (10 properties)
+├── Spec: Object (11 properties)
 │   ├── AzureName: string
 │   ├── Identity: *Object (3 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -169,6 +171,10 @@ WorkspacesCompute: Resource
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Properties: *Object (11 properties)
@@ -954,10 +960,14 @@ WorkspacesCompute: Resource
     └── Type: *string
 WorkspacesConnection: Resource
 ├── Owner: machinelearningservices/v1api20210701.Workspace
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AuthType: *string
 │   ├── AzureName: string
 │   ├── Category: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -1087,8 +1097,10 @@ augmentConversionForWorkspaceOperatorSpec: Interface
 augmentConversionForWorkspace_STATUS: Interface
 augmentConversionForWorkspace_Spec: Interface
 augmentConversionForWorkspacesCompute: Interface
+augmentConversionForWorkspacesComputeOperatorSpec: Interface
 augmentConversionForWorkspacesCompute_STATUS: Interface
 augmentConversionForWorkspacesCompute_Spec: Interface
 augmentConversionForWorkspacesConnection: Interface
+augmentConversionForWorkspacesConnectionOperatorSpec: Interface
 augmentConversionForWorkspacesConnection_STATUS: Interface
 augmentConversionForWorkspacesConnection_Spec: Interface

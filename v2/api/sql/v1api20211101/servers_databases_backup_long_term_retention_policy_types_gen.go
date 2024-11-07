@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -83,6 +86,26 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) Default() {
 
 // defaultImpl applies the code generated defaults to the ServersDatabasesBackupLongTermRetentionPolicy resource
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) defaultImpl() {}
+
+var _ configmaps.Exporter = &ServersDatabasesBackupLongTermRetentionPolicy{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersDatabasesBackupLongTermRetentionPolicy{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (policy *ServersDatabasesBackupLongTermRetentionPolicy) SecretDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ServersDatabasesBackupLongTermRetentionPolicy{}
 
@@ -201,7 +224,7 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ValidateUpdate(old 
 
 // createValidations validates the creation of the resource
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference}
+	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference, policy.validateSecretDestinations, policy.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,7 +242,21 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) updateValidations()
 		func(old runtime.Object) (admission.Warnings, error) {
 			return policy.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (policy *ServersDatabasesBackupLongTermRetentionPolicy) validateConfigMapDestinations() (admission.Warnings, error) {
+	if policy.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(policy, nil, policy.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -234,6 +271,14 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) validateResourceRef
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (policy *ServersDatabasesBackupLongTermRetentionPolicy) validateSecretDestinations() (admission.Warnings, error) {
+	if policy.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(policy, nil, policy.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -321,6 +366,10 @@ type ServersDatabasesBackupLongTermRetentionPolicy_Spec struct {
 	// MonthlyRetention: The monthly retention policy for an LTR backup in an ISO 8601 format.
 	MonthlyRetention *string `json:"monthlyRetention,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -395,6 +444,8 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy_Spec) PopulateFromAR
 			policy.MonthlyRetention = &monthlyRetention
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	policy.Owner = &genruntime.KnownResourceReference{
@@ -489,6 +540,18 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy_Spec) AssignProperti
 	// MonthlyRetention
 	policy.MonthlyRetention = genruntime.ClonePointerToString(source.MonthlyRetention)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		policy.OperatorSpec = &operatorSpec
+	} else {
+		policy.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -517,6 +580,18 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy_Spec) AssignProperti
 
 	// MonthlyRetention
 	destination.MonthlyRetention = genruntime.ClonePointerToString(policy.MonthlyRetention)
+
+	// OperatorSpec
+	if policy.OperatorSpec != nil {
+		var operatorSpec storage.ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
+		err := policy.OperatorSpec.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = policy.OriginalVersion()
@@ -782,6 +857,110 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy_STATUS) AssignProper
 
 	// YearlyRetention
 	destination.YearlyRetention = genruntime.ClonePointerToString(policy.YearlyRetention)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec populates our ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec from the provided source ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
+func (operator *ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec) AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec(source *storage.ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec populates the provided destination ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec from our ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
+func (operator *ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec) AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec(destination *storage.ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

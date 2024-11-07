@@ -11,6 +11,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -84,6 +86,26 @@ func (administrator *ServersAdministrator) Default() {
 
 // defaultImpl applies the code generated defaults to the ServersAdministrator resource
 func (administrator *ServersAdministrator) defaultImpl() {}
+
+var _ configmaps.Exporter = &ServersAdministrator{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (administrator *ServersAdministrator) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersAdministrator{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (administrator *ServersAdministrator) SecretDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ServersAdministrator{}
 
@@ -203,7 +225,7 @@ func (administrator *ServersAdministrator) ValidateUpdate(old runtime.Object) (a
 
 // createValidations validates the creation of the resource
 func (administrator *ServersAdministrator) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOwnerReference, administrator.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOwnerReference, administrator.validateSecretDestinations, administrator.validateConfigMapDestinations, administrator.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -222,9 +244,23 @@ func (administrator *ServersAdministrator) updateValidations() []func(old runtim
 			return administrator.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return administrator.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return administrator.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return administrator.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (administrator *ServersAdministrator) validateConfigMapDestinations() (admission.Warnings, error) {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(administrator, nil, administrator.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -248,6 +284,14 @@ func (administrator *ServersAdministrator) validateResourceReferences() (admissi
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (administrator *ServersAdministrator) validateSecretDestinations() (admission.Warnings, error) {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(administrator, nil, administrator.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -339,6 +383,10 @@ type ServersAdministrator_Spec struct {
 	// +kubebuilder:validation:Required
 	// Login: Login name of the server administrator.
 	Login *string `json:"login,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ServersAdministratorOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -451,6 +499,8 @@ func (administrator *ServersAdministrator_Spec) PopulateFromARM(owner genruntime
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	administrator.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -548,6 +598,18 @@ func (administrator *ServersAdministrator_Spec) AssignProperties_From_ServersAdm
 	// Login
 	administrator.Login = genruntime.ClonePointerToString(source.Login)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersAdministratorOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersAdministratorOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServersAdministratorOperatorSpec() to populate field OperatorSpec")
+		}
+		administrator.OperatorSpec = &operatorSpec
+	} else {
+		administrator.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -607,6 +669,18 @@ func (administrator *ServersAdministrator_Spec) AssignProperties_To_ServersAdmin
 
 	// Login
 	destination.Login = genruntime.ClonePointerToString(administrator.Login)
+
+	// OperatorSpec
+	if administrator.OperatorSpec != nil {
+		var operatorSpec storage.ServersAdministratorOperatorSpec
+		err := administrator.OperatorSpec.AssignProperties_To_ServersAdministratorOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServersAdministratorOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = administrator.OriginalVersion()
@@ -980,6 +1054,110 @@ const AdministratorProperties_AdministratorType_STATUS_ActiveDirectory = Adminis
 // Mapping from string to AdministratorProperties_AdministratorType_STATUS
 var administratorProperties_AdministratorType_STATUS_Values = map[string]AdministratorProperties_AdministratorType_STATUS{
 	"activedirectory": AdministratorProperties_AdministratorType_STATUS_ActiveDirectory,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersAdministratorOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersAdministratorOperatorSpec populates our ServersAdministratorOperatorSpec from the provided source ServersAdministratorOperatorSpec
+func (operator *ServersAdministratorOperatorSpec) AssignProperties_From_ServersAdministratorOperatorSpec(source *storage.ServersAdministratorOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersAdministratorOperatorSpec populates the provided destination ServersAdministratorOperatorSpec from our ServersAdministratorOperatorSpec
+func (operator *ServersAdministratorOperatorSpec) AssignProperties_To_ServersAdministratorOperatorSpec(destination *storage.ServersAdministratorOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

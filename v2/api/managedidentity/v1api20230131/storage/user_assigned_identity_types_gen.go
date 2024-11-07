@@ -9,6 +9,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -47,6 +49,26 @@ func (identity *UserAssignedIdentity) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (identity *UserAssignedIdentity) SetConditions(conditions conditions.Conditions) {
 	identity.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &UserAssignedIdentity{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (identity *UserAssignedIdentity) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if identity.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return identity.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &UserAssignedIdentity{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (identity *UserAssignedIdentity) SecretDestinationExpressions() []*core.DestinationExpression {
+	if identity.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return identity.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesConfigExporter = &UserAssignedIdentity{}
@@ -246,9 +268,11 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genrunt
 // Storage version of v1api20230131.UserAssignedIdentityOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type UserAssignedIdentityOperatorSpec struct {
-	ConfigMaps  *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
-	Secrets     *UserAssignedIdentityOperatorSecrets    `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression           `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression           `json:"secretExpressions,omitempty"`
+	Secrets              *UserAssignedIdentityOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230131.UserAssignedIdentityOperatorConfigMaps

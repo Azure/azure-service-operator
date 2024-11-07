@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (address *PublicIPAddress) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (address *PublicIPAddress) SetConditions(conditions conditions.Conditions) {
 	address.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &PublicIPAddress{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (address *PublicIPAddress) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if address.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return address.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PublicIPAddress{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (address *PublicIPAddress) SecretDestinationExpressions() []*core.DestinationExpression {
+	if address.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return address.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &PublicIPAddress{}
@@ -153,6 +176,7 @@ type PublicIPAddress_Spec struct {
 	LinkedPublicIPAddress *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded `json:"linkedPublicIPAddress,omitempty"`
 	Location              *string                                                  `json:"location,omitempty"`
 	NatGateway            *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded      `json:"natGateway,omitempty"`
+	OperatorSpec          *PublicIPAddressOperatorSpec                             `json:"operatorSpec,omitempty"`
 	OriginalVersion       string                                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -436,6 +460,14 @@ type PublicIPAddressDnsSettings_STATUS struct {
 	Fqdn            *string                `json:"fqdn,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ReverseFqdn     *string                `json:"reverseFqdn,omitempty"`
+}
+
+// Storage version of v1api20201101.PublicIPAddressOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PublicIPAddressOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20201101.PublicIPAddressSku

@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (fleet *Fleet) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (fleet *Fleet) SetConditions(conditions conditions.Conditions) {
 	fleet.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Fleet{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (fleet *Fleet) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if fleet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fleet.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Fleet{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (fleet *Fleet) SecretDestinationExpressions() []*core.DestinationExpression {
+	if fleet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return fleet.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Fleet{}
@@ -239,8 +262,10 @@ type FleetHubProfile_STATUS struct {
 // Storage version of v1api20230315preview.FleetOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type FleetOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secrets     *FleetOperatorSecrets  `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+	Secrets              *FleetOperatorSecrets         `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230315preview.SystemData_STATUS

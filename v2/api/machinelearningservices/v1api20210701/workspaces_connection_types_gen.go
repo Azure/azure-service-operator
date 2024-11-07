@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -104,6 +107,26 @@ func (connection *WorkspacesConnection) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the WorkspacesConnection resource
 func (connection *WorkspacesConnection) defaultImpl() { connection.defaultAzureName() }
+
+var _ configmaps.Exporter = &WorkspacesConnection{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (connection *WorkspacesConnection) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if connection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return connection.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WorkspacesConnection{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (connection *WorkspacesConnection) SecretDestinationExpressions() []*core.DestinationExpression {
+	if connection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return connection.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &WorkspacesConnection{}
 
@@ -212,7 +235,7 @@ func (connection *WorkspacesConnection) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (connection *WorkspacesConnection) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){connection.validateResourceReferences, connection.validateOwnerReference}
+	return []func() (admission.Warnings, error){connection.validateResourceReferences, connection.validateOwnerReference, connection.validateSecretDestinations, connection.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +253,21 @@ func (connection *WorkspacesConnection) updateValidations() []func(old runtime.O
 		func(old runtime.Object) (admission.Warnings, error) {
 			return connection.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return connection.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return connection.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (connection *WorkspacesConnection) validateConfigMapDestinations() (admission.Warnings, error) {
+	if connection.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(connection, nil, connection.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -245,6 +282,14 @@ func (connection *WorkspacesConnection) validateResourceReferences() (admission.
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (connection *WorkspacesConnection) validateSecretDestinations() (admission.Warnings, error) {
+	if connection.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(connection, nil, connection.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -339,6 +384,10 @@ type WorkspacesConnection_Spec struct {
 	// Category: Category of the workspace connection.
 	Category *string `json:"category,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *WorkspacesConnectionOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -432,6 +481,8 @@ func (connection *WorkspacesConnection_Spec) PopulateFromARM(owner genruntime.Ar
 			connection.Category = &category
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	connection.Owner = &genruntime.KnownResourceReference{
@@ -534,6 +585,18 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_From_WorkspacesCon
 	// Category
 	connection.Category = genruntime.ClonePointerToString(source.Category)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WorkspacesConnectionOperatorSpec
+		err := operatorSpec.AssignProperties_From_WorkspacesConnectionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
+		}
+		connection.OperatorSpec = &operatorSpec
+	} else {
+		connection.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -574,6 +637,18 @@ func (connection *WorkspacesConnection_Spec) AssignProperties_To_WorkspacesConne
 
 	// Category
 	destination.Category = genruntime.ClonePointerToString(connection.Category)
+
+	// OperatorSpec
+	if connection.OperatorSpec != nil {
+		var operatorSpec storage.WorkspacesConnectionOperatorSpec
+		err := connection.OperatorSpec.AssignProperties_To_WorkspacesConnectionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WorkspacesConnectionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = connection.OriginalVersion()
@@ -890,6 +965,110 @@ const WorkspaceConnectionProps_ValueFormat_STATUS_JSON = WorkspaceConnectionProp
 // Mapping from string to WorkspaceConnectionProps_ValueFormat_STATUS
 var workspaceConnectionProps_ValueFormat_STATUS_Values = map[string]WorkspaceConnectionProps_ValueFormat_STATUS{
 	"json": WorkspaceConnectionProps_ValueFormat_STATUS_JSON,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspacesConnectionOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WorkspacesConnectionOperatorSpec populates our WorkspacesConnectionOperatorSpec from the provided source WorkspacesConnectionOperatorSpec
+func (operator *WorkspacesConnectionOperatorSpec) AssignProperties_From_WorkspacesConnectionOperatorSpec(source *storage.WorkspacesConnectionOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WorkspacesConnectionOperatorSpec populates the provided destination WorkspacesConnectionOperatorSpec from our WorkspacesConnectionOperatorSpec
+func (operator *WorkspacesConnectionOperatorSpec) AssignProperties_To_WorkspacesConnectionOperatorSpec(destination *storage.WorkspacesConnectionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

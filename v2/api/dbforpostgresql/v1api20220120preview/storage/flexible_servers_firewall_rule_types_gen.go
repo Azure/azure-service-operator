@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -76,6 +79,26 @@ func (rule *FlexibleServersFirewallRule) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return nil
+}
+
+var _ configmaps.Exporter = &FlexibleServersFirewallRule{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (rule *FlexibleServersFirewallRule) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FlexibleServersFirewallRule{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (rule *FlexibleServersFirewallRule) SecretDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersFirewallRule{}
@@ -248,9 +271,10 @@ type augmentConversionForFlexibleServersFirewallRule interface {
 type FlexibleServersFirewallRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	EndIpAddress    *string `json:"endIpAddress,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string                                   `json:"azureName,omitempty"`
+	EndIpAddress    *string                                  `json:"endIpAddress,omitempty"`
+	OperatorSpec    *FlexibleServersFirewallRuleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -322,6 +346,18 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignProperties_From_FlexibleServ
 	// EndIpAddress
 	rule.EndIpAddress = genruntime.ClonePointerToString(source.EndIpAddress)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FlexibleServersFirewallRuleOperatorSpec
+		err := operatorSpec.AssignProperties_From_FlexibleServersFirewallRuleOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FlexibleServersFirewallRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		rule.OperatorSpec = &operatorSpec
+	} else {
+		rule.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	rule.OriginalVersion = source.OriginalVersion
 
@@ -366,6 +402,18 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignProperties_To_FlexibleServer
 
 	// EndIpAddress
 	destination.EndIpAddress = genruntime.ClonePointerToString(rule.EndIpAddress)
+
+	// OperatorSpec
+	if rule.OperatorSpec != nil {
+		var operatorSpec storage.FlexibleServersFirewallRuleOperatorSpec
+		err := rule.OperatorSpec.AssignProperties_To_FlexibleServersFirewallRuleOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServersFirewallRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion
@@ -581,6 +629,141 @@ type augmentConversionForFlexibleServersFirewallRule_Spec interface {
 type augmentConversionForFlexibleServersFirewallRule_STATUS interface {
 	AssignPropertiesFrom(src *storage.FlexibleServersFirewallRule_STATUS) error
 	AssignPropertiesTo(dst *storage.FlexibleServersFirewallRule_STATUS) error
+}
+
+// Storage version of v1api20220120preview.FlexibleServersFirewallRuleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServersFirewallRuleOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FlexibleServersFirewallRuleOperatorSpec populates our FlexibleServersFirewallRuleOperatorSpec from the provided source FlexibleServersFirewallRuleOperatorSpec
+func (operator *FlexibleServersFirewallRuleOperatorSpec) AssignProperties_From_FlexibleServersFirewallRuleOperatorSpec(source *storage.FlexibleServersFirewallRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServersFirewallRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFlexibleServersFirewallRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FlexibleServersFirewallRuleOperatorSpec populates the provided destination FlexibleServersFirewallRuleOperatorSpec from our FlexibleServersFirewallRuleOperatorSpec
+func (operator *FlexibleServersFirewallRuleOperatorSpec) AssignProperties_To_FlexibleServersFirewallRuleOperatorSpec(destination *storage.FlexibleServersFirewallRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServersFirewallRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFlexibleServersFirewallRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForFlexibleServersFirewallRuleOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.FlexibleServersFirewallRuleOperatorSpec) error
+	AssignPropertiesTo(dst *storage.FlexibleServersFirewallRuleOperatorSpec) error
 }
 
 func init() {

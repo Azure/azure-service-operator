@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (webtest *Webtest) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return webtest.AssignProperties_To_Webtest(destination)
+}
+
+var _ configmaps.Exporter = &Webtest{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (webtest *Webtest) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return webtest.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Webtest{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (webtest *Webtest) SecretDestinationExpressions() []*core.DestinationExpression {
+	if webtest.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return webtest.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Webtest{}
@@ -250,6 +273,7 @@ type Webtest_Spec struct {
 	Location        *string                          `json:"location,omitempty"`
 	Locations       []WebTestGeolocation             `json:"Locations,omitempty"`
 	Name            *string                          `json:"Name,omitempty"`
+	OperatorSpec    *WebtestOperatorSpec             `json:"operatorSpec,omitempty"`
 	OriginalVersion string                           `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -376,6 +400,18 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *storage.
 
 	// Name
 	webtest.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WebtestOperatorSpec
+		err := operatorSpec.AssignProperties_From_WebtestOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WebtestOperatorSpec() to populate field OperatorSpec")
+		}
+		webtest.OperatorSpec = &operatorSpec
+	} else {
+		webtest.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	webtest.OriginalVersion = source.OriginalVersion
@@ -509,6 +545,18 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *stora
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(webtest.Name)
+
+	// OperatorSpec
+	if webtest.OperatorSpec != nil {
+		var operatorSpec storage.WebtestOperatorSpec
+		err := webtest.OperatorSpec.AssignProperties_To_WebtestOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WebtestOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = webtest.OriginalVersion
@@ -1051,6 +1099,136 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_To_WebTestGeoloca
 	var geolocationAsAny any = geolocation
 	if augmentedGeolocation, ok := geolocationAsAny.(augmentConversionForWebTestGeolocation_STATUS); ok {
 		err := augmentedGeolocation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1api20180501preview.WebtestOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WebtestOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_WebtestOperatorSpec populates our WebtestOperatorSpec from the provided source WebtestOperatorSpec
+func (operator *WebtestOperatorSpec) AssignProperties_From_WebtestOperatorSpec(source *storage.WebtestOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWebtestOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForWebtestOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebtestOperatorSpec populates the provided destination WebtestOperatorSpec from our WebtestOperatorSpec
+func (operator *WebtestOperatorSpec) AssignProperties_To_WebtestOperatorSpec(destination *storage.WebtestOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWebtestOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForWebtestOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
@@ -1790,6 +1968,11 @@ type augmentConversionForWebTestGeolocation interface {
 type augmentConversionForWebTestGeolocation_STATUS interface {
 	AssignPropertiesFrom(src *storage.WebTestGeolocation_STATUS) error
 	AssignPropertiesTo(dst *storage.WebTestGeolocation_STATUS) error
+}
+
+type augmentConversionForWebtestOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.WebtestOperatorSpec) error
+	AssignPropertiesTo(dst *storage.WebtestOperatorSpec) error
 }
 
 type augmentConversionForWebTestProperties_Configuration interface {

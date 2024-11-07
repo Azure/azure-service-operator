@@ -9,6 +9,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -89,6 +92,26 @@ func (group *ResourceGroup) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the ResourceGroup resource
 func (group *ResourceGroup) defaultImpl() { group.defaultAzureName() }
+
+var _ configmaps.Exporter = &ResourceGroup{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (group *ResourceGroup) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ResourceGroup{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (group *ResourceGroup) SecretDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ResourceGroup{}
 
@@ -218,7 +241,7 @@ func (group *ResourceGroup) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (group *ResourceGroup) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){group.validateResourceReferences}
+	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateSecretDestinations, group.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -232,7 +255,22 @@ func (group *ResourceGroup) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return group.validateResourceReferences()
 		},
-		group.validateWriteOnceProperties}
+		group.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateConfigMapDestinations()
+		},
+	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (group *ResourceGroup) validateConfigMapDestinations() (admission.Warnings, error) {
+	if group.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(group, nil, group.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateResourceReferences validates all resource references
@@ -242,6 +280,14 @@ func (group *ResourceGroup) validateResourceReferences() (admission.Warnings, er
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (group *ResourceGroup) validateSecretDestinations() (admission.Warnings, error) {
+	if group.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(group, nil, group.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -345,6 +391,10 @@ type ResourceGroup_Spec struct {
 	// ManagedBy: The ID of the resource that manages this resource group.
 	ManagedBy *string `json:"managedBy,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ResourceGroupOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// Tags: The tags attached to the resource group.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -409,6 +459,8 @@ func (group *ResourceGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		managedBy := *typedInput.ManagedBy
 		group.ManagedBy = &managedBy
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
@@ -484,6 +536,18 @@ func (group *ResourceGroup_Spec) AssignProperties_From_ResourceGroup_Spec(source
 	// ManagedBy
 	group.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ResourceGroupOperatorSpec
+		err := operatorSpec.AssignProperties_From_ResourceGroupOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		group.OperatorSpec = &operatorSpec
+	} else {
+		group.OperatorSpec = nil
+	}
+
 	// Tags
 	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -504,6 +568,18 @@ func (group *ResourceGroup_Spec) AssignProperties_To_ResourceGroup_Spec(destinat
 
 	// ManagedBy
 	destination.ManagedBy = genruntime.ClonePointerToString(group.ManagedBy)
+
+	// OperatorSpec
+	if group.OperatorSpec != nil {
+		var operatorSpec storage.ResourceGroupOperatorSpec
+		err := group.OperatorSpec.AssignProperties_To_ResourceGroupOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = group.OriginalVersion()
@@ -770,6 +846,110 @@ func (group *ResourceGroup_STATUS) AssignProperties_To_ResourceGroup_STATUS(dest
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(group.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ResourceGroupOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ResourceGroupOperatorSpec populates our ResourceGroupOperatorSpec from the provided source ResourceGroupOperatorSpec
+func (operator *ResourceGroupOperatorSpec) AssignProperties_From_ResourceGroupOperatorSpec(source *storage.ResourceGroupOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceGroupOperatorSpec populates the provided destination ResourceGroupOperatorSpec from our ResourceGroupOperatorSpec
+func (operator *ResourceGroupOperatorSpec) AssignProperties_To_ResourceGroupOperatorSpec(destination *storage.ResourceGroupOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

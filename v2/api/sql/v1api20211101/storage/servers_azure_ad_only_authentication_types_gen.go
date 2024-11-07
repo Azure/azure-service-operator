@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (authentication *ServersAzureADOnlyAuthentication) GetConditions() conditio
 // SetConditions sets the conditions on the resource status
 func (authentication *ServersAzureADOnlyAuthentication) SetConditions(conditions conditions.Conditions) {
 	authentication.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersAzureADOnlyAuthentication{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (authentication *ServersAzureADOnlyAuthentication) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if authentication.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return authentication.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersAzureADOnlyAuthentication{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (authentication *ServersAzureADOnlyAuthentication) SecretDestinationExpressions() []*core.DestinationExpression {
+	if authentication.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return authentication.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersAzureADOnlyAuthentication{}
@@ -140,8 +163,9 @@ type ServersAzureADOnlyAuthenticationList struct {
 
 // Storage version of v1api20211101.ServersAzureADOnlyAuthentication_Spec
 type ServersAzureADOnlyAuthentication_Spec struct {
-	AzureADOnlyAuthentication *bool  `json:"azureADOnlyAuthentication,omitempty"`
-	OriginalVersion           string `json:"originalVersion,omitempty"`
+	AzureADOnlyAuthentication *bool                                         `json:"azureADOnlyAuthentication,omitempty"`
+	OperatorSpec              *ServersAzureADOnlyAuthenticationOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion           string                                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -199,6 +223,14 @@ func (authentication *ServersAzureADOnlyAuthentication_STATUS) ConvertStatusTo(d
 	}
 
 	return destination.ConvertStatusFrom(authentication)
+}
+
+// Storage version of v1api20211101.ServersAzureADOnlyAuthenticationOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersAzureADOnlyAuthenticationOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

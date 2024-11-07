@@ -5,13 +5,16 @@ APIVersion: Enum (1 value)
 └── "2023-07-01"
 RedisEnterprise: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── Location: *string
 │   ├── MinimumTlsVersion: *Enum (3 values)
 │   │   ├── "1.0"
 │   │   ├── "1.1"
 │   │   └── "1.2"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Sku: *Object (2 properties)
 │   │   ├── Capacity: *int
@@ -73,7 +76,7 @@ RedisEnterprise: Resource
     └── Zones: string[]
 RedisEnterpriseDatabase: Resource
 ├── Owner: RedisEnterprise
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AzureName: string
 │   ├── ClientProtocol: *Enum (2 values)
 │   │   ├── "Encrypted"
@@ -97,6 +100,9 @@ RedisEnterpriseDatabase: Resource
 │   ├── Modules: Object (2 properties)[]
 │   │   ├── Args: *string
 │   │   └── Name: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Persistence: *Object (4 properties)
 │   │   ├── AofEnabled: *bool

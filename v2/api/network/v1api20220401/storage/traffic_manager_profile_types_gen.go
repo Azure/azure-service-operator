@@ -9,6 +9,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -47,6 +49,26 @@ func (profile *TrafficManagerProfile) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (profile *TrafficManagerProfile) SetConditions(conditions conditions.Conditions) {
 	profile.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &TrafficManagerProfile{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (profile *TrafficManagerProfile) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if profile.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return profile.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &TrafficManagerProfile{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (profile *TrafficManagerProfile) SecretDestinationExpressions() []*core.DestinationExpression {
+	if profile.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return profile.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesConfigExporter = &TrafficManagerProfile{}
@@ -311,8 +333,10 @@ type MonitorConfig_STATUS struct {
 // Storage version of v1api20220401.TrafficManagerProfileOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type TrafficManagerProfileOperatorSpec struct {
-	ConfigMaps  *TrafficManagerProfileOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression            `json:"configMapExpressions,omitempty"`
+	ConfigMaps           *TrafficManagerProfileOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag          genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression            `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220401.MonitorConfig_CustomHeaders

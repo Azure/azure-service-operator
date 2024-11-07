@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (member *FleetsMember) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the FleetsMember resource
 func (member *FleetsMember) defaultImpl() { member.defaultAzureName() }
+
+var _ configmaps.Exporter = &FleetsMember{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (member *FleetsMember) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if member.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return member.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FleetsMember{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (member *FleetsMember) SecretDestinationExpressions() []*core.DestinationExpression {
+	if member.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return member.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &FleetsMember{}
 
@@ -209,7 +232,7 @@ func (member *FleetsMember) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (member *FleetsMember) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){member.validateResourceReferences, member.validateOwnerReference}
+	return []func() (admission.Warnings, error){member.validateResourceReferences, member.validateOwnerReference, member.validateSecretDestinations, member.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (member *FleetsMember) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return member.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return member.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return member.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (member *FleetsMember) validateConfigMapDestinations() (admission.Warnings, error) {
+	if member.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(member, nil, member.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (member *FleetsMember) validateResourceReferences() (admission.Warnings, er
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (member *FleetsMember) validateSecretDestinations() (admission.Warnings, error) {
+	if member.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(member, nil, member.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -345,6 +390,10 @@ type FleetsMember_Spec struct {
 	// Group: The group this member belongs to for multi-cluster update management.
 	Group *string `json:"group,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FleetsMemberOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -408,6 +457,8 @@ func (member *FleetsMember_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 			member.Group = &group
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	member.Owner = &genruntime.KnownResourceReference{
@@ -491,6 +542,18 @@ func (member *FleetsMember_Spec) AssignProperties_From_FleetsMember_Spec(source 
 		member.Group = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FleetsMemberOperatorSpec
+		err := operatorSpec.AssignProperties_From_FleetsMemberOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FleetsMemberOperatorSpec() to populate field OperatorSpec")
+		}
+		member.OperatorSpec = &operatorSpec
+	} else {
+		member.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -525,6 +588,18 @@ func (member *FleetsMember_Spec) AssignProperties_To_FleetsMember_Spec(destinati
 		destination.Group = &group
 	} else {
 		destination.Group = nil
+	}
+
+	// OperatorSpec
+	if member.OperatorSpec != nil {
+		var operatorSpec storage.FleetsMemberOperatorSpec
+		err := member.OperatorSpec.AssignProperties_To_FleetsMemberOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FleetsMemberOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -874,6 +949,110 @@ var fleetMemberProvisioningState_STATUS_Values = map[string]FleetMemberProvision
 	"leaving":   FleetMemberProvisioningState_STATUS_Leaving,
 	"succeeded": FleetMemberProvisioningState_STATUS_Succeeded,
 	"updating":  FleetMemberProvisioningState_STATUS_Updating,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FleetsMemberOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FleetsMemberOperatorSpec populates our FleetsMemberOperatorSpec from the provided source FleetsMemberOperatorSpec
+func (operator *FleetsMemberOperatorSpec) AssignProperties_From_FleetsMemberOperatorSpec(source *storage.FleetsMemberOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FleetsMemberOperatorSpec populates the provided destination FleetsMemberOperatorSpec from our FleetsMemberOperatorSpec
+func (operator *FleetsMemberOperatorSpec) AssignProperties_To_FleetsMemberOperatorSpec(destination *storage.FleetsMemberOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

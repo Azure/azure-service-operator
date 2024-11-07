@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (database *FlexibleServersDatabase) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the FlexibleServersDatabase resource
 func (database *FlexibleServersDatabase) defaultImpl() { database.defaultAzureName() }
+
+var _ configmaps.Exporter = &FlexibleServersDatabase{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (database *FlexibleServersDatabase) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if database.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return database.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FlexibleServersDatabase{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (database *FlexibleServersDatabase) SecretDestinationExpressions() []*core.DestinationExpression {
+	if database.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return database.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &FlexibleServersDatabase{}
 
@@ -209,7 +232,7 @@ func (database *FlexibleServersDatabase) ValidateUpdate(old runtime.Object) (adm
 
 // createValidations validates the creation of the resource
 func (database *FlexibleServersDatabase) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){database.validateResourceReferences, database.validateOwnerReference}
+	return []func() (admission.Warnings, error){database.validateResourceReferences, database.validateOwnerReference, database.validateSecretDestinations, database.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (database *FlexibleServersDatabase) updateValidations() []func(old runtime.
 		func(old runtime.Object) (admission.Warnings, error) {
 			return database.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return database.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return database.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (database *FlexibleServersDatabase) validateConfigMapDestinations() (admission.Warnings, error) {
+	if database.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(database, nil, database.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (database *FlexibleServersDatabase) validateResourceReferences() (admission
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (database *FlexibleServersDatabase) validateSecretDestinations() (admission.Warnings, error) {
+	if database.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(database, nil, database.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -340,6 +385,10 @@ type FlexibleServersDatabase_Spec struct {
 	// Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FlexibleServersDatabaseOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -406,6 +455,8 @@ func (database *FlexibleServersDatabase_Spec) PopulateFromARM(owner genruntime.A
 			database.Collation = &collation
 		}
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	database.Owner = &genruntime.KnownResourceReference{
@@ -489,6 +540,18 @@ func (database *FlexibleServersDatabase_Spec) AssignProperties_From_FlexibleServ
 		database.Collation = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FlexibleServersDatabaseOperatorSpec
+		err := operatorSpec.AssignProperties_From_FlexibleServersDatabaseOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FlexibleServersDatabaseOperatorSpec() to populate field OperatorSpec")
+		}
+		database.OperatorSpec = &operatorSpec
+	} else {
+		database.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -523,6 +586,18 @@ func (database *FlexibleServersDatabase_Spec) AssignProperties_To_FlexibleServer
 		destination.Collation = &collation
 	} else {
 		destination.Collation = nil
+	}
+
+	// OperatorSpec
+	if database.OperatorSpec != nil {
+		var operatorSpec storage.FlexibleServersDatabaseOperatorSpec
+		err := database.OperatorSpec.AssignProperties_To_FlexibleServersDatabaseOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServersDatabaseOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -792,6 +867,110 @@ func (database *FlexibleServersDatabase_STATUS) AssignProperties_To_FlexibleServ
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(database.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServersDatabaseOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FlexibleServersDatabaseOperatorSpec populates our FlexibleServersDatabaseOperatorSpec from the provided source FlexibleServersDatabaseOperatorSpec
+func (operator *FlexibleServersDatabaseOperatorSpec) AssignProperties_From_FlexibleServersDatabaseOperatorSpec(source *storage.FlexibleServersDatabaseOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FlexibleServersDatabaseOperatorSpec populates the provided destination FlexibleServersDatabaseOperatorSpec from our FlexibleServersDatabaseOperatorSpec
+func (operator *FlexibleServersDatabaseOperatorSpec) AssignProperties_To_FlexibleServersDatabaseOperatorSpec(destination *storage.FlexibleServersDatabaseOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

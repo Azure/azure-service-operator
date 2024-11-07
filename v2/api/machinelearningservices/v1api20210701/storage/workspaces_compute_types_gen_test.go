@@ -9636,6 +9636,103 @@ func AddRelatedPropertyGeneratorsForWorkspacesCompute(gens map[string]gopter.Gen
 	gens["Status"] = WorkspacesCompute_STATUSGenerator()
 }
 
+func Test_WorkspacesComputeOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspacesComputeOperatorSpec to WorkspacesComputeOperatorSpec via AssignProperties_To_WorkspacesComputeOperatorSpec & AssignProperties_From_WorkspacesComputeOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspacesComputeOperatorSpec, WorkspacesComputeOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspacesComputeOperatorSpec tests if a specific instance of WorkspacesComputeOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForWorkspacesComputeOperatorSpec(subject WorkspacesComputeOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.WorkspacesComputeOperatorSpec
+	err := copied.AssignProperties_To_WorkspacesComputeOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WorkspacesComputeOperatorSpec
+	err = actual.AssignProperties_From_WorkspacesComputeOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_WorkspacesComputeOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WorkspacesComputeOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWorkspacesComputeOperatorSpec, WorkspacesComputeOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWorkspacesComputeOperatorSpec runs a test to see if a specific instance of WorkspacesComputeOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWorkspacesComputeOperatorSpec(subject WorkspacesComputeOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WorkspacesComputeOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WorkspacesComputeOperatorSpec instances for property testing - lazily instantiated by
+// WorkspacesComputeOperatorSpecGenerator()
+var workspacesComputeOperatorSpecGenerator gopter.Gen
+
+// WorkspacesComputeOperatorSpecGenerator returns a generator of WorkspacesComputeOperatorSpec instances for property testing.
+func WorkspacesComputeOperatorSpecGenerator() gopter.Gen {
+	if workspacesComputeOperatorSpecGenerator != nil {
+		return workspacesComputeOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	workspacesComputeOperatorSpecGenerator = gen.Struct(reflect.TypeOf(WorkspacesComputeOperatorSpec{}), generators)
+
+	return workspacesComputeOperatorSpecGenerator
+}
+
 func Test_WorkspacesCompute_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -9882,6 +9979,7 @@ func AddIndependentPropertyGeneratorsForWorkspacesCompute_Spec(gens map[string]g
 // AddRelatedPropertyGeneratorsForWorkspacesCompute_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspacesCompute_Spec(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(WorkspacesComputeOperatorSpecGenerator())
 	gens["Properties"] = gen.PtrOf(ComputeGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())

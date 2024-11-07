@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (route *Route) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Route resource
 func (route *Route) defaultImpl() { route.defaultAzureName() }
+
+var _ configmaps.Exporter = &Route{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (route *Route) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if route.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return route.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Route{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (route *Route) SecretDestinationExpressions() []*core.DestinationExpression {
+	if route.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return route.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Route{}
 
@@ -209,7 +232,7 @@ func (route *Route) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (route *Route) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){route.validateResourceReferences, route.validateOwnerReference}
+	return []func() (admission.Warnings, error){route.validateResourceReferences, route.validateOwnerReference, route.validateSecretDestinations, route.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (route *Route) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return route.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return route.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return route.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (route *Route) validateConfigMapDestinations() (admission.Warnings, error) {
+	if route.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(route, nil, route.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (route *Route) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (route *Route) validateSecretDestinations() (admission.Warnings, error) {
+	if route.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(route, nil, route.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -349,6 +394,10 @@ type Route_Spec struct {
 
 	// LinkToDefaultDomain: whether this route will be linked to the default endpoint domain.
 	LinkToDefaultDomain *RouteProperties_LinkToDefaultDomain `json:"linkToDefaultDomain,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *RouteOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// OriginGroup: A reference to the origin group.
 	OriginGroup *ResourceReference `json:"originGroup,omitempty"`
@@ -554,6 +603,8 @@ func (route *Route_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "OriginGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -740,6 +791,18 @@ func (route *Route_Spec) AssignProperties_From_Route_Spec(source *storage.Route_
 		route.LinkToDefaultDomain = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RouteOperatorSpec
+		err := operatorSpec.AssignProperties_From_RouteOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RouteOperatorSpec() to populate field OperatorSpec")
+		}
+		route.OperatorSpec = &operatorSpec
+	} else {
+		route.OperatorSpec = nil
+	}
+
 	// OriginGroup
 	if source.OriginGroup != nil {
 		var originGroup ResourceReference
@@ -869,6 +932,18 @@ func (route *Route_Spec) AssignProperties_To_Route_Spec(destination *storage.Rou
 		destination.LinkToDefaultDomain = &linkToDefaultDomain
 	} else {
 		destination.LinkToDefaultDomain = nil
+	}
+
+	// OperatorSpec
+	if route.OperatorSpec != nil {
+		var operatorSpec storage.RouteOperatorSpec
+		err := route.OperatorSpec.AssignProperties_To_RouteOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RouteOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginGroup
@@ -2227,6 +2302,110 @@ func (configuration *AfdRouteCacheConfiguration_STATUS) AssignProperties_To_AfdR
 		destination.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		destination.QueryStringCachingBehavior = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RouteOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RouteOperatorSpec populates our RouteOperatorSpec from the provided source RouteOperatorSpec
+func (operator *RouteOperatorSpec) AssignProperties_From_RouteOperatorSpec(source *storage.RouteOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RouteOperatorSpec populates the provided destination RouteOperatorSpec from our RouteOperatorSpec
+func (operator *RouteOperatorSpec) AssignProperties_To_RouteOperatorSpec(destination *storage.RouteOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

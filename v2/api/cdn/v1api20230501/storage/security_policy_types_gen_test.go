@@ -139,6 +139,61 @@ func AddRelatedPropertyGeneratorsForSecurityPolicy(gens map[string]gopter.Gen) {
 	gens["Status"] = SecurityPolicy_STATUSGenerator()
 }
 
+func Test_SecurityPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SecurityPolicyOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSecurityPolicyOperatorSpec, SecurityPolicyOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSecurityPolicyOperatorSpec runs a test to see if a specific instance of SecurityPolicyOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSecurityPolicyOperatorSpec(subject SecurityPolicyOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SecurityPolicyOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SecurityPolicyOperatorSpec instances for property testing - lazily instantiated by
+// SecurityPolicyOperatorSpecGenerator()
+var securityPolicyOperatorSpecGenerator gopter.Gen
+
+// SecurityPolicyOperatorSpecGenerator returns a generator of SecurityPolicyOperatorSpec instances for property testing.
+func SecurityPolicyOperatorSpecGenerator() gopter.Gen {
+	if securityPolicyOperatorSpecGenerator != nil {
+		return securityPolicyOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	securityPolicyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SecurityPolicyOperatorSpec{}), generators)
+
+	return securityPolicyOperatorSpecGenerator
+}
+
 func Test_SecurityPolicyPropertiesParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -733,5 +788,6 @@ func AddIndependentPropertyGeneratorsForSecurityPolicy_Spec(gens map[string]gopt
 
 // AddRelatedPropertyGeneratorsForSecurityPolicy_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSecurityPolicy_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(SecurityPolicyOperatorSpecGenerator())
 	gens["Parameters"] = gen.PtrOf(SecurityPolicyPropertiesParametersGenerator())
 }

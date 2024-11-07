@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForAfdOrigin(gens map[string]gopter.Gen) {
 	gens["Status"] = AfdOrigin_STATUSGenerator()
 }
 
+func Test_AfdOriginOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOriginOperatorSpec to AfdOriginOperatorSpec via AssignProperties_To_AfdOriginOperatorSpec & AssignProperties_From_AfdOriginOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOriginOperatorSpec, AfdOriginOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOriginOperatorSpec tests if a specific instance of AfdOriginOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOriginOperatorSpec(subject AfdOriginOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOriginOperatorSpec
+	err := copied.AssignProperties_To_AfdOriginOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOriginOperatorSpec
+	err = actual.AssignProperties_From_AfdOriginOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_AfdOriginOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AfdOriginOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAfdOriginOperatorSpec, AfdOriginOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAfdOriginOperatorSpec runs a test to see if a specific instance of AfdOriginOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAfdOriginOperatorSpec(subject AfdOriginOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AfdOriginOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AfdOriginOperatorSpec instances for property testing - lazily instantiated by
+// AfdOriginOperatorSpecGenerator()
+var afdOriginOperatorSpecGenerator gopter.Gen
+
+// AfdOriginOperatorSpecGenerator returns a generator of AfdOriginOperatorSpec instances for property testing.
+func AfdOriginOperatorSpecGenerator() gopter.Gen {
+	if afdOriginOperatorSpecGenerator != nil {
+		return afdOriginOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	afdOriginOperatorSpecGenerator = gen.Struct(reflect.TypeOf(AfdOriginOperatorSpec{}), generators)
+
+	return afdOriginOperatorSpecGenerator
+}
+
 func Test_AfdOrigin_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -426,6 +523,7 @@ func AddIndependentPropertyGeneratorsForAfdOrigin_Spec(gens map[string]gopter.Ge
 // AddRelatedPropertyGeneratorsForAfdOrigin_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAfdOrigin_Spec(gens map[string]gopter.Gen) {
 	gens["AzureOrigin"] = gen.PtrOf(ResourceReferenceGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(AfdOriginOperatorSpecGenerator())
 	gens["SharedPrivateLinkResource"] = gen.PtrOf(SharedPrivateLinkResourcePropertiesGenerator())
 }
 

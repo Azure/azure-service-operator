@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2022-06-15"
 ScheduledQueryRule: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (20 properties)
+├── Spec: Object (21 properties)
 │   ├── Actions: *Object (2 properties)
 │   │   ├── ActionGroupsReferences: genruntime.ResourceReference[]
 │   │   └── CustomProperties: map[string]string
@@ -50,6 +50,9 @@ ScheduledQueryRule: Resource
 │   │   └── "LogToMetric"
 │   ├── Location: *string
 │   ├── MuteActionsDuration: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OverrideQueryTimeRange: *string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── ScopesReferences: genruntime.ResourceReference[]
@@ -143,7 +146,7 @@ ScheduledQueryRule: Resource
     └── WindowSize: *string
 Webtest: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (16 properties)
+├── Spec: Object (17 properties)
 │   ├── AzureName: string
 │   ├── Configuration: *Object (1 property)
 │   │   └── WebTest: *string
@@ -158,6 +161,9 @@ Webtest: Resource
 │   ├── Locations: Object (1 property)[]
 │   │   └── Id: *string
 │   ├── Name: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Request: *Object (6 properties)
 │   │   ├── FollowRedirects: *bool

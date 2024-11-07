@@ -35,9 +35,11 @@ Server: Resource
 │   ├── KeyId: *string
 │   ├── Location: *string
 │   ├── MinimalTlsVersion: *string
-│   ├── OperatorSpec: *Object (1 property)
-│   │   └── ConfigMaps: *Object (1 property)
-│   │       └── FullyQualifiedDomainName: *genruntime.ConfigMapDestination
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── ConfigMaps: *Object (1 property)
+│   │   │   └── FullyQualifiedDomainName: *genruntime.ConfigMapDestination
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
 │   ├── PublicNetworkAccess: *Enum (2 values)
@@ -118,10 +120,13 @@ Server: Resource
         └── "Disconnected"
 ServersAdministrator: Resource
 ├── Owner: Server
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AdministratorType: *Enum (1 value)
 │   │   └── "ActiveDirectory"
 │   ├── Login: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Sid: Validated<*string> (1 rule)
 │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
@@ -142,7 +147,10 @@ ServersAdministrator: Resource
     └── Type: *string
 ServersAdvancedThreatProtectionSetting: Resource
 ├── Owner: Server
-├── Spec: Object (2 properties)
+├── Spec: Object (3 properties)
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── State: *Enum (3 values)
 │       ├── "Disabled"
@@ -175,12 +183,15 @@ ServersAdvancedThreatProtectionSetting: Resource
     └── Type: *string
 ServersAuditingSetting: Resource
 ├── Owner: Server
-├── Spec: Object (12 properties)
+├── Spec: Object (13 properties)
 │   ├── AuditActionsAndGroups: string[]
 │   ├── IsAzureMonitorTargetEnabled: *bool
 │   ├── IsDevopsAuditEnabled: *bool
 │   ├── IsManagedIdentityInUse: *bool
 │   ├── IsStorageSecondaryKeyInUse: *bool
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── QueueDelayMs: *int
 │   ├── RetentionDays: *int
@@ -210,8 +221,11 @@ ServersAuditingSetting: Resource
     └── Type: *string
 ServersAzureADOnlyAuthentication: Resource
 ├── Owner: Server
-├── Spec: Object (2 properties)
+├── Spec: Object (3 properties)
 │   ├── AzureADOnlyAuthentication: *bool
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
 └── Status: Object (5 properties)
     ├── AzureADOnlyAuthentication: *bool
@@ -221,11 +235,14 @@ ServersAzureADOnlyAuthentication: Resource
     └── Type: *string
 ServersConnectionPolicy: Resource
 ├── Owner: Server
-├── Spec: Object (2 properties)
+├── Spec: Object (3 properties)
 │   ├── ConnectionType: *Enum (3 values)
 │   │   ├── "Default"
 │   │   ├── "Proxy"
 │   │   └── "Redirect"
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
 └── Status: Object (7 properties)
     ├── Conditions: conditions.Condition[]
@@ -240,7 +257,7 @@ ServersConnectionPolicy: Resource
     └── Type: *string
 ServersDatabase: Resource
 ├── Owner: Server
-├── Spec: Object (31 properties)
+├── Spec: Object (32 properties)
 │   ├── AutoPauseDelay: *int
 │   ├── AzureName: string
 │   ├── CatalogCollation: *Enum (2 values)
@@ -277,6 +294,9 @@ ServersDatabase: Resource
 │   ├── MaintenanceConfigurationId: *string
 │   ├── MaxSizeBytes: *int
 │   ├── MinCapacity: *float64
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── ReadScale: *Enum (2 values)
 │   │   ├── "Disabled"
@@ -430,7 +450,10 @@ ServersDatabase: Resource
     └── ZoneRedundant: *bool
 ServersDatabasesAdvancedThreatProtectionSetting: Resource
 ├── Owner: ServersDatabase
-├── Spec: Object (2 properties)
+├── Spec: Object (3 properties)
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── State: *Enum (3 values)
 │       ├── "Disabled"
@@ -463,11 +486,14 @@ ServersDatabasesAdvancedThreatProtectionSetting: Resource
     └── Type: *string
 ServersDatabasesAuditingSetting: Resource
 ├── Owner: ServersDatabase
-├── Spec: Object (11 properties)
+├── Spec: Object (12 properties)
 │   ├── AuditActionsAndGroups: string[]
 │   ├── IsAzureMonitorTargetEnabled: *bool
 │   ├── IsManagedIdentityInUse: *bool
 │   ├── IsStorageSecondaryKeyInUse: *bool
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── QueueDelayMs: *int
 │   ├── RetentionDays: *int
@@ -497,8 +523,11 @@ ServersDatabasesAuditingSetting: Resource
     └── Type: *string
 ServersDatabasesBackupLongTermRetentionPolicy: Resource
 ├── Owner: ServersDatabase
-├── Spec: Object (5 properties)
+├── Spec: Object (6 properties)
 │   ├── MonthlyRetention: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── WeekOfYear: *int
 │   ├── WeeklyRetention: *string
@@ -514,10 +543,13 @@ ServersDatabasesBackupLongTermRetentionPolicy: Resource
     └── YearlyRetention: *string
 ServersDatabasesBackupShortTermRetentionPolicy: Resource
 ├── Owner: ServersDatabase
-├── Spec: Object (3 properties)
+├── Spec: Object (4 properties)
 │   ├── DiffBackupIntervalInHours: *Enum (2 values)
 │   │   ├── 12
 │   │   └── 24
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── RetentionDays: *int
 └── Status: Object (6 properties)
@@ -531,10 +563,13 @@ ServersDatabasesBackupShortTermRetentionPolicy: Resource
     └── Type: *string
 ServersDatabasesSecurityAlertPolicy: Resource
 ├── Owner: ServersDatabase
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── DisabledAlerts: string[]
 │   ├── EmailAccountAdmins: *bool
 │   ├── EmailAddresses: string[]
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── RetentionDays: *int
 │   ├── State: *Enum (2 values)
@@ -573,7 +608,10 @@ ServersDatabasesSecurityAlertPolicy: Resource
     └── Type: *string
 ServersDatabasesTransparentDataEncryption: Resource
 ├── Owner: ServersDatabase
-├── Spec: Object (2 properties)
+├── Spec: Object (3 properties)
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── State: *Enum (2 values)
 │       ├── "Disabled"
@@ -588,7 +626,10 @@ ServersDatabasesTransparentDataEncryption: Resource
     └── Type: *string
 ServersDatabasesVulnerabilityAssessment: Resource
 ├── Owner: ServersDatabase
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── RecurringScans: *Object (3 properties)
 │   │   ├── EmailSubscriptionAdmins: *bool
@@ -610,7 +651,7 @@ ServersDatabasesVulnerabilityAssessment: Resource
     └── Type: *string
 ServersElasticPool: Resource
 ├── Owner: Server
-├── Spec: Object (12 properties)
+├── Spec: Object (13 properties)
 │   ├── AzureName: string
 │   ├── HighAvailabilityReplicaCount: *int
 │   ├── LicenseType: *Enum (2 values)
@@ -620,6 +661,9 @@ ServersElasticPool: Resource
 │   ├── MaintenanceConfigurationId: *string
 │   ├── MaxSizeBytes: *int
 │   ├── MinCapacity: *float64
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PerDatabaseSettings: *Object (2 properties)
 │   │   ├── MaxCapacity: *float64
@@ -664,9 +708,12 @@ ServersElasticPool: Resource
     └── ZoneRedundant: *bool
 ServersFailoverGroup: Resource
 ├── Owner: Server
-├── Spec: Object (7 properties)
+├── Spec: Object (8 properties)
 │   ├── AzureName: string
 │   ├── DatabasesReferences: genruntime.ResourceReference[]
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PartnerServers: Object (1 property)[]
 │   │   └── Reference: *genruntime.ResourceReference
@@ -709,9 +756,12 @@ ServersFailoverGroup: Resource
     └── Type: *string
 ServersFirewallRule: Resource
 ├── Owner: Server
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
 │   ├── EndIpAddress: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── StartIpAddress: *string
 └── Status: Object (6 properties)
@@ -723,9 +773,12 @@ ServersFirewallRule: Resource
     └── Type: *string
 ServersIPV6FirewallRule: Resource
 ├── Owner: Server
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
 │   ├── EndIPv6Address: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── StartIPv6Address: *string
 └── Status: Object (6 properties)
@@ -737,8 +790,11 @@ ServersIPV6FirewallRule: Resource
     └── Type: *string
 ServersOutboundFirewallRule: Resource
 ├── Owner: Server
-├── Spec: Object (2 properties)
+├── Spec: Object (3 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
 └── Status: Object (5 properties)
     ├── Conditions: conditions.Condition[]
@@ -748,10 +804,13 @@ ServersOutboundFirewallRule: Resource
     └── Type: *string
 ServersSecurityAlertPolicy: Resource
 ├── Owner: Server
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── DisabledAlerts: string[]
 │   ├── EmailAccountAdmins: *bool
 │   ├── EmailAddresses: string[]
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── RetentionDays: *int
 │   ├── State: *Enum (2 values)
@@ -790,9 +849,12 @@ ServersSecurityAlertPolicy: Resource
     └── Type: *string
 ServersVirtualNetworkRule: Resource
 ├── Owner: Server
-├── Spec: Object (4 properties)
+├── Spec: Object (5 properties)
 │   ├── AzureName: string
 │   ├── IgnoreMissingVnetServiceEndpoint: *bool
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── VirtualNetworkSubnetReference: *genruntime.ResourceReference
 └── Status: Object (7 properties)
@@ -811,7 +873,10 @@ ServersVirtualNetworkRule: Resource
     └── VirtualNetworkSubnetId: *string
 ServersVulnerabilityAssessment: Resource
 ├── Owner: Server
-├── Spec: Object (6 properties)
+├── Spec: Object (7 properties)
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── RecurringScans: *Object (3 properties)
 │   │   ├── EmailSubscriptionAdmins: *bool

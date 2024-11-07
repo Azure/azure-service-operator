@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (alias *Alias) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Alias resource
 func (alias *Alias) defaultImpl() { alias.defaultAzureName() }
+
+var _ configmaps.Exporter = &Alias{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (alias *Alias) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if alias.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return alias.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Alias{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (alias *Alias) SecretDestinationExpressions() []*core.DestinationExpression {
+	if alias.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return alias.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &Alias{}
 
@@ -208,7 +231,7 @@ func (alias *Alias) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (alias *Alias) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){alias.validateResourceReferences}
+	return []func() (admission.Warnings, error){alias.validateResourceReferences, alias.validateSecretDestinations, alias.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -222,7 +245,22 @@ func (alias *Alias) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return alias.validateResourceReferences()
 		},
-		alias.validateWriteOnceProperties}
+		alias.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return alias.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return alias.validateConfigMapDestinations()
+		},
+	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (alias *Alias) validateConfigMapDestinations() (admission.Warnings, error) {
+	if alias.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(alias, nil, alias.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateResourceReferences validates all resource references
@@ -232,6 +270,14 @@ func (alias *Alias) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (alias *Alias) validateSecretDestinations() (admission.Warnings, error) {
+	if alias.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(alias, nil, alias.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -320,6 +366,10 @@ type Alias_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *AliasOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// Properties: Put alias request properties.
 	Properties *PutAliasRequestProperties `json:"properties,omitempty"`
 }
@@ -362,6 +412,8 @@ func (alias *Alias_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property "AzureName":
 	alias.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Properties":
 	if typedInput.Properties != nil {
@@ -434,6 +486,18 @@ func (alias *Alias_Spec) AssignProperties_From_Alias_Spec(source *storage.Alias_
 	// AzureName
 	alias.AzureName = source.AzureName
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AliasOperatorSpec
+		err := operatorSpec.AssignProperties_From_AliasOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AliasOperatorSpec() to populate field OperatorSpec")
+		}
+		alias.OperatorSpec = &operatorSpec
+	} else {
+		alias.OperatorSpec = nil
+	}
+
 	// Properties
 	if source.Properties != nil {
 		var property PutAliasRequestProperties
@@ -457,6 +521,18 @@ func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *storage.Ali
 
 	// AzureName
 	destination.AzureName = alias.AzureName
+
+	// OperatorSpec
+	if alias.OperatorSpec != nil {
+		var operatorSpec storage.AliasOperatorSpec
+		err := alias.OperatorSpec.AssignProperties_To_AliasOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AliasOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = alias.OriginalVersion()
@@ -740,6 +816,110 @@ func (alias *Alias_STATUS) AssignProperties_To_Alias_STATUS(destination *storage
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AliasOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AliasOperatorSpec populates our AliasOperatorSpec from the provided source AliasOperatorSpec
+func (operator *AliasOperatorSpec) AssignProperties_From_AliasOperatorSpec(source *storage.AliasOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AliasOperatorSpec populates the provided destination AliasOperatorSpec from our AliasOperatorSpec
+func (operator *AliasOperatorSpec) AssignProperties_To_AliasOperatorSpec(destination *storage.AliasOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // Put subscription properties.
 type PutAliasRequestProperties struct {

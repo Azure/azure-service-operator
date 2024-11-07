@@ -774,6 +774,61 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS(
 	gens["Subnet"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
+func Test_VirtualNetworkGatewayOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworkGatewayOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkGatewayOperatorSpec, VirtualNetworkGatewayOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworkGatewayOperatorSpec runs a test to see if a specific instance of VirtualNetworkGatewayOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkGatewayOperatorSpec(subject VirtualNetworkGatewayOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworkGatewayOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworkGatewayOperatorSpec instances for property testing - lazily instantiated by
+// VirtualNetworkGatewayOperatorSpecGenerator()
+var virtualNetworkGatewayOperatorSpecGenerator gopter.Gen
+
+// VirtualNetworkGatewayOperatorSpecGenerator returns a generator of VirtualNetworkGatewayOperatorSpec instances for property testing.
+func VirtualNetworkGatewayOperatorSpecGenerator() gopter.Gen {
+	if virtualNetworkGatewayOperatorSpecGenerator != nil {
+		return virtualNetworkGatewayOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	virtualNetworkGatewayOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkGatewayOperatorSpec{}), generators)
+
+	return virtualNetworkGatewayOperatorSpecGenerator
+}
+
 func Test_VirtualNetworkGatewaySku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1087,6 +1142,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGateway_Spec(gens map[string]g
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["GatewayDefaultSite"] = gen.PtrOf(SubResourceGenerator())
 	gens["IpConfigurations"] = gen.SliceOf(VirtualNetworkGatewayIPConfigurationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(VirtualNetworkGatewayOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(VirtualNetworkGatewaySkuGenerator())
 	gens["VpnClientConfiguration"] = gen.PtrOf(VpnClientConfigurationGenerator())
 }

@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2020-09-30"
 Disk: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (25 properties)
+├── Spec: Object (26 properties)
 │   ├── AzureName: string
 │   ├── BurstingEnabled: *bool
 │   ├── CreationData: *Object (9 properties)
@@ -60,6 +60,10 @@ Disk: Resource
 │   ├── Location: *string
 │   ├── MaxShares: *int
 │   ├── NetworkAccessPolicy: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── OsType: *string
 │   ├── Owner: *genruntime.KnownResourceReference
@@ -162,7 +166,7 @@ Disk: Resource
     └── Zones: string[]
 Snapshot: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (19 properties)
+├── Spec: Object (20 properties)
 │   ├── AzureName: string
 │   ├── CreationData: *Object (9 properties)
 │   │   ├── CreateOption: *string
@@ -213,6 +217,10 @@ Snapshot: Resource
 │   ├── Incremental: *bool
 │   ├── Location: *string
 │   ├── NetworkAccessPolicy: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── OsType: *string
 │   ├── Owner: *genruntime.KnownResourceReference
@@ -303,6 +311,7 @@ Snapshot: Resource
 augmentConversionForCreationData: Interface
 augmentConversionForCreationData_STATUS: Interface
 augmentConversionForDisk: Interface
+augmentConversionForDiskOperatorSpec: Interface
 augmentConversionForDiskSku: Interface
 augmentConversionForDiskSku_STATUS: Interface
 augmentConversionForDisk_STATUS: Interface
@@ -325,6 +334,7 @@ augmentConversionForPurchasePlan: Interface
 augmentConversionForPurchasePlan_STATUS: Interface
 augmentConversionForShareInfoElement_STATUS: Interface
 augmentConversionForSnapshot: Interface
+augmentConversionForSnapshotOperatorSpec: Interface
 augmentConversionForSnapshotSku: Interface
 augmentConversionForSnapshotSku_STATUS: Interface
 augmentConversionForSnapshot_STATUS: Interface

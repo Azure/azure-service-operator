@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (encryptionSet *DiskEncryptionSet) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (encryptionSet *DiskEncryptionSet) SetConditions(conditions conditions.Conditions) {
 	encryptionSet.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &DiskEncryptionSet{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (encryptionSet *DiskEncryptionSet) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if encryptionSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return encryptionSet.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DiskEncryptionSet{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (encryptionSet *DiskEncryptionSet) SecretDestinationExpressions() []*core.DestinationExpression {
+	if encryptionSet.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return encryptionSet.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &DiskEncryptionSet{}
@@ -150,6 +173,7 @@ type DiskEncryptionSet_Spec struct {
 	FederatedClientIdFromConfig *genruntime.ConfigMapReference `json:"federatedClientIdFromConfig,omitempty" optionalConfigMapPair:"FederatedClientId"`
 	Identity                    *EncryptionSetIdentity         `json:"identity,omitempty"`
 	Location                    *string                        `json:"location,omitempty"`
+	OperatorSpec                *DiskEncryptionSetOperatorSpec `json:"operatorSpec,omitempty"`
 	OriginalVersion             string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -232,6 +256,14 @@ type ApiError_STATUS struct {
 	Message     *string                `json:"message,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Target      *string                `json:"target,omitempty"`
+}
+
+// Storage version of v1api20240302.DiskEncryptionSetOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DiskEncryptionSetOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20240302.EncryptionSetIdentity

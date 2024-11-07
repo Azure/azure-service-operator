@@ -11,6 +11,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -91,6 +93,26 @@ func (configuration *FluxConfiguration) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the FluxConfiguration resource
 func (configuration *FluxConfiguration) defaultImpl() { configuration.defaultAzureName() }
+
+var _ configmaps.Exporter = &FluxConfiguration{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (configuration *FluxConfiguration) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FluxConfiguration{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (configuration *FluxConfiguration) SecretDestinationExpressions() []*core.DestinationExpression {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return configuration.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &FluxConfiguration{}
 
@@ -209,7 +231,7 @@ func (configuration *FluxConfiguration) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (configuration *FluxConfiguration) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){configuration.validateResourceReferences, configuration.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){configuration.validateResourceReferences, configuration.validateSecretDestinations, configuration.validateConfigMapDestinations, configuration.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -225,9 +247,23 @@ func (configuration *FluxConfiguration) updateValidations() []func(old runtime.O
 		},
 		configuration.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return configuration.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return configuration.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return configuration.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (configuration *FluxConfiguration) validateConfigMapDestinations() (admission.Warnings, error) {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -246,6 +282,14 @@ func (configuration *FluxConfiguration) validateResourceReferences() (admission.
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (configuration *FluxConfiguration) validateSecretDestinations() (admission.Warnings, error) {
+	if configuration.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(configuration, nil, configuration.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -352,6 +396,10 @@ type FluxConfiguration_Spec struct {
 	// Namespace: The namespace to which this configuration is installed to. Maximum of 253 lower case alphanumeric characters,
 	// hyphen and period only.
 	Namespace *string `json:"namespace,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FluxConfigurationOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -559,6 +607,8 @@ func (configuration *FluxConfiguration_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	configuration.Owner = &owner
 
@@ -736,6 +786,18 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_From_FluxConfigura
 	// Namespace
 	configuration.Namespace = genruntime.ClonePointerToString(source.Namespace)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FluxConfigurationOperatorSpec
+		err := operatorSpec.AssignProperties_From_FluxConfigurationOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FluxConfigurationOperatorSpec() to populate field OperatorSpec")
+		}
+		configuration.OperatorSpec = &operatorSpec
+	} else {
+		configuration.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -857,6 +919,18 @@ func (configuration *FluxConfiguration_Spec) AssignProperties_To_FluxConfigurati
 
 	// Namespace
 	destination.Namespace = genruntime.ClonePointerToString(configuration.Namespace)
+
+	// OperatorSpec
+	if configuration.OperatorSpec != nil {
+		var operatorSpec storage.FluxConfigurationOperatorSpec
+		err := configuration.OperatorSpec.AssignProperties_To_FluxConfigurationOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FluxConfigurationOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = configuration.OriginalVersion()
@@ -2708,6 +2782,110 @@ var fluxComplianceStateDefinition_STATUS_Values = map[string]FluxComplianceState
 	"pending":       FluxComplianceStateDefinition_STATUS_Pending,
 	"suspended":     FluxComplianceStateDefinition_STATUS_Suspended,
 	"unknown":       FluxComplianceStateDefinition_STATUS_Unknown,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FluxConfigurationOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FluxConfigurationOperatorSpec populates our FluxConfigurationOperatorSpec from the provided source FluxConfigurationOperatorSpec
+func (operator *FluxConfigurationOperatorSpec) AssignProperties_From_FluxConfigurationOperatorSpec(source *storage.FluxConfigurationOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FluxConfigurationOperatorSpec populates the provided destination FluxConfigurationOperatorSpec from our FluxConfigurationOperatorSpec
+func (operator *FluxConfigurationOperatorSpec) AssignProperties_To_FluxConfigurationOperatorSpec(destination *storage.FluxConfigurationOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Parameters to reconcile to the GitRepository source kind type.

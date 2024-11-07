@@ -164,6 +164,103 @@ func AddRelatedPropertyGeneratorsForSqlRoleAssignment(gens map[string]gopter.Gen
 	gens["Status"] = SqlRoleAssignment_STATUSGenerator()
 }
 
+func Test_SqlRoleAssignmentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlRoleAssignmentOperatorSpec to SqlRoleAssignmentOperatorSpec via AssignProperties_To_SqlRoleAssignmentOperatorSpec & AssignProperties_From_SqlRoleAssignmentOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlRoleAssignmentOperatorSpec, SqlRoleAssignmentOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlRoleAssignmentOperatorSpec tests if a specific instance of SqlRoleAssignmentOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSqlRoleAssignmentOperatorSpec(subject SqlRoleAssignmentOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SqlRoleAssignmentOperatorSpec
+	err := copied.AssignProperties_To_SqlRoleAssignmentOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlRoleAssignmentOperatorSpec
+	err = actual.AssignProperties_From_SqlRoleAssignmentOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SqlRoleAssignmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SqlRoleAssignmentOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlRoleAssignmentOperatorSpec, SqlRoleAssignmentOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSqlRoleAssignmentOperatorSpec runs a test to see if a specific instance of SqlRoleAssignmentOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlRoleAssignmentOperatorSpec(subject SqlRoleAssignmentOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SqlRoleAssignmentOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SqlRoleAssignmentOperatorSpec instances for property testing - lazily instantiated by
+// SqlRoleAssignmentOperatorSpecGenerator()
+var sqlRoleAssignmentOperatorSpecGenerator gopter.Gen
+
+// SqlRoleAssignmentOperatorSpecGenerator returns a generator of SqlRoleAssignmentOperatorSpec instances for property testing.
+func SqlRoleAssignmentOperatorSpecGenerator() gopter.Gen {
+	if sqlRoleAssignmentOperatorSpecGenerator != nil {
+		return sqlRoleAssignmentOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	sqlRoleAssignmentOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentOperatorSpec{}), generators)
+
+	return sqlRoleAssignmentOperatorSpecGenerator
+}
+
 func Test_SqlRoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -358,6 +455,9 @@ func RunJSONSerializationTestForSqlRoleAssignment_Spec(subject SqlRoleAssignment
 var sqlRoleAssignment_SpecGenerator gopter.Gen
 
 // SqlRoleAssignment_SpecGenerator returns a generator of SqlRoleAssignment_Spec instances for property testing.
+// We first initialize sqlRoleAssignment_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func SqlRoleAssignment_SpecGenerator() gopter.Gen {
 	if sqlRoleAssignment_SpecGenerator != nil {
 		return sqlRoleAssignment_SpecGenerator
@@ -365,6 +465,12 @@ func SqlRoleAssignment_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForSqlRoleAssignment_Spec(generators)
+	sqlRoleAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignment_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSqlRoleAssignment_Spec(generators)
+	AddRelatedPropertyGeneratorsForSqlRoleAssignment_Spec(generators)
 	sqlRoleAssignment_SpecGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignment_Spec{}), generators)
 
 	return sqlRoleAssignment_SpecGenerator
@@ -377,4 +483,9 @@ func AddIndependentPropertyGeneratorsForSqlRoleAssignment_Spec(gens map[string]g
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForSqlRoleAssignment_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSqlRoleAssignment_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(SqlRoleAssignmentOperatorSpecGenerator())
 }

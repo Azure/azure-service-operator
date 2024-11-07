@@ -11,6 +11,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -91,6 +93,26 @@ func (credential *FederatedIdentityCredential) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the FederatedIdentityCredential resource
 func (credential *FederatedIdentityCredential) defaultImpl() { credential.defaultAzureName() }
+
+var _ configmaps.Exporter = &FederatedIdentityCredential{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (credential *FederatedIdentityCredential) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if credential.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return credential.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FederatedIdentityCredential{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (credential *FederatedIdentityCredential) SecretDestinationExpressions() []*core.DestinationExpression {
+	if credential.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return credential.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &FederatedIdentityCredential{}
 
@@ -210,7 +232,7 @@ func (credential *FederatedIdentityCredential) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (credential *FederatedIdentityCredential) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){credential.validateResourceReferences, credential.validateOwnerReference, credential.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){credential.validateResourceReferences, credential.validateOwnerReference, credential.validateSecretDestinations, credential.validateConfigMapDestinations, credential.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -229,9 +251,23 @@ func (credential *FederatedIdentityCredential) updateValidations() []func(old ru
 			return credential.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return credential.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return credential.validateConfigMapDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return credential.validateOptionalConfigMapReferences()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (credential *FederatedIdentityCredential) validateConfigMapDestinations() (admission.Warnings, error) {
+	if credential.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(credential, nil, credential.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
@@ -255,6 +291,14 @@ func (credential *FederatedIdentityCredential) validateResourceReferences() (adm
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (credential *FederatedIdentityCredential) validateSecretDestinations() (admission.Warnings, error) {
+	if credential.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(credential, nil, credential.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -359,6 +403,10 @@ type FederatedIdentityCredential_Spec struct {
 	// IssuerFromConfig: The URL of the issuer to be trusted.
 	IssuerFromConfig *genruntime.ConfigMapReference `json:"issuerFromConfig,omitempty" optionalConfigMapPair:"Issuer"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FederatedIdentityCredentialOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -456,6 +504,8 @@ func (credential *FederatedIdentityCredential_Spec) PopulateFromARM(owner genrun
 
 	// no assignment for property "IssuerFromConfig"
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	credential.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -547,6 +597,18 @@ func (credential *FederatedIdentityCredential_Spec) AssignProperties_From_Federa
 		credential.IssuerFromConfig = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FederatedIdentityCredentialOperatorSpec
+		err := operatorSpec.AssignProperties_From_FederatedIdentityCredentialOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FederatedIdentityCredentialOperatorSpec() to populate field OperatorSpec")
+		}
+		credential.OperatorSpec = &operatorSpec
+	} else {
+		credential.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -590,6 +652,18 @@ func (credential *FederatedIdentityCredential_Spec) AssignProperties_To_Federate
 		destination.IssuerFromConfig = &issuerFromConfig
 	} else {
 		destination.IssuerFromConfig = nil
+	}
+
+	// OperatorSpec
+	if credential.OperatorSpec != nil {
+		var operatorSpec storage.FederatedIdentityCredentialOperatorSpec
+		err := credential.OperatorSpec.AssignProperties_To_FederatedIdentityCredentialOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FederatedIdentityCredentialOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -880,6 +954,110 @@ func (credential *FederatedIdentityCredential_STATUS) AssignProperties_To_Federa
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(credential.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FederatedIdentityCredentialOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_FederatedIdentityCredentialOperatorSpec populates our FederatedIdentityCredentialOperatorSpec from the provided source FederatedIdentityCredentialOperatorSpec
+func (operator *FederatedIdentityCredentialOperatorSpec) AssignProperties_From_FederatedIdentityCredentialOperatorSpec(source *storage.FederatedIdentityCredentialOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FederatedIdentityCredentialOperatorSpec populates the provided destination FederatedIdentityCredentialOperatorSpec from our FederatedIdentityCredentialOperatorSpec
+func (operator *FederatedIdentityCredentialOperatorSpec) AssignProperties_To_FederatedIdentityCredentialOperatorSpec(destination *storage.FederatedIdentityCredentialOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -44,6 +47,26 @@ func (machine *VirtualMachine) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (machine *VirtualMachine) SetConditions(conditions conditions.Conditions) {
 	machine.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &VirtualMachine{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (machine *VirtualMachine) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if machine.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return machine.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &VirtualMachine{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (machine *VirtualMachine) SecretDestinationExpressions() []*core.DestinationExpression {
+	if machine.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return machine.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachine{}
@@ -162,6 +185,7 @@ type VirtualMachine_Spec struct {
 	LicenseType          *string                     `json:"licenseType,omitempty"`
 	Location             *string                     `json:"location,omitempty"`
 	NetworkProfile       *NetworkProfile             `json:"networkProfile,omitempty"`
+	OperatorSpec         *VirtualMachineOperatorSpec `json:"operatorSpec,omitempty"`
 	OriginalVersion      string                      `json:"originalVersion,omitempty"`
 	OsProfile            *OSProfile                  `json:"osProfile,omitempty"`
 
@@ -542,6 +566,14 @@ type VirtualMachineInstanceView_STATUS struct {
 	Statuses                  []InstanceViewStatus_STATUS                  `json:"statuses,omitempty"`
 	VmAgent                   *VirtualMachineAgentInstanceView_STATUS      `json:"vmAgent,omitempty"`
 	VmHealth                  *VirtualMachineHealthStatus_STATUS           `json:"vmHealth,omitempty"`
+}
+
+// Storage version of v1api20220301.VirtualMachineOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VirtualMachineOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220301.BootDiagnostics

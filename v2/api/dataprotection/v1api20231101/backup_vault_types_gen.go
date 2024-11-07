@@ -13,6 +13,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -95,6 +97,26 @@ func (vault *BackupVault) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the BackupVault resource
 func (vault *BackupVault) defaultImpl() { vault.defaultAzureName() }
+
+var _ configmaps.Exporter = &BackupVault{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (vault *BackupVault) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if vault.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return vault.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &BackupVault{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (vault *BackupVault) SecretDestinationExpressions() []*core.DestinationExpression {
+	if vault.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return vault.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &BackupVault{}
 
@@ -233,7 +255,7 @@ func (vault *BackupVault) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (vault *BackupVault) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){vault.validateResourceReferences, vault.validateOwnerReference, vault.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){vault.validateResourceReferences, vault.validateOwnerReference, vault.validateSecretDestinations, vault.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -252,6 +274,9 @@ func (vault *BackupVault) updateValidations() []func(old runtime.Object) (admiss
 			return vault.validateOwnerReference()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
+			return vault.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return vault.validateConfigMapDestinations()
 		},
 	}
@@ -262,13 +287,13 @@ func (vault *BackupVault) validateConfigMapDestinations() (admission.Warnings, e
 	if vault.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if vault.Spec.OperatorSpec.ConfigMaps == nil {
-		return nil, nil
+	var toValidate []*genruntime.ConfigMapDestination
+	if vault.Spec.OperatorSpec.ConfigMaps != nil {
+		toValidate = []*genruntime.ConfigMapDestination{
+			vault.Spec.OperatorSpec.ConfigMaps.PrincipalId,
+		}
 	}
-	toValidate := []*genruntime.ConfigMapDestination{
-		vault.Spec.OperatorSpec.ConfigMaps.PrincipalId,
-	}
-	return configmaps.ValidateDestinations(toValidate)
+	return configmaps.ValidateDestinations(vault, toValidate, vault.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -283,6 +308,14 @@ func (vault *BackupVault) validateResourceReferences() (admission.Warnings, erro
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (vault *BackupVault) validateSecretDestinations() (admission.Warnings, error) {
+	if vault.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(vault, nil, vault.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -1419,12 +1452,36 @@ func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destinat
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type BackupVaultOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
 	// ConfigMaps: configures where to place operator written ConfigMaps.
 	ConfigMaps *BackupVaultOperatorConfigMaps `json:"configMaps,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // AssignProperties_From_BackupVaultOperatorSpec populates our BackupVaultOperatorSpec from the provided source BackupVaultOperatorSpec
 func (operator *BackupVaultOperatorSpec) AssignProperties_From_BackupVaultOperatorSpec(source *storage.BackupVaultOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -1438,6 +1495,24 @@ func (operator *BackupVaultOperatorSpec) AssignProperties_From_BackupVaultOperat
 		operator.ConfigMaps = nil
 	}
 
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
 	// No error
 	return nil
 }
@@ -1446,6 +1521,24 @@ func (operator *BackupVaultOperatorSpec) AssignProperties_From_BackupVaultOperat
 func (operator *BackupVaultOperatorSpec) AssignProperties_To_BackupVaultOperatorSpec(destination *storage.BackupVaultOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
@@ -1457,6 +1550,24 @@ func (operator *BackupVaultOperatorSpec) AssignProperties_To_BackupVaultOperator
 		destination.ConfigMaps = &configMap
 	} else {
 		destination.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Update the property bag

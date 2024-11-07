@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2020-06-01"
 Domain: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
 │   ├── InboundIpRules: Object (2 properties)[]
 │   │   ├── Action: *Enum (1 value)
@@ -35,6 +35,9 @@ Domain: Resource
 │   │       └── Topic: *Object (1 property)
 │   │           └── SourceField: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   ├── "Disabled"
@@ -105,8 +108,11 @@ Domain: Resource
     └── Type: *string
 DomainsTopic: Resource
 ├── Owner: Domain
-├── Spec: Object (2 properties)
+├── Spec: Object (3 properties)
 │   ├── AzureName: string
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   └── Owner: *genruntime.KnownResourceReference
 └── Status: Object (6 properties)
     ├── Conditions: conditions.Condition[]
@@ -136,7 +142,7 @@ DomainsTopic: Resource
     │       └── "User"
     └── Type: *string
 EventSubscription: Resource
-├── Spec: Object (9 properties)
+├── Spec: Object (10 properties)
 │   ├── AzureName: string
 │   ├── DeadLetterDestination: *Object (1 property)
 │   │   └── StorageBlob: *Object (3 properties)
@@ -252,6 +258,9 @@ EventSubscription: Resource
 │   │   ├── SubjectBeginsWith: *string
 │   │   └── SubjectEndsWith: *string
 │   ├── Labels: string[]
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   └── RetryPolicy: *Object (2 properties)
 │       ├── EventTimeToLiveInMinutes: *int
@@ -434,9 +443,11 @@ Topic: Resource
 │   │       └── Topic: *Object (1 property)
 │   │           └── SourceField: *string
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (2 properties)
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── ConfigMaps: *Object (1 property)
 │   │   │   └── Endpoint: *genruntime.ConfigMapDestination
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (2 properties)
 │   │       ├── Key1: *genruntime.SecretDestination
 │   │       └── Key2: *genruntime.SecretDestination

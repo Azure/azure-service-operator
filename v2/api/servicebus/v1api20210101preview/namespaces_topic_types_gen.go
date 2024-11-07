@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -104,6 +107,26 @@ func (topic *NamespacesTopic) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesTopic resource
 func (topic *NamespacesTopic) defaultImpl() { topic.defaultAzureName() }
+
+var _ configmaps.Exporter = &NamespacesTopic{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (topic *NamespacesTopic) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesTopic{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (topic *NamespacesTopic) SecretDestinationExpressions() []*core.DestinationExpression {
+	if topic.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return topic.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &NamespacesTopic{}
 
@@ -212,7 +235,7 @@ func (topic *NamespacesTopic) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (topic *NamespacesTopic) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){topic.validateResourceReferences, topic.validateOwnerReference}
+	return []func() (admission.Warnings, error){topic.validateResourceReferences, topic.validateOwnerReference, topic.validateSecretDestinations, topic.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +253,21 @@ func (topic *NamespacesTopic) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return topic.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return topic.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return topic.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (topic *NamespacesTopic) validateConfigMapDestinations() (admission.Warnings, error) {
+	if topic.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(topic, nil, topic.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -245,6 +282,14 @@ func (topic *NamespacesTopic) validateResourceReferences() (admission.Warnings, 
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (topic *NamespacesTopic) validateSecretDestinations() (admission.Warnings, error) {
+	if topic.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(topic, nil, topic.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -360,6 +405,10 @@ type NamespacesTopic_Spec struct {
 	// MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
 	// Default is 1024.
 	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *NamespacesTopicOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -515,6 +564,8 @@ func (topic *NamespacesTopic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	topic.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -635,6 +686,18 @@ func (topic *NamespacesTopic_Spec) AssignProperties_From_NamespacesTopic_Spec(so
 	// MaxSizeInMegabytes
 	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamespacesTopicOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamespacesTopicOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespacesTopicOperatorSpec() to populate field OperatorSpec")
+		}
+		topic.OperatorSpec = &operatorSpec
+	} else {
+		topic.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -706,6 +769,18 @@ func (topic *NamespacesTopic_Spec) AssignProperties_To_NamespacesTopic_Spec(dest
 
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topic.MaxSizeInMegabytes)
+
+	// OperatorSpec
+	if topic.OperatorSpec != nil {
+		var operatorSpec storage.NamespacesTopicOperatorSpec
+		err := topic.OperatorSpec.AssignProperties_To_NamespacesTopicOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespacesTopicOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = topic.OriginalVersion()
@@ -1308,6 +1383,110 @@ func (topic *NamespacesTopic_STATUS) AssignProperties_To_NamespacesTopic_STATUS(
 
 	// UpdatedAt
 	destination.UpdatedAt = genruntime.ClonePointerToString(topic.UpdatedAt)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesTopicOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_NamespacesTopicOperatorSpec populates our NamespacesTopicOperatorSpec from the provided source NamespacesTopicOperatorSpec
+func (operator *NamespacesTopicOperatorSpec) AssignProperties_From_NamespacesTopicOperatorSpec(source *storage.NamespacesTopicOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespacesTopicOperatorSpec populates the provided destination NamespacesTopicOperatorSpec from our NamespacesTopicOperatorSpec
+func (operator *NamespacesTopicOperatorSpec) AssignProperties_To_NamespacesTopicOperatorSpec(destination *storage.NamespacesTopicOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

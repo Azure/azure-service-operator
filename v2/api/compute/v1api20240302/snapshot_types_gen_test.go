@@ -372,6 +372,103 @@ func AddRelatedPropertyGeneratorsForSnapshot(gens map[string]gopter.Gen) {
 	gens["Status"] = Snapshot_STATUSGenerator()
 }
 
+func Test_SnapshotOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SnapshotOperatorSpec to SnapshotOperatorSpec via AssignProperties_To_SnapshotOperatorSpec & AssignProperties_From_SnapshotOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSnapshotOperatorSpec, SnapshotOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSnapshotOperatorSpec tests if a specific instance of SnapshotOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSnapshotOperatorSpec(subject SnapshotOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SnapshotOperatorSpec
+	err := copied.AssignProperties_To_SnapshotOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SnapshotOperatorSpec
+	err = actual.AssignProperties_From_SnapshotOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SnapshotOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SnapshotOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSnapshotOperatorSpec, SnapshotOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSnapshotOperatorSpec runs a test to see if a specific instance of SnapshotOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSnapshotOperatorSpec(subject SnapshotOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SnapshotOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SnapshotOperatorSpec instances for property testing - lazily instantiated by
+// SnapshotOperatorSpecGenerator()
+var snapshotOperatorSpecGenerator gopter.Gen
+
+// SnapshotOperatorSpecGenerator returns a generator of SnapshotOperatorSpec instances for property testing.
+func SnapshotOperatorSpecGenerator() gopter.Gen {
+	if snapshotOperatorSpecGenerator != nil {
+		return snapshotOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	snapshotOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SnapshotOperatorSpec{}), generators)
+
+	return snapshotOperatorSpecGenerator
+}
+
 func Test_SnapshotSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -872,6 +969,7 @@ func AddRelatedPropertyGeneratorsForSnapshot_Spec(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(SnapshotOperatorSpecGenerator())
 	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(DiskSecurityProfileGenerator())
 	gens["Sku"] = gen.PtrOf(SnapshotSkuGenerator())

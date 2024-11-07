@@ -78,6 +78,61 @@ func AddRelatedPropertyGeneratorsForPrivateDnsZone(gens map[string]gopter.Gen) {
 	gens["Status"] = PrivateDnsZone_STATUSGenerator()
 }
 
+func Test_PrivateDnsZoneOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateDnsZoneOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateDnsZoneOperatorSpec, PrivateDnsZoneOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateDnsZoneOperatorSpec runs a test to see if a specific instance of PrivateDnsZoneOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateDnsZoneOperatorSpec(subject PrivateDnsZoneOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateDnsZoneOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateDnsZoneOperatorSpec instances for property testing - lazily instantiated by
+// PrivateDnsZoneOperatorSpecGenerator()
+var privateDnsZoneOperatorSpecGenerator gopter.Gen
+
+// PrivateDnsZoneOperatorSpecGenerator returns a generator of PrivateDnsZoneOperatorSpec instances for property testing.
+func PrivateDnsZoneOperatorSpecGenerator() gopter.Gen {
+	if privateDnsZoneOperatorSpecGenerator != nil {
+		return privateDnsZoneOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	privateDnsZoneOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZoneOperatorSpec{}), generators)
+
+	return privateDnsZoneOperatorSpecGenerator
+}
+
 func Test_PrivateDnsZone_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -197,6 +252,9 @@ func RunJSONSerializationTestForPrivateDnsZone_Spec(subject PrivateDnsZone_Spec)
 var privateDnsZone_SpecGenerator gopter.Gen
 
 // PrivateDnsZone_SpecGenerator returns a generator of PrivateDnsZone_Spec instances for property testing.
+// We first initialize privateDnsZone_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func PrivateDnsZone_SpecGenerator() gopter.Gen {
 	if privateDnsZone_SpecGenerator != nil {
 		return privateDnsZone_SpecGenerator
@@ -204,6 +262,12 @@ func PrivateDnsZone_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForPrivateDnsZone_Spec(generators)
+	privateDnsZone_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZone_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateDnsZone_Spec(generators)
+	AddRelatedPropertyGeneratorsForPrivateDnsZone_Spec(generators)
 	privateDnsZone_SpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZone_Spec{}), generators)
 
 	return privateDnsZone_SpecGenerator
@@ -218,4 +282,9 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZone_Spec(gens map[string]gopt
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForPrivateDnsZone_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateDnsZone_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(PrivateDnsZoneOperatorSpecGenerator())
 }

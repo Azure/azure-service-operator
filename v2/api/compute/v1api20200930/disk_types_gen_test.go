@@ -424,6 +424,102 @@ func AddRelatedPropertyGeneratorsForDisk(gens map[string]gopter.Gen) {
 	gens["Status"] = Disk_STATUSGenerator()
 }
 
+func Test_DiskOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DiskOperatorSpec to DiskOperatorSpec via AssignProperties_To_DiskOperatorSpec & AssignProperties_From_DiskOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDiskOperatorSpec, DiskOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDiskOperatorSpec tests if a specific instance of DiskOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDiskOperatorSpec(subject DiskOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20200930s.DiskOperatorSpec
+	err := copied.AssignProperties_To_DiskOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DiskOperatorSpec
+	err = actual.AssignProperties_From_DiskOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DiskOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DiskOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiskOperatorSpec, DiskOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDiskOperatorSpec runs a test to see if a specific instance of DiskOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiskOperatorSpec(subject DiskOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DiskOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DiskOperatorSpec instances for property testing - lazily instantiated by DiskOperatorSpecGenerator()
+var diskOperatorSpecGenerator gopter.Gen
+
+// DiskOperatorSpecGenerator returns a generator of DiskOperatorSpec instances for property testing.
+func DiskOperatorSpecGenerator() gopter.Gen {
+	if diskOperatorSpecGenerator != nil {
+		return diskOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	diskOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DiskOperatorSpec{}), generators)
+
+	return diskOperatorSpecGenerator
+}
+
 func Test_DiskSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -924,6 +1020,7 @@ func AddRelatedPropertyGeneratorsForDisk_Spec(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionGenerator())
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DiskOperatorSpecGenerator())
 	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
 	gens["Sku"] = gen.PtrOf(DiskSkuGenerator())
 }

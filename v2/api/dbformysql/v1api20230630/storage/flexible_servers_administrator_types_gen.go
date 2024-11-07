@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (administrator *FlexibleServersAdministrator) GetConditions() conditions.Co
 // SetConditions sets the conditions on the resource status
 func (administrator *FlexibleServersAdministrator) SetConditions(conditions conditions.Conditions) {
 	administrator.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &FlexibleServersAdministrator{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (administrator *FlexibleServersAdministrator) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &FlexibleServersAdministrator{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (administrator *FlexibleServersAdministrator) SecretDestinationExpressions() []*core.DestinationExpression {
+	if administrator.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return administrator.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersAdministrator{}
@@ -143,9 +166,10 @@ type FlexibleServersAdministrator_Spec struct {
 	AdministratorType *string `json:"administratorType,omitempty"`
 
 	// IdentityResourceReference: The resource id of the identity used for AAD Authentication.
-	IdentityResourceReference *genruntime.ResourceReference `armReference:"IdentityResourceId" json:"identityResourceReference,omitempty"`
-	Login                     *string                       `json:"login,omitempty"`
-	OriginalVersion           string                        `json:"originalVersion,omitempty"`
+	IdentityResourceReference *genruntime.ResourceReference             `armReference:"IdentityResourceId" json:"identityResourceReference,omitempty"`
+	Login                     *string                                   `json:"login,omitempty"`
+	OperatorSpec              *FlexibleServersAdministratorOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion           string                                    `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -212,6 +236,14 @@ func (administrator *FlexibleServersAdministrator_STATUS) ConvertStatusTo(destin
 	}
 
 	return destination.ConvertStatusFrom(administrator)
+}
+
+// Storage version of v1api20230630.FlexibleServersAdministratorOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServersAdministratorOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

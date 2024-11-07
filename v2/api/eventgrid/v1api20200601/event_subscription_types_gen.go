@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (subscription *EventSubscription) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the EventSubscription resource
 func (subscription *EventSubscription) defaultImpl() { subscription.defaultAzureName() }
+
+var _ configmaps.Exporter = &EventSubscription{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (subscription *EventSubscription) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &EventSubscription{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (subscription *EventSubscription) SecretDestinationExpressions() []*core.DestinationExpression {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return subscription.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &EventSubscription{}
 
@@ -208,7 +231,7 @@ func (subscription *EventSubscription) ValidateUpdate(old runtime.Object) (admis
 
 // createValidations validates the creation of the resource
 func (subscription *EventSubscription) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){subscription.validateResourceReferences}
+	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateSecretDestinations, subscription.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -222,7 +245,22 @@ func (subscription *EventSubscription) updateValidations() []func(old runtime.Ob
 		func(old runtime.Object) (admission.Warnings, error) {
 			return subscription.validateResourceReferences()
 		},
-		subscription.validateWriteOnceProperties}
+		subscription.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subscription.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subscription.validateConfigMapDestinations()
+		},
+	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (subscription *EventSubscription) validateConfigMapDestinations() (admission.Warnings, error) {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(subscription, nil, subscription.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateResourceReferences validates all resource references
@@ -232,6 +270,14 @@ func (subscription *EventSubscription) validateResourceReferences() (admission.W
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (subscription *EventSubscription) validateSecretDestinations() (admission.Warnings, error) {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(subscription, nil, subscription.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -337,6 +383,10 @@ type EventSubscription_Spec struct {
 
 	// Labels: List of user defined labels.
 	Labels []string `json:"labels,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *EventSubscriptionOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -504,6 +554,8 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	subscription.Owner = &owner
 
@@ -632,6 +684,18 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 	// Labels
 	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec EventSubscriptionOperatorSpec
+		err := operatorSpec.AssignProperties_From_EventSubscriptionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptionOperatorSpec() to populate field OperatorSpec")
+		}
+		subscription.OperatorSpec = &operatorSpec
+	} else {
+		subscription.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -713,6 +777,18 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 
 	// Labels
 	destination.Labels = genruntime.CloneSliceOfString(subscription.Labels)
+
+	// OperatorSpec
+	if subscription.OperatorSpec != nil {
+		var operatorSpec storage.EventSubscriptionOperatorSpec
+		err := subscription.OperatorSpec.AssignProperties_To_EventSubscriptionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = subscription.OriginalVersion()
@@ -2688,6 +2764,110 @@ func (filter *EventSubscriptionFilter_STATUS) AssignProperties_To_EventSubscript
 
 	// SubjectEndsWith
 	destination.SubjectEndsWith = genruntime.ClonePointerToString(filter.SubjectEndsWith)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type EventSubscriptionOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_EventSubscriptionOperatorSpec populates our EventSubscriptionOperatorSpec from the provided source EventSubscriptionOperatorSpec
+func (operator *EventSubscriptionOperatorSpec) AssignProperties_From_EventSubscriptionOperatorSpec(source *storage.EventSubscriptionOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventSubscriptionOperatorSpec populates the provided destination EventSubscriptionOperatorSpec from our EventSubscriptionOperatorSpec
+func (operator *EventSubscriptionOperatorSpec) AssignProperties_To_EventSubscriptionOperatorSpec(destination *storage.EventSubscriptionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

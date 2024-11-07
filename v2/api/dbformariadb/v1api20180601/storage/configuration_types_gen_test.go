@@ -78,6 +78,61 @@ func AddRelatedPropertyGeneratorsForConfiguration(gens map[string]gopter.Gen) {
 	gens["Status"] = Configuration_STATUSGenerator()
 }
 
+func Test_ConfigurationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ConfigurationOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConfigurationOperatorSpec, ConfigurationOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForConfigurationOperatorSpec runs a test to see if a specific instance of ConfigurationOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForConfigurationOperatorSpec(subject ConfigurationOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ConfigurationOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ConfigurationOperatorSpec instances for property testing - lazily instantiated by
+// ConfigurationOperatorSpecGenerator()
+var configurationOperatorSpecGenerator gopter.Gen
+
+// ConfigurationOperatorSpecGenerator returns a generator of ConfigurationOperatorSpec instances for property testing.
+func ConfigurationOperatorSpecGenerator() gopter.Gen {
+	if configurationOperatorSpecGenerator != nil {
+		return configurationOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	configurationOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ConfigurationOperatorSpec{}), generators)
+
+	return configurationOperatorSpecGenerator
+}
+
 func Test_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -190,6 +245,9 @@ func RunJSONSerializationTestForConfiguration_Spec(subject Configuration_Spec) s
 var configuration_SpecGenerator gopter.Gen
 
 // Configuration_SpecGenerator returns a generator of Configuration_Spec instances for property testing.
+// We first initialize configuration_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func Configuration_SpecGenerator() gopter.Gen {
 	if configuration_SpecGenerator != nil {
 		return configuration_SpecGenerator
@@ -197,6 +255,12 @@ func Configuration_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForConfiguration_Spec(generators)
+	configuration_SpecGenerator = gen.Struct(reflect.TypeOf(Configuration_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForConfiguration_Spec(generators)
+	AddRelatedPropertyGeneratorsForConfiguration_Spec(generators)
 	configuration_SpecGenerator = gen.Struct(reflect.TypeOf(Configuration_Spec{}), generators)
 
 	return configuration_SpecGenerator
@@ -208,4 +272,9 @@ func AddIndependentPropertyGeneratorsForConfiguration_Spec(gens map[string]gopte
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForConfiguration_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForConfiguration_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ConfigurationOperatorSpecGenerator())
 }

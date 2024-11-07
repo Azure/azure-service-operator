@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForDiagnosticSetting(gens map[string]gopter.Gen
 	gens["Status"] = DiagnosticSetting_STATUSGenerator()
 }
 
+func Test_DiagnosticSettingOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DiagnosticSettingOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDiagnosticSettingOperatorSpec, DiagnosticSettingOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDiagnosticSettingOperatorSpec runs a test to see if a specific instance of DiagnosticSettingOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDiagnosticSettingOperatorSpec(subject DiagnosticSettingOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DiagnosticSettingOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DiagnosticSettingOperatorSpec instances for property testing - lazily instantiated by
+// DiagnosticSettingOperatorSpecGenerator()
+var diagnosticSettingOperatorSpecGenerator gopter.Gen
+
+// DiagnosticSettingOperatorSpecGenerator returns a generator of DiagnosticSettingOperatorSpec instances for property testing.
+func DiagnosticSettingOperatorSpecGenerator() gopter.Gen {
+	if diagnosticSettingOperatorSpecGenerator != nil {
+		return diagnosticSettingOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	diagnosticSettingOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DiagnosticSettingOperatorSpec{}), generators)
+
+	return diagnosticSettingOperatorSpecGenerator
+}
+
 func Test_DiagnosticSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -243,6 +298,7 @@ func AddIndependentPropertyGeneratorsForDiagnosticSetting_Spec(gens map[string]g
 func AddRelatedPropertyGeneratorsForDiagnosticSetting_Spec(gens map[string]gopter.Gen) {
 	gens["Logs"] = gen.SliceOf(LogSettingsGenerator())
 	gens["Metrics"] = gen.SliceOf(MetricSettingsGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(DiagnosticSettingOperatorSpecGenerator())
 }
 
 func Test_LogSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

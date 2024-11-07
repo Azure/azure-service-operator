@@ -780,6 +780,103 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUS(gens
 	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_VirtualNetworkOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworkOperatorSpec to VirtualNetworkOperatorSpec via AssignProperties_To_VirtualNetworkOperatorSpec & AssignProperties_From_VirtualNetworkOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkOperatorSpec, VirtualNetworkOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkOperatorSpec tests if a specific instance of VirtualNetworkOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkOperatorSpec(subject VirtualNetworkOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.VirtualNetworkOperatorSpec
+	err := copied.AssignProperties_To_VirtualNetworkOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworkOperatorSpec
+	err = actual.AssignProperties_From_VirtualNetworkOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualNetworkOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworkOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkOperatorSpec, VirtualNetworkOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworkOperatorSpec runs a test to see if a specific instance of VirtualNetworkOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkOperatorSpec(subject VirtualNetworkOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworkOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworkOperatorSpec instances for property testing - lazily instantiated by
+// VirtualNetworkOperatorSpecGenerator()
+var virtualNetworkOperatorSpecGenerator gopter.Gen
+
+// VirtualNetworkOperatorSpecGenerator returns a generator of VirtualNetworkOperatorSpec instances for property testing.
+func VirtualNetworkOperatorSpecGenerator() gopter.Gen {
+	if virtualNetworkOperatorSpecGenerator != nil {
+		return virtualNetworkOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	virtualNetworkOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkOperatorSpec{}), generators)
+
+	return virtualNetworkOperatorSpecGenerator
+}
+
 func Test_VirtualNetwork_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1043,4 +1140,5 @@ func AddRelatedPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopter.G
 	gens["DhcpOptions"] = gen.PtrOf(DhcpOptionsGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(VirtualNetworkOperatorSpecGenerator())
 }

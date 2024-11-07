@@ -19,7 +19,7 @@ func Test_ValidateSecretDestination_EmptyListValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, nil)
+	warnings, err := secrets.ValidateDestinations(nil, nil, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -33,7 +33,7 @@ func Test_ValidateSecretDestination_ListWithNilElementsValidates(t *testing.T) {
 		nil,
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(destinations, nil)
+	warnings, err := secrets.ValidateDestinations(nil, destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -47,7 +47,7 @@ func Test_ValidateSecretDestinationExpressions_ListWithNilElementsValidates(t *t
 		nil,
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, destinations)
+	warnings, err := secrets.ValidateDestinations(nil, nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -60,7 +60,7 @@ func Test_ValidateSecretDestination_LengthOneListValidates(t *testing.T) {
 		{Name: "n1", Key: "key1"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(destinations, nil)
+	warnings, err := secrets.ValidateDestinations(nil, destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -73,7 +73,7 @@ func Test_ValidateSecretDestinationExpressions_LengthOneListValidates(t *testing
 		{Name: "n1", Key: "key1", Value: "resource.status.id"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, destinations)
+	warnings, err := secrets.ValidateDestinations(nil, nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -89,7 +89,7 @@ func Test_ValidateSecretDestination_ListWithoutCollisionsValidates(t *testing.T)
 		{Name: "n1", Key: "key4"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(destinations, nil)
+	warnings, err := secrets.ValidateDestinations(nil, destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -105,7 +105,7 @@ func Test_ValidateSecretDestinationExpressions_ListWithoutCollisionsValidates(t 
 		{Name: "n1", Key: "key4", Value: "resource.status.id"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, destinations)
+	warnings, err := secrets.ValidateDestinations(nil, nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -121,7 +121,7 @@ func Test_ValidateSecretDestination_ListWithDifferentCasesValidates(t *testing.T
 		{Name: "n1", Key: "key4"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(destinations, nil)
+	warnings, err := secrets.ValidateDestinations(nil, destinations, nil)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
@@ -137,7 +137,7 @@ func Test_ValidateSecretDestination_ListWithCollisionsFailsValidation(t *testing
 		{Name: "n1", Key: "key1"},
 	}
 
-	_, err := secrets.ValidateDestinationsExt(destinations, nil)
+	_, err := secrets.ValidateDestinations(nil, destinations, nil)
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(Equal("cannot write more than one secret to destination Name: \"n1\", Key: \"key1\""))
 }
@@ -158,7 +158,7 @@ func Test_ValidateSecretDestinationAndExpressions_CollisionBetweenEachFailsValid
 		{Name: "n3", Key: "key1", Value: "resource.status.id"},
 	}
 
-	_, err := secrets.ValidateDestinationsExt(destinations, destinationExpressions)
+	_, err := secrets.ValidateDestinations(nil, destinations, destinationExpressions)
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(Equal("cannot write more than one secret to destination Name: \"n3\", Key: \"key1\", Value: \"resource.status.id\""))
 }
@@ -172,7 +172,7 @@ func Test_ValidateSecretDestinationExpressions_EmptyKeyIgnored(t *testing.T) {
 		{Name: "n1", Key: "key1", Value: "resource.status.id"},
 	}
 
-	warnings, err := secrets.ValidateDestinationsExt(nil, destinations)
+	warnings, err := secrets.ValidateDestinations(nil, nil, destinations)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }

@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForPrivateDnsZonesARecord(gens map[string]gopte
 	gens["Status"] = PrivateDnsZonesARecord_STATUSGenerator()
 }
 
+func Test_PrivateDnsZonesARecordOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateDnsZonesARecordOperatorSpec to PrivateDnsZonesARecordOperatorSpec via AssignProperties_To_PrivateDnsZonesARecordOperatorSpec & AssignProperties_From_PrivateDnsZonesARecordOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateDnsZonesARecordOperatorSpec, PrivateDnsZonesARecordOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateDnsZonesARecordOperatorSpec tests if a specific instance of PrivateDnsZonesARecordOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPrivateDnsZonesARecordOperatorSpec(subject PrivateDnsZonesARecordOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PrivateDnsZonesARecordOperatorSpec
+	err := copied.AssignProperties_To_PrivateDnsZonesARecordOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateDnsZonesARecordOperatorSpec
+	err = actual.AssignProperties_From_PrivateDnsZonesARecordOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_PrivateDnsZonesARecordOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateDnsZonesARecordOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateDnsZonesARecordOperatorSpec, PrivateDnsZonesARecordOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateDnsZonesARecordOperatorSpec runs a test to see if a specific instance of PrivateDnsZonesARecordOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateDnsZonesARecordOperatorSpec(subject PrivateDnsZonesARecordOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateDnsZonesARecordOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateDnsZonesARecordOperatorSpec instances for property testing - lazily instantiated by
+// PrivateDnsZonesARecordOperatorSpecGenerator()
+var privateDnsZonesARecordOperatorSpecGenerator gopter.Gen
+
+// PrivateDnsZonesARecordOperatorSpecGenerator returns a generator of PrivateDnsZonesARecordOperatorSpec instances for property testing.
+func PrivateDnsZonesARecordOperatorSpecGenerator() gopter.Gen {
+	if privateDnsZonesARecordOperatorSpecGenerator != nil {
+		return privateDnsZonesARecordOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	privateDnsZonesARecordOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PrivateDnsZonesARecordOperatorSpec{}), generators)
+
+	return privateDnsZonesARecordOperatorSpecGenerator
+}
+
 func Test_PrivateDnsZonesARecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -421,6 +518,7 @@ func AddRelatedPropertyGeneratorsForPrivateDnsZonesARecord_Spec(gens map[string]
 	gens["AaaaRecords"] = gen.SliceOf(AaaaRecordGenerator())
 	gens["CnameRecord"] = gen.PtrOf(CnameRecordGenerator())
 	gens["MxRecords"] = gen.SliceOf(MxRecordGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(PrivateDnsZonesARecordOperatorSpecGenerator())
 	gens["PtrRecords"] = gen.SliceOf(PtrRecordGenerator())
 	gens["SoaRecord"] = gen.PtrOf(SoaRecordGenerator())
 	gens["SrvRecords"] = gen.SliceOf(SrvRecordGenerator())

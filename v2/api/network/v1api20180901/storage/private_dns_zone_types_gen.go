@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (zone *PrivateDnsZone) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (zone *PrivateDnsZone) SetConditions(conditions conditions.Conditions) {
 	zone.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &PrivateDnsZone{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (zone *PrivateDnsZone) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if zone.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return zone.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &PrivateDnsZone{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (zone *PrivateDnsZone) SecretDestinationExpressions() []*core.DestinationExpression {
+	if zone.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return zone.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &PrivateDnsZone{}
@@ -148,10 +171,11 @@ const APIVersion_Value = APIVersion("2018-09-01")
 type PrivateDnsZone_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Etag            *string `json:"etag,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string                      `json:"azureName,omitempty"`
+	Etag            *string                     `json:"etag,omitempty"`
+	Location        *string                     `json:"location,omitempty"`
+	OperatorSpec    *PrivateDnsZoneOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -219,6 +243,14 @@ func (zone *PrivateDnsZone_STATUS) ConvertStatusTo(destination genruntime.Conver
 	}
 
 	return destination.ConvertStatusFrom(zone)
+}
+
+// Storage version of v1api20180901.PrivateDnsZoneOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PrivateDnsZoneOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

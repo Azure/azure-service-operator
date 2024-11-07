@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint(gens ma
 	gens["Status"] = TrafficManagerProfilesNestedEndpoint_STATUSGenerator()
 }
 
+func Test_TrafficManagerProfilesNestedEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TrafficManagerProfilesNestedEndpointOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTrafficManagerProfilesNestedEndpointOperatorSpec, TrafficManagerProfilesNestedEndpointOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTrafficManagerProfilesNestedEndpointOperatorSpec runs a test to see if a specific instance of TrafficManagerProfilesNestedEndpointOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForTrafficManagerProfilesNestedEndpointOperatorSpec(subject TrafficManagerProfilesNestedEndpointOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TrafficManagerProfilesNestedEndpointOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TrafficManagerProfilesNestedEndpointOperatorSpec instances for property testing - lazily instantiated by
+// TrafficManagerProfilesNestedEndpointOperatorSpecGenerator()
+var trafficManagerProfilesNestedEndpointOperatorSpecGenerator gopter.Gen
+
+// TrafficManagerProfilesNestedEndpointOperatorSpecGenerator returns a generator of TrafficManagerProfilesNestedEndpointOperatorSpec instances for property testing.
+func TrafficManagerProfilesNestedEndpointOperatorSpecGenerator() gopter.Gen {
+	if trafficManagerProfilesNestedEndpointOperatorSpecGenerator != nil {
+		return trafficManagerProfilesNestedEndpointOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	trafficManagerProfilesNestedEndpointOperatorSpecGenerator = gen.Struct(reflect.TypeOf(TrafficManagerProfilesNestedEndpointOperatorSpec{}), generators)
+
+	return trafficManagerProfilesNestedEndpointOperatorSpecGenerator
+}
+
 func Test_TrafficManagerProfilesNestedEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -255,5 +310,6 @@ func AddIndependentPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spe
 // AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTrafficManagerProfilesNestedEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["CustomHeaders"] = gen.SliceOf(EndpointProperties_CustomHeadersGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(TrafficManagerProfilesNestedEndpointOperatorSpecGenerator())
 	gens["Subnets"] = gen.SliceOf(EndpointProperties_SubnetsGenerator())
 }

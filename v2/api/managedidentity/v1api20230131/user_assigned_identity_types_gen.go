@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -96,6 +97,26 @@ func (identity *UserAssignedIdentity) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the UserAssignedIdentity resource
 func (identity *UserAssignedIdentity) defaultImpl() { identity.defaultAzureName() }
+
+var _ configmaps.Exporter = &UserAssignedIdentity{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (identity *UserAssignedIdentity) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if identity.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return identity.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &UserAssignedIdentity{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (identity *UserAssignedIdentity) SecretDestinationExpressions() []*core.DestinationExpression {
+	if identity.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return identity.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &UserAssignedIdentity{}
 
@@ -274,15 +295,15 @@ func (identity *UserAssignedIdentity) validateConfigMapDestinations() (admission
 	if identity.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if identity.Spec.OperatorSpec.ConfigMaps == nil {
-		return nil, nil
+	var toValidate []*genruntime.ConfigMapDestination
+	if identity.Spec.OperatorSpec.ConfigMaps != nil {
+		toValidate = []*genruntime.ConfigMapDestination{
+			identity.Spec.OperatorSpec.ConfigMaps.ClientId,
+			identity.Spec.OperatorSpec.ConfigMaps.PrincipalId,
+			identity.Spec.OperatorSpec.ConfigMaps.TenantId,
+		}
 	}
-	toValidate := []*genruntime.ConfigMapDestination{
-		identity.Spec.OperatorSpec.ConfigMaps.ClientId,
-		identity.Spec.OperatorSpec.ConfigMaps.PrincipalId,
-		identity.Spec.OperatorSpec.ConfigMaps.TenantId,
-	}
-	return configmaps.ValidateDestinations(toValidate)
+	return configmaps.ValidateDestinations(identity, toValidate, identity.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -304,15 +325,15 @@ func (identity *UserAssignedIdentity) validateSecretDestinations() (admission.Wa
 	if identity.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
-	if identity.Spec.OperatorSpec.Secrets == nil {
-		return nil, nil
+	var toValidate []*genruntime.SecretDestination
+	if identity.Spec.OperatorSpec.Secrets != nil {
+		toValidate = []*genruntime.SecretDestination{
+			identity.Spec.OperatorSpec.Secrets.ClientId,
+			identity.Spec.OperatorSpec.Secrets.PrincipalId,
+			identity.Spec.OperatorSpec.Secrets.TenantId,
+		}
 	}
-	toValidate := []*genruntime.SecretDestination{
-		identity.Spec.OperatorSpec.Secrets.ClientId,
-		identity.Spec.OperatorSpec.Secrets.PrincipalId,
-		identity.Spec.OperatorSpec.Secrets.TenantId,
-	}
-	return secrets.ValidateDestinations(toValidate)
+	return secrets.ValidateDestinations(identity, toValidate, identity.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -921,8 +942,14 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type UserAssignedIdentityOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
 	// ConfigMaps: configures where to place operator written ConfigMaps.
 	ConfigMaps *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *UserAssignedIdentityOperatorSecrets `json:"secrets,omitempty"`
@@ -930,6 +957,24 @@ type UserAssignedIdentityOperatorSpec struct {
 
 // AssignProperties_From_UserAssignedIdentityOperatorSpec populates our UserAssignedIdentityOperatorSpec from the provided source UserAssignedIdentityOperatorSpec
 func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssignedIdentityOperatorSpec(source *storage.UserAssignedIdentityOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -941,6 +986,24 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssi
 		operator.ConfigMaps = &configMap
 	} else {
 		operator.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
 	}
 
 	// Secrets
@@ -964,6 +1027,24 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssign
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
 		var configMap storage.UserAssignedIdentityOperatorConfigMaps
@@ -974,6 +1055,24 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssign
 		destination.ConfigMaps = &configMap
 	} else {
 		destination.ConfigMaps = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
 	}
 
 	// Secrets

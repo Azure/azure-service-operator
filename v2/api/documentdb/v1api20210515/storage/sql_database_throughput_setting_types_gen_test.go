@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseThroughputSetting(gens map[string
 	gens["Status"] = SqlDatabaseThroughputSetting_STATUSGenerator()
 }
 
+func Test_SqlDatabaseThroughputSettingOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseThroughputSettingOperatorSpec to SqlDatabaseThroughputSettingOperatorSpec via AssignProperties_To_SqlDatabaseThroughputSettingOperatorSpec & AssignProperties_From_SqlDatabaseThroughputSettingOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseThroughputSettingOperatorSpec, SqlDatabaseThroughputSettingOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseThroughputSettingOperatorSpec tests if a specific instance of SqlDatabaseThroughputSettingOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseThroughputSettingOperatorSpec(subject SqlDatabaseThroughputSettingOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SqlDatabaseThroughputSettingOperatorSpec
+	err := copied.AssignProperties_To_SqlDatabaseThroughputSettingOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseThroughputSettingOperatorSpec
+	err = actual.AssignProperties_From_SqlDatabaseThroughputSettingOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SqlDatabaseThroughputSettingOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SqlDatabaseThroughputSettingOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlDatabaseThroughputSettingOperatorSpec, SqlDatabaseThroughputSettingOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSqlDatabaseThroughputSettingOperatorSpec runs a test to see if a specific instance of SqlDatabaseThroughputSettingOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlDatabaseThroughputSettingOperatorSpec(subject SqlDatabaseThroughputSettingOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SqlDatabaseThroughputSettingOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SqlDatabaseThroughputSettingOperatorSpec instances for property testing - lazily instantiated by
+// SqlDatabaseThroughputSettingOperatorSpecGenerator()
+var sqlDatabaseThroughputSettingOperatorSpecGenerator gopter.Gen
+
+// SqlDatabaseThroughputSettingOperatorSpecGenerator returns a generator of SqlDatabaseThroughputSettingOperatorSpec instances for property testing.
+func SqlDatabaseThroughputSettingOperatorSpecGenerator() gopter.Gen {
+	if sqlDatabaseThroughputSettingOperatorSpecGenerator != nil {
+		return sqlDatabaseThroughputSettingOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	sqlDatabaseThroughputSettingOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseThroughputSettingOperatorSpec{}), generators)
+
+	return sqlDatabaseThroughputSettingOperatorSpecGenerator
+}
+
 func Test_SqlDatabaseThroughputSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -406,5 +503,6 @@ func AddIndependentPropertyGeneratorsForSqlDatabaseThroughputSetting_Spec(gens m
 
 // AddRelatedPropertyGeneratorsForSqlDatabaseThroughputSetting_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseThroughputSetting_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(SqlDatabaseThroughputSettingOperatorSpecGenerator())
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
 }

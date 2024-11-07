@@ -12,6 +12,9 @@ import (
 	v20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -67,6 +70,26 @@ func (disk *Disk) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return disk.AssignProperties_To_Disk(destination)
+}
+
+var _ configmaps.Exporter = &Disk{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (disk *Disk) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if disk.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return disk.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Disk{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (disk *Disk) SecretDestinationExpressions() []*core.DestinationExpression {
+	if disk.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return disk.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Disk{}
@@ -263,6 +286,7 @@ type Disk_Spec struct {
 	Location                     *string                       `json:"location,omitempty"`
 	MaxShares                    *int                          `json:"maxShares,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
+	OperatorSpec                 *DiskOperatorSpec             `json:"operatorSpec,omitempty"`
 	OriginalVersion              string                        `json:"originalVersion,omitempty"`
 	OsType                       *string                       `json:"osType,omitempty"`
 
@@ -456,6 +480,18 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20240302s.Disk_S
 
 	// NetworkAccessPolicy
 	disk.NetworkAccessPolicy = genruntime.ClonePointerToString(source.NetworkAccessPolicy)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DiskOperatorSpec
+		err := operatorSpec.AssignProperties_From_DiskOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DiskOperatorSpec() to populate field OperatorSpec")
+		}
+		disk.OperatorSpec = &operatorSpec
+	} else {
+		disk.OperatorSpec = nil
+	}
 
 	// OptimizedForFrequentAttach
 	if source.OptimizedForFrequentAttach != nil {
@@ -698,6 +734,18 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *v20240302s.Dis
 
 	// NetworkAccessPolicy
 	destination.NetworkAccessPolicy = genruntime.ClonePointerToString(disk.NetworkAccessPolicy)
+
+	// OperatorSpec
+	if disk.OperatorSpec != nil {
+		var operatorSpec v20240302s.DiskOperatorSpec
+		err := disk.OperatorSpec.AssignProperties_To_DiskOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DiskOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OptimizedForFrequentAttach
 	if propertyBag.Contains("OptimizedForFrequentAttach") {
@@ -2031,6 +2079,136 @@ func (data *CreationData_STATUS) AssignProperties_To_CreationData_STATUS(destina
 	return nil
 }
 
+// Storage version of v1api20200930.DiskOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DiskOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DiskOperatorSpec populates our DiskOperatorSpec from the provided source DiskOperatorSpec
+func (operator *DiskOperatorSpec) AssignProperties_From_DiskOperatorSpec(source *v20240302s.DiskOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDiskOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForDiskOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DiskOperatorSpec populates the provided destination DiskOperatorSpec from our DiskOperatorSpec
+func (operator *DiskOperatorSpec) AssignProperties_To_DiskOperatorSpec(destination *v20240302s.DiskOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDiskOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForDiskOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20200930.DiskSku
 // The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 type DiskSku struct {
@@ -2927,6 +3105,11 @@ type augmentConversionForCreationData interface {
 type augmentConversionForCreationData_STATUS interface {
 	AssignPropertiesFrom(src *v20240302s.CreationData_STATUS) error
 	AssignPropertiesTo(dst *v20240302s.CreationData_STATUS) error
+}
+
+type augmentConversionForDiskOperatorSpec interface {
+	AssignPropertiesFrom(src *v20240302s.DiskOperatorSpec) error
+	AssignPropertiesTo(dst *v20240302s.DiskOperatorSpec) error
 }
 
 type augmentConversionForDiskSku interface {

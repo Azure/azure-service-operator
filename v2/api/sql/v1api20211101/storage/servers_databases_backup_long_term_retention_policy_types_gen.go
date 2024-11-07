@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) GetConditions() con
 // SetConditions sets the conditions on the resource status
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersDatabasesBackupLongTermRetentionPolicy{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersDatabasesBackupLongTermRetentionPolicy{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (policy *ServersDatabasesBackupLongTermRetentionPolicy) SecretDestinationExpressions() []*core.DestinationExpression {
+	if policy.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return policy.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesBackupLongTermRetentionPolicy{}
@@ -139,8 +162,9 @@ type ServersDatabasesBackupLongTermRetentionPolicyList struct {
 
 // Storage version of v1api20211101.ServersDatabasesBackupLongTermRetentionPolicy_Spec
 type ServersDatabasesBackupLongTermRetentionPolicy_Spec struct {
-	MonthlyRetention *string `json:"monthlyRetention,omitempty"`
-	OriginalVersion  string  `json:"originalVersion,omitempty"`
+	MonthlyRetention *string                                                    `json:"monthlyRetention,omitempty"`
+	OperatorSpec     *ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion  string                                                     `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -204,6 +228,14 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy_STATUS) ConvertStatu
 	}
 
 	return destination.ConvertStatusFrom(policy)
+}
+
+// Storage version of v1api20211101.ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

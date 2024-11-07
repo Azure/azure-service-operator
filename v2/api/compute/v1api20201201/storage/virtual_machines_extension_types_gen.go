@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -64,6 +67,26 @@ func (extension *VirtualMachinesExtension) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return extension.AssignProperties_To_VirtualMachinesExtension(destination)
+}
+
+var _ configmaps.Exporter = &VirtualMachinesExtension{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (extension *VirtualMachinesExtension) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if extension.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return extension.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &VirtualMachinesExtension{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (extension *VirtualMachinesExtension) SecretDestinationExpressions() []*core.DestinationExpression {
+	if extension.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return extension.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachinesExtension{}
@@ -238,12 +261,13 @@ type VirtualMachinesExtension_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName              string                               `json:"azureName,omitempty"`
-	EnableAutomaticUpgrade *bool                                `json:"enableAutomaticUpgrade,omitempty"`
-	ForceUpdateTag         *string                              `json:"forceUpdateTag,omitempty"`
-	InstanceView           *VirtualMachineExtensionInstanceView `json:"instanceView,omitempty"`
-	Location               *string                              `json:"location,omitempty"`
-	OriginalVersion        string                               `json:"originalVersion,omitempty"`
+	AzureName              string                                `json:"azureName,omitempty"`
+	EnableAutomaticUpgrade *bool                                 `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag         *string                               `json:"forceUpdateTag,omitempty"`
+	InstanceView           *VirtualMachineExtensionInstanceView  `json:"instanceView,omitempty"`
+	Location               *string                               `json:"location,omitempty"`
+	OperatorSpec           *VirtualMachinesExtensionOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion        string                                `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -350,6 +374,18 @@ func (extension *VirtualMachinesExtension_Spec) AssignProperties_From_VirtualMac
 
 	// Location
 	extension.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec VirtualMachinesExtensionOperatorSpec
+		err := operatorSpec.AssignProperties_From_VirtualMachinesExtensionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachinesExtensionOperatorSpec() to populate field OperatorSpec")
+		}
+		extension.OperatorSpec = &operatorSpec
+	} else {
+		extension.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	extension.OriginalVersion = source.OriginalVersion
@@ -470,6 +506,18 @@ func (extension *VirtualMachinesExtension_Spec) AssignProperties_To_VirtualMachi
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(extension.Location)
+
+	// OperatorSpec
+	if extension.OperatorSpec != nil {
+		var operatorSpec storage.VirtualMachinesExtensionOperatorSpec
+		err := extension.OperatorSpec.AssignProperties_To_VirtualMachinesExtensionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachinesExtensionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = extension.OriginalVersion
@@ -1181,6 +1229,136 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_To_Virt
 	return nil
 }
 
+// Storage version of v1api20201201.VirtualMachinesExtensionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type VirtualMachinesExtensionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_VirtualMachinesExtensionOperatorSpec populates our VirtualMachinesExtensionOperatorSpec from the provided source VirtualMachinesExtensionOperatorSpec
+func (operator *VirtualMachinesExtensionOperatorSpec) AssignProperties_From_VirtualMachinesExtensionOperatorSpec(source *storage.VirtualMachinesExtensionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVirtualMachinesExtensionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForVirtualMachinesExtensionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachinesExtensionOperatorSpec populates the provided destination VirtualMachinesExtensionOperatorSpec from our VirtualMachinesExtensionOperatorSpec
+func (operator *VirtualMachinesExtensionOperatorSpec) AssignProperties_To_VirtualMachinesExtensionOperatorSpec(destination *storage.VirtualMachinesExtensionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVirtualMachinesExtensionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForVirtualMachinesExtensionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 type augmentConversionForVirtualMachineExtensionInstanceView interface {
 	AssignPropertiesFrom(src *storage.VirtualMachineExtensionInstanceView) error
 	AssignPropertiesTo(dst *storage.VirtualMachineExtensionInstanceView) error
@@ -1189,6 +1367,11 @@ type augmentConversionForVirtualMachineExtensionInstanceView interface {
 type augmentConversionForVirtualMachineExtensionInstanceView_STATUS interface {
 	AssignPropertiesFrom(src *storage.VirtualMachineExtensionInstanceView_STATUS) error
 	AssignPropertiesTo(dst *storage.VirtualMachineExtensionInstanceView_STATUS) error
+}
+
+type augmentConversionForVirtualMachinesExtensionOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.VirtualMachinesExtensionOperatorSpec) error
+	AssignPropertiesTo(dst *storage.VirtualMachinesExtensionOperatorSpec) error
 }
 
 // Storage version of v1api20201201.InstanceViewStatus

@@ -908,6 +908,61 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfiguration_STATUS_Netwo
 	gens["VirtualNetworkTaps"] = gen.SliceOf(VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbeddedGenerator())
 }
 
+func Test_NetworkInterfaceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NetworkInterfaceOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkInterfaceOperatorSpec, NetworkInterfaceOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNetworkInterfaceOperatorSpec runs a test to see if a specific instance of NetworkInterfaceOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkInterfaceOperatorSpec(subject NetworkInterfaceOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NetworkInterfaceOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NetworkInterfaceOperatorSpec instances for property testing - lazily instantiated by
+// NetworkInterfaceOperatorSpecGenerator()
+var networkInterfaceOperatorSpecGenerator gopter.Gen
+
+// NetworkInterfaceOperatorSpecGenerator returns a generator of NetworkInterfaceOperatorSpec instances for property testing.
+func NetworkInterfaceOperatorSpecGenerator() gopter.Gen {
+	if networkInterfaceOperatorSpecGenerator != nil {
+		return networkInterfaceOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	networkInterfaceOperatorSpecGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaceOperatorSpec{}), generators)
+
+	return networkInterfaceOperatorSpecGenerator
+}
+
 func Test_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1152,6 +1207,7 @@ func AddRelatedPropertyGeneratorsForNetworkInterface_Spec(gens map[string]gopter
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["IpConfigurations"] = gen.SliceOf(NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbeddedGenerator())
 	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbeddedGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(NetworkInterfaceOperatorSpecGenerator())
 	gens["PrivateLinkService"] = gen.PtrOf(PrivateLinkServiceSpecGenerator())
 }
 

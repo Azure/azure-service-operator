@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (account *DatabaseAccount) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return account.AssignProperties_To_DatabaseAccount(destination)
+}
+
+var _ configmaps.Exporter = &DatabaseAccount{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (account *DatabaseAccount) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if account.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return account.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DatabaseAccount{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (account *DatabaseAccount) SecretDestinationExpressions() []*core.DestinationExpression {
+	if account.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return account.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &DatabaseAccount{}
@@ -3048,14 +3071,52 @@ func (policy *CorsPolicy_STATUS) AssignProperties_To_CorsPolicy_STATUS(destinati
 // Storage version of v1api20210515.DatabaseAccountOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DatabaseAccountOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
-	Secrets     *DatabaseAccountOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMapExpressions []*core.DestinationExpression   `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression   `json:"secretExpressions,omitempty"`
+	Secrets              *DatabaseAccountOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_DatabaseAccountOperatorSpec populates our DatabaseAccountOperatorSpec from the provided source DatabaseAccountOperatorSpec
 func (operator *DatabaseAccountOperatorSpec) AssignProperties_From_DatabaseAccountOperatorSpec(source *storage.DatabaseAccountOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
 
 	// Secrets
 	if source.Secrets != nil {
@@ -3093,6 +3154,42 @@ func (operator *DatabaseAccountOperatorSpec) AssignProperties_From_DatabaseAccou
 func (operator *DatabaseAccountOperatorSpec) AssignProperties_To_DatabaseAccountOperatorSpec(destination *storage.DatabaseAccountOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {

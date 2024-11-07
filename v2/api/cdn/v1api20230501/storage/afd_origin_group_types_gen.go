@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (group *AfdOriginGroup) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (group *AfdOriginGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &AfdOriginGroup{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (group *AfdOriginGroup) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &AfdOriginGroup{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (group *AfdOriginGroup) SecretDestinationExpressions() []*core.DestinationExpression {
+	if group.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return group.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &AfdOriginGroup{}
@@ -145,6 +168,7 @@ type AfdOriginGroup_Spec struct {
 	AzureName             string                           `json:"azureName,omitempty"`
 	HealthProbeSettings   *HealthProbeParameters           `json:"healthProbeSettings,omitempty"`
 	LoadBalancingSettings *LoadBalancingSettingsParameters `json:"loadBalancingSettings,omitempty"`
+	OperatorSpec          *AfdOriginGroupOperatorSpec      `json:"operatorSpec,omitempty"`
 	OriginalVersion       string                           `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -212,6 +236,14 @@ func (group *AfdOriginGroup_STATUS) ConvertStatusTo(destination genruntime.Conve
 	}
 
 	return destination.ConvertStatusFrom(group)
+}
+
+// Storage version of v1api20230501.AfdOriginGroupOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AfdOriginGroupOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230501.HealthProbeParameters

@@ -79,6 +79,61 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction(gens
 	gens["Status"] = SqlDatabaseContainerUserDefinedFunction_STATUSGenerator()
 }
 
+func Test_SqlDatabaseContainerUserDefinedFunctionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SqlDatabaseContainerUserDefinedFunctionOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSqlDatabaseContainerUserDefinedFunctionOperatorSpec, SqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSqlDatabaseContainerUserDefinedFunctionOperatorSpec runs a test to see if a specific instance of SqlDatabaseContainerUserDefinedFunctionOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSqlDatabaseContainerUserDefinedFunctionOperatorSpec(subject SqlDatabaseContainerUserDefinedFunctionOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SqlDatabaseContainerUserDefinedFunctionOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SqlDatabaseContainerUserDefinedFunctionOperatorSpec instances for property testing - lazily instantiated
+// by SqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator()
+var sqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator gopter.Gen
+
+// SqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator returns a generator of SqlDatabaseContainerUserDefinedFunctionOperatorSpec instances for property testing.
+func SqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator() gopter.Gen {
+	if sqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator != nil {
+		return sqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	sqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SqlDatabaseContainerUserDefinedFunctionOperatorSpec{}), generators)
+
+	return sqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator
+}
+
 func Test_SqlDatabaseContainerUserDefinedFunction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -237,6 +292,7 @@ func AddIndependentPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction_
 
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(SqlDatabaseContainerUserDefinedFunctionOperatorSpecGenerator())
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
 	gens["Resource"] = gen.PtrOf(SqlUserDefinedFunctionResourceGenerator())
 }

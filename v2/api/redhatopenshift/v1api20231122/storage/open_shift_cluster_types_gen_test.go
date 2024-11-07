@@ -1098,6 +1098,61 @@ func AddRelatedPropertyGeneratorsForOpenShiftCluster(gens map[string]gopter.Gen)
 	gens["Status"] = OpenShiftCluster_STATUSGenerator()
 }
 
+func Test_OpenShiftClusterOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of OpenShiftClusterOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForOpenShiftClusterOperatorSpec, OpenShiftClusterOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForOpenShiftClusterOperatorSpec runs a test to see if a specific instance of OpenShiftClusterOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForOpenShiftClusterOperatorSpec(subject OpenShiftClusterOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual OpenShiftClusterOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of OpenShiftClusterOperatorSpec instances for property testing - lazily instantiated by
+// OpenShiftClusterOperatorSpecGenerator()
+var openShiftClusterOperatorSpecGenerator gopter.Gen
+
+// OpenShiftClusterOperatorSpecGenerator returns a generator of OpenShiftClusterOperatorSpec instances for property testing.
+func OpenShiftClusterOperatorSpecGenerator() gopter.Gen {
+	if openShiftClusterOperatorSpecGenerator != nil {
+		return openShiftClusterOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	openShiftClusterOperatorSpecGenerator = gen.Struct(reflect.TypeOf(OpenShiftClusterOperatorSpec{}), generators)
+
+	return openShiftClusterOperatorSpecGenerator
+}
+
 func Test_OpenShiftCluster_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1271,6 +1326,7 @@ func AddRelatedPropertyGeneratorsForOpenShiftCluster_Spec(gens map[string]gopter
 	gens["IngressProfiles"] = gen.SliceOf(IngressProfileGenerator())
 	gens["MasterProfile"] = gen.PtrOf(MasterProfileGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(NetworkProfileGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(OpenShiftClusterOperatorSpecGenerator())
 	gens["ServicePrincipalProfile"] = gen.PtrOf(ServicePrincipalProfileGenerator())
 	gens["WorkerProfiles"] = gen.SliceOf(WorkerProfileGenerator())
 }

@@ -136,5 +136,6 @@ func (t *testData) getKnownStorageTypes() ([]*registration.StorageType, error) {
 		nil, // Not used for this test
 		t.kubeClient,
 		nil, // Not used for this test
+		nil, // Not used for this test
 		generic.Options{})
 }

@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2021-01-01"
 BatchAccount: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (12 properties)
+├── Spec: Object (13 properties)
 │   ├── AutoStorage: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── StorageAccountReference: *genruntime.ResourceReference
@@ -27,6 +27,10 @@ BatchAccount: Resource
 │   │   ├── Reference: *genruntime.ResourceReference
 │   │   └── Url: *string
 │   ├── Location: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PoolAllocationMode: *string

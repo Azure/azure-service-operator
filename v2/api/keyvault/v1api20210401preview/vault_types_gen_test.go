@@ -1822,6 +1822,102 @@ func AddRelatedPropertyGeneratorsForVault(gens map[string]gopter.Gen) {
 	gens["Status"] = Vault_STATUSGenerator()
 }
 
+func Test_VaultOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VaultOperatorSpec to VaultOperatorSpec via AssignProperties_To_VaultOperatorSpec & AssignProperties_From_VaultOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVaultOperatorSpec, VaultOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVaultOperatorSpec tests if a specific instance of VaultOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForVaultOperatorSpec(subject VaultOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210401ps.VaultOperatorSpec
+	err := copied.AssignProperties_To_VaultOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VaultOperatorSpec
+	err = actual.AssignProperties_From_VaultOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VaultOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VaultOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVaultOperatorSpec, VaultOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVaultOperatorSpec runs a test to see if a specific instance of VaultOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVaultOperatorSpec(subject VaultOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VaultOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VaultOperatorSpec instances for property testing - lazily instantiated by VaultOperatorSpecGenerator()
+var vaultOperatorSpecGenerator gopter.Gen
+
+// VaultOperatorSpecGenerator returns a generator of VaultOperatorSpec instances for property testing.
+func VaultOperatorSpecGenerator() gopter.Gen {
+	if vaultOperatorSpecGenerator != nil {
+		return vaultOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	vaultOperatorSpecGenerator = gen.Struct(reflect.TypeOf(VaultOperatorSpec{}), generators)
+
+	return vaultOperatorSpecGenerator
+}
+
 func Test_VaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2329,6 +2425,7 @@ func AddIndependentPropertyGeneratorsForVault_Spec(gens map[string]gopter.Gen) {
 
 // AddRelatedPropertyGeneratorsForVault_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVault_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(VaultOperatorSpecGenerator())
 	gens["Properties"] = gen.PtrOf(VaultPropertiesGenerator())
 }
 

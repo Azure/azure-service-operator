@@ -39,6 +39,7 @@ import (
 	postgresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/postgresql"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -55,10 +56,18 @@ func GetKnownStorageTypes(
 	credentialProvider identity.CredentialProvider,
 	kubeClient kubeclient.Client,
 	positiveConditions *conditions.PositiveConditionBuilder,
+	expressionEvaluator asocel.ExpressionEvaluator,
 	options generic.Options,
 ) ([]*registration.StorageType, error) {
 	resourceResolver := resolver.NewResolver(kubeClient)
-	knownStorageTypes, err := getGeneratedStorageTypes(schemer, armConnectionFactory, kubeClient, resourceResolver, positiveConditions, options)
+	knownStorageTypes, err := getGeneratedStorageTypes(
+		schemer,
+		armConnectionFactory,
+		kubeClient,
+		resourceResolver,
+		positiveConditions,
+		expressionEvaluator,
+		options)
 	if err != nil {
 		return nil, err
 	}
@@ -157,6 +166,7 @@ func getGeneratedStorageTypes(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
+	expressionEvaluator asocel.ExpressionEvaluator,
 	options generic.Options,
 ) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
@@ -186,6 +196,7 @@ func getGeneratedStorageTypes(
 			kubeClient,
 			resourceResolver,
 			positiveConditions,
+			expressionEvaluator,
 			options,
 			extension,
 			t)
@@ -199,6 +210,7 @@ func augmentWithARMReconciler(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
+	expressionEvaluator asocel.ExpressionEvaluator,
 	options generic.Options,
 	extension genruntime.ResourceExtension,
 	t *registration.StorageType,
@@ -208,6 +220,7 @@ func augmentWithARMReconciler(
 		kubeClient,
 		resourceResolver,
 		positiveConditions,
+		expressionEvaluator,
 		options.Config,
 		extension)
 }

@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (route *Route) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (route *Route) SetConditions(conditions conditions.Conditions) {
 	route.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &Route{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (route *Route) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if route.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return route.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Route{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (route *Route) SecretDestinationExpressions() []*core.DestinationExpression {
+	if route.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return route.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Route{}
@@ -149,6 +172,7 @@ type Route_Spec struct {
 	ForwardingProtocol  *string                      `json:"forwardingProtocol,omitempty"`
 	HttpsRedirect       *string                      `json:"httpsRedirect,omitempty"`
 	LinkToDefaultDomain *string                      `json:"linkToDefaultDomain,omitempty"`
+	OperatorSpec        *RouteOperatorSpec           `json:"operatorSpec,omitempty"`
 	OriginGroup         *ResourceReference           `json:"originGroup,omitempty"`
 	OriginPath          *string                      `json:"originPath,omitempty"`
 	OriginalVersion     string                       `json:"originalVersion,omitempty"`
@@ -260,6 +284,14 @@ type AfdRouteCacheConfiguration_STATUS struct {
 	PropertyBag                genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	QueryParameters            *string                     `json:"queryParameters,omitempty"`
 	QueryStringCachingBehavior *string                     `json:"queryStringCachingBehavior,omitempty"`
+}
+
+// Storage version of v1api20230501.RouteOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type RouteOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20230501.CompressionSettings

@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (connection *WorkspacesConnection) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (connection *WorkspacesConnection) SetConditions(conditions conditions.Conditions) {
 	connection.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &WorkspacesConnection{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (connection *WorkspacesConnection) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if connection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return connection.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WorkspacesConnection{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (connection *WorkspacesConnection) SecretDestinationExpressions() []*core.DestinationExpression {
+	if connection.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return connection.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &WorkspacesConnection{}
@@ -142,8 +165,9 @@ type WorkspacesConnectionList struct {
 type WorkspacesConnection_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	AzureName       string                            `json:"azureName,omitempty"`
+	OperatorSpec    *WorkspacesConnectionOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -237,6 +261,14 @@ type WorkspaceConnectionPropertiesV2_STATUS struct {
 	SAS              *SASAuthTypeWorkspaceConnectionProperties_STATUS              `json:"sas,omitempty"`
 	ServicePrincipal *ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS `json:"servicePrincipal,omitempty"`
 	UsernamePassword *UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS `json:"usernamePassword,omitempty"`
+}
+
+// Storage version of v1api20240401.WorkspacesConnectionOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspacesConnectionOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20240401.AADAuthTypeWorkspaceConnectionProperties

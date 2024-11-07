@@ -28,7 +28,9 @@ ConfigurationStore: Resource
 │   │   └── UserAssignedIdentities: Object (1 property)[]
 │   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
-│   ├── OperatorSpec: *Object (1 property)
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
 │   │   └── Secrets: *Object (12 properties)
 │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
 │   │       ├── PrimaryKey: *genruntime.SecretDestination

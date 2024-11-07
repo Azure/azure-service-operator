@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -90,6 +93,26 @@ func (farm *ServerFarm) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the ServerFarm resource
 func (farm *ServerFarm) defaultImpl() { farm.defaultAzureName() }
+
+var _ configmaps.Exporter = &ServerFarm{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (farm *ServerFarm) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if farm.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return farm.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServerFarm{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (farm *ServerFarm) SecretDestinationExpressions() []*core.DestinationExpression {
+	if farm.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return farm.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.ImportableResource = &ServerFarm{}
 
@@ -209,7 +232,7 @@ func (farm *ServerFarm) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (farm *ServerFarm) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){farm.validateResourceReferences, farm.validateOwnerReference}
+	return []func() (admission.Warnings, error){farm.validateResourceReferences, farm.validateOwnerReference, farm.validateSecretDestinations, farm.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +250,21 @@ func (farm *ServerFarm) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return farm.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return farm.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return farm.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (farm *ServerFarm) validateConfigMapDestinations() (admission.Warnings, error) {
+	if farm.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(farm, nil, farm.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -242,6 +279,14 @@ func (farm *ServerFarm) validateResourceReferences() (admission.Warnings, error)
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (farm *ServerFarm) validateSecretDestinations() (admission.Warnings, error) {
+	if farm.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(farm, nil, farm.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -369,6 +414,10 @@ type ServerFarm_Spec struct {
 
 	// MaximumElasticWorkerCount: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
 	MaximumElasticWorkerCount *int `json:"maximumElasticWorkerCount,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ServerFarmOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -667,6 +716,8 @@ func (farm *ServerFarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	farm.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -895,6 +946,18 @@ func (farm *ServerFarm_Spec) AssignProperties_From_ServerFarm_Spec(source *stora
 	// MaximumElasticWorkerCount
 	farm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServerFarmOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServerFarmOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServerFarmOperatorSpec() to populate field OperatorSpec")
+		}
+		farm.OperatorSpec = &operatorSpec
+	} else {
+		farm.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1045,6 +1108,18 @@ func (farm *ServerFarm_Spec) AssignProperties_To_ServerFarm_Spec(destination *st
 
 	// MaximumElasticWorkerCount
 	destination.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(farm.MaximumElasticWorkerCount)
+
+	// OperatorSpec
+	if farm.OperatorSpec != nil {
+		var operatorSpec storage.ServerFarmOperatorSpec
+		err := farm.OperatorSpec.AssignProperties_To_ServerFarmOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServerFarmOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = farm.OriginalVersion()
@@ -2662,6 +2737,110 @@ var serverfarm_Properties_Status_STATUS_Values = map[string]Serverfarm_Propertie
 	"creating": Serverfarm_Properties_Status_STATUS_Creating,
 	"pending":  Serverfarm_Properties_Status_STATUS_Pending,
 	"ready":    Serverfarm_Properties_Status_STATUS_Ready,
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServerFarmOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServerFarmOperatorSpec populates our ServerFarmOperatorSpec from the provided source ServerFarmOperatorSpec
+func (operator *ServerFarmOperatorSpec) AssignProperties_From_ServerFarmOperatorSpec(source *storage.ServerFarmOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServerFarmOperatorSpec populates the provided destination ServerFarmOperatorSpec from our ServerFarmOperatorSpec
+func (operator *ServerFarmOperatorSpec) AssignProperties_To_ServerFarmOperatorSpec(destination *storage.ServerFarmOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Description of a SKU for a scalable resource.

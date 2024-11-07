@@ -10,6 +10,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -104,6 +107,26 @@ func (share *StorageAccountsFileServicesShare) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the StorageAccountsFileServicesShare resource
 func (share *StorageAccountsFileServicesShare) defaultImpl() { share.defaultAzureName() }
+
+var _ configmaps.Exporter = &StorageAccountsFileServicesShare{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (share *StorageAccountsFileServicesShare) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if share.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return share.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &StorageAccountsFileServicesShare{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (share *StorageAccountsFileServicesShare) SecretDestinationExpressions() []*core.DestinationExpression {
+	if share.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return share.Spec.OperatorSpec.SecretExpressions
+}
 
 var _ genruntime.KubernetesResource = &StorageAccountsFileServicesShare{}
 
@@ -212,7 +235,7 @@ func (share *StorageAccountsFileServicesShare) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (share *StorageAccountsFileServicesShare) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){share.validateResourceReferences, share.validateOwnerReference}
+	return []func() (admission.Warnings, error){share.validateResourceReferences, share.validateOwnerReference, share.validateSecretDestinations, share.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +253,21 @@ func (share *StorageAccountsFileServicesShare) updateValidations() []func(old ru
 		func(old runtime.Object) (admission.Warnings, error) {
 			return share.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return share.validateSecretDestinations()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return share.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (share *StorageAccountsFileServicesShare) validateConfigMapDestinations() (admission.Warnings, error) {
+	if share.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return configmaps.ValidateDestinations(share, nil, share.Spec.OperatorSpec.ConfigMapExpressions)
 }
 
 // validateOwnerReference validates the owner field
@@ -245,6 +282,14 @@ func (share *StorageAccountsFileServicesShare) validateResourceReferences() (adm
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (share *StorageAccountsFileServicesShare) validateSecretDestinations() (admission.Warnings, error) {
+	if share.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	return secrets.ValidateDestinations(share, nil, share.Spec.OperatorSpec.SecretExpressions)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -345,6 +390,10 @@ type StorageAccountsFileServicesShare_Spec struct {
 
 	// Metadata: A name-value pair to associate with the share as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *StorageAccountsFileServicesShareOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -472,6 +521,8 @@ func (share *StorageAccountsFileServicesShare_Spec) PopulateFromARM(owner genrun
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	share.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -592,6 +643,18 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_From_Storag
 	// Metadata
 	share.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec StorageAccountsFileServicesShareOperatorSpec
+		err := operatorSpec.AssignProperties_From_StorageAccountsFileServicesShareOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountsFileServicesShareOperatorSpec() to populate field OperatorSpec")
+		}
+		share.OperatorSpec = &operatorSpec
+	} else {
+		share.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -665,6 +728,18 @@ func (share *StorageAccountsFileServicesShare_Spec) AssignProperties_To_StorageA
 
 	// Metadata
 	destination.Metadata = genruntime.CloneMapOfStringToString(share.Metadata)
+
+	// OperatorSpec
+	if share.OperatorSpec != nil {
+		var operatorSpec storage.StorageAccountsFileServicesShareOperatorSpec
+		err := share.OperatorSpec.AssignProperties_To_StorageAccountsFileServicesShareOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServicesShareOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = share.OriginalVersion()
@@ -1702,6 +1777,110 @@ func (identifier *SignedIdentifier_STATUS) AssignProperties_To_SignedIdentifier_
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(identifier.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type StorageAccountsFileServicesShareOperatorSpec struct {
+	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+
+	// SecretExpressions: configures where to place operator written dynamic secrets (created with CEL expressions).
+	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_StorageAccountsFileServicesShareOperatorSpec populates our StorageAccountsFileServicesShareOperatorSpec from the provided source StorageAccountsFileServicesShareOperatorSpec
+func (operator *StorageAccountsFileServicesShareOperatorSpec) AssignProperties_From_StorageAccountsFileServicesShareOperatorSpec(source *storage.StorageAccountsFileServicesShareOperatorSpec) error {
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccountsFileServicesShareOperatorSpec populates the provided destination StorageAccountsFileServicesShareOperatorSpec from our StorageAccountsFileServicesShareOperatorSpec
+func (operator *StorageAccountsFileServicesShareOperatorSpec) AssignProperties_To_StorageAccountsFileServicesShareOperatorSpec(destination *storage.StorageAccountsFileServicesShareOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

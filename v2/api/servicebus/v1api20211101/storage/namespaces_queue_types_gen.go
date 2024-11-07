@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (queue *NamespacesQueue) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (queue *NamespacesQueue) SetConditions(conditions conditions.Conditions) {
 	queue.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &NamespacesQueue{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (queue *NamespacesQueue) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if queue.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return queue.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &NamespacesQueue{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (queue *NamespacesQueue) SecretDestinationExpressions() []*core.DestinationExpression {
+	if queue.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return queue.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesQueue{}
@@ -144,20 +167,21 @@ type NamespacesQueue_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                           string  `json:"azureName,omitempty"`
-	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
-	ForwardDeadLetteredMessagesTo       *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                           *string `json:"forwardTo,omitempty"`
-	LockDuration                        *string `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
-	MaxMessageSizeInKilobytes           *int    `json:"maxMessageSizeInKilobytes,omitempty"`
-	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
-	OriginalVersion                     string  `json:"originalVersion,omitempty"`
+	AzureName                           string                       `json:"azureName,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool                        `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string                      `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string                      `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool                        `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool                        `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool                        `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string                      `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string                      `json:"forwardTo,omitempty"`
+	LockDuration                        *string                      `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int                         `json:"maxDeliveryCount,omitempty"`
+	MaxMessageSizeInKilobytes           *int                         `json:"maxMessageSizeInKilobytes,omitempty"`
+	MaxSizeInMegabytes                  *int                         `json:"maxSizeInMegabytes,omitempty"`
+	OperatorSpec                        *NamespacesQueueOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                     string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -251,6 +275,14 @@ type MessageCountDetails_STATUS struct {
 	ScheduledMessageCount          *int                   `json:"scheduledMessageCount,omitempty"`
 	TransferDeadLetterMessageCount *int                   `json:"transferDeadLetterMessageCount,omitempty"`
 	TransferMessageCount           *int                   `json:"transferMessageCount,omitempty"`
+}
+
+// Storage version of v1api20211101.NamespacesQueueOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesQueueOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

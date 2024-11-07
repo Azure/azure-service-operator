@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (pool *ServersElasticPool) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (pool *ServersElasticPool) SetConditions(conditions conditions.Conditions) {
 	pool.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ServersElasticPool{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (pool *ServersElasticPool) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if pool.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return pool.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ServersElasticPool{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (pool *ServersElasticPool) SecretDestinationExpressions() []*core.DestinationExpression {
+	if pool.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return pool.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ServersElasticPool{}
@@ -142,14 +165,15 @@ type ServersElasticPoolList struct {
 type ServersElasticPool_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                    string   `json:"azureName,omitempty"`
-	HighAvailabilityReplicaCount *int     `json:"highAvailabilityReplicaCount,omitempty"`
-	LicenseType                  *string  `json:"licenseType,omitempty"`
-	Location                     *string  `json:"location,omitempty"`
-	MaintenanceConfigurationId   *string  `json:"maintenanceConfigurationId,omitempty"`
-	MaxSizeBytes                 *int     `json:"maxSizeBytes,omitempty"`
-	MinCapacity                  *float64 `json:"minCapacity,omitempty"`
-	OriginalVersion              string   `json:"originalVersion,omitempty"`
+	AzureName                    string                          `json:"azureName,omitempty"`
+	HighAvailabilityReplicaCount *int                            `json:"highAvailabilityReplicaCount,omitempty"`
+	LicenseType                  *string                         `json:"licenseType,omitempty"`
+	Location                     *string                         `json:"location,omitempty"`
+	MaintenanceConfigurationId   *string                         `json:"maintenanceConfigurationId,omitempty"`
+	MaxSizeBytes                 *int                            `json:"maxSizeBytes,omitempty"`
+	MinCapacity                  *float64                        `json:"minCapacity,omitempty"`
+	OperatorSpec                 *ServersElasticPoolOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion              string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -239,6 +263,14 @@ type ElasticPoolPerDatabaseSettings_STATUS struct {
 	MaxCapacity *float64               `json:"maxCapacity,omitempty"`
 	MinCapacity *float64               `json:"minCapacity,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20211101.ServersElasticPoolOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ServersElasticPoolOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

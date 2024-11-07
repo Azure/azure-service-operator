@@ -5,7 +5,7 @@ APIVersion: Enum (1 value)
 └── "2021-09-01"
 Registry: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
-├── Spec: Object (16 properties)
+├── Spec: Object (17 properties)
 │   ├── AdminUserEnabled: *bool
 │   ├── AzureName: string
 │   ├── DataEndpointEnabled: *bool
@@ -33,6 +33,10 @@ Registry: Resource
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Value: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Policies: *Object (5 properties)

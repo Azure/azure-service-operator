@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (rule *ScheduledQueryRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *ScheduledQueryRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &ScheduledQueryRule{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (rule *ScheduledQueryRule) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &ScheduledQueryRule{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (rule *ScheduledQueryRule) SecretDestinationExpressions() []*core.DestinationExpression {
+	if rule.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return rule.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &ScheduledQueryRule{}
@@ -152,18 +175,19 @@ type ScheduledQueryRule_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                             string                      `json:"azureName,omitempty"`
-	CheckWorkspaceAlertsStorageConfigured *bool                       `json:"checkWorkspaceAlertsStorageConfigured,omitempty"`
-	Criteria                              *ScheduledQueryRuleCriteria `json:"criteria,omitempty"`
-	Description                           *string                     `json:"description,omitempty"`
-	DisplayName                           *string                     `json:"displayName,omitempty"`
-	Enabled                               *bool                       `json:"enabled,omitempty"`
-	EvaluationFrequency                   *string                     `json:"evaluationFrequency,omitempty"`
-	Kind                                  *string                     `json:"kind,omitempty"`
-	Location                              *string                     `json:"location,omitempty"`
-	MuteActionsDuration                   *string                     `json:"muteActionsDuration,omitempty"`
-	OriginalVersion                       string                      `json:"originalVersion,omitempty"`
-	OverrideQueryTimeRange                *string                     `json:"overrideQueryTimeRange,omitempty"`
+	AzureName                             string                          `json:"azureName,omitempty"`
+	CheckWorkspaceAlertsStorageConfigured *bool                           `json:"checkWorkspaceAlertsStorageConfigured,omitempty"`
+	Criteria                              *ScheduledQueryRuleCriteria     `json:"criteria,omitempty"`
+	Description                           *string                         `json:"description,omitempty"`
+	DisplayName                           *string                         `json:"displayName,omitempty"`
+	Enabled                               *bool                           `json:"enabled,omitempty"`
+	EvaluationFrequency                   *string                         `json:"evaluationFrequency,omitempty"`
+	Kind                                  *string                         `json:"kind,omitempty"`
+	Location                              *string                         `json:"location,omitempty"`
+	MuteActionsDuration                   *string                         `json:"muteActionsDuration,omitempty"`
+	OperatorSpec                          *ScheduledQueryRuleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                       string                          `json:"originalVersion,omitempty"`
+	OverrideQueryTimeRange                *string                         `json:"overrideQueryTimeRange,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -279,6 +303,14 @@ type ScheduledQueryRuleCriteria struct {
 type ScheduledQueryRuleCriteria_STATUS struct {
 	AllOf       []Condition_STATUS     `json:"allOf,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20220615.ScheduledQueryRuleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ScheduledQueryRuleOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20220615.SystemData_STATUS

@@ -6,6 +6,7 @@
 package cel
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
 
@@ -143,8 +144,11 @@ func NewEnv(resource reflect.Type) (*cel.Env, error) {
 
 	// The typesList of supported env functions was taken from Kubernetes here:
 	// https://kubernetes.io/docs/reference/using-api/cel/#language-overview.
+
+	// Note: Adding to the below list of supported functions/features should be done with caution,
+	// and any updates should be propagated to docs/hugo/content/guide/expressions.md as well.
 	return cel.NewEnv(
-		ext.Strings(),
+		ext.Strings(ext.StringsVersion(3)), // At the time of writing, 3 was the latest version
 		cel.DefaultUTCTimeZone(true),
 		// Kubernetes specifies HomogenousAggregateLiterals, but it could cause issues for
 		// construction of dynamic JSON payloads. This isn't a common operation, but then again
@@ -162,7 +166,7 @@ func NewEnv(resource reflect.Type) (*cel.Env, error) {
 		// TODO: https://kubernetes.io/docs/reference/using-api/cel/#kubernetes-list-library
 		// TODO: and the Kubernetes Regex Library
 		// TODO: https://kubernetes.io/docs/reference/using-api/cel/#kubernetes-regex-library
-		// TODO: if there is user need.
+		// TODO: if there is user need. Adding them should be non-breaking.
 		cel.Variable("self", cel.ObjectType(selfPath)),
 		cel.Variable("secret", cel.MapType(cel.StringType, cel.StringType)),
 	)
@@ -272,9 +276,23 @@ var fieldEscaper = strings.NewReplacer(
 	"__", "__underscores__",
 	".", "__dot__",
 	"-", "__dash__",
-	"/", "__slash__")
+	"/", "__slash__",
+)
+
+// These keywords come from https://github.com/google/cel-spec/blob/master/doc/langdef.md#syntax
+// Note that we ONLY escape keywords that are part of CEL syntax, not keywords reserved for embedding.
+var reservedKeywords = set.Make(
+	"true",
+	"false",
+	"null",
+	"in",
+)
 
 func escapeFieldName(field string) string {
+	if reservedKeywords.Contains(field) {
+		return fmt.Sprintf("__%s__", field)
+	}
+
 	return fieldEscaper.Replace(field)
 }
 

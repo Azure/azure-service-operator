@@ -7,6 +7,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,6 +46,26 @@ func (record *DnsZonesAAAARecord) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (record *DnsZonesAAAARecord) SetConditions(conditions conditions.Conditions) {
 	record.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &DnsZonesAAAARecord{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (record *DnsZonesAAAARecord) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if record.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return record.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &DnsZonesAAAARecord{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (record *DnsZonesAAAARecord) SecretDestinationExpressions() []*core.DestinationExpression {
+	if record.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return record.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &DnsZonesAAAARecord{}
@@ -146,13 +169,14 @@ type DnsZonesAAAARecord_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string            `json:"azureName,omitempty"`
-	CNAMERecord     *CnameRecord      `json:"CNAMERecord,omitempty"`
-	CaaRecords      []CaaRecord       `json:"caaRecords,omitempty"`
-	MXRecords       []MxRecord        `json:"MXRecords,omitempty"`
-	Metadata        map[string]string `json:"metadata,omitempty"`
-	NSRecords       []NsRecord        `json:"NSRecords,omitempty"`
-	OriginalVersion string            `json:"originalVersion,omitempty"`
+	AzureName       string                          `json:"azureName,omitempty"`
+	CNAMERecord     *CnameRecord                    `json:"CNAMERecord,omitempty"`
+	CaaRecords      []CaaRecord                     `json:"caaRecords,omitempty"`
+	MXRecords       []MxRecord                      `json:"MXRecords,omitempty"`
+	Metadata        map[string]string               `json:"metadata,omitempty"`
+	NSRecords       []NsRecord                      `json:"NSRecords,omitempty"`
+	OperatorSpec    *DnsZonesAAAARecordOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -627,6 +651,14 @@ func (record *CnameRecord_STATUS) AssignProperties_To_CnameRecord_STATUS(destina
 
 	// No error
 	return nil
+}
+
+// Storage version of v1api20180501.DnsZonesAAAARecordOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type DnsZonesAAAARecordOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 // Storage version of v1api20180501.MxRecord

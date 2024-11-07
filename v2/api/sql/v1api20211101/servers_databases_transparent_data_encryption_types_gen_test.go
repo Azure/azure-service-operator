@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForServersDatabasesTransparentDataEncryption(ge
 	gens["Status"] = ServersDatabasesTransparentDataEncryption_STATUSGenerator()
 }
 
+func Test_ServersDatabasesTransparentDataEncryptionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesTransparentDataEncryptionOperatorSpec to ServersDatabasesTransparentDataEncryptionOperatorSpec via AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec & AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryptionOperatorSpec, ServersDatabasesTransparentDataEncryptionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryptionOperatorSpec tests if a specific instance of ServersDatabasesTransparentDataEncryptionOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryptionOperatorSpec(subject ServersDatabasesTransparentDataEncryptionOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesTransparentDataEncryptionOperatorSpec
+	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesTransparentDataEncryptionOperatorSpec
+	err = actual.AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersDatabasesTransparentDataEncryptionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServersDatabasesTransparentDataEncryptionOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServersDatabasesTransparentDataEncryptionOperatorSpec, ServersDatabasesTransparentDataEncryptionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServersDatabasesTransparentDataEncryptionOperatorSpec runs a test to see if a specific instance of ServersDatabasesTransparentDataEncryptionOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServersDatabasesTransparentDataEncryptionOperatorSpec(subject ServersDatabasesTransparentDataEncryptionOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServersDatabasesTransparentDataEncryptionOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServersDatabasesTransparentDataEncryptionOperatorSpec instances for property testing - lazily
+// instantiated by ServersDatabasesTransparentDataEncryptionOperatorSpecGenerator()
+var serversDatabasesTransparentDataEncryptionOperatorSpecGenerator gopter.Gen
+
+// ServersDatabasesTransparentDataEncryptionOperatorSpecGenerator returns a generator of ServersDatabasesTransparentDataEncryptionOperatorSpec instances for property testing.
+func ServersDatabasesTransparentDataEncryptionOperatorSpecGenerator() gopter.Gen {
+	if serversDatabasesTransparentDataEncryptionOperatorSpecGenerator != nil {
+		return serversDatabasesTransparentDataEncryptionOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	serversDatabasesTransparentDataEncryptionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesTransparentDataEncryptionOperatorSpec{}), generators)
+
+	return serversDatabasesTransparentDataEncryptionOperatorSpecGenerator
+}
+
 func Test_ServersDatabasesTransparentDataEncryption_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -357,6 +454,9 @@ func RunJSONSerializationTestForServersDatabasesTransparentDataEncryption_Spec(s
 var serversDatabasesTransparentDataEncryption_SpecGenerator gopter.Gen
 
 // ServersDatabasesTransparentDataEncryption_SpecGenerator returns a generator of ServersDatabasesTransparentDataEncryption_Spec instances for property testing.
+// We first initialize serversDatabasesTransparentDataEncryption_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ServersDatabasesTransparentDataEncryption_SpecGenerator() gopter.Gen {
 	if serversDatabasesTransparentDataEncryption_SpecGenerator != nil {
 		return serversDatabasesTransparentDataEncryption_SpecGenerator
@@ -366,10 +466,21 @@ func ServersDatabasesTransparentDataEncryption_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec(generators)
 	serversDatabasesTransparentDataEncryption_SpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesTransparentDataEncryption_Spec{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec(generators)
+	AddRelatedPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec(generators)
+	serversDatabasesTransparentDataEncryption_SpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesTransparentDataEncryption_Spec{}), generators)
+
 	return serversDatabasesTransparentDataEncryption_SpecGenerator
 }
 
 // AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec(gens map[string]gopter.Gen) {
 	gens["State"] = gen.PtrOf(gen.OneConstOf(TransparentDataEncryptionProperties_State_Disabled, TransparentDataEncryptionProperties_State_Enabled))
+}
+
+// AddRelatedPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServersDatabasesTransparentDataEncryption_Spec(gens map[string]gopter.Gen) {
+	gens["OperatorSpec"] = gen.PtrOf(ServersDatabasesTransparentDataEncryptionOperatorSpecGenerator())
 }

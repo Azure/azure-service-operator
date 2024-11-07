@@ -505,6 +505,103 @@ func AddRelatedPropertyGeneratorsForFleetsUpdateRun(gens map[string]gopter.Gen) 
 	gens["Status"] = FleetsUpdateRun_STATUSGenerator()
 }
 
+func Test_FleetsUpdateRunOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FleetsUpdateRunOperatorSpec to FleetsUpdateRunOperatorSpec via AssignProperties_To_FleetsUpdateRunOperatorSpec & AssignProperties_From_FleetsUpdateRunOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFleetsUpdateRunOperatorSpec, FleetsUpdateRunOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFleetsUpdateRunOperatorSpec tests if a specific instance of FleetsUpdateRunOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFleetsUpdateRunOperatorSpec(subject FleetsUpdateRunOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FleetsUpdateRunOperatorSpec
+	err := copied.AssignProperties_To_FleetsUpdateRunOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FleetsUpdateRunOperatorSpec
+	err = actual.AssignProperties_From_FleetsUpdateRunOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FleetsUpdateRunOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FleetsUpdateRunOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetsUpdateRunOperatorSpec, FleetsUpdateRunOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleetsUpdateRunOperatorSpec runs a test to see if a specific instance of FleetsUpdateRunOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetsUpdateRunOperatorSpec(subject FleetsUpdateRunOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FleetsUpdateRunOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FleetsUpdateRunOperatorSpec instances for property testing - lazily instantiated by
+// FleetsUpdateRunOperatorSpecGenerator()
+var fleetsUpdateRunOperatorSpecGenerator gopter.Gen
+
+// FleetsUpdateRunOperatorSpecGenerator returns a generator of FleetsUpdateRunOperatorSpec instances for property testing.
+func FleetsUpdateRunOperatorSpecGenerator() gopter.Gen {
+	if fleetsUpdateRunOperatorSpecGenerator != nil {
+		return fleetsUpdateRunOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	fleetsUpdateRunOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FleetsUpdateRunOperatorSpec{}), generators)
+
+	return fleetsUpdateRunOperatorSpecGenerator
+}
+
 func Test_FleetsUpdateRun_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -744,6 +841,7 @@ func AddIndependentPropertyGeneratorsForFleetsUpdateRun_Spec(gens map[string]gop
 // AddRelatedPropertyGeneratorsForFleetsUpdateRun_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFleetsUpdateRun_Spec(gens map[string]gopter.Gen) {
 	gens["ManagedClusterUpdate"] = gen.PtrOf(ManagedClusterUpdateGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(FleetsUpdateRunOperatorSpecGenerator())
 	gens["Strategy"] = gen.PtrOf(UpdateRunStrategyGenerator())
 }
 

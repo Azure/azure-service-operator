@@ -8,6 +8,9 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,6 +66,26 @@ func (backend *Backend) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return backend.AssignProperties_To_Backend(destination)
+}
+
+var _ configmaps.Exporter = &Backend{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (backend *Backend) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if backend.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return backend.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &Backend{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (backend *Backend) SecretDestinationExpressions() []*core.DestinationExpression {
+	if backend.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return backend.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &Backend{}
@@ -240,6 +263,7 @@ type Backend_Spec struct {
 	CircuitBreaker  *BackendCircuitBreaker      `json:"circuitBreaker,omitempty"`
 	Credentials     *BackendCredentialsContract `json:"credentials,omitempty"`
 	Description     *string                     `json:"description,omitempty"`
+	OperatorSpec    *BackendOperatorSpec        `json:"operatorSpec,omitempty"`
 	OriginalVersion string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -347,6 +371,18 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 
 	// Description
 	backend.Description = genruntime.ClonePointerToString(source.Description)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec BackendOperatorSpec
+		err := operatorSpec.AssignProperties_From_BackendOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_BackendOperatorSpec() to populate field OperatorSpec")
+		}
+		backend.OperatorSpec = &operatorSpec
+	} else {
+		backend.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	backend.OriginalVersion = source.OriginalVersion
@@ -487,6 +523,18 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(backend.Description)
+
+	// OperatorSpec
+	if backend.OperatorSpec != nil {
+		var operatorSpec storage.BackendOperatorSpec
+		err := backend.OperatorSpec.AssignProperties_To_BackendOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_BackendOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = backend.OriginalVersion
@@ -1239,6 +1287,136 @@ func (contract *BackendCredentialsContract_STATUS) AssignProperties_To_BackendCr
 	return nil
 }
 
+// Storage version of v1api20230501preview.BackendOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type BackendOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_BackendOperatorSpec populates our BackendOperatorSpec from the provided source BackendOperatorSpec
+func (operator *BackendOperatorSpec) AssignProperties_From_BackendOperatorSpec(source *storage.BackendOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForBackendOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendOperatorSpec populates the provided destination BackendOperatorSpec from our BackendOperatorSpec
+func (operator *BackendOperatorSpec) AssignProperties_To_BackendOperatorSpec(destination *storage.BackendOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBackendOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForBackendOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501preview.BackendPool
 // Backend pool information
 type BackendPool struct {
@@ -1760,6 +1938,11 @@ type augmentConversionForBackendCredentialsContract interface {
 type augmentConversionForBackendCredentialsContract_STATUS interface {
 	AssignPropertiesFrom(src *storage.BackendCredentialsContract_STATUS) error
 	AssignPropertiesTo(dst *storage.BackendCredentialsContract_STATUS) error
+}
+
+type augmentConversionForBackendOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.BackendOperatorSpec) error
+	AssignPropertiesTo(dst *storage.BackendOperatorSpec) error
 }
 
 type augmentConversionForBackendProperties interface {

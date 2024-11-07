@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (authorization *AuthorizationProvidersAuthorization) GetConditions() condit
 // SetConditions sets the conditions on the resource status
 func (authorization *AuthorizationProvidersAuthorization) SetConditions(conditions conditions.Conditions) {
 	authorization.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &AuthorizationProvidersAuthorization{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (authorization *AuthorizationProvidersAuthorization) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if authorization.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return authorization.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &AuthorizationProvidersAuthorization{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (authorization *AuthorizationProvidersAuthorization) SecretDestinationExpressions() []*core.DestinationExpression {
+	if authorization.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return authorization.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &AuthorizationProvidersAuthorization{}
@@ -144,9 +167,10 @@ type AuthorizationProvidersAuthorization_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Oauth2GrantType *string `json:"oauth2grantType,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string                                           `json:"azureName,omitempty"`
+	Oauth2GrantType *string                                          `json:"oauth2grantType,omitempty"`
+	OperatorSpec    *AuthorizationProvidersAuthorizationOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                           `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -217,6 +241,14 @@ type AuthorizationError_STATUS struct {
 	Code        *string                `json:"code,omitempty"`
 	Message     *string                `json:"message,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20220801.AuthorizationProvidersAuthorizationOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type AuthorizationProvidersAuthorizationOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {

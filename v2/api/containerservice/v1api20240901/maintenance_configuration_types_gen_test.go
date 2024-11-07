@@ -784,6 +784,103 @@ func AddRelatedPropertyGeneratorsForMaintenanceConfiguration(gens map[string]gop
 	gens["Status"] = MaintenanceConfiguration_STATUSGenerator()
 }
 
+func Test_MaintenanceConfigurationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MaintenanceConfigurationOperatorSpec to MaintenanceConfigurationOperatorSpec via AssignProperties_To_MaintenanceConfigurationOperatorSpec & AssignProperties_From_MaintenanceConfigurationOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMaintenanceConfigurationOperatorSpec, MaintenanceConfigurationOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMaintenanceConfigurationOperatorSpec tests if a specific instance of MaintenanceConfigurationOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForMaintenanceConfigurationOperatorSpec(subject MaintenanceConfigurationOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.MaintenanceConfigurationOperatorSpec
+	err := copied.AssignProperties_To_MaintenanceConfigurationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MaintenanceConfigurationOperatorSpec
+	err = actual.AssignProperties_From_MaintenanceConfigurationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MaintenanceConfigurationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MaintenanceConfigurationOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMaintenanceConfigurationOperatorSpec, MaintenanceConfigurationOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMaintenanceConfigurationOperatorSpec runs a test to see if a specific instance of MaintenanceConfigurationOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForMaintenanceConfigurationOperatorSpec(subject MaintenanceConfigurationOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MaintenanceConfigurationOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MaintenanceConfigurationOperatorSpec instances for property testing - lazily instantiated by
+// MaintenanceConfigurationOperatorSpecGenerator()
+var maintenanceConfigurationOperatorSpecGenerator gopter.Gen
+
+// MaintenanceConfigurationOperatorSpecGenerator returns a generator of MaintenanceConfigurationOperatorSpec instances for property testing.
+func MaintenanceConfigurationOperatorSpecGenerator() gopter.Gen {
+	if maintenanceConfigurationOperatorSpecGenerator != nil {
+		return maintenanceConfigurationOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	maintenanceConfigurationOperatorSpecGenerator = gen.Struct(reflect.TypeOf(MaintenanceConfigurationOperatorSpec{}), generators)
+
+	return maintenanceConfigurationOperatorSpecGenerator
+}
+
 func Test_MaintenanceConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1022,6 +1119,7 @@ func AddIndependentPropertyGeneratorsForMaintenanceConfiguration_Spec(gens map[s
 func AddRelatedPropertyGeneratorsForMaintenanceConfiguration_Spec(gens map[string]gopter.Gen) {
 	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindowGenerator())
 	gens["NotAllowedTime"] = gen.SliceOf(TimeSpanGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(MaintenanceConfigurationOperatorSpecGenerator())
 	gens["TimeInWeek"] = gen.SliceOf(TimeInWeekGenerator())
 }
 

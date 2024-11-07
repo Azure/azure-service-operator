@@ -165,6 +165,103 @@ func AddRelatedPropertyGeneratorsForLoadBalancersInboundNatRule(gens map[string]
 	gens["Status"] = LoadBalancersInboundNatRule_STATUSGenerator()
 }
 
+func Test_LoadBalancersInboundNatRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancersInboundNatRuleOperatorSpec to LoadBalancersInboundNatRuleOperatorSpec via AssignProperties_To_LoadBalancersInboundNatRuleOperatorSpec & AssignProperties_From_LoadBalancersInboundNatRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancersInboundNatRuleOperatorSpec, LoadBalancersInboundNatRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancersInboundNatRuleOperatorSpec tests if a specific instance of LoadBalancersInboundNatRuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancersInboundNatRuleOperatorSpec(subject LoadBalancersInboundNatRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.LoadBalancersInboundNatRuleOperatorSpec
+	err := copied.AssignProperties_To_LoadBalancersInboundNatRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancersInboundNatRuleOperatorSpec
+	err = actual.AssignProperties_From_LoadBalancersInboundNatRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_LoadBalancersInboundNatRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of LoadBalancersInboundNatRuleOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLoadBalancersInboundNatRuleOperatorSpec, LoadBalancersInboundNatRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForLoadBalancersInboundNatRuleOperatorSpec runs a test to see if a specific instance of LoadBalancersInboundNatRuleOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForLoadBalancersInboundNatRuleOperatorSpec(subject LoadBalancersInboundNatRuleOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual LoadBalancersInboundNatRuleOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of LoadBalancersInboundNatRuleOperatorSpec instances for property testing - lazily instantiated by
+// LoadBalancersInboundNatRuleOperatorSpecGenerator()
+var loadBalancersInboundNatRuleOperatorSpecGenerator gopter.Gen
+
+// LoadBalancersInboundNatRuleOperatorSpecGenerator returns a generator of LoadBalancersInboundNatRuleOperatorSpec instances for property testing.
+func LoadBalancersInboundNatRuleOperatorSpecGenerator() gopter.Gen {
+	if loadBalancersInboundNatRuleOperatorSpecGenerator != nil {
+		return loadBalancersInboundNatRuleOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	loadBalancersInboundNatRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(LoadBalancersInboundNatRuleOperatorSpec{}), generators)
+
+	return loadBalancersInboundNatRuleOperatorSpecGenerator
+}
+
 func Test_LoadBalancersInboundNatRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -418,6 +515,7 @@ func AddIndependentPropertyGeneratorsForLoadBalancersInboundNatRule_Spec(gens ma
 // AddRelatedPropertyGeneratorsForLoadBalancersInboundNatRule_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForLoadBalancersInboundNatRule_Spec(gens map[string]gopter.Gen) {
 	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(LoadBalancersInboundNatRuleOperatorSpecGenerator())
 }
 
 func Test_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

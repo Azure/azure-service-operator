@@ -6,6 +6,9 @@ package storage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -42,6 +45,26 @@ func (pool *WorkspacesBigDataPool) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (pool *WorkspacesBigDataPool) SetConditions(conditions conditions.Conditions) {
 	pool.Status.Conditions = conditions
+}
+
+var _ configmaps.Exporter = &WorkspacesBigDataPool{}
+
+// ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
+func (pool *WorkspacesBigDataPool) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if pool.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return pool.Spec.OperatorSpec.ConfigMapExpressions
+}
+
+var _ secrets.Exporter = &WorkspacesBigDataPool{}
+
+// SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
+func (pool *WorkspacesBigDataPool) SecretDestinationExpressions() []*core.DestinationExpression {
+	if pool.Spec.OperatorSpec == nil {
+		return nil
+	}
+	return pool.Spec.OperatorSpec.SecretExpressions
 }
 
 var _ genruntime.KubernetesResource = &WorkspacesBigDataPool{}
@@ -145,19 +168,20 @@ type WorkspacesBigDataPool_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                 string                     `json:"azureName,omitempty"`
-	CacheSize                 *int                       `json:"cacheSize,omitempty"`
-	CustomLibraries           []LibraryInfo              `json:"customLibraries,omitempty"`
-	DefaultSparkLogFolder     *string                    `json:"defaultSparkLogFolder,omitempty"`
-	DynamicExecutorAllocation *DynamicExecutorAllocation `json:"dynamicExecutorAllocation,omitempty"`
-	IsAutotuneEnabled         *bool                      `json:"isAutotuneEnabled,omitempty"`
-	IsComputeIsolationEnabled *bool                      `json:"isComputeIsolationEnabled,omitempty"`
-	LibraryRequirements       *LibraryRequirements       `json:"libraryRequirements,omitempty"`
-	Location                  *string                    `json:"location,omitempty"`
-	NodeCount                 *int                       `json:"nodeCount,omitempty"`
-	NodeSize                  *string                    `json:"nodeSize,omitempty"`
-	NodeSizeFamily            *string                    `json:"nodeSizeFamily,omitempty"`
-	OriginalVersion           string                     `json:"originalVersion,omitempty"`
+	AzureName                 string                             `json:"azureName,omitempty"`
+	CacheSize                 *int                               `json:"cacheSize,omitempty"`
+	CustomLibraries           []LibraryInfo                      `json:"customLibraries,omitempty"`
+	DefaultSparkLogFolder     *string                            `json:"defaultSparkLogFolder,omitempty"`
+	DynamicExecutorAllocation *DynamicExecutorAllocation         `json:"dynamicExecutorAllocation,omitempty"`
+	IsAutotuneEnabled         *bool                              `json:"isAutotuneEnabled,omitempty"`
+	IsComputeIsolationEnabled *bool                              `json:"isComputeIsolationEnabled,omitempty"`
+	LibraryRequirements       *LibraryRequirements               `json:"libraryRequirements,omitempty"`
+	Location                  *string                            `json:"location,omitempty"`
+	NodeCount                 *int                               `json:"nodeCount,omitempty"`
+	NodeSize                  *string                            `json:"nodeSize,omitempty"`
+	NodeSizeFamily            *string                            `json:"nodeSizeFamily,omitempty"`
+	OperatorSpec              *WorkspacesBigDataPoolOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion           string                             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -352,6 +376,14 @@ type SparkConfigProperties_STATUS struct {
 	Filename          *string                `json:"filename,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Time              *string                `json:"time,omitempty"`
+}
+
+// Storage version of v1api20210601.WorkspacesBigDataPoolOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspacesBigDataPoolOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
 func init() {
