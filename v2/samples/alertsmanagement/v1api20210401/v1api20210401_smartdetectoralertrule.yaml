@@ -11,8 +11,7 @@ spec:
   severity: Sev3
   frequency: PT1M
   detector:
-    Reference:
-      armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Insights/detectors/FailureAnomaliesDetector
+    id: FailureAnomaliesDetector
   actionGroups:
     GroupReferences:
       - group: insights.azure.com

@@ -13,8 +13,8 @@ SmartDetectorAlertRule: Resource
 │   ├── AzureName: string
 │   ├── Description: *string
 │   ├── Detector: *Object (2 properties)
-│   │   ├── Parameters: map[string]v1.JSON
-│   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Id: *string
+│   │   └── Parameters: map[string]v1.JSON
 │   ├── Frequency: *string
 │   ├── Location: *string
 │   ├── Owner: *genruntime.KnownResourceReference

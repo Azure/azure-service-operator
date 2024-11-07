@@ -48,9 +48,7 @@ func Test_AlertsManagement_SmartDetectorAlertRules_CRUD(t *testing.T) {
 	state := alertsmanagement.AlertRuleProperties_State("Enabled")
 	severity := alertsmanagement.AlertRuleProperties_Severity("Sev3")
 	detectorId := &alertsmanagement.Detector{
-		Reference: &genruntime.ResourceReference{
-			ARMID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Insights/detectors/detectorName",
-		},
+		Id: to.Ptr("FailureAnomaliesDetector"),
 	}
 	actionGroup := &alertsmanagement.ActionGroupsInformation{
 		GroupReferences: []genruntime.ResourceReference{
